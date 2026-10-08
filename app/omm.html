@@ -1844,6 +1844,208 @@ body.rec #info {
   font-size: 12px;
   color: var(--sub);
 }
+/* v35: panel na żywo w czasie nagrywania */
+#recf {
+  border: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--b2);
+  font-size: 16px;
+  flex: none;
+  padding: 0;
+}
+#recpan {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  top: calc(56px + env(safe-area-inset-top, 0px));
+  left: 8px;
+  width: min(330px, calc(100% - 64px));
+  background: var(--bar);
+  border-radius: 14px;
+  padding: 10px 10px 8px;
+  box-shadow: 0 2px 8px #0004;
+}
+body.rec.recpan #info {
+  top: calc(250px + env(safe-area-inset-top, 0px));
+}
+#recgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px 6px;
+}
+#recgrid div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+#recgrid b {
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+#recgrid span {
+  font-size: 10.5px;
+  color: var(--sub);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+#recll {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--sub);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+#recctr {
+  display: block;
+  margin: 6px auto 0;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 16px;
+  padding: 4px 12px;
+  font-size: 12.5px;
+}
+/* znaczniki startu, mety i punktów na śladzie */
+.tflag,
+.twp {
+  background: none;
+  border: 0;
+}
+.twp span {
+  display: flex;
+  width: 26px;
+  height: 26px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px #0006;
+  font-size: 14px;
+}
+/* statystyki śladu: duże liczby */
+.tstats .thead {
+  color: var(--sub);
+  font-size: 13.5px;
+  margin: -6px 0 10px;
+  line-height: 1.5;
+}
+.tgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #eef0f2;
+}
+.tile {
+  text-align: center;
+  padding: 10px 4px;
+  border-bottom: 1px solid #eef0f2;
+}
+.tile:nth-child(odd) {
+  border-right: 1px solid #eef0f2;
+}
+.tv {
+  font-size: 26px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+}
+.tv small {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--sub);
+}
+.tl {
+  font-size: 11px;
+  color: var(--sub);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+/* animacja śladu */
+body.animon .ib,
+body.animon #tools,
+body.animon #recbar,
+body.animon #recpan,
+body.animon #info,
+body.animon #fchip,
+body.animon #wm {
+  display: none !important;
+}
+.anim .atop {
+  position: absolute;
+  z-index: 1200;
+  top: calc(10px + env(safe-area-inset-top, 0px));
+  left: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 8px #0003;
+}
+.anim .atop b {
+  display: block;
+  font-size: 16px;
+}
+.anim .acnt {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--acc);
+  font-variant-numeric: tabular-nums;
+}
+.anim .abar {
+  position: absolute;
+  z-index: 1200;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(16px + var(--sa));
+  display: flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 26px;
+  padding: 6px;
+  box-shadow: 0 2px 8px #0003;
+}
+.anim .abar button {
+  border: 0;
+  min-width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: var(--b2);
+  font-size: 16px;
+  padding: 0 12px;
+}
+.anim .acard {
+  position: absolute;
+  z-index: 1200;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.35s,
+    transform 0.35s;
+  background: #fff;
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 6px 24px #0006;
+  max-width: 82vw;
+}
+.anim .acard.on {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.anim .acard img {
+  display: block;
+  max-width: 78vw;
+  max-height: 55vh;
+  border-radius: 8px;
+}
+.anim .acard div {
+  padding: 6px 4px 2px;
+  font-size: 14px;
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -1854,7 +2056,8 @@ body.rec #info {
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki">🖨</button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS">⏺</button>
-<div id="recbar"><span class="rdot"></span><button id="rectx" title="Pokaż pozycję"></button><button id="recp" title="Pauza">⏸</button><button id="recs" title="Zakończ nagrywanie">⏹</button></div>
+<div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button><button id="recf" title="Zdjęcie lub punkt na trasie">📷</button><button id="recp" title="Pauza">⏸</button><button id="recs" title="Zakończ nagrywanie">⏹</button></div>
+<div id="recpan"><div id="recgrid"></div><div id="recll"></div><button id="recctr">◎ Pokaż mnie na mapie</button></div>
 <div class="pop" id="bmenu"></div>
 <div class="pop" id="xmenu"></div>
 <button class="ib" id="lbtn" title="Warstwy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5" opacity=".6"/></svg></button>
@@ -1886,7 +2089,7 @@ body.rec #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v34 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v35 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -1934,6 +2137,8 @@ body.rec #info {
  *  stała NATIVE (true w APK) – zapis plików przez wtyczki Filesystem/Share zamiast pobierania,
  *  przycisk „Wstecz”, podpowiedzi GPS. W APK Leaflet jest wbudowany (działa bez internetu).
  *
+ *  ZDJĘCIA: zmniejszone kopie w IndexedDB „omm” → „foto/NAZWA.jpg”; w obiekcie jako „omm:NAZWA.jpg”.
+ *  KOPIA ZAPASOWA (od v35): plik ZIP z folderami mapy/, slady/, zdjecia/ (opis w sekcji „kopia ZIP”).
  *  ŚLADY GPS: osobno od map – IndexedDB „omm” → „slady” (opis pól w sekcji „ślady GPS”),
  *  trwające nagranie w localStorage „omm-rec”. Ustawienia telefonu: omm-folder, omm-folder-png,
  *  omm-rec-tryb (dokładne / oszczędne nagrywanie).
@@ -1959,7 +2164,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v34';
+const APP_VER = 'v35';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -2080,6 +2285,12 @@ igroup('gen', 'Ogólne', '📍', [
       ln('M9.6 7.4V13.6M11.6 7.4V13.6M13.6 7.4V13.6M9.6 13.6Q11.6 16 13.6 13.6M11.6 15V25', '#424242', 1.3) +
       '<path d="M21.6 7C19.6 9 19.4 13.6 21 15.4L21.6 15.4V25" stroke="#424242" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M21.6 7C19.8 9 19.6 13.4 21.6 15.2Z" fill="#9e9e9e"/>',
     'Restauracja / bar / jedzenie'
+  ],
+  [
+    'o:foto',
+    'Zdjęcie',
+    '<rect x="3" y="9" width="26" height="18" rx="3" fill="#455a64"/><circle cx="16" cy="18" r="5.6" fill="#fff"/><circle cx="16" cy="18" r="3.4" fill="#1565c0"/>',
+    'Miejsce zrobienia zdjęcia'
   ],
   ['💩', 'Kupa']
 ]);
@@ -4695,6 +4906,18 @@ const NOWY_STYL = (() => {
       p('M13.4 26H17V29H13.4Z', PAL.cream) +
       p('M26 2.4L27.2 6L30.8 7.2L27.2 8.4L26 12L24.8 8.4L21.2 7.2L24.8 6Z', PAL.must)
   ];
+  // aparat fotograficzny – punkt ze zdjęciem (np. z importu zdjęć z lokalizacją)
+  NEW['o:foto'] = [
+    'Zdjęcie',
+    p(
+      'M5 10.4H10L12.2 7H19.8L22 10.4H27Q29 10.4 29 12.4V25Q29 27 27 27H5Q3 27 3 25V12.4Q3 10.4 5 10.4Z',
+      PAL.greyD
+    ) +
+      c(16, 18.4, 6, PAL.white) +
+      c(16, 18.4, 3.8, PAL.blueD) +
+      e(14.8, 17.2, 1.3, 0.9, '#fff', false) +
+      p('M23.2 12.6H26.2V14.6H23.2Z', PAL.must)
+  ];
   NEW['o:parking'] = [
     'Parking',
     p('M5 3H27Q29 3 29 5V27Q29 29 27 29H5Q3 29 3 27V5Q3 3 5 3Z', PAL.blueD) +
@@ -5967,10 +6190,7 @@ function openItemPopup(it, latlng) {
   if (it.ph && it.ph.length) {
     const st = h('div', 'phs');
     it.ph.forEach((u, k) => {
-      const im = h('img');
-      im.loading = 'lazy';
-      im.referrerPolicy = 'no-referrer';
-      im.src = u;
+      const im = fotoImg(u); // link albo zdjęcie zapisane w OMM
       im.alt = 'zdjęcie ' + (k + 1);
       im.onclick = e => {
         e.stopPropagation();
@@ -6199,6 +6419,17 @@ function openItemPopup(it, latlng) {
         openItemPopup(it, latlng);
       })
     );
+  row.append(
+    B('📷 Zdjęcie', async () => {
+      map.closePopup();
+      if (!(await addPhotosTo(it))) return;
+      touch(it);
+      save();
+      render();
+      sheetIfOpen();
+      openItemPopup(it, latlng);
+    })
+  );
   row.append(B('✥ Przesuń', () => startEdit(it)));
   row.append(B('Edytuj', () => show(layerSec)));
   if (isLn(it))
@@ -6606,12 +6837,22 @@ const FOLDERS = {
   down: {dir: 'EXTERNAL_STORAGE', base: 'Download/OMM', label: 'Pobrane (Download)/OMM'},
   pics: {dir: 'EXTERNAL_STORAGE', base: 'Pictures/OMM', label: 'Obrazy (Pictures)/OMM'}
 };
-const outFolder = mime =>
-  FOLDERS[
-    /^image\//.test(mime) && localStorage.getItem('omm-folder-png') === 'pics'
-      ? 'pics'
-      : localStorage.getItem('omm-folder') || 'docs'
-  ] || FOLDERS.docs;
+const outFolder = (mime, name) => {
+  // podfolder według rodzaju pliku: kopie, eksport, wydruki, filmy, zdjecia
+  if (/^image\//.test(mime) && localStorage.getItem('omm-folder-png') === 'pics') return FOLDERS.pics;
+  const r = FOLDERS[localStorage.getItem('omm-folder') || 'docs'] || FOLDERS.docs,
+    sub =
+      name === 'zdjecia'
+        ? 'zdjecia'
+        : /^omm-(kopia|widoczne)/.test(name || '') || /zip$/.test(mime)
+          ? 'kopie'
+          : /^image\//.test(mime)
+            ? 'wydruki'
+            : /^video\//.test(mime)
+              ? 'filmy'
+              : 'eksport';
+  return {dir: r.dir, base: r.base + '/' + sub, label: r.label + '/' + sub};
+};
 function dl(name, mime, data) {
   if (NATIVE) return saveNative(name, mime, data);
   const a = h('a');
@@ -6641,7 +6882,7 @@ async function saveNative(name, mime, data) {
   const dot = name.lastIndexOf('.'),
     stem = dot > 0 ? name.slice(0, dot) : name,
     ext = dot > 0 ? name.slice(dot) : '';
-  const F = outFolder(mime);
+  const F = outFolder(mime, name);
   let path = F.base + '/' + name;
   for (let n = 2; n < 100; n++) {
     try {
@@ -6709,7 +6950,10 @@ function xmenu(btn, l) {
 }
 
 // ---------- zdjęcia przy obiektach (linki, np. z Moich Map Google) ----------
-const okPh = u => typeof u === 'string' && /^https?:\/\/\S+$/i.test(u.trim()) && u.length < 2000;
+// zdjęcie: link http(s) albo zdjęcie zapisane w OMM („omm:NAZWA.jpg”)
+const okPh = u =>
+  typeof u === 'string' &&
+  (/^omm:[\w.-]+$/.test(u) || (/^https?:\/\/\S+$/i.test(u.trim()) && u.length < 2000));
 const phList = a =>
   [
     ...new Set((Array.isArray(a) ? a : String(a || '').split(/\s+/)).map(x => String(x).trim()).filter(okPh))
@@ -6813,15 +7057,23 @@ async function fileText(f) {
   return new TextDecoder().decode(u8);
 }
 // podgląd zdjęć na pełnym ekranie
-function photoView(it, k) {
+function photoView(it, k, onChange) {
+  // podgląd zdjęć na pełnym ekranie; onChange – zapis zmian dla obiektów spoza map (np. punkt śladu)
   const back = h('div', 'phv'),
     img = h('img'),
     bar = h('div', 'phb'),
-    cnt = h('span');
+    cnt = h('span'),
+    ob = B('Otwórz', e => {
+      e.stopPropagation();
+      window.open(it.ph[i], '_blank');
+    });
   let i = k;
   const show = () => {
-    img.src = it.ph[i];
+    const u = it.ph[i];
+    img.removeAttribute('src');
+    fotoUrl(u).then(x => it.ph[i] === u && x && (img.src = x));
     cnt.textContent = i + 1 + ' / ' + it.ph.length;
+    ob.style.display = isLocalPh(u) ? 'none' : ''; // zdjęcie z OMM nie ma adresu w internecie
   };
   const fin = () => back.remove();
   bar.append(
@@ -6836,19 +7088,30 @@ function photoView(it, k) {
       i = (i + 1) % it.ph.length;
       show();
     }),
-    B('Otwórz', e => {
-      e.stopPropagation();
-      window.open(it.ph[i], '_blank');
-    }),
+    ob,
     B('Usuń', async e => {
       e.stopPropagation();
-      if (!(await askYes('Usunąć to zdjęcie z obiektu? (usuwany jest tylko link)', 'Usuń', true))) return;
+      const u = it.ph[i];
+      if (
+        !(await askYes(
+          isLocalPh(u)
+            ? 'Usunąć to zdjęcie z obiektu?'
+            : 'Usunąć to zdjęcie z obiektu? (usuwany jest tylko link)',
+          'Usuń',
+          true
+        ))
+      )
+        return;
       it.ph.splice(i, 1);
       if (!it.ph.length) delete it.ph;
-      touch(it);
-      save();
-      render();
-      sheetIfOpen();
+      if (onChange) onChange();
+      else {
+        touch(it);
+        save();
+        render();
+        sheetIfOpen();
+      }
+      fotoForget(u);
       if (!it.ph) {
         fin();
         map.closePopup();
@@ -7188,8 +7451,12 @@ function importParsed(ps, toNew) {
 }
 $('impb').onclick = () => $('file').click();
 $('file').onchange = async e => {
-  const files = [...e.target.files];
+  const all = [...e.target.files],
+    isImg = f => /^image\//.test(f.type) || /\.(jpe?g|png|webp|heic)$/i.test(f.name),
+    files = all.filter(f => !isImg(f));
   e.target.value = '';
+  // zdjęcia (np. z aparatu z zapisaną lokalizacją) → punkty 📷
+  if (all.some(isImg)) await fotoImport(all.filter(isImg));
   for (const f of files) {
     try {
       const base =
@@ -7303,9 +7570,10 @@ function toFeature(it, m, AN) {
   return {type: 'Feature', id: it.id, properties: pr, geometry: g};
 }
 // vis=true: tylko to, co widać – bieżąca mapa, włączone grupy i warstwy, kategorie nieukryte filtrem (+ ustawienia)
-function fullBackup(vis) {
+function fullBackup(vis, only) {
+  // only – tylko ta jedna mapa (plik mapy w kopii ZIP)
   const HS = vis ? hidSet() : null,
-    src = vis ? [P] : DB.maps,
+    src = only ? [only] : vis ? [P] : DB.maps,
     used = new Set();
   if (vis)
     P.items.forEach(it => {
@@ -7364,7 +7632,7 @@ function fullBackup(vis) {
       })
       .forEach(it => feats.push(toFeature(it, m, AN)));
   });
-  if (!vis) feats.push(...trkFeatures());
+  if (!vis && !only) feats.push(...trkFeatures());
   return JSON.stringify(
     {type: 'FeatureCollection', name: 'OMM – kopia ' + meta.created.slice(0, 10), features: feats, omm: meta},
     null,
@@ -7527,7 +7795,7 @@ function kmlPlacemark(it) {
       : '<Polygon><outerBoundaryIs><LinearRing><coordinates>' +
         cs(closed(it.pts)) +
         '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
-  const ph = it.ph && it.ph.length ? it.ph : null,
+  const ph = it.ph && it.ph.some(u => !isLocalPh(u)) ? it.ph.filter(u => !isLocalPh(u)) : null, // zdjęcia z OMM nie mają adresu w internecie
     cd = x => String(x).replace(/]]>/g, ']]]]><![CDATA[>');
   if (it.ra && RATED(it))
     it = {...it, n: 'Ocena: ' + '★'.repeat(it.ra) + '☆'.repeat(5 - it.ra) + (it.n ? '\n' + it.n : '')};
@@ -7608,18 +7876,23 @@ $('projb').onclick = () => {
   m.innerHTML = '';
   const stamp = () => new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-');
   m.append(
-    B('Zapisz pełną kopię – wszystkie mapy (dane + ustawienia)', () => {
+    B('Zapisz pełną kopię – mapy, ślady, zdjęcia i ustawienia (ZIP)', async () => {
       m.style.display = 'none';
-      dl('omm-kopia-' + stamp() + '.geojson', 'application/geo+json', fullBackup());
+      info.style.display = 'block';
+      info.textContent = 'Kopia: pakuję mapy, ślady i zdjęcia…';
+      const z = await zipBackup(false);
+      info.style.display = 'none';
+      dl('omm-kopia-' + stamp() + '.zip', 'application/zip', z);
     })
   );
   m.append(
-    B('Zapisz tylko to, co widać (ta mapa, włączone warstwy i filtr) + ustawienia', () => {
+    B('Zapisz tylko to, co widać (ta mapa, włączone warstwy i filtr) + ustawienia', async () => {
       m.style.display = 'none';
+      const z = await zipBackup(true);
       dl(
-        'omm-widoczne-' + (P.name || 'mapa').replace(/[^\p{L}\p{N}_-]+/gu, '_') + '-' + stamp() + '.geojson',
-        'application/geo+json',
-        fullBackup(true)
+        'omm-widoczne-' + (P.name || 'mapa').replace(/[^\p{L}\p{N}_-]+/gu, '_') + '-' + stamp() + '.zip',
+        'application/zip',
+        z
       );
     })
   );
@@ -7649,7 +7922,11 @@ $('pfile').onchange = async e => {
   e.target.value = '';
   if (!f) return;
   try {
-    const j = JSON.parse(await f.text());
+    // kopia ZIP (od v35) albo dawna kopia GeoJSON / JSON
+    const buf = await f.arrayBuffer(),
+      u8 = new Uint8Array(buf),
+      j =
+        u8[0] === 0x50 && u8[1] === 0x4b ? await zipToBackup(buf) : JSON.parse(new TextDecoder().decode(u8));
     let r = null,
       settings = null,
       created = null,
@@ -7699,7 +7976,9 @@ $('pfile').onchange = async e => {
     });
     const nO = r.maps.reduce((s, m) => s + m.items.length, 0),
       nL = r.maps.reduce((s, m) => s + m.groups.reduce((a, g) => a + g.layers.length, 0), 0);
-    const when = created ? ' z ' + created.slice(0, 16).replace('T', ' ') : '';
+    const when = created
+      ? ' z ' + new Date(created).toLocaleString('pl-PL', {dateStyle: 'short', timeStyle: 'short'})
+      : '';
     const MMp = j.omm || j.mojaMapa,
       part = !!MMp && MMp.zakres === 'widoczne';
     if (part) {
@@ -10529,65 +10808,78 @@ function trkSegs(t) {
   return out;
 }
 function trkStats(t) {
+  // statystyki śladu; czas liczony bez pauz (przerw między odcinkami)
   const pts = t.pts,
     sg = new Set(t.sg || []),
-    cum = [0]; // odległość od początku do każdego punktu
+    cum = [], // odległość od początku do każdego punktu
+    el = eleSmooth(pts); // wysokości wygładzone (GPS mierzy wysokość z rozrzutem kilku metrów)
   let d = 0,
     mov = 0,
+    dur = 0,
     up = 0,
     down = 0,
-    vmax = 0,
     emin = Infinity,
     emax = -Infinity,
-    eRef = null;
+    eRef = null,
+    s0 = 0;
   for (let i = 0; i < pts.length; i++) {
     const q = pts[i];
-    if (q[2] != null) {
-      emin = Math.min(emin, q[2]);
-      emax = Math.max(emax, q[2]);
-      // przewyższenia liczone z progiem 4 m – drgania wysokości z GPS nie zawyżają wyniku
-      if (eRef == null) eRef = q[2];
-      else if (q[2] - eRef >= 4) {
-        up += q[2] - eRef;
-        eRef = q[2];
-      } else if (eRef - q[2] >= 4) {
-        down += eRef - q[2];
-        eRef = q[2];
+    if (i && sg.has(i)) {
+      dur += pts[i - 1][3] - pts[s0][3];
+      s0 = i;
+    }
+    if (el[i] != null) {
+      emin = Math.min(emin, el[i]);
+      emax = Math.max(emax, el[i]);
+      // podejścia liczone z progiem 3 m – drgania wysokości nie zawyżają wyniku
+      if (eRef == null) eRef = el[i];
+      else if (el[i] - eRef >= 3) {
+        up += el[i] - eRef;
+        eRef = el[i];
+      } else if (eRef - el[i] >= 3) {
+        down += eRef - el[i];
+        eRef = el[i];
       }
     }
-    if (i) {
-      const s = sg.has(i) ? 0 : hav(pts[i - 1], q),
+    if (i && !sg.has(i)) {
+      const s = hav(pts[i - 1], q),
         dt = q[3] - pts[i - 1][3];
       d += s;
-      if (!t.noTime && !sg.has(i) && dt > 0 && dt <= 300 && s / dt > 0.3) mov += dt; // ruch: > ~1 km/h
+      if (!t.noTime && dt > 0 && dt <= 300 && s / dt > 0.3) mov += dt; // w ruchu: szybciej niż ~1 km/h
     }
     cum.push(d);
   }
-  cum.shift();
-  if (!t.noTime) {
-    // prędkość maksymalna mierzona na odcinkach co najmniej 15 s (pojedyncze skoki GPS jej nie zawyżają)
-    let j = 0;
-    for (let i = 1; i < pts.length; i++) {
-      if (sg.has(i)) j = i;
-      while (j < i && pts[i][3] - pts[j + 1][3] >= 15 && !sg.has(j + 1)) j++;
-      const dt = pts[i][3] - pts[j][3];
-      if (dt >= 15 && dt <= 120) vmax = Math.max(vmax, (cum[i] - cum[j]) / dt);
-    }
-  }
-  const dur = t.noTime || !pts.length ? 0 : pts[pts.length - 1][3] - pts[0][3];
+  if (pts.length) dur += pts[pts.length - 1][3] - pts[s0][3];
+  if (t.noTime) dur = mov = 0;
   return {
     d,
     dur,
     mov,
     up,
     down,
-    vmax,
-    vavg: mov > 0 ? d / mov : 0,
+    vavg: dur > 0 ? d / dur : 0, // średnia prędkość (cały czas nagrywania)
+    vmov: mov > 0 ? d / mov : 0, // średnia prędkość poruszania się
     emin: isFinite(emin) ? emin : null,
     emax: isFinite(emax) ? emax : null,
+    el,
     n: pts.length,
-    cum
+    cum,
+    end: t.st + (pts.length ? pts[pts.length - 1][3] * 1000 : 0)
   };
+}
+function eleSmooth(pts) {
+  // średnia krocząca z 5 sąsiednich wysokości (pomija punkty bez wysokości)
+  return pts.map((q, i) => {
+    if (q[2] == null) return null;
+    let s = 0,
+      n = 0;
+    for (let j = Math.max(0, i - 2); j <= Math.min(pts.length - 1, i + 2); j++)
+      if (pts[j][2] != null) {
+        s += pts[j][2];
+        n++;
+      }
+    return s / n;
+  });
 }
 const STC = new WeakMap(); // statystyki zapamiętane do kolejnej zmiany śladu
 function trkStatsC(t) {
@@ -10600,6 +10892,7 @@ function trkStatsC(t) {
 // --- rysowanie na mapie ---
 map.createPane('trkP').style.zIndex = 440; // pod obiektami map, nad podkładem
 const trkGrp = L.layerGroup().addTo(map);
+let trkSel = null; // ślad wybrany na mapie – rysowany w kolorach prędkości
 function trkRender() {
   trkGrp.clearLayers();
   TRK.items.forEach(t => {
@@ -10612,31 +10905,146 @@ function trkRender() {
       a = t.pts[0],
       b = t.pts[t.pts.length - 1];
     L.polyline(ls, {pane: 'trkP', color: '#fff', weight: 7, opacity: 0.85, interactive: false}).addTo(trkGrp);
-    L.polyline(ls, {pane: 'trkP', color: c, weight: 4, opacity: 0.95, interactive: false}).addTo(trkGrp);
+    if (t === trkSel && !t.noTime) speedLines(t).addTo(trkGrp);
+    else L.polyline(ls, {pane: 'trkP', color: c, weight: 4, opacity: 0.95, interactive: false}).addTo(trkGrp);
     // szeroki niewidoczny pas łapie dotknięcie palcem
-    L.polyline(ls, {pane: 'trkP', weight: 22, opacity: 0})
+    L.polyline(ls, {pane: 'trkP', weight: 22, opacity: 0, bubblingMouseEvents: false})
       .on('click', e => trkPopup(t, e.latlng))
       .addTo(trkGrp);
-    L.circleMarker([a[0], a[1]], {
-      pane: 'trkP',
-      radius: 5,
-      color: '#fff',
-      weight: 2,
-      fillColor: '#43a047',
-      fillOpacity: 1,
-      interactive: false
-    }).addTo(trkGrp);
-    L.circleMarker([b[0], b[1]], {
-      pane: 'trkP',
-      radius: 5,
-      color: '#fff',
-      weight: 2,
-      fillColor: '#212121',
-      fillOpacity: 1,
-      interactive: false
-    }).addTo(trkGrp);
+    L.marker([a[0], a[1]], {pane: 'trkP', icon: flagIcon('start'), interactive: false}).addTo(trkGrp);
+    L.marker([b[0], b[1]], {pane: 'trkP', icon: flagIcon('meta'), interactive: false}).addTo(trkGrp);
+    (t.wp || []).forEach(w => wpMarker(w, () => wpPopup(t, w)).addTo(trkGrp));
   });
   recDraw();
+}
+function flagIcon(kind) {
+  // znacznik startu (zielony ▶) i mety (flaga w szachownicę)
+  const svg =
+    kind === 'start'
+      ? '<svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="9" fill="#2e7d32" stroke="#fff" stroke-width="2.4"/><path d="M10 8.2L16 12L10 15.8Z" fill="#fff"/></svg>'
+      : '<svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#212121" stroke-width="2.2"/><path d="M8 7v10" stroke="#212121" stroke-width="1.6"/><path d="M8.6 7.4h3v2.4h-3zM11.6 9.8h3v2.4h-3zM14.6 7.4h2v2.4h-2z" fill="#212121"/><path d="M8.6 7.4h8v4.8h-8z" fill="none" stroke="#212121" stroke-width=".8"/></svg>';
+  return L.divIcon({className: 'tflag', html: svg, iconSize: [24, 24], iconAnchor: [12, 12]});
+}
+function speedLines(t) {
+  // ślad w kolorach prędkości – względem średniej prędkości poruszania się tego śladu
+  const s = trkStatsC(t),
+    v0 = s.vmov || 1,
+    g = L.layerGroup(),
+    pts = t.pts,
+    sg = new Set(t.sg || []);
+  const col = v =>
+    v < v0 * 0.25 ? '#c62828' : v < v0 * 0.7 ? '#f9a825' : v < v0 * 1.15 ? '#9ccc65' : '#2e7d32';
+  let run = null,
+    rc = null,
+    j = 0;
+  for (let i = 1; i < pts.length; i++) {
+    if (sg.has(i)) {
+      if (run) L.polyline(run, {pane: 'trkP', color: rc, weight: 5, interactive: false}).addTo(g);
+      run = null;
+      j = i;
+      continue;
+    }
+    // prędkość z okna ok. 20 s wokół odcinka – gładsze kolory
+    while (j < i - 1 && pts[i][3] - pts[j + 1][3] >= 20 && !sg.has(j + 1)) j++;
+    const dt = pts[i][3] - pts[j][3],
+      v = dt > 0 ? (s.cum[i] - s.cum[j]) / dt : v0,
+      c = col(v);
+    if (c !== rc && run) {
+      L.polyline(run, {pane: 'trkP', color: rc, weight: 5, interactive: false}).addTo(g);
+      run = [run[run.length - 1]];
+    }
+    if (!run) run = [[pts[i - 1][0], pts[i - 1][1]]];
+    run.push([pts[i][0], pts[i][1]]);
+    rc = c;
+  }
+  if (run) L.polyline(run, {pane: 'trkP', color: rc, weight: 5, interactive: false}).addTo(g);
+  return g;
+}
+map.on('click', () => {
+  // dotknięcie mapy obok śladu kończy wyróżnienie w kolorach prędkości
+  if (trkSel) {
+    trkSel = null;
+    trkRender();
+  }
+});
+function wpMarker(w, onClick) {
+  // punkt na śladzie: 📷 samo zdjęcie, 📍 punkt z opisem
+  const m = L.marker(w.p, {
+    pane: 'trkP',
+    icon: L.divIcon({
+      className: 'twp',
+      html: '<span>' + (w.n || w.nm ? '📍' : '📷') + '</span>',
+      iconSize: [26, 26],
+      iconAnchor: [13, 13]
+    })
+  });
+  if (onClick) m.on('click', onClick);
+  return m;
+}
+function wpPopup(t, w) {
+  // okienko punktu śladu: opis, zdjęcia, edycja
+  const el = h('div', 'tpop'),
+    save = () => {
+      if (t) {
+        t.up = Date.now();
+        trkChanged();
+      } else {
+        recPersist(true);
+        recDraw();
+      }
+    };
+  el.append(h('b', null, w.nm || (w.n ? 'Punkt na trasie' : 'Zdjęcie na trasie')));
+  if (t && !t.noTime) el.append(h('div', 'tsub', fhm(t.st + w.s * 1000) + ' · ' + (t.nm || 'Ślad')));
+  if (w.n) el.append(h('div', 'note', w.n));
+  if (w.ph && w.ph.length) {
+    const st = h('div', 'phs');
+    w.ph.forEach((u, k) => {
+      const im = fotoImg(u);
+      im.onclick = e => {
+        e.stopPropagation();
+        photoView(w, k, save);
+      };
+      im.onerror = () => im.replaceWith(h('span', 'phx', '📷 brak podglądu'));
+      st.append(im);
+    });
+    el.append(st);
+  }
+  const bt = h('div', 'tbt'),
+    act = fn => () => {
+      map.closePopup();
+      fn();
+    };
+  bt.append(
+    B(
+      '✎ Opis',
+      act(async () => {
+        const v = await askText('Opis punktu:', w.n || '');
+        if (v == null) return;
+        if (v.trim()) w.n = v.trim().slice(0, 2000);
+        else delete w.n;
+        save();
+      })
+    ),
+    B(
+      '📷 Zdjęcie',
+      act(async () => {
+        if (await addPhotosTo(w)) save();
+      })
+    ),
+    B(
+      '🗑 Usuń',
+      act(async () => {
+        if (!(await askYes('Usunąć ten punkt ze śladu?', 'Usuń', true))) return;
+        const list = t ? t.wp : REC.wp;
+        list.splice(list.indexOf(w), 1);
+        save();
+        (w.ph || []).forEach(fotoForget);
+      }),
+      'danger'
+    )
+  );
+  el.append(bt);
+  L.popup({maxWidth: 290, className: 'tpopw'}).setLatLng(w.p).setContent(el).openOn(map);
 }
 function trkFocus(t) {
   const l = trkLayer(t);
@@ -10655,6 +11063,10 @@ function trkFocus(t) {
 function trkPopup(t, ll) {
   const s = trkStatsC(t),
     el = h('div', 'tpop');
+  if (trkSel !== t) {
+    trkSel = t; // wybrany ślad w kolorach prędkości
+    setTimeout(trkRender);
+  }
   el.append(
     h('b', null, t.nm || 'Ślad'),
     h('div', 'tsub', fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)) + ' · ' + trkLayer(t).name),
@@ -10674,6 +11086,14 @@ function trkPopup(t, ll) {
       '📊 Statystyki',
       act(() => trkStatsDlg(t))
     ),
+    ...(t.noTime
+      ? []
+      : [
+          B(
+            '▶ Animacja',
+            act(() => trkAnim(t))
+          )
+        ]),
     B(
       '✎ Nazwa',
       act(() => trkRename(t))
@@ -10688,7 +11108,7 @@ function trkPopup(t, ll) {
     ),
     B(
       '⇩ GPX',
-      act(() => dl(fileName(t.nm) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm)))
+      act(() => dl(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm)))
     ),
     B(
       '🙈 Ukryj',
@@ -10706,6 +11126,20 @@ function trkPopup(t, ll) {
   el.append(bt);
   L.popup({maxWidth: 290, className: 'tpopw'}).setLatLng(ll).setContent(el).openOn(map);
 }
+const trkFile = t => {
+  // nazwa pliku śladu: „2026-10-08 Grzyby pod Łodzią”
+  const d = new Date(t.st),
+    p = n => String(n).padStart(2, '0');
+  return (
+    d.getFullYear() +
+    '-' +
+    p(d.getMonth() + 1) +
+    '-' +
+    p(d.getDate()) +
+    ' ' +
+    safeName((t.nm || 'slad').replace(/:/g, '.'))
+  );
+};
 async function trkRename(t) {
   const n = await askText('Nazwa śladu:', t.nm || '');
   if (n == null) return;
@@ -10866,46 +11300,50 @@ function chartSvg(xs, ys, unit) {
   );
 }
 function trkStatsDlg(t) {
+  // statystyki śladu – duże liczby jak w Geo Trackerze, pod nimi profil wysokości
   const s = trkStatsC(t),
     back = h('div', 'dback'),
-    box = h('div', 'dbox about'),
+    box = h('div', 'dbox about tstats'),
     body = h('div', 'abody'),
     bt = h('div', 'db');
-  const end = t.st + t.pts[t.pts.length - 1][3] * 1000,
-    rows = [
-      ['Data', fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st) + '–' + fhm(end))],
-      ['Dystans', fkm(s.d)],
-      ...(t.noTime
-        ? [['Czas', 'brak czasów w śladzie']]
-        : [
-            ['Czas całkowity', fdur(s.dur)],
-            ['Czas w ruchu', fdur(s.mov)],
-            ['Średnia prędkość (w ruchu)', s.vavg ? fkmh(s.vavg) : '—'],
-            ['Średnie tempo', s.vavg ? fdur(1000 / s.vavg) + ' min/km' : '—'],
-            ['Najwyższa prędkość', s.vmax ? fkmh(s.vmax) : '—']
-          ]),
-      ...(s.emin != null
-        ? [
-            ['Podejścia / zejścia', '↗ ' + Math.round(s.up) + ' m · ↘ ' + Math.round(s.down) + ' m'],
-            ['Wysokość (z GPS)', Math.round(s.emin) + '–' + Math.round(s.emax) + ' m n.p.m.']
-          ]
-        : [['Wysokość', 'brak danych z GPS']]),
-      ['Punkty', String(s.n) + (t.sg && t.sg.length ? ' · przerw: ' + t.sg.length : '')],
-      ['Warstwa', trkLayer(t).name]
-    ];
+  trkSel = t;
+  trkRender();
+  const sameDay = new Date(t.st).toDateString() === new Date(s.end).toDateString();
   box.append(h('div', 'dt', t.nm || 'Ślad'));
-  const tb = h('table', 'tstat');
-  rows.forEach(([k, v]) => {
-    const r = h('tr');
-    r.append(h('td', null, k), h('td', null, v));
-    tb.append(r);
-  });
-  body.append(tb);
-  const withE = t.pts.map((q, i) => [s.cum[i], q[2]]).filter(x => x[1] != null);
+  const head = h('div', 'thead');
+  head.append(
+    h('div', null, 'Początek: ' + fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st))),
+    ...(t.noTime ? [] : [h('div', null, 'Koniec: ' + (sameDay ? '' : fday(s.end) + ', ') + fhm(s.end))])
+  );
+  body.append(head);
+  const grid = h('div', 'tgrid'),
+    tile = (v, u, lb) => {
+      const c = h('div', 'tile'),
+        n = h('div', 'tv');
+      n.append(document.createTextNode(v), h('small', null, u ? ' ' + u : ''));
+      c.append(n, h('div', 'tl', lb));
+      grid.append(c);
+    },
+    num = (x, k) => x.toFixed(k).replace('.', ',');
+  if (s.d < 1000) tile(String(Math.round(s.d)), 'm', 'Dystans');
+  else tile(num(s.d / 1000, 2), 'km', 'Dystans');
+  if (!t.noTime) {
+    tile(fdur(s.dur), '', 'Czas');
+    tile(num(s.vavg * 3.6, 1), 'km/h', 'Średnia prędkość');
+    tile(num(s.vmov * 3.6, 1), 'km/h', 'Śr. prędkość poruszania się');
+  }
+  if (s.emin != null) {
+    tile(String(Math.round(s.up)), 'm', 'Podejście');
+    tile(String(Math.round(s.down)), 'm', 'Zejście');
+    tile(String(Math.round(s.emax - s.emin)), 'm', 'Różnica wysokości');
+    tile(Math.round(s.emax) + ' / ' + Math.round(s.emin), 'm', 'Wysokość max / min');
+  }
+  body.append(grid);
+  const withE = t.pts.map((q, i) => [s.cum[i], s.el[i]]).filter(x => x[1] != null);
   if (withE.length > 1) {
     const step = Math.max(1, Math.floor(withE.length / 400)), // do wykresu wystarczy ~400 punktów
-      sm = withE.filter((x, i) => i % step === 0);
-    body.append(h('div', 'tchl', 'Profil wysokości z GPS'));
+      sm = withE.filter((x, i) => i % step === 0 || i === withE.length - 1);
+    body.append(h('div', 'tchl', 'Wysokość względem dystansu'));
     const c = h('div');
     c.innerHTML = chartSvg(
       sm.map(x => x[0]),
@@ -10913,9 +11351,17 @@ function trkStatsDlg(t) {
       'm'
     );
     body.append(c);
-  }
+  } else body.append(h('div', 'tchl', 'Brak wysokości z GPS w tym śladzie.'));
   const fin = () => back.remove();
   bt.append(
+    ...(t.noTime
+      ? []
+      : [
+          B('▶ Animacja', () => {
+            fin();
+            trkAnim(t);
+          })
+        ]),
     B('⛰ Profil z NMT', () => {
       fin();
       // dokładniejsza wysokość z numerycznego modelu terenu (GUGiK) – próbka do 200 punktów trasy
@@ -10923,7 +11369,10 @@ function trkStatsDlg(t) {
         pp = t.pts.filter((q, i) => i % k === 0 || i === t.pts.length - 1).map(q => [q[0], q[1]]);
       profile(pp);
     }),
-    B('⇩ GPX', () => dl(fileName(t.nm) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm))),
+    B('⇩ GPX', () => dl(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm))),
+    ...(plug('Share')
+      ? [B('Udostępnij', () => shareNative(trkFile(t) + '.gpx', {data: trkGPX([t], t.nm), encoding: 'utf8'}))]
+      : []),
     B('Zamknij', fin, 'okb')
   );
   box.append(body, bt);
@@ -10935,15 +11384,56 @@ function trkStatsDlg(t) {
 }
 
 // --- GPX: eksport i import ---
-function trkGPX(list, name) {
+function trkGPX(list, name, photoPath) {
+  // GPX 1.1; dane OMM (warstwa, kolor, zdjęcia) w <extensions> – inne programy je pomijają
   const esc = x =>
-    String(x || '').replace(/[<>&"]/g, c => ({'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'})[c]);
+      String(x == null ? '' : x).replace(
+        /[<>&"]/g,
+        c => ({'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'})[c]
+      ),
+    tm = (t, s) => (t.noTime ? '' : '<time>' + new Date(t.st + s * 1000).toISOString() + '</time>'),
+    ph = u => (isLocalPh(u) ? (photoPath || 'zdjecia/') + u.slice(4) : u);
   let s =
-    '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="OMM – Own Map Manager" xmlns="http://www.topografix.com/GPX/1/1">\n<metadata><name>' +
+    '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="OMM – Own Map Manager" xmlns="http://www.topografix.com/GPX/1/1" xmlns:omm="https://github.com/OwnMapManager/omm">\n<metadata><name>' +
     esc(name) +
     '</name></metadata>\n';
   list.forEach(t => {
-    s += '<trk><name>' + esc(t.nm) + '</name>\n';
+    (t.wp || []).forEach(w => {
+      s +=
+        '<wpt lat="' +
+        w.p[0] +
+        '" lon="' +
+        w.p[1] +
+        '">' +
+        tm(t, w.s) +
+        '<name>' +
+        esc(w.nm || (w.n ? 'Punkt' : 'Zdjęcie')) +
+        '</name>' +
+        (w.n ? '<desc>' + esc(w.n) + '</desc>' : '') +
+        (w.ph || []).map(u => '<link href="' + esc(ph(u)) + '"><type>image/jpeg</type></link>').join('') +
+        '<extensions><omm:slad>' +
+        esc(t.id) +
+        '</omm:slad><omm:s>' +
+        w.s +
+        '</omm:s></extensions></wpt>\n';
+    });
+    const l = trkLayer(t);
+    s +=
+      '<trk><name>' +
+      esc(t.nm) +
+      '</name>\n<extensions><omm:id>' +
+      esc(t.id) +
+      '</omm:id><omm:warstwa id="' +
+      esc(l.id) +
+      '">' +
+      esc(l.name) +
+      '</omm:warstwa>' +
+      (t.c ? '<omm:kolor>' + t.c + '</omm:kolor>' : '') +
+      (t.vis === false ? '<omm:ukryty>1</omm:ukryty>' : '') +
+      (t.noTime
+        ? '<omm:bez_czasu>1</omm:bez_czasu><omm:start>' + new Date(t.st).toISOString() + '</omm:start>'
+        : '') +
+      '</extensions>\n';
     trkSegs(t).forEach(seg => {
       s += '<trkseg>\n';
       seg.forEach(q => {
@@ -10954,7 +11444,7 @@ function trkGPX(list, name) {
           q[1] +
           '">' +
           (q[2] != null ? '<ele>' + q[2] + '</ele>' : '') +
-          (t.noTime ? '' : '<time>' + new Date(t.st + q[3] * 1000).toISOString() + '</time>') +
+          tm(t, q[3]) +
           '</trkpt>\n';
       });
       s += '</trkseg>\n';
@@ -10964,11 +11454,16 @@ function trkGPX(list, name) {
   return s + '</gpx>\n';
 }
 function gpxTracks(text) {
-  // ślady (trk) i trasy (rte) z pliku GPX → ślady OMM
+  // ślady (trk), trasy (rte) i punkty (wpt) z pliku GPX → ślady OMM (z danymi OMM z <extensions>)
   const x = new DOMParser().parseFromString(text, 'application/xml');
   if (x.getElementsByTagName('parsererror').length) throw new Error('Plik GPX jest uszkodzony.');
   const out = [],
-    kid = (el, n) => [...el.children].find(c => c.localName === n);
+    kid = (el, n) => [...el.children].find(c => c.localName === n),
+    ext = (el, n) => {
+      const e = kid(el, 'extensions'),
+        c = e && [...e.getElementsByTagName('*')].find(z => z.localName === n);
+      return c ? c : null;
+    };
   const make = (el, segs, tag) => {
     const pts = [],
       sg = [];
@@ -10994,23 +11489,56 @@ function gpxTracks(text) {
       });
     });
     if (pts.length < 2) return;
-    const base = st != null ? st : Date.now();
+    const st0 = ext(el, 'start'),
+      base = st != null ? st : (st0 && Date.parse(st0.textContent)) || Date.now();
     let prev = 0;
     pts.forEach(q => {
       q[3] = isFinite(q[3]) ? Math.max(prev, Math.round((q[3] - base) / 1000)) : prev;
       prev = q[3];
     });
-    const nm = kid(el, 'name');
+    const nm = kid(el, 'name'),
+      id = ext(el, 'id'),
+      wl = ext(el, 'warstwa'),
+      kol = ext(el, 'kolor');
     out.push({
       nm: nm ? nm.textContent.trim().slice(0, 200) : '',
       st: base,
       pts,
       sg,
-      ...(st == null ? {noTime: true} : {})
+      wp: [],
+      ...(st == null ? {noTime: true} : {}),
+      ...(id ? {_id: id.textContent.trim()} : {}),
+      ...(wl ? {_l: wl.getAttribute('id') || '', _ln: wl.textContent.trim()} : {}),
+      ...(kol && /^#[0-9a-f]{6}$/i.test(kol.textContent.trim()) ? {c: kol.textContent.trim()} : {}),
+      ...(ext(el, 'ukryty') ? {vis: false} : {})
     });
   };
   [...x.getElementsByTagName('trk')].forEach(t => make(t, [...t.getElementsByTagName('trkseg')], 'trkpt'));
   [...x.getElementsByTagName('rte')].forEach(r => make(r, [r], 'rtept'));
+  // punkty (wpt) przypinamy do śladu: z OMM – po identyfikatorze, z innych programów – do najbliższego w czasie
+  [...x.getElementsByTagName('wpt')].forEach(p => {
+    const la = +p.getAttribute('lat'),
+      lo = +p.getAttribute('lon');
+    if (!isFinite(la) || !isFinite(lo) || !out.length) return;
+    const sid = ext(p, 'slad'),
+      ss = ext(p, 's'),
+      tm = kid(p, 'time'),
+      ms = tm ? Date.parse(tm.textContent) : NaN;
+    const t = (sid && out.find(o => o._id === sid.textContent.trim())) || out[0];
+    const nm = kid(p, 'name'),
+      ds = kid(p, 'desc'),
+      ph = [...p.children].filter(c => c.localName === 'link').map(c => c.getAttribute('href') || '');
+    t.wp.push({
+      id: uid(),
+      p: [+la.toFixed(6), +lo.toFixed(6)],
+      s: ss ? +ss.textContent : isFinite(ms) ? Math.max(0, Math.round((ms - t.st) / 1000)) : 0,
+      ...(nm && !/^(Zdjęcie|Punkt)$/.test(nm.textContent.trim())
+        ? {nm: nm.textContent.trim().slice(0, 200)}
+        : {}),
+      ...(ds ? {n: ds.textContent.trim().slice(0, 2000)} : {}),
+      ...(ph.length ? {ph} : {})
+    });
+  });
   return out;
 }
 async function trkImport(files) {
@@ -11021,11 +11549,15 @@ async function trkImport(files) {
       const list = gpxTracks(await f.text());
       if (!list.length) throw new Error('brak śladów');
       list.forEach(t => {
+        const {_id, _l, _ln, ...r} = t; // dane OMM z pliku (identyfikator, warstwa) pomijamy przy imporcie
+        r.wp.forEach(
+          w => w.ph && (w.ph = w.ph.filter(u => /^https?:/.test(u))) && !w.ph.length && delete w.ph
+        );
         TRK.items.push({
           id: uid(),
           l: TRK.active,
-          nm: t.nm || f.name.replace(/\.gpx$/i, ''),
-          ...t,
+          nm: r.nm || f.name.replace(/\.gpx$/i, ''),
+          ...r,
           cr: Date.now(),
           up: Date.now()
         });
@@ -11085,6 +11617,7 @@ function trkFeatures() {
 const isTrkFeature = f => !!(f && f.properties && f.properties.sekcja === 'slady');
 function trkFromBackup(j) {
   // ślady z kopii; null = kopia bez śladów (np. starsza wersja) – wtedy obecne ślady zostają
+  if (j.__trk !== undefined) return j.__trk; // kopia ZIP: ślady wczytane już z plików GPX
   const meta = (j.omm || {}).slady,
     feats = (j.features || []).filter(f => isTrkFeature(f) && f.geometry);
   if (!meta && !feats.length) return null;
@@ -11351,9 +11884,25 @@ function recPersist(force) {
     localStorage.setItem(REC_KEY, JSON.stringify(REC));
   } catch (e) {}
 }
-function recPoint(lat, lng, alt, accu, time) {
+const recKF = {}; // filtr wygładzający pozycję (prosty filtr Kalmana)
+function recPoint(lat, lng, alt, accu, time, extra) {
   if (!REC || REC.paused || !isFinite(lat) || !isFinite(lng)) return;
-  recPos = {lat, lng, accu};
+  const x = extra || {};
+  // wygładzanie: przy słabym sygnale pozycja „skacze” – ważymy ją dokładnością pomiaru
+  const newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
+  if (!recKF.v || time - recKF.t > 60000 || newSeg || !REC.pts.length)
+    Object.assign(recKF, {la: lat, lo: lng, v: accu * accu, t: time});
+  else {
+    const dt = Math.max(0, (time - recKF.t) / 1000),
+      q = Math.max(3, x.speed || 0); // jak szybko może się zmieniać pozycja (m/s)
+    recKF.v += dt * q * q;
+    const k = recKF.v / (recKF.v + accu * accu);
+    recKF.la += k * (lat - recKF.la);
+    recKF.lo += k * (lng - recKF.lo);
+    recKF.v *= 1 - k;
+    recKF.t = time;
+  }
+  recPos = {lat: recKF.la, lng: recKF.lo, accu, alt, time, speed: x.speed, bearing: x.bearing};
   if (recFirst) {
     recFirst = false;
     map.setView([lat, lng], Math.max(map.getZoom(), 16));
@@ -11361,18 +11910,19 @@ function recPoint(lat, lng, alt, accu, time) {
   const lim = REC.pts.length ? 30 : 50; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy
   if (accu > lim) return recUi();
   const q = [
-      +lat.toFixed(6),
-      +lng.toFixed(6),
+      +recKF.la.toFixed(6),
+      +recKF.lo.toFixed(6),
       alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10,
       Math.max(0, Math.round((time - REC.st) / 1000))
     ],
-    last = REC.pts[REC.pts.length - 1],
-    newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
+    last = REC.pts[REC.pts.length - 1];
+  if (last && q[3] < last[3]) return recUi(); // pomiar starszy niż ostatni punkt (np. opóźniony po pauzie)
   if (last && !newSeg) {
     const d = hav(last, q),
       dt = q[3] - last[3];
     if (dt <= 0) return recUi();
-    if (d < Math.max(recPrecise() ? 3 : 8, accu * 0.5)) return recUi(); // stoimy w miejscu – bez nowego punktu
+    // postój: nowy punkt dopiero po przejściu kilku metrów (więcej przy słabym sygnale)
+    if (d < Math.max(recPrecise() ? 4 : 10, accu * 0.6)) return recUi();
     if (d / dt > 70) return recUi(); // skok pozycji (ponad 250 km/h) – błąd GPS
   }
   REC.pts.push(q);
@@ -11395,14 +11945,18 @@ async function recWatchOn() {
           backgroundMessage: 'Dotknij, aby wrócić do OMM. Nagrywanie zatrzymasz przyciskiem ⏹.',
           requestPermissions: true,
           stale: false,
-          distanceFilter: recPrecise() ? 3 : 10
+          distanceFilter: recPrecise() ? 4 : 10
         },
         (loc, err) => {
           if (err) {
             if (err.code === 'NOT_AUTHORIZED') recNoPerm();
             return;
           }
-          if (loc) recPoint(loc.latitude, loc.longitude, loc.altitude, loc.accuracy, loc.time || Date.now());
+          if (loc)
+            recPoint(loc.latitude, loc.longitude, loc.altitude, loc.accuracy, loc.time || Date.now(), {
+              speed: loc.speed,
+              bearing: loc.bearing
+            });
         }
       );
       return true;
@@ -11416,7 +11970,11 @@ async function recWatchOn() {
     return false;
   }
   recWatch = navigator.geolocation.watchPosition(
-    p => recPoint(p.coords.latitude, p.coords.longitude, p.coords.altitude, p.coords.accuracy, p.timestamp),
+    p =>
+      recPoint(p.coords.latitude, p.coords.longitude, p.coords.altitude, p.coords.accuracy, p.timestamp, {
+        speed: p.coords.speed,
+        bearing: p.coords.heading
+      }),
     err => {
       if (err.code === 1) recNoPerm(err);
     },
@@ -11461,7 +12019,7 @@ async function recStart() {
     if (v === 'n') localStorage.setItem('omm-rec-rada', '1');
     if (!v) return;
   }
-  REC = {id: uid(), l: TRK.active, st: Date.now(), pts: [], sg: [], paused: false, pz: 0};
+  REC = {id: uid(), l: TRK.active, st: Date.now(), pts: [], sg: [], wp: [], paused: false, pz: 0};
   recFirst = true;
   recPersist(true);
   if (!(await recWatchOn())) return recClear();
@@ -11515,6 +12073,7 @@ async function recStop() {
     st: REC.st,
     pts: REC.pts,
     sg: REC.sg.filter(i => i > 0 && i < REC.pts.length),
+    wp: REC.wp || [], // zdjęcia i punkty dodane w trakcie nagrywania
     cr: Date.now(),
     up: Date.now()
   };
@@ -11629,7 +12188,7 @@ function recCenter() {
   }
 }
 function recDraw() {
-  // nagrywany ślad i bieżąca pozycja na mapie
+  // nagrywany ślad, jego punkty i bieżąca pozycja na mapie
   if (recLine) recLine.remove();
   if (recMe) recMe.remove();
   recLine = recMe = null;
@@ -11639,7 +12198,8 @@ function recDraw() {
     .map(s => s.map(q => [q[0], q[1]]));
   recLine = L.layerGroup([
     L.polyline(ls, {pane: 'trkP', color: '#fff', weight: 8, opacity: 0.9, interactive: false}),
-    L.polyline(ls, {pane: 'trkP', color: '#e53935', weight: 5, interactive: false})
+    L.polyline(ls, {pane: 'trkP', color: '#e53935', weight: 5, interactive: false}),
+    ...(REC.wp || []).map(w => wpMarker(w, () => wpPopup(null, w)))
   ]).addTo(map);
   if (recPos)
     recMe = L.circleMarker([recPos.lat, recPos.lng], {
@@ -11652,31 +12212,112 @@ function recDraw() {
       interactive: false
     }).addTo(map);
 }
+async function recPhoto() {
+  // w trakcie nagrywania: samo zdjęcie albo punkt z opisem (i zdjęciem) w bieżącym miejscu
+  if (!REC) return;
+  const at = recPos
+    ? [+recPos.lat.toFixed(6), +recPos.lng.toFixed(6)]
+    : REC.pts.length
+      ? REC.pts[REC.pts.length - 1].slice(0, 2)
+      : null;
+  if (!at) return tell('Brak pozycji GPS – poczekaj, aż GPS ustali położenie.');
+  const kind = await dlg({
+    title: 'Dodaj na trasie',
+    btns: [
+      {t: '📷 Samo zdjęcie', v: 'f', c: 'okb'},
+      {t: '📍 Punkt z opisem', v: 'p'},
+      {t: 'Anuluj', v: null}
+    ]
+  });
+  if (!kind) return;
+  const w = {id: uid(), p: at, s: Math.max(0, Math.round((Date.now() - REC.st) / 1000))};
+  if (kind === 'f') {
+    const fs = await pickPhotos(true, false);
+    if (!fs.length) return;
+    try {
+      w.ph = [(await fotoAdd(fs[0], true)).ref];
+    } catch (e) {
+      return tell(e.message);
+    }
+  } else {
+    const n = await askText('Opis punktu:', '');
+    if (n == null) return;
+    if (n.trim()) w.n = n.trim().slice(0, 2000);
+    await addPhotosTo(w, 'Dodać zdjęcie do punktu?');
+  }
+  if (!REC) return;
+  (REC.wp = REC.wp || []).push(w);
+  recPersist(true);
+  recDraw();
+  recUi();
+}
 function recUi() {
   document.body.classList.toggle('rec', !!REC);
   $('recb').classList.toggle('on', !!REC && !REC.paused);
   $('recbar').classList.toggle('paused', !!(REC && REC.paused));
-  if (!REC) return;
+  if (!REC) {
+    $('recpan').style.display = 'none';
+    return;
+  }
   const now = Date.now(),
     el = now - REC.st - (REC.pz || 0) - (REC.paused ? now - (REC.pAt || now) : 0),
-    s = trkStats({pts: REC.pts, sg: REC.sg, st: REC.st});
-  let v = '';
-  // prędkość bieżąca: z ostatnich ~30 s
-  const p = REC.pts,
+    s = trkStats({pts: REC.pts, sg: REC.sg, st: REC.st}),
+    p = REC.pts,
     n = p.length;
-  if (!REC.paused && n > 1 && (now - REC.st) / 1000 - p[n - 1][3] < 20) {
+  // prędkość bieżąca: z GPS, a gdy jej brak – z ostatnich ~30 s śladu
+  let v = null;
+  if (!REC.paused && recPos && now - recPos.time < 15000 && recPos.speed != null && isFinite(recPos.speed))
+    v = recPos.speed;
+  else if (!REC.paused && n > 1 && (now - REC.st) / 1000 - p[n - 1][3] < 20) {
     let i = n - 1;
     while (i > 0 && p[n - 1][3] - p[i - 1][3] <= 30 && !REC.sg.includes(i)) i--;
     const dt = p[n - 1][3] - p[i][3];
-    if (dt >= 5) v = ' · ' + fkmh((s.cum[n - 1] - s.cum[i]) / dt);
+    if (dt >= 5) v = (s.cum[n - 1] - s.cum[i]) / dt;
   }
   $('rectx').textContent = REC.paused
     ? 'Pauza · ' + fdur(el / 1000) + ' · ' + fkm(s.d)
     : !n && (!recPos || recPos.accu > 50)
       ? 'Szukam GPS…' + (recPos ? ' (±' + Math.round(recPos.accu) + ' m)' : '')
-      : fdur(el / 1000) + ' · ' + fkm(s.d) + v;
+      : fdur(el / 1000) + ' · ' + fkm(s.d) + (v != null ? ' · ' + fkmh(v) : '');
   $('recp').textContent = REC.paused ? '▶' : '⏸';
   $('recp').title = REC.paused ? 'Wznów nagrywanie' : 'Pauza';
+  if ($('recpan').style.display !== 'none') {
+    // panel na żywo: prędkość, wysokość, kierunek, sygnał, współrzędne
+    const r = recPos,
+      dirs = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    let az = r && r.bearing != null && isFinite(r.bearing) && (r.speed || 0) > 0.5 ? r.bearing : null;
+    if (az == null && n > 1) {
+      const a = p[Math.max(0, n - 4)],
+        b = p[n - 1],
+        y = Math.sin(((b[1] - a[1]) * Math.PI) / 180) * Math.cos((b[0] * Math.PI) / 180),
+        xx =
+          Math.cos((a[0] * Math.PI) / 180) * Math.sin((b[0] * Math.PI) / 180) -
+          Math.sin((a[0] * Math.PI) / 180) *
+            Math.cos((b[0] * Math.PI) / 180) *
+            Math.cos(((b[1] - a[1]) * Math.PI) / 180);
+      az = ((Math.atan2(y, xx) * 180) / Math.PI + 360) % 360;
+    }
+    const cells = [
+      ['Prędkość', v != null ? fkmh(v) : '—'],
+      ['Wysokość', r && r.alt != null && isFinite(r.alt) ? Math.round(r.alt) + ' m' : '—'],
+      ['Kierunek', az != null ? Math.round(az) + '° ' + dirs[Math.round(az / 45) % 8] : '—'],
+      [
+        'Sygnał GPS',
+        r
+          ? (r.accu <= 10 ? '🟢 ' : r.accu <= 30 ? '🟡 ' : '🔴 ') + '±' + Math.round(r.accu) + ' m'
+          : '🔴 szukam…'
+      ],
+      ['Podejście', Math.round(s.up) + ' m'],
+      ['Punkty', String(n) + ((REC.wp || []).length ? ' · 📷 ' + REC.wp.length : '')]
+    ];
+    $('recgrid').innerHTML = '';
+    cells.forEach(([k, val]) => {
+      const c = h('div');
+      c.append(h('b', null, val), h('span', null, k));
+      $('recgrid').append(c);
+    });
+    $('recll').textContent = r ? r.lat.toFixed(6) + ', ' + r.lng.toFixed(6) : '';
+  }
 }
 setInterval(() => {
   if (REC && !document.hidden) recUi();
@@ -11685,7 +12326,16 @@ $('recb').onclick = () => {
   if (!REC) recStart();
   else recCenter();
 };
-$('rectx').onclick = recCenter;
+$('rectx').onclick = () => {
+  // dotknięcie paska: panel na żywo (prędkość, wysokość, kierunek, sygnał)
+  const p = $('recpan'),
+    on = p.style.display !== 'block';
+  p.style.display = on ? 'block' : 'none';
+  document.body.classList.toggle('recpan', on);
+  recUi();
+};
+$('recctr').onclick = recCenter;
+$('recf').onclick = recPhoto;
 $('recp').onclick = () => recPause(!REC.paused);
 $('recs').onclick = recStop;
 // po powrocie do aplikacji odśwież pasek i linię (w tle punkty przychodzą bez rysowania)
@@ -11696,6 +12346,1060 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 trkLoad();
+
+// ---------- zdjęcia: zapis w aplikacji, aparat, galeria, lokalizacja z EXIF ----------
+/*
+ * Zdjęcie dodane w OMM zapisuje się jako zmniejszona kopia (dłuższy bok ok. 2000 px, JPEG).
+ * Oryginał zostaje w galerii telefonu (zdjęcie z aparatu OMM trafia też do galerii: Obrazy/OMM).
+ * W danych obiektu zdjęcie to napis „omm:NAZWA.jpg” na liście ph (obok ewentualnych linków http).
+ * Plik zdjęcia: IndexedDB „omm” → „foto/NAZWA.jpg” (działa też w przeglądarce),
+ * a w aplikacji na Androida dodatkowo kopia w folderze OMM/zdjecia (do podejrzenia w telefonie).
+ * W kopii zapasowej (ZIP) zdjęcia są w folderze „zdjecia/”.
+ */
+const isLocalPh = u => typeof u === 'string' && /^omm:[\w.-]+$/.test(u);
+const FOTO_MAX = 2000; // dłuższy bok zapisanej kopii (px)
+const fotoCache = new Map(); // nazwa → adres obrazka w pamięci (blob:)
+async function fotoBlob(name) {
+  try {
+    return (await IDB.get('foto/' + name)) || null;
+  } catch (e) {
+    return null;
+  }
+}
+async function fotoUrl(u) {
+  // adres do wyświetlenia: link http bez zmian, zdjęcie z OMM – z pamięci aplikacji
+  if (!isLocalPh(u)) return u;
+  const n = u.slice(4);
+  if (fotoCache.has(n)) return fotoCache.get(n);
+  const b = await fotoBlob(n);
+  if (!b) return '';
+  const url = URL.createObjectURL(b);
+  fotoCache.set(n, url);
+  return url;
+}
+function fotoImg(u, cls) {
+  // <img> dla linku albo zdjęcia z OMM (wczytywane w tle)
+  const im = h('img', cls);
+  im.loading = 'lazy';
+  im.referrerPolicy = 'no-referrer';
+  fotoUrl(u).then(x => {
+    if (x) im.src = x;
+    else im.dispatchEvent(new Event('error'));
+  });
+  return im;
+}
+const fotoName = t => {
+  const d = new Date(t || Date.now()),
+    p = n => String(n).padStart(2, '0');
+  return (
+    d.getFullYear() +
+    p(d.getMonth() + 1) +
+    p(d.getDate()) +
+    '-' +
+    p(d.getHours()) +
+    p(d.getMinutes()) +
+    p(d.getSeconds()) +
+    '-' +
+    Math.random().toString(36).slice(2, 6) +
+    '.jpg'
+  );
+};
+async function fotoResize(file) {
+  // zmniejszona kopia JPEG; obrót zgodnie z EXIF robi przeglądarka (imageOrientation)
+  let bmp;
+  try {
+    bmp = await createImageBitmap(file, {imageOrientation: 'from-image'});
+  } catch (e) {
+    throw new Error('nie da się odczytać obrazu (format HEIC? ustaw w aparacie zapis JPG)');
+  }
+  const s = Math.min(1, FOTO_MAX / Math.max(bmp.width, bmp.height)),
+    cv = document.createElement('canvas');
+  cv.width = Math.round(bmp.width * s);
+  cv.height = Math.round(bmp.height * s);
+  cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+  bmp.close && bmp.close();
+  return await new Promise((res, rej) =>
+    cv.toBlob(b => (b ? res(b) : rej(new Error('brak pamięci'))), 'image/jpeg', 0.85)
+  );
+}
+async function fotoPut(blob, name) {
+  // zapis zdjęcia w aplikacji (+ kopia do podglądu w folderze OMM/zdjecia w telefonie)
+  await IDB.set('foto/' + name, blob);
+  const FS = plug('Filesystem');
+  if (FS)
+    try {
+      const F = outFolder('', 'zdjecia');
+      await FS.writeFile({
+        path: F.base + '/' + name,
+        directory: F.dir,
+        recursive: true,
+        data: await blob64(blob)
+      });
+    } catch (e) {}
+  return 'omm:' + name;
+}
+async function fotoAdd(file, keepOriginal) {
+  // plik z aparatu/galerii → zdjęcie OMM; zwraca {ref, exif}
+  const buf = await file.arrayBuffer(),
+    ex = exifInfo(buf),
+    name = fotoName(ex.time || file.lastModified),
+    ref = await fotoPut(await fotoResize(file), name);
+  const FS = plug('Filesystem');
+  if (keepOriginal && FS)
+    try {
+      // zdjęcie zrobione aparatem z OMM: oryginał także do galerii (Obrazy/OMM)
+      await FS.writeFile({
+        path: 'Pictures/OMM/' + name,
+        directory: 'EXTERNAL_STORAGE',
+        recursive: true,
+        data: await blob64(file)
+      });
+    } catch (e) {}
+  return {ref, exif: ex};
+}
+function fotoUsed() {
+  // nazwy zdjęć, do których odwołują się obiekty map i ślady
+  const u = new Set(),
+    add = a => (a || []).forEach(x => isLocalPh(x) && u.add(x.slice(4)));
+  DB.maps.forEach(m => m.items.forEach(i => add(i.ph)));
+  TRK.items.forEach(t => (t.wp || []).forEach(w => add(w.ph)));
+  if (REC) (REC.wp || []).forEach(w => add(w.ph));
+  return u;
+}
+async function fotoForget(ref) {
+  // usuń plik zdjęcia, jeśli żaden obiekt już go nie używa
+  if (!isLocalPh(ref) || fotoUsed().has(ref.slice(4))) return;
+  try {
+    await IDB.set('foto/' + ref.slice(4), null);
+  } catch (e) {}
+}
+// wybór zdjęć: aparat (capture) albo galeria/pliki
+function pickPhotos(camera, multi) {
+  return new Promise(res => {
+    const inp = h('input');
+    inp.type = 'file';
+    inp.accept = 'image/*';
+    if (camera) inp.capture = 'environment';
+    if (multi) inp.multiple = true;
+    inp.onchange = () => res([...inp.files]);
+    // przy anulowaniu wyboru przeglądarka nie zgłasza zdarzenia – po powrocie do okna kończymy pustą listą
+    window.addEventListener('focus', () => setTimeout(() => !inp.files.length && res([]), 3000), {
+      once: true
+    });
+    inp.click();
+  });
+}
+async function askPhotoSource(title) {
+  return dlg({
+    title: title || 'Dodaj zdjęcie',
+    btns: [
+      {t: '📷 Aparat', v: 'cam', c: 'okb'},
+      {t: '🖼 Galeria', v: 'gal'},
+      {t: 'Anuluj', v: null}
+    ]
+  });
+}
+async function addPhotosTo(obj, title) {
+  // dodaj zdjęcia do obiektu (punkt mapy albo punkt śladu); zwraca liczbę dodanych
+  const src = await askPhotoSource(title);
+  if (!src) return 0;
+  const fs = await pickPhotos(src === 'cam', src === 'gal');
+  let n = 0;
+  for (const f of fs)
+    try {
+      info.style.display = 'block';
+      info.textContent = 'Zapisuję zdjęcie ' + (n + 1) + '/' + fs.length + '…';
+      const r = await fotoAdd(f, src === 'cam');
+      (obj.ph = obj.ph || []).push(r.ref);
+      n++;
+    } catch (e) {
+      tell(f.name + ': ' + e.message);
+    }
+  if (!mode) info.style.display = 'none';
+  return n;
+}
+
+// --- EXIF: lokalizacja i czas zrobienia zdjęcia (JPEG) ---
+function exifInfo(buf) {
+  const out = {};
+  try {
+    const dv = new DataView(buf);
+    if (dv.getUint16(0) !== 0xffd8) return out; // nie JPEG
+    let p = 2;
+    while (p + 4 < dv.byteLength) {
+      const mk = dv.getUint16(p),
+        len = dv.getUint16(p + 2);
+      if (mk === 0xffe1 && dv.getUint32(p + 4) === 0x45786966) {
+        // „Exif”
+        const t = p + 10,
+          le = dv.getUint16(t) === 0x4949,
+          u16 = o => dv.getUint16(t + o, le),
+          u32 = o => dv.getUint32(t + o, le);
+        const ifd = o => {
+          // wpisy katalogu: {znacznik: [typ, liczba, przesunięcie wartości]}
+          const n = u16(o),
+            r = {};
+          for (let i = 0; i < n; i++) {
+            const e = o + 2 + i * 12;
+            r[u16(e)] = [u16(e + 2), u32(e + 4), e + 8];
+          }
+          return r;
+        };
+        const str = ([ty, cnt, vo]) => {
+          const o = cnt > 4 ? u32(vo) : vo;
+          let s = '';
+          for (let i = 0; i < cnt - 1; i++) s += String.fromCharCode(dv.getUint8(t + o + i));
+          return s;
+        };
+        const rat = (o, k) => u32(o + k * 8) / (u32(o + k * 8 + 4) || 1);
+        const i0 = ifd(u32(4));
+        const timeOf = d => {
+          const tm = d[0x9003] || d[0x0132];
+          if (!tm) return;
+          const m = str(tm).match(/(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d):(\d\d)/);
+          if (m) out.time = new Date(+m[1], m[2] - 1, +m[3], +m[4], +m[5], +m[6]).getTime(); // czas lokalny telefonu
+        };
+        timeOf(i0);
+        if (i0[0x8769]) timeOf(ifd(u32(i0[0x8769][2])));
+        if (i0[0x8825]) {
+          const g = ifd(u32(i0[0x8825][2]));
+          if (g[2] && g[4]) {
+            const dms = e => {
+              const o = u32(e[2]);
+              return rat(o, 0) + rat(o, 1) / 60 + rat(o, 2) / 3600;
+            };
+            let la = dms(g[2]),
+              lo = dms(g[4]);
+            if (g[1] && String.fromCharCode(dv.getUint8(t + g[1][2])) === 'S') la = -la;
+            if (g[3] && String.fromCharCode(dv.getUint8(t + g[3][2])) === 'W') lo = -lo;
+            if (isFinite(la) && isFinite(lo) && (la || lo) && Math.abs(la) <= 90 && Math.abs(lo) <= 180)
+              out.ll = [+la.toFixed(6), +lo.toFixed(6)];
+          }
+        }
+        return out;
+      }
+      if (mk === 0xffda) break; // początek danych obrazu – dalej nie ma EXIF
+      p += 2 + len;
+    }
+  } catch (e) {}
+  return out;
+}
+function trkAtTime(ms) {
+  // położenie na nagranym śladzie w danej chwili (do zdjęć bez lokalizacji)
+  for (const t of TRK.items) {
+    if (t.noTime) continue;
+    const s = (ms - t.st) / 1000,
+      P0 = t.pts;
+    if (s < P0[0][3] - 120 || s > P0[P0.length - 1][3] + 120) continue;
+    let i = P0.findIndex(q => q[3] >= s);
+    if (i < 0) return [P0[P0.length - 1][0], P0[P0.length - 1][1]];
+    if (i === 0) return [P0[0][0], P0[0][1]];
+    const a = P0[i - 1],
+      b = P0[i],
+      k = (s - a[3]) / (b[3] - a[3] || 1);
+    return [+(a[0] + (b[0] - a[0]) * k).toFixed(6), +(a[1] + (b[1] - a[1]) * k).toFixed(6)];
+  }
+  return null;
+}
+async function fotoImport(files) {
+  // masowy import zdjęć: każde zdjęcie z lokalizacją = punkt 📷 na wybranej warstwie
+  const ch = await dlg({
+    title:
+      files.length +
+      ' ' +
+      plural(files.length, 'zdjęcie', 'zdjęcia', 'zdjęć') +
+      '.\nZdjęcia z zapisaną lokalizacją staną się punktami 📷 na mapie „' +
+      P.name +
+      '”.\n\nGdzie je dodać?',
+    btns: [
+      {t: 'Nowa warstwa „Zdjęcia”', v: 'new', c: 'okb'},
+      {t: 'Do aktywnej warstwy', v: 'act'},
+      {t: 'Anuluj', v: null}
+    ]
+  });
+  if (!ch) return;
+  let lid = P.active;
+  if (ch === 'new' || !findL(lid)) {
+    const g = P.groups[0],
+      l = {
+        id: uid(),
+        name: 'Zdjęcia ' + new Date().toLocaleDateString('pl-PL'),
+        vis: true,
+        op: 1,
+        open: false
+      };
+    g.layers.unshift(l);
+    lid = l.id;
+  }
+  const added = [],
+    fromTrk = [],
+    noLoc = [],
+    bad = [];
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    info.style.display = 'block';
+    info.textContent = 'Import zdjęć ' + (i + 1) + '/' + files.length + '…';
+    try {
+      const ex = exifInfo(await f.slice(0, 256 * 1024).arrayBuffer());
+      let ll = ex.ll;
+      if (!ll && ex.time) {
+        ll = trkAtTime(ex.time);
+        if (ll) fromTrk.push(f.name);
+      }
+      if (!ll) {
+        noLoc.push(f.name);
+        continue;
+      }
+      const ref = await fotoPut(await fotoResize(f), fotoName(ex.time || f.lastModified));
+      const it = {
+        id: uid(),
+        t: 'pin',
+        i: 'o:foto',
+        p: [ll],
+        l: lid,
+        c: curColor,
+        o: curOp,
+        ph: [ref],
+        cr: ex.time || Date.now(),
+        up: Date.now()
+      };
+      P.items.push(it);
+      added.push(it);
+    } catch (e) {
+      bad.push(f.name + ' (' + e.message + ')');
+    }
+  }
+  info.style.display = 'none';
+  unhideCat('o:foto');
+  const fl = findL(lid);
+  if (fl) fl.l.vis = fl.g.vis = true;
+  save();
+  render();
+  sheetIfOpen();
+  if (added.length) fitSmart(added);
+  tell(
+    'Dodano ' +
+      added.length +
+      ' ' +
+      plural(added.length, 'zdjęcie', 'zdjęcia', 'zdjęć') +
+      '.' +
+      (fromTrk.length
+        ? '\n\n' +
+          fromTrk.length +
+          ' bez lokalizacji umieszczono na nagranym śladzie według godziny zrobienia.'
+        : '') +
+      (noLoc.length
+        ? '\n\nBez lokalizacji (pominięte): ' +
+          noLoc.length +
+          '.\nJeśli w aparacie lokalizacja jest włączona, a mimo to jej brakuje, Android mógł ją usunąć przy wyborze z galerii – wybierz zdjęcia przez aplikację „Pliki” (folder DCIM/Camera).'
+        : '') +
+      (bad.length ? '\n\nNie udało się wczytać: ' + bad.join(', ') : '')
+  );
+}
+
+// ---------- animacja śladu i film do udostępnienia ----------
+/*
+ * Ślad rysuje się stopniowo (jak w zegarkach Huawei), liczniki pokazują dystans i czas.
+ * Przy punkcie ze zdjęciem animacja zatrzymuje się na chwilę i pokazuje zdjęcie.
+ * „Film” nagrywa to samo do pliku wideo (MP4, a gdy telefon nie potrafi – WebM) w pionie 720×1280.
+ */
+const ANIM_SEC = 18, // czas rysowania całego śladu przy prędkości 1×
+  ANIM_PHOTO = 2600, // jak długo widać zdjęcie (ms)
+  ANIM_END = 2500; // podsumowanie na końcu (ms)
+function animPlan(t) {
+  // kolejne położenia wzdłuż dystansu i chwile, w których pokazujemy zdjęcia/opisy
+  const s = trkStatsC(t),
+    D = s.d || 1,
+    stops = (t.wp || [])
+      .filter(w => (w.ph && w.ph.length) || w.n)
+      .map(w => {
+        // miejsce na trasie: punkt śladu najbliższy w czasie
+        let k = 0;
+        t.pts.forEach((q, i) => {
+          if (Math.abs(q[3] - w.s) < Math.abs(t.pts[k][3] - w.s)) k = i;
+        });
+        return {w, at: s.cum[k] / D};
+      })
+      .sort((a, b) => a.at - b.at);
+  return {s, D, stops};
+}
+function animAt(t, s, frac) {
+  // punkt śladu w danym ułamku dystansu: {i: ostatni pełny punkt, ll: położenie, sec: czas od startu}
+  const d = frac * s.d,
+    c = s.cum;
+  let lo = 0,
+    hi = c.length - 1;
+  while (lo < hi) {
+    const m = (lo + hi + 1) >> 1;
+    if (c[m] <= d) lo = m;
+    else hi = m - 1;
+  }
+  const a = t.pts[lo],
+    b = t.pts[Math.min(lo + 1, t.pts.length - 1)],
+    k = c[lo + 1] > c[lo] ? (d - c[lo]) / (c[lo + 1] - c[lo]) : 0;
+  return {i: lo, ll: [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k], sec: a[3] + (b[3] - a[3]) * k};
+}
+let ANIM = null; // trwająca animacja na mapie
+function trkAnim(t) {
+  if (ANIM) animStop();
+  map.closePopup();
+  $('sheet').style.display = 'none';
+  closePops();
+  trkSel = null;
+  const plan = animPlan(t),
+    ui = h('div', 'anim'),
+    top = h('div', 'atop'),
+    nm = h('b', null, t.nm || 'Ślad'),
+    cnt = h('div', 'acnt'),
+    card = h('div', 'acard'),
+    bar = h('div', 'abar');
+  top.append(nm, cnt);
+  ui.append(top, card, bar);
+  document.body.append(ui);
+  document.body.classList.add('animon');
+  map.fitBounds(L.latLngBounds(t.pts.map(q => [q[0], q[1]])), {
+    paddingTopLeft: [30, 110],
+    paddingBottomRight: [30, 90]
+  });
+  const g = L.layerGroup().addTo(map),
+    halo = L.polyline([], {pane: 'trkP', color: '#fff', weight: 8, opacity: 0.9, interactive: false}).addTo(
+      g
+    ),
+    line = L.polyline([], {pane: 'trkP', color: '#e53935', weight: 5, interactive: false}).addTo(g),
+    head = L.circleMarker(t.pts[0].slice(0, 2), {
+      pane: 'trkP',
+      radius: 7,
+      color: '#fff',
+      weight: 3,
+      fillColor: '#e53935',
+      fillOpacity: 1
+    }).addTo(g);
+  L.marker(t.pts[0].slice(0, 2), {pane: 'trkP', icon: flagIcon('start'), interactive: false}).addTo(g);
+  trkGrp.clearLayers(); // na czas animacji pozostałe ślady chowamy
+  ANIM = {
+    t,
+    plan,
+    ui,
+    g,
+    raf: 0,
+    frac: 0,
+    speed: 1,
+    playing: true,
+    pauseUntil: 0,
+    next: 0,
+    last: performance.now()
+  };
+  const sg = new Set(t.sg || []);
+  let endM = null; // flaga mety – pokazywana po dojściu do końca
+  const draw = () => {
+    const a = animAt(t, plan.s, ANIM.frac),
+      segs = [];
+    let cur = [];
+    for (let i = 0; i <= a.i; i++) {
+      if (i && sg.has(i)) {
+        segs.push(cur);
+        cur = [];
+      }
+      cur.push(t.pts[i].slice(0, 2));
+    }
+    cur.push(a.ll);
+    segs.push(cur);
+    line.setLatLngs(segs);
+    halo.setLatLngs(segs);
+    head.setLatLng(a.ll);
+    cnt.textContent = fkm(plan.s.cum[a.i] + hav(t.pts[a.i], a.ll)) + ' · ' + fdur(a.sec);
+  };
+  const showCard = w => {
+    card.innerHTML = '';
+    if (w.ph && w.ph.length) card.append(fotoImg(w.ph[0]));
+    if (w.n || w.nm) card.append(h('div', null, w.nm || w.n));
+    card.classList.add('on');
+  };
+  const loop = now => {
+    if (!ANIM) return;
+    const dt = Math.min(100, now - ANIM.last);
+    ANIM.last = now;
+    if (ANIM.playing) {
+      if (now < ANIM.pauseUntil) {
+        // pauza przy zdjęciu
+      } else {
+        card.classList.remove('on');
+        ANIM.frac = Math.min(1, ANIM.frac + (dt / 1000 / ANIM_SEC) * ANIM.speed);
+        const st = plan.stops[ANIM.next];
+        if (st && ANIM.frac >= st.at) {
+          ANIM.frac = Math.max(ANIM.frac, st.at);
+          ANIM.next++;
+          showCard(st.w);
+          ANIM.pauseUntil = now + ANIM_PHOTO / Math.sqrt(ANIM.speed);
+        }
+        draw();
+        if (ANIM.frac >= 1) {
+          ANIM.playing = false;
+          endM = L.marker(t.pts[t.pts.length - 1].slice(0, 2), {
+            pane: 'trkP',
+            icon: flagIcon('meta'),
+            interactive: false
+          }).addTo(g);
+          cnt.textContent =
+            fkm(plan.s.d) +
+            ' · ' +
+            fdur(plan.s.dur) +
+            (plan.s.up >= 1 ? ' · ↗ ' + Math.round(plan.s.up) + ' m' : '');
+          pb.textContent = '↻';
+        }
+      }
+    }
+    ANIM.raf = requestAnimationFrame(loop);
+  };
+  const pb = B('⏸', () => {
+    if (ANIM.frac >= 1) {
+      // jeszcze raz od początku
+      ANIM.frac = 0;
+      ANIM.next = 0;
+      ANIM.pauseUntil = 0;
+      if (endM) endM.remove();
+      endM = null;
+      ANIM.playing = true;
+    } else ANIM.playing = !ANIM.playing;
+    pb.textContent = ANIM.playing ? '⏸' : '▶';
+  });
+  const sp = B('1×', () => {
+    ANIM.speed = ANIM.speed >= 4 ? 1 : ANIM.speed * 2;
+    sp.textContent = ANIM.speed + '×';
+  });
+  bar.append(
+    pb,
+    sp,
+    B('🎬 Film', () => {
+      const tt = ANIM.t;
+      animStop();
+      trkFilm(tt);
+    }),
+    B('✕', animStop)
+  );
+  draw();
+  ANIM.raf = requestAnimationFrame(loop);
+}
+function animStop() {
+  if (!ANIM) return;
+  cancelAnimationFrame(ANIM.raf);
+  ANIM.g.remove();
+  ANIM.ui.remove();
+  ANIM = null;
+  document.body.classList.remove('animon');
+  trkRender();
+}
+
+// --- film: te same klatki rysowane na płótnie i nagrywane do pliku wideo ---
+async function trkFilm(t) {
+  if (typeof MediaRecorder === 'undefined' || !HTMLCanvasElement.prototype.captureStream)
+    return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
+  const types = [
+      'video/mp4;codecs=avc1.42E01E',
+      'video/mp4',
+      'video/webm;codecs=vp9',
+      'video/webm;codecs=vp8',
+      'video/webm'
+    ],
+    mime = types.find(x => MediaRecorder.isTypeSupported(x));
+  if (!mime) return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
+  const W = 720,
+    H = 1280,
+    TOP = 210,
+    BOT = 150,
+    plan = animPlan(t),
+    bb = L.latLngBounds(t.pts.map(q => [q[0], q[1]]));
+  // największe przybliżenie, przy którym cały ślad mieści się w kadrze (z marginesem)
+  let z = 18;
+  for (; z > 3; z--) {
+    const a = map.project(bb.getNorthWest(), z),
+      b = map.project(bb.getSouthEast(), z);
+    if (b.x - a.x <= W * 0.84 && b.y - a.y <= (H - TOP - BOT) * 0.88) break;
+  }
+  const cpx = map.project(bb.getCenter(), z),
+    x0 = Math.round(cpx.x - W / 2),
+    y0 = Math.round(cpx.y - TOP - (H - TOP - BOT) / 2),
+    pr = q => {
+      const p = map.project(L.latLng(q[0], q[1]), z);
+      return [p.x - x0, p.y - y0];
+    };
+  // podkład: kafle obecnego podkładu; gdy serwer nie pozwala go nagrać – OpenStreetMap
+  const bg = document.createElement('canvas');
+  bg.width = W;
+  bg.height = H;
+  const bx = bg.getContext('2d'),
+    stat = t2 => {
+      info.style.display = 'block';
+      info.textContent = t2;
+    };
+  const paintBg = async l => {
+    bx.fillStyle = '#eef0f2';
+    bx.fillRect(0, 0, W, H);
+    if (l instanceof L.TileLayer)
+      await drawTiles(bx, l, z, x0, y0, W, H, 1, (d, n) => stat('Film: pobieram mapę ' + d + '/' + n + '…'));
+    try {
+      bx.getImageData(0, 0, 1, 1);
+      return true;
+    } catch (e) {
+      return false; // „skażone” płótno – tego podkładu nie wolno nagrać
+    }
+  };
+  let used = 'cur';
+  if (!(await paintBg(curBase)))
+    used = (await paintBg(BASES.OpenStreetMap)) ? 'osm' : (await paintBg(null), 'none');
+  // zdjęcia do pokazania w filmie
+  const imgs = new Map();
+  for (const st of plan.stops)
+    if (st.w.ph && st.w.ph.length) {
+      const im = new Image();
+      im.src = await fotoUrl(st.w.ph[0]);
+      try {
+        await im.decode();
+        imgs.set(st.w, im);
+      } catch (e) {}
+    }
+  const cv = document.createElement('canvas');
+  cv.width = W;
+  cv.height = H;
+  const cx = cv.getContext('2d'),
+    sg = new Set(t.sg || []),
+    P2 = t.pts.map(pr);
+  const rr = (x, y, w, hh, r) => {
+    cx.beginPath();
+    cx.roundRect(x, y, w, hh, r);
+  };
+  const frame = (frac, photo, end) => {
+    cx.drawImage(bg, 0, 0);
+    const a = animAt(t, plan.s, frac),
+      hp = pr(a.ll);
+    // ślad: biała obwódka i czerwona linia
+    const path = () => {
+      cx.beginPath();
+      for (let i = 0; i <= a.i; i++)
+        i && !sg.has(i) ? cx.lineTo(P2[i][0], P2[i][1]) : cx.moveTo(P2[i][0], P2[i][1]);
+      cx.lineTo(hp[0], hp[1]);
+    };
+    cx.lineCap = cx.lineJoin = 'round';
+    path();
+    cx.strokeStyle = 'rgba(255,255,255,.9)';
+    cx.lineWidth = 13;
+    cx.stroke();
+    path();
+    cx.strokeStyle = '#e53935';
+    cx.lineWidth = 7;
+    cx.stroke();
+    // start, meta i „głowa” śladu
+    const dot = (p, f, r) => {
+      cx.beginPath();
+      cx.arc(p[0], p[1], r, 0, 7);
+      cx.fillStyle = f;
+      cx.fill();
+      cx.lineWidth = 4;
+      cx.strokeStyle = '#fff';
+      cx.stroke();
+    };
+    dot(P2[0], '#2e7d32', 11);
+    if (end) dot(P2[P2.length - 1], '#212121', 11);
+    if (!end) dot(hp, '#e53935', 12); // „głowa” śladu – na końcu zostaje flaga mety
+    // nagłówek z licznikami
+    cx.fillStyle = 'rgba(255,255,255,.94)';
+    rr(24, 28, W - 48, TOP - 56, 22);
+    cx.fill();
+    cx.fillStyle = '#202124';
+    cx.font = '600 34px system-ui, sans-serif';
+    cx.fillText((t.nm || 'Ślad').slice(0, 30), 50, 82);
+    cx.font = '26px system-ui, sans-serif';
+    cx.fillStyle = '#5f6368';
+    cx.fillText(fday(t.st) + ', ' + fhm(t.st), 50, 118);
+    cx.font = '700 30px system-ui, sans-serif';
+    cx.fillStyle = '#1a73e8';
+    const dd = end ? plan.s.d : plan.s.cum[a.i] + hav(t.pts[a.i], a.ll);
+    cx.fillText(
+      fkm(dd) +
+        '   ' +
+        fdur(end ? plan.s.dur : a.sec) +
+        (end && plan.s.up >= 1 ? '   ↗ ' + Math.round(plan.s.up) + ' m' : ''),
+      50,
+      168
+    );
+    // stopka
+    cx.font = '600 22px system-ui, sans-serif';
+    const sig = 'OMM · Own Map Manager',
+      sw = cx.measureText(sig).width + 32;
+    cx.fillStyle = 'rgba(255,255,255,.85)';
+    rr(W - 24 - sw, H - 70, sw, 46, 23);
+    cx.fill();
+    cx.fillStyle = '#3a2c22';
+    cx.fillText(sig, W - 8 - sw, H - 39);
+    if (photo) {
+      // zdjęcie w ramce na środku
+      const im = imgs.get(photo),
+        mw = W - 120,
+        mh = 760;
+      if (im) {
+        const s = Math.min(mw / im.width, mh / im.height),
+          w = im.width * s,
+          hh = im.height * s,
+          x = (W - w) / 2,
+          y = TOP + (H - TOP - BOT - hh) / 2;
+        cx.fillStyle = '#fff';
+        rr(x - 12, y - 12, w + 24, hh + 24 + (photo.n ? 60 : 0), 18);
+        cx.fill();
+        cx.drawImage(im, x, y, w, hh);
+        if (photo.n) {
+          cx.fillStyle = '#202124';
+          cx.font = '24px system-ui, sans-serif';
+          cx.fillText(photo.n.slice(0, 42), x + 4, y + hh + 44);
+        }
+      } else if (photo.n) {
+        cx.fillStyle = 'rgba(255,255,255,.95)';
+        rr(60, H / 2 - 50, W - 120, 100, 18);
+        cx.fill();
+        cx.fillStyle = '#202124';
+        cx.font = '28px system-ui, sans-serif';
+        cx.fillText(photo.n.slice(0, 36), 84, H / 2 + 10);
+      }
+    }
+  };
+  // plan klatek: rysowanie śladu, przerwy na zdjęcia, podsumowanie na końcu
+  const FPS = 30,
+    seq = [];
+  let si = 0;
+  const n = ANIM_SEC * FPS;
+  for (let f = 0; f <= n; f++) {
+    const fr = f / n;
+    while (plan.stops[si] && plan.stops[si].at <= fr) {
+      for (let k = 0; k < (ANIM_PHOTO / 1000) * FPS; k++)
+        seq.push([plan.stops[si].at, plan.stops[si].w, false]);
+      si++;
+    }
+    seq.push([fr, null, false]);
+  }
+  for (let k = 0; k < (ANIM_END / 1000) * FPS; k++) seq.push([1, null, true]);
+  const stream = cv.captureStream(FPS),
+    rec = new MediaRecorder(stream, {mimeType: mime, videoBitsPerSecond: 5e6}),
+    chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const done = new Promise(res => (rec.onstop = res));
+  let cancel = false;
+  const cb = h('div', 'dback'),
+    box = h('div', 'dbox'),
+    tx = h('div', 'dt', 'Nagrywam film…');
+  box.append(
+    tx,
+    B('Przerwij', () => (cancel = true))
+  );
+  cb.append(box);
+  document.body.append(cb);
+  info.style.display = 'none';
+  frame(0, null, false);
+  rec.start(1000);
+  // klatki w rytmie nagrywania (film trwa tyle, ile animacja)
+  await new Promise(res => {
+    let k = 0;
+    const iv = setInterval(() => {
+      if (cancel || k >= seq.length) {
+        clearInterval(iv);
+        return res();
+      }
+      const [fr, ph, end] = seq[k++];
+      frame(fr, ph, end);
+      if (k % 15 === 0) tx.textContent = 'Nagrywam film… ' + Math.round((k / seq.length) * 100) + '%';
+    }, 1000 / FPS);
+  });
+  rec.stop();
+  await done;
+  cb.remove();
+  if (cancel) return;
+  const ext = mime.startsWith('video/mp4') ? 'mp4' : 'webm',
+    blob = new Blob(chunks, {type: mime.split(';')[0]});
+  await dl(trkFile(t) + ' – animacja.' + ext, blob.type, blob);
+  if (used === 'osm')
+    tell('Wybrany podkład nie pozwala na nagranie, dlatego w filmie jest mapa OpenStreetMap.');
+  if (used === 'none')
+    tell('Podkład nie pozwala na nagranie (albo brak internetu), dlatego film ma jasne tło bez mapy.');
+}
+
+// ---------- kopia zapasowa ZIP: foldery mapy/, slady/, zdjecia/ + ustawienia ----------
+/*
+ * omm-kopia-RRRR-MM-DD-GG-MM.zip
+ *   omm.json          spis zawartości (lista map, warstwy śladów, kolejność)
+ *   mapy/NAZWA.geojson    każda mapa osobno (GeoJSON jak dotąd, z sekcją "omm" tej mapy)
+ *   slady/DATA NAZWA.gpx  każdy ślad osobno (GPX 1.1, dane OMM w <extensions>)
+ *   zdjecia/PLIK.jpg      zdjęcia dodane w OMM
+ *   ustawienia.json   ustawienia aplikacji i szablony opisów
+ *   CZYTAJ.txt        opis po polsku
+ * Każdy plik da się otworzyć innym programem (QGIS, Google Earth, Geo Tracker, przeglądarka zdjęć).
+ */
+const CRC_T = (() => {
+  const t = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    t[n] = c >>> 0;
+  }
+  return t;
+})();
+const crc32 = u8 => {
+  let c = 0xffffffff;
+  for (let i = 0; i < u8.length; i++) c = CRC_T[(c ^ u8[i]) & 255] ^ (c >>> 8);
+  return (c ^ 0xffffffff) >>> 0;
+};
+async function zipMake(files) {
+  // files: [{name, data: tekst | Uint8Array | Blob}] → Blob ZIP (teksty skompresowane, zdjęcia bez kompresji)
+  const enc = new TextEncoder(),
+    parts = [],
+    cen = [],
+    d = new Date(),
+    dd = ((d.getFullYear() - 1980) << 9) | ((d.getMonth() + 1) << 5) | d.getDate(),
+    tt = (d.getHours() << 11) | (d.getMinutes() << 5) | (d.getSeconds() >> 1);
+  let off = 0;
+  for (const f of files) {
+    const raw =
+        typeof f.data === 'string'
+          ? enc.encode(f.data)
+          : f.data instanceof Blob
+            ? new Uint8Array(await f.data.arrayBuffer())
+            : f.data,
+      nm = enc.encode(f.name),
+      crc = crc32(raw);
+    let meth = 0,
+      comp = raw;
+    if (typeof f.data === 'string' && raw.length > 200 && typeof CompressionStream !== 'undefined') {
+      comp = new Uint8Array(
+        await new Response(
+          new Blob([raw]).stream().pipeThrough(new CompressionStream('deflate-raw'))
+        ).arrayBuffer()
+      );
+      meth = 8;
+    }
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true);
+    lh.setUint16(4, 20, true);
+    lh.setUint16(6, 0x0800, true); // nazwy w UTF-8
+    lh.setUint16(8, meth, true);
+    lh.setUint16(10, tt, true);
+    lh.setUint16(12, dd, true);
+    lh.setUint32(14, crc, true);
+    lh.setUint32(18, comp.length, true);
+    lh.setUint32(22, raw.length, true);
+    lh.setUint16(26, nm.length, true);
+    parts.push(lh.buffer, nm, comp);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true);
+    ch.setUint16(4, 20, true);
+    ch.setUint16(6, 20, true);
+    ch.setUint16(8, 0x0800, true);
+    ch.setUint16(10, meth, true);
+    ch.setUint16(12, tt, true);
+    ch.setUint16(14, dd, true);
+    ch.setUint32(16, crc, true);
+    ch.setUint32(20, comp.length, true);
+    ch.setUint32(24, raw.length, true);
+    ch.setUint16(28, nm.length, true);
+    ch.setUint32(42, off, true);
+    cen.push(ch.buffer, nm);
+    off += 30 + nm.length + comp.length;
+  }
+  const csz = cen.reduce((s, b) => s + b.byteLength, 0),
+    ed = new DataView(new ArrayBuffer(22));
+  ed.setUint32(0, 0x06054b50, true);
+  ed.setUint16(8, files.length, true);
+  ed.setUint16(10, files.length, true);
+  ed.setUint32(12, csz, true);
+  ed.setUint32(16, off, true);
+  return new Blob([...parts, ...cen, ed.buffer], {type: 'application/zip'});
+}
+function zipOpen(buf) {
+  // spis plików archiwum ZIP; read(nazwa) → Uint8Array
+  const u8 = new Uint8Array(buf),
+    dv = new DataView(buf),
+    td = new TextDecoder();
+  let e = -1;
+  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--)
+    if (dv.getUint32(i, true) === 0x06054b50) {
+      e = i;
+      break;
+    }
+  if (e < 0) throw new Error('Uszkodzony plik ZIP');
+  const fs = new Map();
+  let p = dv.getUint32(e + 16, true);
+  for (let k = 0, n = dv.getUint16(e + 10, true); k < n; k++) {
+    const fl = dv.getUint16(p + 28, true);
+    fs.set(td.decode(u8.subarray(p + 46, p + 46 + fl)), {
+      meth: dv.getUint16(p + 10, true),
+      csz: dv.getUint32(p + 20, true),
+      off: dv.getUint32(p + 42, true)
+    });
+    p += 46 + fl + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
+  }
+  return {
+    names: () => [...fs.keys()],
+    has: n => fs.has(n),
+    read: async n => {
+      const f = fs.get(n),
+        st = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true),
+        data = u8.subarray(st, st + f.csz);
+      if (f.meth === 0) return data;
+      if (f.meth === 8)
+        return new Uint8Array(
+          await new Response(
+            new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))
+          ).arrayBuffer()
+        );
+      throw new Error('Nieobsługiwana kompresja w pliku ' + n);
+    }
+  };
+}
+const CZYTAJ =
+  'OMM – Own Map Manager · kopia zapasowa\r\n\r\n' +
+  'mapy/        każda mapa jako plik GeoJSON (otworzysz w QGIS, geojson.io, Google Earth Pro)\r\n' +
+  'slady/       każdy ślad GPS jako plik GPX (Geo Tracker, Garmin, Google Earth, OsmAnd)\r\n' +
+  'zdjecia/     zdjęcia dodane w OMM (zmniejszone kopie; oryginały są w galerii telefonu)\r\n' +
+  'ustawienia.json  ustawienia aplikacji i szablony opisów\r\n' +
+  'omm.json     spis zawartości dla aplikacji\r\n\r\n' +
+  'Przywracanie: OMM → Warstwy → Kopia → Przywróć z kopii… i wskaż ten plik ZIP.\r\n';
+const safeName = s =>
+  String(s || 'mapa')
+    .replace(/[\\/:*?"<>|\u0000-\u001f]+/g, '_')
+    .trim()
+    .slice(0, 80) || 'mapa';
+async function zipBackup(vis) {
+  // vis = tylko to, co widać na bieżącej mapie (bez śladów)
+  const files = [],
+    used = new Set(),
+    names = new Set(),
+    uniq = b => {
+      let n = b,
+        k = 2;
+      while (names.has(n.toLowerCase())) n = b + ' (' + k++ + ')';
+      names.add(n.toLowerCase());
+      return n;
+    };
+  const idx = {
+    format: 'omm-backup-zip',
+    formatVersion: 5,
+    app: APP_VER,
+    created: new Date().toISOString(),
+    ...(vis ? {zakres: 'widoczne'} : {}),
+    cur: vis ? P.id : DB.cur,
+    curW: vis ? P.id : DB.curW,
+    mapy: [],
+    slady: null,
+    zdjecia: []
+  };
+  (vis ? [P] : DB.maps).forEach(m => {
+    const fn = 'mapy/' + uniq(safeName(m.name)) + '.geojson',
+      j = JSON.parse(fullBackup(vis, m));
+    j.features.forEach(f => {
+      const z = f.properties && f.properties.zdjecia;
+      if (Array.isArray(z))
+        f.properties.zdjecia = z.map(u => {
+          if (!isLocalPh(u)) return u;
+          used.add(u.slice(4));
+          return 'zdjecia/' + u.slice(4);
+        });
+    });
+    files.push({name: fn, data: JSON.stringify(j, null, 1)});
+    idx.mapy.push({plik: fn, id: m.id, name: m.name, ...(m.w ? {w: true} : {})});
+  });
+  if (!vis) {
+    idx.slady = {
+      aktywna: TRK.active,
+      warstwy: TRK.layers.map(l => ({id: l.id, name: l.name, vis: l.vis, c: l.c, open: !!l.open}))
+    };
+    names.clear();
+    TRK.items.forEach(t => {
+      (t.wp || []).forEach(w => (w.ph || []).forEach(u => isLocalPh(u) && used.add(u.slice(4))));
+      files.push({name: 'slady/' + uniq(trkFile(t)) + '.gpx', data: trkGPX([t], t.nm, '../zdjecia/')});
+    });
+  }
+  for (const n of used) {
+    const b = await fotoBlob(n);
+    if (b) {
+      files.push({name: 'zdjecia/' + n, data: b});
+      idx.zdjecia.push(n);
+    }
+  }
+  files.push({name: 'ustawienia.json', data: JSON.stringify(settingsObj(), null, 1)});
+  files.push({name: 'omm.json', data: JSON.stringify(idx, null, 1)});
+  files.push({name: 'CZYTAJ.txt', data: CZYTAJ});
+  return zipMake(files);
+}
+async function zipToBackup(buf) {
+  // kopia ZIP → ta sama postać co dawna kopia GeoJSON (dalej działa zwykłe przywracanie)
+  const z = zipOpen(buf),
+    td = new TextDecoder(),
+    txt = async n => td.decode(await z.read(n));
+  if (!z.has('omm.json')) throw new Error('To nie jest kopia OMM (w pliku ZIP brak omm.json).');
+  const idx = JSON.parse(await txt('omm.json'));
+  for (const n of z.names()) {
+    const m = n.match(/^zdjecia\/([\w.-]+)$/);
+    if (m) await IDB.set('foto/' + m[1], new Blob([await z.read(n)], {type: 'image/jpeg'}));
+  }
+  const fixPh = a =>
+    Array.isArray(a)
+      ? a.map(u => {
+          const m = String(u).match(/(?:^|\/)zdjecia\/([\w.-]+)$/);
+          return m ? 'omm:' + m[1] : u;
+        })
+      : a;
+  const feats = [],
+    maps = [];
+  for (const mm of idx.mapy || []) {
+    if (!z.has(mm.plik)) continue;
+    const fc = JSON.parse(await txt(mm.plik));
+    (fc.features || []).forEach(f => {
+      if (f.properties) f.properties.zdjecia = fixPh(f.properties.zdjecia);
+      feats.push(f);
+    });
+    maps.push((fc.omm && Array.isArray(fc.omm.maps) && fc.omm.maps[0]) || {id: mm.id, name: mm.name});
+  }
+  let trk = null;
+  if (idx.slady) {
+    trk = {
+      v: 1,
+      active: idx.slady.aktywna,
+      layers: (idx.slady.warstwy || []).map(l => ({
+        id: l.id || uid(),
+        name: l.name || 'Ślady',
+        vis: l.vis !== false,
+        c: /^#[0-9a-f]{6}$/i.test(l.c || '') ? l.c : '#e53935',
+        open: !!l.open
+      })),
+      items: []
+    };
+    for (const n of z.names().filter(x => /^slady\/.+\.gpx$/i.test(x)))
+      gpxTracks(await txt(n)).forEach(t => {
+        let l = trk.layers.find(x => x.id === t._l) || trk.layers.find(x => x.name === t._ln);
+        if (!l)
+          trk.layers.push(
+            (l = {id: t._l || uid(), name: t._ln || 'Ślady z kopii', vis: true, c: '#e53935', open: false})
+          );
+        const {_id, _l, _ln, ...r} = t;
+        r.wp.forEach(w => {
+          if (w.ph) w.ph = fixPh(w.ph).filter(okPh);
+          if (w.ph && !w.ph.length) delete w.ph;
+        });
+        trk.items.push({id: _id || uid(), l: l.id, ...r, cr: r.st, up: Date.now()});
+      });
+  }
+  return {
+    type: 'FeatureCollection',
+    features: feats,
+    omm: {
+      format: 'omm-backup',
+      formatVersion: 5,
+      created: idx.created,
+      cur: idx.cur,
+      curW: idx.curW,
+      maps,
+      settings: z.has('ustawienia.json') ? JSON.parse(await txt('ustawienia.json')) : undefined,
+      ...(idx.zakres ? {zakres: idx.zakres} : {})
+    },
+    __trk: trk // ślady wczytane z GPX (trkFromBackup je zwraca)
+  };
+}
 
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
@@ -11731,7 +13435,7 @@ function settingsDlg() {
       ['down', FOLDERS.down.label]
     ],
     NATIVE
-      ? 'Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.'
+      ? 'Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy, zdjecia. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.'
       : 'Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.'
   );
   radios('Wydruki (obrazy PNG)', 'omm-folder-png', 'same', [
@@ -11766,6 +13470,8 @@ if (plug('App'))
     if (['bmenu', 'xmenu', 'dmenu'].some(i => $(i).style.display === 'block')) return closePops();
     if ($('sheet').style.display === 'flex') return $('closes').click();
     if (map._popup && map.hasLayer(map._popup)) return map.closePopup();
+    if (ANIM) return animStop();
+    if ($('recpan').style.display === 'block') return $('rectx').click();
     if (mode) return setMode(null);
     plug('App').minimizeApp();
   });

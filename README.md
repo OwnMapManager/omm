@@ -24,9 +24,11 @@ Wersja w przeglądarce dalej działa: plik [`app/omm.html`](app/omm.html) otwier
 5. **Kształty** (ołówek) – linie, wielokąty, okręgi. **Pomiary** (linijka) – odległość, powierzchnia, azymut, wysokość, profil terenu.
 6. **Opis i ocena** – dotknij punktu: nazwa, ikona, komentarz, ocena w gwiazdkach, zdjęcia (linki), szablon „Dane noclegu”.
 7. **Warstwy** – przycisk w lewym dolnym rogu: mapy, warstwy, filtr („pokaż tylko kanie”), import, kopia.
-8. **Kopia zapasowa** – Kopia → „Zapisz pełną kopię”. Rób ją regularnie – to jeden plik ze wszystkim.
+8. **Kopia zapasowa** – Kopia → „Zapisz pełną kopię”. Rób ją regularnie, zwłaszcza przed aktualizacją – to jeden plik ZIP ze wszystkim (mapy, ślady, zdjęcia, ustawienia).
 9. **Ślady GPS** – czerwony przycisk ⏺ po prawej rozpoczyna nagrywanie (w aplikacji także przy wygaszonym ekranie). Pasek u góry pokazuje czas, dystans i prędkość; ⏸ pauza, ⏹ koniec i zapis. Wszystkie ślady są w panelu warstw w zakładce **Ślady GPS** – z własnymi warstwami, statystykami, profilem wysokości i eksportem GPX.
-10. **Z Moich Map Google** – w Moich Mapach pobierz KML/KMZ, potem tutaj Import (zdjęcia i opisy też się przenoszą).
+10. **Zdjęcia** – w okienku punktu „📷 Zdjęcie” (aparat albo galeria). Podczas nagrywania śladu przycisk 📷 na pasku dodaje samo zdjęcie albo punkt z opisem w bieżącym miejscu. Import zdjęć z telefonu (przycisk Import) zamienia zdjęcia z zapisaną lokalizacją w punkty 📷.
+11. **Animacja śladu** – w okienku śladu „▶ Animacja”: ślad rysuje się stopniowo, przy zdjęciach animacja się zatrzymuje; „🎬 Film” zapisuje ją jako plik wideo do udostępnienia.
+12. **Z Moich Map Google** – w Moich Mapach pobierz KML/KMZ, potem tutaj Import (zdjęcia i opisy też się przenoszą).
 
 Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedynie podkłady mapowe.
 
@@ -42,7 +44,9 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 - Pomiary: odległość, powierzchnia, azymut, różnica wysokości, profil NMT (GUGiK), wysokość punktu, współrzędne.
 - Import: GPX, KML, **KMZ**, GeoJSON (ze zdjęciami z Moich Map). Eksport: GPX, KML, GeoJSON.
 - Kopia zapasowa całości albo tylko tego, co widać; wydruk kadru do PNG w wysokiej rozdzielczości.
-- **Ślady GPS**: nagrywanie (także w tle, z pauzą), osobne warstwy śladów, statystyki (dystans, czas w ruchu, prędkości, przewyższenia), profil wysokości z GPS i z NMT, import/eksport GPX; ślady są w pełnej kopii zapasowej.
+- **Ślady GPS**: nagrywanie (także w tle, z pauzą, z wygładzaniem pozycji), panel na żywo, osobne warstwy śladów, statystyki (dystans, czas, prędkości, podejścia, wysokości), ślad w kolorach prędkości, profil wysokości z GPS i z NMT, zdjęcia i punkty na trasie, animacja i film, import/eksport GPX.
+- **Zdjęcia** w punktach i na śladach (zmniejszone kopie w aplikacji, oryginały w galerii); masowy import zdjęć z lokalizacją.
+- **Kopia zapasowa ZIP** z folderami `mapy/` (GeoJSON), `slady/` (GPX), `zdjecia/` i plikiem `ustawienia.json` – każdy plik otworzysz także innym programem.
 
 ---
 
@@ -52,7 +56,7 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 - Sekcje skryptu zaczynają się od komentarza `// ---------- nazwa ----------` – wyszukaj go w pliku. Na początku skryptu jest spis sekcji i **opis modelu danych** (wszystkie pola obiektów).
 - Dane są zapisywane w `localStorage` pod kluczem `mapa-v2` po każdej zmianie. Krótkie nazwy pól (`t`, `p`, `i`, `nm`, `n`, `ra`…) zostają bez zmian, bo w tym formacie zapisane są dane użytkowników – ich znaczenie opisuje nagłówek skryptu.
 - **Zmiana struktury danych**: podnieś `SCHEMA` i dopisz krok w `MIGR` – stare dane przechodzą automatycznie, a przed migracją robiona jest kopia awaryjna.
-- **Kopia zapasowa** to standardowy GeoJSON (RFC 7946): obiekty w `features` z polskimi nazwami pól (`mapa`, `warstwa`, `typ`, `nazwa`, `ikona`, `komentarz`, `ocena`, `zdjecia`…), a układ map i ustawienia w sekcji `omm`. Plik otworzysz w QGIS, geojson.io i innych programach.
+- **Kopia zapasowa** (od v35) to ZIP: `omm.json` (spis), `mapy/*.geojson`, `slady/*.gpx` (dane OMM w `<extensions>`), `zdjecia/*.jpg`, `ustawienia.json`. Każda mapa w środku to standardowy GeoJSON (RFC 7946): obiekty w `features` z polskimi nazwami pól (`mapa`, `warstwa`, `typ`, `nazwa`, `ikona`, `komentarz`, `ocena`, `zdjecia`…), a układ map i ustawienia w sekcji `omm`. Plik otworzysz w QGIS, geojson.io i innych programach.
 
 ### Jak dodać własną ikonę
 
