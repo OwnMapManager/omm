@@ -1600,44 +1600,21 @@ textarea {
 #recb {
   top: calc(152px + env(safe-area-inset-top, 0px));
   right: 8px;
+  color: #e53935;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
 }
-/* ikona: kropkowana trasa ze startem; czerwona kropka = „nagraj”, w trakcie nagrywania biała trasa na czerwonym */
-#recb svg {
-  width: 28px;
-  height: 28px;
-  vertical-align: middle;
-}
-#recb .rp {
-  fill: none;
-  stroke: #3a2c22;
-  stroke-width: 2.6;
-  stroke-linecap: round;
-}
-#recb .rs {
-  fill: #2e7d32;
-}
-#recb .rr {
-  fill: #e53935;
-  stroke: #fff;
-  stroke-width: 1.6;
-}
-#recb.on .rp {
-  stroke: #fff;
-}
-#recb.on .rs {
-  fill: #fff;
-}
-#recb.on .rr {
-  display: none;
-}
+/* w trakcie nagrywania: czerwony przycisk, który lekko i powoli „oddycha” */
 #recb.on {
   background: #e53935;
   color: #fff;
-  animation: recpulse 1.8s infinite;
+  animation: recpulse 2.6s ease-in-out infinite;
 }
 @keyframes recpulse {
   50% {
-    box-shadow: 0 0 0 7px rgba(229, 57, 53, 0.25);
+    transform: scale(1.08);
+    box-shadow: 0 0 0 8px rgba(229, 57, 53, 0.18);
   }
 }
 #recbar {
@@ -2144,7 +2121,7 @@ body.navon #info {
 <button class="ib" id="gps" title="Moja pozycja">◎</button>
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki">🖨</button>
-<button class="ib" id="recb" title="Nagrywanie śladu GPS"><svg viewBox="0 0 26 26"><path class="rp" d="M4.5 20.5C7 13 12 18 14 12S18.5 6.5 19.5 5" stroke-dasharray="0.1 3.6"/><circle class="rs" cx="4.5" cy="20.5" r="2.2"/><circle class="rr" cx="19.5" cy="19.5" r="4.6"/></svg></button>
+<button class="ib" id="recb" title="Nagrywanie śladu GPS">REC</button>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button><button id="recf" title="Zdjęcie lub punkt na trasie">📷</button><button id="recp" title="Pauza">⏸</button><button id="recs" title="Zakończ nagrywanie">⏹</button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><button id="recctr">◎ Pokaż mnie na mapie</button></div>
 <div class="pop" id="bmenu"></div>
