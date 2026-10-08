@@ -1605,7 +1605,7 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 3px;
-  color: #3a2c22;
+  color: #8b1a1a; /* ciemnoczerwony napis REC */
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.6px;
@@ -2132,6 +2132,73 @@ body.navon #info {
   box-shadow: 0 1px 3px #0005;
   transform: translate(-50%, -50%);
 }
+/* dzielenie śladu */
+.splitbar {
+  position: absolute;
+  z-index: 1200;
+  left: 8px;
+  right: 8px;
+  bottom: calc(10px + var(--sa));
+  background: var(--bar);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 10px #0004;
+}
+.splitbar .stx {
+  font-size: 13.5px;
+  line-height: 1.45;
+}
+.splitbar .stx b {
+  font-size: 15px;
+}
+.splitbar .sa2 {
+  color: var(--sub);
+}
+.splitbar input[type="range"] {
+  width: 100%;
+  margin: 8px 0;
+  accent-color: var(--acc);
+}
+.splitbar .sbt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.splitbar .sbt button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+.splitbar .sbt button.okb {
+  background: var(--acc);
+  color: #fff;
+  border-color: var(--acc);
+}
+.splitbar .sbt button.danger {
+  color: #c62828;
+}
+body.spliton #tools,
+body.spliton .ib,
+body.spliton #info {
+  display: none !important;
+}
+.splitmk {
+  background: none;
+  border: 0;
+}
+.splitmk span {
+  display: flex;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 5px #0007;
+  font-size: 18px;
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -2175,7 +2242,7 @@ body.navon #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v36 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v37 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2250,7 +2317,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v36';
+const APP_VER = 'v37';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -11198,6 +11265,14 @@ function trkPopup(t, ll) {
       act(() => trkRename(t))
     ),
     B(
+      '📤 Udostępnij',
+      act(() => trkShare(t))
+    ),
+    B(
+      '✂ Podziel',
+      act(() => trkSplit(t))
+    ),
+    B(
       '📂 Warstwa',
       act(() => trkMove(t))
     ),
@@ -11469,9 +11544,10 @@ function trkStatsDlg(t) {
       profile(pp);
     }),
     B('⇩ GPX', () => dl(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm))),
-    ...(plug('Share')
-      ? [B('Udostępnij', () => shareNative(trkFile(t) + '.gpx', {data: trkGPX([t], t.nm), encoding: 'utf8'}))]
-      : []),
+    B('📤 Udostępnij', () => {
+      fin();
+      trkShare(t);
+    }),
     B('Zamknij', fin, 'okb')
   );
   box.append(body, bt);
@@ -12280,6 +12356,7 @@ async function recStop() {
   trkRender();
   sheetIfOpen();
   trkFocus(t);
+  setTimeout(() => vehicleAsk(t), 900); // zapomniane nagrywanie w aucie? – propozycja odcięcia
 }
 function recSaveDlg() {
   // zakończenie nagrania: nazwa + warstwa śladów
@@ -13086,7 +13163,8 @@ function animStop() {
 }
 
 // --- film: te same klatki rysowane na płótnie i nagrywane do pliku wideo ---
-async function trkFilm(t) {
+async function trkFilm(t, share) {
+  // share = po nagraniu od razu otwórz okno „Udostępnij”
   if (typeof MediaRecorder === 'undefined' || !HTMLCanvasElement.prototype.captureStream)
     return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
   const types = [
@@ -13308,7 +13386,8 @@ async function trkFilm(t) {
   if (cancel) return;
   const ext = mime.startsWith('video/mp4') ? 'mp4' : 'webm',
     blob = new Blob(chunks, {type: mime.split(';')[0]});
-  await dl(trkFile(t) + ' – animacja.' + ext, blob.type, blob);
+  if (share) await shareOut(trkFile(t) + ' – animacja.' + ext, blob.type, blob);
+  else await dl(trkFile(t) + ' – animacja.' + ext, blob.type, blob);
   if (used === 'osm')
     tell('Wybrany podkład nie pozwala na nagranie, dlatego w filmie jest mapa OpenStreetMap.');
   if (used === 'none')
@@ -13781,6 +13860,543 @@ async function fotoImportPick() {
   inp.click();
 }
 
+// ---------- udostępnianie śladu: GPX, obraz mapy, obraz statystyk, mapa + statystyki, animacja ----------
+async function shareOut(name, mime, data) {
+  // w aplikacji: kopia w folderze OMM i systemowe okno „Udostępnij”; w przeglądarce: udostępnianie albo pobranie pliku
+  const FS = plug('Filesystem');
+  const opt = data instanceof Blob ? {data: await blob64(data)} : {data, encoding: 'utf8'};
+  if (FS && plug('Share')) {
+    try {
+      const F = outFolder(mime, name);
+      await FS.writeFile({path: F.base + '/' + name, directory: F.dir, recursive: true, ...opt});
+    } catch (e) {}
+    return shareNative(name, opt);
+  }
+  const file = new File([data instanceof Blob ? data : new Blob([data], {type: mime})], name, {type: mime});
+  if (navigator.canShare && navigator.canShare({files: [file]}))
+    try {
+      return await navigator.share({files: [file], title: name});
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+    }
+  dl(name, mime, data);
+}
+async function trkShare(t) {
+  const v = await dlg({
+    title: 'Udostępnij ślad „' + (t.nm || 'Ślad') + '” jako:',
+    btns: [
+      {t: '📄 Plik GPX', v: 'gpx'},
+      {t: '🗺 Mapa (obraz)', v: 'map'},
+      {t: '📊 Statystyki (obraz)', v: 'st'},
+      {t: '🗺📊 Mapa + statystyki', v: 'both', c: 'okb'},
+      ...(t.noTime ? [] : [{t: '🎬 Animacja (film)', v: 'film'}]),
+      {t: 'Anuluj', v: null}
+    ]
+  });
+  if (!v) return;
+  if (v === 'gpx') return shareOut(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm));
+  if (v === 'film') return trkFilm(t, true);
+  info.style.display = 'block';
+  info.textContent = 'Przygotowuję obraz…';
+  try {
+    const r = await trkImage(t, v),
+      blob = await new Promise(res => r.cv.toBlob(res, 'image/png'));
+    info.style.display = 'none';
+    if (!blob) return tell('Nie udało się przygotować obrazu (brak pamięci).');
+    await shareOut(
+      trkFile(t) + (v === 'map' ? ' – mapa' : v === 'st' ? ' – statystyki' : ' – mapa i statystyki') + '.png',
+      'image/png',
+      blob
+    );
+    if (r.used === 'osm')
+      tell('Wybrany podkład nie pozwala na zapis do obrazu, dlatego na obrazie jest mapa OpenStreetMap.');
+  } catch (e) {
+    info.style.display = 'none';
+    tell('Nie udało się przygotować obrazu: ' + e.message);
+  }
+}
+async function trkMapCanvas(t, W, H, top, bot) {
+  // mapa ze śladem na płótnie: kadr dopasowany do śladu, podkład z kafli (gdy nie wolno – OpenStreetMap)
+  const bb = L.latLngBounds(t.pts.map(q => [q[0], q[1]]));
+  let z = 18;
+  for (; z > 3; z--) {
+    const a = map.project(bb.getNorthWest(), z),
+      b = map.project(bb.getSouthEast(), z);
+    if (b.x - a.x <= W * 0.86 && b.y - a.y <= (H - top - bot) * 0.86) break;
+  }
+  const c = map.project(bb.getCenter(), z),
+    x0 = Math.round(c.x - W / 2),
+    y0 = Math.round(c.y - top - (H - top - bot) / 2),
+    pr = q => {
+      const p = map.project(L.latLng(q[0], q[1]), z);
+      return [p.x - x0, p.y - y0];
+    },
+    cv = document.createElement('canvas');
+  cv.width = W;
+  cv.height = H;
+  const cx = cv.getContext('2d');
+  const paint = async l => {
+    cx.fillStyle = '#eef0f2';
+    cx.fillRect(0, 0, W, H);
+    if (l instanceof L.TileLayer)
+      await drawTiles(
+        cx,
+        l,
+        z,
+        x0,
+        y0,
+        W,
+        H,
+        1,
+        (d, n) => (info.textContent = 'Pobieram mapę ' + d + '/' + n + '…')
+      );
+    try {
+      cx.getImageData(0, 0, 1, 1);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+  let used = 'cur';
+  if (!(await paint(curBase)))
+    used = (await paint(BASES.OpenStreetMap)) ? 'osm' : (await paint(null), 'none');
+  // ślad
+  const sg = new Set(t.sg || []),
+    P2 = t.pts.map(pr),
+    path = () => {
+      cx.beginPath();
+      P2.forEach((p, i) => (i && !sg.has(i) ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])));
+    };
+  cx.lineCap = cx.lineJoin = 'round';
+  path();
+  cx.strokeStyle = 'rgba(255,255,255,.92)';
+  cx.lineWidth = 15;
+  cx.stroke();
+  path();
+  cx.strokeStyle = trkColor(t);
+  cx.lineWidth = 8;
+  cx.stroke();
+  const dot = (p, f, r) => {
+    cx.beginPath();
+    cx.arc(p[0], p[1], r, 0, 7);
+    cx.fillStyle = f;
+    cx.fill();
+    cx.lineWidth = 5;
+    cx.strokeStyle = '#fff';
+    cx.stroke();
+  };
+  dot(P2[0], '#2e7d32', 15);
+  dot(P2[P2.length - 1], '#212121', 15);
+  // zdjęcia i punkty na trasie
+  cx.textAlign = 'center';
+  cx.textBaseline = 'middle';
+  (t.wp || []).forEach(w => {
+    const p = pr(w.p);
+    cx.beginPath();
+    cx.arc(p[0], p[1], 22, 0, 7);
+    cx.fillStyle = '#fff';
+    cx.shadowColor = 'rgba(0,0,0,.35)';
+    cx.shadowBlur = 6;
+    cx.fill();
+    cx.shadowBlur = 0;
+    cx.font = '24px sans-serif';
+    cx.fillText(w.n || w.nm ? '📍' : '📷', p[0], p[1] + 1);
+  });
+  cx.textAlign = 'start';
+  cx.textBaseline = 'alphabetic';
+  return {cv, cx, used};
+}
+function statsTiles(t) {
+  // te same liczby co w oknie statystyk: [wartość, jednostka, opis]
+  const s = trkStatsC(t),
+    n = (x, k) => x.toFixed(k).replace('.', ','),
+    out = [s.d < 1000 ? [String(Math.round(s.d)), 'm', 'Dystans'] : [n(s.d / 1000, 2), 'km', 'Dystans']];
+  if (!t.noTime)
+    out.push(
+      [fdur(s.dur), '', 'Czas'],
+      [n(s.vavg * 3.6, 1), 'km/h', 'Średnia prędkość'],
+      [n(s.vmov * 3.6, 1), 'km/h', 'Śr. prędkość w ruchu']
+    );
+  if (s.emin != null)
+    out.push(
+      [String(Math.round(s.up)), 'm', 'Podejście'],
+      [String(Math.round(s.down)), 'm', 'Zejście'],
+      [String(Math.round(s.emax - s.emin)), 'm', 'Różnica wysokości'],
+      [Math.round(s.emax) + ' / ' + Math.round(s.emin), 'm', 'Wysokość max / min']
+    );
+  return {s, tiles: out};
+}
+function drawHeader(cx, t, x, y, w, small, tall) {
+  // nazwa i data śladu w białej ramce
+  const s = trkStatsC(t);
+  cx.fillStyle = 'rgba(255,255,255,.95)';
+  cx.beginPath();
+  cx.roundRect(x, y, w, tall ? 216 : small ? 150 : 170, 26);
+  cx.fill();
+  cx.fillStyle = '#202124';
+  cx.font = '600 46px system-ui, sans-serif';
+  cx.fillText((t.nm || 'Ślad').slice(0, 34), x + 32, y + 66);
+  cx.fillStyle = '#5f6368';
+  cx.font = '32px system-ui, sans-serif';
+  const sameDay = new Date(t.st).toDateString() === new Date(s.end).toDateString();
+  cx.fillText(
+    fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st) + '–' + (sameDay ? '' : fday(s.end) + ' ') + fhm(s.end)),
+    x + 32,
+    y + 116
+  );
+}
+function drawStatsBlock(cx, t, y, W) {
+  // kafelki z liczbami (2 kolumny) i wykres wysokości; zwraca wysokość bloku
+  const {s, tiles} = statsTiles(t),
+    colW = (W - 80) / 2,
+    rowH = 150;
+  tiles.forEach(([v, u, lb], i) => {
+    const x = 40 + (i % 2) * colW,
+      yy = y + Math.floor(i / 2) * rowH;
+    cx.textAlign = 'center';
+    cx.fillStyle = '#202124';
+    cx.font = '600 64px system-ui, sans-serif';
+    const vw = cx.measureText(v).width;
+    cx.font = '500 30px system-ui, sans-serif';
+    const uw = u ? cx.measureText(' ' + u).width : 0,
+      cxm = x + colW / 2 - uw / 2;
+    cx.font = '600 64px system-ui, sans-serif';
+    cx.fillText(v, cxm, yy + 78);
+    if (u) {
+      cx.font = '500 30px system-ui, sans-serif';
+      cx.fillStyle = '#5f6368';
+      cx.textAlign = 'left';
+      cx.fillText(' ' + u, cxm + vw / 2, yy + 78);
+      cx.textAlign = 'center';
+    }
+    cx.fillStyle = '#5f6368';
+    cx.font = '26px system-ui, sans-serif';
+    cx.fillText(lb.toUpperCase(), x + colW / 2, yy + 120);
+    cx.strokeStyle = '#e8eaed';
+    cx.lineWidth = 2;
+    cx.beginPath();
+    cx.moveTo(x + 10, yy + rowH);
+    cx.lineTo(x + colW - 10, yy + rowH);
+    cx.stroke();
+  });
+  cx.textAlign = 'start';
+  let h = Math.ceil(tiles.length / 2) * rowH + 30;
+  // wykres wysokości względem dystansu
+  const E = t.pts.map((q, i) => [s.cum[i], s.el[i]]).filter(x => x[1] != null);
+  if (E.length > 1) {
+    const gx = 110,
+      gy = y + h + 50,
+      gw = W - 150,
+      gh = 260,
+      e0 = Math.min(...E.map(x => x[1])),
+      e1 = Math.max(e0 + 10, ...E.map(x => x[1])),
+      d1 = E[E.length - 1][0] || 1,
+      X = d => gx + (d / d1) * gw,
+      Y = e => gy + gh - ((e - e0) / (e1 - e0)) * gh;
+    cx.fillStyle = '#5f6368';
+    cx.font = '28px system-ui, sans-serif';
+    cx.fillText('Wysokość względem dystansu', 40, gy - 22);
+    cx.beginPath();
+    E.forEach((x, i) => (i ? cx.lineTo(X(x[0]), Y(x[1])) : cx.moveTo(X(x[0]), Y(x[1]))));
+    cx.lineTo(X(d1), gy + gh);
+    cx.lineTo(gx, gy + gh);
+    cx.closePath();
+    cx.fillStyle = 'rgba(26,115,232,.14)';
+    cx.fill();
+    cx.beginPath();
+    E.forEach((x, i) => (i ? cx.lineTo(X(x[0]), Y(x[1])) : cx.moveTo(X(x[0]), Y(x[1]))));
+    cx.strokeStyle = '#1a73e8';
+    cx.lineWidth = 4;
+    cx.stroke();
+    cx.font = '24px system-ui, sans-serif';
+    cx.fillStyle = '#5f6368';
+    cx.textAlign = 'right';
+    cx.fillText(Math.round(e1) + ' m', gx - 12, gy + 10);
+    cx.fillText(Math.round(e0) + ' m', gx - 12, gy + gh);
+    cx.textAlign = 'left';
+    cx.fillText('0', gx, gy + gh + 34);
+    cx.textAlign = 'right';
+    cx.fillText(fkm(d1), gx + gw, gy + gh + 34);
+    cx.textAlign = 'start';
+    h += 50 + gh + 60;
+  }
+  return h;
+}
+function drawSignature(cx, W, H) {
+  cx.font = '600 28px system-ui, sans-serif';
+  const sig = 'OMM · Own Map Manager',
+    sw = cx.measureText(sig).width + 40;
+  cx.fillStyle = 'rgba(255,255,255,.88)';
+  cx.beginPath();
+  cx.roundRect(W - 30 - sw, H - 84, sw, 56, 28);
+  cx.fill();
+  cx.fillStyle = '#3a2c22';
+  cx.fillText(sig, W - 10 - sw, H - 46);
+}
+async function trkImage(t, kind) {
+  // obraz do udostępnienia (szerokość 1080 px – dobrze wygląda w komunikatorach)
+  const W = 1080;
+  if (kind === 'map') {
+    const r = await trkMapCanvas(t, W, 1350, 260, 120),
+      s = trkStatsC(t);
+    drawHeader(r.cx, t, 30, 30, W - 60, false, true);
+    r.cx.fillStyle = '#1a73e8';
+    r.cx.font = '700 38px system-ui, sans-serif';
+    r.cx.fillText(
+      fkm(s.d) + (s.dur ? '   ' + fdur(s.dur) : '') + (s.up >= 1 ? '   ↗ ' + Math.round(s.up) + ' m' : ''),
+      62,
+      206
+    );
+    drawSignature(r.cx, W, 1350);
+    return r;
+  }
+  if (kind === 'st') {
+    const cv = document.createElement('canvas'),
+      probe = cv.getContext('2d');
+    cv.width = W;
+    cv.height = 2400;
+    const cx = cv.getContext('2d');
+    cx.fillStyle = '#fff';
+    cx.fillRect(0, 0, W, 2400);
+    drawHeader(cx, t, 0, 10, W, true);
+    const h = drawStatsBlock(cx, t, 190, W),
+      H = 190 + h + 110,
+      out = document.createElement('canvas');
+    out.width = W;
+    out.height = H;
+    const ox = out.getContext('2d');
+    ox.drawImage(cv, 0, 0);
+    drawSignature(ox, W, H);
+    void probe;
+    return {cv: out, used: 'cur'};
+  }
+  // mapa u góry, statystyki pod nią
+  const MH = 1000,
+    r = await trkMapCanvas(t, W, MH, 40, 40),
+    cv = document.createElement('canvas');
+  cv.width = W;
+  cv.height = 2600;
+  const cx = cv.getContext('2d');
+  cx.fillStyle = '#fff';
+  cx.fillRect(0, 0, W, 2600);
+  cx.drawImage(r.cv, 0, 0);
+  drawHeader(cx, t, 0, MH, W, true);
+  const h = drawStatsBlock(cx, t, MH + 170, W),
+    H = MH + 170 + h + 110,
+    out = document.createElement('canvas');
+  out.width = W;
+  out.height = H;
+  const ox = out.getContext('2d');
+  ox.drawImage(cv, 0, 0);
+  drawSignature(ox, W, H);
+  return {cv: out, used: r.used};
+}
+
+// ---------- dzielenie śladu (np. przesiadka z roweru do auta) ----------
+function trkCut(t, i) {
+  // dwa ślady: punkty 0..i oraz i..koniec (punkt podziału należy do obu); zdjęcia według czasu
+  const s0 = t.pts[i][3],
+    A = {
+      ...t,
+      pts: t.pts.slice(0, i + 1),
+      sg: (t.sg || []).filter(k => k <= i && k > 0),
+      wp: (t.wp || []).filter(w => w.s <= s0),
+      up: Date.now()
+    },
+    B = {
+      ...t,
+      id: uid(),
+      nm: (t.nm || 'Ślad') + ' – część 2',
+      st: t.st + s0 * 1000,
+      pts: t.pts.slice(i).map(q => [q[0], q[1], q[2], q[3] - s0]),
+      sg: (t.sg || []).filter(k => k > i).map(k => k - i),
+      wp: (t.wp || []).filter(w => w.s > s0).map(w => ({...w, s: w.s - s0})),
+      cr: Date.now(),
+      up: Date.now()
+    };
+  return [A, B];
+}
+let SPLIT = null; // trwa wybór miejsca podziału
+function trkSplit(t, at) {
+  // tryb dzielenia: suwak (albo dotknięcie śladu) wybiera punkt; widać obie części i ich statystyki
+  if (t.pts.length < 4) return tell('Ślad jest za krótki, żeby go dzielić.');
+  splitStop();
+  map.closePopup();
+  $('sheet').style.display = 'none';
+  const n = t.pts.length,
+    ui = h('div', 'splitbar'),
+    txt = h('div', 'stx'),
+    rg = h('input'),
+    bt = h('div', 'sbt'),
+    g = L.layerGroup().addTo(map);
+  rg.type = 'range';
+  rg.min = 1;
+  rg.max = n - 2;
+  rg.value = at != null ? Math.min(n - 2, Math.max(1, at)) : Math.round(n / 2);
+  const la = L.polyline([], {pane: 'tmpP', color: trkColor(t), weight: 6, interactive: false}).addTo(g),
+    lb = L.polyline([], {
+      pane: 'tmpP',
+      color: '#757575',
+      weight: 6,
+      dashArray: '2 10',
+      interactive: false
+    }).addTo(g),
+    mk = L.marker(t.pts[0].slice(0, 2), {
+      pane: 'tmpP',
+      interactive: false,
+      icon: L.divIcon({
+        className: 'splitmk',
+        html: '<span>✂</span>',
+        iconSize: [34, 34],
+        iconAnchor: [17, 17]
+      })
+    }).addTo(g);
+  SPLIT = {t, ui, g, rg};
+  const show = () => {
+    const i = +rg.value,
+      [A, B] = trkCut(t, i),
+      a = trkStats(A),
+      b = trkStats(B);
+    la.setLatLngs(trkSegs(A).map(s => s.map(q => [q[0], q[1]])));
+    lb.setLatLngs(trkSegs(B).map(s => s.map(q => [q[0], q[1]])));
+    mk.setLatLng(t.pts[i].slice(0, 2));
+    txt.innerHTML = '';
+    txt.append(
+      h('b', null, '✂ ' + (t.noTime ? 'punkt ' + i + '/' + (n - 1) : fhm(t.st + t.pts[i][3] * 1000))),
+      h(
+        'div',
+        'sa1',
+        '1. część: ' + fkm(a.d) + (a.dur ? ' · ' + fdur(a.dur) : '') + (a.dur ? ' · ' + fkmh(a.vavg) : '')
+      ),
+      h(
+        'div',
+        'sa2',
+        '2. część: ' + fkm(b.d) + (b.dur ? ' · ' + fdur(b.dur) : '') + (b.dur ? ' · ' + fkmh(b.vavg) : '')
+      )
+    );
+  };
+  rg.oninput = show;
+  const finish = async kind => {
+    const i = +rg.value,
+      [A, B] = trkCut(t, i);
+    if (
+      kind !== 'both' &&
+      !(await askYes(
+        'Usunąć ' +
+          (kind === 'del2' ? '2.' : '1.') +
+          ' część śladu (' +
+          fkm(trkStats(kind === 'del2' ? B : A).d) +
+          ')?',
+        'Usuń',
+        true
+      ))
+    )
+      return;
+    const k = TRK.items.indexOf(t);
+    if (k < 0) return splitStop();
+    // zdjęcia z usuwanej części zostają w kopii aplikacji tylko, jeśli coś ich jeszcze używa
+    const gone = kind === 'del2' ? B : kind === 'del1' ? A : null;
+    if (kind === 'both') TRK.items.splice(k, 1, A, B);
+    else if (kind === 'del2') TRK.items.splice(k, 1, A);
+    else TRK.items.splice(k, 1, {...B, id: t.id, nm: t.nm});
+    splitStop();
+    trkChanged();
+    if (gone) (gone.wp || []).forEach(w => (w.ph || []).forEach(fotoForget));
+    trkFocus(kind === 'del1' ? TRK.items[k] : TRK.items[k]);
+  };
+  bt.append(
+    B('Zachowaj obie', () => finish('both'), 'okb'),
+    B('Usuń 2. część', () => finish('del2'), 'danger'),
+    B('Usuń 1. część', () => finish('del1')),
+    B('Anuluj', splitStop)
+  );
+  ui.append(txt, rg, bt);
+  document.body.append(ui);
+  document.body.classList.add('spliton');
+  // dotknięcie mapy przy śladzie ustawia miejsce podziału
+  SPLIT.click = e => {
+    let best = 1,
+      bd = Infinity;
+    for (let i = 1; i < n - 1; i++) {
+      const d = map.latLngToContainerPoint(t.pts[i].slice(0, 2)).distanceTo(e.containerPoint);
+      if (d < bd) {
+        bd = d;
+        best = i;
+      }
+    }
+    if (bd < 40) {
+      rg.value = best;
+      show();
+    }
+  };
+  map.on('click', SPLIT.click);
+  map.fitBounds(L.latLngBounds(t.pts.map(q => [q[0], q[1]])), {
+    paddingTopLeft: [30, 30],
+    paddingBottomRight: [30, 200]
+  });
+  show();
+}
+function splitStop() {
+  if (!SPLIT) return;
+  map.off('click', SPLIT.click);
+  SPLIT.g.remove();
+  SPLIT.ui.remove();
+  SPLIT = null;
+  document.body.classList.remove('spliton');
+}
+function vehicleCut(t) {
+  // czy w śladzie jest dłuższa jazda (> ~25 km/h przez co najmniej 90 s) po wolniejszej części?
+  // zwraca numer punktu „przy aucie” (ostatni postój przed jazdą) albo -1
+  if (t.noTime || t.pts.length < 20) return -1;
+  const s = trkStatsC(t),
+    P = t.pts,
+    v = P.map((q, i) => {
+      // prędkość z okna ±30 s
+      let a = i,
+        b = i;
+      while (a > 0 && q[3] - P[a - 1][3] <= 30) a--;
+      while (b < P.length - 1 && P[b + 1][3] - q[3] <= 30) b++;
+      const dt = P[b][3] - P[a][3];
+      return dt > 0 ? (s.cum[b] - s.cum[a]) / dt : 0;
+    });
+  for (let i = 0; i < P.length; i++) {
+    if (v[i] < 6.9) continue;
+    let j = i;
+    while (j < P.length - 1 && v[j + 1] >= 5) j++;
+    if (P[j][3] - P[i][3] < 90) {
+      i = j;
+      continue;
+    }
+    // jazda od i; przed nią musi być sensowna wolniejsza część
+    if (s.cum[i] < 300) return -1;
+    let k = i;
+    while (k > 1 && v[k - 1] > 1 && P[i][3] - P[k - 1][3] < 300) k--; // cofamy się do postoju przy aucie
+    return k;
+  }
+  return -1;
+}
+async function vehicleAsk(t) {
+  const k = vehicleCut(t);
+  if (k < 0) return;
+  const [A, B] = trkCut(t, k),
+    b = trkStats(B);
+  const v = await dlg({
+    title:
+      'Od ' +
+      fhm(t.st + t.pts[k][3] * 1000) +
+      ' jechałeś chyba autem (średnio ' +
+      fkmh(b.vavg) +
+      ', ' +
+      fkm(b.d) +
+      ').\n\nOdciąć ten kawałek, żeby statystyki wycieczki były prawidłowe?',
+    btns: [
+      {t: 'Nie', v: null},
+      {t: '✂ Pokaż i podziel', v: 1, c: 'okb'}
+    ]
+  });
+  if (v) trkSplit(t, k);
+}
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
   const back = h('div', 'dback'),
@@ -13852,6 +14468,7 @@ if (plug('App'))
     if (map._popup && map.hasLayer(map._popup)) return map.closePopup();
     if (ANIM) return animStop();
     if (NAV) return navStop();
+    if (SPLIT) return splitStop();
     if ($('recpan').style.display === 'block') return $('rectx').click();
     if (mode) return setMode(null);
     plug('App').minimizeApp();
