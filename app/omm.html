@@ -10891,6 +10891,8 @@ function trkStatsC(t) {
 
 // --- rysowanie na mapie ---
 map.createPane('trkP').style.zIndex = 440; // pod obiektami map, nad podkładem
+// znaczniki śladów (start, meta, zdjęcia na trasie) – osobny pane NAD liniami, żeby dało się je dotknąć
+map.createPane('trkW').style.zIndex = 610;
 const trkGrp = L.layerGroup().addTo(map);
 let trkSel = null; // ślad wybrany na mapie – rysowany w kolorach prędkości
 function trkRender() {
@@ -10911,8 +10913,8 @@ function trkRender() {
     L.polyline(ls, {pane: 'trkP', weight: 22, opacity: 0, bubblingMouseEvents: false})
       .on('click', e => trkPopup(t, e.latlng))
       .addTo(trkGrp);
-    L.marker([a[0], a[1]], {pane: 'trkP', icon: flagIcon('start'), interactive: false}).addTo(trkGrp);
-    L.marker([b[0], b[1]], {pane: 'trkP', icon: flagIcon('meta'), interactive: false}).addTo(trkGrp);
+    L.marker([a[0], a[1]], {pane: 'trkW', icon: flagIcon('start'), interactive: false}).addTo(trkGrp);
+    L.marker([b[0], b[1]], {pane: 'trkW', icon: flagIcon('meta'), interactive: false}).addTo(trkGrp);
     (t.wp || []).forEach(w => wpMarker(w, () => wpPopup(t, w)).addTo(trkGrp));
   });
   recDraw();
@@ -10970,7 +10972,7 @@ map.on('click', () => {
 function wpMarker(w, onClick) {
   // punkt na śladzie: 📷 samo zdjęcie, 📍 punkt z opisem
   const m = L.marker(w.p, {
-    pane: 'trkP',
+    pane: 'trkW',
     icon: L.divIcon({
       className: 'twp',
       html: '<span>' + (w.n || w.nm ? '📍' : '📷') + '</span>',
@@ -12774,7 +12776,7 @@ function trkAnim(t) {
       fillColor: '#e53935',
       fillOpacity: 1
     }).addTo(g);
-  L.marker(t.pts[0].slice(0, 2), {pane: 'trkP', icon: flagIcon('start'), interactive: false}).addTo(g);
+  L.marker(t.pts[0].slice(0, 2), {pane: 'trkW', icon: flagIcon('start'), interactive: false}).addTo(g);
   trkGrp.clearLayers(); // na czas animacji pozostałe ślady chowamy
   ANIM = {
     t,
@@ -12836,7 +12838,7 @@ function trkAnim(t) {
         if (ANIM.frac >= 1) {
           ANIM.playing = false;
           endM = L.marker(t.pts[t.pts.length - 1].slice(0, 2), {
-            pane: 'trkP',
+            pane: 'trkW',
             icon: flagIcon('meta'),
             interactive: false
           }).addTo(g);
