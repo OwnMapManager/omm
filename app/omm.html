@@ -12049,18 +12049,23 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
   }
   REC.pts.push(q);
-  // „szpilka”: punkt, który odskoczył i wrócił (A → B → C z zawróceniem o ponad 135°) – usuwamy B
+  // „szpilka”: punkt B odskoczył i wrócił (A → B → C → D). Usuwamy B tylko, gdy po powrocie ślad
+  // znów idzie w pierwotnym kierunku (zawrócenie przy B i ponownie przy C). Prawdziwe zawrócenie
+  // – np. rowerem w drugą stronę – zostaje, bo po nim ślad dalej biegnie z powrotem.
   const n = REC.pts.length,
-    seg0 = REC.sg.length ? REC.sg[REC.sg.length - 1] : 0;
-  if (n - 3 >= seg0) {
-    const A = REC.pts[n - 3],
-      Bp = REC.pts[n - 2];
+    seg0 = REC.sg.length ? REC.sg[REC.sg.length - 1] : 0,
+    turn = (a, b, c) => Math.abs(((brgDeg(b, c) - brgDeg(a, b) + 540) % 360) - 180);
+  if (n - 4 >= seg0) {
+    const [A, Bp, C, D] = REC.pts.slice(n - 4);
     if (
       hav(A, Bp) > 5 &&
-      hav(Bp, q) > 5 &&
-      Math.abs(((brgDeg(Bp, q) - brgDeg(A, Bp) + 540) % 360) - 180) > 135
+      hav(Bp, C) > 5 &&
+      hav(C, D) > 2 &&
+      turn(A, Bp, C) > 135 &&
+      turn(Bp, C, D) > 135 &&
+      hav(A, C) < 0.5 * Math.min(hav(A, Bp), hav(Bp, C))
     )
-      REC.pts.splice(n - 2, 1);
+      REC.pts.splice(n - 3, 1);
   }
   recPersist();
   recDraw();
