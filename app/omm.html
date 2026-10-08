@@ -11962,23 +11962,37 @@ function recPersist(force) {
   } catch (e) {}
 }
 const recKF = {}; // filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach)
-function kfStep(t, lat, lng, accu, time) {
-  // wygładza szum GPS, ale – w odróżnieniu od zwykłego uśredniania – nie ścina zakrętów i nie „spóźnia się”,
-  // bo zakłada ruch z prędkością, która zmienia się płynnie (przyspieszenie ~ SA m/s²)
-  const SA = 0.5, // przyspieszenie przyjęte w filtrze (m/s²) – piesza wędrówka / rower
+function kfStep(t, lat, lng, accu, time, speed, bearing) {
+  // Filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach).
+  // Korzysta z dwóch pomiarów GPS: położenia (dokładność ±accu m) i prędkości z efektu Dopplera
+  // (speed m/s + kierunek bearing) – ta jest bardzo dokładna, więc filtr od razu „wie”, że auto stanęło
+  // albo skręca: nie wyjeżdża za zakręt i nie robi zygzaków na postoju.
+  const SA = 1.5, // dopuszczalne przyspieszenie (m/s²) – wystarcza dla pieszego, roweru i auta
+    RV = 0.5 * 0.5, // niepewność prędkości z GPS (m/s)²
     my = 111320,
-    mx = 111320 * Math.cos((lat * Math.PI) / 180);
+    mx = 111320 * Math.cos((lat * Math.PI) / 180),
+    hasV = speed != null && isFinite(speed) && speed >= 0,
+    vx = hasV
+      ? speed > 0.3 && bearing != null && isFinite(bearing)
+        ? speed * Math.sin((bearing * Math.PI) / 180)
+        : 0
+      : 0,
+    vy = hasV
+      ? speed > 0.3 && bearing != null && isFinite(bearing)
+        ? speed * Math.cos((bearing * Math.PI) / 180)
+        : 0
+      : 0;
   if (!t.on || time - t.time > 30000) {
     Object.assign(t, {
       on: 1,
       la0: lat,
       lo0: lng,
       time,
-      x: [0, 0],
-      y: [0, 0],
+      x: [0, vx],
+      y: [0, vy],
       P: [
-        [accu * accu, 0, 0, 25],
-        [accu * accu, 0, 0, 25]
+        [accu * accu, 0, 0, hasV ? RV : 25],
+        [accu * accu, 0, 0, hasV ? RV : 25]
       ]
     });
     return [lat, lng];
@@ -11987,27 +12001,40 @@ function kfStep(t, lat, lng, accu, time) {
     R = accu * accu,
     zx = (lng - t.lo0) * mx,
     zy = (lat - t.la0) * my,
-    // manewr (zakręt, hamowanie): pomiar daleko od przewidywania – filtr na chwilę „luzuje”, żeby nie wynosiło go na zewnątrz zakrętu
+    // manewr (zakręt, hamowanie): pomiar daleko od przewidywania – filtr na chwilę „luzuje”
     inn = Math.hypot(zx - (t.x[0] + t.x[1] * dt), zy - (t.y[0] + t.y[1] * dt)),
-    q = (inn > 2.5 * accu ? 2 : SA) ** 2;
+    q = (inn > 2.5 * accu ? Math.max(SA, 3) : SA) ** 2;
   [
-    [t.x, zx, 0],
-    [t.y, zy, 1]
-  ].forEach(([s, z, k]) => {
-    // s = [położenie, prędkość], P = [p00, p01, p10, p11]
+    [t.x, zx, vx, 0],
+    [t.y, zy, vy, 1]
+  ].forEach(([s, z, zv, k]) => {
+    // s = [położenie, prędkość], P = [p00, p01, p10, p11] – macierz niepewności
     let [a, b, c, d] = t.P[k];
+    // przewidywanie
     s[0] += s[1] * dt;
     a = a + dt * (b + c) + dt * dt * d + (q * dt ** 4) / 4;
     b = b + dt * d + (q * dt ** 3) / 2;
     c = c + dt * d + (q * dt ** 3) / 2;
     d = d + q * dt * dt;
-    const S = a + R,
+    // poprawka położeniem
+    let S = a + R,
       k0 = a / S,
       k1 = c / S,
       e = z - s[0];
     s[0] += k0 * e;
     s[1] += k1 * e;
-    t.P[k] = [(1 - k0) * a, (1 - k0) * b, c - k1 * a, d - k1 * b];
+    [a, b, c, d] = [(1 - k0) * a, (1 - k0) * b, c - k1 * a, d - k1 * b];
+    // poprawka prędkością z GPS
+    if (hasV) {
+      S = d + RV;
+      k0 = b / S;
+      k1 = d / S;
+      e = zv - s[1];
+      s[0] += k0 * e;
+      s[1] += k1 * e;
+      [a, b, c, d] = [a - k0 * c, b - k0 * d, c - k1 * c, d - k1 * d];
+    }
+    t.P[k] = [a, b, c, d];
   });
   t.time = time;
   return [t.la0 + t.y[0] / my, t.lo0 + t.x[0] / mx];
@@ -12028,7 +12055,7 @@ function recPoint(lat, lng, alt, accu, time, extra) {
   }
   const newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
   if (newSeg || !REC.pts.length) recKF.on = 0; // po pauzie filtr zaczyna od nowa
-  const [fl, fg] = kfStep(recKF, lat, lng, accu, time);
+  const [fl, fg] = kfStep(recKF, lat, lng, accu, time, x.speed, x.bearing);
   recPos = {lat: fl, lng: fg, accu, alt, time, speed: x.speed, bearing: x.bearing};
   const P = recPrecise(),
     q = [
@@ -12044,6 +12071,8 @@ function recPoint(lat, lng, alt, accu, time, extra) {
       dt = q[3] - last[3];
     if (dt < (P ? 2 : 5)) return recUi(); // gęstość zapisu: co 2 s (oszczędnie co 5 s)
     if (d < Math.max(P ? 3 : 8, accu * 0.5)) return recUi(); // postój – drgania pozycji w miejscu pomijamy
+    // postój wg GPS (prędkość z efektu Dopplera): auto czeka na światłach / przepuszcza pieszego – bez nowych punktów
+    if (x.speed != null && isFinite(x.speed) && x.speed < 0.5 && d < 15) return recUi();
     // postój wg filtra: szacowana prędkość poniżej ~1,5 km/h – szum GPS nie „chodzi” po mapie
     if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return recUi();
     if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
