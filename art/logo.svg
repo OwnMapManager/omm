@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108">
+  <!-- Logo OMM – Own Map Manager. © 2026 Paweł Jewuła, CC BY-NC-ND 4.0 -->
+  <!-- Pole 108×108 (ikona adaptacyjna Androida); rysunek mieści się w środkowym kole o średnicy ~66 -->
+  <!-- całość lekko pomniejszona i wyśrodkowana, żeby nie ucinała jej okrągła maska ikony -->
+  <g transform="translate(54 54) scale(.84) translate(-54 -57)">
+  <g stroke="#3a2c22" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+    <!-- składana mapa: trzy panele -->
+    <path d="M25 37L44 31V77L25 83Z" fill="#d6e9c9"/>
+    <path d="M44 31L64 37V83L44 77Z" fill="#f1f5e9"/>
+    <path d="M64 37L83 31V77L64 83Z" fill="#c9e1ba"/>
+  </g>
+  <!-- szlak -->
+  <path d="M30 74C37 70 39 62 47 61S57 66 60 62" fill="none" stroke="#e53935" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="1 5.2"/>
+  <!-- pinezka wbijana -->
+  <path d="M60.5 62L69 47" stroke="#3a2c22" stroke-width="4" stroke-linecap="round"/>
+  <path d="M60.5 62L69 47" stroke="#cfcac0" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="72.5" cy="40.5" r="10.5" fill="#e53935" stroke="#3a2c22" stroke-width="2.6"/>
+  <path d="M79.4 33.4A10.5 10.5 0 0 1 65.4 48.4A10.5 10.5 0 0 0 79.4 33.4Z" fill="#000" opacity=".18"/>
+  <ellipse cx="68.8" cy="36.6" rx="3.6" ry="2.1" fill="#fff" opacity=".65" transform="rotate(-35 68.8 36.6)"/>
+  </g>
+</svg>

@@ -1,0 +1,84 @@
+# Buduje aplikację OMM na Androida (plik APK) w chmurze GitHuba.
+# Uruchamia się sama po każdej zmianie w repozytorium, a także ręcznie:
+# zakładka Actions → „Zbuduj APK” → Run workflow.
+# Gotowy plik trafia do zakładki Releases (np. „OMM v33” → omm-v33.apk).
+name: Zbuduj APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write # potrzebne do opublikowania wydania (Releases)
+
+concurrency:
+  group: apk
+  cancel-in-progress: true
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Java 21 (wymagana przez Capacitor 8)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Zależności
+        run: npm ci
+
+      - name: Przygotuj aplikację (www/) i przenieś ją do projektu Android
+        run: |
+          npm run www
+          npx cap sync android
+          echo "VER=$(cat www/version.txt)" >> "$GITHUB_ENV"
+
+      - name: Klucz podpisu
+        env:
+          KEY_B64: ${{ secrets.OMM_KEYSTORE_B64 }}
+          KEY_PASS: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEY_B64" ] || [ -z "$KEY_PASS" ]; then
+            echo "::error::Brak sekretów OMM_KEYSTORE_B64 i OMM_KEYSTORE_PASSWORD (Settings → Secrets and variables → Actions). Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
+            exit 1
+          fi
+          echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/omm.jks"
+          echo "OMM_KEYSTORE_FILE=$RUNNER_TEMP/omm.jks" >> "$GITHUB_ENV"
+          echo "OMM_KEYSTORE_PASSWORD=$KEY_PASS" >> "$GITHUB_ENV"
+
+      - name: Zbuduj APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/omm-v$VER.apk"
+
+      - name: Zachowaj plik (Actions → ten przebieg → Artifacts)
+        uses: actions/upload-artifact@v4
+        with:
+          name: omm-v${{ env.VER }}
+          path: omm-v${{ env.VER }}.apk
+
+      - name: Opublikuj wydanie (Releases)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VER }}
+          name: OMM v${{ env.VER }}
+          files: omm-v${{ env.VER }}.apk
+          make_latest: true
+          body: |
+            OMM – Own Map Manager, wersja v${{ env.VER }}.
+            Instalacja: pobierz plik omm-v${{ env.VER }}.apk na telefonie i otwórz go.
+            Aktualizacja: zainstaluj nowszy plik na starą wersję – dane zostają.

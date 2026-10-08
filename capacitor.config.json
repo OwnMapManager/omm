@@ -1,0 +1,13 @@
+{
+  "appId": "io.github.ownmapmanager.omm",
+  "appName": "OMM",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": true
+  },
+  "plugins": {
+    "SystemBars": {
+      "style": "LIGHT"
+    }
+  }
+}

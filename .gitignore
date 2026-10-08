@@ -1,0 +1,8 @@
+# zależności i pliki generowane przy budowaniu
+node_modules/
+www/
+
+# klucz podpisu aplikacji – NIGDY nie wrzucaj go do repozytorium
+*.jks
+*.keystore
+keystore.properties

@@ -1,0 +1,23 @@
+{
+  "name": "omm",
+  "version": "0.0.0",
+  "private": true,
+  "description": "OMM – Own Map Manager: własne mapy, warstwy, ikony i pomiary. Aplikacja na Androida (Capacitor).",
+  "author": "Paweł Jewuła <onemanmanufacture@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "scripts": {
+    "www": "node scripts/prepare-www.mjs",
+    "sync": "npm run www && npx cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.4",
+    "@capacitor/share": "^8.0.3",
+    "leaflet": "1.9.4"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.5.3"
+  }
+}
