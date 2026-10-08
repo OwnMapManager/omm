@@ -1600,8 +1600,35 @@ textarea {
 #recb {
   top: calc(152px + env(safe-area-inset-top, 0px));
   right: 8px;
-  color: #e53935;
-  font-size: 19px;
+}
+/* ikona: kropkowana trasa ze startem; czerwona kropka = „nagraj”, w trakcie nagrywania biała trasa na czerwonym */
+#recb svg {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+}
+#recb .rp {
+  fill: none;
+  stroke: #3a2c22;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+}
+#recb .rs {
+  fill: #2e7d32;
+}
+#recb .rr {
+  fill: #e53935;
+  stroke: #fff;
+  stroke-width: 1.6;
+}
+#recb.on .rp {
+  stroke: #fff;
+}
+#recb.on .rs {
+  fill: #fff;
+}
+#recb.on .rr {
+  display: none;
 }
 #recb.on {
   background: #e53935;
@@ -2117,7 +2144,7 @@ body.navon #info {
 <button class="ib" id="gps" title="Moja pozycja">◎</button>
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki">🖨</button>
-<button class="ib" id="recb" title="Nagrywanie śladu GPS">⏺</button>
+<button class="ib" id="recb" title="Nagrywanie śladu GPS"><svg viewBox="0 0 26 26"><path class="rp" d="M4.5 20.5C7 13 12 18 14 12S18.5 6.5 19.5 5" stroke-dasharray="0.1 3.6"/><circle class="rs" cx="4.5" cy="20.5" r="2.2"/><circle class="rr" cx="19.5" cy="19.5" r="4.6"/></svg></button>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button><button id="recf" title="Zdjęcie lub punkt na trasie">📷</button><button id="recp" title="Pauza">⏸</button><button id="recs" title="Zakończ nagrywanie">⏹</button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><button id="recctr">◎ Pokaż mnie na mapie</button></div>
 <div class="pop" id="bmenu"></div>
@@ -11761,7 +11788,8 @@ async function trkReplace(T) {
 // --- zakładka „Ślady GPS” w panelu ---
 Object.assign(SAI, {
   fotb: '<path d="M4 8h3.5l1.8-2.5h5.4L16.5 8H20v11H4z"/><circle cx="12" cy="13.2" r="3.4"/>',
-  trecb: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/>',
+  trecb:
+    '<path d="M4 19c2.4-7 7-2.4 9-8s4-5 5.5-6" stroke-dasharray="0.1 3.2" stroke-width="2.2"/><circle cx="4" cy="19" r="1.8" fill="currentColor"/><circle cx="18.5" cy="18.5" r="3.4" fill="#e53935" stroke="none"/>',
   tadd: SAI.addl,
   timp: SAI.impb
 });
