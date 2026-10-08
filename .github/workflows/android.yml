@@ -46,16 +46,16 @@ jobs:
           echo "VER=$(cat www/version.txt)" >> "$GITHUB_ENV"
 
       - name: Klucz podpisu
+        # Klucz (android/omm-release.p12) jest w repozytorium, ale zaszyfrowany.
+        # Hasło do niego zna tylko sekret repozytorium OMM_KEYSTORE_PASSWORD.
         env:
-          KEY_B64: ${{ secrets.OMM_KEYSTORE_B64 }}
           KEY_PASS: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
         run: |
-          if [ -z "$KEY_B64" ] || [ -z "$KEY_PASS" ]; then
-            echo "::error::Brak sekretów OMM_KEYSTORE_B64 i OMM_KEYSTORE_PASSWORD (Settings → Secrets and variables → Actions). Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
+          if [ -z "$KEY_PASS" ]; then
+            echo "::error::Brak sekretu OMM_KEYSTORE_PASSWORD (Settings → Secrets and variables → Actions → New repository secret). Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
             exit 1
           fi
-          echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/omm.jks"
-          echo "OMM_KEYSTORE_FILE=$RUNNER_TEMP/omm.jks" >> "$GITHUB_ENV"
+          echo "OMM_KEYSTORE_FILE=$GITHUB_WORKSPACE/android/omm-release.p12" >> "$GITHUB_ENV"
           echo "OMM_KEYSTORE_PASSWORD=$KEY_PASS" >> "$GITHUB_ENV"
 
       - name: Zbuduj APK

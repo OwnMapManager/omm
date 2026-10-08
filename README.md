@@ -67,7 +67,7 @@ art/logo.svg, art/render.py logo i skrypt generujący z niego ikony aplikacji i 
 ```
 
 - Każda zmiana w gałęzi `main` uruchamia akcję **Zbuduj APK**; po kilku minutach plik `omm-vXX.apk` pojawia się w Releases. Numer wersji APK = liczba z `APP_VER` w `app/omm.html`, więc **przy każdej nowej wersji podnieś `APP_VER`** (inaczej telefon nie potraktuje jej jako aktualizacji).
-- Podpis: sekrety repozytorium `OMM_KEYSTORE_B64` (klucz w base64) i `OMM_KEYSTORE_PASSWORD`. Klucz musi być zawsze ten sam – zgubienie go oznacza, że nowej wersji nie da się zainstalować na starą.
+- Podpis: klucz `android/omm-release.p12` jest zaszyfrowany; hasło do niego jest tylko w sekrecie repozytorium `OMM_KEYSTORE_PASSWORD`. Klucz musi być zawsze ten sam – bez niego nowej wersji nie da się zainstalować na starą. Kto buduje własną, zmienioną wersję, używa własnego klucza (i innej nazwy aplikacji – patrz LICENSE).
 - Różnice między przeglądarką a APK są w kodzie w jednym miejscu: stała `NATIVE` (zapis plików wtyczkami Filesystem/Share, przycisk „Wstecz”, podpowiedzi GPS).
 - Budowanie u siebie: `npm ci && npm run sync`, potem `android/` otwórz w Android Studio.
 
