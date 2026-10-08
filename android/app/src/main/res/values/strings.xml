@@ -4,4 +4,7 @@
     <string name="title_activity_main">OMM</string>
     <string name="package_name">io.github.ownmapmanager.omm</string>
     <string name="custom_url_scheme">io.github.ownmapmanager.omm</string>
+    <!-- nagrywanie śladu GPS w tle (wtyczka background-geolocation) -->
+    <string name="capacitor_background_geolocation_notification_channel_name">Nagrywanie śladu</string>
+    <string name="capacitor_background_geolocation_notification_icon">drawable/ic_stat_omm</string>
 </resources>

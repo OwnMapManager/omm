@@ -11,7 +11,7 @@
 1. Na telefonie otwórz **[Releases → najnowsze wydanie](https://github.com/OwnMapManager/omm/releases/latest)** i pobierz plik `omm-vXX.apk`.
 2. Otwórz pobrany plik. Android zapyta o zgodę na instalację z tego źródła (np. z Chrome) – zezwól.
 3. **Aktualizacja**: pobierz nowszy plik i zainstaluj go na starą wersję. Dane zostają (nie odinstalowuj wcześniej – odinstalowanie kasuje dane z telefonu).
-4. Pliki zapisywane przez aplikację (kopie, eksporty, wydruki) trafiają do folderu **Dokumenty/OMM**; z okna po zapisie można je też „Udostępnić…” (np. na Dysk Google).
+4. Pliki zapisywane przez aplikację (kopie, eksporty, wydruki) trafiają do folderu **Dokumenty/OMM** albo **Pobrane/OMM** (wybór w ⚙️ Ustawieniach; wydruki mogą iść do **Obrazy/OMM**, widocznych w galerii). Z okna po zapisie można je też „Udostępnić…” (np. na Dysk Google).
 
 Wersja w przeglądarce dalej działa: plik [`app/omm.html`](app/omm.html) otwiera się w każdej przeglądarce bez instalacji.
 
@@ -25,7 +25,8 @@ Wersja w przeglądarce dalej działa: plik [`app/omm.html`](app/omm.html) otwier
 6. **Opis i ocena** – dotknij punktu: nazwa, ikona, komentarz, ocena w gwiazdkach, zdjęcia (linki), szablon „Dane noclegu”.
 7. **Warstwy** – przycisk w lewym dolnym rogu: mapy, warstwy, filtr („pokaż tylko kanie”), import, kopia.
 8. **Kopia zapasowa** – Kopia → „Zapisz pełną kopię”. Rób ją regularnie – to jeden plik ze wszystkim.
-9. **Z Moich Map Google** – w Moich Mapach pobierz KML/KMZ, potem tutaj Import (zdjęcia i opisy też się przenoszą).
+9. **Ślady GPS** – czerwony przycisk ⏺ po prawej rozpoczyna nagrywanie (w aplikacji także przy wygaszonym ekranie). Pasek u góry pokazuje czas, dystans i prędkość; ⏸ pauza, ⏹ koniec i zapis. Wszystkie ślady są w panelu warstw w zakładce **Ślady GPS** – z własnymi warstwami, statystykami, profilem wysokości i eksportem GPX.
+10. **Z Moich Map Google** – w Moich Mapach pobierz KML/KMZ, potem tutaj Import (zdjęcia i opisy też się przenoszą).
 
 Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedynie podkłady mapowe.
 
@@ -41,6 +42,7 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 - Pomiary: odległość, powierzchnia, azymut, różnica wysokości, profil NMT (GUGiK), wysokość punktu, współrzędne.
 - Import: GPX, KML, **KMZ**, GeoJSON (ze zdjęciami z Moich Map). Eksport: GPX, KML, GeoJSON.
 - Kopia zapasowa całości albo tylko tego, co widać; wydruk kadru do PNG w wysokiej rozdzielczości.
+- **Ślady GPS**: nagrywanie (także w tle, z pauzą), osobne warstwy śladów, statystyki (dystans, czas w ruchu, prędkości, przewyższenia), profil wysokości z GPS i z NMT, import/eksport GPX; ślady są w pełnej kopii zapasowej.
 
 ---
 
@@ -84,7 +86,6 @@ W tej samej sprawie pisz, jeśli chcesz uzyskać zgodę opisaną w pliku LICENSE
 
 ## Plany
 
-- Ślady GPS: nagrywanie w tle, zapis do wybranej warstwy śladów, statystyki, eksport GPX.
 - Zdjęcia zapisywane w telefonie i w kopii zapasowej.
 - Automatyczna kopia na Dysk Google, mapy offline.
 - Menedżer ikon: wybór widocznych grup i ikon, „Ulubione”.

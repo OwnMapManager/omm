@@ -3,7 +3,8 @@
   "appName": "OMM",
   "webDir": "www",
   "android": {
-    "allowMixedContent": true
+    "allowMixedContent": true,
+    "useLegacyBridge": true
   },
   "plugins": {
     "SystemBars": {

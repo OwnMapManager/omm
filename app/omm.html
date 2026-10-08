@@ -1596,6 +1596,254 @@ textarea {
   width: 22px;
   height: 22px;
 }
+/* ślady GPS: przycisk i pasek nagrywania */
+#recb {
+  top: calc(152px + env(safe-area-inset-top, 0px));
+  right: 8px;
+  color: #e53935;
+  font-size: 19px;
+}
+#recb.on {
+  background: #e53935;
+  color: #fff;
+  animation: recpulse 1.8s infinite;
+}
+@keyframes recpulse {
+  50% {
+    box-shadow: 0 0 0 7px rgba(229, 57, 53, 0.25);
+  }
+}
+#recbar {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  top: calc(8px + env(safe-area-inset-top, 0px));
+  left: 8px;
+  max-width: calc(100% - 64px);
+  align-items: center;
+  gap: 4px;
+  background: var(--bar);
+  border-radius: 22px;
+  padding: 3px 3px 3px 12px;
+  box-shadow: 0 1px 4px #0005;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+body.rec #recbar {
+  display: flex;
+}
+body.rec #info {
+  top: calc(56px + env(safe-area-inset-top, 0px));
+}
+#recbar .rdot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e53935;
+  flex: none;
+  animation: recblink 1.2s infinite;
+}
+#recbar.paused .rdot {
+  background: #9e9e9e;
+  animation: none;
+}
+@keyframes recblink {
+  50% {
+    opacity: 0.25;
+  }
+}
+#rectx {
+  border: 0;
+  background: none;
+  font: inherit;
+  padding: 6px 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+#recp,
+#recs {
+  border: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--b2);
+  font-size: 15px;
+  flex: none;
+  padding: 0;
+}
+#recs {
+  color: #c62828;
+}
+/* panel: zakładki Mapy / Ślady GPS */
+#stabs {
+  margin: 0;
+  padding: 0 10px;
+}
+#tsa {
+  display: none;
+  flex-wrap: wrap;
+  gap: 2px 14px;
+  padding: 6px 14px 8px;
+  background: var(--b2);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+#tsa button {
+  border: 0;
+  background: none;
+  padding: 6px 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+#tsa button svg {
+  width: 18px;
+  height: 18px;
+}
+.tsw {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex: none;
+  margin: 0 2px;
+  box-shadow: 0 0 0 1px #0002;
+}
+.obj.hid {
+  opacity: 0.45;
+}
+.obj .tnm,
+.obj .tdt {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.obj .tdt {
+  font-size: 11.5px;
+  color: var(--sub);
+}
+.obj .oi svg {
+  width: 20px;
+  height: 20px;
+}
+/* okienko śladu na mapie i statystyki */
+.tpop b {
+  font-size: 15px;
+}
+.tpop .tsub {
+  color: var(--sub);
+  font-size: 12px;
+  margin: 2px 0 4px;
+}
+.tpop .tst {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.tbt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tbt button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 12.5px;
+}
+.tbt button.danger {
+  color: #c62828;
+}
+.tstat {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.tstat td {
+  padding: 5px 2px;
+  border-bottom: 1px solid #eef0f2;
+}
+.tstat td:first-child {
+  color: var(--sub);
+}
+.tstat td:last-child {
+  text-align: right;
+  font-weight: 600;
+}
+.tchl {
+  margin: 12px 0 2px;
+  font-size: 12px;
+  color: var(--sub);
+}
+.tch {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.tch text {
+  font-size: 9px;
+  fill: var(--sub);
+}
+.tpal {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.tpal button {
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px #0003;
+}
+.tpal button.on {
+  box-shadow: 0 0 0 3px var(--acc);
+}
+.tsum {
+  font-weight: 600;
+  margin: -6px 0 10px;
+  color: var(--sub);
+}
+.dbox select.tsel {
+  width: 100%;
+  height: 38px;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+}
+/* ustawienia */
+.sset {
+  margin: 0 0 14px;
+}
+.sset b {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.sset label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  font-size: 14px;
+}
+.sset input[type="radio"] {
+  width: 18px !important;
+  height: 18px;
+  padding: 0;
+  margin: 1px 0 0;
+  flex: none;
+  accent-color: var(--acc);
+}
+.sset .muted {
+  font-size: 12px;
+  color: var(--sub);
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -1605,6 +1853,8 @@ textarea {
 <button class="ib" id="gps" title="Moja pozycja">◎</button>
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki">🖨</button>
+<button class="ib" id="recb" title="Nagrywanie śladu GPS">⏺</button>
+<div id="recbar"><span class="rdot"></span><button id="rectx" title="Pokaż pozycję"></button><button id="recp" title="Pauza">⏸</button><button id="recs" title="Zakończ nagrywanie">⏹</button></div>
 <div class="pop" id="bmenu"></div>
 <div class="pop" id="xmenu"></div>
 <button class="ib" id="lbtn" title="Warstwy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5" opacity=".6"/></svg></button>
@@ -1622,18 +1872,21 @@ textarea {
 <div class="pop" id="sty"></div>
 <div class="pop" id="sheet">
   <div id="sh"><button id="mapb" title="Mapy"><b id="mtitle"></b><span>▾</span></button><button id="modeb" title="Przełącz tryb: prywatne / praca"></button><button id="closes" title="Zamknij">✕</button></div>
+  <div id="stabs" class="atabs"><button data-k="mapy">Mapy</button><button data-k="slady">Ślady GPS</button></div>
   <div id="msub"></div>
   <div id="sa"><button id="addl">＋ Dodaj warstwę</button><button id="addg" style="display:none">＋ Grupa</button><button id="impb">⇧ Import</button><button id="projb">💾 Kopia</button><button id="selb">☑ Zaznacz</button><button id="fltb">🔍 Filtr</button></div>
+  <div id="tsa"><button id="trecb">⏺ Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import GPX</button></div>
   <div id="list"></div>
   <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś…</button><button id="selic">Ikona…</button><button id="selnm">Nazwy…</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
+<input type="file" id="tfile" multiple hidden>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v33 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v34 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -1681,6 +1934,10 @@ textarea {
  *  stała NATIVE (true w APK) – zapis plików przez wtyczki Filesystem/Share zamiast pobierania,
  *  przycisk „Wstecz”, podpowiedzi GPS. W APK Leaflet jest wbudowany (działa bez internetu).
  *
+ *  ŚLADY GPS: osobno od map – IndexedDB „omm” → „slady” (opis pól w sekcji „ślady GPS”),
+ *  trwające nagranie w localStorage „omm-rec”. Ustawienia telefonu: omm-folder, omm-folder-png,
+ *  omm-rec-tryb (dokładne / oszczędne nagrywanie).
+ *
  *  INNE KLUCZE PAMIĘCI: mapa-base (podkład), mapa-ov3 (nakładki), mapa-view (widok), mapa-pin
  *  (ostatnia ikona), mapa-col / mapa-op / mapa-sz / mapa-bg / mapa-fw (styl rysowania),
  *  mapa-ipg (otwarta grupa ikon), mapa-tpl (szablony opisów), mapa-nmt-smooth, mapa-geo-http.
@@ -1702,7 +1959,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v33';
+const APP_VER = 'v34';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -6329,8 +6586,32 @@ function toKML(items, name) {
 // wtyczką Capacitor Filesystem w folderze Dokumenty/OMM i proponujemy „Udostępnij…”
 // (Dysk Google, e-mail, komunikator itp.).
 // data: tekst albo Blob (np. obrazek PNG z wydruku).
+// W APK do strony dołączany jest plik lib/capacitor.js (rdzeń Capacitora) – daje dostęp do wtyczek.
 const NATIVE = !!(window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform());
-const plug = name => (NATIVE && Capacitor.Plugins && Capacitor.Plugins[name]) || null;
+const PLUGS = {};
+const plug = name => {
+  // wtyczka natywna (Filesystem, Share, App, BackgroundGeolocation…) albo null w przeglądarce
+  if (!NATIVE) return null;
+  if (!(name in PLUGS))
+    try {
+      PLUGS[name] = Capacitor.isPluginAvailable(name) ? Capacitor.registerPlugin(name) : null;
+    } catch (e) {
+      PLUGS[name] = null;
+    }
+  return PLUGS[name];
+};
+// Folder zapisu plików w telefonie (Ustawienia). dir = katalog wtyczki Filesystem, base = podfolder.
+const FOLDERS = {
+  docs: {dir: 'DOCUMENTS', base: 'OMM', label: 'Dokumenty/OMM'},
+  down: {dir: 'EXTERNAL_STORAGE', base: 'Download/OMM', label: 'Pobrane (Download)/OMM'},
+  pics: {dir: 'EXTERNAL_STORAGE', base: 'Pictures/OMM', label: 'Obrazy (Pictures)/OMM'}
+};
+const outFolder = mime =>
+  FOLDERS[
+    /^image\//.test(mime) && localStorage.getItem('omm-folder-png') === 'pics'
+      ? 'pics'
+      : localStorage.getItem('omm-folder') || 'docs'
+  ] || FOLDERS.docs;
 function dl(name, mime, data) {
   if (NATIVE) return saveNative(name, mime, data);
   const a = h('a');
@@ -6360,26 +6641,29 @@ async function saveNative(name, mime, data) {
   const dot = name.lastIndexOf('.'),
     stem = dot > 0 ? name.slice(0, dot) : name,
     ext = dot > 0 ? name.slice(dot) : '';
-  let path = 'OMM/' + name;
+  const F = outFolder(mime);
+  let path = F.base + '/' + name;
   for (let n = 2; n < 100; n++) {
     try {
-      await FS.stat({path, directory: 'DOCUMENTS'});
-      path = 'OMM/' + stem + ' (' + n + ')' + ext; // plik istnieje – próbujemy kolejnej nazwy
+      await FS.stat({path, directory: F.dir});
+      path = F.base + '/' + stem + ' (' + n + ')' + ext; // plik istnieje – próbujemy kolejnej nazwy
     } catch (e) {
       break; // takiego pliku nie ma – można zapisać
     }
   }
   let saved = null;
   try {
-    await FS.writeFile({path, directory: 'DOCUMENTS', recursive: true, ...opt});
-    saved = path;
+    await FS.writeFile({path, directory: F.dir, recursive: true, ...opt});
+    saved = F.label + '/' + path.slice(F.base.length + 1);
   } catch (e) {
     // starszy Android bez zgody na pamięć – plik i tak da się udostępnić z pamięci podręcznej
   }
   const v = await dlg({
     title: saved
-      ? 'Zapisano plik w telefonie:\nDokumenty/' + saved
-      : 'Nie udało się zapisać w folderze Dokumenty. Możesz udostępnić plik – np. zapisać go na Dysku Google.',
+      ? '✅ Zapisano plik w telefonie:\n' + saved
+      : 'Nie udało się zapisać w folderze ' +
+        F.label +
+        '. Możesz udostępnić plik – np. zapisać go na Dysku Google – albo zmienić folder w Ustawieniach.',
     btns: [
       {t: 'Udostępnij…', v: 'share'},
       {t: 'OK', v: 'ok', c: 'okb'}
@@ -7057,7 +7341,16 @@ function fullBackup(vis) {
           .map(l => ({id: l.id, name: l.name, vis: l.vis, op: l.op, open: !!l.open}))
       }))
     })),
-    settings: settingsObj()
+    settings: settingsObj(),
+    // układ warstw śladów GPS (same ślady są obiektami w "features" z polem sekcja: "slady")
+    ...(vis
+      ? {}
+      : {
+          slady: {
+            aktywna: TRK.active,
+            warstwy: TRK.layers.map(l => ({id: l.id, name: l.name, vis: l.vis, c: l.c, open: !!l.open}))
+          }
+        })
   };
   const feats = [];
   src.forEach(m => {
@@ -7071,6 +7364,7 @@ function fullBackup(vis) {
       })
       .forEach(it => feats.push(toFeature(it, m, AN)));
   });
+  if (!vis) feats.push(...trkFeatures());
   return JSON.stringify(
     {type: 'FeatureCollection', name: 'OMM – kopia ' + meta.created.slice(0, 10), features: feats, omm: meta},
     null,
@@ -7186,8 +7480,9 @@ function buildMap(mm, feats) {
   });
 }
 function fromBackupGeoJSON(j) {
+  // ślady GPS (sekcja „slady”) wczytuje osobno trkFromBackup()
   const m = j.omm || j.mojaMapa || {},
-    feats = (j.features || []).filter(f => f && f.geometry);
+    feats = (j.features || []).filter(f => f && f.geometry && !isTrkFeature(f));
   if (Array.isArray(m.maps)) {
     // kopia v3: wiele map
     const maps = [],
@@ -7357,7 +7652,8 @@ $('pfile').onchange = async e => {
     const j = JSON.parse(await f.text());
     let r = null,
       settings = null,
-      created = null;
+      created = null,
+      tr = null; // ślady GPS z kopii (null = kopia bez śladów – obecne ślady zostają)
     if (j.type === 'FeatureCollection') {
       if (!(j.omm || j.mojaMapa))
         throw new Error(
@@ -7365,6 +7661,7 @@ $('pfile').onchange = async e => {
         );
       const MM = j.omm || j.mojaMapa;
       r = fromBackupGeoJSON(j);
+      tr = trkFromBackup(j);
       settings = MM.settings;
       created = MM.created;
     } else if (
@@ -7443,8 +7740,13 @@ $('pfile').onchange = async e => {
             ' warstw, ' +
             nO +
             ' obiektów' +
+            (tr
+              ? ', ' + tr.items.length + ' ' + plural(tr.items.length, 'ślad', 'ślady', 'śladów') + ' GPS'
+              : '') +
             (settings ? ' + ustawienia' : '') +
-            '.\n\nZastąpić wszystkie obecne mapy? Obecne dane zostaną odłożone jako kopia awaryjna.',
+            '.\n\nZastąpić wszystkie obecne mapy' +
+            (tr ? ' i ślady' : '') +
+            '? Obecne dane zostaną odłożone jako kopia awaryjna.',
           'Przywróć',
           true
         ))
@@ -7452,6 +7754,7 @@ $('pfile').onchange = async e => {
         return;
       snapshot('przed-przywroceniem');
       DB = {v: SCHEMA, mode: DB.mode, cur: r.cur, curW: r.curW, maps: r.maps};
+      if (tr) trkReplace(tr);
     } else {
       if (
         !(await askYes(
@@ -7883,8 +8186,12 @@ const whenTxt = t => {
   if (d.toDateString() === y.toDateString()) return 'wczoraj ' + hm;
   return d.toLocaleDateString('pl-PL', {day: 'numeric', month: 'numeric', year: 'numeric'});
 };
+let TAB = 'mapy', // zakładka panelu: 'mapy' albo 'slady' (ślady GPS – kod w sekcji „ślady GPS”)
+  tsel = null; // warstwa śladów z rozwiniętymi opcjami
 function sheet() {
   $('xmenu').style.display = 'none';
+  if (TAB === 'slady') return trkSheet();
+  tabsUi();
   $('mtitle').textContent = P.name;
   updMode();
   updSel();
@@ -8146,6 +8453,12 @@ $('mapb').onclick = () => {
     B('ℹ️ O aplikacji i jak zacząć', () => {
       m.style.display = 'none';
       aboutDlg();
+    })
+  );
+  m.append(
+    B('⚙️ Ustawienia', () => {
+      m.style.display = 'none';
+      settingsDlg();
     })
   );
   m.append(h('div', 'sep'));
@@ -10053,6 +10366,1391 @@ $('gps').onclick = async () => {
     {enableHighAccuracy: true, maximumAge: 2000, timeout: 60000}
   );
 };
+
+// ---------- ślady GPS: nagrywanie, menedżer śladów, statystyki ----------
+/*
+ * Ślady są osobno od map – mają własne warstwy (np. „Grzybobranie”, „Spacery”) i własną zakładkę
+ * „Ślady GPS” w panelu warstw. Każde nagranie zapisuje się jako NOWY ślad (nic nie jest nadpisywane).
+ *
+ * DANE ŚLADÓW
+ *  TRK = { v: 1, active: id warstwy dla nowych śladów, layers: [warstwa], items: [ślad] }
+ *  warstwa = { id, name, vis: widoczna, c: kolor, open: rozwinięta lista }
+ *  ślad    = { id, l: id warstwy, nm: nazwa, c?: własny kolor, vis?: false = ukryty,
+ *              st: początek nagrania (ms), pts: [[szer, dł, wysokość m | null, sekundy od początku], …],
+ *              sg: [numery punktów, od których zaczyna się kolejny odcinek – po pauzie],
+ *              noTime?: true = ślad bez czasów (np. z GPX bez znaczników czasu), cr / up: daty (ms) }
+ *  Zapis: IndexedDB „omm” → „slady” (dużo miejsca); gdy niedostępna – localStorage „omm-slady”.
+ *  Trwające nagranie: localStorage „omm-rec”, zapisywane na bieżąco – przetrwa zamknięcie aplikacji.
+ *  W kopii zapasowej ślady są obiektami GeoJSON (MultiLineString) z polem „sekcja”: „slady”.
+ *
+ * NAGRYWANIE
+ *  W aplikacji na Androida działa też przy wygaszonym ekranie (wtyczka BackgroundGeolocation
+ *  uruchamia usługę z powiadomieniem „OMM nagrywa ślad”). W przeglądarce – tylko przy włączonym ekranie.
+ */
+const IDB = (() => {
+  // bardzo mały magazyn klucz → wartość w IndexedDB
+  let dbp = null;
+  const open = () =>
+    dbp ||
+    (dbp = new Promise((res, rej) => {
+      const r = indexedDB.open('omm', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('kv');
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    }));
+  const run = (mode, fn) =>
+    open().then(
+      db =>
+        new Promise((res, rej) => {
+          const t = db.transaction('kv', mode),
+            q = fn(t.objectStore('kv'));
+          t.oncomplete = () => res(q.result);
+          t.onerror = t.onabort = () => rej(t.error);
+        })
+    );
+  return {get: k => run('readonly', s => s.get(k)), set: (k, v) => run('readwrite', s => s.put(v, k))};
+})();
+
+let TRK = {v: 1, active: null, layers: [], items: []},
+  trkReady = false, // ślady wczytane z pamięci
+  trkStore = 'idb'; // gdzie zapisujemy: 'idb' albo 'ls' (localStorage)
+// (zakładka panelu TAB i rozwinięta warstwa tsel są zadeklarowane przy funkcji sheet())
+
+// --- pomocnicze: odległość, formatowanie ---
+const hav = (a, b) => {
+  // odległość dwóch punktów [szer, dł] w metrach (wzór haversine)
+  const R = 6371008.8,
+    r = Math.PI / 180,
+    dLa = (b[0] - a[0]) * r,
+    dLo = (b[1] - a[1]) * r,
+    s = Math.sin(dLa / 2) ** 2 + Math.cos(a[0] * r) * Math.cos(b[0] * r) * Math.sin(dLo / 2) ** 2;
+  return 2 * R * Math.asin(Math.min(1, Math.sqrt(s)));
+};
+const fkm = d =>
+  d < 1000 ? Math.round(d) + ' m' : (d / 1000).toFixed(d < 10000 ? 2 : 1).replace('.', ',') + ' km';
+const fkmh = v => (v * 3.6).toFixed(1).replace('.', ',') + ' km/h';
+const fdur = s => {
+  s = Math.max(0, Math.round(s));
+  const hh = Math.floor(s / 3600),
+    mm = Math.floor((s % 3600) / 60),
+    ss = s % 60,
+    p = n => String(n).padStart(2, '0');
+  return hh ? hh + ':' + p(mm) + ':' + p(ss) : mm + ':' + p(ss);
+};
+const fday = ms =>
+  new Date(ms).toLocaleDateString('pl-PL', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric'
+  });
+const fhm = ms => new Date(ms).toLocaleTimeString('pl-PL', {hour: '2-digit', minute: '2-digit'});
+const plural = (n, a, b, c) =>
+  n === 1 ? a : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? b : c;
+const fileName = s =>
+  String(s || 'slad')
+    .replace(/[^\p{L}\p{N}_-]+/gu, '_')
+    .slice(0, 80) || 'slad';
+
+// --- zapis i odczyt ---
+const okTrk = t => t && Array.isArray(t.pts) && t.pts.length >= 2 && t.pts.every(okLL) && isFinite(t.st);
+function trkFix() {
+  // porządek po wczytaniu: zawsze jest co najmniej jedna warstwa, ślady mają poprawną warstwę
+  if (!Array.isArray(TRK.layers)) TRK.layers = [];
+  if (!Array.isArray(TRK.items)) TRK.items = [];
+  if (!TRK.layers.length)
+    TRK.layers.push({id: uid(), name: 'Moje ślady', vis: true, c: '#e53935', open: true});
+  TRK.items = TRK.items.filter(okTrk);
+  TRK.items.forEach(t => {
+    if (!TRK.layers.some(l => l.id === t.l)) t.l = TRK.layers[0].id;
+    if (!Array.isArray(t.sg)) t.sg = [];
+  });
+  if (!TRK.layers.some(l => l.id === TRK.active)) TRK.active = TRK.layers[0].id;
+}
+async function trkLoad() {
+  let d = null;
+  try {
+    d = await IDB.get('slady');
+  } catch (e) {
+    trkStore = 'ls'; // IndexedDB niedostępna (np. plik otwarty w nietypowej przeglądarce)
+  }
+  if (!d)
+    try {
+      d = JSON.parse(localStorage.getItem('omm-slady') || 'null');
+    } catch (e) {}
+  if (d && Array.isArray(d.layers)) TRK = d;
+  trkFix();
+  trkReady = true;
+  trkRender();
+  if (TAB === 'slady') sheetIfOpen();
+  recCheck();
+}
+let trkQueue = Promise.resolve();
+function trkSave() {
+  // zapisy idą po kolei, żeby starszy nie nadpisał nowszego
+  trkQueue = trkQueue.then(async () => {
+    if (trkStore === 'idb')
+      try {
+        await IDB.set('slady', TRK);
+        return;
+      } catch (e) {
+        trkStore = 'ls';
+      }
+    try {
+      localStorage.setItem('omm-slady', JSON.stringify(TRK));
+    } catch (e) {
+      tell('Brak miejsca na zapis śladów. Zrób pełną kopię 💾 do pliku.');
+    }
+  });
+  return trkQueue;
+}
+function trkChanged() {
+  trkSave();
+  trkRender();
+  sheetIfOpen();
+}
+const trkLayer = t => TRK.layers.find(l => l.id === t.l) || TRK.layers[0];
+const trkColor = t => t.c || (trkLayer(t) || {}).c || '#e53935';
+
+// --- statystyki ---
+function trkSegs(t) {
+  // odcinki śladu (pauza = przerwa w linii) jako listy punktów
+  const out = [],
+    sg = new Set(t.sg || []);
+  let cur = [];
+  t.pts.forEach((q, i) => {
+    if (i && sg.has(i)) {
+      if (cur.length) out.push(cur);
+      cur = [];
+    }
+    cur.push(q);
+  });
+  if (cur.length) out.push(cur);
+  return out;
+}
+function trkStats(t) {
+  const pts = t.pts,
+    sg = new Set(t.sg || []),
+    cum = [0]; // odległość od początku do każdego punktu
+  let d = 0,
+    mov = 0,
+    up = 0,
+    down = 0,
+    vmax = 0,
+    emin = Infinity,
+    emax = -Infinity,
+    eRef = null;
+  for (let i = 0; i < pts.length; i++) {
+    const q = pts[i];
+    if (q[2] != null) {
+      emin = Math.min(emin, q[2]);
+      emax = Math.max(emax, q[2]);
+      // przewyższenia liczone z progiem 4 m – drgania wysokości z GPS nie zawyżają wyniku
+      if (eRef == null) eRef = q[2];
+      else if (q[2] - eRef >= 4) {
+        up += q[2] - eRef;
+        eRef = q[2];
+      } else if (eRef - q[2] >= 4) {
+        down += eRef - q[2];
+        eRef = q[2];
+      }
+    }
+    if (i) {
+      const s = sg.has(i) ? 0 : hav(pts[i - 1], q),
+        dt = q[3] - pts[i - 1][3];
+      d += s;
+      if (!t.noTime && !sg.has(i) && dt > 0 && dt <= 300 && s / dt > 0.3) mov += dt; // ruch: > ~1 km/h
+    }
+    cum.push(d);
+  }
+  cum.shift();
+  if (!t.noTime) {
+    // prędkość maksymalna mierzona na odcinkach co najmniej 15 s (pojedyncze skoki GPS jej nie zawyżają)
+    let j = 0;
+    for (let i = 1; i < pts.length; i++) {
+      if (sg.has(i)) j = i;
+      while (j < i && pts[i][3] - pts[j + 1][3] >= 15 && !sg.has(j + 1)) j++;
+      const dt = pts[i][3] - pts[j][3];
+      if (dt >= 15 && dt <= 120) vmax = Math.max(vmax, (cum[i] - cum[j]) / dt);
+    }
+  }
+  const dur = t.noTime || !pts.length ? 0 : pts[pts.length - 1][3] - pts[0][3];
+  return {
+    d,
+    dur,
+    mov,
+    up,
+    down,
+    vmax,
+    vavg: mov > 0 ? d / mov : 0,
+    emin: isFinite(emin) ? emin : null,
+    emax: isFinite(emax) ? emax : null,
+    n: pts.length,
+    cum
+  };
+}
+const STC = new WeakMap(); // statystyki zapamiętane do kolejnej zmiany śladu
+function trkStatsC(t) {
+  let c = STC.get(t);
+  if (!c || c.up !== t.up || c.n !== t.pts.length)
+    STC.set(t, (c = {up: t.up, n: t.pts.length, s: trkStats(t)}));
+  return c.s;
+}
+
+// --- rysowanie na mapie ---
+map.createPane('trkP').style.zIndex = 440; // pod obiektami map, nad podkładem
+const trkGrp = L.layerGroup().addTo(map);
+function trkRender() {
+  trkGrp.clearLayers();
+  TRK.items.forEach(t => {
+    const l = trkLayer(t);
+    if (!l || !l.vis || t.vis === false) return;
+    const c = trkColor(t),
+      ls = trkSegs(t)
+        .filter(s => s.length > 1)
+        .map(s => s.map(q => [q[0], q[1]])),
+      a = t.pts[0],
+      b = t.pts[t.pts.length - 1];
+    L.polyline(ls, {pane: 'trkP', color: '#fff', weight: 7, opacity: 0.85, interactive: false}).addTo(trkGrp);
+    L.polyline(ls, {pane: 'trkP', color: c, weight: 4, opacity: 0.95, interactive: false}).addTo(trkGrp);
+    // szeroki niewidoczny pas łapie dotknięcie palcem
+    L.polyline(ls, {pane: 'trkP', weight: 22, opacity: 0})
+      .on('click', e => trkPopup(t, e.latlng))
+      .addTo(trkGrp);
+    L.circleMarker([a[0], a[1]], {
+      pane: 'trkP',
+      radius: 5,
+      color: '#fff',
+      weight: 2,
+      fillColor: '#43a047',
+      fillOpacity: 1,
+      interactive: false
+    }).addTo(trkGrp);
+    L.circleMarker([b[0], b[1]], {
+      pane: 'trkP',
+      radius: 5,
+      color: '#fff',
+      weight: 2,
+      fillColor: '#212121',
+      fillOpacity: 1,
+      interactive: false
+    }).addTo(trkGrp);
+  });
+  recDraw();
+}
+function trkFocus(t) {
+  const l = trkLayer(t);
+  if (!l.vis || t.vis === false) {
+    l.vis = true;
+    delete t.vis;
+    trkChanged();
+  }
+  $('sheet').style.display = 'none';
+  map.fitBounds(L.latLngBounds(t.pts.map(q => [q[0], q[1]])), {padding: [40, 40], maxZoom: 17});
+  const m = t.pts[Math.floor(t.pts.length / 2)];
+  setTimeout(() => trkPopup(t, L.latLng(m[0], m[1])), 350);
+}
+
+// --- okienko śladu na mapie ---
+function trkPopup(t, ll) {
+  const s = trkStatsC(t),
+    el = h('div', 'tpop');
+  el.append(
+    h('b', null, t.nm || 'Ślad'),
+    h('div', 'tsub', fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)) + ' · ' + trkLayer(t).name),
+    h(
+      'div',
+      'tst',
+      fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : '') + (s.up >= 1 ? ' · ↗ ' + Math.round(s.up) + ' m' : '')
+    )
+  );
+  const bt = h('div', 'tbt'),
+    act = fn => () => {
+      map.closePopup();
+      fn();
+    };
+  bt.append(
+    B(
+      '📊 Statystyki',
+      act(() => trkStatsDlg(t))
+    ),
+    B(
+      '✎ Nazwa',
+      act(() => trkRename(t))
+    ),
+    B(
+      '📂 Warstwa',
+      act(() => trkMove(t))
+    ),
+    B(
+      '🎨 Kolor',
+      act(() => trkRecolor(t))
+    ),
+    B(
+      '⇩ GPX',
+      act(() => dl(fileName(t.nm) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm)))
+    ),
+    B(
+      '🙈 Ukryj',
+      act(() => {
+        t.vis = false;
+        trkChanged();
+      })
+    ),
+    B(
+      '🗑 Usuń',
+      act(() => trkDelete(t)),
+      'danger'
+    )
+  );
+  el.append(bt);
+  L.popup({maxWidth: 290, className: 'tpopw'}).setLatLng(ll).setContent(el).openOn(map);
+}
+async function trkRename(t) {
+  const n = await askText('Nazwa śladu:', t.nm || '');
+  if (n == null) return;
+  t.nm = n.trim().slice(0, 200);
+  t.up = Date.now();
+  trkChanged();
+}
+async function trkMove(t) {
+  const v = await pickTrkLayer('Przenieś ślad do warstwy:', t.l);
+  if (!v) return;
+  t.l = v;
+  t.up = Date.now();
+  trkChanged();
+}
+async function trkRecolor(t) {
+  const c = await pickColor('Kolor śladu', trkColor(t), 'Kolor warstwy');
+  if (c === undefined) return;
+  if (c === null) delete t.c;
+  else t.c = c;
+  t.up = Date.now();
+  trkChanged();
+}
+async function trkDelete(t) {
+  if (!(await askYes('Usunąć ślad „' + (t.nm || 'Ślad') + '” (' + fkm(trkStatsC(t).d) + ')?', 'Usuń', true)))
+    return;
+  TRK.items = TRK.items.filter(x => x !== t);
+  trkChanged();
+}
+function pickColor(title, cur, noneLabel) {
+  // wybór koloru z palety; null = „bez własnego koloru”, undefined = anulowano
+  return new Promise(res => {
+    const back = h('div', 'dback'),
+      box = h('div', 'dbox'),
+      row = h('div', 'tpal'),
+      bt = h('div', 'db');
+    const fin = v => {
+      back.remove();
+      res(v);
+    };
+    box.append(h('div', 'dt', title));
+    PAL.forEach(c => {
+      const b = B('', () => fin(c), c === cur ? 'on' : '');
+      b.style.background = c;
+      row.append(b);
+    });
+    box.append(row);
+    if (noneLabel) bt.append(B(noneLabel, () => fin(null)));
+    bt.append(B('Anuluj', () => fin(undefined)));
+    box.append(bt);
+    back.append(box);
+    back.addEventListener('click', e => {
+      if (e.target === back) fin(undefined);
+    });
+    document.body.append(back);
+  });
+}
+async function pickTrkLayer(title, cur) {
+  const v = await dlg({
+    title,
+    btns: [
+      ...TRK.layers.map(l => ({t: (l.id === cur ? '● ' : '') + l.name, v: l.id})),
+      {t: '＋ Nowa warstwa…', v: '+'},
+      {t: 'Anuluj', v: null}
+    ]
+  });
+  if (v !== '+') return v;
+  const l = await trkAddLayer();
+  return l ? l.id : null;
+}
+async function trkAddLayer() {
+  const n = await askText(
+    'Nazwa nowej warstwy śladów (np. Grzybobranie, Spacery):',
+    'Ślady ' + (TRK.layers.length + 1)
+  );
+  if (!n || !n.trim()) return null;
+  const l = {id: uid(), name: n.trim().slice(0, 200), vis: true, c: PAL[TRK.layers.length % 8], open: true};
+  TRK.layers.push(l);
+  trkChanged();
+  return l;
+}
+
+// --- okno statystyk z profilem wysokości ---
+function chartSvg(xs, ys, unit) {
+  // prosty wykres liniowy (np. wysokość względem odległości); xs w metrach
+  const W = 320,
+    H = 120,
+    L0 = 34,
+    T0 = 8,
+    w = W - L0 - 6,
+    hh = H - T0 - 18;
+  let y0 = Math.min(...ys),
+    y1 = Math.max(...ys);
+  if (y1 - y0 < 10) {
+    y0 -= 5;
+    y1 += 5;
+  }
+  const x1 = xs[xs.length - 1] || 1,
+    X = x => L0 + (x / x1) * w,
+    Y = y => T0 + hh - ((y - y0) / (y1 - y0)) * hh;
+  let d = '';
+  xs.forEach((x, i) => (d += (i ? 'L' : 'M') + X(x).toFixed(1) + ' ' + Y(ys[i]).toFixed(1)));
+  const area = d + 'L' + X(x1) + ' ' + (T0 + hh) + 'L' + L0 + ' ' + (T0 + hh) + 'Z';
+  return (
+    '<svg class="tch" viewBox="0 0 ' +
+    W +
+    ' ' +
+    H +
+    '">' +
+    '<path d="' +
+    area +
+    '" fill="#1a73e8" opacity=".12"/>' +
+    '<path d="' +
+    d +
+    '" fill="none" stroke="#1a73e8" stroke-width="1.6"/>' +
+    '<line x1="' +
+    L0 +
+    '" y1="' +
+    (T0 + hh) +
+    '" x2="' +
+    (W - 6) +
+    '" y2="' +
+    (T0 + hh) +
+    '" stroke="#dadce0"/>' +
+    '<text x="' +
+    (L0 - 4) +
+    '" y="' +
+    (T0 + 8) +
+    '" text-anchor="end">' +
+    Math.round(y1) +
+    '</text>' +
+    '<text x="' +
+    (L0 - 4) +
+    '" y="' +
+    (T0 + hh) +
+    '" text-anchor="end">' +
+    Math.round(y0) +
+    '</text>' +
+    '<text x="' +
+    (L0 - 4) +
+    '" y="' +
+    (T0 + hh / 2 + 3) +
+    '" text-anchor="end">' +
+    unit +
+    '</text>' +
+    '<text x="' +
+    L0 +
+    '" y="' +
+    (H - 3) +
+    '">0</text>' +
+    '<text x="' +
+    (W - 6) +
+    '" y="' +
+    (H - 3) +
+    '" text-anchor="end">' +
+    fkm(x1) +
+    '</text>' +
+    '</svg>'
+  );
+}
+function trkStatsDlg(t) {
+  const s = trkStatsC(t),
+    back = h('div', 'dback'),
+    box = h('div', 'dbox about'),
+    body = h('div', 'abody'),
+    bt = h('div', 'db');
+  const end = t.st + t.pts[t.pts.length - 1][3] * 1000,
+    rows = [
+      ['Data', fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st) + '–' + fhm(end))],
+      ['Dystans', fkm(s.d)],
+      ...(t.noTime
+        ? [['Czas', 'brak czasów w śladzie']]
+        : [
+            ['Czas całkowity', fdur(s.dur)],
+            ['Czas w ruchu', fdur(s.mov)],
+            ['Średnia prędkość (w ruchu)', s.vavg ? fkmh(s.vavg) : '—'],
+            ['Średnie tempo', s.vavg ? fdur(1000 / s.vavg) + ' min/km' : '—'],
+            ['Najwyższa prędkość', s.vmax ? fkmh(s.vmax) : '—']
+          ]),
+      ...(s.emin != null
+        ? [
+            ['Podejścia / zejścia', '↗ ' + Math.round(s.up) + ' m · ↘ ' + Math.round(s.down) + ' m'],
+            ['Wysokość (z GPS)', Math.round(s.emin) + '–' + Math.round(s.emax) + ' m n.p.m.']
+          ]
+        : [['Wysokość', 'brak danych z GPS']]),
+      ['Punkty', String(s.n) + (t.sg && t.sg.length ? ' · przerw: ' + t.sg.length : '')],
+      ['Warstwa', trkLayer(t).name]
+    ];
+  box.append(h('div', 'dt', t.nm || 'Ślad'));
+  const tb = h('table', 'tstat');
+  rows.forEach(([k, v]) => {
+    const r = h('tr');
+    r.append(h('td', null, k), h('td', null, v));
+    tb.append(r);
+  });
+  body.append(tb);
+  const withE = t.pts.map((q, i) => [s.cum[i], q[2]]).filter(x => x[1] != null);
+  if (withE.length > 1) {
+    const step = Math.max(1, Math.floor(withE.length / 400)), // do wykresu wystarczy ~400 punktów
+      sm = withE.filter((x, i) => i % step === 0);
+    body.append(h('div', 'tchl', 'Profil wysokości z GPS'));
+    const c = h('div');
+    c.innerHTML = chartSvg(
+      sm.map(x => x[0]),
+      sm.map(x => x[1]),
+      'm'
+    );
+    body.append(c);
+  }
+  const fin = () => back.remove();
+  bt.append(
+    B('⛰ Profil z NMT', () => {
+      fin();
+      // dokładniejsza wysokość z numerycznego modelu terenu (GUGiK) – próbka do 200 punktów trasy
+      const k = Math.max(1, Math.ceil(t.pts.length / 200)),
+        pp = t.pts.filter((q, i) => i % k === 0 || i === t.pts.length - 1).map(q => [q[0], q[1]]);
+      profile(pp);
+    }),
+    B('⇩ GPX', () => dl(fileName(t.nm) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm))),
+    B('Zamknij', fin, 'okb')
+  );
+  box.append(body, bt);
+  back.append(box);
+  back.addEventListener('click', e => {
+    if (e.target === back) fin();
+  });
+  document.body.append(back);
+}
+
+// --- GPX: eksport i import ---
+function trkGPX(list, name) {
+  const esc = x =>
+    String(x || '').replace(/[<>&"]/g, c => ({'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'})[c]);
+  let s =
+    '<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="OMM – Own Map Manager" xmlns="http://www.topografix.com/GPX/1/1">\n<metadata><name>' +
+    esc(name) +
+    '</name></metadata>\n';
+  list.forEach(t => {
+    s += '<trk><name>' + esc(t.nm) + '</name>\n';
+    trkSegs(t).forEach(seg => {
+      s += '<trkseg>\n';
+      seg.forEach(q => {
+        s +=
+          '<trkpt lat="' +
+          q[0] +
+          '" lon="' +
+          q[1] +
+          '">' +
+          (q[2] != null ? '<ele>' + q[2] + '</ele>' : '') +
+          (t.noTime ? '' : '<time>' + new Date(t.st + q[3] * 1000).toISOString() + '</time>') +
+          '</trkpt>\n';
+      });
+      s += '</trkseg>\n';
+    });
+    s += '</trk>\n';
+  });
+  return s + '</gpx>\n';
+}
+function gpxTracks(text) {
+  // ślady (trk) i trasy (rte) z pliku GPX → ślady OMM
+  const x = new DOMParser().parseFromString(text, 'application/xml');
+  if (x.getElementsByTagName('parsererror').length) throw new Error('Plik GPX jest uszkodzony.');
+  const out = [],
+    kid = (el, n) => [...el.children].find(c => c.localName === n);
+  const make = (el, segs, tag) => {
+    const pts = [],
+      sg = [];
+    let st = null;
+    segs.forEach(seg => {
+      const ps = [...seg.getElementsByTagName(tag)];
+      if (!ps.length) return;
+      if (pts.length) sg.push(pts.length);
+      ps.forEach(p => {
+        const la = +p.getAttribute('lat'),
+          lo = +p.getAttribute('lon');
+        if (!isFinite(la) || !isFinite(lo)) return;
+        const e = kid(p, 'ele'),
+          tm = kid(p, 'time'),
+          ms = tm ? Date.parse(tm.textContent) : NaN;
+        if (st == null && isFinite(ms)) st = ms;
+        pts.push([
+          +la.toFixed(6),
+          +lo.toFixed(6),
+          e && isFinite(+e.textContent) ? Math.round(+e.textContent * 10) / 10 : null,
+          ms
+        ]);
+      });
+    });
+    if (pts.length < 2) return;
+    const base = st != null ? st : Date.now();
+    let prev = 0;
+    pts.forEach(q => {
+      q[3] = isFinite(q[3]) ? Math.max(prev, Math.round((q[3] - base) / 1000)) : prev;
+      prev = q[3];
+    });
+    const nm = kid(el, 'name');
+    out.push({
+      nm: nm ? nm.textContent.trim().slice(0, 200) : '',
+      st: base,
+      pts,
+      sg,
+      ...(st == null ? {noTime: true} : {})
+    });
+  };
+  [...x.getElementsByTagName('trk')].forEach(t => make(t, [...t.getElementsByTagName('trkseg')], 'trkpt'));
+  [...x.getElementsByTagName('rte')].forEach(r => make(r, [r], 'rtept'));
+  return out;
+}
+async function trkImport(files) {
+  let n = 0;
+  const bad = [];
+  for (const f of files) {
+    try {
+      const list = gpxTracks(await f.text());
+      if (!list.length) throw new Error('brak śladów');
+      list.forEach(t => {
+        TRK.items.push({
+          id: uid(),
+          l: TRK.active,
+          nm: t.nm || f.name.replace(/\.gpx$/i, ''),
+          ...t,
+          cr: Date.now(),
+          up: Date.now()
+        });
+        n++;
+      });
+    } catch (e) {
+      bad.push(f.name + ' (' + e.message + ')');
+    }
+  }
+  if (n) {
+    trkLayer({l: TRK.active}).vis = true;
+    trkChanged();
+    const last = TRK.items[TRK.items.length - 1];
+    map.fitBounds(L.latLngBounds(last.pts.map(q => [q[0], q[1]])), {padding: [40, 40], maxZoom: 17});
+  }
+  tell(
+    (n
+      ? 'Dodano ' +
+        n +
+        ' ' +
+        plural(n, 'ślad', 'ślady', 'śladów') +
+        ' do warstwy „' +
+        trkLayer({l: TRK.active}).name +
+        '”.'
+      : 'Nie dodano śladów.') + (bad.length ? '\n\nNie udało się wczytać: ' + bad.join(', ') : '')
+  );
+}
+
+// --- kopia zapasowa ---
+function trkFeatures() {
+  // ślady jako obiekty GeoJSON: MultiLineString [dł, szer, wysokość], czasy w „czasy_s”
+  return TRK.items.map(t => {
+    const segs = trkSegs(t);
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'MultiLineString',
+        coordinates: segs.map(s => s.map(q => (q[2] != null ? [q[1], q[0], q[2]] : [q[1], q[0]])))
+      },
+      properties: {
+        sekcja: 'slady',
+        typ: 'slad',
+        id: t.id,
+        nazwa: t.nm || '',
+        warstwa: trkLayer(t).name,
+        warstwa_id: t.l,
+        ...(t.c ? {kolor: t.c} : {}),
+        ...(t.vis === false ? {ukryty: true} : {}),
+        start: new Date(t.st).toISOString(),
+        ...(t.noTime ? {bez_czasu: true} : {czasy_s: t.pts.map(q => q[3])}),
+        utworzono: new Date(t.cr || t.st).toISOString(),
+        zmieniono: new Date(t.up || t.cr || t.st).toISOString()
+      }
+    };
+  });
+}
+const isTrkFeature = f => !!(f && f.properties && f.properties.sekcja === 'slady');
+function trkFromBackup(j) {
+  // ślady z kopii; null = kopia bez śladów (np. starsza wersja) – wtedy obecne ślady zostają
+  const meta = (j.omm || {}).slady,
+    feats = (j.features || []).filter(f => isTrkFeature(f) && f.geometry);
+  if (!meta && !feats.length) return null;
+  const T = {
+    v: 1,
+    active: meta && meta.aktywna,
+    layers: ((meta && meta.warstwy) || []).map(l => ({
+      id: l.id || uid(),
+      name: l.name || 'Ślady',
+      vis: l.vis !== false,
+      c: /^#[0-9a-f]{6}$/i.test(l.c || '') ? l.c : '#e53935',
+      open: !!l.open
+    })),
+    items: []
+  };
+  feats.forEach(f => {
+    const pr = f.properties,
+      g = f.geometry,
+      segs = g.type === 'MultiLineString' ? g.coordinates : g.type === 'LineString' ? [g.coordinates] : [];
+    const pts = [],
+      sg = [],
+      cz = Array.isArray(pr.czasy_s) ? pr.czasy_s : [];
+    segs.forEach(s => {
+      if (pts.length) sg.push(pts.length);
+      s.forEach(c => pts.push([+c[1], +c[0], c[2] != null && isFinite(c[2]) ? +c[2] : null, 0]));
+    });
+    pts.forEach((q, i) => (q[3] = isFinite(cz[i]) ? +cz[i] : i ? pts[i - 1][3] : 0));
+    let l = T.layers.find(x => x.id === pr.warstwa_id) || T.layers.find(x => x.name === pr.warstwa);
+    if (!l)
+      T.layers.push(
+        (l = {
+          id: pr.warstwa_id || uid(),
+          name: pr.warstwa || 'Ślady z kopii',
+          vis: true,
+          c: '#e53935',
+          open: false
+        })
+      );
+    const st = Date.parse(pr.start);
+    T.items.push({
+      id: pr.id || uid(),
+      l: l.id,
+      nm: pr.nazwa || '',
+      ...(/^#[0-9a-f]{6}$/i.test(pr.kolor || '') ? {c: pr.kolor} : {}),
+      ...(pr.ukryty ? {vis: false} : {}),
+      ...(pr.bez_czasu ? {noTime: true} : {}),
+      st: isFinite(st) ? st : Date.now(),
+      pts,
+      sg,
+      cr: Date.parse(pr.utworzono) || Date.now(),
+      up: Date.parse(pr.zmieniono) || Date.now()
+    });
+  });
+  return T;
+}
+async function trkReplace(T) {
+  // przy przywracaniu pełnej kopii: obecne ślady odkładamy osobno, potem wczytujemy ślady z kopii
+  try {
+    await IDB.set('slady-przed-przywroceniem', TRK);
+  } catch (e) {}
+  TRK = T;
+  trkFix();
+  trkChanged();
+}
+
+// --- zakładka „Ślady GPS” w panelu ---
+Object.assign(SAI, {
+  trecb: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/>',
+  tadd: SAI.addl,
+  timp: SAI.impb
+});
+function tabsUi() {
+  [...$('stabs').children].forEach(b => b.classList.toggle('on', b.dataset.k === TAB));
+  const t = TAB === 'slady';
+  $('sa').style.display = t ? 'none' : '';
+  $('tsa').style.display = t ? 'flex' : 'none';
+  $('modeb').style.display = t ? 'none' : '';
+  if (t) $('selbar').style.display = 'none';
+}
+[...$('stabs').children].forEach(
+  b =>
+    (b.onclick = () => {
+      TAB = b.dataset.k;
+      sheet();
+    })
+);
+function trkSheet() {
+  tabsUi();
+  $('mtitle').textContent = 'Ślady GPS';
+  const el = $('list'),
+    top = el.scrollTop,
+    tot = TRK.items.reduce((a, t) => a + trkStatsC(t).d, 0);
+  $('msub').textContent =
+    TRK.items.length +
+    ' ' +
+    plural(TRK.items.length, 'ślad', 'ślady', 'śladów') +
+    ' · razem ' +
+    fkm(tot) +
+    (REC ? ' · ● trwa nagrywanie' : '');
+  sab('trecb', REC ? 'Pokaż nagrywanie' : 'Nagraj ślad');
+  sab('tadd', 'Dodaj warstwę');
+  sab('timp', 'Import GPX');
+  el.innerHTML = '';
+  if (!trkReady) return el.append(h('div', 'empty', 'Wczytuję ślady…'));
+  TRK.layers.forEach((l, li) => {
+    const its = TRK.items.filter(t => t.l === l.id).sort((a, b) => b.st - a.st),
+      act = l.id === TRK.active,
+      w = h('div', 'l' + (act ? ' act' : '') + (l.vis ? '' : ' off')),
+      r = h('div', 'lr'),
+      cb = h('input'),
+      sw = h('span', 'tsw');
+    cb.type = 'checkbox';
+    cb.checked = l.vis;
+    cb.title = 'Widoczność warstwy';
+    cb.onchange = () => {
+      l.vis = cb.checked;
+      l.open = cb.checked;
+      trkChanged();
+    };
+    sw.style.background = l.c;
+    r.append(
+      cb,
+      B(l.open ? '▾' : '▸', () => ((l.open = !l.open), trkChanged()), 'ex', 'Lista śladów'),
+      sw,
+      B(l.name, () => ((TRK.active = l.id), trkChanged()), 'nm'),
+      h('span', 'cnt', String(its.length)),
+      B('⋮', () => ((tsel = tsel === l.id ? null : l.id), trkSheet()), 'more', 'Opcje warstwy')
+    );
+    w.append(r);
+    if (act) w.append(h('div', 'tag', 'aktywna – tu zapisują się nowe ślady'));
+    if (tsel === l.id) {
+      const c = h('div', 'ctl');
+      c.append(
+        B('✎ Nazwa', async () => {
+          const n = await askText('Nazwa warstwy śladów:', l.name);
+          if (n && n.trim()) {
+            l.name = n.trim().slice(0, 200);
+            trkChanged();
+          }
+        }),
+        B('🎨 Kolor', async () => {
+          const k = await pickColor('Kolor warstwy śladów', l.c);
+          if (k) {
+            l.c = k;
+            trkChanged();
+          }
+        }),
+        B(
+          '↑',
+          () => (li > 0 && TRK.layers.splice(li - 1, 0, TRK.layers.splice(li, 1)[0]), trkChanged()),
+          '',
+          'Wyżej'
+        ),
+        B(
+          '↓',
+          () => (
+            li < TRK.layers.length - 1 && TRK.layers.splice(li + 1, 0, TRK.layers.splice(li, 1)[0]),
+            trkChanged()
+          ),
+          '',
+          'Niżej'
+        )
+      );
+      if (its.length)
+        c.append(B('⇩ GPX', () => dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name))));
+      c.append(
+        B(
+          '🗑',
+          async () => {
+            if (TRK.layers.length < 2) return tell('To jedyna warstwa śladów – nie można jej usunąć.');
+            if (
+              its.length &&
+              !(await askYes(
+                'Usunąć warstwę „' +
+                  l.name +
+                  '” razem z ' +
+                  its.length +
+                  ' ' +
+                  plural(its.length, 'śladem', 'śladami', 'śladami') +
+                  '?',
+                'Usuń',
+                true
+              ))
+            )
+              return;
+            TRK.items = TRK.items.filter(t => t.l !== l.id);
+            TRK.layers = TRK.layers.filter(x => x !== l);
+            trkFix();
+            trkChanged();
+          },
+          '',
+          'Usuń warstwę'
+        )
+      );
+      w.append(c);
+    }
+    if (l.open) {
+      if (!its.length) w.append(h('div', 'empty', 'brak śladów – nagraj ⏺ albo wczytaj plik GPX'));
+      its.forEach(t => {
+        const s = trkStatsC(t),
+          o = h('div', 'obj' + (t.vis === false ? ' hid' : '')),
+          ic = h('span', 'oi'),
+          nm = h('span', 'on');
+        // nazwa, a pod nią data, dystans i czas
+        nm.append(
+          h('span', 'tnm', t.nm || 'Ślad'),
+          h('span', 'tdt', fday(t.st) + ' · ' + fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : ''))
+        );
+        ic.innerHTML =
+          '<svg viewBox="0 0 20 20"><path d="M3 15c3-1 3-6 6-6s3 4 6 2 2-6 2-6" fill="none" stroke="' +
+          trkColor(t) +
+          '" stroke-width="2.6" stroke-linecap="round"/></svg>';
+        o.onclick = () => trkFocus(t);
+        o.append(ic, nm);
+        if (t.vis === false) {
+          const sb = B(
+            '👁',
+            e => {
+              e.stopPropagation();
+              delete t.vis;
+              trkChanged();
+            },
+            'more',
+            'Pokaż ślad'
+          );
+          o.append(sb);
+        }
+        w.append(o);
+      });
+    }
+    el.append(w);
+  });
+  el.scrollTop = top;
+}
+$('trecb').onclick = () => {
+  $('sheet').style.display = 'none';
+  if (!REC) recStart();
+  else recCenter();
+};
+$('tadd').onclick = () => trkAddLayer();
+$('timp').onclick = () => $('tfile').click();
+$('tfile').onchange = e => {
+  const fs = [...e.target.files];
+  e.target.value = '';
+  if (fs.length) trkImport(fs);
+};
+
+// ---------- nagrywanie śladu ----------
+let REC = null, // trwające nagranie: {id, l, st, pts, sg, paused, pz: czas pauz (ms), pAt: początek pauzy}
+  recWatch = null, // identyfikator obserwatora GPS
+  recSavedAt = 0,
+  recPos = null, // ostatnia pozycja {lat, lng, accu}
+  recLine = null,
+  recMe = null,
+  recFirst = true;
+const REC_KEY = 'omm-rec';
+const recPrecise = () => localStorage.getItem('omm-rec-tryb') !== 'oszczedny';
+function recPersist(force) {
+  if (!REC) return;
+  const t = Date.now();
+  if (!force && t - recSavedAt < 5000) return;
+  recSavedAt = t;
+  try {
+    localStorage.setItem(REC_KEY, JSON.stringify(REC));
+  } catch (e) {}
+}
+function recPoint(lat, lng, alt, accu, time) {
+  if (!REC || REC.paused || !isFinite(lat) || !isFinite(lng)) return;
+  recPos = {lat, lng, accu};
+  if (recFirst) {
+    recFirst = false;
+    map.setView([lat, lng], Math.max(map.getZoom(), 16));
+  }
+  const lim = REC.pts.length ? 30 : 50; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy
+  if (accu > lim) return recUi();
+  const q = [
+      +lat.toFixed(6),
+      +lng.toFixed(6),
+      alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10,
+      Math.max(0, Math.round((time - REC.st) / 1000))
+    ],
+    last = REC.pts[REC.pts.length - 1],
+    newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
+  if (last && !newSeg) {
+    const d = hav(last, q),
+      dt = q[3] - last[3];
+    if (dt <= 0) return recUi();
+    if (d < Math.max(recPrecise() ? 3 : 8, accu * 0.5)) return recUi(); // stoimy w miejscu – bez nowego punktu
+    if (d / dt > 70) return recUi(); // skok pozycji (ponad 250 km/h) – błąd GPS
+  }
+  REC.pts.push(q);
+  recPersist();
+  recDraw();
+  recUi();
+}
+async function recWatchOn() {
+  const BG = plug('BackgroundGeolocation');
+  if (BG) {
+    // aplikacja na Androida: nagrywanie także przy wygaszonym ekranie
+    try {
+      const LN = plug('LocalNotifications'); // zgoda na powiadomienie „OMM nagrywa ślad” (Android 13+)
+      if (LN) await LN.requestPermissions();
+    } catch (e) {}
+    try {
+      recWatch = await BG.addWatcher(
+        {
+          backgroundTitle: 'OMM nagrywa ślad',
+          backgroundMessage: 'Dotknij, aby wrócić do OMM. Nagrywanie zatrzymasz przyciskiem ⏹.',
+          requestPermissions: true,
+          stale: false,
+          distanceFilter: recPrecise() ? 3 : 10
+        },
+        (loc, err) => {
+          if (err) {
+            if (err.code === 'NOT_AUTHORIZED') recNoPerm();
+            return;
+          }
+          if (loc) recPoint(loc.latitude, loc.longitude, loc.altitude, loc.accuracy, loc.time || Date.now());
+        }
+      );
+      return true;
+    } catch (e) {
+      tell('Nie udało się włączyć GPS: ' + ((e && e.message) || e));
+      return false;
+    }
+  }
+  if (!navigator.geolocation) {
+    tell('Ta przeglądarka nie obsługuje GPS.');
+    return false;
+  }
+  recWatch = navigator.geolocation.watchPosition(
+    p => recPoint(p.coords.latitude, p.coords.longitude, p.coords.altitude, p.coords.accuracy, p.timestamp),
+    err => {
+      if (err.code === 1) recNoPerm(err);
+    },
+    {enableHighAccuracy: true, maximumAge: 0, timeout: 60000}
+  );
+  return true;
+}
+function recWatchOff() {
+  if (recWatch == null) return;
+  const BG = plug('BackgroundGeolocation');
+  if (BG) BG.removeWatcher({id: recWatch}).catch(() => {});
+  else navigator.geolocation.clearWatch(recWatch);
+  recWatch = null;
+}
+async function recNoPerm(err) {
+  recPause(true);
+  const BG = plug('BackgroundGeolocation');
+  if (!BG) return tell(gpsHelp(err || {code: 1}));
+  const v = await dlg({
+    title:
+      'Nie można nagrywać śladu: OMM nie ma zgody na lokalizację albo lokalizacja w telefonie jest wyłączona.\n\n1. Włącz lokalizację (szybkie ustawienia → Lokalizacja).\n2. Ustawienia aplikacji OMM → Uprawnienia → Lokalizacja → „Zezwalaj podczas używania”.',
+    btns: [
+      {t: 'Otwórz ustawienia', v: 1, c: 'okb'},
+      {t: 'Zamknij', v: 0}
+    ]
+  });
+  if (v) BG.openSettings();
+}
+async function recStart() {
+  if (REC) return;
+  if (NATIVE && !localStorage.getItem('omm-rec-rada')) {
+    // telefony z agresywnym oszczędzaniem baterii potrafią zatrzymać nagrywanie w tle
+    const v = await dlg({
+      title:
+        'Nagrywanie działa także przy wygaszonym ekranie – na pasku powiadomień widać wtedy „OMM nagrywa ślad”.\n\n' +
+        'Jeśli telefon przerywa nagrywanie (zdarza się na Xiaomi, Huawei, Samsung):\nUstawienia → Aplikacje → OMM → Bateria / Oszczędzanie baterii → „Bez ograniczeń”.',
+      btns: [
+        {t: 'Nie pokazuj więcej', v: 'n'},
+        {t: 'OK, nagrywaj', v: 'ok', c: 'okb'}
+      ]
+    });
+    if (v === 'n') localStorage.setItem('omm-rec-rada', '1');
+    if (!v) return;
+  }
+  REC = {id: uid(), l: TRK.active, st: Date.now(), pts: [], sg: [], paused: false, pz: 0};
+  recFirst = true;
+  recPersist(true);
+  if (!(await recWatchOn())) return recClear();
+  recUi();
+}
+function recPause(on) {
+  if (!REC || !!REC.paused === on) return;
+  REC.paused = on;
+  if (on) {
+    REC.pAt = Date.now();
+    recWatchOff();
+  } else {
+    REC.pz += Date.now() - (REC.pAt || Date.now());
+    delete REC.pAt;
+    if (REC.pts.length) REC.sg.push(REC.pts.length); // po pauzie zaczyna się nowy odcinek
+    recWatchOn();
+  }
+  recPersist(true);
+  recUi();
+}
+async function recStop() {
+  if (!REC) return;
+  const was = REC.paused;
+  recPause(true);
+  if (REC.pts.length < 2) {
+    const v = await dlg({
+      title: 'Ślad ma za mało punktów – GPS nie ustalił jeszcze pozycji albo stoisz w miejscu.',
+      btns: [
+        {t: 'Zakończ bez zapisu', v: 'x', c: 'danger'},
+        {t: 'Nagrywaj dalej', v: 'go', c: 'okb'}
+      ]
+    });
+    if (v === 'x') recClear();
+    else if (!was) recPause(false);
+    return;
+  }
+  const r = await recSaveDlg();
+  if (r === 'go') {
+    if (!was) recPause(false);
+    return;
+  }
+  if (r === 'x') {
+    if (await askYes('Usunąć nagrany ślad bez zapisu?', 'Usuń', true)) recClear();
+    else if (!was) recPause(false);
+    return;
+  }
+  const t = {
+    id: REC.id,
+    l: r.l,
+    nm: r.nm,
+    st: REC.st,
+    pts: REC.pts,
+    sg: REC.sg.filter(i => i > 0 && i < REC.pts.length),
+    cr: Date.now(),
+    up: Date.now()
+  };
+  TRK.items.push(t);
+  TRK.active = r.l;
+  trkLayer(t).vis = true;
+  await trkSave(); // najpierw zapis śladu, dopiero potem kasujemy kopię roboczą nagrania
+  recClear();
+  trkRender();
+  sheetIfOpen();
+  trkFocus(t);
+}
+function recSaveDlg() {
+  // zakończenie nagrania: nazwa + warstwa śladów
+  return new Promise(res => {
+    const s = trkStats({pts: REC.pts, sg: REC.sg, st: REC.st}),
+      back = h('div', 'dback'),
+      box = h('div', 'dbox'),
+      inp = h('input'),
+      sel = h('select'),
+      bt = h('div', 'db');
+    const fin = v => {
+      back.remove();
+      res(v);
+    };
+    box.append(
+      h('div', 'dt', 'Zapisz ślad'),
+      h('div', 'tsum', fkm(s.d) + ' · ' + fdur(s.dur) + (s.up >= 1 ? ' · ↗ ' + Math.round(s.up) + ' m' : ''))
+    );
+    inp.type = 'text';
+    inp.value = 'Ślad ' + fday(REC.st) + ' ' + fhm(REC.st);
+    sel.className = 'tsel';
+    TRK.layers.forEach(l =>
+      sel.add(new Option('Warstwa: ' + l.name, l.id, false, l.id === (REC.l || TRK.active)))
+    );
+    sel.add(new Option('＋ Nowa warstwa…', '+'));
+    sel.onchange = async () => {
+      if (sel.value !== '+') return;
+      const l = await trkAddLayer();
+      sel.innerHTML = '';
+      TRK.layers.forEach(x =>
+        sel.add(new Option('Warstwa: ' + x.name, x.id, false, l ? x === l : x.id === TRK.active))
+      );
+      sel.add(new Option('＋ Nowa warstwa…', '+'));
+    };
+    box.append(inp, sel);
+    bt.append(
+      B('Usuń', () => fin('x'), 'danger'),
+      B('Nagrywaj dalej', () => fin('go')),
+      B(
+        'Zapisz',
+        () =>
+          fin({nm: inp.value.trim().slice(0, 200) || 'Ślad', l: sel.value === '+' ? TRK.active : sel.value}),
+        'okb'
+      )
+    );
+    box.append(bt);
+    back.append(box);
+    document.body.append(back); // bez zamykania kliknięciem obok – żeby nagrania nie stracić przypadkiem
+  });
+}
+function recClear() {
+  recWatchOff();
+  REC = null;
+  recPos = null;
+  try {
+    localStorage.removeItem(REC_KEY);
+  } catch (e) {}
+  recDraw();
+  recUi();
+  sheetIfOpen();
+}
+async function recCheck() {
+  // po uruchomieniu: czy zostało przerwane nagranie (np. telefon zamknął aplikację)?
+  let r = null;
+  try {
+    r = JSON.parse(localStorage.getItem(REC_KEY) || 'null');
+  } catch (e) {}
+  if (!r || !Array.isArray(r.pts)) return;
+  REC = r;
+  if (!REC.paused) {
+    REC.paused = true;
+    REC.pAt = Date.now();
+  }
+  recUi();
+  recDraw();
+  const s = trkStats({pts: REC.pts, sg: REC.sg || [], st: REC.st});
+  const v = await dlg({
+    title:
+      'Nagrywanie śladu zostało przerwane (aplikacja była zamknięta).\nNagrano: ' +
+      fkm(s.d) +
+      ', ' +
+      REC.pts.length +
+      ' punktów, start ' +
+      fday(REC.st) +
+      ' ' +
+      fhm(REC.st) +
+      '.',
+    btns: [
+      {t: 'Zakończ i zapisz', v: 'stop'},
+      {t: 'Nagrywaj dalej', v: 'go', c: 'okb'}
+    ]
+  });
+  if (v === 'go') recPause(false);
+  else if (v === 'stop') recStop();
+}
+function recCenter() {
+  if (recPos) map.setView([recPos.lat, recPos.lng], Math.max(map.getZoom(), 16));
+  else if (REC && REC.pts.length) {
+    const q = REC.pts[REC.pts.length - 1];
+    map.setView([q[0], q[1]], Math.max(map.getZoom(), 16));
+  }
+}
+function recDraw() {
+  // nagrywany ślad i bieżąca pozycja na mapie
+  if (recLine) recLine.remove();
+  if (recMe) recMe.remove();
+  recLine = recMe = null;
+  if (!REC) return;
+  const ls = trkSegs({pts: REC.pts, sg: REC.sg})
+    .filter(s => s.length > 1)
+    .map(s => s.map(q => [q[0], q[1]]));
+  recLine = L.layerGroup([
+    L.polyline(ls, {pane: 'trkP', color: '#fff', weight: 8, opacity: 0.9, interactive: false}),
+    L.polyline(ls, {pane: 'trkP', color: '#e53935', weight: 5, interactive: false})
+  ]).addTo(map);
+  if (recPos)
+    recMe = L.circleMarker([recPos.lat, recPos.lng], {
+      pane: 'trkP',
+      radius: 8,
+      color: '#fff',
+      weight: 3,
+      fillColor: REC.paused ? '#9e9e9e' : '#e53935',
+      fillOpacity: 1,
+      interactive: false
+    }).addTo(map);
+}
+function recUi() {
+  document.body.classList.toggle('rec', !!REC);
+  $('recb').classList.toggle('on', !!REC && !REC.paused);
+  $('recbar').classList.toggle('paused', !!(REC && REC.paused));
+  if (!REC) return;
+  const now = Date.now(),
+    el = now - REC.st - (REC.pz || 0) - (REC.paused ? now - (REC.pAt || now) : 0),
+    s = trkStats({pts: REC.pts, sg: REC.sg, st: REC.st});
+  let v = '';
+  // prędkość bieżąca: z ostatnich ~30 s
+  const p = REC.pts,
+    n = p.length;
+  if (!REC.paused && n > 1 && (now - REC.st) / 1000 - p[n - 1][3] < 20) {
+    let i = n - 1;
+    while (i > 0 && p[n - 1][3] - p[i - 1][3] <= 30 && !REC.sg.includes(i)) i--;
+    const dt = p[n - 1][3] - p[i][3];
+    if (dt >= 5) v = ' · ' + fkmh((s.cum[n - 1] - s.cum[i]) / dt);
+  }
+  $('rectx').textContent = REC.paused
+    ? 'Pauza · ' + fdur(el / 1000) + ' · ' + fkm(s.d)
+    : !n && (!recPos || recPos.accu > 50)
+      ? 'Szukam GPS…' + (recPos ? ' (±' + Math.round(recPos.accu) + ' m)' : '')
+      : fdur(el / 1000) + ' · ' + fkm(s.d) + v;
+  $('recp').textContent = REC.paused ? '▶' : '⏸';
+  $('recp').title = REC.paused ? 'Wznów nagrywanie' : 'Pauza';
+}
+setInterval(() => {
+  if (REC && !document.hidden) recUi();
+}, 1000);
+$('recb').onclick = () => {
+  if (!REC) recStart();
+  else recCenter();
+};
+$('rectx').onclick = recCenter;
+$('recp').onclick = () => recPause(!REC.paused);
+$('recs').onclick = recStop;
+// po powrocie do aplikacji odśwież pasek i linię (w tle punkty przychodzą bez rysowania)
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && REC) {
+    recDraw();
+    recUi();
+  }
+});
+trkLoad();
+
+// ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
+function settingsDlg() {
+  const back = h('div', 'dback'),
+    box = h('div', 'dbox about'),
+    body = h('div', 'abody'),
+    bt = h('div', 'db');
+  // grupa przycisków wyboru zapisywana w localStorage pod kluczem key
+  const radios = (title, key, def, opts, note) => {
+    const g = h('div', 'sset'),
+      cur = localStorage.getItem(key) || def;
+    g.append(h('b', null, title));
+    opts.forEach(([v, t]) => {
+      const lb = h('label'),
+        r = h('input');
+      r.type = 'radio';
+      r.name = key;
+      r.checked = v === cur;
+      r.onchange = () => localStorage.setItem(key, v);
+      lb.append(r, h('span', null, t));
+      g.append(lb);
+    });
+    if (note) g.append(h('div', 'muted', note));
+    body.append(g);
+  };
+  box.append(h('div', 'dt', '⚙️ Ustawienia'));
+  radios(
+    'Folder zapisu (kopie, eksporty)',
+    'omm-folder',
+    'docs',
+    [
+      ['docs', FOLDERS.docs.label],
+      ['down', FOLDERS.down.label]
+    ],
+    NATIVE
+      ? 'Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.'
+      : 'Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.'
+  );
+  radios('Wydruki (obrazy PNG)', 'omm-folder-png', 'same', [
+    ['same', 'Do tego samego folderu'],
+    ['pics', FOLDERS.pics.label + ' – widoczne w galerii zdjęć']
+  ]);
+  radios('Nagrywanie śladu GPS', 'omm-rec-tryb', 'dokladny', [
+    ['dokladny', 'Dokładne – punkt co kilka metrów'],
+    ['oszczedny', 'Oszczędne – punkt co ~10 m, mniejsze zużycie baterii']
+  ]);
+  const fin = () => back.remove();
+  bt.append(B('Zamknij', fin, 'okb'));
+  box.append(body, bt);
+  back.append(box);
+  back.addEventListener('click', e => {
+    if (e.target === back) fin();
+  });
+  document.body.append(back);
+}
 
 // ---------- aplikacja na Androida: przycisk „Wstecz” ----------
 // Zamiast od razu zamykać aplikację, „Wstecz” cofa się krok po kroku:

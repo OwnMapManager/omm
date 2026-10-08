@@ -1,7 +1,8 @@
 // Przygotowuje folder www/ – to, co trafia do środka aplikacji na Androida.
 //  • app/omm.html → www/index.html
 //  • Leaflet z CDN (internet) zamieniony na kopię wbudowaną w aplikację (działa bez zasięgu)
-//  • numer wersji (APP_VER = 'v33') zapisany w www/version.txt – Gradle nadaje go plikowi APK
+//  • dołączony rdzeń Capacitora (lib/capacitor.js) – dostęp do wtyczek: zapis plików, GPS w tle…
+//  • numer wersji (np. APP_VER = 'v34') zapisany w www/version.txt – Gradle nadaje go plikowi APK
 import {readFileSync, writeFileSync, mkdirSync, cpSync, rmSync} from 'node:fs';
 
 const src = 'app/omm.html';
@@ -13,6 +14,11 @@ for (const f of ['leaflet.css', 'leaflet.js']) {
   html = html.replaceAll(cdn + f, 'lib/leaflet/' + f);
 }
 
+// rdzeń Capacitora wczytujemy przed skryptem aplikacji
+const leafletTag = '<script src="lib/leaflet/leaflet.js"></script>';
+if (!html.includes(leafletTag)) throw new Error('Brak znacznika ' + leafletTag);
+html = html.replace(leafletTag, '<script src="lib/capacitor.js"></script>\n' + leafletTag);
+
 const ver = html.match(/const APP_VER = 'v(\d+)'/);
 if (!ver) throw new Error(`W ${src} nie ma stałej APP_VER = 'vNN'`);
 
@@ -21,4 +27,5 @@ mkdirSync('www/lib', {recursive: true});
 writeFileSync('www/index.html', html);
 writeFileSync('www/version.txt', ver[1] + '\n');
 cpSync('node_modules/leaflet/dist', 'www/lib/leaflet', {recursive: true});
+cpSync('node_modules/@capacitor/core/dist/capacitor.js', 'www/lib/capacitor.js');
 console.log(`www/ gotowe – OMM v${ver[1]}`);

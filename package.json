@@ -10,10 +10,12 @@
     "sync": "npm run www && npx cap sync android"
   },
   "dependencies": {
+    "@capacitor-community/background-geolocation": "1.2.26",
     "@capacitor/android": "^8.5.3",
     "@capacitor/app": "^8.1.2",
     "@capacitor/core": "^8.5.3",
     "@capacitor/filesystem": "^8.1.4",
+    "@capacitor/local-notifications": "^8.0.0",
     "@capacitor/share": "^8.0.3",
     "leaflet": "1.9.4"
   },
