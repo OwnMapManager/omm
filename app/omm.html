@@ -11985,9 +11985,11 @@ function kfStep(t, lat, lng, accu, time) {
   }
   const dt = Math.max(0.1, (time - t.time) / 1000),
     R = accu * accu,
-    q = SA * SA,
     zx = (lng - t.lo0) * mx,
-    zy = (lat - t.la0) * my;
+    zy = (lat - t.la0) * my,
+    // manewr (zakręt, hamowanie): pomiar daleko od przewidywania – filtr na chwilę „luzuje”, żeby nie wynosiło go na zewnątrz zakrętu
+    inn = Math.hypot(zx - (t.x[0] + t.x[1] * dt), zy - (t.y[0] + t.y[1] * dt)),
+    q = (inn > 2.5 * accu ? 2 : SA) ** 2;
   [
     [t.x, zx, 0],
     [t.y, zy, 1]
@@ -12019,7 +12021,7 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     recFirst = false;
     map.setView([lat, lng], Math.max(map.getZoom(), 16));
   }
-  const lim = REC.pts.length ? 25 : 40; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy
+  const lim = REC.pts.length ? 25 : 20; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy; pierwszy punkt tylko dokładny
   if (accu > lim) {
     recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
     return recUi();
@@ -12047,6 +12049,19 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
   }
   REC.pts.push(q);
+  // „szpilka”: punkt, który odskoczył i wrócił (A → B → C z zawróceniem o ponad 135°) – usuwamy B
+  const n = REC.pts.length,
+    seg0 = REC.sg.length ? REC.sg[REC.sg.length - 1] : 0;
+  if (n - 3 >= seg0) {
+    const A = REC.pts[n - 3],
+      Bp = REC.pts[n - 2];
+    if (
+      hav(A, Bp) > 5 &&
+      hav(Bp, q) > 5 &&
+      Math.abs(((brgDeg(Bp, q) - brgDeg(A, Bp) + 540) % 360) - 180) > 135
+    )
+      REC.pts.splice(n - 2, 1);
+  }
   recPersist();
   recDraw();
   recUi();
