@@ -2046,6 +2046,68 @@ body.animon #wm {
   padding: 6px 4px 2px;
   font-size: 14px;
 }
+/* nawigacja do punktu */
+.navbar {
+  position: absolute;
+  z-index: 1150;
+  top: calc(8px + env(safe-area-inset-top, 0px));
+  left: 8px;
+  right: 56px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bar);
+  border-radius: 14px;
+  padding: 6px 6px 6px 10px;
+  box-shadow: 0 2px 8px #0004;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+body.rec .navbar {
+  top: calc(56px + env(safe-area-inset-top, 0px));
+}
+.navbar .narr {
+  display: flex;
+  flex: none;
+  transition: transform 0.25s;
+}
+.navbar .ntx {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.navbar .nx {
+  border: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--b2);
+  flex: none;
+}
+body.navon #info {
+  display: none !important;
+}
+.nme,
+.nlbl {
+  background: none;
+  border: 0;
+}
+.nme svg {
+  transition: transform 0.25s;
+}
+.nlbl span {
+  position: absolute;
+  white-space: nowrap;
+  font-weight: 700;
+  font-size: 13px;
+  color: #1a73e8;
+  background: #fff;
+  border-radius: 10px;
+  padding: 2px 7px;
+  box-shadow: 0 1px 3px #0005;
+  transform: translate(-50%, -50%);
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -2077,7 +2139,7 @@ body.animon #wm {
   <div id="sh"><button id="mapb" title="Mapy"><b id="mtitle"></b><span>▾</span></button><button id="modeb" title="Przełącz tryb: prywatne / praca"></button><button id="closes" title="Zamknij">✕</button></div>
   <div id="stabs" class="atabs"><button data-k="mapy">Mapy</button><button data-k="slady">Ślady GPS</button></div>
   <div id="msub"></div>
-  <div id="sa"><button id="addl">＋ Dodaj warstwę</button><button id="addg" style="display:none">＋ Grupa</button><button id="impb">⇧ Import</button><button id="projb">💾 Kopia</button><button id="selb">☑ Zaznacz</button><button id="fltb">🔍 Filtr</button></div>
+  <div id="sa"><button id="addl">＋ Dodaj warstwę</button><button id="addg" style="display:none">＋ Grupa</button><button id="impb">⇧ Import</button><button id="fotb">📷 Zdjęcia</button><button id="projb">💾 Kopia</button><button id="selb">☑ Zaznacz</button><button id="fltb">🔍 Filtr</button></div>
   <div id="tsa"><button id="trecb">⏺ Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import GPX</button></div>
   <div id="list"></div>
   <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś…</button><button id="selic">Ikona…</button><button id="selnm">Nazwy…</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
@@ -2089,7 +2151,7 @@ body.animon #wm {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v35 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v36 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2164,7 +2226,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v35';
+const APP_VER = 'v36';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -6430,6 +6492,12 @@ function openItemPopup(it, latlng) {
       openItemPopup(it, latlng);
     })
   );
+  row.append(
+    B('🧭 Nawiguj', () => {
+      const c = isPt(it) || it.t === 'circle' ? it.p[0] : L.latLngBounds(it.p).getCenter();
+      navStart(Array.isArray(c) ? c : [c.lat, c.lng], nameOf(it));
+    })
+  );
   row.append(B('✥ Przesuń', () => startEdit(it)));
   row.append(B('Edytuj', () => show(layerSec)));
   if (isLn(it))
@@ -8484,6 +8552,7 @@ function sheet() {
   sab('fltb', HSL.size ? 'Filtr (' + HSL.size + ')' : 'Filtr');
   sab('addl', 'Dodaj warstwę');
   sab('impb', 'Import');
+  sab('fotb', 'Zdjęcia');
   sab('projb', 'Kopia');
   {
     const n = P.items.length,
@@ -11034,6 +11103,10 @@ function wpPopup(t, w) {
       })
     ),
     B(
+      '🧭 Nawiguj',
+      act(() => navStart(w.p, w.nm || w.n || 'punkt na trasie'))
+    ),
+    B(
       '🗑 Usuń',
       act(async () => {
         if (!(await askYes('Usunąć ten punkt ze śladu?', 'Usuń', true))) return;
@@ -11687,6 +11760,7 @@ async function trkReplace(T) {
 
 // --- zakładka „Ślady GPS” w panelu ---
 Object.assign(SAI, {
+  fotb: '<path d="M4 8h3.5l1.8-2.5h5.4L16.5 8H20v11H4z"/><circle cx="12" cy="13.2" r="3.4"/>',
   trecb: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5" fill="currentColor"/>',
   tadd: SAI.addl,
   timp: SAI.impb
@@ -11861,6 +11935,7 @@ $('trecb').onclick = () => {
 };
 $('tadd').onclick = () => trkAddLayer();
 $('timp').onclick = () => $('tfile').click();
+$('fotb').onclick = () => fotoImportPick();
 $('tfile').onchange = e => {
   const fs = [...e.target.files];
   e.target.value = '';
@@ -11886,34 +11961,77 @@ function recPersist(force) {
     localStorage.setItem(REC_KEY, JSON.stringify(REC));
   } catch (e) {}
 }
-const recKF = {}; // filtr wygładzający pozycję (prosty filtr Kalmana)
+const recKF = {}; // filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach)
+function kfStep(t, lat, lng, accu, time) {
+  // wygładza szum GPS, ale – w odróżnieniu od zwykłego uśredniania – nie ścina zakrętów i nie „spóźnia się”,
+  // bo zakłada ruch z prędkością, która zmienia się płynnie (przyspieszenie ~ SA m/s²)
+  const SA = 0.5, // przyspieszenie przyjęte w filtrze (m/s²) – piesza wędrówka / rower
+    my = 111320,
+    mx = 111320 * Math.cos((lat * Math.PI) / 180);
+  if (!t.on || time - t.time > 30000) {
+    Object.assign(t, {
+      on: 1,
+      la0: lat,
+      lo0: lng,
+      time,
+      x: [0, 0],
+      y: [0, 0],
+      P: [
+        [accu * accu, 0, 0, 25],
+        [accu * accu, 0, 0, 25]
+      ]
+    });
+    return [lat, lng];
+  }
+  const dt = Math.max(0.1, (time - t.time) / 1000),
+    R = accu * accu,
+    q = SA * SA,
+    zx = (lng - t.lo0) * mx,
+    zy = (lat - t.la0) * my;
+  [
+    [t.x, zx, 0],
+    [t.y, zy, 1]
+  ].forEach(([s, z, k]) => {
+    // s = [położenie, prędkość], P = [p00, p01, p10, p11]
+    let [a, b, c, d] = t.P[k];
+    s[0] += s[1] * dt;
+    a = a + dt * (b + c) + dt * dt * d + (q * dt ** 4) / 4;
+    b = b + dt * d + (q * dt ** 3) / 2;
+    c = c + dt * d + (q * dt ** 3) / 2;
+    d = d + q * dt * dt;
+    const S = a + R,
+      k0 = a / S,
+      k1 = c / S,
+      e = z - s[0];
+    s[0] += k0 * e;
+    s[1] += k1 * e;
+    t.P[k] = [(1 - k0) * a, (1 - k0) * b, c - k1 * a, d - k1 * b];
+  });
+  t.time = time;
+  return [t.la0 + t.y[0] / my, t.lo0 + t.x[0] / mx];
+}
 function recPoint(lat, lng, alt, accu, time, extra) {
+  // nowy pomiar GPS → punkt śladu: filtr Kalmana usuwa „zygzaki” szumu, punkt najwyżej co 2 s
+  // i tylko w ruchu (postój nie dokłada punktów), bez „skoków” i „szpilek” GPS
   if (!REC || REC.paused || !isFinite(lat) || !isFinite(lng)) return;
   const x = extra || {};
-  // wygładzanie: przy słabym sygnale pozycja „skacze” – ważymy ją dokładnością pomiaru
-  const newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
-  if (!recKF.v || time - recKF.t > 60000 || newSeg || !REC.pts.length)
-    Object.assign(recKF, {la: lat, lo: lng, v: accu * accu, t: time});
-  else {
-    const dt = Math.max(0, (time - recKF.t) / 1000),
-      q = Math.max(3, x.speed || 0); // jak szybko może się zmieniać pozycja (m/s)
-    recKF.v += dt * q * q;
-    const k = recKF.v / (recKF.v + accu * accu);
-    recKF.la += k * (lat - recKF.la);
-    recKF.lo += k * (lng - recKF.lo);
-    recKF.v *= 1 - k;
-    recKF.t = time;
-  }
-  recPos = {lat: recKF.la, lng: recKF.lo, accu, alt, time, speed: x.speed, bearing: x.bearing};
   if (recFirst) {
     recFirst = false;
     map.setView([lat, lng], Math.max(map.getZoom(), 16));
   }
-  const lim = REC.pts.length ? 30 : 50; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy
-  if (accu > lim) return recUi();
-  const q = [
-      +recKF.la.toFixed(6),
-      +recKF.lo.toFixed(6),
+  const lim = REC.pts.length ? 25 : 40; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy
+  if (accu > lim) {
+    recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
+    return recUi();
+  }
+  const newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
+  if (newSeg || !REC.pts.length) recKF.on = 0; // po pauzie filtr zaczyna od nowa
+  const [fl, fg] = kfStep(recKF, lat, lng, accu, time);
+  recPos = {lat: fl, lng: fg, accu, alt, time, speed: x.speed, bearing: x.bearing};
+  const P = recPrecise(),
+    q = [
+      +fl.toFixed(6),
+      +fg.toFixed(6),
       alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10,
       Math.max(0, Math.round((time - REC.st) / 1000))
     ],
@@ -11922,10 +12040,11 @@ function recPoint(lat, lng, alt, accu, time, extra) {
   if (last && !newSeg) {
     const d = hav(last, q),
       dt = q[3] - last[3];
-    if (dt <= 0) return recUi();
-    // postój: nowy punkt dopiero po przejściu kilku metrów (więcej przy słabym sygnale)
-    if (d < Math.max(recPrecise() ? 4 : 10, accu * 0.6)) return recUi();
-    if (d / dt > 70) return recUi(); // skok pozycji (ponad 250 km/h) – błąd GPS
+    if (dt < (P ? 2 : 5)) return recUi(); // gęstość zapisu: co 2 s (oszczędnie co 5 s)
+    if (d < Math.max(P ? 3 : 8, accu * 0.5)) return recUi(); // postój – drgania pozycji w miejscu pomijamy
+    // postój wg filtra: szacowana prędkość poniżej ~1,5 km/h – szum GPS nie „chodzi” po mapie
+    if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return recUi();
+    if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
   }
   REC.pts.push(q);
   recPersist();
@@ -11947,7 +12066,7 @@ async function recWatchOn() {
           backgroundMessage: 'Dotknij, aby wrócić do OMM. Nagrywanie zatrzymasz przyciskiem ⏹.',
           requestPermissions: true,
           stale: false,
-          distanceFilter: recPrecise() ? 4 : 10
+          distanceFilter: recPrecise() ? 3 : 8
         },
         (loc, err) => {
           if (err) {
@@ -13403,6 +13522,191 @@ async function zipToBackup(buf) {
   };
 }
 
+// ---------- nawigacja do punktu: linia i odległość od mojej pozycji, strzałka wg kompasu ----------
+const brgDeg = (a, b) => {
+  // kierunek (azymut) z punktu a do b w stopniach od północy
+  const r = Math.PI / 180,
+    y = Math.sin((b[1] - a[1]) * r) * Math.cos(b[0] * r),
+    x =
+      Math.cos(a[0] * r) * Math.sin(b[0] * r) -
+      Math.sin(a[0] * r) * Math.cos(b[0] * r) * Math.cos((b[1] - a[1]) * r);
+  return (Math.atan2(y, x) / r + 360) % 360;
+};
+const DIR8 = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+const ARROW_SVG =
+  '<svg viewBox="0 0 34 34" width="34" height="34"><circle cx="17" cy="17" r="15" fill="#1a73e8" opacity=".18"/><path d="M17 4L26 27L17 22L8 27Z" fill="#1a73e8" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
+let NAV = null; // trwająca nawigacja: cel, pozycja, kierunek telefonu, elementy na mapie
+function navStart(to, name) {
+  navStop();
+  map.closePopup();
+  $('sheet').style.display = 'none';
+  closePops();
+  const bar = h('div', 'navbar'),
+    arr = h('span', 'narr'),
+    txt = h('span', 'ntx', 'Szukam pozycji GPS…');
+  arr.innerHTML =
+    '<svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2L20 21L12 16.5L4 21Z" fill="#1a73e8"/></svg>';
+  bar.append(arr, txt, B('✕', navStop, 'nx', 'Zakończ nawigację'));
+  document.body.append(bar);
+  document.body.classList.add('navon');
+  const g = L.layerGroup().addTo(map);
+  NAV = {
+    to: [to[0], to[1]],
+    name: name || 'punkt',
+    bar,
+    arr,
+    txt,
+    g,
+    pos: null,
+    acc: null,
+    head: null, // kierunek telefonu z kompasu (stopnie)
+    gpsHead: null, // kierunek ruchu z GPS (gdy kompasu brak)
+    first: true,
+    arrived: false,
+    line: L.polyline([], {
+      pane: 'tmpP',
+      color: '#1a73e8',
+      weight: 4,
+      dashArray: '8 8',
+      interactive: false
+    }).addTo(g),
+    lbl: L.marker(to, {
+      pane: 'tmpP',
+      interactive: false,
+      icon: L.divIcon({className: 'nlbl', html: '<span></span>', iconSize: null})
+    }),
+    me: L.marker(to, {
+      pane: 'tmpP',
+      interactive: false,
+      icon: L.divIcon({className: 'nme', html: ARROW_SVG, iconSize: [34, 34], iconAnchor: [17, 17]})
+    })
+  };
+  L.circleMarker(to, {
+    pane: 'tmpP',
+    radius: 10,
+    color: '#1a73e8',
+    weight: 3,
+    fillColor: '#fff',
+    fillOpacity: 0.9,
+    interactive: false
+  }).addTo(g);
+  if (!navigator.geolocation) return (txt.textContent = 'Brak GPS w tym urządzeniu.');
+  NAV.watch = navigator.geolocation.watchPosition(
+    p => navPos(p.coords),
+    e => {
+      if (e.code === 1) {
+        navStop();
+        tell(gpsHelp(e));
+      }
+    },
+    {enableHighAccuracy: true, maximumAge: 1000, timeout: 60000}
+  );
+  // kompas: Android podaje bezwzględny kierunek telefonu w zdarzeniu deviceorientationabsolute
+  NAV.onOri = e => {
+    if (!NAV) return;
+    let hd = null;
+    if (e.webkitCompassHeading != null) hd = e.webkitCompassHeading;
+    else if (e.absolute && e.alpha != null) hd = 360 - e.alpha;
+    if (hd == null) return;
+    hd = (hd + ((screen.orientation && screen.orientation.angle) || 0) + 360) % 360; // telefon obrócony poziomo
+    NAV.head = hd;
+    navDraw();
+  };
+  window.addEventListener('deviceorientationabsolute', NAV.onOri);
+  window.addEventListener('deviceorientation', NAV.onOri);
+}
+function navPos(c) {
+  if (!NAV) return;
+  NAV.pos = [c.latitude, c.longitude];
+  NAV.acc = c.accuracy;
+  if (c.heading != null && isFinite(c.heading) && (c.speed || 0) > 0.7) NAV.gpsHead = c.heading;
+  if (NAV.first) {
+    NAV.first = false;
+    NAV.me.addTo(NAV.g);
+    NAV.lbl.addTo(NAV.g);
+    map.fitBounds(L.latLngBounds([NAV.pos, NAV.to]), {
+      paddingTopLeft: [40, 90],
+      paddingBottomRight: [40, 80],
+      maxZoom: 18
+    });
+  }
+  navDraw();
+}
+function navDraw() {
+  if (!NAV || !NAV.pos) return;
+  const d = hav(NAV.pos, NAV.to),
+    b = brgDeg(NAV.pos, NAV.to),
+    hd = NAV.head != null ? NAV.head : NAV.gpsHead;
+  NAV.line.setLatLngs([NAV.pos, NAV.to]);
+  NAV.me.setLatLng(NAV.pos);
+  const ic = NAV.me.getElement && NAV.me.getElement();
+  if (ic && ic.firstChild) ic.firstChild.style.transform = 'rotate(' + (hd != null ? hd : 0) + 'deg)';
+  if (ic) ic.style.opacity = hd != null ? 1 : 0.7;
+  NAV.lbl.setLatLng([(NAV.pos[0] + NAV.to[0]) / 2, (NAV.pos[1] + NAV.to[1]) / 2]);
+  const le = NAV.lbl.getElement && NAV.lbl.getElement();
+  if (le && le.firstChild) le.firstChild.textContent = fkm(d); // odległość na środku linii
+  // strzałka na pasku: „tam” względem tego, gdzie patrzy telefon (bez kompasu – względem północy)
+  NAV.arr.style.transform = 'rotate(' + (hd != null ? b - hd : b) + 'deg)';
+  if (d <= Math.max(8, Math.min(25, NAV.acc || 8))) {
+    if (!NAV.arrived) {
+      NAV.arrived = true;
+      try {
+        navigator.vibrate && navigator.vibrate([200, 100, 200]);
+      } catch (e) {}
+    }
+    NAV.txt.textContent = '✅ Jesteś na miejscu: ' + NAV.name;
+    return;
+  }
+  NAV.arrived = false;
+  NAV.txt.textContent =
+    NAV.name +
+    ' · ' +
+    fkm(d) +
+    ' · ' +
+    Math.round(b) +
+    '° ' +
+    DIR8[Math.round(b / 45) % 8] +
+    (NAV.acc > 30 ? ' · słaby GPS ±' + Math.round(NAV.acc) + ' m' : '');
+}
+function navStop() {
+  if (!NAV) return;
+  if (NAV.watch != null) navigator.geolocation.clearWatch(NAV.watch);
+  window.removeEventListener('deviceorientationabsolute', NAV.onOri);
+  window.removeEventListener('deviceorientation', NAV.onOri);
+  NAV.g.remove();
+  NAV.bar.remove();
+  NAV = null;
+  document.body.classList.remove('navon');
+}
+
+// ---------- import zdjęć z lokalizacją (osobny przycisk w panelu) ----------
+async function fotoImportPick() {
+  const v = await dlg({
+    title:
+      'Import zdjęć z lokalizacją\nKażde zdjęcie z zapisanym miejscem zrobienia stanie się punktem 📷 na mapie „' +
+      P.name +
+      '”.\n\nWybierz zdjęcia przez aplikację „Pliki” (np. folder DCIM/Camera) – wtedy Android nie usuwa z nich lokalizacji.',
+    btns: [
+      {t: '📁 Wybierz w „Plikach”', v: 'f', c: 'okb'},
+      {t: '🖼 Z galerii', v: 'g'},
+      {t: 'Anuluj', v: null}
+    ]
+  });
+  if (!v) return;
+  const inp = h('input');
+  inp.type = 'file';
+  inp.multiple = true;
+  if (v === 'g') inp.accept = 'image/*'; // galeria (Android może usunąć lokalizację)
+  inp.onchange = () => {
+    const fs = [...inp.files].filter(
+      f => /^image\//.test(f.type) || /\.(jpe?g|heic|png|webp)$/i.test(f.name)
+    );
+    if (fs.length) fotoImport(fs);
+    else if (inp.files.length) tell('Wybrane pliki nie są zdjęciami.');
+  };
+  inp.click();
+}
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
   const back = h('div', 'dback'),
@@ -13445,8 +13749,8 @@ function settingsDlg() {
     ['pics', FOLDERS.pics.label + ' – widoczne w galerii zdjęć']
   ]);
   radios('Nagrywanie śladu GPS', 'omm-rec-tryb', 'dokladny', [
-    ['dokladny', 'Dokładne – punkt co kilka metrów'],
-    ['oszczedny', 'Oszczędne – punkt co ~10 m, mniejsze zużycie baterii']
+    ['dokladny', 'Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)'],
+    ['oszczedny', 'Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii']
   ]);
   const fin = () => back.remove();
   bt.append(B('Zamknij', fin, 'okb'));
@@ -13473,6 +13777,7 @@ if (plug('App'))
     if ($('sheet').style.display === 'flex') return $('closes').click();
     if (map._popup && map.hasLayer(map._popup)) return map.closePopup();
     if (ANIM) return animStop();
+    if (NAV) return navStop();
     if ($('recpan').style.display === 'block') return $('rectx').click();
     if (mode) return setMode(null);
     plug('App').minimizeApp();

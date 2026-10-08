@@ -26,9 +26,10 @@ Wersja w przeglądarce dalej działa: plik [`app/omm.html`](app/omm.html) otwier
 7. **Warstwy** – przycisk w lewym dolnym rogu: mapy, warstwy, filtr („pokaż tylko kanie”), import, kopia.
 8. **Kopia zapasowa** – Kopia → „Zapisz pełną kopię”. Rób ją regularnie, zwłaszcza przed aktualizacją – to jeden plik ZIP ze wszystkim (mapy, ślady, zdjęcia, ustawienia).
 9. **Ślady GPS** – czerwony przycisk ⏺ po prawej rozpoczyna nagrywanie (w aplikacji także przy wygaszonym ekranie). Pasek u góry pokazuje czas, dystans i prędkość; ⏸ pauza, ⏹ koniec i zapis. Wszystkie ślady są w panelu warstw w zakładce **Ślady GPS** – z własnymi warstwami, statystykami, profilem wysokości i eksportem GPX.
-10. **Zdjęcia** – w okienku punktu „📷 Zdjęcie” (aparat albo galeria). Podczas nagrywania śladu przycisk 📷 na pasku dodaje samo zdjęcie albo punkt z opisem w bieżącym miejscu. Import zdjęć z telefonu (przycisk Import) zamienia zdjęcia z zapisaną lokalizacją w punkty 📷.
-11. **Animacja śladu** – w okienku śladu „▶ Animacja”: ślad rysuje się stopniowo, przy zdjęciach animacja się zatrzymuje; „🎬 Film” zapisuje ją jako plik wideo do udostępnienia.
-12. **Z Moich Map Google** – w Moich Mapach pobierz KML/KMZ, potem tutaj Import (zdjęcia i opisy też się przenoszą).
+10. **Zdjęcia** – w okienku punktu „📷 Zdjęcie” (aparat albo galeria). Podczas nagrywania śladu przycisk 📷 na pasku dodaje samo zdjęcie albo punkt z opisem w bieżącym miejscu. Przycisk **📷 Zdjęcia** w panelu warstw zamienia zdjęcia z zapisaną lokalizacją w punkty 📷 (wybieraj je przez aplikację „Pliki” – galeria Androida potrafi usuwać lokalizację).
+11. **🧭 Nawiguj** – w okienku punktu: linia i odległość od Twojej pozycji do punktu, aktualizowane na bieżąco; Twoja pozycja to strzałka obracana kompasem telefonu.
+12. **Animacja śladu** – w okienku śladu „▶ Animacja”: ślad rysuje się stopniowo, przy zdjęciach animacja się zatrzymuje; „🎬 Film” zapisuje ją jako plik wideo do udostępnienia.
+13. **Z Moich Map Google** – w Moich Mapach pobierz KML/KMZ, potem tutaj Import (zdjęcia i opisy też się przenoszą).
 
 Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedynie podkłady mapowe.
 
