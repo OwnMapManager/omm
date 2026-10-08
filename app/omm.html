@@ -1600,21 +1600,41 @@ textarea {
 #recb {
   top: calc(152px + env(safe-area-inset-top, 0px));
   right: 8px;
-  color: #e53935;
-  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: #3a2c22;
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
-/* w trakcie nagrywania: czerwony przycisk, który lekko i powoli „oddycha” */
-#recb.on {
-  background: #e53935;
-  color: #fff;
-  animation: recpulse 2.6s ease-in-out infinite;
+/* dioda jak w starym magnetofonie: zgaszona – ciemnoczerwona, przy nagrywaniu świeci i lekko pulsuje */
+#recb .led {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #8d4a4a, #4a1c1c);
+  box-shadow: inset 0 0 1px #0008;
 }
-@keyframes recpulse {
+#recb.on .led {
+  background: radial-gradient(circle at 35% 35%, #ffb3ad, #ff1a0d 55%, #c40d00);
+  animation: recled 2.4s ease-in-out infinite;
+}
+@keyframes recled {
+  0%,
+  100% {
+    box-shadow:
+      0 0 3px 1px rgba(255, 30, 15, 0.55),
+      0 0 8px 2px rgba(255, 30, 15, 0.25);
+    opacity: 0.85;
+  }
   50% {
-    transform: scale(1.08);
-    box-shadow: 0 0 0 8px rgba(229, 57, 53, 0.18);
+    box-shadow:
+      0 0 5px 2px rgba(255, 30, 15, 0.9),
+      0 0 14px 5px rgba(255, 30, 15, 0.4);
+    opacity: 1;
   }
 }
 #recbar {
@@ -2121,7 +2141,7 @@ body.navon #info {
 <button class="ib" id="gps" title="Moja pozycja">◎</button>
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki">🖨</button>
-<button class="ib" id="recb" title="Nagrywanie śladu GPS">REC</button>
+<button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button><button id="recf" title="Zdjęcie lub punkt na trasie">📷</button><button id="recp" title="Pauza">⏸</button><button id="recs" title="Zakończ nagrywanie">⏹</button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><button id="recctr">◎ Pokaż mnie na mapie</button></div>
 <div class="pop" id="bmenu"></div>
