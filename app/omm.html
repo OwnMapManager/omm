@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="pl"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!-- Polityka bezpieczeństwa treści: skrypty i style tylko z aplikacji (oraz Leaflet z cdnjs w wersji przeglądarkowej),
+     zakaz ramek, wtyczek i obcych formularzy. Obrazki i zapytania – do serwerów map (różne adresy). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; child-src 'none'; base-uri 'none'; form-action 'none'">
 <title>OMM – Own Map Manager</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
 <style>
@@ -1269,6 +1272,48 @@ textarea {
   font-size: 11.5px;
   margin-top: 1px;
 }
+.leaflet-popup-content .tph .pt {
+  padding-right: 0;
+}
+.leaflet-popup-content button.ibt {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+.leaflet-popup-content .cco {
+  color: var(--sub);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-decoration: underline dotted;
+  cursor: pointer;
+  margin-top: 4px;
+  width: max-content;
+}
+.leaflet-popup-content .pdesc {
+  margin-top: 4px;
+}
+.leaflet-popup-content .note {
+  position: relative;
+  padding-right: 34px !important;
+}
+.leaflet-popup-content .note .nted {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+}
+.leaflet-popup-content .note .nted .ic {
+  width: 16px;
+  height: 16px;
+}
+.leaflet-popup-content .note.add {
+  color: var(--sub);
+  font-style: italic;
+  background: none;
+  border-left-color: var(--line);
+  cursor: pointer;
+}
 .leaflet-popup-content .note {
   margin-top: 8px;
   padding: 6px 8px;
@@ -1901,6 +1946,20 @@ body.rec #info {
   font-size: 11.5px;
   color: var(--sub);
 }
+.obj .tact {
+  display: flex;
+  gap: 4px;
+  margin: 2px 0 -4px -6px;
+}
+.obj .tact .eye {
+  width: 28px;
+  height: 28px;
+  padding: 5px;
+}
+.obj .tact .eye svg {
+  width: 17px;
+  height: 17px;
+}
 .obj .oi svg {
   width: 20px;
   height: 20px;
@@ -2120,6 +2179,9 @@ button.bic .ic,
 button.ibt .ic {
   flex: none;
 }
+.abst {
+  white-space: pre-line;
+}
 .aguess {
   margin: 4px 0 2px;
   font-size: 13px;
@@ -2156,6 +2218,37 @@ details.scat[open] summary::after {
 }
 details.scat .scb {
   padding: 0 14px 6px;
+}
+/* belka ikon w opcjach warstw */
+.ctl .cbelt {
+  display: flex;
+  gap: 2px;
+  flex: 1 1 100%;
+}
+.ctl .cbelt button.ibt {
+  border: 0;
+  background: none;
+  width: 36px;
+  height: 34px;
+  min-width: 0;
+  padding: 0;
+}
+#recpill button .ic {
+  display: block;
+  margin: auto;
+}
+/* zwarte przyciski w okienkach na mapie */
+.leaflet-popup-content .pb {
+  gap: 5px;
+}
+.leaflet-popup-content .pb button,
+.tbt button {
+  padding: 5px 9px;
+  font-size: 12.5px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--b2);
 }
 /* ustawienia: przyciski u góry */
 .setop {
@@ -2671,7 +2764,7 @@ body.spliton #info {
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg></button>
 <button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
-<div id="recpill"><button id="rpp" title="Pauza">⏸</button><button id="rpf" title="Zdjęcie na trasie">📷</button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)">📍</button><button id="rpb" title="Powrót do startu po nagrywanym śladzie">↩</button></div>
+<div id="recpill"><button id="rpp" title="Pauza"></button><button id="rpf" title="Zdjęcie na trasie"></button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)"></button><button id="rpb" title="Powrót do startu po nagrywanym śladzie"></button></div>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div></div>
 <div class="pop" id="bmenu"></div>
@@ -2697,8 +2790,8 @@ body.spliton #info {
   <div id="sa"><button id="addl">＋ Dodaj warstwę</button><button id="addg" style="display:none">＋ Grupa</button><button id="impb">⇧ Import</button><button id="fotb">📷 Zdjęcia</button><button id="projb">💾 Kopia</button><button id="selb">☑ Zaznacz</button><button id="fltb">🔍 Filtr</button></div>
   <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import</button><button id="tsumb">📊 Podsumowanie</button><button id="tselb">☑ Zaznacz</button></div>
   <div id="list"></div>
-  <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś…</button><button id="selic">Ikona…</button><button id="selnm">Nazwy…</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
-  <div id="tselbar"><span id="tselc"></span><button id="tsmv">📂 Przenieś…</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">🏷 Rodzaj…</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
+  <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś</button><button id="selic">Ikona</button><button id="selnm">Nazwy</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
+  <div id="tselbar"><span id="tselc"></span><button id="tsmv">Przenieś</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">Rodzaj</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
@@ -2707,7 +2800,7 @@ body.spliton #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v42 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v43 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2796,7 +2889,26 @@ const IC = {
   stats: '<path d="M4 20V11M10 20V5M16 20v-6M2.5 20h19"/>',
   dl: '<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M4 16v4h16v-4"/>',
   play: '<path d="M7 4.5v15l12-7.5z"/>',
-  photo: '<path d="M3.5 8h3.8l1.8-2.6h5.8L16.7 8h3.8v11h-17z"/><circle cx="12" cy="13.3" r="3.5"/>' // jak przycisk 📷 na pasku
+  photo: '<path d="M3.5 8h3.8l1.8-2.6h5.8L16.7 8h3.8v11h-17z"/><circle cx="12" cy="13.3" r="3.5"/>', // jak przycisk 📷 na pasku
+  move: '<path d="M8.5 12V5.8a1.4 1.4 0 0 1 2.8 0V11M11.3 10.5V4.4a1.4 1.4 0 0 1 2.8 0V11M14.1 10.8V6.2a1.4 1.4 0 0 1 2.8 0V12M16.9 11.2a1.4 1.4 0 0 1 2.8 0V15a6 6 0 0 1-6 6h-1.4a6 6 0 0 1-4.7-2.3l-3.1-3.9a1.4 1.4 0 0 1 2.1-1.8L8.5 15v-3"/>', // dłoń: chwyć i przesuń
+  layer: '<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/>', // jak przycisk warstw
+  pin: '<path d="M12 2.5a6 6 0 0 0-6 6c0 4.5 6 12 6 12s6-7.5 6-12a6 6 0 0 0-6-6z"/><circle cx="12" cy="8.5" r="2"/>',
+  restore: '<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9"/><path d="M4.5 4.5V9H9"/>',
+  back: '<path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/>',
+  pause: '<path d="M8.5 5v14M15.5 5v14"/>',
+  tag: '<path d="M3.5 12.5V4h8.5l9 9-8.5 8.5z"/><circle cx="8" cy="8.5" r="1.5"/>',
+  note: '<path d="M4 5h16v11H9l-5 4z"/>',
+  save: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/>', // jak „Kopia” w panelu map
+  up: '<path d="M12 19V5M6 11l6-6 6 6"/>',
+  down: '<path d="M12 5v14M6 13l6 6 6-6"/>',
+  color:
+    '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1-.8-1.4-.8-2.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/>'
+};
+// belka ikon w opcjach warstwy / grupy (ta sama kolejność wszędzie: nazwa · kolor · wyżej · niżej · eksport · usuń)
+const belt = (...els) => {
+  const d = h('div', 'cbelt');
+  d.append(...els.filter(Boolean));
+  return d;
 };
 const ico = (k, s) =>
   '<svg class="ic" viewBox="0 0 24 24" width="' +
@@ -2827,7 +2939,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v42';
+const APP_VER = 'v43';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -6900,20 +7012,79 @@ function describe(it) {
     it.p[0][1].toFixed(6)
   );
 }
+async function itemRename(it, latlng) {
+  const v = await askText('Nazwa obiektu (puste = nazwa automatyczna):', it.nm || '');
+  if (v === null) return;
+  const t = v.trim();
+  if (t) it.nm = t.slice(0, 200);
+  else delete it.nm;
+  touch(it);
+  save();
+  render();
+  sheetIfOpen();
+  map.closePopup();
+  openItemPopup(it, latlng);
+}
+async function itemNote(it, latlng) {
+  // komentarz; przy noclegach i schronieniach – przycisk z szablonem pól opisu
+  const k = tplKind(it),
+    miss = v => TPL[k].filter(x => !new RegExp('^\\s*' + escRe(x) + '\\s*:', 'im').test(v));
+  const v = await askNote(
+    'Komentarz do obiektu:',
+    it.n || '',
+    k
+      ? [
+          {
+            t: '📋 ' + TPLN[k],
+            fn: inp => {
+              const add = miss(inp.value);
+              if (add.length) inp.value = (inp.value.trim() ? inp.value.trim() + '\n' : '') + tplText(add);
+              inp.focus();
+            }
+          },
+          {t: '✎ Edytuj szablon', fn: () => editTpl(k)}
+        ]
+      : null
+  );
+  if (v === null) return;
+  const tp = k ? TPL[k] : null;
+  const t = tplClean(v.trim(), tp);
+  if (t) it.n = t.slice(0, 5000);
+  else delete it.n;
+  touch(it);
+  save();
+  render();
+  sheetIfOpen();
+  map.closePopup();
+  openItemPopup(it, latlng);
+}
 function openItemPopup(it, latlng) {
   const f = findL(it.l),
     box = h('div'),
-    hd = h('div', 'pt'),
+    hd = h('div', 'tph'),
     sub = h('div', 'ps');
-  hd.textContent = nameOf(it);
+  // nazwa z ołówkiem obok (jak w okienku śladu)
+  hd.append(h('b', 'pt', nameOf(it)), IB('edit', () => itemRename(it, latlng), '', 'Zmień nazwę'));
   sub.textContent = NAMES[it.t] + ' · warstwa: ' + (f ? f.l.name : '');
-  const body = h('div');
-  body.innerHTML = '<br>' + describe(it);
-  if (it.n) {
-    const nt = h('div', 'note');
-    nt.textContent = it.n;
-    body.append(nt);
+  const body = h('div', 'pbody');
+  if (isPt(it)) {
+    // współrzędne małym drukiem – dotknięcie otwiera okienko współrzędnych (kopiuj, udostępnij, SMS…)
+    const cc = h('div', 'cco', it.p[0][0].toFixed(6) + ', ' + it.p[0][1].toFixed(6));
+    cc.title = 'Współrzędne – kopiuj, udostępnij, prowadź';
+    cc.onclick = () => coordPopup(it.p[0], nameOf(it));
+    body.append(cc);
+    if (it.t === 'num') body.append(h('div', 'pdesc', 'Numer: ' + it.no));
+    if (it.t === 'text') body.append(h('div', 'pdesc', 'Tekst: ' + it.tx));
+  } else {
+    const d = h('div', 'pdesc');
+    d.innerHTML = describe(it);
+    body.append(d);
   }
+  // komentarz w ramce z ołówkiem; bez komentarza – blada linijka „Dodaj komentarz”
+  const nt = h('div', it.n ? 'note' : 'note add');
+  nt.append(h('span', null, it.n || 'Dodaj komentarz'), IB('edit', () => itemNote(it, latlng), 'nted', it.n ? 'Edytuj komentarz' : 'Dodaj komentarz'));
+  if (!it.n) nt.onclick = () => itemNote(it, latlng);
+  body.append(nt);
   if (RATED(it)) {
     const rr = h('div', 'rate'),
       drawR = () => {
@@ -7102,21 +7273,6 @@ function openItemPopup(it, latlng) {
     };
     c.append(lb, sel);
   }
-  row.append(
-    BI('edit', 'Nazwa', async () => {
-      const v = await askText('Nazwa obiektu (puste = nazwa automatyczna):', it.nm || '');
-      if (v === null) return;
-      const t = v.trim();
-      if (t) it.nm = t.slice(0, 200);
-      else delete it.nm;
-      touch(it);
-      save();
-      render();
-      sheetIfOpen();
-      map.closePopup();
-      openItemPopup(it, latlng);
-    })
-  );
   function iconSec(c) {
     if (isArea(it)) {
       const t = h('div', 'hint', 'Ikona obszaru oznacza, co tu rośnie – działa z filtrem jak ikona punktu.');
@@ -7143,6 +7299,12 @@ function openItemPopup(it, latlng) {
       )
     );
   }
+  row.append(
+    BI('nav', 'Prowadź', () => {
+      const c = isPt(it) || it.t === 'circle' ? it.p[0] : L.latLngBounds(it.p).getCenter();
+      navStart(Array.isArray(c) ? c : [c.lat, c.lng], nameOf(it));
+    })
+  );
   if (it.t !== 'pin' || (ICONS[it.i] && ICONS[it.i].col)) row.append(B('Kolor', () => show(colorSec)));
   if (it.t === 'pin' || isArea(it)) row.append(B('Ikona', () => show(iconSec)));
   if (it.t === 'num')
@@ -7173,25 +7335,7 @@ function openItemPopup(it, latlng) {
         openItemPopup(it, latlng);
       })
     );
-  row.append(
-    BI('photo', 'Zdjęcie', async () => {
-      map.closePopup();
-      if (!(await addPhotosTo(it))) return;
-      touch(it);
-      save();
-      render();
-      sheetIfOpen();
-      openItemPopup(it, latlng);
-    })
-  );
-  row.append(
-    BI('nav', 'Prowadź', () => {
-      const c = isPt(it) || it.t === 'circle' ? it.p[0] : L.latLngBounds(it.p).getCenter();
-      navStart(Array.isArray(c) ? c : [c.lat, c.lng], nameOf(it));
-    })
-  );
-  row.append(B('✥ Przesuń', () => startEdit(it)));
-  row.append(B('Edytuj', () => show(layerSec)));
+  row.append(BI('layer', 'Warstwa', () => show(layerSec)));
   if (isLn(it))
     row.append(
       B('Profil ▲', () => {
@@ -7199,45 +7343,26 @@ function openItemPopup(it, latlng) {
         profile(it.p);
       })
     );
-  row.append(
-    B(it.n ? '💬 Edytuj komentarz' : '💬 Komentarz', async () => {
-      const k = tplKind(it),
-        miss = v => TPL[k].filter(x => !new RegExp('^\\s*' + escRe(x) + '\\s*:', 'im').test(v));
-      const v = await askNote(
-        'Komentarz do obiektu:',
-        it.n || '',
-        k
-          ? [
-              {
-                t: '📋 ' + TPLN[k],
-                fn: inp => {
-                  const add = miss(inp.value);
-                  if (add.length)
-                    inp.value = (inp.value.trim() ? inp.value.trim() + '\n' : '') + tplText(add);
-                  inp.focus();
-                }
-              },
-              {t: '✎ Edytuj szablon', fn: () => editTpl(k)}
-            ]
-          : null
-      );
-      if (v === null) return;
-      const tp = k ? TPL[k] : null;
-      const t = tplClean(v.trim(), tp);
-      if (t) it.n = t.slice(0, 5000);
-      else delete it.n;
-      touch(it);
-      save();
-      render();
-      sheetIfOpen();
-      map.closePopup();
-      openItemPopup(it, latlng);
-    })
-  );
-  row.append(
-    BI(
+  // belka ikon: zdjęcie · przesuń · usuń (jak w okienku śladu)
+  const ib = h('div', 'tib');
+  ib.append(
+    IB(
+      'photo',
+      async () => {
+        map.closePopup();
+        if (!(await addPhotosTo(it))) return;
+        touch(it);
+        save();
+        render();
+        sheetIfOpen();
+        openItemPopup(it, latlng);
+      },
+      '',
+      'Dodaj zdjęcie'
+    ),
+    IB('move', () => startEdit(it), '', 'Przesuń (chwyć i przeciągnij)'),
+    IB(
       'del',
-      'Usuń',
       async () => {
         if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?\n\nTrafi do kosza na 30 dni.', 'Usuń', true)))
           return;
@@ -7248,10 +7373,11 @@ function openItemPopup(it, latlng) {
         sheetIfOpen();
         map.closePopup();
       },
-      'del'
+      'danger',
+      'Usuń'
     )
   );
-  box.append(hd, sub, body, row, sec);
+  box.append(hd, sub, body, row, ib, sec);
   box.addEventListener('click', e => e.stopPropagation()); // kliknięcia w menu obiektu nie mogą zamykać okna
   pop.setLatLng(latlng).setContent(box).openOn(map);
 }
@@ -9322,11 +9448,13 @@ function sheet() {
       if (selG === g.id) {
         const c = h('div', 'ctl');
         c.append(
-          BI('edit', 'Nazwa', () => ren(g, 'Nazwa grupy:')),
-          B('＋ Warstwa', () => addLayerTo(g)),
-          B('↑', () => mv(P.groups, gi, -1), '', 'Wyżej'),
-          B('↓', () => mv(P.groups, gi, 1), '', 'Niżej'),
-          IB('del', () => delG(g), 'danger', 'Usuń grupę')
+          belt(
+            IB('edit', () => ren(g, 'Nazwa grupy:'), '', 'Zmień nazwę'),
+            IB('up', () => mv(P.groups, gi, -1), '', 'Wyżej'),
+            IB('down', () => mv(P.groups, gi, 1), '', 'Niżej'),
+            IB('del', () => delG(g), 'danger', 'Usuń grupę')
+          ),
+          B('＋ Warstwa', () => addLayerTo(g))
         );
         box.append(c);
       }
@@ -9394,16 +9522,18 @@ function sheet() {
             if (pn) pn.style.opacity = l.op;
           };
           rg.onchange = save;
-          const xb = BI('dl', 'Eksport', () => xmenu(xb, l));
+          const xb = IB('dl', () => xmenu(xb, l), '', 'Eksport warstwy (GPX, KML, GeoJSON)');
           c.append(
+            belt(
+              IB('edit', () => ren(l, 'Nazwa warstwy:'), '', 'Zmień nazwę'),
+              IB('up', () => mv(g.layers, li, -1), '', 'Wyżej'),
+              IB('down', () => mv(g.layers, li, 1), '', 'Niżej'),
+              xb,
+              IB('del', () => delL(g, l), 'danger', 'Usuń warstwę')
+            ),
             h('span', null, 'Krycie'),
             rg,
-            pc,
-            BI('edit', 'Nazwa', () => ren(l, 'Nazwa warstwy:')),
-            B('↑', () => mv(g.layers, li, -1), '', 'Wyżej'),
-            B('↓', () => mv(g.layers, li, 1), '', 'Niżej'),
-            xb,
-            IB('del', () => delL(g, l), 'danger', 'Usuń warstwę')
+            pc
           );
           if (its.some(i => i.t === 'pin')) c.append(B('Ikona punktów…', () => massIcon(its)));
           if (its.some(i => i.nm && icOfItem(i))) c.append(B('Ujednolić nazwy…', () => massUnify(its)));
@@ -10992,7 +11122,14 @@ async function nmtGet(q) {
     const ac = new AbortController(),
       tm = setTimeout(() => ac.abort(), 12000);
     try {
-      const r = await fetch(proto + '://services.gugik.gov.pl/nmt/?' + q, {signal: ac.signal});
+      const url = proto + '://services.gugik.gov.pl/nmt/?' + q,
+        H = proto === 'http' && plug('CapacitorHttp');
+      if (H) {
+        // w aplikacji zapytania po HTTP są blokowane w WebView (bezpieczeństwo) – zapasowo idą natywnie
+        const r = await H.get({url, responseType: 'text', readTimeout: 12000, connectTimeout: 12000});
+        return String(r.data).trim();
+      }
+      const r = await fetch(url, {signal: ac.signal});
       return String(await r.text()).trim();
     } finally {
       clearTimeout(tm);
@@ -12129,6 +12266,7 @@ function wpPopup(t, w) {
       // zmiana opisu/zdjęć trafia też do powiązanego punktu mapy (jeśli jeszcze istnieje)
       const it = wpLive(w);
       if (it) {
+        if (w.nm) it.nm = w.nm;
         if (w.n) it.n = w.n;
         else delete it.n;
         if (w.ph && w.ph.length) it.ph = [...w.ph];
@@ -12145,9 +12283,40 @@ function wpPopup(t, w) {
         recDraw();
       }
     };
-  el.append(h('b', null, w.nm || (w.n || w.i ? 'Punkt na trasie' : 'Zdjęcie na trasie')));
+  const act = fn => () => {
+    map.closePopup();
+    fn();
+  };
+  // nazwa z ołówkiem, opis w ramce z ołówkiem – jak w okienku punktu mapy
+  const hd = h('div', 'tph');
+  hd.append(
+    h('b', null, w.nm || (w.n || w.i ? 'Punkt na trasie' : 'Zdjęcie na trasie')),
+    IB(
+      'edit',
+      act(async () => {
+        const v = await askText('Nazwa punktu:', w.nm || '');
+        if (v == null) return;
+        if (v.trim()) w.nm = v.trim().slice(0, 200);
+        else delete w.nm;
+        upd();
+      }),
+      '',
+      'Zmień nazwę'
+    )
+  );
+  el.append(hd);
   if (t && !t.noTime) el.append(h('div', 'tsub', fhm(t.st + w.s * 1000) + ' · ' + (t.nm || 'Ślad')));
-  if (w.n) el.append(h('div', 'note', w.n));
+  const editNote = act(async () => {
+    const v = await askText('Opis punktu:', w.n || '');
+    if (v == null) return;
+    if (v.trim()) w.n = v.trim().slice(0, 2000);
+    else delete w.n;
+    upd();
+  });
+  const nt = h('div', w.n ? 'note' : 'note add');
+  nt.append(h('span', null, w.n || 'Dodaj opis'), IB('edit', editNote, 'nted', w.n ? 'Edytuj opis' : 'Dodaj opis'));
+  if (!w.n) nt.onclick = editNote;
+  el.append(nt);
   if (w.ph && w.ph.length) {
     const st = h('div', 'phs');
     w.ph.forEach((u, k) => {
@@ -12162,36 +12331,19 @@ function wpPopup(t, w) {
     el.append(st);
   }
   const bt = h('div', 'tbt'),
-    act = fn => () => {
-      map.closePopup();
-      fn();
-    };
-  bt.append(
-    BI(
-      'edit',
-      'Opis',
-      act(async () => {
-        const v = await askText('Opis punktu:', w.n || '');
-        if (v == null) return;
-        if (v.trim()) w.n = v.trim().slice(0, 2000);
-        else delete w.n;
-        upd();
-      })
-    ),
-    B(
-      '📷 Zdjęcie',
+    ib = h('div', 'tib');
+  bt.append(BI('nav', 'Prowadź', act(() => navStart(w.p, w.nm || w.n || 'punkt na trasie'))));
+  ib.append(
+    IB(
+      'photo',
       act(async () => {
         if (await addPhotosTo(w)) upd();
-      })
+      }),
+      '',
+      'Dodaj zdjęcie'
     ),
-    BI(
-      'nav',
-      'Prowadź',
-      act(() => navStart(w.p, w.nm || w.n || 'punkt na trasie'))
-    ),
-    BI(
+    IB(
       'del',
-      'Usuń',
       act(async () => {
         if (!(await askYes('Usunąć ten punkt ze śladu?', 'Usuń', true))) return;
         const list = t ? t.wp : REC.wp;
@@ -12205,10 +12357,11 @@ function wpPopup(t, w) {
         }
         (w.ph || []).forEach(fotoForget);
       }),
-      'danger'
+      'danger',
+      'Usuń punkt'
     )
   );
-  el.append(bt);
+  el.append(bt, ib);
   L.popup({maxWidth: 290, className: 'tpopw'}).setLatLng(w.p).setContent(el).openOn(map);
 }
 function trkFocus(t) {
@@ -12226,6 +12379,8 @@ function trkFocus(t) {
 
 // --- okienko śladu na mapie ---
 function trkPopup(t, ll) {
+  // w trybie cięcia dotknięcie śladu ustawia nożyczki (pas do otwierania okienka nie może tego przejąć)
+  if (SPLIT) return SPLIT.click && SPLIT.click({containerPoint: map.latLngToContainerPoint(ll)});
   const s = trkStatsC(t),
     el = h('div', 'tpop');
   if (trkSel !== t) {
@@ -13337,67 +13492,70 @@ function trkSheet() {
     if (tsel === l.id) {
       const c = h('div', 'ctl');
       c.append(
-        BI('edit', 'Nazwa', async () => {
-          const n = await askText('Nazwa warstwy śladów:', l.name);
-          if (n && n.trim()) {
-            l.name = n.trim().slice(0, 200);
-            trkChanged();
-          }
-        }),
-        B('🎨 Kolor', async () => {
-          const k = await pickColor('Kolor warstwy śladów', l.c);
-          if (k) {
-            l.c = k;
-            trkChanged();
-          }
-        }),
-        B(
-          '↑',
-          () => (li > 0 && TRK.layers.splice(li - 1, 0, TRK.layers.splice(li, 1)[0]), trkChanged()),
-          '',
-          'Wyżej'
-        ),
-        B(
-          '↓',
-          () => (
-            li < TRK.layers.length - 1 && TRK.layers.splice(li + 1, 0, TRK.layers.splice(li, 1)[0]),
-            trkChanged()
+        belt(
+          IB(
+            'edit',
+            async () => {
+              const n = await askText('Nazwa warstwy śladów:', l.name);
+              if (n && n.trim()) {
+                l.name = n.trim().slice(0, 200);
+                trkChanged();
+              }
+            },
+            '',
+            'Zmień nazwę'
           ),
-          '',
-          'Niżej'
-        )
-      );
-      if (its.length)
-        c.append(BI('dl', 'GPX', () => dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name))));
-      c.append(
+          IB(
+            'color',
+            async () => {
+              const k = await pickColor('Kolor warstwy śladów', l.c);
+              if (k) {
+                l.c = k;
+                trkChanged();
+              }
+            },
+            '',
+            'Kolor warstwy'
+          ),
+          IB('up', () => (li > 0 && TRK.layers.splice(li - 1, 0, TRK.layers.splice(li, 1)[0]), trkChanged()), '', 'Wyżej'),
+          IB(
+            'down',
+            () => (li < TRK.layers.length - 1 && TRK.layers.splice(li + 1, 0, TRK.layers.splice(li, 1)[0]), trkChanged()),
+            '',
+            'Niżej'
+          ),
+          its.length
+            ? IB('dl', () => dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name)), '', 'Eksport warstwy (GPX)')
+            : null,
         IB(
-          'del',
-          async () => {
-            if (TRK.layers.length < 2) return tell('To jedyna warstwa śladów – nie można jej usunąć.');
-            if (
-              its.length &&
-              !(await askYes(
-                'Usunąć warstwę „' +
-                  l.name +
-                  '” razem z ' +
-                  its.length +
-                  ' ' +
-                  plural(its.length, 'śladem', 'śladami', 'śladami') +
-                  '?\n\nTrafi do kosza na 30 dni.',
-                'Usuń',
-                true
-              ))
-            )
-              return;
-            const allIts = TRK.items.filter(t => t.l === l.id);
-            trashPut('twarstwa', 'Warstwa śladów „' + l.name + '” (' + allIts.length + ')', {l, items: allIts});
-            TRK.items = TRK.items.filter(t => t.l !== l.id);
-            TRK.layers = TRK.layers.filter(x => x !== l);
-            trkFix();
-            trkChanged();
-          },
-          'danger',
-          'Usuń warstwę'
+            'del',
+            async () => {
+              if (TRK.layers.length < 2) return tell('To jedyna warstwa śladów – nie można jej usunąć.');
+              if (
+                its.length &&
+                !(await askYes(
+                  'Usunąć warstwę „' +
+                    l.name +
+                    '” razem z ' +
+                    its.length +
+                    ' ' +
+                    plural(its.length, 'śladem', 'śladami', 'śladami') +
+                    '?\n\nTrafi do kosza na 30 dni.',
+                  'Usuń',
+                  true
+                ))
+              )
+                return;
+              const allIts = TRK.items.filter(t => t.l === l.id);
+              trashPut('twarstwa', 'Warstwa śladów „' + l.name + '” (' + allIts.length + ')', {l, items: allIts});
+              TRK.items = TRK.items.filter(t => t.l !== l.id);
+              TRK.layers = TRK.layers.filter(x => x !== l);
+              trkFix();
+              trkChanged();
+            },
+            'danger',
+            'Usuń warstwę'
+          )
         )
       );
       w.append(c);
@@ -13481,13 +13639,17 @@ function trkSheet() {
           fn();
         };
         if (TSEL) o.append(eye);
-        else
-          o.append(
+        else {
+          // małe ikony pod nazwą – nazwa i opis mają całą szerokość wiersza
+          const ac = h('span', 'tact');
+          ac.append(
             IB('edit', stop(() => trkRename(t)), 'eye', 'Zmień nazwę'),
             eye,
             IB('share', stop(() => trkShare(t)), 'eye', 'Udostępnij'),
-            IB('del', stop(() => trkDelete(t)), 'eye', 'Usuń ślad')
+            IB('del', stop(() => trkDelete(t)), 'eye danger', 'Usuń ślad')
           );
+          nm.append(ac);
+        }
         w.append(o);
       });
     }
@@ -13510,10 +13672,15 @@ var TSEL = null; // zaznaczone ślady (Set z id) albo null, gdy tryb zaznaczania
 var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, '-' = bez rodzaju)
 // paski zaznaczania: te same ikony co przy pojedynczym śladzie / obiekcie
 [
+  ['tsmv', 'layer'],
   ['tsvis', 'eye'],
   ['tshid', 'eyeOff'],
+  ['tsact', 'tag'],
   ['tsgpx', 'dl'],
   ['tsdel', 'del'],
+  ['selmv', 'layer'],
+  ['selic', 'pin'],
+  ['selnm', 'edit'],
   ['seldel', 'del']
 ].forEach(([id, k]) => $(id).insertAdjacentHTML('afterbegin', ico(k, 16)));
 const tselItems = () => (TSEL ? TRK.items.filter(t => TSEL.has(t.id)) : []);
@@ -14261,7 +14428,7 @@ function recUi() {
       : !n && (!recPos || recPos.accu > 50)
       ? 'Szukam GPS…' + (recPos ? ' (±' + Math.round(recPos.accu) + ' m)' : '')
       : fdur(el / 1000) + ' · ' + fkm(s.d) + (v != null ? ' · ' + fkmh(v) : '');
-  $('rpp').textContent = REC.paused ? '▶' : '⏸';
+  $('rpp').innerHTML = ico(REC.paused ? 'play' : 'pause');
   $('rpp').title = REC.paused ? 'Wznów nagrywanie' : 'Pauza';
   if ($('recpan').style.display !== 'none') {
     // panel na żywo: prędkość, wysokość, kierunek, sygnał, współrzędne
@@ -14354,6 +14521,11 @@ $('rectx').onclick = () => {
   recUi();
 };
 $('rpp').onclick = () => REC && recPause(!REC.paused);
+// pasek nagrywania – te same rysowane ikony co w reszcie aplikacji
+$('rpp').innerHTML = ico('pause');
+$('rpf').innerHTML = ico('photo');
+$('rpt').innerHTML = ico('pin');
+$('rpb').innerHTML = ico('back');
 $('rpf').onclick = recFoto;
 $('rpt').onclick = recPin;
 $('rpb').onclick = () => {
@@ -16698,8 +16870,10 @@ function trkSplit(t, at) {
     return {...best, d: bd};
   };
   const snapTo = r => {
-    // ustawia nożyczki w miejscu r: w istniejącym punkcie albo w nowym punkcie pośrednim
-    const P = T0.pts,
+    // ustawia nożyczki w miejscu r: w istniejącym punkcie albo w nowym punkcie pośrednim;
+    // nożyczki płynnie „przejeżdżają” z poprzedniego miejsca
+    const from = mk.getLatLng(),
+      P = T0.pts,
       sc = map.latLngToContainerPoint(P[r.i].slice(0, 2)).distanceTo(map.latLngToContainerPoint(P[r.i + 1].slice(0, 2))),
       px = r.u * sc; // odległość od punktu i na ekranie (px)
     let k;
@@ -16725,6 +16899,15 @@ function trkSplit(t, at) {
     }
     rg.value = Math.min(n - 2, Math.max(1, k));
     show();
+    const to = mk.getLatLng(),
+      t0 = performance.now(),
+      glide = now => {
+        const u = Math.min(1, (now - t0) / 260),
+          e = 1 - Math.pow(1 - u, 3);
+        mk.setLatLng([from.lat + (to.lat - from.lat) * e, from.lng + (to.lng - from.lng) * e]);
+        if (u < 1 && SPLIT) requestAnimationFrame(glide);
+      };
+    requestAnimationFrame(glide);
   };
   const drag = () => {
     const r = nearest(map.latLngToContainerPoint(mk.getLatLng()));
@@ -17003,11 +17186,11 @@ function trashDlg() {
           );
           return c;
         })(),
-        B('↩', async () => {
+        IB('restore', async () => {
           const m = trashRestore(e);
           draw();
           tell(m);
-        }, 'okb', 'Przywróć'),
+        }, '', 'Przywróć'),
         IB('del', async () => {
           if (!(await askYes('Usunąć „' + (e.nm || 'element') + '” na zawsze?', 'Usuń', true))) return;
           TRASH = TRASH.filter(x => x !== e);
@@ -17413,6 +17596,119 @@ function offDlg() {
 }
 offLoad();
 
+// ---------- automatyczna kopia zapasowa: lokalnie (7 ostatnich) i na Dysk Google (jeden nadpisywany plik) ----------
+/*
+ * Częstotliwość „omm-autokopia”: 'zamk' (przy każdym zamknięciu), 'dzien' (domyślnie), 'tydz', 'nie'.
+ * Kopia robi się, gdy aplikacja jest zamykana / chowana, a gdy nie zdąży – przy następnym uruchomieniu.
+ * Lokalnie: <folder z Ustawień>/kopie/omm-autokopia-RRRR-MM-DD-GGMM.zip, zostaje 7 najnowszych.
+ * Dysk Google: jeden plik wybrany raz w systemowym oknie „Zapisz w…” („omm-dysk-uri”), nadpisywany
+ * natywną wtyczką OmmBackup. Stan ostatniej kopii: „omm-autokopia-stan”.
+ */
+const AB_MODES = {zamk: 0, dzien: 20 * 3600e3, tydz: 6.5 * 864e5};
+const abMode = () => localStorage.getItem('omm-autokopia') || 'dzien',
+  abState = () => {
+    try {
+      return JSON.parse(localStorage.getItem('omm-autokopia-stan') || '{}');
+    } catch (e) {
+      return {};
+    }
+  };
+let abBusy = false;
+function abDue() {
+  const m = abMode();
+  return m !== 'nie' && Date.now() - (abState().at || 0) >= AB_MODES[m];
+}
+async function autoBackup(force) {
+  // force = „Zrób kopię teraz”; bez force – tylko gdy minęło dość czasu
+  if (abBusy || (!force && (!NATIVE || !abDue()))) return null;
+  abBusy = true;
+  const st = {at: Date.now(), local: false, drive: null, err: ''};
+  try {
+    const blob = await zipBackup(false);
+    if (!NATIVE) {
+      dl('omm-kopia-' + dateStamp() + '.zip', 'application/zip', blob); // w przeglądarce: zwykłe pobranie pliku
+      st.local = true;
+    } else {
+      const FS = plug('Filesystem'),
+        data = await blob64(blob),
+        F = outFolder('application/zip', 'omm-kopia');
+      try {
+        await FS.writeFile({path: F.base + '/omm-autokopia-' + dateStamp() + '.zip', directory: F.dir, recursive: true, data});
+        st.local = true;
+        // zostaje 7 najnowszych autokopii (ręczne kopie omm-kopia-* nie są ruszane)
+        const ls = await FS.readdir({path: F.base, directory: F.dir}),
+          old = (ls.files || [])
+            .map(x => (typeof x === 'string' ? x : x.name))
+            .filter(n => /^omm-autokopia-.*\.zip$/.test(n))
+            .sort();
+        while (old.length > 7) await FS.deleteFile({path: F.base + '/' + old.shift(), directory: F.dir});
+      } catch (e) {
+        st.err = 'lokalnie: ' + ((e && e.message) || e);
+      }
+      const du = localStorage.getItem('omm-dysk-uri'),
+        OB = plug('OmmBackup');
+      if (du && OB) {
+        try {
+          const c = await FS.writeFile({path: 'autokopia/OMM-kopia.zip', directory: 'CACHE', recursive: true, data});
+          await OB.writeTo({uri: du, src: c.uri});
+          st.drive = true;
+          FS.deleteFile({path: 'autokopia/OMM-kopia.zip', directory: 'CACHE'}).catch(() => {});
+        } catch (e) {
+          st.drive = false;
+          st.err += (st.err ? ' · ' : '') + 'Dysk: ' + ((e && e.message) || e);
+        }
+      }
+    }
+  } catch (e) {
+    st.err = (e && e.message) || String(e);
+  }
+  abBusy = false;
+  if (st.local || st.drive) localStorage.setItem('omm-autokopia-stan', JSON.stringify(st));
+  toastMsg(st.local || st.drive ? '✅ Kopia zapisana' + (st.drive ? ' (także na Dysku)' : '') : '⚠ Kopia nie udała się');
+  return st;
+}
+const dateStamp = () => {
+  const d = new Date(),
+    p = n => String(n).padStart(2, '0');
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + '-' + p(d.getHours()) + p(d.getMinutes());
+};
+function abStatusText() {
+  const s = abState();
+  if (!s.at) return 'Jeszcze nie było kopii.';
+  const d = new Date(s.at),
+    today = new Date().toDateString() === d.toDateString();
+  return (
+    'Ostatnia kopia: ' +
+    (today ? 'dziś ' : fday(s.at) + ' ') +
+    fhm(s.at) +
+    ' · lokalnie ' +
+    (s.local ? '✓' : '✗') +
+    (localStorage.getItem('omm-dysk-uri') ? ' · Dysk ' + (s.drive ? '✓' : '✗') : '') +
+    (s.err ? '\n' + s.err : '')
+  );
+}
+async function abPickDrive() {
+  // jednorazowy wybór pliku na Dysku Google (albo w innym miejscu) w systemowym oknie „Zapisz w…”
+  const OB = plug('OmmBackup');
+  if (!OB) return tell('Kopia na Dysk Google działa w aplikacji OMM na Androidzie.');
+  await tell('Za chwilę otworzy się okno „Zapisz w…”.\n\nWybierz z menu po lewej „Dysk Google”, wskaż folder i zostaw nazwę OMM-kopia.zip. Potem OMM będzie sam nadpisywał ten plik najnowszą kopią.');
+  try {
+    const r = await OB.pickFile({name: 'OMM-kopia.zip'});
+    localStorage.setItem('omm-dysk-uri', r.uri);
+    localStorage.setItem('omm-dysk-nazwa', r.name || 'OMM-kopia.zip');
+    if (!r.persisted) tell('Uwaga: wybrane miejsce nie pozwala na stały zapis – kopia może się udać tylko teraz. Spróbuj wybrać Dysk Google.');
+    await autoBackup(true); // od razu pierwsza kopia – widać, czy działa
+  } catch (e) {
+    if (!/cancel/i.test(String((e && (e.code || e.message)) || e))) tell('Nie udało się wybrać pliku: ' + ((e && e.message) || e));
+  }
+}
+// kopia przy zamykaniu / chowaniu aplikacji, a gdy nie zdążyła – po uruchomieniu
+if (plug('App')) {
+  plug('App').addListener('pause', () => autoBackup(false));
+  plug('App').addListener('resume', () => setTimeout(() => autoBackup(false), 8000));
+}
+setTimeout(() => autoBackup(false), 12000);
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
   // ustawienia w zwijanych kategoriach; otwarta kategoria zapamiętana
@@ -17536,7 +17832,66 @@ function settingsDlg() {
     ['pics', FOLDERS.pics.label + ' – widoczne w galerii zdjęć']
   ]);
 
-  cat('dane', '🗂 Dane');
+  cat('dane', '🗂 Kopia zapasowa i dane');
+  radios(
+    'Automatyczna kopia',
+    'omm-autokopia',
+    'dzien',
+    [
+      ['zamk', 'Przy każdym zamknięciu aplikacji'],
+      ['dzien', 'Raz dziennie (przy zamknięciu)'],
+      ['tydz', 'Raz w tygodniu (przy zamknięciu)'],
+      ['nie', 'Wyłączona']
+    ],
+    NATIVE
+      ? 'Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ' + outFolder('application/zip', 'omm-kopia').label + ' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.'
+      : 'Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.'
+  );
+  {
+    const g = h('div', 'sset'),
+      du = localStorage.getItem('omm-dysk-uri');
+    g.append(h('b', null, 'Dysk Google'));
+    g.append(
+      h(
+        'div',
+        'muted',
+        du
+          ? 'Kopia nadpisuje plik „' + (localStorage.getItem('omm-dysk-nazwa') || 'OMM-kopia.zip') + '” w wybranym miejscu – zawsze najnowsza wersja.'
+          : 'Nie wybrano. Wskaż raz plik na Dysku Google, a OMM będzie go sam nadpisywał najnowszą kopią (wysyła aplikacja Dysk, także po powrocie zasięgu).'
+      )
+    );
+    const r = h('div', 'setop');
+    r.append(
+      B(du ? 'Zmień miejsce…' : 'Wybierz miejsce na Dysku…', () => {
+        back.remove();
+        abPickDrive();
+      }),
+      ...(du
+        ? [
+            B('Odłącz', () => {
+              localStorage.removeItem('omm-dysk-uri');
+              localStorage.removeItem('omm-dysk-nazwa');
+              back.remove();
+              settingsDlg();
+            })
+          ]
+        : [])
+    );
+    g.append(r);
+    sec.append(g);
+    const st = h('div', 'sset');
+    st.append(h('b', null, 'Stan'), h('div', 'muted abst', abStatusText()));
+    const go = BI('save', 'Zrób kopię teraz', async () => {
+      go.disabled = true;
+      await autoBackup(true);
+      st.querySelector('.abst').textContent = abStatusText();
+      go.disabled = false;
+    });
+    const gr = h('div', 'setop');
+    gr.append(go);
+    st.append(gr);
+    sec.append(st);
+  }
   sec.append(h('div', 'muted', 'Usunięte punkty, warstwy, mapy i ślady czekają w koszu 30 dni.'));
   btnRow([
     BI('del', 'Kosz (' + TRASH.length + ')', () => {

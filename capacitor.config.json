@@ -3,7 +3,6 @@
   "appName": "OMM",
   "webDir": "www",
   "android": {
-    "allowMixedContent": true,
     "useLegacyBridge": true
   },
   "plugins": {

@@ -51,6 +51,7 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 - **W terenie**: kropka GPS ze stożkiem kierunku (kompas), prowadzenie do punktu i po śladzie (powrót do startu), współrzędne z kopiowaniem, SMS-em i udostępnianiem (SOS), wschód i zachód słońca.
 - **Wyszukiwarka** (obiekty, ślady, współrzędne; adresy przez OpenStreetMap Nominatim na żądanie) i **kosz** – usunięte obiekty, warstwy, mapy i ślady można przywrócić przez 30 dni.
 - **Zdjęcia** w punktach i na śladach (zmniejszone kopie w aplikacji, oryginały w galerii); masowy import zdjęć z lokalizacją.
+- **Automatyczna kopia** (przy zamknięciu: zawsze / raz dziennie / raz w tygodniu): lokalnie 7 ostatnich ZIP-ów i jeden nadpisywany plik na Dysku Google (wybrany raz w systemowym oknie „Zapisz w…”, wysyła aplikacja Dysk – bez logowania i kluczy API). Kopia Androida (allowBackup) wyłączona.
 - **Kopia zapasowa ZIP** z folderami `mapy/` (GeoJSON), `slady/` (GPX), `zdjecia/` i plikiem `ustawienia.json` – każdy plik otworzysz także innym programem.
 
 ---
@@ -96,6 +97,5 @@ W tej samej sprawie pisz, jeśli chcesz uzyskać zgodę opisaną w pliku LICENSE
 ## Plany
 
 - Zdjęcia zapisywane w telefonie i w kopii zapasowej.
-- Automatyczna kopia na Dysk Google.
 - Obracanie mapy zgodnie z kierunkiem patrzenia, samouczek.
 - Menedżer ikon: wybór widocznych grup i ikon, „Ulubione”.
