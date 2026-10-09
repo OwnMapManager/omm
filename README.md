@@ -6,6 +6,10 @@
 
 ---
 
+## Bez reklam. Bez śledzenia. Na zawsze.
+
+OMM jest i zawsze będzie wolny od reklam i śledzenia. Wszystkie funkcje są dostępne dla każdego – bez wersji „premium” i bez blokowania funkcji za opłatą.
+
 ## Instalacja na telefonie z Androidem
 
 1. Na telefonie otwórz **[Releases → najnowsze wydanie](https://github.com/OwnMapManager/omm/releases/latest)** i pobierz plik `omm-vXX.apk`.
@@ -37,6 +41,8 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 ---
 
 ## Najważniejsze funkcje
+
+- **Samouczek** – krótki pokaz najważniejszych funkcji (⚙️ Ustawienia → Aplikacja → 📘 Samouczek); przy pierwszym uruchomieniu aplikacja pyta, czy go pokazać.
 
 - Wiele map, każda z listą warstw (krycie, widoczność, scalanie, przenoszenie obiektów).
 - Tryb **Prywatny** i **Praca** – osobne listy map; w trybie Praca narzędzia do szkiców: kropki, odcinki, strzałki, numeracja, napisy.

@@ -2250,6 +2250,131 @@ details.scat .scb {
   border-radius: 6px;
   background: var(--b2);
 }
+/* samouczek */
+.tut {
+  position: fixed;
+  inset: 0;
+  z-index: 3200;
+}
+.tut .thole {
+  position: absolute;
+  box-shadow: 0 0 0 9999px rgba(20, 24, 28, 0.62);
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+.tut .thole::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 3px solid #fff;
+  animation: tpulse 1.4s ease-out infinite;
+}
+@keyframes tpulse {
+  0% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+.tut .thand {
+  position: absolute;
+  pointer-events: none;
+  transition:
+    left 0.35s ease,
+    top 0.35s ease;
+  filter: drop-shadow(0 2px 3px #0006);
+}
+.tut .thand.tap {
+  animation: ttap 1.4s ease-in-out infinite;
+}
+@keyframes ttap {
+  0%,
+  100% {
+    transform: translate(10px, 14px) scale(1);
+  }
+  45% {
+    transform: translate(0, 0) scale(0.88);
+  }
+  55% {
+    transform: translate(0, 0) scale(0.88);
+  }
+}
+.tut .tbub {
+  position: absolute;
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px 14px 10px;
+  box-shadow: 0 6px 24px #0007;
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
+}
+.tut .tbub.in {
+  opacity: 1;
+  transform: none;
+}
+.tut .tbub::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--ax) - 9px);
+  bottom: -9px;
+  border: 9px solid transparent;
+  border-bottom: 0;
+  border-top-color: #fff;
+}
+.tut .tbub.below::after {
+  bottom: auto;
+  top: -9px;
+  border: 9px solid transparent;
+  border-top: 0;
+  border-bottom-color: #fff;
+}
+.tut .ttl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+}
+.tut .ttl svg {
+  color: var(--acc);
+}
+.tut .tbub p {
+  margin: 6px 0 10px;
+}
+.tut .tnav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tut .tcnt {
+  color: var(--sub);
+  font-size: 12px;
+  margin-right: auto;
+}
+.tut .tnav button {
+  border: 0;
+  border-radius: 8px;
+  padding: 7px 12px;
+  background: var(--b2);
+  font-size: 13.5px;
+}
+.tut .tnav button.okb {
+  background: var(--acc);
+  color: #fff;
+  font-weight: 600;
+}
+.tut .tnav .tskip {
+  background: none;
+  color: var(--sub);
+}
 /* ustawienia: przyciski u góry */
 .setop {
   display: flex;
@@ -2939,7 +3064,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v44';
+const APP_VER = 'v45';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -11474,10 +11599,12 @@ const ABOUT_START = `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz 
 <li><b>Gdzie jestem (SOS)</b> – linijka → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
 <li><b>Kosz</b> – usunięte punkty, warstwy, mapy i ślady czekają 30 dni w ⚙️ Ustawienia → Kosz.</li>
 </ol>
+<p><b>OMM jest i zawsze będzie wolny od reklam i śledzenia.</b> Wszystkie funkcje są dostępne dla każdego – bez wersji „premium” i bez blokowania funkcji.</p>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe, a wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”.</p>`;
 const ABOUT_INFO = () => `<p style="font-size:17px;margin:0 0 4px"><b>${APP_NAME} – ${APP_FULL}</b></p>
 <p class="muted" style="margin:0 0 12px">Wersja ${APP_VER} · Twoje mapy, Twoje dane</p>
 <p><b>Autor i właściciel:</b> ${APP_AUTHOR}<br>© ${APP_YEAR} ${APP_AUTHOR}</p>
+<p style="background:#eef4fd;border-radius:8px;padding:10px 12px"><b>Bez reklam. Bez śledzenia. Na zawsze.</b><br>OMM nie wyświetla reklam, nie zbiera danych o Tobie i nie ma płatnych blokad – wszystkie funkcje są dla każdego.</p>
 <p style="background:#f3f7f1;border-radius:8px;padding:10px 12px">Dziękuję za zainteresowanie OMM! 🙂<br>Masz uwagę, pomysł albo znalazłeś błąd? Napisz – każda opinia pomaga ulepszać aplikację.<br>✉️ <a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – uwagi')}">${APP_MAIL}</a></p>
 <p><b>Licencja</b> (wzorowana na OsmAnd):</p>
 <ul>
@@ -17852,6 +17979,152 @@ if (plug('App')) {
 }
 setTimeout(() => autoBackup(false), 12000);
 
+// ---------- samouczek: podświetlony przycisk, animowana dłoń i dymek z opisem ----------
+/*
+ * Kroki pokazują prawdziwe przyciski aplikacji. Przy pierwszym uruchomieniu nowej instalacji OMM
+ * pyta, czy pokazać samouczek („omm-tut”: 'tak' | 'nie' | 'info', „omm-tut-n” – ile razy odłożono).
+ * Kto ma już dane, dostaje jednorazowo tylko informację, gdzie jest samouczek.
+ */
+const TUT_STEPS = [
+  {sel: null, t: 'Mapa', x: 'Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.'},
+  {sel: '#bbtn', t: 'Podkład i mapy offline', x: 'Wybór mapy (OSM, zdjęcia lotnicze, satelita), nakładki (działki, szlaki, wiaty) i „⬇ Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.'},
+  {sel: '#gps', t: 'Moja pozycja', x: 'Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz.'},
+  {sel: '#recb', t: 'Nagrywanie śladu', x: 'REC nagrywa trasę także przy wygaszonym ekranie. Na pasku obok: pauza, zdjęcie, punkt na trasie i ↩ powrót do startu.'},
+  {sel: '[data-g="photo"]', t: 'Zdjęcie', x: 'Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.'},
+  {sel: '[data-g="icons"]', t: 'Punkt na mapie', x: 'Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.'},
+  {sel: '[data-g="draw"]', t: 'Rysowanie', x: 'Linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść.'},
+  {sel: '[data-g="data"]', t: 'Pomiary', x: 'Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – tam też „📡 Moja pozycja” do wysłania SMS-em (SOS).'},
+  {sel: '#srchb', t: 'Szukaj', x: 'Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.'},
+  {sel: '#lbtn', t: 'Mapy, warstwy i ślady', x: 'Tu są Twoje mapy i warstwy, a w zakładce „Ślady GPS” – lista śladów, podsumowania tygodnia, miesiąca i roku, import i eksport.'},
+  {sel: '#setb', open: 'sheet', t: 'Ustawienia', x: 'Automatyczna kopia (także na Dysk Google), nagrywanie śladu, kolory śladów, foldery, kosz – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.'}
+];
+let TUT = null;
+function tutStart() {
+  tutStop();
+  closePops();
+  map.closePopup();
+  document.querySelectorAll('.dback').forEach(x => x.remove());
+  $('sheet').style.display = 'none';
+  const ov = h('div', 'tut'),
+    hole = h('div', 'thole'),
+    hand = h('div', 'thand'),
+    bub = h('div', 'tbub');
+  hand.innerHTML =
+    '<svg viewBox="0 0 24 24" width="44" height="44"><path d="M9 11.5V5a1.6 1.6 0 0 1 3.2 0v5.5M12.2 10V8.4a1.6 1.6 0 0 1 3.2 0V11M15.4 10.6a1.6 1.6 0 0 1 3.2 0v4.2a6.4 6.4 0 0 1-6.4 6.4h-1a6 6 0 0 1-4.7-2.3l-2.8-3.6a1.6 1.6 0 0 1 2.4-2.1L9 15V11.5" fill="#fff" stroke="#202124" stroke-width="1.5" stroke-linejoin="round"/></svg>';
+  ov.append(hole, hand, bub);
+  document.body.append(ov);
+  TUT = {ov, hole, hand, bub, i: 0};
+  hole.onclick = () => tutGo(1); // dotknięcie podświetlonego miejsca = dalej
+  window.addEventListener('resize', tutDraw);
+  tutDraw();
+}
+function tutGo(d) {
+  if (!TUT) return;
+  const n = TUT.i + d;
+  if (n < 0) return;
+  if (n >= TUT_STEPS.length) return tutStop(true);
+  TUT.i = n;
+  tutDraw();
+}
+function tutDraw() {
+  if (!TUT) return;
+  const st = TUT_STEPS[TUT.i],
+    {hole, hand, bub} = TUT;
+  $('sheet').style.display = st.open === 'sheet' ? 'flex' : 'none';
+  if (st.open === 'sheet') sheet();
+  const el = st.sel && document.querySelector(st.sel),
+    W = innerWidth,
+    H = innerHeight;
+  let r;
+  if (el && el.offsetParent !== null) {
+    const b = el.getBoundingClientRect(),
+      pad = 6;
+    r = {x: b.left - pad, y: b.top - pad, w: b.width + pad * 2, h: b.height + pad * 2};
+  } else r = {x: W / 2 - 70, y: H / 2 - 70, w: 140, h: 140}; // krok bez przycisku – środek mapy
+  Object.assign(hole.style, {left: r.x + 'px', top: r.y + 'px', width: r.w + 'px', height: r.h + 'px', borderRadius: Math.min(r.w, r.h) / 2 + 'px'});
+  // dłoń „dotyka” środka podświetlonego miejsca
+  hand.style.left = r.x + r.w / 2 - 12 + 'px';
+  hand.style.top = r.y + r.h / 2 - 4 + 'px';
+  hand.classList.remove('tap');
+  void hand.offsetWidth;
+  hand.classList.add('tap');
+  // dymek nad albo pod podświetleniem – tam, gdzie więcej miejsca
+  bub.innerHTML = '';
+  const nav = h('div', 'tnav'),
+    ic = el && el.querySelector('svg') ? el.querySelector('svg').cloneNode(true) : null;
+  const ttl = h('div', 'ttl');
+  if (ic) {
+    ic.setAttribute('width', 20);
+    ic.setAttribute('height', 20);
+    ic.removeAttribute('class');
+    ttl.append(ic);
+  }
+  ttl.append(h('b', null, st.t));
+  nav.append(
+    h('span', 'tcnt', TUT.i + 1 + ' / ' + TUT_STEPS.length),
+    B('Pomiń', () => tutStop(true), 'tskip'),
+    ...(TUT.i ? [B('Wstecz', () => tutGo(-1))] : []),
+    B(TUT.i === TUT_STEPS.length - 1 ? 'Gotowe' : 'Dalej', () => tutGo(1), 'okb')
+  );
+  bub.append(ttl, h('p', null, st.x), nav);
+  const bw = Math.min(330, W - 24);
+  bub.style.width = bw + 'px';
+  bub.style.left = Math.max(12, Math.min(W - bw - 12, r.x + r.w / 2 - bw / 2)) + 'px';
+  const below = r.y + r.h / 2 < H / 2;
+  bub.classList.toggle('below', below);
+  bub.style.top = below ? r.y + r.h + 18 + 'px' : '';
+  bub.style.bottom = below ? '' : H - r.y + 18 + 'px';
+  bub.style.setProperty('--ax', Math.max(18, Math.min(bw - 18, r.x + r.w / 2 - parseFloat(bub.style.left))) + 'px');
+  bub.classList.remove('in');
+  void bub.offsetWidth;
+  bub.classList.add('in');
+}
+function tutStop(done) {
+  if (!TUT) return;
+  TUT.ov.remove();
+  window.removeEventListener('resize', tutDraw);
+  TUT = null;
+  $('sheet').style.display = 'none';
+  if (done) localStorage.setItem('omm-tut', 'tak');
+}
+async function tutFirstRun() {
+  // pierwsze uruchomienie: pytanie o samouczek (nowa instalacja) albo jednorazowa informacja (są już dane)
+  const s = localStorage.getItem('omm-tut');
+  if (s === 'tak' || s === 'nie' || s === 'info') return;
+  if (document.querySelector('.dback') || REC) return setTimeout(tutFirstRun, 4000); // coś innego jest teraz na ekranie
+  const hasData = DB.maps.some(m => m.items.length) || TRK.items.length;
+  if (hasData) {
+    localStorage.setItem('omm-tut', 'info');
+    const v = await dlg({
+      title: 'Nowość w OMM: samouczek – krótki pokaz najważniejszych funkcji (ok. 1 minuta).\n\nZnajdziesz go zawsze w ⚙️ Ustawienia → Aplikacja → 📘 Samouczek.',
+      btns: [
+        {t: 'OK', v: null},
+        {t: 'Pokaż teraz', v: 1, c: 'okb'}
+      ]
+    });
+    if (v) tutStart();
+    return;
+  }
+  const v = await dlg({
+    title: 'Witaj w OMM! 👋\n\nPokazać krótki samouczek? Zajmie ok. 1 minutę.\n\nSamouczek jest też zawsze w ⚙️ Ustawienia → Aplikacja → 📘 Samouczek.',
+    btns: [
+      {t: 'Nie pokazuj więcej', v: 'nie'},
+      {t: 'Nie teraz', v: 'pozniej'},
+      {t: 'Pokaż samouczek', v: 'tak', c: 'okb'}
+    ]
+  });
+  if (v === 'tak') return tutStart();
+  if (v === 'nie') return localStorage.setItem('omm-tut', 'nie');
+  const n = +(localStorage.getItem('omm-tut-n') || 0) + 1; // „Nie teraz” – zapytamy jeszcze najwyżej raz
+  localStorage.setItem('omm-tut-n', String(n));
+  if (n >= 2) localStorage.setItem('omm-tut', 'nie');
+}
+(function tutWait() {
+  // pytanie dopiero po wczytaniu śladów (żeby wiedzieć, czy to nowa instalacja)
+  if (!trkReady) return setTimeout(tutWait, 500);
+  setTimeout(tutFirstRun, 1800);
+})();
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
   // ustawienia w zwijanych kategoriach; otwarta kategoria zapamiętana
@@ -18056,8 +18329,10 @@ function settingsDlg() {
   ]);
 
   cat('app', 'ℹ️ Aplikacja');
-  const tut = B('📘 Samouczek', () => {}, '', 'Samouczek pojawi się w kolejnych wersjach');
-  tut.disabled = true;
+  const tut = B('📘 Samouczek', () => {
+    back.remove();
+    tutStart();
+  });
   btnRow([
     B('ℹ️ O aplikacji i jak zacząć', () => {
       back.remove();
@@ -18092,6 +18367,7 @@ if (plug('App'))
     if ($('sheet').style.display === 'flex')
       return TSEL && TAB === 'slady' ? $('tsx').click() : $('closes').click(); // najpierw wyjście z zaznaczania
     if (map._popup && map.hasLayer(map._popup)) return map.closePopup();
+    if (TUT) return tutStop();
     if (ANIM) return animStop();
     if (NAV) return navStop();
     if (SPLIT) return splitStop();
