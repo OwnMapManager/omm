@@ -12,6 +12,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(OmmBackupPlugin.class); // kopia zapasowa w miejscu wybranym przez użytkownika (np. Dysk Google)
         registerPlugin(OmmLockPlugin.class); // blokada OMM odciskiem palca / twarzą
+        registerPlugin(OmmNoWebViewPlugin.class); // zamiast wbudowanej „WebView” – bez podmiany ścieżki aplikacji
         super.onCreate(savedInstanceState);
         // Tylko https: żadnych treści po HTTP na stronie aplikacji (audyt v45, R02).
         getBridge().getWebView().getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);

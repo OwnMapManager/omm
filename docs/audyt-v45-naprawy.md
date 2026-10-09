@@ -1,15 +1,16 @@
 # OMM v46 – naprawy po audycie bezpieczeństwa v45
 
 Audyt: „OMM v45 – niezależny audyt bezpieczeństwa”, 9.10.2026. Badane APK: `f09afddf…cbb2b`, commit `15b6215`.
-Naprawy: wersja **v46** (commit „v46: naprawy bezpieczeństwa…”), uzupełnienia w **v47** (klucz podpisu) i **v48** (blokada aplikacji). Źródło `app/omm.html` przed zmianami było bajtowo
+Naprawy: wersja **v46** (commit „v46: naprawy bezpieczeństwa…”), uzupełnienia w **v47** (klucz podpisu), **v48** (blokada aplikacji) i **v49** (ustalenia wewnętrznego audytu v48 – sekcja na końcu). Źródło `app/omm.html` przed zmianami było bajtowo
 identyczne z plikiem z badanego commitu, więc ustalenia dotyczyły dokładnie tego kodu.
 
 ## Wydanie do ponownej oceny
 
-- APK: https://github.com/OwnMapManager/omm/releases/download/v48/omm-v48.apk
-- SHA-256 APK: w pliku `omm-v48.apk.sha256` dołączonym do wydania
-- SHA-256 certyfikatu podpisu: `0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac` (ten sam co v45)
-- Commit: `7f10a4f`; `assets/public/app.js` w APK jest bajtowo zgodny z wynikiem `npm run www` z tego commitu.
+- APK: https://github.com/OwnMapManager/omm/releases/download/v49/omm-v49.apk
+- SHA-256 APK: w pliku `omm-v49.apk.sha256` dołączonym do wydania
+- SHA-256 certyfikatu podpisu v2 (Android 7–8): `0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac` (ten sam co v45)
+- SHA-256 certyfikatu podpisu v3 (Android 9+, rotacja od v49): `a5d63e2b35da55cd4c2ec6ce520a1a731227df05ecf8abc43523f3bdb21bc4e5`
+- Commit: podany w wydaniu v49; `assets/public/app.js` w APK jest bajtowo zgodny z wynikiem `npm run www` z tego commitu.
 
 ## Weryfikacja ustaleń przed naprawą
 
@@ -54,3 +55,28 @@ Ten sam zestaw testów na v46: żadnego wykonania, żadnych atrybutów zdarzeń 
 Testy na izolowanym telefonie z Androidem (N01–N13 z audytu): wykonanie w Android WebView, uprawnienia SAF po odłączeniu,
 zachowanie na Androidzie 7–16, ruch sieciowy urządzenia, klawiatura testowa. Wszystkie testy powyżej to testy warstwy WWW
 w Chromium na komputerze oraz przegląd kodu natywnego. Naprawiona wersja wymaga ponownej, niezależnej oceny.
+
+## v49 – ustalenia wewnętrznego audytu v48
+
+Wewnętrzny audyt (trzy niezależne instancje, perspektywa prywatności użytkownika) – 16 ustaleń. Decyzje autora i stan:
+
+| # | Ustalenie | Stan w v49 |
+| --- | --- | --- |
+| 1 | Domyślna jawna autokopia w Dokumenty/OMM, kopie zdjęć | **Bez zmian (decyzja autora).** Dodane wyraźne ostrzeżenie w ustawieniach kopii, gdy szyfrowanie jest wyłączone. |
+| 2 | Klucz podpisu w historii gita | **Rotacja klucza:** podpis v2 dotychczasowym kluczem, v3 nowym kluczem z lineage (`--rotation-min-sdk-version 28`); nowy klucz tylko w sekretach, CI sprawdza odciski obu kluczy w gotowym APK. README poprawione (klucz jest w historii) i z odciskami. |
+| 3 | CI: ręczne uruchomienie z dowolnej gałęzi | Oba zadania (`apk`, `wydanie`) tylko dla `refs/heads/main`. `environment` z zatwierdzeniem – nie (decyzja autora). |
+| 4 | Wtyczki `WebView` (podmiana ścieżki aplikacji) | Atrapa `OmmNoWebViewPlugin` pod nazwą „WebView” (rejestrowana po wbudowanych – nadpisuje) odrzuca wszystkie metody; `DisableDeploy=true` (config.xml przez `capacitor.config.json`) – zapisana ścieżka nie jest wczytywana przy starcie. `CapacitorHttp` zostaje (używany przez nazwy miejsc i mapy offline). |
+| 5 | Licznik prób PIN tylko w pamięci, krótki PIN | Trwały licznik `omm-lock-f` (przeżywa restart), opóźnienie 30 s → 1 h; minimum 6 znaków; ostrzeżenie przed PIN-em telefonu. |
+| 6 | Kopie awaryjne bez terminu | Termin 30 dni (`mapa-snap-*`, `mapa-uszkodzone-*`, ślady sprzed przywrócenia) + przycisk „Usuń kopie awaryjne teraz” w Prywatności. |
+| 7 | Biometria bez klucza, klasa WEAK | Tylko BIOMETRIC_STRONG; klucz AES w AndroidKeyStore (`setUserAuthenticationRequired`, `setInvalidatedByBiometricEnrollment`) jako CryptoObject; sukces dopiero po udanym szyfrowaniu próbki. Nowy odcisk w telefonie → klucz unieważniony → wymagany PIN OMM, dopiero po nim nowy klucz. |
+| 8 | Miniatura w „ostatnich aplikacjach” | `setRecentsScreenshotEnabled(false)` (Android 13+) przy włączonej blokadzie; zrzuty ekranu działają. |
+| 9 | Nazwa miejsca: współrzędne ~1 m do Nominatim | Zaokrąglenie do 3 miejsc (~100 m). |
+| 10 | Zbędne uprawnienia | Usunięte `SCHEDULE_EXACT_ALARM`, `RECEIVE_BOOT_COMPLETED` i odbiornik restartu powiadomień (`tools:node="remove"`); powiadomienia jako niedokładne. `READ_EXTERNAL_STORAGE` (≤ Android 12) i `requestLegacyExternalStorage` zostają (zapis w Dokumenty/OMM na starszych Androidach). `taskAffinity=""`. |
+| 11 | `__foto` w kopii JSON | Dane wewnętrzne ZIP w `WeakMap` (nie w obiekcie z pliku); zdjęcia: tylko Blob i nazwa `^[\w.-]{1,120}$`. |
+| 12 | Import GPX przed walidacją; `constructor` jako kolor | `cleanTrkDB` przed zapisem; słowniki `Object.create(null)`. |
+| 13 | Limity ZIP | 128 MB/wpis, 1 GB łącznie; zdjęcia z kopii czytane dopiero przy zapisie po zgodzie. |
+| 14 | Gradle bez weryfikacji integralności | Nie zmieniono (brak dostępu do sum dystrybucji w środowisku budowania) – do zrobienia. |
+| 15 | Leaflet z CDN bez SRI (wersja WWW) | Dodane `integrity` + `crossorigin`. |
+| 16 | Informacyjne | `taskAffinity` – zrobione; reszta bez zmian. |
+
+Czego nie sprawdzono: rotacja podpisu i biometria z kluczem wymagają testu na telefonie (aktualizacja v48 → v49 na Androidzie 8 i 9+; dodanie odcisku po włączeniu blokady).

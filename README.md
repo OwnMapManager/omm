@@ -95,7 +95,11 @@ art/logo.svg, art/render.py logo i skrypt generujący z niego ikony aplikacji i 
 ```
 
 - Każda zmiana w gałęzi `main` uruchamia akcję **Zbuduj APK**; po kilku minutach plik `omm-vXX.apk` pojawia się w Releases. Numer wersji APK = liczba z `APP_VER` w `app/omm.html`, więc **przy każdej nowej wersji podnieś `APP_VER`** (inaczej telefon nie potraktuje jej jako aktualizacji).
-- Podpis: klucz podpisu nie jest w repozytorium – budowanie bierze go z sekretu `OMM_KEYSTORE_B64` (zaszyfrowany plik PKCS#12 zakodowany base64), hasło z sekretu `OMM_KEYSTORE_PASSWORD`; przed budowaniem sprawdzany jest odcisk certyfikatu (SHA-256 `0329e7be…db17ac`). Klucz musi być zawsze ten sam – bez niego nowej wersji nie da się zainstalować na starą. Kto buduje własną, zmienioną wersję, używa własnego klucza (i innej nazwy aplikacji – patrz LICENSE).
+- Podpis: od v47 klucza podpisu nie ma w bieżącym kodzie – budowanie bierze go z sekretów GitHuba (`OMM_KEYSTORE_B64` + `OMM_KEYSTORE_PASSWORD`, zaszyfrowany PKCS#12 w base64), tylko z gałęzi `main`. Uwaga: zaszyfrowany plik dawnego klucza pozostaje w **historii** repozytorium (do v46), dlatego od v49 klucz jest **rotowany** (APK Signature Scheme v3 z poświadczeniem „lineage”): Android 9+ weryfikuje nowy klucz, Android 7–8 – dotychczasowy (podpis v2). Aktualizacja na starą wersję działa na wszystkich telefonach.
+  Odciski certyfikatów (SHA-256) do sprawdzenia pobranego APK (`apksigner verify --print-certs omm-vNN.apk`):
+  - dotychczasowy (v2, Android 7–8): `0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac`
+  - nowy (v3, Android 9+, od v49): `a5d63e2b35da55cd4c2ec6ce520a1a731227df05ecf8abc43523f3bdb21bc4e5`
+  Kto buduje własną, zmienioną wersję, używa własnego klucza (i innej nazwy aplikacji – patrz LICENSE).
 - Różnice między przeglądarką a APK są w kodzie w jednym miejscu: stała `NATIVE` (zapis plików wtyczkami Filesystem/Share, przycisk „Wstecz”, podpowiedzi GPS).
 - Budowanie u siebie: `npm ci && npm run sync`, potem `android/` otwórz w Android Studio.
 

@@ -20,6 +20,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBarLaunch"
             android:launchMode="singleTask"
+            android:taskAffinity=""
             android:exported="true">
 
             <intent-filter>
@@ -35,6 +36,11 @@
             android:name="com.equimaps.capacitor_background_geolocation.BackgroundGeolocationService"
             android:exported="false"
             tools:replace="android:exported" />
+
+        <!-- powiadomienia OMM (co 1 km) są natychmiastowe – bez przywracania po restarcie telefonu (audyt v48, pkt 10) -->
+        <receiver
+            android:name="com.capacitorjs.plugins.localnotifications.LocalNotificationRestoreReceiver"
+            tools:node="remove" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -60,4 +66,7 @@
     <!-- zapis kopii i eksportów w folderze Dokumenty/OMM – potrzebne tylko na Androidzie 10 i starszym -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <!-- niepotrzebne uprawnienia z wtyczki powiadomień: dokładne alarmy i start po włączeniu telefonu -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" tools:node="remove" />
 </manifest>

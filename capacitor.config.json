@@ -9,5 +9,10 @@
     "SystemBars": {
       "style": "LIGHT"
     }
+  },
+  "cordova": {
+    "preferences": {
+      "DisableDeploy": "true"
+    }
   }
 }

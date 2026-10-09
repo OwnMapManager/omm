@@ -9,7 +9,10 @@
 #  • budowanie ma tylko prawo odczytu repozytorium; prawo zapisu (publikacja wydania) ma osobne zadanie,
 #    które nie uruchamia żadnego kodu projektu ani zależności,
 #  • zależności npm instalowane bez ich skryptów instalacyjnych (--ignore-scripts),
-#  • klucz podpisu i hasło trafiają wyłącznie do kroku Gradle (nie do całego środowiska zadania).
+#  • klucz podpisu i hasło trafiają wyłącznie do kroku Gradle (nie do całego środowiska zadania),
+#  • budowanie z kluczem i wydanie tylko z gałęzi main (także przy ręcznym uruchomieniu – audyt v48, pkt 3),
+#  • rotacja klucza (v49): podpis v2 starym kluczem (Android 7–8), podpis v3 nowym kluczem z „rodowodem”
+#    (lineage) poświadczonym starym kluczem (Android 9+) – aktualizacje działają na wszystkich telefonach.
 name: Zbuduj APK
 
 on:
@@ -30,6 +33,7 @@ concurrency:
 
 jobs:
   apk:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,6 +76,8 @@ jobs:
         env:
           KEY_B64: ${{ secrets.OMM_KEYSTORE_B64 }}
           OMM_KEYSTORE_PASSWORD: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
+          NEW_B64: ${{ secrets.OMM_KEYSTORE_NEW_B64 }}
+          NEW_PASS: ${{ secrets.OMM_KEYSTORE_NEW_PASSWORD }}
           VER: ${{ steps.ver.outputs.ver }}
         run: |
           if [ -z "$OMM_KEYSTORE_PASSWORD" ]; then
@@ -96,8 +102,42 @@ jobs:
           fi
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease
+          APK=app/build/outputs/apk/release/app-release.apk
+          OLDFP=0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac
+          NEWFP=a5d63e2b35da55cd4c2ec6ce520a1a731227df05ecf8abc43523f3bdb21bc4e5
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          echo "build-tools: $BT"
+          if [ -n "$NEW_B64" ] && [ -n "$NEW_PASS" ]; then
+            # rotacja: nowy klucz tylko z sekretu OMM_KEYSTORE_NEW_B64, sprawdzany odcisk
+            printf '%s' "$NEW_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release-2.p12"
+            FP2=$(keytool -list -v -storetype PKCS12 -keystore "$RUNNER_TEMP/omm-release-2.p12" -storepass "$NEW_PASS" | grep -m1 'SHA256:' | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f')
+            if [ "$FP2" != "$NEWFP" ]; then
+              echo "::error::Nowy klucz z sekretu ma inny odcisk ($FP2) niż oczekiwany – sprawdź OMM_KEYSTORE_NEW_B64. Plik: $(stat -c %s "$RUNNER_TEMP/omm-release-2.p12") B (oczekiwane 4324 B)"
+              exit 1
+            fi
+            export OLD_PASS="$OMM_KEYSTORE_PASSWORD"
+            "$BT/zipalign" -f -P 16 4 "$APK" "$RUNNER_TEMP/aligned.apk"
+            "$BT/apksigner" rotate --out "$RUNNER_TEMP/lineage" \
+              --old-signer --ks "$OMM_KEYSTORE_FILE" --ks-key-alias omm --ks-pass env:OLD_PASS \
+              --new-signer --ks "$RUNNER_TEMP/omm-release-2.p12" --ks-key-alias omm2 --ks-pass env:NEW_PASS
+            "$BT/apksigner" sign --in "$RUNNER_TEMP/aligned.apk" --out "$RUNNER_TEMP/signed.apk" \
+              --ks "$OMM_KEYSTORE_FILE" --ks-key-alias omm --ks-pass env:OLD_PASS \
+              --next-signer --ks "$RUNNER_TEMP/omm-release-2.p12" --ks-key-alias omm2 --ks-pass env:NEW_PASS \
+              --lineage "$RUNNER_TEMP/lineage" --rotation-min-sdk-version 28
+            cp "$RUNNER_TEMP/signed.apk" "$APK"
+            rm -f "$RUNNER_TEMP/omm-release-2.p12" "$RUNNER_TEMP/lineage"
+          else
+            echo "::warning::Brak sekretów nowego klucza (OMM_KEYSTORE_NEW_B64 / OMM_KEYSTORE_NEW_PASSWORD) – APK podpisany tylko dotychczasowym kluczem, bez rotacji."
+          fi
           rm -f "$RUNNER_TEMP/omm-release.p12"
-          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/omm-v$VER.apk"
+          # kontrola podpisu gotowego pliku: stary klucz zawsze, nowy – gdy była rotacja
+          "$BT/apksigner" verify -v --print-certs "$APK" | tee "$RUNNER_TEMP/verify.txt" | grep -Ei 'verified|digest|signer' || true
+          grep -qi "$OLDFP" "$RUNNER_TEMP/verify.txt" || { echo "::error::W podpisie APK brak dotychczasowego klucza"; exit 1; }
+          if [ -n "$NEW_B64" ] && [ -n "$NEW_PASS" ]; then
+            grep -qi "$NEWFP" "$RUNNER_TEMP/verify.txt" || { echo "::error::W podpisie APK brak nowego klucza (rotacja)"; exit 1; }
+            "$BT/apksigner" lineage --in "$APK" --print-certs | grep -Ei 'signer|digest' || true
+          fi
+          cp "$APK" "$GITHUB_WORKSPACE/omm-v$VER.apk"
           sha256sum "$GITHUB_WORKSPACE/omm-v$VER.apk" | tee "$GITHUB_WORKSPACE/omm-v$VER.apk.sha256"
 
       - name: Zachowaj plik (Actions → ten przebieg → Artifacts)
@@ -110,6 +150,7 @@ jobs:
 
   wydanie:
     needs: apk
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: write # tylko to zadanie publikuje wydanie (Releases)

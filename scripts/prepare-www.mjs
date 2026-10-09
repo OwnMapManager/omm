@@ -18,7 +18,7 @@ for (const f of ['leaflet.css', 'leaflet.js']) {
 }
 
 // rdzeń Capacitora wczytujemy przed skryptem aplikacji
-const leafletTag = '<script src="lib/leaflet/leaflet.js"></script>';
+const leafletTag = '<script src="lib/leaflet/leaflet.js"'; // (z atrybutem integrity – suma SRI pasuje też do kopii lokalnej)
 if (!html.includes(leafletTag)) throw new Error('Brak znacznika ' + leafletTag);
 html = html.replace(leafletTag, '<script src="lib/capacitor.js"></script>\n' + leafletTag);
 

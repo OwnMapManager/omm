@@ -5,7 +5,7 @@
      zakaz ramek, wtyczek i obcych formularzy. Obrazki i zapytania – do serwerów map (różne adresy). -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; child-src 'none'; base-uri 'none'; form-action 'none'">
 <title>OMM – Own Map Manager</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
 <style>
 :root {
   --bar: rgba(255, 255, 255, 0.97);
@@ -40,6 +40,8 @@ textarea {
   position: absolute;
   inset: 0;
   background-color: #e8eaed;
+}
+#map.grid {
   background-image:
     linear-gradient(#d2d6db 1px, transparent 1px), linear-gradient(90deg, #d2d6db 1px, transparent 1px);
   background-size: 40px 40px;
@@ -2753,9 +2755,12 @@ body.animon #wm {
   padding: 0 12px;
 }
 .film .frec {
-  background: #d93025;
+  background: var(--acc); /* zapis pliku – kolor akcji, nie czerwony „REC” */
   font-weight: 600;
   margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .film .fsp {
   font-weight: 700;
@@ -2980,7 +2985,7 @@ body.spliton #info {
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
 <input type="file" id="tfile" multiple hidden>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous"></script>
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
@@ -3044,7 +3049,7 @@ body.spliton #info {
  *  mapa-ipg (otwarta grupa ikon), mapa-tpl (szablony opisów), mapa-nmt-smooth, mapa-geo-http.
  */
 const $ = id => document.getElementById(id);
-if (window.L) L.GridLayer.prototype.options.updateWhenZooming = false; // kafle dociągane po zakończeniu przybliżania – płynniejsze gesty
+if (window.L) L.GridLayer.prototype.options.updateWhenZooming = false, (L.GridLayer.prototype.options.keepBuffer = 4); // kafle dociągane po zakończeniu przybliżania – płynniejsze gesty
 const h = (t, c, x) => {
   const e = document.createElement(t);
   if (c) e.className = c;
@@ -3125,7 +3130,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v48';
+const APP_VER = 'v49';
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -3210,7 +3215,7 @@ const leaf = (x, y, L, W, a, f, inn) =>
     ? '<path d="M0 -.8V' + -L * 0.82 + '" stroke="#2e6b2f" stroke-width=".55" fill="none" opacity=".8"/>'
     : inn) +
   '</g>';
-const ICONS = {},
+const ICONS = Object.create(null), // słownik bez prototypu: „constructor” z pliku to nie ikona
   IGROUPS = [];
 const GCOL = {gen: '#5f6368', noc: '#ef6c00', ter: '#1e88e5', grz: '#8d6e63', ros: '#43a047'};
 function iadd(k, list, hid) {
@@ -6363,7 +6368,7 @@ const esri = s =>
     attribution: '© Esri'
   });
 // Serwery Geoportalu odrzucają kafle, gdy strona wysyła dziwny nagłówek Referer (np. content:// z telefonu), więc go nie wysyłamy
-const NOREF = {referrerPolicy: 'no-referrer', keepBuffer: 1, updateWhenZooming: false};
+const NOREF = {referrerPolicy: 'no-referrer', keepBuffer: 4, updateWhenZooming: false};
 // Wszystkie połączenia wyłącznie przez https (od v46 bez zapasowego http – audyt bezpieczeństwa R02).
 const GEO = 'https://mapy.geoportal.gov.pl';
 localStorage.removeItem('mapa-geo-http'); // dawne obejście przez http – już nieużywane
@@ -6538,7 +6543,7 @@ function shelSoon() {
   clearTimeout(shelT);
   shelT = setTimeout(shelFetch, 600);
 }
-const SHEL_TYPES = {
+const SHEL_TYPES = Object.assign(Object.create(null), {
   basic_hut: ['🛖', 'Szałas / chatka do spania'],
   lean_to: ['⛺', 'Wiata otwarta do spania (lean-to)'],
   weather_shelter: ['☂️', 'Wiata przeciwdeszczowa'],
@@ -6547,7 +6552,7 @@ const SHEL_TYPES = {
   gazebo: ['🏛️', 'Altana'],
   field_shelter: ['🐎', 'Wiata dla zwierząt'],
   sun_shelter: ['⛱️', 'Zadaszenie przeciwsłoneczne']
-};
+});
 function shelKind(t) {
   if (t.tourism === 'wilderness_hut') return ['🛖', 'Chatka turystyczna (bez obsługi)'];
   if (t.tourism === 'camp_site') return ['⛺', 'Pole biwakowe / namiotowe'];
@@ -6810,10 +6815,40 @@ function withStat(b, l) {
 }
 Object.values(BASES).forEach(track);
 Object.values(OV).forEach(o => track(o.l));
+/*
+ * Podkład zastępczy: ten sam serwer, ale kafle 2 poziomy zoomu niżej (16× mniej kafli, rozciągnięte 4×).
+ * Leży pod właściwym podkładem, więc przy oddalaniu zamiast szarych kwadratów widać od razu
+ * rozmytą mapę, a ostre kafle dochodzą na wierzch. Nie trafia do wydruku ani filmu (tam jest tylko curBase).
+ */
+let underBase = null;
+function underFor(l) {
+  if (!(l instanceof L.TileLayer) || !l._url) return null;
+  if (!map.getPane('under')) map.createPane('under').style.zIndex = 150;
+  const o = l.options,
+    u = L.tileLayer(l._url, {
+      subdomains: o.subdomains,
+      referrerPolicy: o.referrerPolicy,
+      tileSize: 1024,
+      zoomOffset: -2,
+      minZoom: 2,
+      maxZoom: o.maxZoom,
+      maxNativeZoom: o.maxNativeZoom,
+      keepBuffer: 2,
+      updateWhenZooming: false,
+      pane: 'under',
+      attribution: ''
+    });
+  u._under = 1;
+  return u;
+}
 function setBase(k) {
   if (curBase) map.removeLayer(curBase);
+  if (underBase) map.removeLayer(underBase);
   curKey = k;
   curBase = BASES[k];
+  underBase = underFor(curBase);
+  if (underBase) underBase.addTo(map);
+  map.getContainer().classList.toggle('grid', !(curBase instanceof L.TileLayer));
   curBase.addTo(map);
   raise();
   localStorage.setItem('mapa-base', k);
@@ -7127,6 +7162,25 @@ function cleanTrkDB(T) {
 
 // ---------- dane projektu (zapis lokalny po każdej zmianie) ----------
 const SCHEMA = 5; // wersja formatu danych: przy KAŻDEJ zmianie struktury zwiększ i dopisz migrację w MIGR
+// kopie awaryjne (przed migracją, przed przywróceniem, uszkodzone dane) – po 30 dniach usuwane,
+// żeby skasowane przez użytkownika dane nie zostawały w telefonie bez końca
+const SNAP_DAYS = 30;
+function snapExpire(all) {
+  const lim = Date.now() - SNAP_DAYS * 864e5;
+  let n = 0;
+  try {
+    Object.keys(localStorage)
+      .filter(k => /^mapa-(snap|uszkodzone)-\d+/.test(k))
+      .forEach(k => {
+        if (all || +k.split('-')[2] < lim) {
+          localStorage.removeItem(k);
+          n++;
+        }
+      });
+  } catch (e) {}
+  return n;
+}
+snapExpire(false);
 function snapshot(tag, raw) {
   try {
     raw = raw || localStorage.getItem('mapa-v2');
@@ -9244,7 +9298,7 @@ $('pfile').onchange = async e => {
     // każda wersja kopii przechodzi przez tę samą walidację (identyfikatory, kolory, teksty, zdjęcia)
     r = Object.assign(r, cleanDB({maps: r.maps, cur: r.cur, curW: r.curW}));
     if (!r.maps.length) throw new Error('Kopia nie zawiera żadnej poprawnej mapy.');
-    const foto = j.__foto || [];
+    const foto = (ZIP_INT.get(j) || {}).foto || []; // zdjęcia tylko z kopii ZIP (pole z pliku JSON jest ignorowane)
     const nO = r.maps.reduce((s, m) => s + m.items.length, 0),
       nL = r.maps.reduce((s, m) => s + m.groups.reduce((a, g) => a + g.layers.length, 0), 0);
     const when = created
@@ -12388,7 +12442,7 @@ function flagIcon(kind) {
 // wybór w Ustawieniach (localStorage „omm-trk-kolor”): 'jedn' | 'predkosc' | 'wysokosc'
 const trkColorMode = () => localStorage.getItem('omm-trk-kolor') || 'jedn';
 // skale barw: punkty kontrolne [pozycja 0–1, R, G, B]; pomiędzy nimi kolor przechodzi płynnie
-const RAMPS = {
+const RAMPS = Object.assign(Object.create(null), {
   // wolno → szybko: czerwony, pomarańczowy, żółty, jasnozielony, zielony
   predkosc: [
     [0, 211, 47, 47],
@@ -12405,7 +12459,7 @@ const RAMPS = {
     [0.75, 251, 192, 45],
     [1, 198, 40, 40]
   ]
-};
+});
 function rampColor(ramp, f) {
   f = Math.max(0, Math.min(1, f));
   let i = 1;
@@ -12475,13 +12529,13 @@ function trkVminmax(t) {
   return isFinite(lo) ? [lo, hi] : null;
 }
 // rodzaj aktywności śladu (pole „a”)
-const ACTS = {
+const ACTS = Object.assign(Object.create(null), {
   pieszo: ['🚶', 'Pieszo'],
   bieg: ['🏃', 'Bieg'],
   rower: ['🚴', 'Rower'],
   auto: ['🚗', 'Samochód'],
   inne: ['📍', 'Inne']
-};
+});
 // GPX <type>: nazwy jak w Stravie / Garminie, żeby inne programy je rozumiały
 const ACT_GPX = {pieszo: 'walking', bieg: 'running', rower: 'cycling', auto: 'driving', inne: 'other'};
 function actFrom(x) {
@@ -13529,6 +13583,7 @@ async function trkImport(files) {
     }
   }
   if (n) {
+    cleanTrkDB(TRK); // ślady z pliku przechodzą tę samą walidację co kopie – zanim cokolwiek się zapisze
     trkLayer({l: TRK.active}).vis = true;
     trkChanged();
     const last = TRK.items[TRK.items.length - 1];
@@ -13570,9 +13625,9 @@ async function placeAt(lat, lng) {
   geoLast = Date.now();
   const url =
     'https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=14&accept-language=pl&lat=' +
-    lat.toFixed(5) +
+    lat.toFixed(3) + // ~100 m – do nazwy miejscowości / dzielnicy dokładniej nie trzeba
     '&lon=' +
-    lng.toFixed(5);
+    lng.toFixed(3);
   let j = null;
   const H = plug('CapacitorHttp');
   if (H) {
@@ -13898,7 +13953,8 @@ function trkFeatures() {
 const isTrkFeature = f => !!(f && f.properties && f.properties.sekcja === 'slady');
 function trkFromBackup(j) {
   // ślady z kopii; null = kopia bez śladów (np. starsza wersja) – wtedy obecne ślady zostają
-  if (j.__trk !== undefined) return j.__trk && cleanTrkDB(j.__trk); // kopia ZIP: ślady wczytane już z plików GPX
+  const zi = ZIP_INT.get(j); // kopia ZIP: ślady wczytane już z plików GPX (pola „__…” z samego pliku JSON nic nie znaczą)
+  if (zi) return zi.trk && cleanTrkDB(zi.trk);
   const meta = (j.omm || {}).slady,
     feats = (j.features || []).filter(f => isTrkFeature(f) && f.geometry);
   if (!meta && !feats.length) return null;
@@ -13956,10 +14012,25 @@ function trkFromBackup(j) {
   });
   return cleanTrkDB(T);
 }
+async function trkSnapExpire(all) {
+  try {
+    const d = await IDB.get('slady-przed-przywroceniem');
+    if (d && !d._at && !all) {
+      await IDB.set('slady-przed-przywroceniem', {...d, _at: Date.now()}); // starsza kopia bez daty – liczymy od dziś
+      return 0;
+    }
+    if (d && (all || d._at < Date.now() - SNAP_DAYS * 864e5)) {
+      await IDB.del('slady-przed-przywroceniem');
+      return 1;
+    }
+  } catch (e) {}
+  return 0;
+}
+setTimeout(() => trkSnapExpire(false), 5000);
 async function trkReplace(T) {
   // przy przywracaniu pełnej kopii: obecne ślady odkładamy osobno, potem wczytujemy ślady z kopii
   try {
-    await IDB.set('slady-przed-przywroceniem', TRK);
+    await IDB.set('slady-przed-przywroceniem', {...TRK, _at: Date.now()}); // usuwane po 30 dniach (trkSnapExpire)
   } catch (e) {}
   TRK = T;
   trkFix();
@@ -14377,7 +14448,7 @@ async function recKmSay(km) {
   } catch (e) {}
   const LN = plug('LocalNotifications');
   if (LN)
-    LN.schedule({notifications: [{id: 4100 + (km % 50), title: 'OMM · ' + plN(km, 'kilometr', 'kilometry', 'kilometrów'), body}]}).catch(() => {});
+    LN.schedule({notifications: [{id: 4100 + (km % 50), title: 'OMM · ' + plN(km, 'kilometr', 'kilometry', 'kilometrów'), body, isExactNotification: false}]}).catch(() => {});
   if (recKmMode() !== 'glos') return;
   const hh = Math.floor(sec / 3600),
     m = Math.floor((sec % 3600) / 60),
@@ -14412,6 +14483,8 @@ function recPersist(force) {
     localStorage.setItem(REC_KEY, JSON.stringify(REC));
   } catch (e) {}
 }
+let recAnc = null, // kotwica postoju: ostatni punkt przed postojem (patrz recPoint)
+  recExit = null; // pierwszy pomiar poza promieniem postoju – czeka na potwierdzenie kolejnym
 const recKF = {}; // filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach)
 function kfStep(t, lat, lng, accu, time, speed, bearing) {
   // Filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach).
@@ -14505,7 +14578,9 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     return recUi();
   }
   const newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
-  if (newSeg || !REC.pts.length) recKF.on = 0; // po pauzie filtr zaczyna od nowa
+  if (newSeg || !REC.pts.length) (recKF.on = 0), (recAnc = null); // po pauzie filtr zaczyna od nowa
+  const hasV = x.speed != null && isFinite(x.speed);
+  if (hasV && x.speed > 1) REC.vOk = 1; // telefon podaje prawdziwą prędkość z GPS (nie same zera)
   const [fl, fg] = kfStep(recKF, lat, lng, accu, time, x.speed, x.bearing);
   recPos = {lat: fl, lng: fg, accu, alt, time, speed: x.speed, bearing: x.bearing};
   const P = recPrecise(),
@@ -14521,14 +14596,36 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     const d = hav(last, q),
       dt = q[3] - last[3];
     if (dt < (P ? 2 : 5)) return recUi(); // gęstość zapisu: co 2 s (oszczędnie co 5 s)
-    if (d < Math.max(P ? 3 : 8, accu * 0.5)) return recUi(); // postój – drgania pozycji w miejscu pomijamy
-    // postój wg GPS (prędkość z efektu Dopplera): auto czeka na światłach / przepuszcza pieszego – bez nowych punktów
-    if (x.speed != null && isFinite(x.speed) && x.speed < 0.5 && d < 15) return recUi();
+    // postój: od ponad 20 s bez nowego punktu – zapamiętujemy „kotwicę” (ostatni punkt)
+    const still = () => {
+      if (!recAnc && dt >= 20) recAnc = last;
+      return recUi();
+    };
+    if (d < Math.max(P ? 3 : 8, accu * 0.5)) return still(); // postój – drgania pozycji w miejscu pomijamy
+    // postój wg GPS (prędkość z efektu Dopplera): auto czeka na światłach / przepuszcza pieszego – bez nowych punktów.
+    // Gdy telefon podaje prawdziwą prędkość, a ta mówi „stoisz”, nawet duży skok pozycji to błąd (np. w budynku).
+    if (hasV && x.speed < 0.5 && (d < 15 || REC.vOk)) return still();
     // postój wg filtra: szacowana prędkość poniżej ~1,5 km/h – szum GPS nie „chodzi” po mapie
-    if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return recUi();
+    if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return still();
     if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
+    const wasAnc = !!recAnc;
+    if (recAnc) {
+      // po postoju (sklep, dom) pozycja w budynku „pływa” po kilkadziesiąt metrów. Ruszyłeś dopiero, gdy
+      // pomiar wyszedł poza promień postoju i kolejny oddala się dalej (albo GPS mierzy prędkość marszu).
+      const R = Math.max(20, accu * 1.5),
+        da = hav(recAnc, q);
+      if (da < R) {
+        recExit = null;
+        return recUi();
+      }
+      if (!(hasV && x.speed > 1.5)) {
+        if (!recExit) recExit = q;
+        if (da <= hav(recAnc, recExit) + 3) return recUi();
+      }
+      recAnc = recExit = null;
+    }
     // auto-pauza: po postoju dłuższym niż 2 min ruszyliśmy – postój staje się przerwą w śladzie
-    if (recAutoOn() && dt > REC_AP && d < 40) {
+    if (recAutoOn() && dt > REC_AP && (d < 40 || wasAnc)) {
       REC.sg.push(REC.pts.length);
       REC.pz = (REC.pz || 0) + dt * 1000;
     }
@@ -14551,6 +14648,23 @@ function recPoint(lat, lng, alt, accu, time, extra) {
       hav(A, C) < 0.5 * Math.min(hav(A, Bp), hav(Bp, C))
     )
       REC.pts.splice(n - 3, 1);
+  }
+  if (!recAnc) {
+    // postój, którego GPS nie rozpoznał (w budynku często bez prędkości): od minuty punkty krążą w promieniu
+    // 30 m – zamieniamy je w jeden punkt i od niego liczymy kotwicę postoju
+    const m = REC.pts.length,
+      t1 = REC.pts[m - 1][3];
+    let k = m - 1;
+    while (k > seg0 && t1 - REC.pts[k - 1][3] <= 90) k--;
+    if (m - k >= 5 && t1 - REC.pts[k][3] >= 60) {
+      const W = REC.pts.slice(k),
+        c = [0, 1].map(i => W.reduce((a, p) => a + p[i], 0) / W.length);
+      if (W.every(p => hav(p, c) <= 30)) {
+        const a = [+c[0].toFixed(6), +c[1].toFixed(6), W[0][2], W[0][3]];
+        REC.pts.splice(k, m - k, a);
+        recAnc = a;
+      }
+    }
   }
   if (recKmMode() !== 'nie' && REC.pts.length > 1) {
     const km = Math.floor(trkStats({pts: REC.pts, sg: REC.sg, st: REC.st}).d / 1000);
@@ -14723,7 +14837,11 @@ async function recStop() {
   trkRender();
   sheetIfOpen();
   trkFocus(t);
-  setTimeout(() => vehicleAsk(t), 900); // zapomniane nagrywanie w aucie? – propozycja odcięcia
+  // postoje z „pływającym” GPS, potem zapomniane nagrywanie w aucie – propozycje poprawek
+  setTimeout(async () => {
+    await stopAsk(t);
+    vehicleAsk(t);
+  }, 900);
 }
 function recSaveDlg() {
   // zakończenie nagrania: nazwa + warstwa śladów
@@ -16071,7 +16189,13 @@ async function trkAnim(t, opt) {
         if (ph === 'draw') A.ms = animMsOf(A.tl, fr);
       }
     }, 'fsp', 'Prędkość odtwarzania (zapamiętana, także w filmie)'),
-    recb = B('⏺ Nagraj', () => A.eng && filmRecord(t, speed, fmtSel.value, qSel.value, A.share), 'frec');
+    // zapis filmu do pliku (ta sama ikona co inne zapisy plików) albo – z „Udostępnij” – zapis i okno udostępniania
+    recb = BI(
+      A.share ? 'share' : 'dl',
+      A.share ? 'Udostępnij film' : 'Zapisz film',
+      () => A.eng && filmRecord(t, speed, fmtSel.value, qSel.value, A.share),
+      'frec'
+    );
   fmtSel.onchange = () => {
     localStorage.setItem('omm-anim-fmt', fmtSel.value);
     build();
@@ -16289,8 +16413,8 @@ async function zipMake(files) {
   return new Blob([...parts, ...cen, ed.buffer], {type: 'application/zip'});
 }
 const ZIP_MAX_N = 50000, // limity importu archiwów (kopie, KMZ)
-  ZIP_MAX_ENTRY = 512 * 1048576,
-  ZIP_MAX_TOTAL = 2048 * 1048576;
+  ZIP_MAX_ENTRY = 128 * 1048576, // pojedynczy plik po rozpakowaniu (pamięć telefonu)
+  ZIP_MAX_TOTAL = 1024 * 1048576;
 function zipOpen(buf) {
   // spis plików archiwum ZIP; read(nazwa) → Uint8Array
   const u8 = new Uint8Array(buf),
@@ -16577,6 +16701,7 @@ async function zipBackup(vis) {
   files.push({name: 'CZYTAJ.txt', data: CZYTAJ});
   return encWrap(await zipMake(files)); // zaszyfrowana, gdy włączono szyfrowanie kopii
 }
+const ZIP_INT = new WeakMap(); // kopia ZIP → {trk: ślady z GPX, foto: zdjęcia do zapisania po zgodzie}
 async function zipToBackup(buf) {
   // kopia ZIP → ta sama postać co dawna kopia GeoJSON (dalej działa zwykłe przywracanie)
   const z0 = zipOpen(buf);
@@ -16590,7 +16715,7 @@ async function zipToBackup(buf) {
   const foto = [];
   for (const n of z.names()) {
     const m = n.match(/^zdjecia\/([\w.-]{1,120})$/);
-    if (m) foto.push([m[1], new Blob([await z.read(n)], {type: 'image/jpeg'})]);
+    if (m) foto.push([m[1], () => z.read(n)]); // samo odczytanie odłożone do zgody na przywrócenie
   }
   const fixPh = a =>
     Array.isArray(a)
@@ -16639,7 +16764,7 @@ async function zipToBackup(buf) {
         trk.items.push({id: _id || uid(), l: l.id, ...r, cr: r.st, up: Date.now()});
       });
   }
-  return {
+  const out = {
     type: 'FeatureCollection',
     features: feats,
     omm: {
@@ -16652,9 +16777,9 @@ async function zipToBackup(buf) {
       settings: z.has('ustawienia.json') ? JSON.parse(await txt('ustawienia.json')) : undefined,
       ...(idx.zakres ? {zakres: idx.zakres} : {})
     },
-    __trk: trk, // ślady wczytane z GPX (trkFromBackup je zwraca)
-    __foto: foto // zdjęcia czekające na zatwierdzenie przywracania
   };
+  ZIP_INT.set(out, {trk, foto}); // dane wewnętrzne kopii ZIP – poza zasięgiem treści pliku
+  return out;
 }
 
 async function fotoCommit(foto, maps, trk) {
@@ -16674,7 +16799,9 @@ async function fotoCommit(foto, maps, trk) {
   };
   const ren = new Map(),
     put = [];
-  for (const [n, b] of foto) {
+  for (const [n, rd] of foto) {
+    const b = typeof rd === 'function' ? new Blob([await rd()], {type: 'image/jpeg'}) : rd;
+    if (!(b instanceof Blob) || !/^[\w.-]{1,120}$/.test(n)) continue;
     const cur = await IDB.get('foto/' + n);
     if (!cur) put.push(['foto/' + n, b]);
     else if (!(cur instanceof Blob && (await same(cur, b)))) {
@@ -18208,6 +18335,109 @@ async function vehicleAsk(t) {
   if (v) trkSplit(t, k);
 }
 
+// ---------- postoje z „pływającym” GPS (sklep, dom): wykrycie po zapisie śladu ----------
+/*
+ * Postój = co najmniej STOP_MIN s, wszystkie punkty w promieniu STOP_R m od ich środka. W budynku GPS
+ * rysuje wtedy pętle i zawyża dystans. Po zgodzie postój zamienia się w jeden punkt (koniec odcinka i początek
+ * następnego – czas postoju jest pauzą), a postój na samym końcu śladu (dom) można odciąć.
+ */
+const STOP_R = 40,
+  STOP_MIN = 180;
+function stopFind(t) {
+  const P = t.pts,
+    n = P.length,
+    cen = (i, j) => {
+      let a = 0,
+        b = 0;
+      for (let k = i; k <= j; k++) (a += P[k][0]), (b += P[k][1]);
+      return [a / (j - i + 1), b / (j - i + 1)];
+    },
+    raw = [];
+  if (t.noTime || n < 5) return [];
+  for (let i = 0; i < n; ) {
+    let j = i;
+    while (j + 1 < n) {
+      const c = cen(i, j + 1);
+      let ok = true;
+      for (let k = i; k <= j + 1 && ok; k++) ok = hav(P[k], c) <= STOP_R;
+      if (!ok) break;
+      j++;
+    }
+    if (j - i >= 3 && P[j][3] - P[i][3] >= STOP_MIN) {
+      const L = raw[raw.length - 1];
+      // sąsiednie postoje w tym samym miejscu (np. GPS „wyskoczył” na chwilę) – jeden postój
+      if (L && i - L[1] <= 8 && hav(cen(L[0], L[1]), cen(i, j)) <= STOP_R) L[1] = j;
+      else raw.push([i, j]);
+      i = j + 1;
+    } else i++;
+  }
+  return raw
+    .map(([i, j]) => {
+      const c = cen(i, j);
+      while (i > 0 && hav(P[i - 1], c) <= STOP_R) i--;
+      while (j < n - 1 && hav(P[j + 1], c) <= STOP_R) j++;
+      let path = 0;
+      for (let k = i; k < j; k++) path += hav(P[k], P[k + 1]);
+      return {i, j, c: [+c[0].toFixed(6), +c[1].toFixed(6)], path, end: j === n - 1};
+    })
+    .filter(s => s.end || s.path > 2 * STOP_R); // postój bez pętli nie wymaga sprzątania
+}
+function stopApply(t, S, cut) {
+  // S: postoje ze stopFind (rosnąco), cut: odciąć postój na końcu śladu
+  const P = t.pts,
+    sg = new Set(t.sg || []),
+    out = [],
+    nsg = [];
+  let k = 0;
+  S.forEach(s => {
+    for (; k < s.i; k++) {
+      if (sg.has(k) && out.length) nsg.push(out.length);
+      out.push(P[k]);
+    }
+    if (sg.has(s.i) && out.length) nsg.push(out.length);
+    out.push([s.c[0], s.c[1], P[s.i][2], P[s.i][3]]);
+    if (!(cut && s.end)) {
+      nsg.push(out.length); // czas postoju = pauza
+      out.push([s.c[0], s.c[1], P[s.j][2], P[s.j][3]]);
+    }
+    k = s.j + 1;
+  });
+  for (; k < P.length; k++) {
+    if (sg.has(k) && out.length) nsg.push(out.length);
+    out.push(P[k]);
+  }
+  t.pts = out;
+  t.sg = [...new Set(nsg)].filter(i => i > 0 && i < out.length);
+  t.up = Date.now();
+}
+async function stopAsk(t) {
+  const S = stopFind(t);
+  if (!S.length) return;
+  const tail = S[S.length - 1].end ? S[S.length - 1] : null,
+    loops = S.reduce((a, s) => a + s.path, 0),
+    btns = [{t: 'Nie', v: null}];
+  if (S.length > (tail ? 1 : 0) || tail.path > 2 * STOP_R) btns.push({t: 'Wyczyść postoje', v: 'c'});
+  if (tail) btns.push({t: 'Wyczyść i utnij koniec', v: 'cut', c: 'okb'});
+  else btns[1].c = 'okb';
+  const v = await dlg({
+    title:
+      (S.length === 1 ? 'W śladzie jest postój' : 'W śladzie są postoje (' + S.length + ')') +
+      ', na których GPS „pływał” (np. w sklepie albo w domu) – dorysował ' +
+      fkm(loops) +
+      ' pętli.' +
+      (tail ? '\n\nOd ' + fhm(t.st + t.pts[tail.i][3] * 1000) + ' do końca śladu stałeś w jednym miejscu – koniec można odciąć.' : '') +
+      '\n\nPostój zostanie jednym punktem. Ślad sprzed zmiany trafi do kosza.',
+    btns
+  });
+  if (!v) return;
+  trashPut('slad', 'Ślad „' + (t.nm || 'Ślad') + '” przed wyczyszczeniem postojów', {
+    items: [{...clone(t), id: uid(), nm: (t.nm || 'Ślad') + ' (przed wyczyszczeniem postojów)'}]
+  });
+  stopApply(t, S, v === 'cut');
+  await trkChanged();
+  toastMsg('Postoje wyczyszczone');
+}
+
 // ---------- kosz: usunięte obiekty, warstwy, mapy i ślady – 30 dni na przywrócenie ----------
 /*
  * TRASH = [{id, k: rodzaj, nm: opis, at: kiedy usunięto (ms), d: kopia danych, m?: id mapy, mn?: nazwa mapy}]
@@ -19057,14 +19287,35 @@ async function lockCheck(pass) {
   return d === 0;
 }
 async function lockBio(title) {
-  // systemowe okno biometrii; true = rozpoznano
+  // systemowe okno biometrii; true = rozpoznano. Odcisk odblokowuje klucz w sprzętowym magazynie Androida;
+  // klucz przepada po dodaniu nowego odcisku / twarzy w telefonie → 'reset' (wtedy najpierw PIN OMM).
   const L = plug('OmmLock');
   if (!L) return false;
   try {
-    return !!(await L.authenticate({title: title || 'Odblokuj OMM'})).ok;
+    return (await L.authenticate({title: title || 'Odblokuj OMM'})).ok === true;
+  } catch (e) {
+    if (e && (e.code === 'INVALIDATED' || e.code === 'NOKEY')) {
+      localStorage.setItem('omm-lock-bioreset', '1');
+      return 'reset';
+    }
+    return false;
+  }
+}
+async function lockBioEnroll() {
+  // nowy klucz biometrii – tylko po podaniu PIN-u OMM (albo przy włączaniu blokady)
+  const L = plug('OmmLock');
+  try {
+    if (L) await L.enroll();
+    localStorage.removeItem('omm-lock-bioreset');
+    return true;
   } catch (e) {
     return false;
   }
+}
+function lockRecents() {
+  // Android 13+: bez podglądu OMM w „ostatnich aplikacjach”, gdy blokada jest włączona (zrzuty ekranu działają)
+  const L = plug('OmmLock');
+  if (L && L.recents) L.recents({hide: !!lockCfg()}).catch(() => {});
 }
 async function lockBioAvail() {
   const L = plug('OmmLock');
@@ -19075,9 +19326,16 @@ async function lockBioAvail() {
     return false;
   }
 }
-let LOCKED = false,
-  lockFails = 0,
-  lockWait = 0;
+let LOCKED = false;
+// licznik błędnych prób zapisany trwale – zamknięcie i ponowne otwarcie OMM go nie zeruje
+const lockF = () => {
+  try {
+    return JSON.parse(localStorage.getItem('omm-lock-f') || '{"n":0,"until":0}');
+  } catch (e) {
+    return {n: 0, until: 0};
+  }
+};
+const lockFSet = o => localStorage.setItem('omm-lock-f', JSON.stringify(o));
 function lockShow() {
   const c = lockCfg();
   if (!c || LOCKED) return;
@@ -19095,22 +19353,42 @@ function lockShow() {
   inp.placeholder = 'PIN lub hasło';
   if (c.num) inp.inputMode = 'numeric';
   const tryPin = async () => {
-    if (Date.now() < lockWait) return;
-    if (await lockCheck(inp.value)) return lockHide();
+    const F0 = lockF();
+    if (Date.now() < F0.until) {
+      msg.textContent = 'Za dużo prób – odczekaj ' + Math.ceil((F0.until - Date.now()) / 1000) + ' s.';
+      return;
+    }
+    if (await lockCheck(inp.value)) {
+      lockFSet({n: 0, until: 0});
+      if (c.m === 'bio' && localStorage.getItem('omm-lock-bioreset')) await lockBioEnroll();
+      return lockHide();
+    }
     inp.value = '';
-    lockFails++;
-    if (lockFails >= 5) {
-      const s = 30 * 2 ** Math.min(5, lockFails - 5);
-      lockWait = Date.now() + s * 1000;
+    const F = {n: F0.n + 1, until: 0};
+    if (F.n >= 5) {
+      const s = Math.min(3600, 30 * 2 ** (F.n - 5)); // 30 s, 1 min, 2 min, … do 1 godziny
+      F.until = Date.now() + s * 1000;
       msg.textContent = 'Za dużo prób – odczekaj ' + s + ' s.';
     } else msg.textContent = 'Zły PIN – spróbuj jeszcze raz.';
+    lockFSet(F);
   };
   inp.onkeydown = e => e.key === 'Enter' && tryPin();
   box.append(h('div', 'lklogo', 'OMM'), h('div', 'lktt', '🔒 OMM jest zablokowany'), inp, msg, go);
   if (c.m === 'bio') {
-    const bb = B('👆 Odcisk palca / twarz', async () => (await lockBio()) && lockHide());
+    const bio = async () => {
+      const r = await lockBio();
+      if (r === true) return lockHide();
+      if (r === 'reset') {
+        msg.textContent =
+          'W telefonie zmieniono odciski palców lub twarz – dla bezpieczeństwa podaj PIN OMM. Potem odcisk znów zadziała.';
+        bb.remove();
+        inp.focus();
+      }
+    };
+    const bb = B('👆 Odcisk palca / twarz', bio);
     box.append(bb);
-    setTimeout(async () => LOCKED && (await lockBio()) && lockHide(), 300);
+    if (localStorage.getItem('omm-lock-bioreset')) bb.remove();
+    else setTimeout(() => LOCKED && bio(), 300);
   }
   const forgot = h('a', 'lkfg', 'Nie pamiętam PIN-u');
   forgot.href = '#';
@@ -19126,7 +19404,6 @@ function lockShow() {
 }
 function lockHide() {
   LOCKED = false;
-  lockFails = 0;
   document.documentElement.classList.remove('locked');
   document.querySelectorAll('#lockscr').forEach(x => x.remove());
 }
@@ -19145,13 +19422,13 @@ if (plug('App')) {
   plug('App').addListener('resume', lockOnResume);
 } else
   document.addEventListener('visibilitychange', () => (document.hidden ? lockOnPause() : lockOnResume()));
-if (lockCfg()) lockShow();
+if (lockCfg()) lockShow(), lockRecents();
 else document.documentElement.classList.remove('locked');
 async function lockVerify(why) {
   // potwierdzenie przed zmianą lub wyłączeniem blokady
   const c = lockCfg();
   if (!c) return true;
-  if (c.m === 'bio' && (await lockBio(why))) return true;
+  if (c.m === 'bio' && !localStorage.getItem('omm-lock-bioreset') && (await lockBio(why)) === true) return true;
   const p = await askPass(why + '\n\nPodaj obecny PIN lub hasło:');
   if (p == null) return false;
   if (await lockCheck(p)) return true;
@@ -19173,23 +19450,32 @@ async function lockSetup() {
     ]
   });
   if (!m) return false;
-  const p1 = await askPass(m === 'bio' ? 'Zapasowy PIN lub hasło (co najmniej 4 znaki):' : 'Nowy PIN lub hasło (co najmniej 4 znaki):');
+  const p1 = await askPass(
+    (m === 'bio' ? 'Zapasowy PIN lub hasło' : 'Nowy PIN lub hasło') +
+      ' (co najmniej 6 znaków).\n\nNie używaj PIN-u odblokowania telefonu – OMM powinien mieć własny.'
+  );
   if (p1 == null) return false;
-  if (p1.length < 4) return tell('Za krótkie – blokada nie została włączona.'), false;
+  if (p1.length < 6) return tell('Za krótkie (minimum 6 znaków) – blokada nie została włączona.'), false;
   const p2 = await askPass('Powtórz PIN lub hasło:');
   if (p2 !== p1) return tell('Różne wartości – blokada nie została włączona.'), false;
-  if (m === 'bio' && !(await lockBio('Potwierdź odcisk palca / twarz'))) return tell('Nie potwierdzono biometrii – blokada nie została włączona.'), false;
+  if (m === 'bio' && (!(await lockBioEnroll()) || (await lockBio('Potwierdź odcisk palca / twarz')) !== true))
+    return tell('Nie potwierdzono biometrii – blokada nie została włączona.'), false;
   const salt = crypto.getRandomValues(new Uint8Array(16));
   localStorage.setItem(
     'omm-lock',
     JSON.stringify({m, salt: b64e(salt), iter: LOCK_ITER, hash: await lockHash(p1, salt, LOCK_ITER), num: /^\d+$/.test(p1)})
   );
+  lockRecents();
   await tell('🔒 Blokada włączona (' + (m === 'bio' ? 'odcisk palca / twarz, zapasowo PIN' : 'PIN lub hasło') + ').');
   return true;
 }
 async function lockOff() {
   if (!(await lockVerify('Wyłączenie blokady OMM'))) return false;
   localStorage.removeItem('omm-lock');
+  localStorage.removeItem('omm-lock-bioreset');
+  const L = plug('OmmLock');
+  if (L && L.remove) L.remove().catch(() => {});
+  lockRecents();
   toastMsg('Blokada wyłączona');
   return true;
 }
@@ -19345,6 +19631,17 @@ function settingsDlg() {
       : 'Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.'
   );
   {
+    // ostrzeżenie: kopia bez hasła jest czytelna dla każdego, kto ma dostęp do plików telefonu
+    const w = h('div', 'muted');
+    w.style.cssText = 'background:#fdecea;color:#8a1c12;border-radius:8px;padding:8px 10px;margin:-4px 0 10px';
+    encGet().then(E => {
+      if (E) return w.remove();
+      w.textContent =
+        '⚠ Kopie nie są zaszyfrowane. Każdy, kto ma dostęp do plików telefonu (menedżer plików, kabel USB, aplikacje z dostępem do plików, synchronizacja folderów), może je odczytać – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Blokada OMM ich nie chroni, a pliki zostają po odinstalowaniu aplikacji. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.';
+    });
+    sec.append(w);
+  }
+  {
     const g = h('div', 'sset'),
       du = localStorage.getItem('omm-dysk-uri');
     g.append(h('b', null, 'Dysk Google'));
@@ -19434,6 +19731,36 @@ function settingsDlg() {
       ['300', 'Po 5 minutach']
     ]
   );
+  {
+    // kopie awaryjne: same znikają po 30 dniach, można je usunąć od razu
+    const g = h('div', 'sset'),
+      n = Object.keys(localStorage).filter(k => /^mapa-(snap|uszkodzone)-\d+/.test(k)).length;
+    g.append(
+      h('b', null, 'Kopie awaryjne'),
+      h(
+        'div',
+        'muted',
+        'OMM odkłada kopię danych przed aktualizacją formatu i przed przywróceniem kopii (teraz: ' +
+          n +
+          ' + ewentualnie poprzednie ślady). Usuwają się same po ' +
+          SNAP_DAYS +
+          ' dniach. Usunięte przez Ciebie punkty i ślady mogą w nich jeszcze być.'
+      )
+    );
+    const r = h('div', 'setop');
+    r.append(
+      BI('del', 'Usuń kopie awaryjne teraz', async () => {
+        if (!(await askYes('Usunąć wszystkie kopie awaryjne?\n\nTwoje obecne mapy i ślady zostają bez zmian. Nie będzie można cofnąć ostatniego przywrócenia kopii.', 'Usuń', true)))
+          return;
+        const k = snapExpire(true) + (await trkSnapExpire(true));
+        toastMsg(k ? 'Usunięto kopie awaryjne' : 'Nie było kopii awaryjnych');
+        back.remove();
+        settingsDlg();
+      })
+    );
+    g.append(r);
+    sec.append(g);
+  }
   {
     // szyfrowanie kopii hasłem (opcja)
     const g = h('div', 'sset'),
