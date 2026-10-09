@@ -1847,9 +1847,21 @@ body.rec #info {
   color: var(--sub);
 }
 .obj .eye svg {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   display: block;
+}
+.obj .eye {
+  width: 30px;
+  height: 32px;
+  padding: 5px;
+}
+.obj .oi.tswb {
+  cursor: pointer;
+  border-radius: 6px;
+}
+.obj .oi.tswb:active {
+  background: var(--b2);
 }
 .obj.tchk {
   background: var(--accbg);
@@ -2073,6 +2085,78 @@ body.rec #info {
   border-top: 1px solid var(--line);
   margin-top: 6px;
 }
+/* wspólne przyciski z ikonami */
+#selbar button .ic,
+#tselbar button .ic {
+  vertical-align: -3px;
+  margin-right: 4px;
+}
+button.ibt {
+  border: 0;
+  background: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #3c4043;
+  flex: none;
+}
+button.ibt:active {
+  background: var(--b2);
+}
+button.ibt.danger {
+  color: #d93025 !important;
+  background: none !important;
+}
+button.bic {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+button.bic .ic,
+button.ibt .ic {
+  flex: none;
+}
+.aguess {
+  margin: 4px 0 2px;
+  font-size: 13px;
+  color: var(--acc);
+  font-weight: 600;
+}
+/* ustawienia: zwijane kategorie */
+details.scat {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 8px;
+  background: #fff;
+}
+details.scat summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 14px;
+  font-weight: 600;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+}
+details.scat summary::-webkit-details-marker {
+  display: none;
+}
+details.scat summary::after {
+  content: '▾';
+  margin-left: auto;
+  color: var(--sub);
+  transition: transform 0.2s;
+}
+details.scat[open] summary::after {
+  transform: rotate(180deg);
+}
+details.scat .scb {
+  padding: 0 14px 6px;
+}
 /* ustawienia: przyciski u góry */
 .setop {
   display: flex;
@@ -2104,6 +2188,26 @@ body.rec #info {
   height: 7px;
   border-radius: 4px;
   min-width: 60px;
+}
+.tph {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.tph b {
+  flex: 1;
+  min-width: 0;
+}
+.tph .ibt {
+  width: 30px;
+  height: 30px;
+}
+.tib {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid #eef0f2;
+  margin-top: 8px;
+  padding-top: 4px;
 }
 .tbt {
   display: flex;
@@ -2317,79 +2421,68 @@ body.animon #fchip,
 body.animon #wm {
   display: none !important;
 }
-.anim .atop {
-  position: absolute;
-  z-index: 1200;
-  top: calc(10px + env(safe-area-inset-top, 0px));
-  left: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 14px;
-  padding: 10px 14px;
-  box-shadow: 0 2px 8px #0003;
-}
-.anim .atop b {
-  display: block;
-  font-size: 16px;
-}
-.anim .acnt {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--acc);
-  font-variant-numeric: tabular-nums;
-}
-.anim .abar {
-  position: absolute;
-  z-index: 1200;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(16px + var(--sa));
+/* podgląd animacji / filmu */
+.film {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  background: #1f2328;
   display: flex;
-  gap: 8px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 26px;
-  padding: 6px;
-  box-shadow: 0 2px 8px #0003;
+  flex-direction: column;
+  padding: env(safe-area-inset-top, 0px) 0 var(--sa);
 }
-.anim .abar button {
+.film .fstage {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+}
+.film canvas {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 18px #0008;
+}
+.film .fmsg {
+  color: #fff;
+  font-size: 15px;
+}
+.film .fbar {
+  background: #2b3036;
+  padding: 8px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.film .frow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.film .frow input[type='range'] {
+  flex: 1;
+}
+.film button,
+.film select {
   border: 0;
+  height: 40px;
   min-width: 44px;
-  height: 44px;
-  border-radius: 22px;
-  background: var(--b2);
-  font-size: 16px;
+  border-radius: 20px;
+  background: #3c434b;
+  color: #fff;
+  font-size: 15px;
   padding: 0 12px;
 }
-.anim .acard {
-  position: absolute;
-  z-index: 1200;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    opacity 0.35s,
-    transform 0.35s;
-  background: #fff;
-  border-radius: 14px;
-  padding: 8px;
-  box-shadow: 0 6px 24px #0006;
-  max-width: 82vw;
+.film .frec {
+  background: #d93025;
+  font-weight: 600;
+  margin-left: auto;
 }
-.anim .acard.on {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-.anim .acard img {
-  display: block;
-  max-width: 78vw;
-  max-height: 55vh;
-  border-radius: 8px;
-}
-.anim .acard div {
-  padding: 6px 4px 2px;
-  font-size: 14px;
+.film .fsp {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 /* nawigacja do punktu */
 .navbar {
@@ -2605,7 +2698,7 @@ body.spliton #info {
   <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import</button><button id="tsumb">📊 Podsumowanie</button><button id="tselb">☑ Zaznacz</button></div>
   <div id="list"></div>
   <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś…</button><button id="selic">Ikona…</button><button id="selnm">Nazwy…</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
-  <div id="tselbar"><span id="tselc"></span><button id="tsmv">📂 Przenieś…</button><button id="tsvis">👁 Pokaż</button><button id="tshid">🙈 Ukryj</button><button id="tsact">🏷 Rodzaj…</button><button id="tsgpx">⇩ GPX</button><button id="tsdel">🗑 Usuń</button><button id="tsx">Gotowe</button></div>
+  <div id="tselbar"><span id="tselc"></span><button id="tsmv">📂 Przenieś…</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">🏷 Rodzaj…</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
@@ -2614,7 +2707,7 @@ body.spliton #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v41 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v42 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2687,10 +2780,54 @@ const B = (x, fn, c, t) => {
   if (t) b.title = t;
   return b;
 };
-const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
+// ---------- wspólne ikony: jedna funkcja = jedna ikona w całej aplikacji ----------
+// Zanim dodasz nową ikonę, sprawdź, czy taka funkcja nie ma już ikony tutaj – i użyj tej.
+const IC = {
+  share:
+    '<circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.3M8.3 13.2l7.4 4.3"/>',
+  del: '<path d="M4 6.5h16M9.5 6.5V4.5h5v2M6.5 6.5l1 13.5h9l1-13.5"/><path d="M10 10v7M14 10v7"/>',
+  edit: '<path d="M4 20l1-4.5L15.5 5l3.5 3.5L8.5 19z"/><path d="M13.5 7l3.5 3.5"/>',
+  eye: '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  eyeOff:
+    '<path d="M3 10c2.2 3 5.4 4.5 9 4.5s6.8-1.5 9-4.5"/><path d="M5.6 13.1L4 15.4M9.4 14.3l-.6 2.6M14.6 14.3l.6 2.6M18.4 13.1l1.6 2.3"/>',
+  nav: '<path d="M12 3l7 17-7-4-7 4z"/>',
+  split:
+    '<circle cx="6" cy="6.5" r="2.6"/><circle cx="6" cy="17.5" r="2.6"/><path d="M8.2 8L20 18M8.2 16L20 6"/>',
+  stats: '<path d="M4 20V11M10 20V5M16 20v-6M2.5 20h19"/>',
+  dl: '<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M4 16v4h16v-4"/>',
+  play: '<path d="M7 4.5v15l12-7.5z"/>',
+  photo: '<path d="M3.5 8h3.8l1.8-2.6h5.8L16.7 8h3.8v11h-17z"/><circle cx="12" cy="13.3" r="3.5"/>' // jak przycisk 📷 na pasku
+};
+const ico = (k, s) =>
+  '<svg class="ic" viewBox="0 0 24 24" width="' +
+  (s || 20) +
+  '" height="' +
+  (s || 20) +
+  '" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' +
+  IC[k] +
+  '</svg>';
+const IB = (k, fn, c, t) => {
+  // przycisk z samą ikoną (podpis w title i dla czytników ekranu)
+  const b = B('', fn, 'ibt' + (c ? ' ' + c : ''), t);
+  b.innerHTML = ico(k);
+  b.setAttribute('aria-label', t || k);
+  return b;
+};
+const BI = (k, label, fn, c, t) => {
+  // przycisk z ikoną i napisem
+  const b = B('', fn, c, t);
+  b.innerHTML = ico(k, 17);
+  b.append(h('span', null, label));
+  b.classList.add('bic');
+  return b;
+};
+const eye = (v, fn) => {
+  const b = IB(v ? 'eye' : 'eyeOff', () => fn(!v), 'eye' + (v ? '' : ' off'), v ? 'Widoczne – ukryj' : 'Ukryte – pokaż');
+  return b;
+};
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v41';
+const APP_VER = 'v42';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -2820,6 +2957,8 @@ igroup('gen', 'Ogólne', '📍', [
   ],
   ['💩', 'Kupa']
 ]);
+// „Zdjęcie” (aparat) zostaje w ICONS dla punktów ze zdjęć (osobne narzędzie 📷), ale nie ma go w wyborze ikon
+IGROUPS[IGROUPS.length - 1].ids = IGROUPS[IGROUPS.length - 1].ids.filter(x => x !== 'o:foto');
 igroup('noc', 'Nocleg i schronienie', '⛺', [
   [
     '🏕️',
@@ -6964,7 +7103,7 @@ function openItemPopup(it, latlng) {
     c.append(lb, sel);
   }
   row.append(
-    B('✎ Nazwa', async () => {
+    BI('edit', 'Nazwa', async () => {
       const v = await askText('Nazwa obiektu (puste = nazwa automatyczna):', it.nm || '');
       if (v === null) return;
       const t = v.trim();
@@ -7022,7 +7161,7 @@ function openItemPopup(it, latlng) {
     );
   if (it.t === 'text')
     row.append(
-      B('✎ Tekst', async () => {
+      BI('edit', 'Tekst', async () => {
         const v = await askText('Treść napisu:', it.tx || '');
         if (v === null || !v.trim()) return;
         it.tx = v.trim().slice(0, 200);
@@ -7035,7 +7174,7 @@ function openItemPopup(it, latlng) {
       })
     );
   row.append(
-    B('📷 Zdjęcie', async () => {
+    BI('photo', 'Zdjęcie', async () => {
       map.closePopup();
       if (!(await addPhotosTo(it))) return;
       touch(it);
@@ -7046,7 +7185,7 @@ function openItemPopup(it, latlng) {
     })
   );
   row.append(
-    B('🧭 Nawiguj', () => {
+    BI('nav', 'Prowadź', () => {
       const c = isPt(it) || it.t === 'circle' ? it.p[0] : L.latLngBounds(it.p).getCenter();
       navStart(Array.isArray(c) ? c : [c.lat, c.lng], nameOf(it));
     })
@@ -7096,7 +7235,8 @@ function openItemPopup(it, latlng) {
     })
   );
   row.append(
-    B(
+    BI(
+      'del',
       'Usuń',
       async () => {
         if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?\n\nTrafi do kosza na 30 dni.', 'Usuń', true)))
@@ -9182,11 +9322,11 @@ function sheet() {
       if (selG === g.id) {
         const c = h('div', 'ctl');
         c.append(
-          B('✎ Nazwa', () => ren(g, 'Nazwa grupy:')),
+          BI('edit', 'Nazwa', () => ren(g, 'Nazwa grupy:')),
           B('＋ Warstwa', () => addLayerTo(g)),
           B('↑', () => mv(P.groups, gi, -1), '', 'Wyżej'),
           B('↓', () => mv(P.groups, gi, 1), '', 'Niżej'),
-          B('🗑', () => delG(g), '', 'Usuń grupę')
+          IB('del', () => delG(g), 'danger', 'Usuń grupę')
         );
         box.append(c);
       }
@@ -9254,16 +9394,16 @@ function sheet() {
             if (pn) pn.style.opacity = l.op;
           };
           rg.onchange = save;
-          const xb = B('⇩ Eksport', () => xmenu(xb, l));
+          const xb = BI('dl', 'Eksport', () => xmenu(xb, l));
           c.append(
             h('span', null, 'Krycie'),
             rg,
             pc,
-            B('✎ Nazwa', () => ren(l, 'Nazwa warstwy:')),
+            BI('edit', 'Nazwa', () => ren(l, 'Nazwa warstwy:')),
             B('↑', () => mv(g.layers, li, -1), '', 'Wyżej'),
             B('↓', () => mv(g.layers, li, 1), '', 'Niżej'),
             xb,
-            B('🗑', () => delL(g, l), '', 'Usuń warstwę')
+            IB('del', () => delL(g, l), 'danger', 'Usuń warstwę')
           );
           if (its.some(i => i.t === 'pin')) c.append(B('Ikona punktów…', () => massIcon(its)));
           if (its.some(i => i.nm && icOfItem(i))) c.append(B('Ujednolić nazwy…', () => massUnify(its)));
@@ -9375,7 +9515,7 @@ $('mapb').onclick = () => {
   );
   m.append(h('div', 'sep'));
   m.append(
-    B('✎ Zmień nazwę tej mapy', () => {
+    BI('edit', 'Zmień nazwę tej mapy', () => {
       m.style.display = 'none';
       ren(P, 'Nazwa mapy:');
     })
@@ -9393,7 +9533,7 @@ $('mapb').onclick = () => {
   );
   if (modeMaps().length > 1)
     m.append(
-      B('🗑 Usuń tę mapę', async () => {
+      BI('del', 'Usuń tę mapę', async () => {
         m.style.display = 'none';
         if (
           !(await askYes(
@@ -11779,10 +11919,21 @@ function actFrom(x) {
   if (/driv|car|auto|motor/.test(x)) return 'auto';
   return x ? 'inne' : '';
 }
-function actGuess(s) {
-  // propozycja rodzaju z prędkości w ruchu (km/h)
-  const v = s.vmov * 3.6;
-  return !v ? 'pieszo' : v < 7.5 ? 'pieszo' : v < 13 ? 'bieg' : v < 32 ? 'rower' : 'auto';
+function actGuess(s, t) {
+  // propozycja rodzaju aktywności: mediana prędkości w ruchu i szybsze odcinki (85. percentyl), km/h
+  const v = t && trkSpeeds(t),
+    mv = v ? v.filter(x => x > 0.55).sort((a, b) => a - b) : [];
+  if (mv.length < 10) {
+    const x = s.vmov * 3.6;
+    return !x || x < 7.5 ? 'pieszo' : x < 13 ? 'bieg' : x < 32 ? 'rower' : 'auto';
+  }
+  const q = p => mv[Math.min(mv.length - 1, Math.floor(mv.length * p))] * 3.6,
+    med = q(0.5),
+    p85 = q(0.85);
+  if (med > 32 || p85 > 55) return 'auto';
+  if (med > 13) return 'rower';
+  if (med > 7.5) return p85 > 19 ? 'rower' : 'bieg'; // wolny rower: krótkie szybsze odcinki
+  return p85 > 16 ? 'rower' : 'pieszo';
 }
 async function trkSetAct(list) {
   // zmiana rodzaju aktywności jednego lub wielu śladów
@@ -11846,10 +11997,60 @@ function trkGrad(t, mode) {
   GRC.set(t, {mode, up: t.up, n, g});
   return g;
 }
+// sposób kolorowania śladu: własny (t.cm – wybrany przy śladzie na liście) albo ten z Ustawień
+const trkModeOf = t => (t && t.cm) || trkColorMode();
 function trkGradFor(t) {
-  // kolory śladu wg ustawień; ślad wybrany na mapie przy kolorze jednolitym – w kolorach prędkości
-  const m = trkColorMode();
-  return m !== 'jedn' ? trkGrad(t, m) : t === trkSel ? trkGrad(t, 'predkosc') : null;
+  // kolory śladu; ślad wybrany na mapie przy kolorze jednolitym z Ustawień – w kolorach prędkości
+  const m = trkModeOf(t);
+  return m !== 'jedn' ? trkGrad(t, m) : t === trkSel && !t.cm ? trkGrad(t, 'predkosc') : null;
+}
+function trkSwatch(t) {
+  // „szlaczek” przy śladzie na liście: jednolity kolor albo gradient prędkości / wysokości
+  const m = trkModeOf(t),
+    gid = 'tg' + t.id,
+    stroke =
+      m === 'jedn'
+        ? trkColor(t)
+        : 'url(#' + gid + ')',
+    defs =
+      m === 'jedn'
+        ? ''
+        : '<defs><linearGradient id="' +
+          gid +
+          '">' +
+          RAMPS[m].map(p => '<stop offset="' + p[0] + '" stop-color="' + rampColor(RAMPS[m], p[0]) + '"/>').join('') +
+          '</linearGradient></defs>';
+  return (
+    '<svg viewBox="0 0 20 20">' +
+    defs +
+    '<path d="M3 15c3-1 3-6 6-6s3 4 6 2 2-6 2-6" fill="none" stroke="' +
+    stroke +
+    '" stroke-width="2.6" stroke-linecap="round"/></svg>'
+  );
+}
+async function trkColorDlg(t) {
+  // dotknięcie szlaczka: jednolity kolor (z paletą) albo kolory wg prędkości / wysokości
+  const glob = {jedn: 'jednolity', predkosc: 'wg prędkości', wysokosc: 'wg wysokości'}[trkColorMode()];
+  const v = await dlg({
+    title: 'Kolor śladu „' + (t.nm || 'Ślad') + '”',
+    btns: [
+      {t: '● Jednolity…', v: 'jedn', c: t.cm === 'jedn' ? 'okb' : ''},
+      ...(t.noTime ? [] : [{t: '🌈 Wg prędkości', v: 'predkosc', c: t.cm === 'predkosc' ? 'okb' : ''}]),
+      {t: '⛰ Wg wysokości', v: 'wysokosc', c: t.cm === 'wysokosc' ? 'okb' : ''},
+      {t: 'Jak w Ustawieniach (' + glob + ')', v: '-', c: !t.cm ? 'okb' : ''}
+    ]
+  });
+  if (!v) return;
+  if (v === 'jedn') {
+    const c = await pickColor('Kolor śladu', trkColor(t), 'Kolor warstwy');
+    if (c === undefined) return;
+    if (c === null) delete t.c;
+    else t.c = c;
+    t.cm = 'jedn';
+  } else if (v === '-') delete t.cm;
+  else t.cm = v;
+  t.up = Date.now();
+  trkChanged();
 }
 function gradLines(t, g, weight) {
   // ślad z płynnym przejściem barw: kolejne odcinki łączone w linie o tym samym odcieniu
@@ -11966,8 +12167,9 @@ function wpPopup(t, w) {
       fn();
     };
   bt.append(
-    B(
-      '✎ Opis',
+    BI(
+      'edit',
+      'Opis',
       act(async () => {
         const v = await askText('Opis punktu:', w.n || '');
         if (v == null) return;
@@ -11982,12 +12184,14 @@ function wpPopup(t, w) {
         if (await addPhotosTo(w)) upd();
       })
     ),
-    B(
-      '🧭 Nawiguj',
+    BI(
+      'nav',
+      'Prowadź',
       act(() => navStart(w.p, w.nm || w.n || 'punkt na trasie'))
     ),
-    B(
-      '🗑 Usuń',
+    BI(
+      'del',
+      'Usuń',
       act(async () => {
         if (!(await askYes('Usunąć ten punkt ze śladu?', 'Usuń', true))) return;
         const list = t ? t.wp : REC.wp;
@@ -12028,8 +12232,15 @@ function trkPopup(t, ll) {
     trkSel = t; // wybrany ślad w kolorach prędkości
     setTimeout(trkRender);
   }
+  const act = fn => () => {
+    map.closePopup();
+    fn();
+  };
+  // nazwa z ołówkiem obok
+  const hd = h('div', 'tph');
+  hd.append(h('b', null, t.nm || 'Ślad'), IB('edit', act(() => trkRename(t)), '', 'Zmień nazwę'));
   el.append(
-    h('b', null, t.nm || 'Ślad'),
+    hd,
     h(
       'div',
       'tsub',
@@ -12041,80 +12252,33 @@ function trkPopup(t, ll) {
       fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : '') + (s.up >= 1 ? ' · ↗ ' + Math.round(s.up) + ' m' : '')
     )
   );
-  const gl = trkColorMode() !== 'jedn' ? trkGrad(t, trkColorMode()) : t.noTime ? null : trkGrad(t, 'predkosc');
+  const gm = trkModeOf(t),
+    gl = gm !== 'jedn' ? trkGrad(t, gm) : t.noTime || t.cm ? null : trkGrad(t, 'predkosc');
   if (gl) el.append(gradLegend(gl));
-  const bt = h('div', 'tbt'),
-    act = fn => () => {
-      map.closePopup();
-      fn();
-    };
+  const bt = h('div', 'tbt');
   bt.append(
-    B(
-      '📊 Statystyki',
-      act(() => trkStatsDlg(t))
-    ),
-    ...(t.noTime
-      ? []
-      : [
-          B(
-            '▶ Animacja',
-            act(() => trkAnim(t))
-          )
-        ]),
-    B(
-      '🧭 Prowadź po śladzie',
-      act(() => trkNavAsk(t))
-    ),
-    B(
-      '✎ Nazwa',
-      act(() => trkRename(t))
-    ),
-    B(
-      t.a ? ACTS[t.a][0] + ' Rodzaj' : '🏷 Rodzaj',
-      act(() => trkSetAct([t]))
-    ),
-    B(
-      '📤 Udostępnij',
-      act(() => trkShare(t))
-    ),
-    B(
-      '✂ Podziel',
-      act(() => trkSplit(t))
-    ),
-    ...((t.wp || []).length
-      ? [
-          B(
-            '📍 Punkty na mapę…',
-            act(() => trkWpToMap(t))
-          )
-        ]
-      : []),
-    B(
-      '📂 Warstwa',
-      act(() => trkMove(t))
-    ),
-    B(
-      '🎨 Kolor',
-      act(() => trkRecolor(t))
-    ),
-    B(
-      '⇩ GPX',
-      act(() => dl(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm)))
-    ),
-    B(
-      '🙈 Ukryj',
+    BI('stats', 'Statystyki', act(() => trkStatsDlg(t))),
+    BI('nav', 'Prowadź', act(() => trkNavAsk(t)), '', 'Prowadź po śladzie'),
+    B((t.a ? ACTS[t.a][0] : '🏷') + ' ' + (t.a ? ACTS[t.a][1] : 'Rodzaj'), act(() => trkSetAct([t])), '', 'Rodzaj aktywności'),
+    ...((t.wp || []).length ? [B('📍 Punkty na mapę…', act(() => trkWpToMap(t)))] : [])
+  );
+  // belka ikon: udostępnij · ukryj · podziel · usuń
+  const ib = h('div', 'tib');
+  ib.append(
+    IB('share', act(() => trkShare(t)), '', 'Udostępnij'),
+    IB(
+      'eye',
       act(() => {
         t.vis = false;
         trkChanged();
-      })
+      }),
+      '',
+      'Ukryj ślad'
     ),
-    B(
-      '🗑 Usuń',
-      act(() => trkDelete(t)),
-      'danger'
-    )
+    IB('split', act(() => trkSplit(t)), '', 'Podziel ślad'),
+    IB('del', act(() => trkDelete(t)), 'danger', 'Usuń ślad')
   );
-  el.append(bt);
+  el.append(bt, ib);
   L.popup({maxWidth: 290, className: 'tpopw'}).setLatLng(ll).setContent(el).openOn(map);
 }
 const trkFile = t => {
@@ -12135,21 +12299,6 @@ async function trkRename(t) {
   const n = await askText('Nazwa śladu:', t.nm || '');
   if (n == null) return;
   t.nm = n.trim().slice(0, 200);
-  t.up = Date.now();
-  trkChanged();
-}
-async function trkMove(t) {
-  const v = await pickTrkLayer('Przenieś ślad do warstwy:', t.l);
-  if (!v) return;
-  t.l = v;
-  t.up = Date.now();
-  trkChanged();
-}
-async function trkRecolor(t) {
-  const c = await pickColor('Kolor śladu', trkColor(t), 'Kolor warstwy');
-  if (c === undefined) return;
-  if (c === null) delete t.c;
-  else t.c = c;
   t.up = Date.now();
   trkChanged();
 }
@@ -12444,14 +12593,6 @@ function trkStatsDlg(t) {
   } else body.append(h('div', 'tchl', 'Brak wysokości z GPS w tym śladzie.'));
   const fin = () => back.remove();
   bt.append(
-    ...(t.noTime
-      ? []
-      : [
-          B('▶ Animacja', () => {
-            fin();
-            trkAnim(t);
-          })
-        ]),
     B('⛰ Profil z NMT', () => {
       fin();
       // dokładniejsza wysokość z numerycznego modelu terenu (GUGiK) – próbka do 200 punktów trasy
@@ -12459,8 +12600,7 @@ function trkStatsDlg(t) {
         pp = t.pts.filter((q, i) => i % k === 0 || i === t.pts.length - 1).map(q => [q[0], q[1]]);
       profile(pp);
     }),
-    B('⇩ GPX', () => dl(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm))),
-    B('📤 Udostępnij', () => {
+    BI('share', 'Udostępnij', () => {
       fin();
       trkShare(t);
     }),
@@ -12528,6 +12668,7 @@ function trkGPX(list, name, photoPath) {
       esc(l.name) +
       '</omm:warstwa>' +
       (t.c ? '<omm:kolor>' + t.c + '</omm:kolor>' : '') +
+      (t.cm ? '<omm:kolorowanie>' + t.cm + '</omm:kolorowanie>' : '') +
       (t.vis === false ? '<omm:ukryty>1</omm:ukryty>' : '') +
       (t.noTime
         ? '<omm:bez_czasu>1</omm:bez_czasu><omm:start>' + new Date(t.st).toISOString() + '</omm:start>'
@@ -12609,6 +12750,11 @@ function gpxTracks(text) {
       ...(id ? {_id: id.textContent.trim()} : {}),
       ...(wl ? {_l: wl.getAttribute('id') || '', _ln: wl.textContent.trim()} : {}),
       ...(kol && /^#[0-9a-f]{6}$/i.test(kol.textContent.trim()) ? {c: kol.textContent.trim()} : {}),
+      ...(ext(el, 'kolorowanie') && RAMPS[ext(el, 'kolorowanie').textContent.trim()]
+        ? {cm: ext(el, 'kolorowanie').textContent.trim()}
+        : ext(el, 'kolorowanie') && ext(el, 'kolorowanie').textContent.trim() === 'jedn'
+          ? {cm: 'jedn'}
+          : {}),
       ...(ext(el, 'ukryty') ? {vis: false} : {}),
       ...(kid(el, 'type') && actFrom(kid(el, 'type').textContent) ? {a: actFrom(kid(el, 'type').textContent)} : {})
     });
@@ -13023,6 +13169,7 @@ function trkFeatures() {
         warstwa: trkLayer(t).name,
         warstwa_id: t.l,
         ...(t.c ? {kolor: t.c} : {}),
+        ...(t.cm ? {kolorowanie: t.cm} : {}),
         ...(t.vis === false ? {ukryty: true} : {}),
         ...(t.a ? {rodzaj: t.a} : {}),
         start: new Date(t.st).toISOString(),
@@ -13081,6 +13228,7 @@ function trkFromBackup(j) {
       l: l.id,
       nm: pr.nazwa || '',
       ...(/^#[0-9a-f]{6}$/i.test(pr.kolor || '') ? {c: pr.kolor} : {}),
+      ...(['jedn', 'predkosc', 'wysokosc'].includes(pr.kolorowanie) ? {cm: pr.kolorowanie} : {}),
       ...(pr.ukryty ? {vis: false} : {}),
       ...(pr.bez_czasu ? {noTime: true} : {}),
       ...(ACTS[pr.rodzaj] ? {a: pr.rodzaj} : {}),
@@ -13189,7 +13337,7 @@ function trkSheet() {
     if (tsel === l.id) {
       const c = h('div', 'ctl');
       c.append(
-        B('✎ Nazwa', async () => {
+        BI('edit', 'Nazwa', async () => {
           const n = await askText('Nazwa warstwy śladów:', l.name);
           if (n && n.trim()) {
             l.name = n.trim().slice(0, 200);
@@ -13220,10 +13368,10 @@ function trkSheet() {
         )
       );
       if (its.length)
-        c.append(B('⇩ GPX', () => dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name))));
+        c.append(BI('dl', 'GPX', () => dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name))));
       c.append(
-        B(
-          '🗑',
+        IB(
+          'del',
           async () => {
             if (TRK.layers.length < 2) return tell('To jedyna warstwa śladów – nie można jej usunąć.');
             if (
@@ -13248,7 +13396,7 @@ function trkSheet() {
             trkFix();
             trkChanged();
           },
-          '',
+          'danger',
           'Usuń warstwę'
         )
       );
@@ -13287,10 +13435,16 @@ function trkSheet() {
             (t.a ? ACTS[t.a][0] + ' ' : '') + fday(t.st) + ' · ' + fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : '')
           )
         );
-        ic.innerHTML =
-          '<svg viewBox="0 0 20 20"><path d="M3 15c3-1 3-6 6-6s3 4 6 2 2-6 2-6" fill="none" stroke="' +
-          trkColor(t) +
-          '" stroke-width="2.6" stroke-linecap="round"/></svg>';
+        // szlaczek: kolor śladu – dotknięcie zmienia kolor / kolorowanie wg prędkości lub wysokości
+        ic.innerHTML = trkSwatch(t);
+        if (!TSEL) {
+          ic.classList.add('tswb');
+          ic.title = 'Kolor śladu';
+          ic.onclick = e => {
+            e.stopPropagation();
+            trkColorDlg(t);
+          };
+        }
         if (TSEL) {
           const cb = h('input');
           cb.type = 'checkbox';
@@ -13322,7 +13476,18 @@ function trkSheet() {
           t.vis === false ? 'Ślad ukryty – pokaż' : 'Ślad widoczny – ukryj'
         );
         eye.innerHTML = t.vis === false ? EYE_OFF : EYE_ON;
-        o.append(eye);
+        const stop = fn => e => {
+          e.stopPropagation();
+          fn();
+        };
+        if (TSEL) o.append(eye);
+        else
+          o.append(
+            IB('edit', stop(() => trkRename(t)), 'eye', 'Zmień nazwę'),
+            eye,
+            IB('share', stop(() => trkShare(t)), 'eye', 'Udostępnij'),
+            IB('del', stop(() => trkDelete(t)), 'eye', 'Usuń ślad')
+          );
         w.append(o);
       });
     }
@@ -13338,13 +13503,19 @@ $('trecb').onclick = () => {
 $('tadd').onclick = () => trkAddLayer();
 // --- menedżer śladów: oko, napis REC, tryb zaznaczania ---
 // (var – trkSheet() bywa wołane, zanim skrypt dojdzie do tego miejsca)
-var EYE_ON =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
-  EYE_OFF =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c2.2 3 5.4 4.5 9 4.5s6.8-1.5 9-4.5"/><path d="M5.6 13.1L4 15.4M9.4 14.3l-.6 2.6M14.6 14.3l.6 2.6M18.4 13.1l1.6 2.3"/></svg>',
+var EYE_ON = ico('eye'), // oko – wspólna ikona widoczności (IC)
+  EYE_OFF = ico('eyeOff'),
   REC_BADGE = '<span class="recbadge"><i></i>REC</span>';
 var TSEL = null; // zaznaczone ślady (Set z id) albo null, gdy tryb zaznaczania wyłączony
 var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, '-' = bez rodzaju)
+// paski zaznaczania: te same ikony co przy pojedynczym śladzie / obiekcie
+[
+  ['tsvis', 'eye'],
+  ['tshid', 'eyeOff'],
+  ['tsgpx', 'dl'],
+  ['tsdel', 'del'],
+  ['seldel', 'del']
+].forEach(([id, k]) => $(id).insertAdjacentHTML('afterbegin', ico(k, 16)));
 const tselItems = () => (TSEL ? TRK.items.filter(t => TSEL.has(t.id)) : []);
 function tselUi() {
   const n = TSEL ? TSEL.size : 0,
@@ -13835,8 +14006,9 @@ function recSaveDlg() {
     inp.value = 'Ślad ' + fday(REC.st) + ' ' + fhm(REC.st);
     const asel = h('select');
     asel.className = 'tsel';
-    const ag = actGuess(s);
+    const ag = actGuess(s, {pts: REC.pts, sg: REC.sg, st: REC.st});
     Object.entries(ACTS).forEach(([k, [e, n]]) => asel.add(new Option('Rodzaj: ' + e + ' ' + n, k, false, k === ag)));
+    box.append(h('div', 'aguess', 'Wygląda na: ' + ACTS[ag][0] + ' ' + ACTS[ag][1].toLowerCase() + ' – zmień poniżej, jeśli to nie to.'));
     sel.className = 'tsel';
     TRK.layers.forEach(l =>
       sel.add(new Option('Warstwa: ' + l.name, l.id, false, l.id === (REC.l || TRK.active)))
@@ -14549,15 +14721,28 @@ async function fotoImport(files) {
   );
 }
 
-// ---------- animacja śladu i film do udostępnienia ----------
+// ---------- animacja śladu i film: jeden silnik – podgląd wygląda dokładnie jak film ----------
 /*
- * Ślad rysuje się stopniowo (jak w zegarkach Huawei), liczniki pokazują dystans i czas.
- * Przy punkcie ze zdjęciem animacja zatrzymuje się na chwilę i pokazuje zdjęcie.
- * „Film” nagrywa to samo do pliku wideo (MP4, a gdy telefon nie potrafi – WebM) w pionie 720×1280.
+ * Silnik (filmEngine) rysuje klatki na płótnie: podkład pobrany raz jako duży obraz („świat”),
+ * kamera najpierw pokazuje całą trasę, potem przybliża się i podąża za czołem śladu, a na końcu
+ * się oddala i pokazuje podsumowanie. Liczniki (dystans, czas, prędkość, wysokość), mini-profil
+ * wysokości, zdjęcia z trasy z płynnym przejściem. Podgląd (trkAnim) i nagranie filmu korzystają
+ * z tych samych klatek i tej samej prędkości – co widać w podglądzie, to będzie w filmie.
+ * Zapamiętywane: prędkość „omm-anim-speed”, format „omm-anim-fmt”, jakość „omm-anim-q”.
  */
-const ANIM_SEC = 18, // czas rysowania całego śladu przy prędkości 1×
-  ANIM_PHOTO = 2600, // jak długo widać zdjęcie (ms)
-  ANIM_END = 2500; // podsumowanie na końcu (ms)
+const ANIM_SEC = 20, // czas rysowania całego śladu przy prędkości 1× (s)
+  ANIM_PHOTO = 2800, // jak długo widać zdjęcie (ms, przy 1×)
+  ANIM_IN = 2800, // wstęp: cała trasa + tytuł, potem zbliżenie na start (ms)
+  ANIM_OUT = 4800; // zakończenie: oddalenie + podsumowanie (ms)
+const FILM_FMT = {pion: [9, 16, 'Pion 9:16'], kwadrat: [1, 1, 'Kwadrat 1:1'], poziom: [16, 9, 'Poziom 16:9']},
+  ANIM_SPEEDS = [0.5, 1, 2, 4];
+const filmSize = (fmt, q) => {
+  const [a, b] = FILM_FMT[fmt] || FILM_FMT.pion,
+    sh = q === '1080' ? 1080 : 720;
+  return a <= b ? [sh, Math.round((sh * b) / a / 2) * 2] : [Math.round((sh * a) / b / 2) * 2, sh];
+};
+const easeIO = x => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+const animPref = (k, d) => localStorage.getItem('omm-anim-' + k) || d;
 function animPlan(t) {
   wpSyncAll();
   // kolejne położenia wzdłuż dystansu i chwile, w których pokazujemy zdjęcia/opisy
@@ -14578,7 +14763,7 @@ function animPlan(t) {
 }
 function animAt(t, s, frac) {
   // punkt śladu w danym ułamku dystansu: {i: ostatni pełny punkt, ll: położenie, sec: czas od startu}
-  const d = frac * s.d,
+  const d = Math.max(0, Math.min(1, frac)) * s.d,
     c = s.cum;
   let lo = 0,
     hi = c.length - 1;
@@ -14590,375 +14775,588 @@ function animAt(t, s, frac) {
   const a = t.pts[lo],
     b = t.pts[Math.min(lo + 1, t.pts.length - 1)],
     k = c[lo + 1] > c[lo] ? (d - c[lo]) / (c[lo + 1] - c[lo]) : 0;
-  return {i: lo, ll: [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k], sec: a[3] + (b[3] - a[3]) * k};
+  return {i: lo, k, ll: [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k], sec: a[3] + (b[3] - a[3]) * k};
 }
-let ANIM = null; // trwająca animacja na mapie
-function trkAnim(t) {
-  if (ANIM) animStop();
-  map.closePopup();
-  $('sheet').style.display = 'none';
-  closePops();
-  trkSel = null;
+function animTimeline(plan, speed) {
+  // oś czasu (ms): wstęp → rysowanie (z przerwami na zdjęcia) → zakończenie
+  const Dd = (ANIM_SEC * 1000) / speed,
+    Ph = ANIM_PHOTO / Math.sqrt(speed),
+    segs = [{k: 'in', t0: 0, d: ANIM_IN}];
+  let tt = ANIM_IN,
+    f0 = 0;
+  plan.stops.forEach(st => {
+    if (st.at > f0) segs.push({k: 'draw', t0: tt, d: (st.at - f0) * Dd, f0, f1: st.at});
+    tt += Math.max(0, st.at - f0) * Dd;
+    f0 = Math.max(f0, st.at);
+    segs.push({k: 'photo', t0: tt, d: Ph, f0, w: st.w});
+    tt += Ph;
+  });
+  if (f0 < 1) segs.push({k: 'draw', t0: tt, d: (1 - f0) * Dd, f0, f1: 1});
+  tt += (1 - f0) * Dd;
+  segs.push({k: 'out', t0: tt, d: ANIM_OUT});
+  return {segs, T: tt + ANIM_OUT};
+}
+function animState(tl, ms) {
+  // stan animacji w chwili ms: faza, ułamek trasy, postęp fazy (u 0–1), zdjęcie
+  ms = Math.max(0, Math.min(tl.T, ms));
+  let g = tl.segs[0];
+  for (const x of tl.segs) if (ms >= x.t0) g = x;
+  const u = g.d ? Math.min(1, (ms - g.t0) / g.d) : 1;
+  if (g.k === 'in') return {k: 'in', u, ms: ms - g.t0, frac: 0};
+  if (g.k === 'out') return {k: 'out', u, ms: ms - g.t0, frac: 1};
+  if (g.k === 'photo') return {k: 'photo', u, ms: ms - g.t0, frac: g.f0, w: g.w};
+  return {k: 'draw', u, frac: g.f0 + (g.f1 - g.f0) * u};
+}
+function animMsOf(tl, frac) {
+  // chwila na nowej osi czasu dla tego samego miejsca trasy (zmiana prędkości w trakcie)
+  for (const g of tl.segs) if (g.k === 'draw' && frac >= g.f0 && frac <= g.f1) return g.t0 + ((frac - g.f0) / (g.f1 - g.f0 || 1)) * g.d;
+  return frac <= 0 ? 0 : tl.T;
+}
+async function filmEngine(t, W, H, prog) {
   const plan = animPlan(t),
-    ui = h('div', 'anim'),
-    top = h('div', 'atop'),
-    nm = h('b', null, t.nm || 'Ślad'),
-    cnt = h('div', 'acnt'),
-    card = h('div', 'acard'),
-    bar = h('div', 'abar');
-  top.append(nm, cnt);
-  ui.append(top, card, bar);
-  document.body.append(ui);
-  document.body.classList.add('animon');
-  map.fitBounds(L.latLngBounds(t.pts.map(q => [q[0], q[1]])), {
-    paddingTopLeft: [30, 110],
-    paddingBottomRight: [30, 90]
-  });
-  const g = L.layerGroup().addTo(map),
-    halo = L.polyline([], {pane: 'trkP', color: '#fff', weight: 8, opacity: 0.9, interactive: false}).addTo(
-      g
-    ),
-    line = L.polyline([], {pane: 'trkP', color: '#e53935', weight: 5, interactive: false}).addTo(g),
-    head = L.circleMarker(t.pts[0].slice(0, 2), {
-      pane: 'trkP',
-      radius: 7,
-      color: '#fff',
-      weight: 3,
-      fillColor: '#e53935',
-      fillOpacity: 1
-    }).addTo(g);
-  L.marker(t.pts[0].slice(0, 2), {pane: 'trkW', icon: flagIcon('start'), interactive: false}).addTo(g);
-  trkGrp.clearLayers(); // na czas animacji pozostałe ślady chowamy
-  ANIM = {
-    t,
-    plan,
-    ui,
-    g,
-    raf: 0,
-    frac: 0,
-    speed: 1,
-    playing: true,
-    pauseUntil: 0,
-    next: 0,
-    last: performance.now()
-  };
-  const sg = new Set(t.sg || []);
-  let endM = null; // flaga mety – pokazywana po dojściu do końca
-  const draw = () => {
-    const a = animAt(t, plan.s, ANIM.frac),
-      segs = [];
-    let cur = [];
-    for (let i = 0; i <= a.i; i++) {
-      if (i && sg.has(i)) {
-        segs.push(cur);
-        cur = [];
-      }
-      cur.push(t.pts[i].slice(0, 2));
-    }
-    cur.push(a.ll);
-    segs.push(cur);
-    line.setLatLngs(segs);
-    halo.setLatLngs(segs);
-    head.setLatLng(a.ll);
-    cnt.textContent = fkm(plan.s.cum[a.i] + hav(t.pts[a.i], a.ll)) + ' · ' + fdur(a.sec);
-  };
-  const showCard = w => {
-    card.innerHTML = '';
-    if (w.ph && w.ph.length) card.append(fotoImg(w.ph[0]));
-    if (w.n || w.nm) card.append(h('div', null, w.nm || w.n));
-    card.classList.add('on');
-  };
-  const loop = now => {
-    if (!ANIM) return;
-    const dt = Math.min(100, now - ANIM.last);
-    ANIM.last = now;
-    if (ANIM.playing) {
-      if (now < ANIM.pauseUntil) {
-        // pauza przy zdjęciu
-      } else {
-        card.classList.remove('on');
-        ANIM.frac = Math.min(1, ANIM.frac + (dt / 1000 / ANIM_SEC) * ANIM.speed);
-        const st = plan.stops[ANIM.next];
-        if (st && ANIM.frac >= st.at) {
-          ANIM.frac = Math.max(ANIM.frac, st.at);
-          ANIM.next++;
-          showCard(st.w);
-          ANIM.pauseUntil = now + ANIM_PHOTO / Math.sqrt(ANIM.speed);
-        }
-        draw();
-        if (ANIM.frac >= 1) {
-          ANIM.playing = false;
-          endM = L.marker(t.pts[t.pts.length - 1].slice(0, 2), {
-            pane: 'trkW',
-            icon: flagIcon('meta'),
-            interactive: false
-          }).addTo(g);
-          cnt.textContent =
-            fkm(plan.s.d) +
-            ' · ' +
-            fdur(plan.s.dur) +
-            (plan.s.up >= 1 ? ' · ↗ ' + Math.round(plan.s.up) + ' m' : '');
-          pb.textContent = '↻';
-        }
-      }
-    }
-    ANIM.raf = requestAnimationFrame(loop);
-  };
-  const pb = B('⏸', () => {
-    if (ANIM.frac >= 1) {
-      // jeszcze raz od początku
-      ANIM.frac = 0;
-      ANIM.next = 0;
-      ANIM.pauseUntil = 0;
-      if (endM) endM.remove();
-      endM = null;
-      ANIM.playing = true;
-    } else ANIM.playing = !ANIM.playing;
-    pb.textContent = ANIM.playing ? '⏸' : '▶';
-  });
-  const sp = B('1×', () => {
-    ANIM.speed = ANIM.speed >= 4 ? 1 : ANIM.speed * 2;
-    sp.textContent = ANIM.speed + '×';
-  });
-  bar.append(
-    pb,
-    sp,
-    B('🎬 Film', () => {
-      const tt = ANIM.t;
-      animStop();
-      trkFilm(tt);
-    }),
-    B('✕', animStop)
-  );
-  draw();
-  ANIM.raf = requestAnimationFrame(loop);
-}
-function animStop() {
-  if (!ANIM) return;
-  cancelAnimationFrame(ANIM.raf);
-  ANIM.g.remove();
-  ANIM.ui.remove();
-  ANIM = null;
-  document.body.classList.remove('animon');
-  trkRender();
-}
-
-// --- film: te same klatki rysowane na płótnie i nagrywane do pliku wideo ---
-async function trkFilm(t, share) {
-  // share = po nagraniu od razu otwórz okno „Udostępnij”
-  if (typeof MediaRecorder === 'undefined' || !HTMLCanvasElement.prototype.captureStream)
-    return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
-  const types = [
-      'video/mp4;codecs=avc1.42E01E',
-      'video/mp4',
-      'video/webm;codecs=vp9',
-      'video/webm;codecs=vp8',
-      'video/webm'
-    ],
-    mime = types.find(x => MediaRecorder.isTypeSupported(x));
-  if (!mime) return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
-  const W = 720,
-    H = 1280,
-    TOP = 210,
-    BOT = 150,
-    plan = animPlan(t),
-    bb = L.latLngBounds(t.pts.map(q => [q[0], q[1]]));
-  // największe przybliżenie, przy którym cały ślad mieści się w kadrze (z marginesem)
-  let z = 18;
-  for (; z > 3; z--) {
-    const a = map.project(bb.getNorthWest(), z),
-      b = map.project(bb.getSouthEast(), z);
-    if (b.x - a.x <= W * 0.84 && b.y - a.y <= (H - TOP - BOT) * 0.88) break;
-  }
-  const cpx = map.project(bb.getCenter(), z),
-    x0 = Math.round(cpx.x - W / 2),
-    y0 = Math.round(cpx.y - TOP - (H - TOP - BOT) / 2),
-    pr = q => {
-      const p = map.project(L.latLng(q[0], q[1]), z);
-      return [p.x - x0, p.y - y0];
-    };
-  // podkład: kafle obecnego podkładu; gdy serwer nie pozwala go nagrać – OpenStreetMap
-  const bg = document.createElement('canvas');
-  bg.width = W;
-  bg.height = H;
-  const bx = bg.getContext('2d'),
-    stat = t2 => {
-      info.style.display = 'block';
-      info.textContent = t2;
-    };
-  const paintBg = async l => {
-    bx.fillStyle = '#eef0f2';
-    bx.fillRect(0, 0, W, H);
-    if (l instanceof L.TileLayer)
-      await drawTiles(bx, l, z, x0, y0, W, H, 1, (d, n) => stat('Film: pobieram mapę ' + d + '/' + n + '…'));
+    s = plan.s,
+    k = Math.min(W, H) / 720, // skala napisów i grubości linii
+    hasE = s.emin != null,
+    TOP = Math.round(132 * k),
+    BOT = Math.round((hasE ? 176 : 104) * k),
+    mode = trkModeOf(t),
+    grd = mode !== 'jedn' ? trkGrad(t, mode) : null,
+    col = trkColor(t),
+    spd = trkSpeeds(t),
+    n = t.pts.length;
+  // --- „świat”: podkład obejmujący widok całej trasy (rzut z18 → zoom zw, nie większy niż MAXW px)
+  const bb = L.latLngBounds(t.pts.map(q => [q[0], q[1]])),
+    A = map.project(bb.getNorthWest(), 18),
+    Bp = map.project(bb.getSouthEast(), 18),
+    rw = Math.max(Bp.x - A.x, 40),
+    rh = Math.max(Bp.y - A.y, 40),
+    areaH = H - TOP - BOT,
+    sO18 = Math.min((W * 0.84) / rw, (areaH * 0.84) / rh), // przegląd całej trasy: px filmu na px z18
+    c18 = map.project(bb.getCenter(), 18),
+    vw = (W / sO18) * 1.06,
+    vh = (H / sO18) * 1.06,
+    MAXW = 2600;
+  let zw = 18;
+  while (zw > 3 && Math.max(vw, vh) * Math.pow(2, zw - 18) > MAXW) zw--;
+  const f = Math.pow(2, zw - 18),
+    WW = Math.ceil(vw * f),
+    WH = Math.ceil(vh * f),
+    focusO = [c18.x * f, c18.y * f], // punkt w środku pola trasy
+    // lewy górny róg „świata” tak, by przegląd mieścił się w nim w całości
+    wx0 = Math.round(focusO[0] - (W / 2 / sO18) * f - (WW - (W / sO18) * f) / 2),
+    wy0 = Math.round(focusO[1] - ((TOP + areaH / 2) / sO18) * f - (WH - (H / sO18) * f) / 2),
+    world = document.createElement('canvas');
+  world.width = WW;
+  world.height = WH;
+  const wx = world.getContext('2d');
+  const paint = async l => {
+    wx.fillStyle = '#eef0f2';
+    wx.fillRect(0, 0, WW, WH);
+    if (l instanceof L.TileLayer) await drawTiles(wx, l, zw, wx0, wy0, WW, WH, 1, prog || (() => {}));
     try {
-      bx.getImageData(0, 0, 1, 1);
+      wx.getImageData(0, 0, 1, 1);
       return true;
     } catch (e) {
       return false; // „skażone” płótno – tego podkładu nie wolno nagrać
     }
   };
   let used = 'cur';
-  if (!(await paintBg(curBase)))
-    used = (await paintBg(BASES.OpenStreetMap)) ? 'osm' : (await paintBg(null), 'none');
-  // zdjęcia do pokazania w filmie
+  if (!(await paint(curBase))) used = (await paint(BASES.OpenStreetMap)) ? 'osm' : (await paint(null), 'none');
+  const toW = ll => {
+      const p = map.project(L.latLng(ll[0], ll[1]), zw);
+      return [p.x - wx0, p.y - wy0];
+    },
+    Pw = t.pts.map(toW),
+    sO = sO18 / f, // px filmu na px „świata” w przeglądzie
+    camO = {x: focusO[0] - wx0, y: focusO[1] - wy0, s: sO},
+    span = Math.max(rw, rh) * f,
+    sF = Math.max(sO, Math.min(1.5, Math.max(sO * 1.9, Math.min(W, areaH) / (span * 0.3)))); // zbliżenie przy podążaniu
+  // zdjęcia z trasy
   const imgs = new Map();
   for (const st of plan.stops)
-    if (st.w.ph && st.w.ph.length) {
-      const im = new Image();
-      im.src = await fotoUrl(st.w.ph[0]);
+    if (st.w.ph && st.w.ph.length)
       try {
+        const im = new Image();
+        im.src = await fotoUrl(st.w.ph[0]);
         await im.decode();
         imgs.set(st.w, im);
       } catch (e) {}
-    }
   const cv = document.createElement('canvas');
   cv.width = W;
   cv.height = H;
   const cx = cv.getContext('2d'),
     sg = new Set(t.sg || []),
-    P2 = t.pts.map(pr);
-  const rr = (x, y, w, hh, r) => {
-    cx.beginPath();
-    cx.roundRect(x, y, w, hh, r);
-  };
-  const frame = (frac, photo, end) => {
-    cx.drawImage(bg, 0, 0);
-    const a = animAt(t, plan.s, frac),
-      hp = pr(a.ll);
-    // ślad: biała obwódka i czerwona linia
-    const path = () => {
+    tiles = statsTiles(t).tiles,
+    F = (w, px) => w + ' ' + Math.round(px * k) + 'px system-ui, sans-serif',
+    rr = (x, y, w, hh, r) => {
       cx.beginPath();
-      for (let i = 0; i <= a.i; i++)
-        i && !sg.has(i) ? cx.lineTo(P2[i][0], P2[i][1]) : cx.moveTo(P2[i][0], P2[i][1]);
-      cx.lineTo(hp[0], hp[1]);
+      cx.roundRect(x, y, w, hh, r);
     };
+  // kamera: punkt (x, y) „świata” widoczny w środku pola trasy, skala s
+  const clampCam = c => {
+    const vwP = W / c.s,
+      vhP = H / c.s,
+      ox = W / 2 / c.s,
+      oy = (TOP + areaH / 2) / c.s;
+    let x0 = c.x - ox,
+      y0 = c.y - oy;
+    x0 = vwP >= WW ? (WW - vwP) / 2 : Math.max(0, Math.min(WW - vwP, x0));
+    y0 = vhP >= WH ? (WH - vhP) / 2 : Math.max(0, Math.min(WH - vhP, y0));
+    return {x0, y0, s: c.s};
+  };
+  const followAt = frac => {
+    // gładka kamera: średnia położeń trochę przed i za czołem śladu (bez szarpania na zakrętach)
+    let x = 0,
+      y = 0,
+      wsum = 0;
+    for (let j = -3; j <= 5; j++) {
+      const p = toW(animAt(t, s, frac + j * 0.006).ll),
+        w = j > 0 ? 1.2 : 1;
+      x += p[0] * w;
+      y += p[1] * w;
+      wsum += w;
+    }
+    return {x: x / wsum, y: y / wsum, s: sF};
+  };
+  const mixCam = (a, b, u) => {
+    const e = easeIO(u);
+    return {x: a.x + (b.x - a.x) * e, y: a.y + (b.y - a.y) * e, s: Math.exp(Math.log(a.s) + (Math.log(b.s) - Math.log(a.s)) * e)};
+  };
+  const segCol = i => (grd ? rampColor(grd.ramp, grd.f[i]) : col);
+  function frame(st) {
+    // kamera wg fazy
+    let cam;
+    if (st.k === 'in') cam = st.ms < 1600 ? camO : mixCam(camO, followAt(0), (st.ms - 1600) / 1200);
+    else if (st.k === 'out') cam = mixCam(followAt(1), camO, st.ms / 1400);
+    else cam = followAt(st.frac);
+    const v = clampCam(cam),
+      O = p => [(p[0] - v.x0) * v.s, (p[1] - v.y0) * v.s];
+    cx.fillStyle = '#eef0f2';
+    cx.fillRect(0, 0, W, H);
+    cx.drawImage(world, v.x0, v.y0, W / v.s, H / v.s, 0, 0, W, H);
+    // ślad do czoła: biała obwódka, potem kolor (jednolity albo wg prędkości / wysokości)
+    const a = animAt(t, s, st.frac),
+      hp = O(toW(a.ll)),
+      PA = Pw.map(O), // cała trasa w układzie klatki
+      P = PA.slice(0, a.i + 1);
     cx.lineCap = cx.lineJoin = 'round';
-    path();
-    cx.strokeStyle = 'rgba(255,255,255,.9)';
-    cx.lineWidth = 13;
+    // cała trasa „w tle” – widać, dokąd prowadzi ślad
+    cx.beginPath();
+    PA.forEach((p, i) => (i && !sg.has(i) ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])));
+    cx.strokeStyle = 'rgba(255,255,255,.6)';
+    cx.lineWidth = 6 * k;
     cx.stroke();
-    path();
-    cx.strokeStyle = '#e53935';
-    cx.lineWidth = 7;
+    cx.strokeStyle = 'rgba(32,33,36,.35)';
+    cx.lineWidth = 2.5 * k;
     cx.stroke();
-    // start, meta i „głowa” śladu
-    const dot = (p, f, r) => {
+    cx.beginPath();
+    P.forEach((p, i) => (i && !sg.has(i) ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])));
+    cx.lineTo(hp[0], hp[1]);
+    cx.strokeStyle = 'rgba(255,255,255,.92)';
+    cx.lineWidth = 12 * k;
+    cx.stroke();
+    cx.lineWidth = 7 * k;
+    if (!grd) {
+      cx.strokeStyle = col;
+      cx.stroke();
+    } else {
+      // odcinki w tym samym odcieniu łączone w jedną linię (płynne przejście, mało rysowania)
+      let q = null,
+        run = false;
+      const Q = 48;
+      for (let i = 1; i <= a.i + 1; i++) {
+        if (i <= a.i && sg.has(i)) {
+          // przerwa (pauza) – nowa linia od następnego punktu
+          if (run) cx.stroke();
+          run = false;
+          q = null;
+          continue;
+        }
+        const p = i <= a.i ? P[i] : hp,
+          c = Math.round(((grd.f[i - 1] + grd.f[Math.min(i, n - 1)]) / 2) * Q);
+        if (c !== q) {
+          if (run) cx.stroke();
+          cx.beginPath();
+          cx.moveTo(P[i - 1][0], P[i - 1][1]);
+          cx.strokeStyle = rampColor(grd.ramp, c / Q);
+          q = c;
+          run = true;
+        }
+        cx.lineTo(p[0], p[1]);
+      }
+      if (run) cx.stroke();
+    }
+    // start, meta, czoło śladu (poświata + strzałka kierunku)
+    const dot = (p, fc, r) => {
       cx.beginPath();
-      cx.arc(p[0], p[1], r, 0, 7);
-      cx.fillStyle = f;
+      cx.arc(p[0], p[1], r * k, 0, 7);
+      cx.fillStyle = fc;
       cx.fill();
-      cx.lineWidth = 4;
+      cx.lineWidth = 3.5 * k;
       cx.strokeStyle = '#fff';
       cx.stroke();
     };
-    dot(P2[0], '#2e7d32', 11);
-    if (end) dot(P2[P2.length - 1], '#212121', 11);
-    if (!end) dot(hp, '#e53935', 12); // „głowa” śladu – na końcu zostaje flaga mety
-    // nagłówek z licznikami
-    cx.fillStyle = 'rgba(255,255,255,.94)';
-    rr(24, 28, W - 48, TOP - 56, 22);
+    dot(P[0], '#2e7d32', 10);
+    if (st.k === 'out') dot(O(Pw[n - 1]), '#212121', 10);
+    else {
+      const hc = segCol(Math.min(a.i, n - 1)),
+        nb = t.pts[Math.min(n - 1, a.i + 1)],
+        pb = t.pts[Math.max(0, a.i - 1)],
+        br = (brgDeg(pb, nb) * Math.PI) / 180;
+      cx.beginPath();
+      cx.arc(hp[0], hp[1], 22 * k, 0, 7);
+      cx.fillStyle = 'rgba(255,255,255,.35)';
+      cx.fill();
+      cx.save();
+      cx.translate(hp[0], hp[1]);
+      cx.rotate(br);
+      cx.beginPath();
+      cx.moveTo(0, -14 * k);
+      cx.lineTo(10 * k, 11 * k);
+      cx.lineTo(0, 5 * k);
+      cx.lineTo(-10 * k, 11 * k);
+      cx.closePath();
+      cx.fillStyle = hc;
+      cx.fill();
+      cx.lineWidth = 3 * k;
+      cx.strokeStyle = '#fff';
+      cx.stroke();
+      cx.restore();
+    }
+    // --- nagłówek: nazwa, rodzaj, data
+    cx.fillStyle = 'rgba(255,255,255,.95)';
+    rr(16 * k, 16 * k, W - 32 * k, TOP - 28 * k, 20 * k);
     cx.fill();
+    cx.textAlign = 'left';
     cx.fillStyle = '#202124';
-    cx.font = '600 34px system-ui, sans-serif';
-    cx.fillText((t.nm || 'Ślad').slice(0, 30), 50, 82);
-    cx.font = '26px system-ui, sans-serif';
+    cx.font = F('700', 30);
+    cx.fillText((t.nm || 'Ślad').slice(0, Math.floor(W / (17 * k))), 36 * k, 60 * k);
+    cx.font = F('400', 21);
     cx.fillStyle = '#5f6368';
-    cx.fillText(fday(t.st) + ', ' + fhm(t.st), 50, 118);
-    cx.font = '700 30px system-ui, sans-serif';
-    cx.fillStyle = '#1a73e8';
-    const dd = end ? plan.s.d : plan.s.cum[a.i] + hav(t.pts[a.i], a.ll);
-    cx.fillText(
-      fkm(dd) +
-        '   ' +
-        fdur(end ? plan.s.dur : a.sec) +
-        (end && plan.s.up >= 1 ? '   ↗ ' + Math.round(plan.s.up) + ' m' : ''),
-      50,
-      168
-    );
-    // stopka
-    cx.font = '600 22px system-ui, sans-serif';
-    const sig = 'OMM · Own Map Manager',
-      sw = cx.measureText(sig).width + 32;
-    cx.fillStyle = 'rgba(255,255,255,.85)';
-    rr(W - 24 - sw, H - 70, sw, 46, 23);
+    cx.fillText((t.a ? ACTS[t.a][0] + ' ' + ACTS[t.a][1] + ' · ' : '') + fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)), 36 * k, 94 * k);
+    cx.textAlign = 'right';
+    cx.font = F('600', 15);
+    cx.fillStyle = '#8a7a6a';
+    cx.fillText('OMM', W - 34 * k, 94 * k);
+    // --- dół: liczniki i mini-profil wysokości
+    const fin = st.k === 'out',
+      dd = fin ? s.d : s.cum[a.i] + hav(t.pts[a.i], a.ll),
+      vNow = spd && !fin ? spd[Math.min(n - 1, a.i)] : s.vmov,
+      eNow = hasE ? s.el[Math.min(n - 1, a.i)] : null,
+      y0b = H - BOT + 6 * k;
+    cx.fillStyle = 'rgba(255,255,255,.95)';
+    rr(16 * k, y0b, W - 32 * k, BOT - 22 * k, 20 * k);
     cx.fill();
-    cx.fillStyle = '#3a2c22';
-    cx.fillText(sig, W - 8 - sw, H - 39);
-    if (photo) {
-      // zdjęcie w ramce na środku
-      const im = imgs.get(photo),
-        mw = W - 120,
-        mh = 760;
-      if (im) {
-        const s = Math.min(mw / im.width, mh / im.height),
-          w = im.width * s,
-          hh = im.height * s,
-          x = (W - w) / 2,
-          y = TOP + (H - TOP - BOT - hh) / 2;
-        cx.fillStyle = '#fff';
-        rr(x - 12, y - 12, w + 24, hh + 24 + (photo.n ? 60 : 0), 18);
+    const cells = [
+        ['Dystans', fkm(dd)],
+        ['Czas', t.noTime ? '—' : fdur(fin ? s.dur : a.sec)],
+        [fin ? 'Śr. w ruchu' : 'Prędkość', vNow ? fkmh(vNow) : '—'],
+        ...(hasE ? [[fin ? '↗ Podejście' : 'Wysokość', fin ? Math.round(s.up) + ' m' : eNow != null ? Math.round(eNow) + ' m' : '—']] : [])
+      ],
+      cw = (W - 64 * k) / cells.length;
+    cells.forEach(([lb, val], i) => {
+      const x = 32 * k + cw * i + cw / 2;
+      cx.textAlign = 'center';
+      cx.fillStyle = '#202124';
+      cx.font = F('700', 27);
+      cx.fillText(val, x, y0b + 44 * k);
+      cx.fillStyle = '#5f6368';
+      cx.font = F('500', 14);
+      cx.fillText(lb.toUpperCase(), x, y0b + 66 * k);
+    });
+    if (hasE) {
+      // mini-profil: cała trasa szara, przebyta część w kolorze, kropka w miejscu czoła
+      const px0 = 36 * k,
+        pw = W - 72 * k,
+        py0 = y0b + 80 * k,
+        ph = BOT - 22 * k - 92 * k,
+        er = Math.max(1, s.emax - s.emin),
+        step = Math.max(1, Math.floor(n / 300)),
+        X = i => px0 + (s.cum[i] / (s.d || 1)) * pw,
+        Y = i => py0 + ph - ((s.el[i] - s.emin) / er) * ph,
+        area = upto => {
+          cx.beginPath();
+          cx.moveTo(px0, py0 + ph);
+          for (let i = 0; i <= upto; i += step) if (s.el[i] != null) cx.lineTo(X(i), Y(i));
+          if (s.el[upto] != null) cx.lineTo(X(upto), Y(upto));
+          cx.lineTo(X(upto), py0 + ph);
+          cx.closePath();
+        };
+      area(n - 1);
+      cx.fillStyle = '#e8eaed';
+      cx.fill();
+      const up = fin ? n - 1 : a.i;
+      area(up);
+      cx.fillStyle = 'rgba(26,115,232,.55)';
+      cx.fill();
+      if (!fin && s.el[up] != null) {
+        cx.beginPath();
+        cx.arc(X(up), Y(up), 5 * k, 0, 7);
+        cx.fillStyle = '#1a73e8';
         cx.fill();
-        cx.drawImage(im, x, y, w, hh);
-        if (photo.n) {
-          cx.fillStyle = '#202124';
-          cx.font = '24px system-ui, sans-serif';
-          cx.fillText(photo.n.slice(0, 42), x + 4, y + hh + 44);
-        }
-      } else if (photo.n) {
-        cx.fillStyle = 'rgba(255,255,255,.95)';
-        rr(60, H / 2 - 50, W - 120, 100, 18);
-        cx.fill();
-        cx.fillStyle = '#202124';
-        cx.font = '28px system-ui, sans-serif';
-        cx.fillText(photo.n.slice(0, 36), 84, H / 2 + 10);
+        cx.lineWidth = 2 * k;
+        cx.strokeStyle = '#fff';
+        cx.stroke();
       }
     }
-  };
-  // plan klatek: rysowanie śladu, przerwy na zdjęcia, podsumowanie na końcu
-  const FPS = 30,
-    seq = [];
-  let si = 0;
-  const n = ANIM_SEC * FPS;
-  for (let f = 0; f <= n; f++) {
-    const fr = f / n;
-    while (plan.stops[si] && plan.stops[si].at <= fr) {
-      for (let k = 0; k < (ANIM_PHOTO / 1000) * FPS; k++)
-        seq.push([plan.stops[si].at, plan.stops[si].w, false]);
-      si++;
+    // --- zdjęcie z trasy: płynne pojawienie się i lekkie przybliżenie
+    if (st.k === 'photo') {
+      const al = Math.min(1, st.u * 7, (1 - st.u) * 7),
+        im = imgs.get(st.w),
+        sc = 0.94 + 0.08 * easeIO(st.u);
+      cx.save();
+      cx.globalAlpha = Math.max(0, al);
+      cx.fillStyle = 'rgba(0,0,0,.35)';
+      cx.fillRect(0, TOP, W, areaH);
+      const txt = st.w.nm || st.w.n || '';
+      if (im) {
+        const mw = W - 90 * k,
+          mh = areaH - (txt ? 110 : 60) * k,
+          s0 = Math.min(mw / im.width, mh / im.height),
+          w = im.width * s0,
+          hh = im.height * s0,
+          x = (W - w) / 2,
+          y = TOP + (areaH - hh - (txt ? 50 * k : 0)) / 2;
+        cx.translate(W / 2, y + hh / 2);
+        cx.scale(sc, sc);
+        cx.translate(-W / 2, -(y + hh / 2));
+        cx.fillStyle = '#fff';
+        rr(x - 10 * k, y - 10 * k, w + 20 * k, hh + 20 * k + (txt ? 50 * k : 0), 16 * k);
+        cx.fill();
+        cx.drawImage(im, x, y, w, hh);
+        if (txt) {
+          cx.fillStyle = '#202124';
+          cx.textAlign = 'left';
+          cx.font = F('500', 22);
+          cx.fillText(txt.slice(0, Math.floor(w / (11 * k))), x + 4 * k, y + hh + 36 * k);
+        }
+      } else if (txt) {
+        cx.fillStyle = '#fff';
+        rr(50 * k, TOP + areaH / 2 - 50 * k, W - 100 * k, 100 * k, 16 * k);
+        cx.fill();
+        cx.fillStyle = '#202124';
+        cx.textAlign = 'center';
+        cx.font = F('500', 26);
+        cx.fillText(txt.slice(0, Math.floor(W / (14 * k))), W / 2, TOP + areaH / 2 + 9 * k);
+      }
+      cx.restore();
     }
-    seq.push([fr, null, false]);
+    // --- plansza tytułowa (wstęp)
+    if (st.k === 'in' && st.ms < 2100) {
+      const al = Math.min(1, st.ms / 300, (2100 - st.ms) / 400);
+      cx.save();
+      cx.globalAlpha = Math.max(0, al);
+      cx.fillStyle = 'rgba(255,255,255,.96)';
+      const bw = W - 100 * k,
+        bh = 190 * k,
+        by = TOP + (areaH - bh) / 2;
+      rr(50 * k, by, bw, bh, 24 * k);
+      cx.fill();
+      cx.textAlign = 'center';
+      cx.fillStyle = '#202124';
+      cx.font = F('700', 38);
+      cx.fillText((t.nm || 'Ślad').slice(0, Math.floor(bw / (20 * k))), W / 2, by + 70 * k);
+      cx.font = F('400', 23);
+      cx.fillStyle = '#5f6368';
+      cx.fillText((t.a ? ACTS[t.a][0] + ' ' + ACTS[t.a][1] + ' · ' : '') + fday(t.st), W / 2, by + 112 * k);
+      cx.font = F('700', 30);
+      cx.fillStyle = '#1a73e8';
+      cx.fillText(fkm(s.d) + (s.dur ? '  ·  ' + fdur(s.dur) : ''), W / 2, by + 158 * k);
+      cx.restore();
+    }
+    // --- podsumowanie (koniec): kafelki statystyk
+    if (st.k === 'out' && st.ms > 1400) {
+      const al = Math.min(1, (st.ms - 1400) / 450),
+        tl = tiles.slice(0, 8),
+        cols = W > H ? 4 : 2,
+        rows = Math.ceil(tl.length / cols),
+        th = 92 * k,
+        bw = W - 64 * k,
+        bh = rows * th + 24 * k,
+        by = TOP + Math.max(8 * k, (areaH - bh) / 2),
+        tw = bw / cols;
+      cx.save();
+      cx.globalAlpha = al;
+      cx.fillStyle = 'rgba(255,255,255,.96)';
+      rr(32 * k, by, bw, bh, 22 * k);
+      cx.fill();
+      tl.forEach(([val, un, lb], i) => {
+        const x = 32 * k + (i % cols) * tw + tw / 2,
+          y = by + 12 * k + Math.floor(i / cols) * th;
+        cx.textAlign = 'center';
+        cx.fillStyle = '#202124';
+        cx.font = F('700', 30);
+        cx.fillText(val + (un ? ' ' + un : ''), x, y + 46 * k);
+        cx.fillStyle = '#5f6368';
+        cx.font = F('500', 14);
+        cx.fillText(lb.toUpperCase(), x, y + 72 * k);
+      });
+      cx.restore();
+    }
+    cx.textAlign = 'start';
   }
-  for (let k = 0; k < (ANIM_END / 1000) * FPS; k++) seq.push([1, null, true]);
-  const stream = cv.captureStream(FPS),
-    rec = new MediaRecorder(stream, {mimeType: mime, videoBitsPerSecond: 5e6}),
-    chunks = [];
-  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
-  const done = new Promise(res => (rec.onstop = res));
+  return {cv, W, H, plan, used, frame};
+}
+
+// --- podgląd animacji: odtwarzacz z wyborem prędkości, formatu i jakości; z niego nagrywa się film ---
+let ANIM = null; // otwarty podgląd animacji
+async function trkAnim(t, opt) {
+  if (ANIM) animStop();
+  if (t.noTime) return tell('Ten ślad nie ma czasów – animacji nie da się zrobić.');
+  map.closePopup();
+  $('sheet').style.display = 'none';
+  closePops();
+  const ui = h('div', 'film'),
+    stage = h('div', 'fstage'),
+    msg = h('div', 'fmsg', 'Przygotowuję mapę…'),
+    bar = h('div', 'fbar'),
+    seek = h('input'),
+    row = h('div', 'frow');
+  seek.type = 'range';
+  seek.min = 0;
+  seek.max = 1000;
+  seek.value = 0;
+  ui.append(stage, bar);
+  stage.append(msg);
+  document.body.append(ui);
+  document.body.classList.add('animon');
+  let speed = +animPref('speed', '1');
+  if (!ANIM_SPEEDS.includes(speed)) speed = 1;
+  const A = (ANIM = {t, ui, raf: 0, ms: 0, playing: false, eng: null, tl: null, last: 0, share: !!(opt && opt.share)});
+  const fmtSel = h('select'),
+    qSel = h('select');
+  Object.entries(FILM_FMT).forEach(([k2, v]) => fmtSel.add(new Option(v[2], k2, false, k2 === animPref('fmt', 'pion'))));
+  [
+    ['720', '720p'],
+    ['1080', '1080p']
+  ].forEach(([k2, n2]) => qSel.add(new Option(n2, k2, false, k2 === animPref('q', '720'))));
+  const pb = B('▶', () => {
+      if (!A.eng) return;
+      if (A.ms >= A.tl.T) A.ms = 0;
+      A.playing = !A.playing;
+      pb.textContent = A.playing ? '⏸' : '▶';
+    }),
+    sp = B(speed + '×', () => {
+      const fr = A.eng ? animState(A.tl, A.ms).frac : 0,
+        ph = A.eng ? animState(A.tl, A.ms).k : 'in';
+      speed = ANIM_SPEEDS[(ANIM_SPEEDS.indexOf(speed) + 1) % ANIM_SPEEDS.length];
+      localStorage.setItem('omm-anim-speed', String(speed)); // ta sama prędkość trafi do filmu
+      sp.textContent = speed + '×';
+      if (A.eng) {
+        A.tl = animTimeline(A.eng.plan, speed);
+        if (ph === 'draw') A.ms = animMsOf(A.tl, fr);
+      }
+    }, 'fsp', 'Prędkość odtwarzania (zapamiętana, także w filmie)'),
+    recb = B('⏺ Nagraj', () => A.eng && filmRecord(t, speed, fmtSel.value, qSel.value, A.share), 'frec');
+  fmtSel.onchange = () => {
+    localStorage.setItem('omm-anim-fmt', fmtSel.value);
+    build();
+  };
+  qSel.onchange = () => localStorage.setItem('omm-anim-q', qSel.value);
+  row.append(pb, seek, sp);
+  const row2 = h('div', 'frow');
+  row2.append(fmtSel, qSel, recb, B('✕', animStop, 'fx', 'Zamknij'));
+  bar.append(row, row2);
+  seek.oninput = () => {
+    if (!A.eng) return;
+    A.ms = (seek.value / 1000) * A.tl.T;
+    A.eng.frame(animState(A.tl, A.ms));
+  };
+  const build = async () => {
+    // silnik podglądu zawsze w 720p wybranego formatu (płynnie), nagranie – w wybranej jakości
+    A.playing = false;
+    pb.textContent = '▶';
+    stage.innerHTML = '';
+    stage.append(msg);
+    msg.textContent = 'Przygotowuję mapę…';
+    const [W, H] = filmSize(fmtSel.value, '720'),
+      eng = await filmEngine(t, W, H, (d, n) => (msg.textContent = 'Pobieram mapę ' + d + '/' + n + '…'));
+    if (ANIM !== A) return;
+    A.eng = eng;
+    A.tl = animTimeline(eng.plan, speed);
+    A.ms = 0;
+    stage.innerHTML = '';
+    stage.append(eng.cv);
+    eng.frame(animState(A.tl, 0));
+    A.playing = true;
+    pb.textContent = '⏸';
+    A.last = performance.now();
+  };
+  const loop = now => {
+    if (ANIM !== A) return;
+    const dt = Math.min(100, now - A.last);
+    A.last = now;
+    if (A.eng && A.playing) {
+      A.ms += dt;
+      if (A.ms >= A.tl.T) {
+        A.ms = A.tl.T;
+        A.playing = false;
+        pb.textContent = '↻';
+      }
+      A.eng.frame(animState(A.tl, A.ms));
+      seek.value = Math.round((A.ms / A.tl.T) * 1000);
+    }
+    A.raf = requestAnimationFrame(loop);
+  };
+  A.raf = requestAnimationFrame(loop);
+  build();
+}
+function animStop() {
+  if (!ANIM) return;
+  cancelAnimationFrame(ANIM.raf);
+  ANIM.ui.remove();
+  ANIM = null;
+  document.body.classList.remove('animon');
+  trkRender();
+}
+// --- film: te same klatki nagrywane do pliku wideo (MP4, a gdy telefon nie potrafi – WebM) ---
+async function filmRecord(t, speed, fmt, q, share) {
+  if (typeof MediaRecorder === 'undefined' || !HTMLCanvasElement.prototype.captureStream)
+    return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
+  const mime = [
+    'video/mp4;codecs=avc1.42E01E',
+    'video/mp4',
+    'video/webm;codecs=vp9',
+    'video/webm;codecs=vp8',
+    'video/webm'
+  ].find(x => MediaRecorder.isTypeSupported(x));
+  if (!mime) return tell('To urządzenie nie potrafi nagrać filmu z animacji.');
+  if (ANIM) {
+    ANIM.playing = false;
+    ANIM.ui.querySelector('.fbar button').textContent = '▶';
+  }
   let cancel = false;
   const cb = h('div', 'dback'),
     box = h('div', 'dbox'),
-    tx = h('div', 'dt', 'Nagrywam film…');
+    tx = h('div', 'dt', 'Przygotowuję film…');
   box.append(
     tx,
     B('Przerwij', () => (cancel = true))
   );
   cb.append(box);
   document.body.append(cb);
-  info.style.display = 'none';
-  frame(0, null, false);
+  const [W, H] = filmSize(fmt, q),
+    eng = await filmEngine(t, W, H, (d, n) => (tx.textContent = 'Film: pobieram mapę ' + d + '/' + n + '…')),
+    tl = animTimeline(eng.plan, speed),
+    FPS = 30,
+    N = Math.ceil((tl.T / 1000) * FPS),
+    stream = eng.cv.captureStream(FPS),
+    rec = new MediaRecorder(stream, {mimeType: mime, videoBitsPerSecond: q === '1080' ? 9e6 : 5e6}),
+    chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  const done = new Promise(res => (rec.onstop = res));
+  eng.frame(animState(tl, 0));
   rec.start(1000);
-  // klatki w rytmie nagrywania (film trwa tyle, ile animacja)
+  // klatki w rytmie nagrywania – film trwa tyle, ile podgląd przy tej samej prędkości
   await new Promise(res => {
-    let k = 0;
+    let fi = 0;
     const iv = setInterval(() => {
-      if (cancel || k >= seq.length) {
+      if (cancel || fi > N) {
         clearInterval(iv);
         return res();
       }
-      const [fr, ph, end] = seq[k++];
-      frame(fr, ph, end);
-      if (k % 15 === 0) tx.textContent = 'Nagrywam film… ' + Math.round((k / seq.length) * 100) + '%';
+      eng.frame(animState(tl, (fi++ * 1000) / FPS));
+      if (fi % 15 === 0) tx.textContent = 'Nagrywam film… ' + Math.min(100, Math.round((fi / N) * 100)) + '%';
     }, 1000 / FPS);
   });
   rec.stop();
@@ -14966,14 +15364,15 @@ async function trkFilm(t, share) {
   cb.remove();
   if (cancel) return;
   const ext = mime.startsWith('video/mp4') ? 'mp4' : 'webm',
-    blob = new Blob(chunks, {type: mime.split(';')[0]});
-  if (share) await shareOut(trkFile(t) + ' – animacja.' + ext, blob.type, blob);
-  else await dl(trkFile(t) + ' – animacja.' + ext, blob.type, blob);
-  if (used === 'osm')
-    tell('Wybrany podkład nie pozwala na nagranie, dlatego w filmie jest mapa OpenStreetMap.');
-  if (used === 'none')
-    tell('Podkład nie pozwala na nagranie (albo brak internetu), dlatego film ma jasne tło bez mapy.');
+    blob = new Blob(chunks, {type: mime.split(';')[0]}),
+    name = trkFile(t) + ' – animacja ' + FILM_FMT[fmt][2].split(' ')[1].replace(':', 'x') + '.' + ext;
+  if (share) await shareOut(name, blob.type, blob);
+  else await dl(name, blob.type, blob);
+  if (eng.used === 'osm') tell('Wybrany podkład nie pozwala na nagranie, dlatego w filmie jest mapa OpenStreetMap.');
+  if (eng.used === 'none') tell('Podkład nie pozwala na nagranie (albo brak internetu), dlatego film ma jasne tło bez mapy.');
 }
+// dawne wywołanie (np. z okna „Udostępnij”) – otwiera podgląd z nagrywaniem
+const trkFilm = (t, share) => trkAnim(t, {share});
 
 // ---------- kopia zapasowa ZIP: foldery mapy/, slady/, zdjecia/ + ustawienia ----------
 /*
@@ -15629,9 +16028,9 @@ function coordPopup(c, title, isMe) {
     bt = h('div', 'tbt');
   bt.append(
     B('📋 Kopiuj', () => copyText(c[0].toFixed(6) + ', ' + c[1].toFixed(6))),
-    B('📤 Udostępnij', () => shareTextOut(txt, title || 'Współrzędne')),
+    BI('share', 'Udostępnij', () => shareTextOut(txt, title || 'Współrzędne')),
     B('✉ SMS', () => (location.href = 'sms:?body=' + encodeURIComponent(txt))),
-    ...(isMe ? [B('📞 112', () => (location.href = 'tel:112'), 'danger')] : [B('🧭 Prowadź', () => navStart(c, title || 'punkt'))])
+    ...(isMe ? [B('📞 112', () => (location.href = 'tel:112'), 'danger')] : [BI('nav', 'Prowadź', () => navStart(c, title || 'punkt'))])
   );
   el.append(bt);
   upd();
@@ -15914,7 +16313,7 @@ async function trkMapCanvas(t, W, H, top, bot) {
   cx.strokeStyle = 'rgba(255,255,255,.92)';
   cx.lineWidth = 15;
   cx.stroke();
-  const g = trkColorMode() !== 'jedn' ? trkGrad(t, trkColorMode()) : null;
+  const g = trkModeOf(t) !== 'jedn' ? trkGrad(t, trkModeOf(t)) : null;
   if (g) {
     // każdy odcinek z gradientem od koloru jednego punktu do następnego – przejścia bez skoków
     cx.lineWidth = 8;
@@ -16408,33 +16807,36 @@ function splitStop() {
   SPLIT = null;
   document.body.classList.remove('spliton');
 }
+const vehThr = () => {
+  // próg „jazdy autem” z Ustawień (km/h); 0 = podpowiedź wyłączona
+  const v = localStorage.getItem('omm-auto') || '40';
+  return v === 'nie' ? 0 : +v || 40;
+};
 function vehicleCut(t) {
-  // czy w śladzie jest dłuższa jazda (> ~25 km/h przez co najmniej 90 s) po wolniejszej części?
-  // zwraca numer punktu „przy aucie” (ostatni postój przed jazdą) albo -1
-  if (t.noTime || t.pts.length < 20) return -1;
+  // czy w śladzie jest jazda autem (wygładzona prędkość powyżej progu przez co najmniej 10 s)
+  // po wolniejszej części? zwraca numer punktu „przy aucie” (ostatni postój przed jazdą) albo -1
+  const thr = vehThr();
+  if (!thr || t.noTime || t.pts.length < 10) return -1;
   const s = trkStatsC(t),
     P = t.pts,
-    v = P.map((q, i) => {
-      // prędkość z okna ±30 s
-      let a = i,
-        b = i;
-      while (a > 0 && q[3] - P[a - 1][3] <= 30) a--;
-      while (b < P.length - 1 && P[b + 1][3] - q[3] <= 30) b++;
-      const dt = P[b][3] - P[a][3];
-      return dt > 0 ? (s.cum[b] - s.cum[a]) / dt : 0;
-    });
+    v = trkSpeeds(t),
+    lim = thr / 3.6;
+  if (!v) return -1;
   for (let i = 0; i < P.length; i++) {
-    if (v[i] < 6.9) continue;
+    if (v[i] < lim) continue;
     let j = i;
-    while (j < P.length - 1 && v[j + 1] >= 5) j++;
-    if (P[j][3] - P[i][3] < 90) {
+    while (j < P.length - 1 && v[j + 1] >= lim * 0.8) j++; // chwilowe zwolnienie nie przerywa jazdy
+    if (P[j][3] - P[i][3] < 10) {
       i = j;
       continue;
     }
     // jazda od i; przed nią musi być sensowna wolniejsza część
     if (s.cum[i] < 300) return -1;
+    // cofamy się do początku rozpędzania (szybciej niż marsz), a potem najwyżej minutę do postoju przy aucie
     let k = i;
-    while (k > 1 && v[k - 1] > 1 && P[i][3] - P[k - 1][3] < 300) k--; // cofamy się do postoju przy aucie
+    while (k > 1 && v[k - 1] > 2.5 && P[i][3] - P[k - 1][3] < 300) k--;
+    const k0 = k;
+    while (k > 1 && v[k - 1] > 1 && P[k0][3] - P[k - 1][3] < 60) k--;
     return k;
   }
   return -1;
@@ -16606,7 +17008,7 @@ function trashDlg() {
           draw();
           tell(m);
         }, 'okb', 'Przywróć'),
-        B('✕', async () => {
+        IB('del', async () => {
           if (!(await askYes('Usunąć „' + (e.nm || 'element') + '” na zawsze?', 'Usuń', true))) return;
           TRASH = TRASH.filter(x => x !== e);
           trashSave();
@@ -16987,7 +17389,7 @@ function offDlg() {
         r.append(
           h('span', 'ti', '🗺'),
           c,
-          B('🗑', async () => {
+          IB('del', async () => {
             if (!(await askYes('Usunąć pobrany obszar „' + a.nm + '” z telefonu?', 'Usuń', true))) return;
             await offDelete(a);
             draw();
@@ -17013,10 +17415,27 @@ offLoad();
 
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
+  // ustawienia w zwijanych kategoriach; otwarta kategoria zapamiętana
   const back = h('div', 'dback'),
     box = h('div', 'dbox about'),
     body = h('div', 'abody'),
     bt = h('div', 'db');
+  let sec = body; // bieżąca kategoria (radios dopisuje do niej)
+  const cat = (key, title) => {
+    const d = h('details', 'scat'),
+      s = h('summary', null, title);
+    d.open = localStorage.getItem('omm-set-open') === key;
+    d.addEventListener('toggle', () => {
+      if (d.open) {
+        localStorage.setItem('omm-set-open', key);
+        body.querySelectorAll('details.scat').forEach(x => x !== d && (x.open = false)); // jedna otwarta naraz
+      }
+    });
+    d.append(s);
+    body.append(d);
+    sec = h('div', 'scb');
+    d.append(sec);
+  };
   // grupa przycisków wyboru zapisywana w localStorage pod kluczem key
   const radios = (title, key, def, opts, note, onSet) => {
     const g = h('div', 'sset'),
@@ -17036,41 +17455,17 @@ function settingsDlg() {
       g.append(lb);
     });
     if (note) g.append(h('div', 'muted', note));
-    body.append(g);
+    sec.append(g);
+  };
+  const btnRow = list => {
+    const r = h('div', 'setop');
+    r.append(...list);
+    sec.append(r);
   };
   box.append(h('div', 'dt', '⚙️ Ustawienia'));
-  const top = h('div', 'setop'),
-    tut = B('📘 Samouczek', () => {}, '', 'Samouczek pojawi się w kolejnych wersjach');
-  tut.disabled = true;
-  top.append(
-    B('ℹ️ O aplikacji i jak zacząć', () => {
-      back.remove();
-      aboutDlg();
-    }),
-    B('🗑 Kosz', () => {
-      back.remove();
-      trashDlg();
-    }),
-    tut
-  );
-  body.append(top);
-  radios(
-    'Folder zapisu (kopie, eksporty)',
-    'omm-folder',
-    'docs',
-    [
-      ['docs', FOLDERS.docs.label],
-      ['down', FOLDERS.down.label]
-    ],
-    NATIVE
-      ? 'Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy, zdjecia. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.'
-      : 'Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.'
-  );
-  radios('Wydruki (obrazy PNG)', 'omm-folder-png', 'same', [
-    ['same', 'Do tego samego folderu'],
-    ['pics', FOLDERS.pics.label + ' – widoczne w galerii zdjęć']
-  ]);
-  radios('Nagrywanie śladu GPS', 'omm-rec-tryb', 'dokladny', [
+
+  cat('rec', '🔴 Nagrywanie śladu');
+  radios('Dokładność zapisu', 'omm-rec-tryb', 'dokladny', [
     ['dokladny', 'Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)'],
     ['oszczedny', 'Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii']
   ]);
@@ -17096,7 +17491,22 @@ function settingsDlg() {
     'Działa także przy wygaszonym ekranie. Głos czyta syntezator mowy telefonu (polski głos musi być zainstalowany).'
   );
   radios(
-    'Kolor śladu',
+    'Podpowiedź „przesiadka do auta”',
+    'omm-auto',
+    '40',
+    [
+      ['nie', 'Wyłączona'],
+      ['30', 'Od 30 km/h'],
+      ['40', 'Od 40 km/h'],
+      ['50', 'Od 50 km/h (rower szybko zjeżdża z górki)'],
+      ['60', 'Od 60 km/h']
+    ],
+    'Po zakończeniu nagrania OMM sprawdza, czy przez co najmniej 10 s jechałeś szybciej niż próg – wtedy proponuje odcięcie jazdy autem, żeby statystyki wycieczki były prawidłowe.'
+  );
+
+  cat('trk', '〰️ Ślady na mapie');
+  radios(
+    'Kolor śladów (domyślny)',
     'omm-trk-kolor',
     'jedn',
     [
@@ -17104,9 +17514,49 @@ function settingsDlg() {
       ['predkosc', 'Wg prędkości – od czerwonego (wolno) do zielonego (szybko)'],
       ['wysokosc', 'Wg wysokości – od niebieskiego (nisko) do czerwonego (wysoko)']
     ],
-    'Dotyczy śladów na mapie, nagrywanego śladu i obrazków do udostępnienia. Skala liczona osobno dla każdego śladu – legendę widać po dotknięciu śladu.',
+    'Dotyczy śladów na mapie, nagrywanego śladu i obrazków do udostępnienia. Pojedynczy ślad może mieć własny wybór – dotknij jego kolorowego szlaczka na liście śladów.',
     () => trkRender()
   );
+
+  cat('pliki', '📁 Foldery i pliki');
+  radios(
+    'Folder zapisu (kopie, eksporty)',
+    'omm-folder',
+    'docs',
+    [
+      ['docs', FOLDERS.docs.label],
+      ['down', FOLDERS.down.label]
+    ],
+    NATIVE
+      ? 'Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy, zdjecia. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.'
+      : 'Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.'
+  );
+  radios('Wydruki i obrazy (PNG)', 'omm-folder-png', 'same', [
+    ['same', 'Do tego samego folderu'],
+    ['pics', FOLDERS.pics.label + ' – widoczne w galerii zdjęć']
+  ]);
+
+  cat('dane', '🗂 Dane');
+  sec.append(h('div', 'muted', 'Usunięte punkty, warstwy, mapy i ślady czekają w koszu 30 dni.'));
+  btnRow([
+    BI('del', 'Kosz (' + TRASH.length + ')', () => {
+      back.remove();
+      trashDlg();
+    })
+  ]);
+
+  cat('app', 'ℹ️ Aplikacja');
+  const tut = B('📘 Samouczek', () => {}, '', 'Samouczek pojawi się w kolejnych wersjach');
+  tut.disabled = true;
+  btnRow([
+    B('ℹ️ O aplikacji i jak zacząć', () => {
+      back.remove();
+      aboutDlg();
+    }),
+    tut
+  ]);
+  sec.append(h('div', 'muted', APP_NAME + ' ' + APP_VER + ' – ' + APP_FULL));
+
   const fin = () => back.remove();
   bt.append(B('Zamknij', fin, 'okb'));
   box.append(body, bt);
