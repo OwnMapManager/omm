@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="false"
         android:theme="@style/AppTheme">
 
         <activity
@@ -53,7 +54,7 @@
     <!-- GPS: „pokaż, gdzie jestem” i (w przyszłości) zapis śladów -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" tools:replace="android:required" />
     <!-- wibracja przy komunikacie co 1 km i po dojściu do celu nawigacji -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- zapis kopii i eksportów w folderze Dokumenty/OMM – potrzebne tylko na Androidzie 10 i starszym -->

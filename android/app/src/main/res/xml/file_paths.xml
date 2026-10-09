@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Pliki, które OMM może przekazać innej aplikacji („Udostępnij”): wyłącznie folder share/
+     w pamięci podręcznej OMM (tam JS zapisuje kopię udostępnianego pliku). Audyt v45, R08. -->
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="." />
-    <cache-path name="my_cache_images" path="." />
+    <cache-path name="share" path="share/" />
 </paths>

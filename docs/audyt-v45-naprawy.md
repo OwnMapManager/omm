@@ -1,0 +1,44 @@
+# OMM v46 – naprawy po audycie bezpieczeństwa v45
+
+Audyt: „OMM v45 – niezależny audyt bezpieczeństwa”, 9.10.2026. Badane APK: `f09afddf…cbb2b`, commit `15b6215`.
+Naprawy: wersja **v46** (commit „v46: naprawy bezpieczeństwa…”). Źródło `app/omm.html` przed zmianami było bajtowo
+identyczne z plikiem z badanego commitu, więc ustalenia dotyczyły dokładnie tego kodu.
+
+## Weryfikacja ustaleń przed naprawą
+
+Testy z audytu powtórzono w **prawdziwym Chromium** (Playwright, pełna aplikacja z Leaflet, IndexedDB i DOM), a nie tylko w QuickJS.
+Na niezmienionym v45:
+
+- **F01 potwierdzone z wykonaniem kodu**: stara kopia z kolorem `#000000"><svg onload=…>` – po wczytaniu mapy kod z pliku **wykonał się** (znacznik testowy ustawiony).
+- **F02 potwierdzone z wykonaniem kodu**: identyfikator śladu z kopii – po otwarciu listy śladów kod z pliku **wykonał się**.
+- F03 (zdjęcie nadpisane przed zgodą), F06 (zły CRC przyjęty), F07 (`__proto__`, `constructor`, `toString` przerywały import) – potwierdzone.
+
+Ten sam zestaw testów na v46: żadnego wykonania, żadnych atrybutów zdarzeń w DOM, zdjęcie bez zmian, zły CRC odrzucony, nazwy zastrzeżone importowane poprawnie.
+
+## Tabela napraw
+
+| ID | Zmienione pliki | Sposób naprawy | Test przed → po | Ograniczenia |
+| --- | --- | --- | --- | --- |
+| F01 | app/omm.html | Jeden schemat walidacji dla wszystkich danych (`cleanItem`, `cleanMap`, `cleanDB`): kolor tylko `#rgb`/`#rrggbb`, ID tylko `[A-Za-z0-9_-]{1,64}` (z przepisaniem odwołań warstw/map przez jawne mapowanie), teksty o ograniczonej długości, liczby sprawdzone. Działa przy wczytaniu danych z pamięci (dane zapisane przez starsze wersje), przy **każdym zapisie**, przy przywracaniu każdej wersji kopii, przy imporcie i w `render()`. `esc()` koduje też apostrof. | test_import Q01, Q01b: wykonanie → brak | Test w Chromium na komputerze, nie w Android WebView |
+| F02 | app/omm.html | `cleanTrk`/`cleanTrkDB` dla śladów (ID, warstwy, rodzaj aktywności tylko ze znanej listy, tryb koloru, punkty liczbowe, punkty na śladzie); `trkSwatch` dodatkowo filtruje ID i kolor. Ścieżki GeoJSON, ZIP/GPX, kosz i dane już zapisane w IndexedDB. | Q02, Q02b: wykonanie → brak | jw. |
+| R01 | scripts/prepare-www.mjs, MainActivity.java | W aplikacji skrypt przeniesiony do `app.js`, CSP: `script-src 'self'` (bez `unsafe-inline`, bez CDN), `connect-src` tylko do używanych serwerów. Nawet gdyby tekst trafił do strony jako HTML, przeglądarka nie uruchomi atrybutu zdarzenia. Aplikacja prosi o aktualizację WebView, jeśli nie obsługuje wstrzykiwania mostu bez skryptu w HTML. | test_csp: wstrzyknięty `onerror` zablokowany przez CSP | `useLegacyBridge` zostaje (wymaga go nagrywanie śladu w tle); `style-src 'unsafe-inline'` zostaje |
+| F03 | app/omm.html | Zdjęcia z kopii tylko wczytywane do pamięci; zapis (`fotoCommit`, jedna transakcja IndexedDB) dopiero po zgodzie. Istniejące zdjęcie nigdy nie jest nadpisywane – przy innej treści nowe dostaje nową nazwę i odwołania są przepisywane. | Q03 (błąd w kopii), test_kopie (Anuluj, kolizja nazw): zmiana → brak | Snapshot map + transakcja zdjęć; brak testu „brak miejsca” na telefonie |
+| F04 | app/omm.html | Opcjonalne **szyfrowanie kopii hasłem** (WebCrypto: PBKDF2-SHA-256 600 000 iteracji, AES-256-GCM, losowa sól i IV; klucz w telefonie jako nieeksportowalny obiekt, hasło nie jest zapisywane). Zaszyfrowany ZIP zawiera tylko opis, parametry i szyfrogram. Usuwanie zdjęcia kasuje też jego kopię w folderach OMM/zdjecia. | test_kopie: kopia bez hasła nieczytelna, złe hasło odrzucone, podmiana bajtu odrzucona, przywrócenie z hasłem działa | Domyślnie wyłączone (decyzja autora); oryginały z aparatu w Obrazy/OMM zostają jak każde zdjęcie z galerii; stare jawne kopie nie są ruszane |
+| F05 | OmmBackupPlugin.java, app/omm.html | Nowa metoda `release`: „Odłącz” i zmiana miejsca zwalniają `takePersistableUriPermission`. Trwałe uprawnienie tylko do zapisu. | – | Brak testu `getPersistedUriPermissions()` na urządzeniu |
+| R08 | file_paths.xml, OmmBackupPlugin.java | FileProvider tylko `cache/share/` (zamiast całej pamięci wspólnej i całego cache). `writeTo` zapisuje wyłącznie do URI z trwałym przydziałem użytkownika i otwiera cel do nadpisania dopiero po otwarciu niepustego źródła. | – | Atomowość zależy od dostawcy (Dysk) |
+| F06 | app/omm.html | Czytnik ZIP: CRC-32, rozmiar po rozpakowaniu, sygnatury nagłówków, powtórzone nazwy, wpisy szyfrowane – odrzucenie całego archiwum. KMZ używa tego samego czytnika (usunięty drugi parser). | Q06: przyjęty → odrzucony | CRC nie jest uwierzytelnieniem – do tego szyfrowanie z GCM |
+| F07 | app/omm.html | Słowniki nazw (`Object.create(null)`) w imporcie, kopiach i statystykach; `own()` przy słownikach typów. | Q04: TypeError → poprawny import | – |
+| R06 | app/omm.html | Limity: plik ≤ 1 GB, ≤ 50 000 wpisów, wpis ≤ 512 MB, archiwum ≤ 2 GB po rozpakowaniu; rozpakowanie strumieniowe przerywane po przekroczeniu zadeklarowanego rozmiaru. | – | Brak fuzzingu na telefonie |
+| R02 | app/omm.html, MainActivity.java, AndroidManifest.xml | Usunięte zapasowe połączenia HTTP (Geoportal, NMT przez CapacitorHttp). `MIXED_CONTENT_NEVER_ALLOW`, `usesCleartextTraffic="false"`. | grep: brak adresów `http://` do usług | Gdyby na starym telefonie Geoportal nie działał przez https – warstwa się nie wczyta (zamiast przejścia na http) |
+| R03 | app/omm.html | Zdjęcia-linki: tylko https; z nowego serwera wczytywane dopiero po dotknięciu i zgodzie („Tylko to” / „Zawsze z tego serwera”); ustawienie „Zdjęcia z internetu”. Film ze śladu pomija niezatwierdzone. | test_kopie: brak połączenia przed zgodą, po zgodzie tylko https | – |
+| R07 | scripts/patch-capacitor.mjs, workflow | Poprawka `CapacitorWebView.dispatchKeyEvent`: tekst przekazywany jako literał JSON (`JSONObject.quote`), nie sklejany z kodem. Nakładana po instalacji zależności; CI sprawdza jej obecność. | – | Do zgłoszenia do Capacitora; brak testu z IME na urządzeniu |
+| R04/R05 | .github/workflows/android.yml | Akcje przypięte do pełnych SHA; build tylko z prawem odczytu, publikacja w osobnym zadaniu bez kodu projektu; `npm ci --ignore-scripts`; klucz i hasło tylko w kroku Gradle; klucz z sekretu `OMM_KEYSTORE_B64` (zaszyfrowany plik w repo tylko jako zapas do czasu dodania sekretu); suma SHA-256 APK publikowana z wydaniem. | – | Plik .p12 pozostaje w historii repozytorium – ochronę daje losowe hasło; rotacja klucza (APK Signature Scheme v3) do rozważenia osobno. Brak `distributionSha256Sum` Gradle. |
+| R09 | MainActivity.java | Ostrzeżenie i prośba o aktualizację przy starym WebView. | – | minSdk 24 bez zmian |
+| R10 | – | Bez zmian (do decyzji: blokada biometryczna, `FLAG_SECURE`). | – | – |
+| uuid | – | Zależność tylko narzędzi budowania (nie w APK) – do aktualizacji przy najbliższej aktualizacji Capacitor CLI. | – | – |
+
+## Czego nie sprawdzono
+
+Testy na izolowanym telefonie z Androidem (N01–N13 z audytu): wykonanie w Android WebView, uprawnienia SAF po odłączeniu,
+zachowanie na Androidzie 7–16, ruch sieciowy urządzenia, klawiatura testowa. Wszystkie testy powyżej to testy warstwy WWW
+w Chromium na komputerze oraz przegląd kodu natywnego. Naprawiona wersja wymaga ponownej, niezależnej oceny.

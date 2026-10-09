@@ -3064,7 +3064,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v45';
+const APP_VER = 'v46';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -6148,7 +6148,8 @@ function dlg(o) {
     };
     if (o.input) {
       inp = h(o.multi ? 'textarea' : 'input');
-      if (!o.multi) inp.type = 'text';
+      if (!o.multi) inp.type = o.pass ? 'password' : 'text';
+      if (o.pass) inp.autocomplete = 'off';
       inp.value = o.def || '';
       box.append(inp);
     }
@@ -6298,37 +6299,19 @@ const esri = s =>
   });
 // Serwery Geoportalu odrzucają kafle, gdy strona wysyła dziwny nagłówek Referer (np. content:// z telefonu), więc go nie wysyłamy
 const NOREF = {referrerPolicy: 'no-referrer', keepBuffer: 1, updateWhenZooming: false};
-// Od 02.2026 Geoportal ma nowy certyfikat SSL, którego część urządzeń nie uznaje (ewidencja gruntów działa, bo stoi na innym serwerze).
-// Gdy kafel przez https się nie wczyta, próbujemy przez http; jeśli to działa, aplikacja zapamiętuje ten wybór.
-const GEO_S = 'https://mapy.geoportal.gov.pl',
-  GEO_P = 'http://mapy.geoportal.gov.pl',
-  GEO_LAYERS = [];
-let GEO = localStorage.getItem('mapa-geo-http') === '1' ? GEO_P : GEO_S;
-function useGeoHttp() {
-  GEO = GEO_P;
-  localStorage.setItem('mapa-geo-http', '1');
-  GEO_LAYERS.forEach(x => {
-    if (x._url.startsWith(GEO_S)) x.setUrl(GEO_P + x._url.slice(GEO_S.length));
-  });
-}
+// Wszystkie połączenia wyłącznie przez https (od v46 bez zapasowego http – audyt bezpieczeństwa R02).
+const GEO = 'https://mapy.geoportal.gov.pl';
+localStorage.removeItem('mapa-geo-http'); // dawne obejście przez http – już nieużywane
 function retry(l, max = 3) {
   // kafel, który się nie załadował, jest pobierany ponownie (serwer bywa przeciążony)
-  if (/mapy\.geoportal\.gov\.pl/.test(l._url)) GEO_LAYERS.push(l);
   l.on('tileerror', e => {
     const t = e.tile;
     t._r = (t._r || 0) + 1;
     if (t._r > max) return;
-    let src = t.src.replace(/([?&])_r=\d+/, '').replace(/[?&]$/, '');
-    if (src.startsWith(GEO_S)) {
-      src = GEO_P + src.slice(GEO_S.length);
-      t._http = 1;
-    }
+    const src = t.src.replace(/([?&])_r=\d+/, '').replace(/[?&]$/, '');
     setTimeout(() => {
       if (t.parentNode) t.src = src + (src.includes('?') ? '&' : '?') + '_r=' + t._r;
     }, 500 * t._r);
-  });
-  l.on('tileload', e => {
-    if (e.tile._http && GEO !== GEO_P) useGeoHttp();
   });
   return l;
 }
@@ -6503,7 +6486,7 @@ const SHEL_TYPES = {
 function shelKind(t) {
   if (t.tourism === 'wilderness_hut') return ['🛖', 'Chatka turystyczna (bez obsługi)'];
   if (t.tourism === 'camp_site') return ['⛺', 'Pole biwakowe / namiotowe'];
-  return SHEL_TYPES[t.shelter_type] || ['☂️', 'Wiata'];
+  return (own(SHEL_TYPES, t.shelter_type) && SHEL_TYPES[t.shelter_type]) || ['☂️', 'Wiata'];
 }
 async function shelFetch() {
   if (!map.hasLayer(SHEL)) return;
@@ -6841,6 +6824,241 @@ $('bbtn').onclick = () => {
   m.style.display = m.style.display === 'block' ? 'none' : 'block';
 };
 
+// ---------- walidacja danych: każdy import, każda kopia i dane już zapisane ----------
+/*
+ * Dane z plików są nieufne. Zanim trafią do map i śladów, każde pole dostaje właściwy typ i format.
+ * Identyfikatory i kolory są później wstawiane do HTML/SVG, dlatego przyjmujemy tylko ścisłe formaty
+ * (ID: litery, cyfry, _ i -; kolor: #rgb albo #rrggbb). Nieznane pola zostają nietknięte (nie są
+ * nigdzie wyświetlane), żeby nie gubić danych z nowszych wersji aplikacji.
+ * Ten sam zestaw reguł działa przy: wczytaniu danych z pamięci, każdym zapisie, przywracaniu kopii
+ * (wszystkie wersje formatu), imporcie plików, przywracaniu z kosza.
+ */
+const okLL = q =>
+  Array.isArray(q) &&
+  q[0] !== null &&
+  q[1] !== null &&
+  isFinite(q[0]) &&
+  isFinite(q[1]) &&
+  Math.abs(q[0]) <= 90 &&
+  Math.abs(q[1]) <= 180;
+const RX_ID = /^[A-Za-z0-9_-]{1,64}$/,
+  RX_COL = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i,
+  okId = s => typeof s === 'string' && RX_ID.test(s),
+  own = (o, k) => o != null && typeof k === 'string' && Object.prototype.hasOwnProperty.call(o, k);
+function safeColor(c, def) {
+  if (typeof c !== 'string' || !RX_COL.test(c.trim())) return def;
+  c = c.trim().toLowerCase();
+  return c.length === 4 ? '#' + c[1] + c[1] + c[2] + c[2] + c[3] + c[3] : c;
+}
+const safeNum = (n, lo, hi, def) => (n !== null && n !== '' && isFinite(n) ? Math.min(hi, Math.max(lo, +n)) : def);
+const numOrNull = v => (v == null || v === '' || !isFinite(v) ? null : +v);
+// zdjęcia: własne „omm:nazwa” albo link http(s) bez znaków, które mogłyby rozbić HTML lub adres
+const okPh = u =>
+  typeof u === 'string' &&
+  (/^omm:[\w.-]{1,120}$/.test(u) || (/^https?:\/\/[^\s"'<>\\`]+$/i.test(u.trim()) && u.length < 2000));
+const phList = a =>
+  [
+    ...new Set((Array.isArray(a) ? a : String(a || '').split(/\s+/)).map(x => String(x).trim()).filter(okPh))
+  ].slice(0, 30);
+function keepIf(arr, fn) {
+  // filtr „w miejscu” – inne miejsca w kodzie mogą trzymać odwołanie do tej samej tablicy
+  let j = 0;
+  for (let i = 0; i < arr.length; i++) if (fn(arr[i])) arr[j++] = arr[i];
+  arr.length = j;
+  return arr;
+}
+function cleanStr(o, k, max) {
+  if (!own(o, k)) return;
+  if (o[k] == null) delete o[k];
+  else if (typeof o[k] !== 'string' && typeof o[k] !== 'number') delete o[k];
+  else o[k] = String(o[k]).slice(0, max);
+}
+function cleanPh(o) {
+  if (!own(o, 'ph')) return;
+  o.ph = phList(o.ph);
+  if (!o.ph.length) delete o.ph;
+}
+function cleanTimes(o) {
+  ['cr', 'up'].forEach(k => {
+    if (own(o, k) && !(typeof o[k] === 'number' && isFinite(o[k]))) o[k] = Date.now();
+  });
+}
+const ITEM_T = ['pin', 'line', 'poly', 'circle', 'dot', 'num', 'arrow', 'text'];
+function cleanItem(it) {
+  // poprawia pola obiektu mapy; false = obiekt nie do użycia (zła geometria)
+  if (!it || typeof it !== 'object' || !ITEM_T.includes(it.t) || !Array.isArray(it.p) || !it.p.length) return false;
+  if (!it.p.every(q => Array.isArray(q) && okLL([numOrNull(q[0]), numOrNull(q[1])]))) return false;
+  it.p = it.p.map(q => [+q[0], +q[1]]);
+  if (it.t === 'circle') {
+    it.r = +it.r;
+    if (!(it.r > 0 && isFinite(it.r))) return false;
+  } else if (own(it, 'r')) delete it.r;
+  if (it.t === 'arrow' && it.p.length < 2) return false;
+  if (!okId(it.id)) it.id = uid();
+  if (own(it, 'l') && !okId(it.l)) it.l = null;
+  if (own(it, 'c')) {
+    const c = safeColor(it.c);
+    if (c) it.c = c;
+    else delete it.c;
+  }
+  if (own(it, 'o')) it.o = safeNum(it.o, 0, 1, 0.35);
+  if (own(it, 'sz')) it.sz = Math.round(safeNum(it.sz, 0, 3, 1));
+  if (own(it, 'fw') && it.fw !== 'n') delete it.fw;
+  if (own(it, 'bg')) it.bg = it.bg !== false;
+  if (own(it, 'ra')) {
+    it.ra = Math.round(safeNum(it.ra, 0, 5, 0));
+    if (!it.ra) delete it.ra;
+  }
+  if (own(it, 'no') && typeof it.no !== 'number') cleanStr(it, 'no', 12);
+  if (typeof it.no === 'number' && !isFinite(it.no)) delete it.no;
+  cleanStr(it, 'i', 64);
+  cleanStr(it, 'nm', 300);
+  cleanStr(it, 'tx', 500);
+  cleanStr(it, 'n', 20000);
+  cleanPh(it);
+  cleanTimes(it);
+  return true;
+}
+function cleanMap(m) {
+  // mapa: identyfikatory map, grup i warstw; odwołania obiektów do warstw przepisane, gdy ID trzeba zmienić
+  if (!m || typeof m !== 'object') return null;
+  if (!okId(m.id)) m.id = uid();
+  cleanStr(m, 'name', 200);
+  if (!m.name) m.name = 'Mapa';
+  const remap = new Map(),
+    seen = new Set();
+  if (!Array.isArray(m.groups)) m.groups = [];
+  keepIf(m.groups, g => g && typeof g === 'object');
+  m.groups.forEach(g => {
+    if (!okId(g.id)) g.id = uid();
+    cleanStr(g, 'name', 200);
+    if (!Array.isArray(g.layers)) g.layers = [];
+    keepIf(g.layers, l => l && typeof l === 'object');
+    g.layers.forEach(l => {
+      const old = l.id;
+      if (!okId(l.id) || seen.has(l.id)) l.id = uid();
+      if (old !== l.id && old != null && !remap.has(String(old))) remap.set(String(old), l.id);
+      seen.add(l.id);
+      cleanStr(l, 'name', 200);
+      if (!l.name) l.name = 'Warstwa';
+      if (own(l, 'op')) l.op = safeNum(l.op, 0, 1, 1);
+      if (own(l, 'c')) {
+        const c = safeColor(l.c);
+        if (c) l.c = c;
+        else delete l.c;
+      }
+    });
+  });
+  if (!Array.isArray(m.items)) m.items = [];
+  const ids = new Set();
+  keepIf(m.items, it => {
+    if (it && typeof it === 'object' && it.l != null && remap.has(String(it.l))) it.l = remap.get(String(it.l));
+    if (!cleanItem(it)) return false;
+    if (ids.has(it.id)) it.id = uid();
+    ids.add(it.id);
+    return true;
+  });
+  if (own(m, 'active') && m.active != null)
+    m.active = remap.get(String(m.active)) || (okId(m.active) ? m.active : null);
+  if (own(m, 'hide'))
+    m.hide = Array.isArray(m.hide) ? m.hide.filter(x => typeof x === 'string').map(x => x.slice(0, 64)) : [];
+  cleanTimes(m);
+  return m;
+}
+function cleanDB(d) {
+  // całe dane map (w miejscu); identyfikatory bieżących map przepisane, gdy trzeba je było zmienić
+  if (!d || typeof d !== 'object') return d;
+  if (!Array.isArray(d.maps)) d.maps = [];
+  const remap = new Map(),
+    seen = new Set();
+  keepIf(d.maps, m => {
+    const old = m && m.id;
+    if (!cleanMap(m)) return false;
+    if (seen.has(m.id)) m.id = uid();
+    if (old !== m.id && old != null) remap.set(String(old), m.id);
+    seen.add(m.id);
+    return true;
+  });
+  ['cur', 'curW'].forEach(k => {
+    if (own(d, k) && d[k] != null) d[k] = remap.get(String(d[k])) || (okId(d[k]) ? d[k] : undefined);
+  });
+  if (own(d, 'mode') && d.mode !== 'work') d.mode = 'priv';
+  return d;
+}
+const TRK_CM = ['jedn', 'predkosc', 'wysokosc'];
+function cleanTrk(t) {
+  // ślad GPS: punkty liczbowe, bezpieczne ID, rodzaj aktywności i tryb koloru tylko ze znanych wartości
+  if (!t || typeof t !== 'object' || !Array.isArray(t.pts) || t.pts.length < 2) return false;
+  if (!t.pts.every(q => Array.isArray(q) && okLL([numOrNull(q[0]), numOrNull(q[1])]))) return false;
+  t.pts = t.pts.map(q => {
+    const r = [+q[0], +q[1]];
+    if (q.length > 2) r.push(numOrNull(q[2]));
+    if (q.length > 3) r.push(numOrNull(q[3]));
+    return r;
+  });
+  t.st = numOrNull(t.st);
+  if (t.st == null) return false;
+  if (!okId(t.id)) t.id = uid();
+  if (own(t, 'l') && !okId(t.l)) t.l = null;
+  if (own(t, 'a') && !(typeof ACTS === 'object' && own(ACTS, t.a))) delete t.a;
+  if (own(t, 'cm') && !TRK_CM.includes(t.cm)) delete t.cm;
+  if (own(t, 'c')) {
+    const c = safeColor(t.c);
+    if (c) t.c = c;
+    else delete t.c;
+  }
+  cleanStr(t, 'nm', 300);
+  t.sg = Array.isArray(t.sg) ? t.sg.filter(x => Number.isInteger(x) && x >= 0) : [];
+  if (own(t, 'wp')) {
+    if (!Array.isArray(t.wp)) t.wp = [];
+    keepIf(t.wp, w => {
+      if (!w || typeof w !== 'object' || !okLL([numOrNull(w.p && w.p[0]), numOrNull(w.p && w.p[1])])) return false;
+      w.p = [+w.p[0], +w.p[1]];
+      cleanStr(w, 'n', 20000);
+      cleanStr(w, 'nm', 300);
+      cleanStr(w, 'i', 64);
+      if (own(w, 'c')) {
+        const c = safeColor(w.c);
+        if (c) w.c = c;
+        else delete w.c;
+      }
+      ['s', 'z'].forEach(k => own(w, k) && (w[k] = numOrNull(w[k])));
+      cleanPh(w);
+      return true;
+    });
+  }
+  cleanTimes(t);
+  return true;
+}
+function cleanTrkDB(T) {
+  // warstwy i ślady (w miejscu); ID warstw przepisane w śladach, gdy trzeba je było zmienić
+  if (!Array.isArray(T.layers)) T.layers = [];
+  if (!Array.isArray(T.items)) T.items = [];
+  const remap = new Map(),
+    seen = new Set();
+  keepIf(T.layers, l => {
+    if (!l || typeof l !== 'object') return false;
+    const old = l.id;
+    if (!okId(l.id) || seen.has(l.id)) l.id = uid();
+    if (old !== l.id && old != null) remap.set(String(old), l.id);
+    seen.add(l.id);
+    cleanStr(l, 'name', 200);
+    if (!l.name) l.name = 'Ślady';
+    l.c = safeColor(l.c, '#e53935');
+    return true;
+  });
+  const ids = new Set();
+  keepIf(T.items, t => {
+    if (t && typeof t === 'object' && t.l != null && remap.has(String(t.l))) t.l = remap.get(String(t.l));
+    if (!cleanTrk(t)) return false;
+    if (ids.has(t.id)) t.id = uid();
+    ids.add(t.id);
+    return true;
+  });
+  if (T.active != null) T.active = remap.get(String(T.active)) || (okId(T.active) ? T.active : null);
+  return T;
+}
+
 // ---------- dane projektu (zapis lokalny po każdej zmianie) ----------
 const SCHEMA = 5; // wersja formatu danych: przy KAŻDEJ zmianie struktury zwiększ i dopisz migrację w MIGR
 function snapshot(tag, raw) {
@@ -6938,7 +7156,7 @@ let DB = null,
   raw0 = null;
 try {
   raw0 = localStorage.getItem('mapa-v2');
-  if (raw0) DB = migrate(JSON.parse(raw0));
+  if (raw0) DB = cleanDB(migrate(JSON.parse(raw0)));
 } catch (e) {
   try {
     localStorage.setItem('mapa-uszkodzone-' + Date.now(), raw0 || '');
@@ -6982,6 +7200,7 @@ let saveWarned = false;
 function save() {
   // przy braku miejsca najpierw usuwamy najstarsze kopie awaryjne, dopiero potem ostrzegamy
   if (!DB.v) DB.v = SCHEMA;
+  cleanDB(DB);
   const txt = JSON.stringify(DB);
   for (let k = 0; k < 8; k++) {
     try {
@@ -7006,16 +7225,7 @@ function save() {
 const touch = it => {
   it.up = Date.now();
 };
-const okLL = q =>
-  Array.isArray(q) && isFinite(q[0]) && isFinite(q[1]) && Math.abs(q[0]) <= 90 && Math.abs(q[1]) <= 180;
-const okItem = it =>
-  it &&
-  ['pin', 'line', 'poly', 'circle', 'dot', 'num', 'arrow', 'text'].includes(it.t) &&
-  Array.isArray(it.p) &&
-  it.p.length &&
-  it.p.every(okLL) &&
-  (it.t !== 'circle' || it.r > 0) &&
-  (it.t !== 'arrow' || it.p.length > 1);
+const okItem = it => cleanItem(it); // sprawdza i od razu poprawia pola (patrz „walidacja danych”)
 const isPt = it => it.t === 'pin' || it.t === 'dot' || it.t === 'num' || it.t === 'text';
 // ---------- kategorie obiektów (ikony), filtr widoczności, porządkowanie nazw ----------
 const isArea = it => it.t === 'poly' || it.t === 'circle';
@@ -7696,7 +7906,7 @@ function render() {
 
 // ---------- eksport ----------
 const esc = s =>
-  String(s).replace(/[<>&"]/g, c => ({'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;'})[c]);
+  String(s).replace(/[<>&"']/g, c => ({'<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;', "'": '&#39;'})[c]);
 const NAMES = {
   pin: 'Punkt',
   line: 'Linia',
@@ -7970,13 +8180,6 @@ function xmenu(btn, l) {
 
 // ---------- zdjęcia przy obiektach (linki, np. z Moich Map Google) ----------
 // zdjęcie: link http(s) albo zdjęcie zapisane w OMM („omm:NAZWA.jpg”)
-const okPh = u =>
-  typeof u === 'string' &&
-  (/^omm:[\w.-]+$/.test(u) || (/^https?:\/\/\S+$/i.test(u.trim()) && u.length < 2000));
-const phList = a =>
-  [
-    ...new Set((Array.isArray(a) ? a : String(a || '').split(/\s+/)).map(x => String(x).trim()).filter(okPh))
-  ].slice(0, 30);
 // opis z KML bywa HTML-em: wyciągamy zdjęcia (<img>) i zamieniamy resztę na zwykły tekst
 function htmlDesc(s) {
   if (!s) return {n: undefined, ph: []};
@@ -8031,45 +8234,28 @@ const guessIcon = nm => {
 };
 // KMZ = spakowany KML (Moje Mapy domyślnie pobierają KMZ)
 async function kmzText(buf) {
-  const u8 = new Uint8Array(buf),
-    dv = new DataView(buf),
-    td = new TextDecoder();
-  let e = -1;
-  for (let i = u8.length - 22; i >= Math.max(0, u8.length - 65557); i--)
-    if (dv.getUint32(i, true) === 0x06054b50) {
-      e = i;
-      break;
-    }
-  if (e < 0) throw new Error('Uszkodzony plik KMZ');
-  const n = dv.getUint16(e + 10, true),
-    fs = [];
-  let p = dv.getUint32(e + 16, true);
-  for (let k = 0; k < n; k++) {
-    const fl = dv.getUint16(p + 28, true),
-      xl = dv.getUint16(p + 30, true),
-      cl = dv.getUint16(p + 32, true);
-    fs.push({
-      name: td.decode(u8.subarray(p + 46, p + 46 + fl)),
-      meth: dv.getUint16(p + 10, true),
-      csz: dv.getUint32(p + 20, true),
-      off: dv.getUint32(p + 42, true)
-    });
-    p += 46 + fl + xl + cl;
+  // ten sam sprawdzający czytnik ZIP co przy kopiach (sumy kontrolne, limity rozmiaru)
+  let z;
+  try {
+    z = zipOpen(buf);
+  } catch (e) {
+    throw new Error('Uszkodzony plik KMZ. ' + e.message);
   }
-  const f = fs.find(x => /(^|\/)doc\.kml$/i.test(x.name)) || fs.find(x => /\.kml$/i.test(x.name));
-  if (!f) throw new Error('W pliku KMZ nie ma pliku KML');
-  const st = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true),
-    data = u8.subarray(st, st + f.csz);
-  if (f.meth === 0) return td.decode(data);
-  if (f.meth !== 8 || typeof DecompressionStream === 'undefined')
+  const ns = z.names(),
+    n = ns.find(x => /(^|\/)doc\.kml$/i.test(x)) || ns.find(x => /\.kml$/i.test(x));
+  if (!n) throw new Error('W pliku KMZ nie ma pliku KML');
+  if (typeof DecompressionStream === 'undefined')
     throw new Error(
       'Nie udało się rozpakować KMZ. W Moich Mapach przy pobieraniu zaznacz „Eksportuj do pliku .KML zamiast .KMZ”.'
     );
-  return await new Response(
-    new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))
-  ).text();
+  return new TextDecoder().decode(await z.read(n));
 }
+const FILE_MAX = 1024 * 1048576; // największy plik przyjmowany do importu i przywracania
+const fileOk = f => {
+  if (f.size > FILE_MAX) throw new Error('Plik jest za duży (ponad 1 GB) – nie wczytano go.');
+};
 async function fileText(f) {
+  fileOk(f);
   const buf = await f.arrayBuffer(),
     u8 = new Uint8Array(buf);
   if (/\.kmz$/i.test(f.name) || (u8[0] === 0x50 && u8[1] === 0x4b)) return kmzText(buf);
@@ -8084,13 +8270,14 @@ function photoView(it, k, onChange) {
     cnt = h('span'),
     ob = B('Otwórz', e => {
       e.stopPropagation();
-      window.open(it.ph[i], '_blank');
+      window.open(netPh(it.ph[i]), '_blank');
     });
   let i = k;
   const show = () => {
     const u = it.ph[i];
     img.removeAttribute('src');
-    fotoUrl(u).then(x => it.ph[i] === u && x && (img.src = x));
+    if (!isLocalPh(u) && !phAllowed(u)) netAsk(img, u);
+    else fotoUrl(u).then(x => it.ph[i] === u && x && (img.src = x));
     cnt.textContent = i + 1 + ' / ' + it.ph.length;
     ob.style.display = isLocalPh(u) ? 'none' : ''; // zdjęcie z OMM nie ma adresu w internecie
   };
@@ -8206,7 +8393,7 @@ function parseFile(text, fname) {
   const t = text.trim(),
     L0 = fname || 'Import',
     res = {title: L0, layers: []},
-    byName = {};
+    byName = Object.create(null);
   const add = (ln, x) => {
     ln = String(ln || L0);
     if (!byName[ln]) {
@@ -8674,8 +8861,8 @@ function buildMap(mm, feats) {
     }))
   }));
   if (!groups.length) groups.push({id: uid(), name: 'Grupa 1', open: true, vis: true, layers: []});
-  const byId = {},
-    byName = {};
+  const byId = Object.create(null),
+    byName = Object.create(null);
   groups.forEach(g =>
     g.layers.forEach(l => {
       byId[l.id] = l;
@@ -8693,7 +8880,7 @@ function buildMap(mm, feats) {
     return nl.id;
   };
   const items = [],
-    seen = {};
+    seen = Object.create(null);
   feats.forEach(f => {
     const pr = f.properties || {},
       t = TYP_R[pr.typ],
@@ -8784,7 +8971,7 @@ function fromBackupGeoJSON(j) {
       maps.push(buildMap(mm, fs));
     });
     const rest = feats.filter(f => !used.has(f)),
-      by = {};
+      by = Object.create(null);
     rest.forEach(f => {
       const k = (f.properties || {}).mapa || 'Obiekty z kopii';
       (by[k] = by[k] || []).push(f);
@@ -8942,6 +9129,7 @@ $('pfile').onchange = async e => {
   if (!f) return;
   try {
     // kopia ZIP (od v35) albo dawna kopia GeoJSON / JSON
+    fileOk(f);
     const buf = await f.arrayBuffer(),
       u8 = new Uint8Array(buf),
       j =
@@ -8987,12 +9175,10 @@ $('pfile').onchange = async e => {
       };
       created = j.created;
     } else throw new Error('To nie jest plik kopii z tej aplikacji.');
-    r.maps.forEach(m => {
-      m.items = (m.items || []).filter(okItem);
-      m.groups.forEach(g => {
-        g.layers = g.layers || [];
-      });
-    });
+    // każda wersja kopii przechodzi przez tę samą walidację (identyfikatory, kolory, teksty, zdjęcia)
+    r = Object.assign(r, cleanDB({maps: r.maps, cur: r.cur, curW: r.curW}));
+    if (!r.maps.length) throw new Error('Kopia nie zawiera żadnej poprawnej mapy.');
+    const foto = j.__foto || [];
     const nO = r.maps.reduce((s, m) => s + m.items.length, 0),
       nL = r.maps.reduce((s, m) => s + m.groups.reduce((a, g) => a + g.layers.length, 0), 0);
     const when = created
@@ -9018,6 +9204,7 @@ $('pfile').onchange = async e => {
         ))
       )
         return;
+      await fotoCommit(foto, r.maps, null);
       r.maps.forEach(m => {
         if (DB.maps.some(x => x.id === m.id)) m.id = uid();
         if (DB.maps.some(x => x.name === m.name)) m.name += ' (kopia)';
@@ -9050,6 +9237,7 @@ $('pfile').onchange = async e => {
         ))
       )
         return;
+      await fotoCommit(foto, r.maps, tr);
       snapshot('przed-przywroceniem');
       DB = {v: SCHEMA, mode: DB.mode, cur: r.cur, curW: r.curW, maps: r.maps};
       if (tr) trkReplace(tr);
@@ -9067,6 +9255,7 @@ $('pfile').onchange = async e => {
         ))
       )
         return;
+      await fotoCommit(foto, r.maps, null);
       if (isW()) r.maps[0].w = true;
       DB.maps.push(r.maps[0]);
       setCur(r.maps[0].id);
@@ -9290,7 +9479,7 @@ function filterDlg() {
     list = h('div', 'fl'),
     bt = h('div', 'db');
   t.textContent = 'Co pokazać na mapie „' + P.name + '”?';
-  const cnt = {};
+  const cnt = Object.create(null);
   P.items.forEach(i => {
     const c = catOf(i);
     cnt[c] = (cnt[c] || 0) + 1;
@@ -11242,29 +11431,14 @@ function puwg(lat, lon) {
 localStorage.removeItem('mapa-nmt-http'); // usługa wysokości działa przez https, nie zapamiętujemy obejścia
 const sleepMs = ms => new Promise(r => setTimeout(r, ms));
 async function nmtGet(q) {
-  // https, a tylko przy błędzie połączenia jednorazowo http
-  const go = async proto => {
-    const ac = new AbortController(),
-      tm = setTimeout(() => ac.abort(), 12000);
-    try {
-      const url = proto + '://services.gugik.gov.pl/nmt/?' + q,
-        H = proto === 'http' && plug('CapacitorHttp');
-      if (H) {
-        // w aplikacji zapytania po HTTP są blokowane w WebView (bezpieczeństwo) – zapasowo idą natywnie
-        const r = await H.get({url, responseType: 'text', readTimeout: 12000, connectTimeout: 12000});
-        return String(r.data).trim();
-      }
-      const r = await fetch(url, {signal: ac.signal});
-      return String(await r.text()).trim();
-    } finally {
-      clearTimeout(tm);
-    }
-  };
+  // usługa wysokości GUGiK – tylko https (współrzędne nie mogą iść jawnym tekstem)
+  const ac = new AbortController(),
+    tm = setTimeout(() => ac.abort(), 12000);
   try {
-    return await go('https');
-  } catch (e) {
-    if (e instanceof TypeError) return await go('http');
-    throw e;
+    const r = await fetch('https://services.gugik.gov.pl/nmt/?' + q, {signal: ac.signal});
+    return String(await r.text()).trim();
+  } finally {
+    clearTimeout(tm);
   }
 }
 // Wiele punktów jednym zapytaniem (usługa przyjmuje do 500 punktów i ogranicza liczbę zapytań; zwraca trójki "x y h")
@@ -11860,14 +12034,14 @@ const fileName = s =>
     .slice(0, 80) || 'slad';
 
 // --- zapis i odczyt ---
-const okTrk = t => t && Array.isArray(t.pts) && t.pts.length >= 2 && t.pts.every(okLL) && isFinite(t.st);
+const okTrk = t => cleanTrk(t); // sprawdza i poprawia pola śladu (patrz „walidacja danych”)
 function trkFix() {
   // porządek po wczytaniu: zawsze jest co najmniej jedna warstwa, ślady mają poprawną warstwę
   if (!Array.isArray(TRK.layers)) TRK.layers = [];
   if (!Array.isArray(TRK.items)) TRK.items = [];
+  cleanTrkDB(TRK);
   if (!TRK.layers.length)
     TRK.layers.push({id: uid(), name: 'Moje ślady', vis: true, c: '#e53935', open: true});
-  TRK.items = TRK.items.filter(okTrk);
   TRK.items.forEach(t => {
     if (!TRK.layers.some(l => l.id === t.l)) t.l = TRK.layers[0].id;
     if (!Array.isArray(t.sg)) t.sg = [];
@@ -12271,13 +12445,10 @@ function trkGradFor(t) {
 function trkSwatch(t) {
   // „szlaczek” przy śladzie na liście: jednolity kolor albo gradient prędkości / wysokości
   const m = trkModeOf(t),
-    gid = 'tg' + t.id,
-    stroke =
-      m === 'jedn'
-        ? trkColor(t)
-        : 'url(#' + gid + ')',
+    gid = 'tg' + String(t.id).replace(/[^\w-]/g, ''),
+    stroke = m === 'jedn' ? safeColor(trkColor(t), '#e53935') : 'url(#' + gid + ')',
     defs =
-      m === 'jedn'
+      m === 'jedn' || !RAMPS[m]
         ? ''
         : '<defs><linearGradient id="' +
           gid +
@@ -13499,7 +13670,7 @@ function trkSummaryDlg() {
     body.append(c);
     // według rodzaju
     if (!fa) {
-      const by = {};
+      const by = Object.create(null);
       S.forEach(o => {
         const key = o.t.a || '-';
         (by[key] = by[key] || {n: 0, d: 0, m: 0}).n++;
@@ -13583,7 +13754,7 @@ function trkFeatures() {
 const isTrkFeature = f => !!(f && f.properties && f.properties.sekcja === 'slady');
 function trkFromBackup(j) {
   // ślady z kopii; null = kopia bez śladów (np. starsza wersja) – wtedy obecne ślady zostają
-  if (j.__trk !== undefined) return j.__trk; // kopia ZIP: ślady wczytane już z plików GPX
+  if (j.__trk !== undefined) return j.__trk && cleanTrkDB(j.__trk); // kopia ZIP: ślady wczytane już z plików GPX
   const meta = (j.omm || {}).slady,
     feats = (j.features || []).filter(f => isTrkFeature(f) && f.geometry);
   if (!meta && !feats.length) return null;
@@ -13631,7 +13802,7 @@ function trkFromBackup(j) {
       ...(['jedn', 'predkosc', 'wysokosc'].includes(pr.kolorowanie) ? {cm: pr.kolorowanie} : {}),
       ...(pr.ukryty ? {vis: false} : {}),
       ...(pr.bez_czasu ? {noTime: true} : {}),
-      ...(ACTS[pr.rodzaj] ? {a: pr.rodzaj} : {}),
+      ...(own(ACTS, pr.rodzaj) ? {a: pr.rodzaj} : {}),
       st: isFinite(st) ? st : Date.now(),
       pts,
       sg,
@@ -13639,7 +13810,7 @@ function trkFromBackup(j) {
       up: Date.parse(pr.zmieniono) || Date.now()
     });
   });
-  return T;
+  return cleanTrkDB(T);
 }
 async function trkReplace(T) {
   // przy przywracaniu pełnej kopii: obecne ślady odkładamy osobno, potem wczytujemy ślady z kopii
@@ -14830,9 +15001,58 @@ async function fotoBlob(name) {
     return null;
   }
 }
+// zdjęcia-linki z internetu: zawsze https, a wczytanie z nowego serwera po zgodzie (ustawienie „omm-zdj-net”)
+const netPh = u => String(u).replace(/^http:\/\//i, 'https://'),
+  phHost = u => {
+    try {
+      return new URL(netPh(u)).hostname;
+    } catch (e) {
+      return '';
+    }
+  },
+  phHosts = () => {
+    try {
+      return JSON.parse(localStorage.getItem('omm-zdj-hosty') || '[]');
+    } catch (e) {
+      return [];
+    }
+  },
+  phAllowed = u => localStorage.getItem('omm-zdj-net') === 'zawsze' || phHosts().includes(phHost(u));
+const PH_NET_IMG =
+  'data:image/svg+xml,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 90"><rect width="120" height="90" fill="#e8eaed"/><circle cx="60" cy="38" r="17" fill="none" stroke="#5f6368" stroke-width="3"/><path d="M43 38h34M60 21c-9 10-9 24 0 34M60 21c9 10 9 24 0 34" fill="none" stroke="#5f6368" stroke-width="2.4"/><text x="60" y="76" font-family="sans-serif" font-size="11" text-anchor="middle" fill="#3c4043">dotknij, by wczytać</text></svg>'
+  );
+function netAsk(im, u, after) {
+  // zdjęcie z obcego serwera: najpierw zastępczy obrazek, pobranie dopiero po dotknięciu i zgodzie
+  im.src = PH_NET_IMG;
+  im.title = 'Zdjęcie z ' + phHost(u);
+  const ask = async e => {
+    if (im.src !== PH_NET_IMG) return;
+    e.stopPropagation();
+    e.preventDefault();
+    const host = phHost(u),
+      v = await dlg({
+        title:
+          'Wczytać zdjęcie z serwera „' + host + '”?\n\nTo zdjęcie nie jest zapisane w telefonie. Serwer pozna Twój adres IP i godzinę wczytania.',
+        btns: [
+          {t: 'Anuluj', v: null},
+          {t: 'Tylko to', v: 1},
+          {t: 'Zawsze z tego serwera', v: 2, c: 'okb'}
+        ]
+      });
+    if (!v) return;
+    if (v === 2) localStorage.setItem('omm-zdj-hosty', JSON.stringify([...new Set([...phHosts(), host])].slice(-200)));
+    im.removeEventListener('click', ask, true);
+    im.src = netPh(u);
+    if (after) after();
+  };
+  im.addEventListener('click', ask, true);
+  return im;
+}
 async function fotoUrl(u) {
-  // adres do wyświetlenia: link http bez zmian, zdjęcie z OMM – z pamięci aplikacji
-  if (!isLocalPh(u)) return u;
+  // adres do wyświetlenia: link – tylko https; zdjęcie z OMM – z pamięci aplikacji
+  if (!isLocalPh(u)) return netPh(u);
   const n = u.slice(4);
   if (fotoCache.has(n)) return fotoCache.get(n);
   const b = await fotoBlob(n);
@@ -14846,6 +15066,7 @@ function fotoImg(u, cls) {
   const im = h('img', cls);
   im.loading = 'lazy';
   im.referrerPolicy = 'no-referrer';
+  if (!isLocalPh(u) && !phAllowed(u)) return netAsk(im, u);
   fotoUrl(u).then(x => {
     if (x) im.src = x;
     else im.dispatchEvent(new Event('error'));
@@ -14932,11 +15153,22 @@ function fotoUsed() {
   return u;
 }
 async function fotoForget(ref) {
-  // usuń plik zdjęcia, jeśli żaden obiekt już go nie używa
+  // usuń zdjęcie, jeśli żaden obiekt już go nie używa: z pamięci OMM i kopię podglądu z folderów OMM/zdjecia
+  // (oryginał zrobiony aparatem w Obrazy/OMM to zdjęcie w galerii – zostaje, jak każde inne zdjęcie z aparatu)
   if (!isLocalPh(ref) || fotoUsed().has(ref.slice(4))) return;
+  const name = ref.slice(4);
   try {
-    await IDB.set('foto/' + ref.slice(4), null);
+    await IDB.del('foto/' + name);
   } catch (e) {}
+  fotoCache.delete(name);
+  const FS = plug('Filesystem');
+  if (FS)
+    for (const k of Object.keys(FOLDERS)) {
+      const F = FOLDERS[k];
+      try {
+        await FS.deleteFile({path: F.base + '/zdjecia/' + name, directory: F.dir});
+      } catch (e) {}
+    }
 }
 // wybór zdjęć: aparat (capture) albo galeria/pliki
 function pickPhotos(camera, multi) {
@@ -15316,7 +15548,7 @@ async function filmEngine(t, W, H, prog) {
   // zdjęcia z trasy
   const imgs = new Map();
   for (const st of plan.stops)
-    if (st.w.ph && st.w.ph.length)
+    if (st.w.ph && st.w.ph.length && (isLocalPh(st.w.ph[0]) || phAllowed(st.w.ph[0])))
       try {
         const im = new Image();
         im.src = await fotoUrl(st.w.ph[0]);
@@ -15906,6 +16138,9 @@ async function zipMake(files) {
   ed.setUint32(16, off, true);
   return new Blob([...parts, ...cen, ed.buffer], {type: 'application/zip'});
 }
+const ZIP_MAX_N = 50000, // limity importu archiwów (kopie, KMZ)
+  ZIP_MAX_ENTRY = 512 * 1048576,
+  ZIP_MAX_TOTAL = 2048 * 1048576;
 function zipOpen(buf) {
   // spis plików archiwum ZIP; read(nazwa) → Uint8Array
   const u8 = new Uint8Array(buf),
@@ -15918,32 +16153,75 @@ function zipOpen(buf) {
       break;
     }
   if (e < 0) throw new Error('Uszkodzony plik ZIP');
-  const fs = new Map();
+  /*
+   * Archiwum jest nieufne: sprawdzamy spójność katalogu, sumy CRC i rozmiary po rozpakowaniu
+   * (limit na plik i na całe archiwum chroni przed „bombą ZIP”); błąd = całe archiwum odrzucone.
+   */
+  const bad = w => {
+    throw new Error('Uszkodzony albo podejrzany plik ZIP (' + w + ').');
+  };
+  const fs = new Map(),
+    n = dv.getUint16(e + 10, true);
+  if (n > ZIP_MAX_N) bad('za dużo plików w archiwum');
   let p = dv.getUint32(e + 16, true);
-  for (let k = 0, n = dv.getUint16(e + 10, true); k < n; k++) {
-    const fl = dv.getUint16(p + 28, true);
-    fs.set(td.decode(u8.subarray(p + 46, p + 46 + fl)), {
-      meth: dv.getUint16(p + 10, true),
-      csz: dv.getUint32(p + 20, true),
-      off: dv.getUint32(p + 42, true)
-    });
+  for (let k = 0; k < n; k++) {
+    if (p + 46 > u8.length || dv.getUint32(p, true) !== 0x02014b50) bad('spis plików');
+    const fl = dv.getUint16(p + 28, true),
+      name = td.decode(u8.subarray(p + 46, p + 46 + fl)),
+      f = {
+        flag: dv.getUint16(p + 8, true),
+        meth: dv.getUint16(p + 10, true),
+        crc: dv.getUint32(p + 16, true),
+        csz: dv.getUint32(p + 20, true),
+        usz: dv.getUint32(p + 24, true),
+        off: dv.getUint32(p + 42, true)
+      };
+    if (fs.has(name)) bad('powtórzona nazwa pliku');
+    if (f.flag & 1) bad('zaszyfrowany wpis');
+    if (f.usz > ZIP_MAX_ENTRY) bad('plik po rozpakowaniu za duży');
+    if (f.off + 30 > u8.length || dv.getUint32(f.off, true) !== 0x04034b50) bad('nagłówek pliku');
+    fs.set(name, f);
     p += 46 + fl + dv.getUint16(p + 30, true) + dv.getUint16(p + 32, true);
   }
+  let used = 0; // ile bajtów rozpakowano z tego archiwum
   return {
     names: () => [...fs.keys()],
     has: n => fs.has(n),
     read: async n => {
-      const f = fs.get(n),
-        st = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true),
-        data = u8.subarray(st, st + f.csz);
-      if (f.meth === 0) return data;
-      if (f.meth === 8)
-        return new Uint8Array(
-          await new Response(
-            new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))
-          ).arrayBuffer()
-        );
-      throw new Error('Nieobsługiwana kompresja w pliku ' + n);
+      const f = fs.get(n);
+      if (!f) bad('brak pliku ' + n);
+      const st = f.off + 30 + dv.getUint16(f.off + 26, true) + dv.getUint16(f.off + 28, true);
+      if (st + f.csz > u8.length) bad('plik ucięty');
+      const data = u8.subarray(st, st + f.csz);
+      let out;
+      if (f.meth === 0) out = data;
+      else if (f.meth === 8) {
+        // rozpakowanie strumieniowe – przerwane, gdy dane przekroczą zadeklarowany rozmiar
+        const rd = new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw')).getReader(),
+          parts = [];
+        let tot = 0;
+        for (;;) {
+          const {done, value} = await rd.read();
+          if (done) break;
+          tot += value.length;
+          if (tot > f.usz) {
+            rd.cancel().catch(() => {});
+            bad('rozmiar po rozpakowaniu niezgodny z opisem');
+          }
+          parts.push(value);
+        }
+        out = new Uint8Array(tot);
+        let o = 0;
+        parts.forEach(x => {
+          out.set(x, o);
+          o += x.length;
+        });
+      } else throw new Error('Nieobsługiwana kompresja w pliku ' + n);
+      if (out.length !== f.usz) bad('rozmiar pliku ' + n);
+      if (crc32(out) !== f.crc) bad('błędna suma kontrolna pliku ' + n);
+      used += out.length;
+      if (used > ZIP_MAX_TOTAL) bad('archiwum po rozpakowaniu za duże');
+      return out;
     }
   };
 }
@@ -15960,6 +16238,132 @@ const safeName = s =>
     .replace(/[\\/:*?"<>|\u0000-\u001f]+/g, '_')
     .trim()
     .slice(0, 80) || 'mapa';
+// ---------- szyfrowanie kopii zapasowych (opcja, ⚙️ → Kopia zapasowa i dane) ----------
+/*
+ * Standardowa kryptografia przeglądarki (WebCrypto), bez własnych algorytmów:
+ *  • klucz z hasła: PBKDF2-SHA-256, 600 000 iteracji, losowa sól 16 B,
+ *  • szyfr: AES-256-GCM (szyfrowanie z uwierzytelnieniem – podmiana choćby bajtu = odmowa odczytu),
+ *    losowy wektor IV 12 B dla każdej kopii.
+ * Hasło nie jest nigdzie zapisywane. W telefonie (IndexedDB „szyfr-kopii”) leży tylko klucz jako
+ * obiekt nieeksportowalny – automatyczna kopia może szyfrować bez pytania o hasło, ale klucza nie da się
+ * z aplikacji wyjąć. Zaszyfrowana kopia to zwykły ZIP z plikami: CZYTAJ.txt (opis), szyfr.json
+ * (parametry, bez tajemnic) i dane.bin (zaszyfrowany ZIP pełnej kopii).
+ * Utrata hasła = kopii nie da się odczytać (nikt, także autor OMM, nie ma „furtki”).
+ */
+const ENC_ITER = 600000;
+const b64e = u8 => btoa(String.fromCharCode(...u8)),
+  b64d = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+async function encDerive(pass, salt, iter) {
+  const base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    {name: 'PBKDF2', hash: 'SHA-256', salt, iterations: iter},
+    base,
+    {name: 'AES-GCM', length: 256},
+    false, // klucz nieeksportowalny
+    ['encrypt', 'decrypt']
+  );
+}
+const encGet = async () => {
+  try {
+    return (await IDB.get('szyfr-kopii')) || null;
+  } catch (e) {
+    return null;
+  }
+};
+async function encSetPassword(pass) {
+  const salt = crypto.getRandomValues(new Uint8Array(16)),
+    key = await encDerive(pass, salt, ENC_ITER);
+  await IDB.set('szyfr-kopii', {key, salt: b64e(salt), iter: ENC_ITER, at: Date.now()});
+}
+async function encWrap(zipBlob) {
+  // pełna kopia ZIP → zaszyfrowany ZIP (gdy szyfrowanie jest włączone); inaczej bez zmian
+  const E = await encGet();
+  if (!E) return zipBlob;
+  const iv = crypto.getRandomValues(new Uint8Array(12)),
+    ct = new Uint8Array(
+      await crypto.subtle.encrypt({name: 'AES-GCM', iv}, E.key, await zipBlob.arrayBuffer())
+    );
+  return zipMake([
+    {
+      name: 'CZYTAJ.txt',
+      data:
+        'OMM – Own Map Manager · ZASZYFROWANA kopia zapasowa\r\n\r\n' +
+        'Zawartość (mapy, ślady, zdjęcia, ustawienia) jest w pliku dane.bin, zaszyfrowana hasłem\r\n' +
+        '(AES-256-GCM, klucz z hasła: PBKDF2-SHA-256). Odczytasz ją tylko w OMM:\r\n' +
+        '💾 → Przywróć z kopii… → podaj hasło. Bez hasła odczyt nie jest możliwy.\r\n'
+    },
+    {
+      name: 'szyfr.json',
+      data: JSON.stringify({format: 'omm-szyfr', v: 1, alg: 'AES-256-GCM', kdf: 'PBKDF2-SHA-256', iter: E.iter, salt: E.salt, iv: b64e(iv)})
+    },
+    {name: 'dane.bin', data: ct}
+  ]);
+}
+async function encUnwrap(z) {
+  // zaszyfrowana kopia → bajty wewnętrznego ZIP-a; najpierw klucz z tego telefonu, potem pytanie o hasło
+  let h;
+  try {
+    h = JSON.parse(new TextDecoder().decode(await z.read('szyfr.json')));
+  } catch (e) {
+    throw new Error('Uszkodzony opis szyfrowania w kopii.');
+  }
+  if (h.format !== 'omm-szyfr' || h.v !== 1 || h.alg !== 'AES-256-GCM' || !(h.iter >= 100000 && h.iter <= 5000000))
+    throw new Error('Nieznany sposób szyfrowania kopii (nowsza wersja OMM?).');
+  const ct = await z.read('dane.bin'),
+    iv = b64d(h.iv),
+    salt = b64d(h.salt),
+    tryKey = async k => {
+      try {
+        return await crypto.subtle.decrypt({name: 'AES-GCM', iv}, k, ct);
+      } catch (e) {
+        return null;
+      }
+    };
+  const E = await encGet();
+  if (E && E.salt === h.salt) {
+    const pt = await tryKey(E.key);
+    if (pt) return pt;
+  }
+  for (let n = 0; n < 5; n++) {
+    const pass = await askPass('Ta kopia jest zaszyfrowana. Podaj hasło kopii:' + (n ? '\n\n❌ Złe hasło – spróbuj jeszcze raz.' : ''));
+    if (pass == null) throw new Error('Anulowano – kopia nie została przywrócona.');
+    const pt = await tryKey(await encDerive(pass, salt, h.iter));
+    if (pt) return pt;
+  }
+  throw new Error('Złe hasło – kopia nie została przywrócona.');
+}
+const askPass = title => dlg({title, input: true, pass: true}); // pole hasła (kropki); null = anulowano
+async function encSetup() {
+  // włączenie / zmiana hasła – z wyraźnym ostrzeżeniem
+  const ok = await askYes(
+    'Szyfrowanie kopii hasłem\n\n' +
+      '• Kopie (lokalne, na Dysku Google i zapisywane ręcznie) będą nieczytelne bez hasła – także dla kogoś, kto zdobędzie plik.\n\n' +
+      '⚠ Jeśli zapomnisz hasła, kopii NIE DA SIĘ odczytać. Nikt nie ma „furtki” – także autor OMM. Zapisz hasło w bezpiecznym miejscu (np. menedżerze haseł).\n\n' +
+      '• Dane w samym telefonie zostają bez zmian. Starsze, niezaszyfrowane kopie nie są zmieniane – usuń je sam, jeśli chcesz.',
+    'Rozumiem, ustaw hasło'
+  );
+  if (!ok) return false;
+  const p1 = await askPass('Nowe hasło kopii (co najmniej 8 znaków):');
+  if (p1 == null) return false;
+  if (p1.length < 8) return tell('Hasło jest za krótkie – szyfrowanie nie zostało włączone.'), false;
+  const p2 = await askPass('Powtórz hasło:');
+  if (p2 !== p1) return tell('Hasła się różnią – szyfrowanie nie zostało włączone.'), false;
+  await encSetPassword(p1);
+  await tell('🔒 Szyfrowanie kopii włączone. Następne kopie będą zaszyfrowane.\n\nZrób teraz kopię i sprawdź przywracanie, żeby mieć pewność, że pamiętasz hasło.');
+  return true;
+}
+async function encOff() {
+  if (
+    !(await askYes(
+      'Wyłączyć szyfrowanie kopii?\n\nNastępne kopie będą zwykłymi plikami ZIP, które może odczytać każdy, kto je zdobędzie. Już zaszyfrowane kopie nadal wymagają hasła.',
+      'Wyłącz',
+      true
+    ))
+  )
+    return false;
+  await IDB.del('szyfr-kopii');
+  return true;
+}
 async function zipBackup(vis) {
   wpSyncAll();
   // vis = tylko to, co widać na bieżącej mapie (bez śladów)
@@ -16021,18 +16425,22 @@ async function zipBackup(vis) {
   files.push({name: 'ustawienia.json', data: JSON.stringify(settingsObj(), null, 1)});
   files.push({name: 'omm.json', data: JSON.stringify(idx, null, 1)});
   files.push({name: 'CZYTAJ.txt', data: CZYTAJ});
-  return zipMake(files);
+  return encWrap(await zipMake(files)); // zaszyfrowana, gdy włączono szyfrowanie kopii
 }
 async function zipToBackup(buf) {
   // kopia ZIP → ta sama postać co dawna kopia GeoJSON (dalej działa zwykłe przywracanie)
-  const z = zipOpen(buf),
+  const z0 = zipOpen(buf);
+  if (z0.has('szyfr.json') && z0.has('dane.bin')) return zipToBackup(await encUnwrap(z0)); // kopia zaszyfrowana
+  const z = z0,
     td = new TextDecoder(),
     txt = async n => td.decode(await z.read(n));
   if (!z.has('omm.json')) throw new Error('To nie jest kopia OMM (w pliku ZIP brak omm.json).');
   const idx = JSON.parse(await txt('omm.json'));
+  // zdjęcia tylko wczytujemy do pamięci – zapis do bazy dopiero po zgodzie na przywrócenie (fotoCommit)
+  const foto = [];
   for (const n of z.names()) {
-    const m = n.match(/^zdjecia\/([\w.-]+)$/);
-    if (m) await IDB.set('foto/' + m[1], new Blob([await z.read(n)], {type: 'image/jpeg'}));
+    const m = n.match(/^zdjecia\/([\w.-]{1,120})$/);
+    if (m) foto.push([m[1], new Blob([await z.read(n)], {type: 'image/jpeg'})]);
   }
   const fixPh = a =>
     Array.isArray(a)
@@ -16094,10 +16502,46 @@ async function zipToBackup(buf) {
       settings: z.has('ustawienia.json') ? JSON.parse(await txt('ustawienia.json')) : undefined,
       ...(idx.zakres ? {zakres: idx.zakres} : {})
     },
-    __trk: trk // ślady wczytane z GPX (trkFromBackup je zwraca)
+    __trk: trk, // ślady wczytane z GPX (trkFromBackup je zwraca)
+    __foto: foto // zdjęcia czekające na zatwierdzenie przywracania
   };
 }
 
+async function fotoCommit(foto, maps, trk) {
+  /*
+   * zapis zdjęć z kopii – dopiero po zgodzie użytkownika. Zdjęcie o tej samej nazwie, ale innej
+   * treści niż już zapisane, dostaje nową nazwę, a odwołania w przywracanych danych są przepisywane;
+   * istniejące zdjęcia nigdy nie są nadpisywane.
+   */
+  if (!foto || !foto.length) return;
+  const same = async (a, b) => {
+    if (a.size !== b.size) return false;
+    const [x, y] = await Promise.all([a.arrayBuffer(), b.arrayBuffer()]);
+    const p = new Uint8Array(x),
+      q = new Uint8Array(y);
+    for (let i = 0; i < p.length; i++) if (p[i] !== q[i]) return false;
+    return true;
+  };
+  const ren = new Map(),
+    put = [];
+  for (const [n, b] of foto) {
+    const cur = await IDB.get('foto/' + n);
+    if (!cur) put.push(['foto/' + n, b]);
+    else if (!(cur instanceof Blob && (await same(cur, b)))) {
+      const nn = n.replace(/(\.[\w]+)?$/, '-' + Math.random().toString(36).slice(2, 7) + '$1');
+      ren.set('omm:' + n, 'omm:' + nn);
+      put.push(['foto/' + nn, b]);
+    }
+  }
+  if (ren.size) {
+    const fix = o => {
+      if (o && Array.isArray(o.ph)) o.ph = o.ph.map(u => ren.get(u) || u);
+    };
+    (maps || []).forEach(m => (m.items || []).forEach(fix));
+    if (trk) (trk.items || []).forEach(t => (t.wp || []).forEach(fix));
+  }
+  if (put.length) await IDB.setMany(put);
+}
 // ---------- nawigacja do punktu: linia i odległość od mojej pozycji, strzałka wg kompasu ----------
 const brgDeg = (a, b) => {
   // kierunek (azymut) z punktu a do b w stopniach od północy
@@ -17957,13 +18401,22 @@ function abStatusText() {
     (s.err ? '\n' + s.err : '')
   );
 }
+async function abRelease(uri) {
+  // „Odłącz” / zmiana miejsca: zwalnia trwałe uprawnienie do pliku (Android pamięta je osobno od OMM)
+  try {
+    const OB = plug('OmmBackup');
+    if (OB && uri) await OB.release({uri});
+  } catch (e) {}
+}
 async function abPickDrive() {
   // jednorazowy wybór pliku na Dysku Google (albo w innym miejscu) w systemowym oknie „Zapisz w…”
   const OB = plug('OmmBackup');
   if (!OB) return tell('Kopia na Dysk Google działa w aplikacji OMM na Androidzie.');
   await tell('Za chwilę otworzy się okno „Zapisz w…”.\n\nWybierz z menu po lewej „Dysk Google”, wskaż folder i zostaw nazwę OMM-kopia.zip. Potem OMM będzie sam nadpisywał ten plik najnowszą kopią.');
   try {
-    const r = await OB.pickFile({name: 'OMM-kopia.zip'});
+    const r = await OB.pickFile({name: 'OMM-kopia.zip'}),
+      old = localStorage.getItem('omm-dysk-uri');
+    if (old && old !== r.uri) await abRelease(old); // poprzednie miejsce: oddajemy uprawnienie Androida
     localStorage.setItem('omm-dysk-uri', r.uri);
     localStorage.setItem('omm-dysk-nazwa', r.name || 'OMM-kopia.zip');
     if (!r.persisted) tell('Uwaga: wybrane miejsce nie pozwala na stały zapis – kopia może się udać tylko teraz. Spróbuj wybrać Dysk Google.');
@@ -18296,7 +18749,8 @@ function settingsDlg() {
       }),
       ...(du
         ? [
-            B('Odłącz', () => {
+            B('Odłącz', async () => {
+              await abRelease(localStorage.getItem('omm-dysk-uri'));
               localStorage.removeItem('omm-dysk-uri');
               localStorage.removeItem('omm-dysk-nazwa');
               back.remove();
@@ -18328,6 +18782,40 @@ function settingsDlg() {
     })
   ]);
 
+  {
+    // szyfrowanie kopii hasłem (opcja)
+    const g = h('div', 'sset'),
+      st = h('div', 'muted', '…'),
+      r = h('div', 'setop');
+    g.append(h('b', null, '🔒 Szyfrowanie kopii hasłem'), st, r);
+    encGet().then(E => {
+      st.textContent = E
+        ? 'Włączone (od ' + new Date(E.at).toLocaleDateString('pl-PL') + '). Kopie są nieczytelne bez hasła. Utrata hasła = kopii nie da się odczytać.'
+        : 'Wyłączone. Kopie ZIP może odczytać każdy, kto zdobędzie plik (np. z telefonu albo z Dysku).';
+      const redo = async fn => {
+        if (await fn()) {
+          back.remove();
+          settingsDlg();
+        }
+      };
+      r.append(
+        ...(E
+          ? [B('Zmień hasło…', () => redo(encSetup)), B('Wyłącz', () => redo(encOff))]
+          : [B('Włącz…', () => redo(encSetup))])
+      );
+    });
+    sec.append(g);
+  }
+  radios(
+    'Zdjęcia z internetu',
+    'omm-zdj-net',
+    'pytaj',
+    [
+      ['pytaj', 'Pytaj przed wczytaniem'],
+      ['zawsze', 'Wczytuj zawsze']
+    ],
+    'Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.'
+  );
   cat('app', 'ℹ️ Aplikacja');
   const tut = B('📘 Samouczek', () => {
     back.remove();

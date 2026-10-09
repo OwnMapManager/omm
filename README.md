@@ -10,6 +10,14 @@
 
 OMM jest i zawsze będzie wolny od reklam i śledzenia. Wszystkie funkcje są dostępne dla każdego – bez wersji „premium” i bez blokowania funkcji za opłatą.
 
+## Bezpieczeństwo
+
+- Dane z importowanych plików i kopii są sprawdzane przed użyciem: identyfikatory, kolory, teksty i zdjęcia mają ścisły format, a strona aplikacji ma politykę CSP, która nie pozwala uruchomić żadnego kodu spoza samej aplikacji.
+- Przywracanie kopii niczego nie zmienia przed Twoją zgodą (także zdjęć); archiwa ZIP są sprawdzane sumami kontrolnymi i limitami rozmiaru.
+- Połączenia wyłącznie przez https. Zdjęcia-linki z internetu wczytują się dopiero po Twojej zgodzie.
+- Opcjonalne **szyfrowanie kopii hasłem** (AES-256-GCM, klucz z hasła PBKDF2-SHA-256). Utrata hasła = kopii nie da się odczytać.
+- Zgłoszenia problemów bezpieczeństwa: onemanmanufacture@gmail.com. Historia napraw: [docs/audyt-v45-naprawy.md](docs/audyt-v45-naprawy.md).
+
 ## Instalacja na telefonie z Androidem
 
 1. Na telefonie otwórz **[Releases → najnowsze wydanie](https://github.com/OwnMapManager/omm/releases/latest)** i pobierz plik `omm-vXX.apk`.

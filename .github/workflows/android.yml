@@ -2,6 +2,13 @@
 # Uruchamia się sama po każdej zmianie w repozytorium, a także ręcznie:
 # zakładka Actions → „Zbuduj APK” → Run workflow.
 # Gotowy plik trafia do zakładki Releases (np. „OMM v33” → omm-v33.apk).
+#
+# Bezpieczeństwo procesu (audyt v45, R04/R05):
+#  • akcje przypięte do konkretnych commitów (pełny SHA), nie do ruchomych tagów,
+#  • budowanie ma tylko prawo odczytu repozytorium; prawo zapisu (publikacja wydania) ma osobne zadanie,
+#    które nie uruchamia żadnego kodu projektu ani zależności,
+#  • zależności npm instalowane bez ich skryptów instalacyjnych (--ignore-scripts),
+#  • klucz podpisu i hasło trafiają wyłącznie do kroku Gradle (nie do całego środowiska zadania).
 name: Zbuduj APK
 
 on:
@@ -9,8 +16,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: write # potrzebne do opublikowania wydania (Releases)
+permissions: {}
 
 concurrency:
   group: apk
@@ -19,66 +25,97 @@ concurrency:
 jobs:
   apk:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      ver: ${{ steps.ver.outputs.ver }}
     steps:
       - name: Pobierz kod
-        uses: actions/checkout@v5
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Node.js
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
         with:
           node-version: 22
           cache: npm
 
       - name: Java 21 (wymagana przez Capacitor 8)
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
           java-version: 21
           cache: gradle
 
-      - name: Zależności
-        run: npm ci
+      - name: Zależności (bez skryptów instalacyjnych paczek) i poprawka Capacitora
+        run: |
+          npm ci --ignore-scripts
+          node scripts/patch-capacitor.mjs
+          grep -q "OMM-R07" node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/CapacitorWebView.java
 
       - name: Przygotuj aplikację (www/) i przenieś ją do projektu Android
+        id: ver
         run: |
           npm run www
           npx cap sync android
-          echo "VER=$(cat www/version.txt)" >> "$GITHUB_ENV"
+          echo "ver=$(cat www/version.txt)" >> "$GITHUB_OUTPUT"
 
-      - name: Klucz podpisu
-        # Klucz (android/omm-release.p12) jest w repozytorium, ale zaszyfrowany.
-        # Hasło do niego zna tylko sekret repozytorium OMM_KEYSTORE_PASSWORD.
+      - name: Zbuduj i podpisz APK
+        working-directory: android
         env:
-          KEY_PASS: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
+          KEY_B64: ${{ secrets.OMM_KEYSTORE_B64 }}
+          OMM_KEYSTORE_PASSWORD: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
+          VER: ${{ steps.ver.outputs.ver }}
         run: |
-          if [ -z "$KEY_PASS" ]; then
-            echo "::error::Brak sekretu OMM_KEYSTORE_PASSWORD (Settings → Secrets and variables → Actions → New repository secret). Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
+          if [ -z "$OMM_KEYSTORE_PASSWORD" ]; then
+            echo "::error::Brak sekretu OMM_KEYSTORE_PASSWORD. Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
             exit 1
           fi
-          echo "OMM_KEYSTORE_FILE=$GITHUB_WORKSPACE/android/omm-release.p12" >> "$GITHUB_ENV"
-          echo "OMM_KEYSTORE_PASSWORD=$KEY_PASS" >> "$GITHUB_ENV"
-
-      - name: Zbuduj APK
-        working-directory: android
-        run: |
+          # klucz: z sekretu OMM_KEYSTORE_B64 (docelowo), a dopóki go nie ma – zaszyfrowany plik z repozytorium
+          if [ -n "$KEY_B64" ]; then
+            echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/omm-release.p12"
+            export OMM_KEYSTORE_FILE="$RUNNER_TEMP/omm-release.p12"
+          else
+            echo "::warning::Brak sekretu OMM_KEYSTORE_B64 – używam zaszyfrowanego klucza z repozytorium."
+            export OMM_KEYSTORE_FILE="$GITHUB_WORKSPACE/android/omm-release.p12"
+          fi
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease
+          rm -f "$RUNNER_TEMP/omm-release.p12"
           cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/omm-v$VER.apk"
+          sha256sum "$GITHUB_WORKSPACE/omm-v$VER.apk" | tee "$GITHUB_WORKSPACE/omm-v$VER.apk.sha256"
 
       - name: Zachowaj plik (Actions → ten przebieg → Artifacts)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: omm-v${{ env.VER }}
-          path: omm-v${{ env.VER }}.apk
+          name: omm-v${{ steps.ver.outputs.ver }}
+          path: |
+            omm-v${{ steps.ver.outputs.ver }}.apk
+            omm-v${{ steps.ver.outputs.ver }}.apk.sha256
+
+  wydanie:
+    needs: apk
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # tylko to zadanie publikuje wydanie (Releases)
+    steps:
+      - name: Pobierz zbudowany APK
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: omm-v${{ needs.apk.outputs.ver }}
 
       - name: Opublikuj wydanie (Releases)
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
-          tag_name: v${{ env.VER }}
-          name: OMM v${{ env.VER }}
-          files: omm-v${{ env.VER }}.apk
+          tag_name: v${{ needs.apk.outputs.ver }}
+          name: OMM v${{ needs.apk.outputs.ver }}
+          files: |
+            omm-v${{ needs.apk.outputs.ver }}.apk
+            omm-v${{ needs.apk.outputs.ver }}.apk.sha256
           make_latest: true
           body: |
-            OMM – Own Map Manager, wersja v${{ env.VER }}.
-            Instalacja: pobierz plik omm-v${{ env.VER }}.apk na telefonie i otwórz go.
+            OMM – Own Map Manager, wersja v${{ needs.apk.outputs.ver }}.
+            Instalacja: pobierz plik omm-v${{ needs.apk.outputs.ver }}.apk na telefonie i otwórz go.
             Aktualizacja: zainstaluj nowszy plik na starą wersję – dane zostają.
+            Suma SHA-256 pliku: omm-v${{ needs.apk.outputs.ver }}.apk.sha256

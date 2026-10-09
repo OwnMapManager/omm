@@ -26,13 +26,18 @@ import java.util.List;
  * writeTo  – nadpisuje ten plik gotową kopią ZIP z pamięci podręcznej aplikacji. Wysyłką na Dysk
  *            zajmuje się aplikacja Dysk Google (bez logowania i kluczy API w OMM).
  * check    – czy dostęp do pliku nadal jest (użytkownik mógł go cofnąć albo usunąć plik).
+ * release  – „Odłącz” / zmiana miejsca: oddaje Androidowi trwałe uprawnienie do pliku.
+ *
+ * Bezpieczeństwo (audyt v45, F05/R08): OMM trzyma tylko prawo ZAPISU do wybranego pliku,
+ * writeTo zapisuje wyłącznie do plików, do których użytkownik dał trwały dostęp, a docelowy
+ * plik jest otwierany do nadpisania dopiero, gdy kopia źródłowa jest gotowa do odczytu.
  *
  * Autor: Paweł Jewuła · OMM – Own Map Manager
  */
 @CapacitorPlugin(name = "OmmBackup")
 public class OmmBackupPlugin extends Plugin {
 
-    private static final int RW = Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+    private static final int W = Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
 
     @PluginMethod
     public void pickFile(PluginCall call) {
@@ -53,7 +58,7 @@ public class OmmBackupPlugin extends Plugin {
         }
         Uri uri = data.getData();
         try {
-            getContext().getContentResolver().takePersistableUriPermission(uri, RW);
+            getContext().getContentResolver().takePersistableUriPermission(uri, W); // tylko zapis – odczyt niepotrzebny
         } catch (SecurityException e) {
             // dostawca nie daje stałego dostępu – zapis zadziała tylko teraz
         }
@@ -78,19 +83,31 @@ public class OmmBackupPlugin extends Plugin {
                     File f = new File(Uri.parse(src).getPath()).getCanonicalFile();
                     File cache = getContext().getCacheDir().getCanonicalFile();
                     if (!f.getPath().startsWith(cache.getPath() + File.separator)) throw new SecurityException("Plik spoza pamięci podręcznej OMM.");
-                    long n = 0;
+                    if (!f.isFile() || f.length() == 0) throw new Exception("Kopia źródłowa jest pusta albo jej brak.");
                     Uri u = Uri.parse(target);
+                    // zapis tylko do pliku wybranego wcześniej przez użytkownika (trwały dostęp w Androidzie)
+                    if (!persisted(u)) throw new SecurityException("Brak dostępu do wybranego pliku kopii.");
+                    long n = 0;
+                    InputStream in = new FileInputStream(f); // źródło otwarte PRZED nadpisaniem celu
                     OutputStream out;
                     try {
-                        out = getContext().getContentResolver().openOutputStream(u, "wt"); // nadpisanie od zera
+                        try {
+                            out = getContext().getContentResolver().openOutputStream(u, "wt"); // nadpisanie od zera
+                        } catch (Exception e) {
+                            out = getContext().getContentResolver().openOutputStream(u, "w"); // dostawca bez trybu „wt”
+                        }
                     } catch (Exception e) {
-                        out = getContext().getContentResolver().openOutputStream(u, "w"); // dostawca bez trybu „wt”
+                        in.close();
+                        throw e;
                     }
-                    if (out == null) throw new Exception("Nie można otworzyć pliku do zapisu.");
-                    try (InputStream in = new FileInputStream(f); OutputStream o = out) {
+                    if (out == null) {
+                        in.close();
+                        throw new Exception("Nie można otworzyć pliku do zapisu.");
+                    }
+                    try (InputStream i = in; OutputStream o = out) {
                         byte[] buf = new byte[64 * 1024];
                         int k;
-                        while ((k = in.read(buf)) > 0) {
+                        while ((k = i.read(buf)) > 0) {
                             o.write(buf, 0, k);
                             n += k;
                         }
@@ -110,6 +127,30 @@ public class OmmBackupPlugin extends Plugin {
         JSObject r = new JSObject();
         r.put("ok", target != null && persisted(Uri.parse(target)));
         call.resolve(r);
+    }
+
+    @PluginMethod
+    public void release(PluginCall call) {
+        String target = call.getString("uri");
+        JSObject r = new JSObject();
+        if (target == null) {
+            call.reject("Brak parametru uri.");
+            return;
+        }
+        Uri u = Uri.parse(target);
+        int flags = 0;
+        for (android.content.UriPermission p : getContext().getContentResolver().getPersistedUriPermissions()) if (p.getUri().equals(u)) {
+            if (p.isReadPermission()) flags |= Intent.FLAG_GRANT_READ_URI_PERMISSION;
+            if (p.isWritePermission()) flags |= Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+        }
+        try {
+            if (flags != 0) getContext().getContentResolver().releasePersistableUriPermission(u, flags);
+            r.put("released", flags != 0);
+            r.put("ok", !persisted(u));
+            call.resolve(r);
+        } catch (Exception e) {
+            call.reject(e.getMessage() != null ? e.getMessage() : e.toString());
+        }
     }
 
     private boolean persisted(Uri uri) {
