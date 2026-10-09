@@ -1,7 +1,7 @@
 # OMM v46 – naprawy po audycie bezpieczeństwa v45
 
 Audyt: „OMM v45 – niezależny audyt bezpieczeństwa”, 9.10.2026. Badane APK: `f09afddf…cbb2b`, commit `15b6215`.
-Naprawy: wersja **v46** (commit „v46: naprawy bezpieczeństwa…”). Źródło `app/omm.html` przed zmianami było bajtowo
+Naprawy: wersja **v46** (commit „v46: naprawy bezpieczeństwa…”), uzupełnienia w **v47** (klucz podpisu) i **v48** (blokada aplikacji). Źródło `app/omm.html` przed zmianami było bajtowo
 identyczne z plikiem z badanego commitu, więc ustalenia dotyczyły dokładnie tego kodu.
 
 ## Weryfikacja ustaleń przed naprawą
@@ -32,10 +32,15 @@ Ten sam zestaw testów na v46: żadnego wykonania, żadnych atrybutów zdarzeń 
 | R02 | app/omm.html, MainActivity.java, AndroidManifest.xml | Usunięte zapasowe połączenia HTTP (Geoportal, NMT przez CapacitorHttp). `MIXED_CONTENT_NEVER_ALLOW`, `usesCleartextTraffic="false"`. | grep: brak adresów `http://` do usług | Gdyby na starym telefonie Geoportal nie działał przez https – warstwa się nie wczyta (zamiast przejścia na http) |
 | R03 | app/omm.html | Zdjęcia-linki: tylko https; z nowego serwera wczytywane dopiero po dotknięciu i zgodzie („Tylko to” / „Zawsze z tego serwera”); ustawienie „Zdjęcia z internetu”. Film ze śladu pomija niezatwierdzone. | test_kopie: brak połączenia przed zgodą, po zgodzie tylko https | – |
 | R07 | scripts/patch-capacitor.mjs, workflow | Poprawka `CapacitorWebView.dispatchKeyEvent`: tekst przekazywany jako literał JSON (`JSONObject.quote`), nie sklejany z kodem. Nakładana po instalacji zależności; CI sprawdza jej obecność. | – | Do zgłoszenia do Capacitora; brak testu z IME na urządzeniu |
-| R04/R05 | .github/workflows/android.yml | Akcje przypięte do pełnych SHA; build tylko z prawem odczytu, publikacja w osobnym zadaniu bez kodu projektu; `npm ci --ignore-scripts`; klucz i hasło tylko w kroku Gradle; klucz z sekretu `OMM_KEYSTORE_B64` (zaszyfrowany plik w repo tylko jako zapas do czasu dodania sekretu); suma SHA-256 APK publikowana z wydaniem. | – | Plik .p12 pozostaje w historii repozytorium – ochronę daje losowe hasło; rotacja klucza (APK Signature Scheme v3) do rozważenia osobno. Brak `distributionSha256Sum` Gradle. |
+| R04/R05 | .github/workflows/android.yml, .gitignore | Akcje przypięte do pełnych SHA; build tylko z prawem odczytu, publikacja w osobnym zadaniu bez kodu projektu; `npm ci --ignore-scripts`; klucz i hasło tylko w kroku Gradle. **v47:** plik `.p12` usunięty z repozytorium, klucz wyłącznie z sekretu `OMM_KEYSTORE_B64`; przed budowaniem sprawdzany odcisk certyfikatu (inny klucz = przerwanie builda). Suma SHA-256 APK publikowana z wydaniem. | v47: build z sekretu, podpis APK = `0329e7be…db17ac` (bez zmian, aktualizacje działają) | Plik .p12 pozostaje w historii repozytorium – ochronę daje losowe hasło; rotacja klucza (APK Signature Scheme v3) do rozważenia osobno. Brak `distributionSha256Sum` Gradle. |
 | R09 | MainActivity.java | Ostrzeżenie i prośba o aktualizację przy starym WebView. | – | minSdk 24 bez zmian |
-| R10 | – | Bez zmian (do decyzji: blokada biometryczna, `FLAG_SECURE`). | – | – |
+| R10 | OmmLockPlugin.java, app/omm.html | **v48:** opcjonalna blokada aplikacji (⚙️ → Prywatność): PIN/hasło (przechowywany tylko skrót PBKDF2-SHA-256, 150 000 iteracji, losowa sól; po 5 błędach rosnące opóźnienie) albo systemowa biometria Androida (BiometricPrompt, BIOMETRIC_STRONG/WEAK) z zapasowym PIN-em; ponowna blokada od razu / po 1 / po 5 min w tle; przy blokadzie „od razu” ekran jest zasłaniany już przy wyjściu z aplikacji. Szyfrowanie kopii i ustawienie zdjęć z internetu przeniesione do tej samej kategorii. | Chromium: blokada przy starcie, zły PIN odrzucony, poprawny odblokowuje, ponowna blokada po wyjściu | `FLAG_SECURE` – świadomie nie (decyzja autora: zrzuty ekranu mają działać). Blokada jest zasłoną interfejsu, nie szyfrowaniem danych; dane w telefonie chroni szyfrowanie Androida. Biometria nietestowana na urządzeniu. |
 | uuid | – | Zależność tylko narzędzi budowania (nie w APK) – do aktualizacji przy najbliższej aktualizacji Capacitor CLI. | – | – |
+
+## Nowe przepływy danych (v48)
+
+- `routing.openstreetmap.de` – tylko gdy użytkownik przy dorysowywaniu brakującego kawałka śladu włączy „Po ścieżkach”: wysyłane są współrzędne zaznaczonych punktów. Domyślnie wyłączone; dodane do `connect-src` w CSP.
+- Bufor pozycji sprzed nagrywania (do 30 min) jest wyłącznie w pamięci, nigdzie nie zapisywany ani wysyłany.
 
 ## Czego nie sprawdzono
 

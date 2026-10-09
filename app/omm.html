@@ -2250,6 +2250,65 @@ details.scat .scb {
   border-radius: 6px;
   background: var(--b2);
 }
+/* blokada aplikacji */
+html.locked body > *:not(#lockscr) {
+  visibility: hidden !important;
+}
+#lockscr {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: #f1f3f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#lockscr .lkbox {
+  width: min(320px, 86vw);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+#lockscr .lklogo {
+  font-size: 34px;
+  font-weight: 800;
+  color: var(--acc);
+  letter-spacing: 2px;
+}
+#lockscr .lktt {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+#lockscr input {
+  font-size: 20px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #c4c7c5;
+  border-radius: 10px;
+}
+#lockscr button {
+  padding: 11px;
+  border-radius: 10px;
+  border: 0;
+  background: #fff;
+  font-size: 15px;
+}
+#lockscr button.okb {
+  background: var(--acc);
+  color: #fff;
+  font-weight: 600;
+}
+#lockscr .lkmsg {
+  min-height: 18px;
+  color: #c5221f;
+  font-size: 13px;
+}
+#lockscr .lkfg {
+  color: var(--sub);
+  font-size: 13px;
+  margin-top: 8px;
+}
 /* samouczek */
 .tut {
   position: fixed;
@@ -2916,7 +2975,7 @@ body.spliton #info {
   <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import</button><button id="tsumb">📊 Podsumowanie</button><button id="tselb">☑ Zaznacz</button></div>
   <div id="list"></div>
   <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś</button><button id="selic">Ikona</button><button id="selnm">Nazwy</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
-  <div id="tselbar"><span id="tselc"></span><button id="tsmv">Przenieś</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">Rodzaj</button><button id="tsnm">Nazwy</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
+  <div id="tselbar"><span id="tselc"></span><button id="tsmv">Przenieś</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">Rodzaj</button><button id="tsnm">Nazwy</button><button id="tsmrg">Scal</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
@@ -3025,6 +3084,8 @@ const IC = {
   note: '<path d="M4 5h16v11H9l-5 4z"/>',
   save: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/>', // jak „Kopia” w panelu map
   up: '<path d="M12 19V5M6 11l6-6 6 6"/>',
+  extend: '<path d="M3 18c3-1 4-5 7-6" stroke-dasharray="2.2 2.6"/><path d="M10 12c3-1 4-6 8-7"/><path d="M16 15h6M19 12v6"/>', // dorysuj brakujący kawałek śladu
+  merge: '<path d="M5 4v5c0 3 3 4 7 6M19 4v5c0 3-3 4-7 6v5"/><path d="M9.5 18l2.5 2.5 2.5-2.5"/>', // scal ślady
   down: '<path d="M12 5v14M6 13l6 6 6-6"/>',
   color:
     '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1-.8-1.4-.8-2.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/>'
@@ -3064,7 +3125,11 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v47';
+const APP_VER = 'v48';
+try {
+  // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
+  if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
+} catch (e) {}
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -6994,6 +7059,7 @@ function cleanTrk(t) {
     const r = [+q[0], +q[1]];
     if (q.length > 2) r.push(numOrNull(q[2]));
     if (q.length > 3) r.push(numOrNull(q[3]));
+    if (q[4] === 1) r.push(1); // dorysowany ręcznie
     return r;
   });
   t.st = numOrNull(t.st);
@@ -11879,6 +11945,53 @@ function gpsHelp(err) {
       : '')
   );
 }
+// bufor pozycji sprzed nagrywania: gdy OMM pokazuje Twoją pozycję, ostatnie 30 min ruchu jest
+// trzymane w pamięci (tylko w pamięci, nigdzie nie zapisywane). Po „REC” OMM proponuje dołączyć je do śladu.
+const PREBUF = [],
+  PREBUF_S = 1800;
+function preBufAdd(pos) {
+  const c = pos.coords,
+    tm = pos.timestamp || Date.now();
+  if (!(c.accuracy <= 30) || REC) return;
+  const q = [+c.latitude.toFixed(6), +c.longitude.toFixed(6), c.altitude != null && isFinite(c.altitude) ? Math.round(c.altitude * 10) / 10 : null, tm],
+    last = PREBUF[PREBUF.length - 1];
+  if (last && hav(last, q) < Math.max(5, c.accuracy * 0.5) && tm - last[3] < 60000) return; // postój
+  if (last && hav(last, q) / Math.max(1, (tm - last[3]) / 1000) > 60) return; // skok GPS
+  PREBUF.push(q);
+  while (PREBUF.length && tm - PREBUF[0][3] > PREBUF_S * 1000) PREBUF.shift();
+}
+async function preBufOffer() {
+  // po starcie nagrywania: ruch z ostatnich 30 min (min. 100 m) można dołączyć na początek śladu
+  const now = Date.now(),
+    b = PREBUF.filter(q => now - q[3] <= PREBUF_S * 1000);
+  PREBUF.length = 0;
+  if (b.length < 2) return;
+  const d = dist(b.map(q => [q[0], q[1]]));
+  if (d < 100) return;
+  const min = Math.max(1, Math.round((now - b[0][3]) / 60000));
+  const ok = await askYes(
+    'Zapomniałeś włączyć nagrywania? OMM pamięta Twój ruch z ostatnich ' +
+      min +
+      ' min (' +
+      fkm(d) +
+      ', od ' +
+      fhm(b[0][3]) +
+      ').\n\nDołączyć go na początek tego śladu?',
+    'Dołącz'
+  );
+  if (!ok || !REC) return;
+  const st0 = b[0][3],
+    sh = Math.round((REC.st - st0) / 1000);
+  REC.pts.forEach(q => (q[3] += sh));
+  REC.sg = REC.sg.map(i => i + b.length);
+  (REC.wp || []).forEach(w => w.s != null && (w.s += sh));
+  REC.pts = [...b.map(q => [q[0], q[1], q[2], Math.round((q[3] - st0) / 1000)]), ...REC.pts];
+  REC.st = st0;
+  recPersist(true);
+  recDraw();
+  recUi();
+  toastMsg('Dołączono ' + fkm(d) + ' sprzed startu');
+}
 $('gps').onclick = async () => {
   if (!navigator.geolocation) return tell('Ta przeglądarka nie obsługuje GPS. Otwórz OMM w Chrome.');
   if (watching !== null) {
@@ -11895,6 +12008,7 @@ $('gps').onclick = async () => {
   watching = navigator.geolocation.watchPosition(
     pos => {
       const ll = [pos.coords.latitude, pos.coords.longitude];
+      preBufAdd(pos);
       if (!mode) info.style.display = 'none';
       if (pos.coords.heading != null && isFinite(pos.coords.heading) && (pos.coords.speed || 0) > 0.7)
         meGpsHead = pos.coords.heading; // kierunek ruchu z GPS – gdy telefon nie ma kompasu
@@ -12117,6 +12231,7 @@ function trkStats(t) {
     cum = [], // odległość od początku do każdego punktu
     el = eleSmooth(pts); // wysokości wygładzone (GPS mierzy wysokość z rozrzutem kilku metrów)
   let d = 0,
+    dd = 0, // w tym dorysowane ręcznie (punkty ze znacznikiem q[4] = 1)
     mov = 0,
     dur = 0,
     up = 0,
@@ -12148,6 +12263,7 @@ function trkStats(t) {
       const s = hav(pts[i - 1], q),
         dt = q[3] - pts[i - 1][3];
       d += s;
+      if (q[4] === 1 || pts[i - 1][4] === 1) dd += s;
       if (!t.noTime && dt > 0 && dt <= 300 && s / dt > 0.3) mov += dt; // w ruchu: szybciej niż ~1 km/h
     }
     cum.push(d);
@@ -12156,6 +12272,7 @@ function trkStats(t) {
   if (t.noTime) dur = mov = 0;
   return {
     d,
+    dd,
     dur,
     mov,
     up,
@@ -12230,6 +12347,10 @@ function trkRender() {
     const g = trkGradFor(t);
     if (g) gradLines(t, g, t === trkSel ? 5 : 4).addTo(trkGrp);
     else L.polyline(ls, {pane: 'trkP', color: c, weight: 4, opacity: 0.95, interactive: false}).addTo(trkGrp);
+    // kawałki dorysowane ręcznie: linia przerywana (białe przerwy na kolorowej linii)
+    const dr = trkDrawn(t);
+    if (dr.length)
+      L.polyline(dr, {pane: 'trkP', color: '#fff', weight: 5, dashArray: '2 10', lineCap: 'butt', interactive: false}).addTo(trkGrp);
     // szeroki niewidoczny pas łapie dotknięcie palcem
     L.polyline(ls, {pane: 'trkP', weight: 22, opacity: 0, bubblingMouseEvents: false})
       .on('click', e => trkPopup(t, e.latlng))
@@ -12239,6 +12360,21 @@ function trkRender() {
     (t.wp || []).forEach(w => !wpOnMap(w) && wpMarker(w, () => wpPopup(t, w)).addTo(trkGrp));
   });
   recDraw();
+}
+function trkDrawn(t) {
+  // odcinki linii z punktami dorysowanymi ręcznie (wraz z połączeniem z nagranym śladem)
+  const out = [],
+    sg = new Set(t.sg || []),
+    P = t.pts;
+  let cur = null;
+  for (let i = 1; i < P.length; i++) {
+    const on = !sg.has(i) && (P[i][4] === 1 || P[i - 1][4] === 1);
+    if (on) {
+      if (!cur) out.push((cur = [[P[i - 1][0], P[i - 1][1]]]));
+      cur.push([P[i][0], P[i][1]]);
+    } else cur = null;
+  }
+  return out;
 }
 function flagIcon(kind) {
   // znacznik startu (zielony ▶) i mety (flaga w szachownicę)
@@ -12331,7 +12467,8 @@ function trkVminmax(t) {
   if (!v) return null;
   let lo = Infinity,
     hi = 0;
-  v.forEach(x => {
+  v.forEach((x, i) => {
+    if (t.pts[i][4] === 1) return; // dorysowane ręcznie – prędkość umowna
     if (x > 0.55 && x < lo) lo = x;
     if (x > hi) hi = x;
   });
@@ -12679,6 +12816,7 @@ function trkFocus(t) {
 function trkPopup(t, ll) {
   // w trybie cięcia dotknięcie śladu ustawia nożyczki (pas do otwierania okienka nie może tego przejąć)
   if (SPLIT) return SPLIT.click && SPLIT.click({containerPoint: map.latLngToContainerPoint(ll)});
+  if (EXT) return EXT.click({latlng: ll}); // dorysowanie: dotknięcie śladu = kolejny punkt
   const s = trkStatsC(t),
     el = h('div', 'tpop');
   if (trkSel !== t) {
@@ -12715,7 +12853,7 @@ function trkPopup(t, ll) {
     B((t.a ? ACTS[t.a][0] : '🏷') + ' ' + (t.a ? ACTS[t.a][1] : 'Rodzaj'), act(() => trkSetAct([t])), '', 'Rodzaj aktywności'),
     ...((t.wp || []).length ? [B('📍 Punkty na mapę…', act(() => trkWpToMap(t)))] : [])
   );
-  // belka ikon: udostępnij · ukryj · podziel · usuń
+  // belka ikon: udostępnij · ukryj · podziel · dorysuj · usuń
   const ib = h('div', 'tib');
   ib.append(
     IB('share', act(() => trkShare(t)), '', 'Udostępnij'),
@@ -12729,6 +12867,7 @@ function trkPopup(t, ll) {
       'Ukryj ślad'
     ),
     IB('split', act(() => trkSplit(t)), '', 'Podziel ślad'),
+    IB('extend', act(() => trkExtend(t)), '', 'Dorysuj brakujący kawałek (zapomniany REC, przerwa)'),
     IB('del', act(() => trkDelete(t)), 'danger', 'Usuń ślad')
   );
   el.append(bt, ib);
@@ -13031,6 +13170,8 @@ function trkStatsDlg(t) {
     tiles = statsTiles(t).tiles;
   tiles.forEach(([v, u, lb]) => tile(v, u, lb === 'Śr. prędkość w ruchu' ? 'Śr. prędkość poruszania się' : lb));
   body.append(grid);
+  if (s.dd >= 1)
+    body.append(h('div', 'muted', 'W tym ' + fkm(s.dd) + ' dorysowane ręcznie (linia przerywana) – nie liczy się do prędkości min / maks.'));
   const withE = t.pts.map((q, i) => [s.cum[i], s.el[i]]).filter(x => x[1] != null);
   if (withE.length > 1) {
     const step = Math.max(1, Math.floor(withE.length / 400)), // do wykresu wystarczy ~400 punktów
@@ -13138,6 +13279,7 @@ function trkGPX(list, name, photoPath) {
           '">' +
           (q[2] != null ? '<ele>' + q[2] + '</ele>' : '') +
           tm(t, q[3]) +
+          (q[4] === 1 ? '<extensions><omm:dr>1</omm:dr></extensions>' : '') +
           '</trkpt>\n';
       });
       s += '</trkseg>\n';
@@ -13173,12 +13315,14 @@ function gpxTracks(text) {
           tm = kid(p, 'time'),
           ms = tm ? Date.parse(tm.textContent) : NaN;
         if (st == null && isFinite(ms)) st = ms;
-        pts.push([
+        const q = [
           +la.toFixed(6),
           +lo.toFixed(6),
           e && isFinite(+e.textContent) ? Math.round(+e.textContent * 10) / 10 : null,
           ms
-        ]);
+        ];
+        if (ext(p, 'dr')) q.push(1); // punkt dorysowany ręcznie w OMM
+        pts.push(q);
       });
     });
     if (pts.length < 2) return;
@@ -14093,6 +14237,7 @@ var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, 
   ['tshid', 'eyeOff'],
   ['tsact', 'tag'],
   ['tsnm', 'edit'],
+  ['tsmrg', 'merge'],
   ['tsgpx', 'dl'],
   ['tsdel', 'del'],
   ['selmv', 'layer'],
@@ -14183,6 +14328,10 @@ $('tsumb').onclick = () => trkSummaryDlg();
 $('tsact').onclick = () => {
   const l = tselNeed();
   if (l.length) trkSetAct(l);
+};
+$('tsmrg').onclick = () => {
+  const l = tselNeed();
+  if (l.length) trkMerge(l);
 };
 $('tsnm').onclick = () => {
   const l = tselNeed();
@@ -14508,6 +14657,7 @@ async function recStart() {
   recPersist(true);
   if (!(await recWatchOn())) return recClear();
   recUi();
+  preBufOffer();
 }
 function recPause(on) {
   if (!REC || !!REC.paused === on) return;
@@ -17696,6 +17846,304 @@ function trkSplit(t, at) {
   });
   show();
 }
+// ---------- dorysowanie brakującego kawałka śladu (zapomniany REC, przerwa w nagraniu) ----------
+/*
+ * Początek / koniec / przerwa między odcinkami: użytkownik dotyka mapy wzdłuż drogi, którą przeszedł.
+ * Opcja „po ścieżkach” układa każdy odcinek wzdłuż dróg i ścieżek OSM (publiczny serwer tras
+ * routing.openstreetmap.de – wysyła współrzędne zaznaczonych punktów; tylko po włączeniu).
+ * Dorysowane punkty mają znacznik q[4] = 1: linia przerywana na mapie, „w tym … dorysowane”
+ * w statystykach, bez wpływu na prędkość min / maks. Czas: na początku i końcu – z podanej godziny,
+ * w przerwie – z czasów sąsiednich punktów (równe tempo).
+ */
+let EXT = null;
+const EXT_STEP = 10; // co ile metrów dorysowany punkt
+async function trkExtend(t) {
+  const gaps = (t.sg || []).filter(i => i > 0 && i < t.pts.length);
+  const v = await dlg({
+    title:
+      'Dorysować brakujący kawałek śladu „' +
+      (t.nm || 'Ślad') +
+      '”?\n\nZaznaczysz na mapie, którędy szedłeś. Dorysowany kawałek ma linię przerywaną; liczy się do dystansu i czasu, ale nie do prędkości min / maks.',
+    btns: [
+      {t: 'Anuluj', v: null},
+      {t: 'Początek', v: 'start', c: 'okb'},
+      {t: 'Koniec', v: 'end'},
+      ...(gaps.length ? [{t: 'Przerwę', v: 'gap'}] : [])
+    ]
+  });
+  if (!v) return;
+  let gi = null;
+  if (v === 'gap') {
+    if (gaps.length === 1) gi = gaps[0];
+    else {
+      const s = trkStatsC(t);
+      gi = await dlg({
+        title: 'Którą przerwę uzupełnić?',
+        btns: [
+          {t: 'Anuluj', v: null},
+          ...gaps.slice(0, 8).map((i, k) => ({
+            t: k + 1 + '. przy ' + fkm(s.cum[i]) + (t.noTime ? '' : ' (' + fhm(t.st + t.pts[i - 1][3] * 1000) + ')'),
+            v: i
+          }))
+        ]
+      });
+      if (gi == null) return;
+    }
+  }
+  extStart(t, v, gi);
+}
+function extStart(t, kind, gi) {
+  extStop();
+  map.closePopup();
+  closePops();
+  $('sheet').style.display = 'none';
+  const P = t.pts,
+    A = kind === 'end' ? P[P.length - 1] : kind === 'gap' ? P[gi - 1] : null, // stały początek dorysowania
+    Z = kind === 'start' ? P[0] : kind === 'gap' ? P[gi] : null, // stały koniec
+    g = L.layerGroup().addTo(map),
+    line = L.polyline([], {pane: 'tmpP', color: '#e53935', weight: 4, dashArray: '8 8', interactive: false}).addTo(g),
+    ui = h('div', 'splitbar'),
+    txt = h('div', 'stx'),
+    bt = h('div', 'sbt'),
+    taps = [];
+  let route = localStorage.getItem('omm-ext-trasa') === '1';
+  const rb = B('', () => {
+    route = !route;
+    localStorage.setItem('omm-ext-trasa', route ? '1' : '0');
+    show();
+  });
+  const show = () => {
+    const pts = [...(A ? [A] : []), ...taps, ...(Z ? [Z] : [])].map(q => [q[0], q[1]]);
+    line.setLatLngs(pts);
+    g.eachLayer(l => l !== line && g.removeLayer(l));
+    taps.forEach(q => L.circleMarker(q, {pane: 'tmpP', radius: 6, color: '#fff', weight: 2, fillColor: '#e53935', fillOpacity: 1, interactive: false}).addTo(g));
+    txt.innerHTML = '';
+    txt.append(
+      h('b', null, kind === 'start' ? 'Dorysuj początek' : kind === 'end' ? 'Dorysuj koniec' : 'Uzupełnij przerwę'),
+      h(
+        'div',
+        null,
+        kind === 'start'
+          ? 'Dotknij miejsca, z którego wyszedłeś, potem punktów po drodze (linia sama dojdzie do śladu).'
+          : kind === 'end'
+            ? 'Dotykaj punktów po drodze, na końcu miejsca, w którym skończyłeś.'
+            : 'Dotykaj punktów po drodze między końcem a początkiem nagranych odcinków.'
+      ),
+      h('div', 'muted', 'Zaznaczono: ' + taps.length + (pts.length > 1 ? ' · ' + fkm(dist(pts)) : ''))
+    );
+    rb.textContent = (route ? '☑' : '☐') + ' Po ścieżkach';
+    rb.title = 'Układa linię wzdłuż dróg i ścieżek (wysyła współrzędne do routing.openstreetmap.de)';
+  };
+  bt.append(
+    B('✓ Gotowe', () => extFinish(t, kind, gi, taps, route), 'okb'),
+    B('↶ Cofnij', () => {
+      taps.pop();
+      show();
+    }),
+    rb,
+    B('Anuluj', extStop)
+  );
+  ui.append(txt, bt);
+  document.body.append(ui);
+  document.body.classList.add('spliton');
+  EXT = {g, ui, click: e => (taps.push([e.latlng.lat, e.latlng.lng]), show())};
+  map.fitBounds(L.latLngBounds(P.map(q => [q[0], q[1]])), {paddingTopLeft: [40, 40], paddingBottomRight: [40, 220], maxZoom: 16});
+  map.on('click', EXT.click);
+  show();
+}
+function extStop() {
+  if (!EXT) return;
+  map.off('click', EXT.click);
+  EXT.g.remove();
+  EXT.ui.remove();
+  EXT = null;
+  document.body.classList.remove('spliton');
+}
+async function extRoute(a, b) {
+  // odcinek a→b po drogach i ścieżkach (profil pieszy); przy błędzie – linia prosta
+  try {
+    const r = await fetch(
+      'https://routing.openstreetmap.de/routed-foot/route/v1/foot/' +
+        a[1].toFixed(6) + ',' + a[0].toFixed(6) + ';' + b[1].toFixed(6) + ',' + b[0].toFixed(6) +
+        '?overview=full&geometries=geojson',
+      {referrerPolicy: 'no-referrer'}
+    );
+    const j = await r.json(),
+      c = j && j.routes && j.routes[0] && j.routes[0].geometry && j.routes[0].geometry.coordinates;
+    if (Array.isArray(c) && c.length > 1) {
+      const p = c.map(x => [+x[1], +x[0]]).filter(okLL);
+      if (p.length > 1) return [a, ...p.slice(1, -1), b];
+    }
+  } catch (e) {}
+  return null;
+}
+function densify(path) {
+  // linia z punktami co EXT_STEP metrów (z pierwszym i ostatnim punktem)
+  const out = [path[0]];
+  for (let i = 1; i < path.length; i++) {
+    const a = path[i - 1],
+      b = path[i],
+      n = Math.max(1, Math.ceil(hav(a, b) / EXT_STEP));
+    for (let k = 1; k <= n; k++) out.push([a[0] + ((b[0] - a[0]) * k) / n, a[1] + ((b[1] - a[1]) * k) / n]);
+  }
+  return out;
+}
+async function extFinish(t, kind, gi, taps, route) {
+  if (!taps.length) return tell(kind === 'start' ? 'Dotknij mapy w miejscu, z którego wyszedłeś.' : 'Zaznacz na mapie choć jeden punkt.');
+  const P = t.pts,
+    A = kind === 'end' ? P[P.length - 1] : kind === 'gap' ? P[gi - 1] : null,
+    Z = kind === 'start' ? P[0] : kind === 'gap' ? P[gi] : null;
+  let path = [...(A ? [A] : []), ...taps, ...(Z ? [Z] : [])].map(q => [q[0], q[1]]);
+  if (route) {
+    info.style.display = 'block';
+    info.textContent = 'Układam linię po ścieżkach…';
+    const out = [path[0]];
+    let fails = 0;
+    for (let i = 1; i < path.length; i++) {
+      const r = await extRoute(path[i - 1], path[i]);
+      if (!r) fails++;
+      out.push(...(r ? r.slice(1) : [path[i]]));
+    }
+    info.style.display = 'none';
+    path = out;
+    if (fails) toastMsg('Część linii prosto – serwer tras nie odpowiedział');
+  }
+  // nowe punkty: bez punktu łączenia ze śladem (on już istnieje)
+  const np = densify(path);
+  if (A) np.shift(); // punkt łączenia ze śladem już w nim jest
+  if (Z) np.pop();
+  const len = dist(path);
+  if (len < 5) return tell('Dorysowany kawałek jest za krótki.');
+  // czas
+  const s = trkStatsC(t),
+    pace = s.vmov > 0.3 && s.vmov < 3 ? s.vmov : 1.25; // tempo marszu z tego śladu albo ok. 4,5 km/h
+  let t0, t1; // sekundy (względem obecnego początku śladu) na końcach dorysowanego kawałka
+  if (kind === 'gap') {
+    t0 = P[gi - 1][3];
+    t1 = P[gi][3];
+  } else if (t.noTime) {
+    t0 = t1 = kind === 'start' ? 0 : P[P.length - 1][3];
+  } else {
+    const ref = kind === 'start' ? t.st : t.st + P[P.length - 1][3] * 1000,
+      est = kind === 'start' ? ref - (len / pace) * 1000 : ref + (len / pace) * 1000,
+      hm = await askText(
+        (kind === 'start' ? 'O której wyszedłeś? (GG:MM)\nNagrywanie zaczęło się o ' : 'O której skończyłeś? (GG:MM)\nNagrywanie skończyło się o ') +
+          fhm(ref) +
+          '.',
+        fhm(est)
+      );
+    if (hm == null) return;
+    const m = String(hm).trim().match(/^(\d{1,2})[:.](\d{2})$/);
+    if (!m) return tell('Podaj godzinę w postaci GG:MM, np. 9:45.');
+    const d = new Date(ref);
+    d.setHours(+m[1], +m[2], 0, 0);
+    let at = d.getTime();
+    if (kind === 'start' && at >= ref) at -= 864e5; // wyjście przed północą, nagrywanie po
+    if (kind === 'end' && at <= ref) at += 864e5;
+    if (Math.abs(at - ref) > 864e5) return tell('Ta godzina jest za daleko od nagrania.');
+    if (kind === 'start') {
+      t0 = (at - t.st) / 1000;
+      t1 = 0;
+    } else {
+      t0 = P[P.length - 1][3];
+      t1 = (at - t.st) / 1000;
+    }
+  }
+  // wysokość z NMT (gdy jest internet); bez niej – puste
+  let hs = null;
+  try {
+    info.style.display = 'block';
+    info.textContent = 'Pobieram wysokości z NMT…';
+    hs = await hList(np);
+  } catch (e) {}
+  info.style.display = 'none';
+  // czasy proporcjonalnie do dystansu wzdłuż linii
+  const full = [...(A ? [[A[0], A[1]]] : []), ...np, ...(Z ? [[Z[0], Z[1]]] : [])],
+    cum = [0];
+  for (let i = 1; i < full.length; i++) cum.push(cum[i - 1] + hav(full[i - 1], full[i]));
+  const tot = cum[cum.length - 1] || 1,
+    off = A ? 1 : 0,
+    pts = np.map((q, i) => [
+      +q[0].toFixed(6),
+      +q[1].toFixed(6),
+      hs && hs[i] != null && isFinite(hs[i]) ? Math.round(hs[i] * 10) / 10 : null,
+      Math.round(t0 + ((t1 - t0) * cum[i + off]) / tot),
+      1
+    ]);
+  extStop();
+  if (kind === 'start') {
+    const sh = Math.round(-t0); // o tyle sekund przesuwa się początek śladu
+    if (!t.noTime && sh > 0) {
+      t.st -= sh * 1000;
+      pts.forEach(q => (q[3] += sh));
+      P.forEach(q => (q[3] += sh));
+      (t.wp || []).forEach(w => w.s != null && (w.s += sh));
+    }
+    t.pts = [...pts, ...P];
+    t.sg = (t.sg || []).map(i => i + pts.length);
+  } else if (kind === 'end') {
+    t.pts = [...P, ...pts];
+  } else {
+    t.pts = [...P.slice(0, gi), ...pts, ...P.slice(gi)];
+    t.sg = (t.sg || []).filter(i => i !== gi).map(i => (i > gi ? i + pts.length : i));
+  }
+  t.up = Date.now();
+  await trkChanged();
+  toastMsg('Dorysowano ' + fkm(len));
+}
+// ---------- scalanie śladów (np. kawałek z innej aplikacji + nagranie z OMM) ----------
+async function trkMerge(list) {
+  if (list.length < 2) return tell('Zaznacz co najmniej dwa ślady do scalenia.');
+  const L2 = [...list].sort((a, b) => a.st - b.st);
+  for (let i = 1; i < L2.length; i++) {
+    const prev = L2[i - 1];
+    if (!prev.noTime && !L2[i].noTime && L2[i].st < prev.st + prev.pts[prev.pts.length - 1][3] * 1000 - 60000)
+      return tell('Ślady „' + (prev.nm || 'Ślad') + '” i „' + (L2[i].nm || 'Ślad') + '” nakładają się w czasie – nie da się ich połączyć w jeden przebieg.');
+  }
+  const d = L2.reduce((a, t) => a + trkStatsC(t).d, 0);
+  if (
+    !(await askYes(
+      'Scalić ' + L2.length + ' ślady w jeden (razem ' + fkm(d) + ')?\n\nKolejność według czasu; między nimi zostanie przerwa (możesz ją potem dorysować). Oryginały trafią do kosza na 30 dni.',
+      'Scal'
+    ))
+  )
+    return;
+  const base = L2[0],
+    m = {
+      id: uid(),
+      l: base.l,
+      nm: base.nm || 'Ślad',
+      ...(base.a ? {a: base.a} : {}),
+      ...(base.c ? {c: base.c} : {}),
+      ...(base.cm ? {cm: base.cm} : {}),
+      st: base.st,
+      pts: [],
+      sg: [],
+      wp: [],
+      cr: Date.now(),
+      up: Date.now(),
+      ...(L2.some(t => t.noTime) ? {noTime: true} : {})
+    };
+  L2.forEach(t => {
+    const off = Math.round((t.st - base.st) / 1000),
+      n0 = m.pts.length;
+    if (n0) m.sg.push(n0);
+    m.pts.push(...t.pts.map(q => {
+      const r = [q[0], q[1], q[2], q[3] + off];
+      if (q[4] === 1) r.push(1);
+      return r;
+    }));
+    (t.sg || []).forEach(i => m.sg.push(i + n0));
+    (t.wp || []).forEach(w => m.wp.push({...w, s: (w.s || 0) + off}));
+  });
+  trashPut('slad', 'Scalone: ' + L2.map(t => '„' + (t.nm || 'Ślad') + '”').join(', '), {items: L2});
+  const ids = new Set(L2.map(t => t.id));
+  TRK.items = TRK.items.filter(t => !ids.has(t.id));
+  TRK.items.push(m);
+  if (TSEL) TSEL.clear();
+  await trkChanged();
+  toastMsg('Scalono w jeden ślad');
+}
 function splitStop() {
   if (!SPLIT) return;
   map.off('click', SPLIT.click);
@@ -18544,7 +18992,7 @@ async function tutFirstRun() {
   // pierwsze uruchomienie: pytanie o samouczek (nowa instalacja) albo jednorazowa informacja (są już dane)
   const s = localStorage.getItem('omm-tut');
   if (s === 'tak' || s === 'nie' || s === 'info') return;
-  if (document.querySelector('.dback') || REC) return setTimeout(tutFirstRun, 4000); // coś innego jest teraz na ekranie
+  if (document.querySelector('.dback') || REC || LOCKED) return setTimeout(tutFirstRun, 4000); // coś innego jest teraz na ekranie
   const hasData = DB.maps.some(m => m.items.length) || TRK.items.length;
   if (hasData) {
     localStorage.setItem('omm-tut', 'info');
@@ -18577,6 +19025,174 @@ async function tutFirstRun() {
   if (!trkReady) return setTimeout(tutWait, 500);
   setTimeout(tutFirstRun, 1800);
 })();
+
+// ---------- blokada aplikacji: PIN / hasło albo odcisk palca / twarz (⚙️ → Prywatność) ----------
+/*
+ * „omm-lock” = {m: 'pin' | 'bio', salt, hash, iter} – PIN/hasło przechowywane tylko jako skrót
+ * PBKDF2-SHA-256 (nie da się go odczytać). Przy biometrii PIN jest zapasowy (mokre palce, rękawiczki).
+ * „omm-lock-d” – po ilu sekundach w tle blokować ponownie: 0 (od razu), 60, 300.
+ * Blokada zasłania aplikację; nagrywanie śladu i automatyczna kopia działają dalej w tle.
+ * Zapomniany PIN: nie ma furtki – zostaje wyczyszczenie danych OMM w Androidzie i przywrócenie kopii.
+ */
+const LOCK_ITER = 150000;
+const lockCfg = () => {
+  try {
+    return JSON.parse(localStorage.getItem('omm-lock') || 'null');
+  } catch (e) {
+    return null;
+  }
+};
+const lockDelay = () => +(localStorage.getItem('omm-lock-d') || 0);
+async function lockHash(pass, salt, iter) {
+  const k = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveBits']);
+  return b64e(new Uint8Array(await crypto.subtle.deriveBits({name: 'PBKDF2', hash: 'SHA-256', salt, iterations: iter}, k, 256)));
+}
+async function lockCheck(pass) {
+  const c = lockCfg();
+  if (!c) return true;
+  const h2 = await lockHash(pass, b64d(c.salt), c.iter);
+  // porównanie bez wczesnego przerwania
+  let d = h2.length ^ c.hash.length;
+  for (let i = 0; i < Math.min(h2.length, c.hash.length); i++) d |= h2.charCodeAt(i) ^ c.hash.charCodeAt(i);
+  return d === 0;
+}
+async function lockBio(title) {
+  // systemowe okno biometrii; true = rozpoznano
+  const L = plug('OmmLock');
+  if (!L) return false;
+  try {
+    return !!(await L.authenticate({title: title || 'Odblokuj OMM'})).ok;
+  } catch (e) {
+    return false;
+  }
+}
+async function lockBioAvail() {
+  const L = plug('OmmLock');
+  if (!L) return false;
+  try {
+    return !!(await L.available()).bio;
+  } catch (e) {
+    return false;
+  }
+}
+let LOCKED = false,
+  lockFails = 0,
+  lockWait = 0;
+function lockShow() {
+  const c = lockCfg();
+  if (!c || LOCKED) return;
+  LOCKED = true;
+  document.documentElement.classList.add('locked');
+  document.querySelectorAll('#lockscr').forEach(x => x.remove());
+  const sc = h('div'),
+    box = h('div', 'lkbox'),
+    inp = h('input'),
+    msg = h('div', 'lkmsg'),
+    go = B('Odblokuj', () => tryPin(), 'okb');
+  sc.id = 'lockscr';
+  inp.type = 'password';
+  inp.autocomplete = 'off';
+  inp.placeholder = 'PIN lub hasło';
+  if (c.num) inp.inputMode = 'numeric';
+  const tryPin = async () => {
+    if (Date.now() < lockWait) return;
+    if (await lockCheck(inp.value)) return lockHide();
+    inp.value = '';
+    lockFails++;
+    if (lockFails >= 5) {
+      const s = 30 * 2 ** Math.min(5, lockFails - 5);
+      lockWait = Date.now() + s * 1000;
+      msg.textContent = 'Za dużo prób – odczekaj ' + s + ' s.';
+    } else msg.textContent = 'Zły PIN – spróbuj jeszcze raz.';
+  };
+  inp.onkeydown = e => e.key === 'Enter' && tryPin();
+  box.append(h('div', 'lklogo', 'OMM'), h('div', 'lktt', '🔒 OMM jest zablokowany'), inp, msg, go);
+  if (c.m === 'bio') {
+    const bb = B('👆 Odcisk palca / twarz', async () => (await lockBio()) && lockHide());
+    box.append(bb);
+    setTimeout(async () => LOCKED && (await lockBio()) && lockHide(), 300);
+  }
+  const forgot = h('a', 'lkfg', 'Nie pamiętam PIN-u');
+  forgot.href = '#';
+  forgot.onclick = e => {
+    e.preventDefault();
+    msg.textContent =
+      'Blokady nie da się zdjąć bez PIN-u. Jedyna droga: Ustawienia Androida → Aplikacje → OMM → Pamięć → Wyczyść dane (dane w telefonie przepadną – potem przywróć je z kopii).';
+  };
+  box.append(forgot);
+  sc.append(box);
+  document.body.append(sc);
+  if (c.m !== 'bio') setTimeout(() => inp.focus(), 100);
+}
+function lockHide() {
+  LOCKED = false;
+  lockFails = 0;
+  document.documentElement.classList.remove('locked');
+  document.querySelectorAll('#lockscr').forEach(x => x.remove());
+}
+let lockAway = 0; // kiedy aplikacja zeszła w tło
+function lockOnPause() {
+  if (!lockCfg()) return;
+  lockAway = Date.now();
+  if (lockDelay() === 0) lockShow(); // od razu – zasłania też podgląd w „ostatnich aplikacjach”
+}
+function lockOnResume() {
+  if (lockCfg() && lockAway && Date.now() - lockAway >= lockDelay() * 1000) lockShow();
+  lockAway = 0;
+}
+if (plug('App')) {
+  plug('App').addListener('pause', lockOnPause);
+  plug('App').addListener('resume', lockOnResume);
+} else
+  document.addEventListener('visibilitychange', () => (document.hidden ? lockOnPause() : lockOnResume()));
+if (lockCfg()) lockShow();
+else document.documentElement.classList.remove('locked');
+async function lockVerify(why) {
+  // potwierdzenie przed zmianą lub wyłączeniem blokady
+  const c = lockCfg();
+  if (!c) return true;
+  if (c.m === 'bio' && (await lockBio(why))) return true;
+  const p = await askPass(why + '\n\nPodaj obecny PIN lub hasło:');
+  if (p == null) return false;
+  if (await lockCheck(p)) return true;
+  tell('Zły PIN – nic nie zmieniono.');
+  return false;
+}
+async function lockSetup() {
+  if (!(await lockVerify('Zmiana blokady OMM'))) return false;
+  const bioOk = await lockBioAvail();
+  const m = await dlg({
+    title:
+      'Blokada OMM – jak odblokowywać?\n\n' +
+      (bioOk ? '' : '(Odcisk palca / twarz: niedostępne – telefon nie ma czytnika albo nie zapisano w nim odcisku.)\n\n') +
+      '⚠ Zapomniany PIN = blokady nie da się zdjąć. Zostaje tylko wyczyszczenie danych OMM w Androidzie i przywrócenie kopii – zrób kopię zapasową.',
+    btns: [
+      {t: 'Anuluj', v: null},
+      {t: 'PIN lub hasło', v: 'pin'},
+      ...(bioOk ? [{t: 'Odcisk palca / twarz + PIN', v: 'bio', c: 'okb'}] : [])
+    ]
+  });
+  if (!m) return false;
+  const p1 = await askPass(m === 'bio' ? 'Zapasowy PIN lub hasło (co najmniej 4 znaki):' : 'Nowy PIN lub hasło (co najmniej 4 znaki):');
+  if (p1 == null) return false;
+  if (p1.length < 4) return tell('Za krótkie – blokada nie została włączona.'), false;
+  const p2 = await askPass('Powtórz PIN lub hasło:');
+  if (p2 !== p1) return tell('Różne wartości – blokada nie została włączona.'), false;
+  if (m === 'bio' && !(await lockBio('Potwierdź odcisk palca / twarz'))) return tell('Nie potwierdzono biometrii – blokada nie została włączona.'), false;
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  localStorage.setItem(
+    'omm-lock',
+    JSON.stringify({m, salt: b64e(salt), iter: LOCK_ITER, hash: await lockHash(p1, salt, LOCK_ITER), num: /^\d+$/.test(p1)})
+  );
+  await tell('🔒 Blokada włączona (' + (m === 'bio' ? 'odcisk palca / twarz, zapasowo PIN' : 'PIN lub hasło') + ').');
+  return true;
+}
+async function lockOff() {
+  if (!(await lockVerify('Wyłączenie blokady OMM'))) return false;
+  localStorage.removeItem('omm-lock');
+  toastMsg('Blokada wyłączona');
+  return true;
+}
 
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
@@ -18782,6 +19398,42 @@ function settingsDlg() {
     })
   ]);
 
+  cat('pryw', '🔒 Prywatność');
+  {
+    // blokada aplikacji
+    const g = h('div', 'sset'),
+      c = lockCfg(),
+      r = h('div', 'setop');
+    g.append(
+      h('b', null, 'Blokada aplikacji'),
+      h(
+        'div',
+        'muted',
+        c
+          ? 'Włączona: ' + (c.m === 'bio' ? 'odcisk palca / twarz (zapasowo PIN).' : 'PIN lub hasło.') + ' Nagrywanie śladu działa dalej, gdy OMM jest zablokowany.'
+          : 'Wyłączona. Po włączeniu OMM poprosi o PIN, hasło albo odcisk palca / twarz.'
+      ),
+      r
+    );
+    const redo = async fn => {
+      if (await fn()) {
+        back.remove();
+        settingsDlg();
+      }
+    };
+    r.append(...(c ? [B('Zmień…', () => redo(lockSetup)), B('Wyłącz', () => redo(lockOff))] : [B('Włącz…', () => redo(lockSetup))]));
+    sec.append(g);
+  }
+  radios(
+    'Blokuj ponownie po wyjściu z aplikacji',
+    'omm-lock-d',
+    '0',
+    [
+      ['0', 'Od razu'],
+      ['60', 'Po 1 minucie'],
+      ['300', 'Po 5 minutach']
+    ]
+  );
   {
     // szyfrowanie kopii hasłem (opcja)
     const g = h('div', 'sset'),
@@ -18845,6 +19497,7 @@ function settingsDlg() {
 // okno dialogowe → menu → panel warstw → dymek obiektu → tryb rysowania → zminimalizowanie OMM.
 if (plug('App'))
   plug('App').addListener('backButton', () => {
+    if (LOCKED) return plug('App').minimizeApp().catch(() => {}); // zablokowany – do tła
     const dialogs = document.querySelectorAll('.dback');
     if (dialogs.length) {
       // kliknięcie w tło okna = „Anuluj” (tak samo jak palcem obok okna)
@@ -18859,6 +19512,7 @@ if (plug('App'))
     if (ANIM) return animStop();
     if (NAV) return navStop();
     if (SPLIT) return splitStop();
+    if (EXT) return extStop();
     if ($('recpan').style.display === 'block') return $('rectx').click();
     if (mode) return setMode(null);
     plug('App').minimizeApp();

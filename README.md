@@ -50,6 +50,8 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 
 ## Najważniejsze funkcje
 
+- **Zapomniany REC**: gdy OMM pokazuje Twoją pozycję, pamięta ostatnie 30 min ruchu i po włączeniu nagrywania proponuje dołączyć je do śladu; w okienku śladu ikona „dorysuj” pozwala zaznaczyć na mapie brakujący początek, koniec albo przerwę (opcjonalnie wzdłuż ścieżek), a w zaznaczaniu śladów „Scal” łączy kilka śladów w jeden. Dorysowane kawałki mają linię przerywaną.
+- **Blokada aplikacji** (⚙️ → Prywatność): PIN / hasło albo odcisk palca / twarz (z zapasowym PIN-em); nagrywanie śladu działa dalej, gdy OMM jest zablokowany.
 - **Samouczek** – krótki pokaz najważniejszych funkcji (⚙️ Ustawienia → Aplikacja → 📘 Samouczek); przy pierwszym uruchomieniu aplikacja pyta, czy go pokazać.
 
 - Wiele map, każda z listą warstw (krycie, widoczność, scalanie, przenoszenie obiektów).
