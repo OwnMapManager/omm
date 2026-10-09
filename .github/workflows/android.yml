@@ -80,10 +80,13 @@ jobs:
           fi
           printf '%s' "$KEY_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release.p12"
           export OMM_KEYSTORE_FILE="$RUNNER_TEMP/omm-release.p12"
+          # diagnostyka bez ujawniania tajemnic: rozmiar i suma zaszyfrowanego pliku (ta sama co publiczny plik z historii repozytorium)
+          echo "Klucz z sekretu: $(stat -c %s "$OMM_KEYSTORE_FILE") B, sha256 $(sha256sum "$OMM_KEYSTORE_FILE" | cut -c1-16)… (oczekiwane 4306 B, 1e7acf93c3de0143…)"
+          keytool -list -storetype PKCS12 -keystore "$OMM_KEYSTORE_FILE" -storepass "$OMM_KEYSTORE_PASSWORD" >/dev/null 2>"$RUNNER_TEMP/kt.err" || { echo "::error::keytool: $(grep -v JAVA_TOOL "$RUNNER_TEMP/kt.err" | head -3 | tr '\n' ' ')"; }
           # ten sam klucz co dotąd – inaczej aktualizacja na telefonie byłaby niemożliwa
           FP=$(keytool -list -v -storetype PKCS12 -keystore "$OMM_KEYSTORE_FILE" -storepass "$OMM_KEYSTORE_PASSWORD" | grep -m1 'SHA256:' | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f')
           if [ "$FP" != "0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac" ]; then
-            echo "::error::Klucz z sekretu ma inny odcisk ($FP) niż klucz OMM – sprawdź sekret OMM_KEYSTORE_B64."
+            echo "::error::Klucz z sekretu ma inny odcisk ($FP) niż klucz OMM – sprawdź sekret OMM_KEYSTORE_B64. Plik: $(stat -c %s "$OMM_KEYSTORE_FILE") B, sha256 $(sha256sum "$OMM_KEYSTORE_FILE" | cut -c1-16)"
             exit 1
           fi
           chmod +x gradlew
