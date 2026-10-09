@@ -2343,7 +2343,7 @@ body.spliton #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v38 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v39 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2419,7 +2419,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v38';
+const APP_VER = 'v39';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -14533,22 +14533,35 @@ async function trkShare(t) {
     tell('Nie udało się przygotować obrazu: ' + e.message);
   }
 }
+// margines (px) wokół śladu na obrazku – mały, żeby ślad wypełniał kadr
+const TRK_IMG_MARGIN = 56;
+function trkAspect(t) {
+  // proporcje śladu (szerokość / wysokość) w rzucie mapy – do doboru wysokości obrazka
+  const bb = L.latLngBounds(t.pts.map(q => [q[0], q[1]])),
+    a = map.project(bb.getNorthWest(), 18),
+    b = map.project(bb.getSouthEast(), 18);
+  return Math.max(b.x - a.x, 1) / Math.max(b.y - a.y, 1);
+}
 async function trkMapCanvas(t, W, H, top, bot) {
   wpSyncAll();
-  // mapa ze śladem na płótnie: kadr dopasowany do śladu, podkład z kafli (gdy nie wolno – OpenStreetMap)
-  const bb = L.latLngBounds(t.pts.map(q => [q[0], q[1]]));
-  let z = 18;
-  for (; z > 3; z--) {
-    const a = map.project(bb.getNorthWest(), z),
-      b = map.project(bb.getSouthEast(), z);
-    if (b.x - a.x <= W * 0.86 && b.y - a.y <= (H - top - bot) * 0.86) break;
-  }
-  const c = map.project(bb.getCenter(), z),
-    x0 = Math.round(c.x - W / 2),
-    y0 = Math.round(c.y - top - (H - top - bot) / 2),
+  // mapa ze śladem na płótnie: ślad wypełnia kadr (z małym marginesem TRK_IMG_MARGIN),
+  // podkład z kafli (gdy nie wolno – OpenStreetMap)
+  const M = TRK_IMG_MARGIN,
+    aw = W - 2 * M,
+    ah = H - top - bot - 2 * M,
+    bb = L.latLngBounds(t.pts.concat((t.wp || []).map(w => w.p)).map(q => [q[0], q[1]])),
+    A = map.project(bb.getNorthWest(), 18),
+    B = map.project(bb.getSouthEast(), 18);
+  // ułamkowy zoom: dokładnie tyle, by ślad dotknął marginesu w szerszym kierunku
+  const zf = Math.max(3, Math.min(18, 18 + Math.log2(Math.min(aw / Math.max(B.x - A.x, 1), ah / Math.max(B.y - A.y, 1))))),
+    z = Math.round(zf), // kafle z najbliższego pełnego zoomu…
+    k = Math.pow(2, zf - z); // …przeskalowane o k (0,71–1,41)
+  const c = map.project(bb.getCenter(), zf),
+    X0 = c.x - W / 2,
+    Y0 = c.y - top - M - ah / 2,
     pr = q => {
-      const p = map.project(L.latLng(q[0], q[1]), z);
-      return [p.x - x0, p.y - y0];
+      const p = map.project(L.latLng(q[0], q[1]), zf);
+      return [p.x - X0, p.y - Y0];
     },
     cv = document.createElement('canvas');
   cv.width = W;
@@ -14557,18 +14570,30 @@ async function trkMapCanvas(t, W, H, top, bot) {
   const paint = async l => {
     cx.fillStyle = '#eef0f2';
     cx.fillRect(0, 0, W, H);
-    if (l instanceof L.TileLayer)
+    if (l instanceof L.TileLayer) {
+      // kafle rysujemy w natywnej skali na osobnym płótnie i skalujemy całość naraz (bez szczelin między kaflami)
+      const tw = Math.ceil(W / k) + 2,
+        th = Math.ceil(H / k) + 2,
+        tc = document.createElement('canvas');
+      tc.width = tw;
+      tc.height = th;
       await drawTiles(
-        cx,
+        tc.getContext('2d'),
         l,
         z,
-        x0,
-        y0,
-        W,
-        H,
+        Math.floor(X0 / k),
+        Math.floor(Y0 / k),
+        tw,
+        th,
         1,
         (d, n) => (info.textContent = 'Pobieram mapę ' + d + '/' + n + '…')
       );
+      cx.imageSmoothingEnabled = true;
+      cx.imageSmoothingQuality = 'high';
+      const ox = (Math.floor(X0 / k) - X0 / k) * k,
+        oy = (Math.floor(Y0 / k) - Y0 / k) * k;
+      cx.drawImage(tc, ox, oy, tw * k, th * k);
+    }
     try {
       cx.getImageData(0, 0, 1, 1);
       return true;
@@ -14789,9 +14814,11 @@ async function trkImage(t, kind) {
     void probe;
     return {cv: out, used: 'cur'};
   }
-  // mapa u góry, statystyki pod nią
-  const MH = 1000,
-    r = await trkMapCanvas(t, W, MH, 40, 40),
+  // mapa u góry, statystyki pod nią; wysokość mapy dobrana do kształtu śladu (600–1400 px),
+  // żeby ślad wypełniał kadr także przy trasach wąskich i wysokich
+  const MI = 2 * TRK_IMG_MARGIN,
+    MH = Math.round(Math.max(600, Math.min(1400, (W - MI) / trkAspect(t) + MI))),
+    r = await trkMapCanvas(t, W, MH, 0, 0),
     cv = document.createElement('canvas');
   cv.width = W;
   cv.height = 2600;
