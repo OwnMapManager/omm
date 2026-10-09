@@ -130,12 +130,21 @@ jobs:
             echo "::warning::Brak sekretów nowego klucza (OMM_KEYSTORE_NEW_B64 / OMM_KEYSTORE_NEW_PASSWORD) – APK podpisany tylko dotychczasowym kluczem, bez rotacji."
           fi
           rm -f "$RUNNER_TEMP/omm-release.p12"
-          # kontrola podpisu gotowego pliku: stary klucz zawsze, nowy – gdy była rotacja
-          "$BT/apksigner" verify -v --print-certs "$APK" | tee "$RUNNER_TEMP/verify.txt" | grep -Ei 'verified|digest|signer' || true
-          grep -qi "$OLDFP" "$RUNNER_TEMP/verify.txt" || { echo "::error::W podpisie APK brak dotychczasowego klucza"; exit 1; }
+          # kontrola podpisu gotowego pliku – tak, jak zobaczy go telefon:
+          #  Android 7–8 (API 24–27): zawsze dotychczasowy klucz; Android 9+ (API 28+): nowy klucz, gdy była rotacja
+          sig() { "$BT/apksigner" verify --print-certs "$@" "$APK" | grep -i 'SHA-256 digest' | tr 'A-F' 'a-f'; }
+          OLD_SEEN=$(sig --min-sdk-version 24 --max-sdk-version 27)
+          NEW_SEEN=$(sig --min-sdk-version 28)
+          echo "Android 7–8 widzi: $OLD_SEEN"
+          echo "Android 9+  widzi: $NEW_SEEN"
+          echo "$OLD_SEEN" | grep -q "$OLDFP" || { echo "::error::Android 7–8: inny podpis niż dotychczasowy klucz: $(echo $OLD_SEEN | cut -c1-200)"; exit 1; }
           if [ -n "$NEW_B64" ] && [ -n "$NEW_PASS" ]; then
-            grep -qi "$NEWFP" "$RUNNER_TEMP/verify.txt" || { echo "::error::W podpisie APK brak nowego klucza (rotacja)"; exit 1; }
-            "$BT/apksigner" lineage --in "$APK" --print-certs | grep -Ei 'signer|digest' || true
+            echo "$NEW_SEEN" | grep -q "$NEWFP" || { echo "::error::Android 9+: brak nowego klucza w podpisie: $(echo $NEW_SEEN | cut -c1-200)"; exit 1; }
+            LIN=$("$BT/apksigner" lineage --in "$APK" --print-certs | grep -i 'SHA-256 digest' | tr 'A-F' 'a-f')
+            echo "Lineage: $LIN"
+            echo "$LIN" | grep -q "$OLDFP" && echo "$LIN" | grep -q "$NEWFP" || { echo "::error::Lineage bez obu kluczy: $(echo $LIN | cut -c1-200)"; exit 1; }
+          else
+            echo "$NEW_SEEN" | grep -q "$OLDFP" || { echo "::error::Android 9+: inny podpis niż dotychczasowy klucz"; exit 1; }
           fi
           cp "$APK" "$GITHUB_WORKSPACE/omm-v$VER.apk"
           sha256sum "$GITHUB_WORKSPACE/omm-v$VER.apk" | tee "$GITHUB_WORKSPACE/omm-v$VER.apk.sha256"
