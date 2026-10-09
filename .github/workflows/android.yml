@@ -15,6 +15,11 @@ name: Zbuduj APK
 on:
   push:
     branches: [main]
+    # same zmiany w dokumentacji i testach nie budują nowego APK (wydanie zostaje bajtowo to samo)
+    paths-ignore:
+      - 'docs/**'
+      - 'tests/**'
+      - '**/*.md'
   workflow_dispatch:
 
 permissions: {}

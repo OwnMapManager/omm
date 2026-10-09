@@ -7,7 +7,7 @@ identyczne z plikiem z badanego commitu, więc ustalenia dotyczyły dokładnie t
 ## Wydanie do ponownej oceny
 
 - APK: https://github.com/OwnMapManager/omm/releases/download/v48/omm-v48.apk
-- SHA-256 APK: `0a76e9f70cc61297399ab569a0dc167c2b2f805eba119940b9aa7001ebd848b4`
+- SHA-256 APK: w pliku `omm-v48.apk.sha256` dołączonym do wydania
 - SHA-256 certyfikatu podpisu: `0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac` (ten sam co v45)
 - Commit: `7f10a4f`; `assets/public/app.js` w APK jest bajtowo zgodny z wynikiem `npm run www` z tego commitu.
 
