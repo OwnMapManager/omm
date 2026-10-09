@@ -1845,6 +1845,21 @@ body.rec #info {
   font-weight: 600;
   margin-bottom: 8px;
 }
+/* legenda kolorów śladu (prędkość / wysokość) */
+.tleg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--sub);
+  margin: -4px 0 8px;
+}
+.tleg i {
+  flex: 1;
+  height: 7px;
+  border-radius: 4px;
+  min-width: 60px;
+}
 .tbt {
   display: flex;
   flex-wrap: wrap;
@@ -2343,7 +2358,7 @@ body.spliton #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v39 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v40 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2396,7 +2411,7 @@ body.spliton #info {
  *  KOPIA ZAPASOWA (od v35): plik ZIP z folderami mapy/, slady/, zdjecia/ (opis w sekcji „kopia ZIP”).
  *  ŚLADY GPS: osobno od map – IndexedDB „omm” → „slady” (opis pól w sekcji „ślady GPS”),
  *  trwające nagranie w localStorage „omm-rec”. Ustawienia telefonu: omm-folder, omm-folder-png,
- *  omm-rec-tryb (dokładne / oszczędne nagrywanie).
+ *  omm-rec-tryb (dokładne / oszczędne nagrywanie), omm-trk-kolor (kolor śladu: jednolity / prędkość / wysokość).
  *
  *  INNE KLUCZE PAMIĘCI: mapa-base (podkład), mapa-ov3 (nakładki), mapa-view (widok), mapa-pin
  *  (ostatnia ikona), mapa-col / mapa-op / mapa-sz / mapa-bg / mapa-fw (styl rysowania),
@@ -2419,7 +2434,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v39';
+const APP_VER = 'v40';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -11207,7 +11222,7 @@ function trkRefCheck() {
     ].join(',');
   if (k !== trkRefKey) trkRender();
 }
-let trkSel = null; // ślad wybrany na mapie – rysowany w kolorach prędkości
+let trkSel = null; // ślad wybrany na mapie (przy kolorze jednolitym rysowany w kolorach prędkości)
 function trkRender() {
   wpSyncAll();
   const ids = new Set(P.items.map(i => i.id));
@@ -11226,7 +11241,8 @@ function trkRender() {
       a = t.pts[0],
       b = t.pts[t.pts.length - 1];
     L.polyline(ls, {pane: 'trkP', color: '#fff', weight: 7, opacity: 0.85, interactive: false}).addTo(trkGrp);
-    if (t === trkSel && !t.noTime) speedLines(t).addTo(trkGrp);
+    const g = trkGradFor(t);
+    if (g) gradLines(t, g, t === trkSel ? 5 : 4).addTo(trkGrp);
     else L.polyline(ls, {pane: 'trkP', color: c, weight: 4, opacity: 0.95, interactive: false}).addTo(trkGrp);
     // szeroki niewidoczny pas łapie dotknięcie palcem
     L.polyline(ls, {pane: 'trkP', weight: 22, opacity: 0, bubblingMouseEvents: false})
@@ -11246,40 +11262,162 @@ function flagIcon(kind) {
       : '<svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="12" r="9" fill="#fff" stroke="#212121" stroke-width="2.2"/><path d="M8 7v10" stroke="#212121" stroke-width="1.6"/><path d="M8.6 7.4h3v2.4h-3zM11.6 9.8h3v2.4h-3zM14.6 7.4h2v2.4h-2z" fill="#212121"/><path d="M8.6 7.4h8v4.8h-8z" fill="none" stroke="#212121" stroke-width=".8"/></svg>';
   return L.divIcon({className: 'tflag', html: svg, iconSize: [24, 24], iconAnchor: [12, 12]});
 }
-function speedLines(t) {
-  // ślad w kolorach prędkości – względem średniej prędkości poruszania się tego śladu
+// ---------- kolorowanie śladu: jednolite / wg prędkości / wg wysokości ----------
+// wybór w Ustawieniach (localStorage „omm-trk-kolor”): 'jedn' | 'predkosc' | 'wysokosc'
+const trkColorMode = () => localStorage.getItem('omm-trk-kolor') || 'jedn';
+// skale barw: punkty kontrolne [pozycja 0–1, R, G, B]; pomiędzy nimi kolor przechodzi płynnie
+const RAMPS = {
+  // wolno → szybko: czerwony, pomarańczowy, żółty, jasnozielony, zielony
+  predkosc: [
+    [0, 211, 47, 47],
+    [0.28, 245, 124, 0],
+    [0.5, 251, 192, 45],
+    [0.72, 139, 195, 74],
+    [1, 27, 125, 50]
+  ],
+  // nisko → wysoko: niebieski, turkus, zielony, żółty, czerwony (jak mapa hipsometryczna)
+  wysokosc: [
+    [0, 30, 96, 200],
+    [0.25, 0, 160, 170],
+    [0.5, 76, 175, 80],
+    [0.75, 251, 192, 45],
+    [1, 198, 40, 40]
+  ]
+};
+function rampColor(ramp, f) {
+  f = Math.max(0, Math.min(1, f));
+  let i = 1;
+  while (i < ramp.length - 1 && f > ramp[i][0]) i++;
+  const a = ramp[i - 1],
+    b = ramp[i],
+    u = (f - a[0]) / (b[0] - a[0] || 1),
+    c = k => Math.round(a[k] + (b[k] - a[k]) * u);
+  return 'rgb(' + c(1) + ',' + c(2) + ',' + c(3) + ')';
+}
+function fillGaps(v) {
+  // puste wartości (null) zastępuje najbliższą znaną – najpierw z przodu, potem z tyłu
+  let last = null;
+  for (let i = 0; i < v.length; i++) v[i] == null ? (v[i] = last) : (last = v[i]);
+  last = null;
+  for (let i = v.length - 1; i >= 0; i--) v[i] == null ? (v[i] = last) : (last = v[i]);
+  return v;
+}
+function smoothBox(v, r) {
+  // średnia krocząca ±r punktów (sumy narastające – szybko także dla długich śladów)
+  const n = v.length,
+    cs = [0];
+  for (let i = 0; i < n; i++) cs.push(cs[i] + v[i]);
+  return v.map((_, i) => {
+    const a = Math.max(0, i - r),
+      b = Math.min(n - 1, i + r);
+    return (cs[b + 1] - cs[a]) / (b - a + 1);
+  });
+}
+const GRC = new WeakMap(); // kolory śladu zapamiętane do kolejnej zmiany śladu
+function trkGrad(t, mode) {
+  // dla każdego punktu: ułamek 0–1 na skali barw + opis skali (lo, hi, jednostka) do legendy
+  let c = GRC.get(t);
+  if (c && c.mode === mode && c.up === t.up && c.n === t.pts.length) return c.g;
   const s = trkStatsC(t),
-    v0 = s.vmov || 1,
-    g = L.layerGroup(),
+    pts = t.pts,
+    n = pts.length,
+    sg = new Set(t.sg || []);
+  let v,
+    lo,
+    hi,
+    g = null;
+  if (n > 1 && mode === 'wysokosc' && s.emin != null) {
+    v = smoothBox(fillGaps(s.el.slice()), 4);
+    lo = v.reduce((m, x) => Math.min(m, x), Infinity);
+    hi = v.reduce((m, x) => Math.max(m, x), -Infinity);
+    if (hi - lo < 10) (lo = (lo + hi) / 2 - 5), (hi = lo + 10); // płaski teren – bez przesadnych kontrastów
+  } else if (n > 1 && mode === 'predkosc' && !t.noTime) {
+    // prędkość z okna ±10 s wokół punktu (w obrębie jednego odcinka, bez pauz)
+    const seg = [];
+    for (let i = 0, k = 0; i < n; i++) seg.push(i && sg.has(i) ? ++k : k);
+    v = new Array(n);
+    for (let i = 0, a = 0, b = 0; i < n; i++) {
+      while (a < i && (seg[a] !== seg[i] || pts[i][3] - pts[a][3] > 10)) a++;
+      if (b < i) b = i;
+      while (b + 1 < n && seg[b + 1] === seg[i] && pts[b + 1][3] - pts[i][3] <= 10) b++;
+      const dt = pts[b][3] - pts[a][3];
+      v[i] = dt > 0 ? (s.cum[b] - s.cum[a]) / dt : null;
+    }
+    v = fillGaps(v);
+    if (v[0] != null) {
+      v = smoothBox(v, 5);
+      // skala od 5. do 95. percentyla – pojedyncze skoki GPS nie spłaszczają kolorów reszty trasy
+      const so = v.slice().sort((x, y) => x - y);
+      lo = so[Math.floor(n * 0.05)];
+      hi = so[Math.min(n - 1, Math.floor(n * 0.95))];
+      if (hi - lo < 0.5) (lo = Math.max(0, (lo + hi) / 2 - 0.25)), (hi = lo + 0.5);
+    } else v = null;
+  }
+  if (v)
+    g = {
+      mode,
+      ramp: RAMPS[mode],
+      f: v.map(x => (x - lo) / (hi - lo)),
+      lo,
+      hi,
+      lab: mode === 'wysokosc' ? x => Math.round(x) + ' m' : x => (x * 3.6).toFixed(1).replace('.', ',') + ' km/h'
+    };
+  GRC.set(t, {mode, up: t.up, n, g});
+  return g;
+}
+function trkGradFor(t) {
+  // kolory śladu wg ustawień; ślad wybrany na mapie przy kolorze jednolitym – w kolorach prędkości
+  const m = trkColorMode();
+  return m !== 'jedn' ? trkGrad(t, m) : t === trkSel ? trkGrad(t, 'predkosc') : null;
+}
+function gradLines(t, g, weight) {
+  // ślad z płynnym przejściem barw: kolejne odcinki łączone w linie o tym samym odcieniu
+  // (64 poziomy – różnica między sąsiednimi jest niewidoczna dla oka)
+  const Q = 64,
+    out = L.layerGroup(),
     pts = t.pts,
     sg = new Set(t.sg || []);
-  const col = v =>
-    v < v0 * 0.25 ? '#c62828' : v < v0 * 0.7 ? '#f9a825' : v < v0 * 1.15 ? '#9ccc65' : '#2e7d32';
   let run = null,
-    rc = null,
-    j = 0;
+    rq = null;
+  const flush = () => {
+    if (run && run.length > 1)
+      L.polyline(run, {
+        pane: 'trkP',
+        color: rampColor(g.ramp, rq / Q),
+        weight,
+        opacity: 1,
+        lineCap: 'round',
+        lineJoin: 'round',
+        interactive: false
+      }).addTo(out);
+  };
   for (let i = 1; i < pts.length; i++) {
     if (sg.has(i)) {
-      if (run) L.polyline(run, {pane: 'trkP', color: rc, weight: 5, interactive: false}).addTo(g);
+      flush();
       run = null;
-      j = i;
       continue;
     }
-    // prędkość z okna ok. 20 s wokół odcinka – gładsze kolory
-    while (j < i - 1 && pts[i][3] - pts[j + 1][3] >= 20 && !sg.has(j + 1)) j++;
-    const dt = pts[i][3] - pts[j][3],
-      v = dt > 0 ? (s.cum[i] - s.cum[j]) / dt : v0,
-      c = col(v);
-    if (c !== rc && run) {
-      L.polyline(run, {pane: 'trkP', color: rc, weight: 5, interactive: false}).addTo(g);
+    const q = Math.round(((g.f[i - 1] + g.f[i]) / 2) * Q);
+    if (run && q !== rq) {
+      flush();
       run = [run[run.length - 1]];
     }
     if (!run) run = [[pts[i - 1][0], pts[i - 1][1]]];
     run.push([pts[i][0], pts[i][1]]);
-    rc = c;
+    rq = q;
   }
-  if (run) L.polyline(run, {pane: 'trkP', color: rc, weight: 5, interactive: false}).addTo(g);
-  return g;
+  flush();
+  return out;
+}
+function gradLegend(g) {
+  // pasek legendy: najmniejsza wartość – skala barw – największa
+  const el = h('div', 'tleg'),
+    bar = h('i');
+  bar.style.background =
+    'linear-gradient(90deg,' + g.ramp.map(p => rampColor(g.ramp, p[0]) + ' ' + p[0] * 100 + '%').join(',') + ')';
+  el.append(h('span', null, g.lab(g.lo)), bar, h('span', null, g.lab(g.hi)));
+  el.title = g.mode === 'wysokosc' ? 'Kolor wg wysokości' : 'Kolor wg prędkości';
+  return el;
 }
 map.on('click', () => {
   // dotknięcie mapy obok śladu kończy wyróżnienie w kolorach prędkości
@@ -11418,6 +11556,8 @@ function trkPopup(t, ll) {
       fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : '') + (s.up >= 1 ? ' · ↗ ' + Math.round(s.up) + ' m' : '')
     )
   );
+  const gl = trkColorMode() !== 'jedn' ? trkGrad(t, trkColorMode()) : t.noTime ? null : trkGrad(t, 'predkosc');
+  if (gl) el.append(gradLegend(gl));
   const bt = h('div', 'tbt'),
     act = fn => () => {
       map.closePopup();
@@ -12889,9 +13029,10 @@ function recDraw() {
   const ls = trkSegs({pts: REC.pts, sg: REC.sg})
     .filter(s => s.length > 1)
     .map(s => s.map(q => [q[0], q[1]]));
+  const rg = trkColorMode() !== 'jedn' && REC.pts.length > 1 ? trkGrad(REC, trkColorMode()) : null;
   recLine = L.layerGroup([
     L.polyline(ls, {pane: 'trkP', color: '#fff', weight: 8, opacity: 0.9, interactive: false}),
-    L.polyline(ls, {pane: 'trkP', color: '#e53935', weight: 5, interactive: false}),
+    rg ? gradLines(REC, rg, 5) : L.polyline(ls, {pane: 'trkP', color: '#e53935', weight: 5, interactive: false}),
     ...(REC.wp || []).filter(w => !wpOnMap(w)).map(w => wpMarker(w, () => wpPopup(null, w)))
   ]).addTo(map);
   if (recPos)
@@ -14616,10 +14757,29 @@ async function trkMapCanvas(t, W, H, top, bot) {
   cx.strokeStyle = 'rgba(255,255,255,.92)';
   cx.lineWidth = 15;
   cx.stroke();
-  path();
-  cx.strokeStyle = trkColor(t);
-  cx.lineWidth = 8;
-  cx.stroke();
+  const g = trkColorMode() !== 'jedn' ? trkGrad(t, trkColorMode()) : null;
+  if (g) {
+    // każdy odcinek z gradientem od koloru jednego punktu do następnego – przejścia bez skoków
+    cx.lineWidth = 8;
+    for (let i = 1; i < P2.length; i++) {
+      if (sg.has(i)) continue;
+      const a = P2[i - 1],
+        b = P2[i],
+        gr = cx.createLinearGradient(a[0], a[1], b[0], b[1]);
+      gr.addColorStop(0, rampColor(g.ramp, g.f[i - 1]));
+      gr.addColorStop(1, rampColor(g.ramp, g.f[i]));
+      cx.beginPath();
+      cx.moveTo(a[0], a[1]);
+      cx.lineTo(b[0], b[1]);
+      cx.strokeStyle = gr;
+      cx.stroke();
+    }
+  } else {
+    path();
+    cx.strokeStyle = trkColor(t);
+    cx.lineWidth = 8;
+    cx.stroke();
+  }
   const dot = (p, f, r) => {
     cx.beginPath();
     cx.arc(p[0], p[1], r, 0, 7);
@@ -15094,7 +15254,7 @@ function settingsDlg() {
     body = h('div', 'abody'),
     bt = h('div', 'db');
   // grupa przycisków wyboru zapisywana w localStorage pod kluczem key
-  const radios = (title, key, def, opts, note) => {
+  const radios = (title, key, def, opts, note, onSet) => {
     const g = h('div', 'sset'),
       cur = localStorage.getItem(key) || def;
     g.append(h('b', null, title));
@@ -15104,7 +15264,10 @@ function settingsDlg() {
       r.type = 'radio';
       r.name = key;
       r.checked = v === cur;
-      r.onchange = () => localStorage.setItem(key, v);
+      r.onchange = () => {
+        localStorage.setItem(key, v);
+        if (onSet) onSet(v);
+      };
       lb.append(r, h('span', null, t));
       g.append(lb);
     });
@@ -15132,6 +15295,18 @@ function settingsDlg() {
     ['dokladny', 'Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)'],
     ['oszczedny', 'Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii']
   ]);
+  radios(
+    'Kolor śladu',
+    'omm-trk-kolor',
+    'jedn',
+    [
+      ['jedn', 'Jednolity – kolor śladu lub jego warstwy'],
+      ['predkosc', 'Wg prędkości – od czerwonego (wolno) do zielonego (szybko)'],
+      ['wysokosc', 'Wg wysokości – od niebieskiego (nisko) do czerwonego (wysoko)']
+    ],
+    'Dotyczy śladów na mapie, nagrywanego śladu i obrazków do udostępnienia. Skala liczona osobno dla każdego śladu – legendę widać po dotknięciu śladu.',
+    () => trkRender()
+  );
   const fin = () => back.remove();
   bt.append(B('Zamknij', fin, 'okb'));
   box.append(body, bt);
