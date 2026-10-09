@@ -4,6 +4,7 @@
 # Gotowy plik trafia do zakładki Releases (np. „OMM v33” → omm-v33.apk).
 #
 # Bezpieczeństwo procesu (audyt v45, R04/R05):
+#  • klucz podpisu wyłącznie z sekretu (sprawdzany odcisk certyfikatu),
 #  • akcje przypięte do konkretnych commitów (pełny SHA), nie do ruchomych tagów,
 #  • budowanie ma tylko prawo odczytu repozytorium; prawo zapisu (publikacja wydania) ma osobne zadanie,
 #    które nie uruchamia żadnego kodu projektu ani zależności,
@@ -72,13 +73,18 @@ jobs:
             echo "::error::Brak sekretu OMM_KEYSTORE_PASSWORD. Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
             exit 1
           fi
-          # klucz: z sekretu OMM_KEYSTORE_B64 (docelowo), a dopóki go nie ma – zaszyfrowany plik z repozytorium
-          if [ -n "$KEY_B64" ]; then
-            echo "$KEY_B64" | base64 -d > "$RUNNER_TEMP/omm-release.p12"
-            export OMM_KEYSTORE_FILE="$RUNNER_TEMP/omm-release.p12"
-          else
-            echo "::warning::Brak sekretu OMM_KEYSTORE_B64 – używam zaszyfrowanego klucza z repozytorium."
-            export OMM_KEYSTORE_FILE="$GITHUB_WORKSPACE/android/omm-release.p12"
+          # klucz podpisu tylko z sekretu OMM_KEYSTORE_B64 (nie ma go w repozytorium)
+          if [ -z "$KEY_B64" ]; then
+            echo "::error::Brak sekretu OMM_KEYSTORE_B64 (klucz podpisu zakodowany base64)."
+            exit 1
+          fi
+          printf '%s' "$KEY_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release.p12"
+          export OMM_KEYSTORE_FILE="$RUNNER_TEMP/omm-release.p12"
+          # ten sam klucz co dotąd – inaczej aktualizacja na telefonie byłaby niemożliwa
+          FP=$(keytool -list -v -storetype PKCS12 -keystore "$OMM_KEYSTORE_FILE" -storepass "$OMM_KEYSTORE_PASSWORD" | grep -m1 'SHA256:' | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f')
+          if [ "$FP" != "0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac" ]; then
+            echo "::error::Klucz z sekretu ma inny odcisk ($FP) niż klucz OMM – sprawdź sekret OMM_KEYSTORE_B64."
+            exit 1
           fi
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease

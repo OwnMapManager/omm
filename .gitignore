@@ -2,8 +2,9 @@
 node_modules/
 www/
 
-# klucze podpisu: w repozytorium jest tylko android/omm-release.p12 – zaszyfrowany
-# długim hasłem, które jest wyłącznie w sekrecie repozytorium OMM_KEYSTORE_PASSWORD
+# klucze podpisu: nigdy w repozytorium (budowanie bierze klucz z sekretu OMM_KEYSTORE_B64)
+# (plik zaszyfrowany hasłem z sekretu OMM_KEYSTORE_PASSWORD)
 *.jks
 *.keystore
 keystore.properties
+*.p12
