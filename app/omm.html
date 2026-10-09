@@ -2791,7 +2791,7 @@ body.spliton #info {
   <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import</button><button id="tsumb">📊 Podsumowanie</button><button id="tselb">☑ Zaznacz</button></div>
   <div id="list"></div>
   <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś</button><button id="selic">Ikona</button><button id="selnm">Nazwy</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
-  <div id="tselbar"><span id="tselc"></span><button id="tsmv">Przenieś</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">Rodzaj</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
+  <div id="tselbar"><span id="tselc"></span><button id="tsmv">Przenieś</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">Rodzaj</button><button id="tsnm">Nazwy</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
@@ -2800,7 +2800,7 @@ body.spliton #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v43 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v44 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2939,7 +2939,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v43';
+const APP_VER = 'v44';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -13107,6 +13107,124 @@ async function trkImport(files) {
   );
 }
 
+// ---------- automatyczna nazwa śladu: data / rodzaj aktywności / miejsce (dzielnica, wieś) ----------
+/*
+ * Ustawienie „omm-trk-nazwa”: 'data' (domyślnie) | 'rodzaj' | 'miejsce' | 'oba'.
+ * Miejsce: odwrotne geokodowanie OpenStreetMap Nominatim – wysyłane są TYLKO współrzędne startu
+ * i mety, i tylko przy zapisie śladu (albo przy „Nadaj nazwy automatycznie”). Bez internetu ślad
+ * dostaje nazwę bez miejsca (pole nmWait), a miejsce jest dopisywane, gdy wróci zasięg – o ile
+ * nazwy nie zmieniono ręcznie (nazwa nadal równa nmAuto).
+ */
+const trkNameMode = () => localStorage.getItem('omm-trk-nazwa') || 'data',
+  needPlace = m => m === 'miejsce' || m === 'oba';
+const GEOC = new Map(); // pamięć odpowiedzi (współrzędne zaokrąglone do ~100 m)
+let geoLast = 0;
+async function placeAt(lat, lng) {
+  // nazwa dzielnicy / wsi / miasta dla punktu albo null
+  const key = lat.toFixed(3) + ',' + lng.toFixed(3);
+  if (GEOC.has(key)) return GEOC.get(key);
+  const wait = 1100 - (Date.now() - geoLast); // zasady Nominatim: najwyżej 1 zapytanie na sekundę
+  if (wait > 0) await sleepMs(wait);
+  geoLast = Date.now();
+  const url =
+    'https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=14&accept-language=pl&lat=' +
+    lat.toFixed(5) +
+    '&lon=' +
+    lng.toFixed(5);
+  let j = null;
+  const H = plug('CapacitorHttp');
+  if (H) {
+    const r = await H.get({url, headers: {'User-Agent': 'OMM-OwnMapManager/' + APP_VER + ' (+https://github.com/OwnMapManager/omm)'}});
+    j = typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
+  } else {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    j = await r.json();
+  }
+  const a = (j && j.address) || {},
+    nm = a.suburb || a.quarter || a.city_district || a.village || a.hamlet || a.town || a.city || a.municipality || null;
+  GEOC.set(key, nm);
+  return nm;
+}
+async function trkPlaces(t) {
+  // „Bałuty” albo „Bałuty → Widzew”; null, gdy brak internetu lub odpowiedzi
+  const a = t.pts[0],
+    b = t.pts[t.pts.length - 1];
+  const p1 = await placeAt(a[0], a[1]),
+    p2 = hav(a, b) > 300 ? await placeAt(b[0], b[1]) : p1;
+  if (!p1 && !p2) return null;
+  return p1 && p2 && p1 !== p2 ? p1 + ' → ' + p2 : p1 || p2;
+}
+function dayPart(ms) {
+  const hh = new Date(ms).getHours();
+  return hh >= 5 && hh < 11 ? 'rano' : hh >= 11 && hh < 17 ? 'po południu' : hh >= 17 && hh < 22 ? 'wieczorem' : 'w nocy';
+}
+function trkAutoName(t, mode, place) {
+  // nazwa wg ustawienia; gdy miejsca brak – z datą (później dopisze się miejsce)
+  const day = new Date(t.st).toLocaleDateString('pl-PL', {weekday: 'short', day: 'numeric', month: 'numeric'}),
+    act = t.a && ACTS[t.a] ? ACTS[t.a][1] : 'Ślad',
+    when = day + ' ' + dayPart(t.st);
+  if (mode === 'rodzaj') return act + ' · ' + when;
+  if (mode === 'miejsce') return place ? place + ' · ' + day : 'Ślad · ' + when;
+  if (mode === 'oba') return act + ' · ' + (place || when);
+  return 'Ślad ' + fday(t.st) + ' ' + fhm(t.st);
+}
+async function trkFillPlaces() {
+  // dopisanie miejsca do śladów zapisanych bez internetu (tylko gdy nazwy nie zmieniono ręcznie)
+  const list = TRK.items.filter(t => t.nmWait);
+  if (!list.length || !navigator.onLine) return;
+  let ch = false;
+  for (const t of list) {
+    try {
+      const pl = await trkPlaces(t);
+      if (!pl) continue;
+      if (t.nm === t.nmAuto) t.nm = t.nmAuto = trkAutoName(t, t.nmWait, pl);
+      delete t.nmWait;
+      t.up = Date.now();
+      ch = true;
+    } catch (e) {
+      break; // brak sieci – spróbujemy później
+    }
+  }
+  if (ch) trkChanged();
+}
+window.addEventListener('online', () => setTimeout(trkFillPlaces, 3000));
+async function trkAutoNameMany(list) {
+  // „Nadaj nazwy automatycznie” dla zaznaczonych śladów
+  const v = await dlg({
+    title: 'Nadaj nazwy automatycznie (' + list.length + ' ' + plural(list.length, 'ślad', 'ślady', 'śladów') + '):',
+    btns: [
+      {t: 'Rodzaj + miejsce', v: 'oba', c: 'okb'},
+      {t: 'Miejsce', v: 'miejsce'},
+      {t: 'Rodzaj', v: 'rodzaj'},
+      {t: 'Data i godzina', v: 'data'},
+      {t: 'Anuluj', v: null}
+    ]
+  });
+  if (!v) return;
+  if (needPlace(v) && !navigator.onLine) return tell('Do nazw z miejscem potrzebny jest internet.');
+  let n = 0,
+    bad = 0;
+  info.style.display = 'block';
+  for (const t of list) {
+    info.textContent = 'Nadaję nazwy… ' + (n + bad + 1) + '/' + list.length;
+    let pl = null;
+    if (needPlace(v))
+      try {
+        pl = await trkPlaces(t);
+      } catch (e) {
+        bad++;
+      }
+    t.nm = t.nmAuto = trkAutoName(t, v, pl);
+    delete t.nmWait;
+    t.up = Date.now();
+    n++;
+  }
+  info.style.display = 'none';
+  trkChanged();
+  if (bad) tell('Nie udało się ustalić miejsca dla ' + bad + ' ' + plural(bad, 'śladu', 'śladów', 'śladów') + ' – mają nazwę bez miejsca.');
+}
+
 // --- podsumowanie śladów: tydzień / miesiąc / rok / wszystko, filtr rodzaju, wykres, rekordy ---
 function periodRange(per, k) {
   // [od, do) w ms dla okresu przesuniętego o k (0 = bieżący, -1 = poprzedni…)
@@ -13676,6 +13794,7 @@ var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, 
   ['tsvis', 'eye'],
   ['tshid', 'eyeOff'],
   ['tsact', 'tag'],
+  ['tsnm', 'edit'],
   ['tsgpx', 'dl'],
   ['tsdel', 'del'],
   ['selmv', 'layer'],
@@ -13766,6 +13885,10 @@ $('tsumb').onclick = () => trkSummaryDlg();
 $('tsact').onclick = () => {
   const l = tselNeed();
   if (l.length) trkSetAct(l);
+};
+$('tsnm').onclick = () => {
+  const l = tselNeed();
+  if (l.length) trkAutoNameMany(l);
 };
 $('fotb').onclick = () => fotoImportPick();
 $('tfile').onchange = e => {
@@ -14135,6 +14258,8 @@ async function recStop() {
     l: r.l,
     nm: r.nm,
     ...(r.a ? {a: r.a} : {}),
+    ...(r.auto ? {nmAuto: r.auto} : {}),
+    ...(r.wait ? {nmWait: r.wait} : {}),
     st: REC.st,
     pts: REC.pts,
     sg: REC.sg.filter(i => i > 0 && i < REC.pts.length),
@@ -14170,11 +14295,25 @@ function recSaveDlg() {
       h('div', 'tsum', fkm(s.d) + ' · ' + fdur(s.dur) + (s.up >= 1 ? ' · ↗ ' + Math.round(s.up) + ' m' : ''))
     );
     inp.type = 'text';
-    inp.value = 'Ślad ' + fday(REC.st) + ' ' + fhm(REC.st);
     const asel = h('select');
     asel.className = 'tsel';
     const ag = actGuess(s, {pts: REC.pts, sg: REC.sg, st: REC.st});
     Object.entries(ACTS).forEach(([k, [e, n]]) => asel.add(new Option('Rodzaj: ' + e + ' ' + n, k, false, k === ag)));
+    // automatyczna nazwa wg Ustawień; zmienia się z rodzajem i po ustaleniu miejsca, dopóki nie wpiszesz własnej
+    const nmode = trkNameMode();
+    let place = null,
+      typed = false;
+    const auto = () => trkAutoName({st: REC.st, a: asel.value}, nmode, place);
+    inp.value = auto();
+    inp.oninput = () => (typed = true);
+    asel.addEventListener('change', () => !typed && (inp.value = auto()));
+    if (needPlace(nmode) && REC.pts.length > 1)
+      trkPlaces({pts: REC.pts})
+        .then(p => {
+          place = p;
+          if (!typed) inp.value = auto();
+        })
+        .catch(() => {});
     box.append(h('div', 'aguess', 'Wygląda na: ' + ACTS[ag][0] + ' ' + ACTS[ag][1].toLowerCase() + ' – zmień poniżej, jeśli to nie to.'));
     sel.className = 'tsel';
     TRK.layers.forEach(l =>
@@ -14200,7 +14339,10 @@ function recSaveDlg() {
           fin({
             nm: inp.value.trim().slice(0, 200) || 'Ślad',
             l: sel.value === '+' ? TRK.active : sel.value,
-            a: asel.value
+            a: asel.value,
+            // nazwa automatyczna bez miejsca (brak internetu) – miejsce dopisze się później
+            wait: !typed && needPlace(nmode) && !place ? nmode : null,
+            auto: !typed ? inp.value.trim().slice(0, 200) : null
           }),
         'okb'
       )
@@ -14540,6 +14682,7 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 trkLoad();
+setTimeout(() => trkFillPlaces(), 15000); // miejsca w nazwach śladów zapisanych bez internetu
 
 // ---------- zdjęcia: zapis w aplikacji, aparat, galeria, lokalizacja z EXIF ----------
 /*
@@ -17785,6 +17928,18 @@ function settingsDlg() {
       ['glos', 'Jak wyżej + komunikat głosowy']
     ],
     'Działa także przy wygaszonym ekranie. Głos czyta syntezator mowy telefonu (polski głos musi być zainstalowany).'
+  );
+  radios(
+    'Nazwa nowego śladu',
+    'omm-trk-nazwa',
+    'data',
+    [
+      ['data', 'Data i godzina – „Ślad pt., 9.10.2026 06:32”'],
+      ['rodzaj', 'Rodzaj aktywności – „Rower · pt., 9.10 rano”'],
+      ['miejsce', 'Miejsce – „Bałuty → Widzew · pt., 9.10”'],
+      ['oba', 'Rodzaj + miejsce – „Rower · Bałuty → Widzew”']
+    ],
+    'Miejsce (dzielnicę, wieś, miasto) podaje OpenStreetMap: przy zapisie śladu OMM wysyła tam współrzędne startu i mety – nic więcej. Bez internetu miejsce dopisze się, gdy wróci zasięg. Nazwę zawsze można zmienić przed zapisem; stare ślady: zaznacz na liście → Nazwy.'
   );
   radios(
     'Podpowiedź „przesiadka do auta”',
