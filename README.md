@@ -46,7 +46,10 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 - Pomiary: odległość, powierzchnia, azymut, różnica wysokości, profil NMT (GUGiK), wysokość punktu, współrzędne.
 - Import: GPX, KML, **KMZ**, GeoJSON (ze zdjęciami z Moich Map). Eksport: GPX, KML, GeoJSON.
 - Kopia zapasowa całości albo tylko tego, co widać; wydruk kadru do PNG w wysokiej rozdzielczości.
-- **Ślady GPS**: nagrywanie (także w tle, z pauzą, z wygładzaniem pozycji), panel na żywo, osobne warstwy śladów, statystyki (dystans, czas, prędkości, podejścia, wysokości), ślad w kolorach prędkości, profil wysokości z GPS i z NMT, zdjęcia i punkty na trasie, animacja i film, import/eksport GPX.
+- **Ślady GPS**: nagrywanie (także w tle, z pauzą i auto-pauzą na postojach, z wygładzaniem pozycji), komunikat co 1 km (powiadomienie / głos), panel na żywo (tempo, odległość do startu, zachód słońca), osobne warstwy śladów, rodzaj aktywności, statystyki (dystans, czas, prędkości średnie i min/max, tempo, podejścia, wysokości), ślad w jednolitym kolorze albo w kolorach prędkości / wysokości, profil wysokości z GPS i z NMT, zdjęcia i punkty na trasie, animacja i film, dokładne dzielenie śladu, podsumowania tygodnia / miesiąca / roku, import GPX, KML/KMZ, TCX i GeoJSON, eksport GPX.
+- **Mapy offline**: pobieranie podkładu (OpenStreetMap do zoomu 16, ortofoto Geoportalu) dla obszaru na ekranie; bez internetu mapa korzysta z pobranych kafli, a przy większym przybliżeniu je powiększa.
+- **W terenie**: kropka GPS ze stożkiem kierunku (kompas), prowadzenie do punktu i po śladzie (powrót do startu), współrzędne z kopiowaniem, SMS-em i udostępnianiem (SOS), wschód i zachód słońca.
+- **Wyszukiwarka** (obiekty, ślady, współrzędne; adresy przez OpenStreetMap Nominatim na żądanie) i **kosz** – usunięte obiekty, warstwy, mapy i ślady można przywrócić przez 30 dni.
 - **Zdjęcia** w punktach i na śladach (zmniejszone kopie w aplikacji, oryginały w galerii); masowy import zdjęć z lokalizacją.
 - **Kopia zapasowa ZIP** z folderami `mapy/` (GeoJSON), `slady/` (GPX), `zdjecia/` i plikiem `ustawienia.json` – każdy plik otworzysz także innym programem.
 
@@ -93,5 +96,6 @@ W tej samej sprawie pisz, jeśli chcesz uzyskać zgodę opisaną w pliku LICENSE
 ## Plany
 
 - Zdjęcia zapisywane w telefonie i w kopii zapasowej.
-- Automatyczna kopia na Dysk Google, mapy offline.
+- Automatyczna kopia na Dysk Google.
+- Obracanie mapy zgodnie z kierunkiem patrzenia, samouczek.
 - Menedżer ikon: wybór widocznych grup i ikon, „Ulubione”.

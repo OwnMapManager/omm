@@ -44,6 +44,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <!-- wibracja przy komunikacie co 1 km i po dojściu do celu nawigacji -->
+    <uses-permission android:name="android.permission.VIBRATE" />
     <!-- zapis kopii i eksportów w folderze Dokumenty/OMM – potrzebne tylko na Androidzie 10 i starszym -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />

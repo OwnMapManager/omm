@@ -101,6 +101,14 @@ textarea {
   top: calc(104px + env(safe-area-inset-top, 0px));
   right: 8px;
 }
+#srchb svg {
+  width: 22px;
+  height: 22px;
+}
+#srchb {
+  left: 8px;
+  bottom: calc(70px + var(--sa)); /* nad przyciskiem warstw i podpisem podkładu */
+}
 #lbtn.work {
   background: var(--acc);
   color: #fff;
@@ -113,6 +121,16 @@ textarea {
   font-size: 12px;
   white-space: nowrap;
   flex: none;
+}
+#setb {
+  border: 0;
+  background: none;
+  font-size: 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex: none;
+  padding: 0;
 }
 #modeb.work {
   background: var(--accbg);
@@ -509,6 +527,49 @@ textarea {
 #pst {
   font-size: 11.5px;
   line-height: 1.4;
+}
+#cmeb {
+  display: none;
+  margin-left: 8px;
+  border: 0;
+  border-radius: 6px;
+  background: #d93025;
+  color: #fff;
+  padding: 3px 8px;
+  font-weight: 700;
+}
+.cpop .cll {
+  font-size: 16px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin: 2px 0;
+}
+.cpop .cdist {
+  margin: 6px 0 2px;
+  font-weight: 600;
+  color: var(--acc);
+}
+.cpop .cdist button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 12.5px;
+}
+.cpop .tbt {
+  margin-top: 8px;
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(80px + var(--sa));
+  transform: translateX(-50%);
+  background: #202124;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 18px;
+  z-index: 3000;
+  font-size: 13.5px;
 }
 #pbtn {
   display: none;
@@ -1845,6 +1906,190 @@ body.rec #info {
   font-weight: 600;
   margin-bottom: 8px;
 }
+/* ślady: filtr rodzaju, podsumowanie */
+.tfilt {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 6px 10px;
+}
+.tfilt button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 14px;
+  padding: 3px 10px;
+  font-size: 13px;
+}
+.tfilt button.on {
+  background: var(--accbg);
+  border-color: var(--acc);
+  color: var(--acc);
+  font-weight: 600;
+}
+.tsumd .tfilt {
+  padding: 0 0 8px;
+}
+.snav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.snav b {
+  flex: 1;
+  text-align: center;
+  font-size: 15px;
+}
+.snav button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+}
+.snav button:disabled {
+  opacity: 0.35;
+}
+.tsumd .tstat {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.tsumd .tstat td {
+  padding: 4px 2px;
+  border-bottom: 1px solid #eef0f2;
+}
+.tsumd .obj {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 2px;
+  border-bottom: 1px solid #eef0f2;
+  cursor: pointer;
+}
+.tsumd .obj .cm {
+  color: var(--sub);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+/* kosz i wyniki wyszukiwania */
+.trow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 2px;
+  border-bottom: 1px solid #eef0f2;
+  cursor: pointer;
+}
+.trow .ti {
+  width: 24px;
+  text-align: center;
+  flex: none;
+}
+.trow .tx {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.trow .tx b {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trow .tx span {
+  color: var(--sub);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trow button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  flex: none;
+}
+.srch .dbox {
+  align-self: flex-start;
+  margin-top: 40px;
+}
+/* mapy offline */
+.offbar {
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: calc(60px + var(--sa));
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bar);
+  border-left: 4px solid var(--acc);
+  border-radius: 8px;
+  padding: 6px 8px 6px 10px;
+  box-shadow: 0 1px 5px #0005;
+  font-size: 13px;
+  font-weight: 600;
+}
+.offbar span {
+  flex: 1;
+}
+.offbar button {
+  border: 0;
+  background: var(--b2);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.sset input[type='text'] {
+  width: 100%;
+  height: 38px;
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.sset .okb {
+  margin-top: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--acc);
+  color: #fff;
+  padding: 8px 14px;
+  font-weight: 600;
+}
+.sset .okb:disabled {
+  opacity: 0.5;
+}
+#bmenu .offb {
+  font-weight: 700;
+  color: var(--acc);
+  border-top: 1px solid var(--line);
+  margin-top: 6px;
+}
+/* ustawienia: przyciski u góry */
+.setop {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.setop button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+}
+.setop button:disabled {
+  opacity: 0.5;
+}
 /* legenda kolorów śladu (prędkość / wysokość) */
 .tleg {
   display: flex;
@@ -2188,6 +2433,16 @@ body.rec .navbar {
 body.navon #info {
   display: none !important;
 }
+.meic {
+  background: none;
+  border: 0;
+  pointer-events: none;
+}
+.meic .mecone {
+  transform-box: view-box;
+  transform-origin: 32px 32px;
+  transition: transform 0.2s;
+}
 .nme,
 .nlbl {
   background: none;
@@ -2315,14 +2570,15 @@ body.spliton #info {
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
-<div id="info"><span id="itx"></span><button id="pbtn">Profil ▲</button></div>
+<div id="info"><span id="itx"></span><button id="pbtn">Profil ▲</button><button id="cmeb">📡 Moja pozycja</button></div>
 <div id="prof"><div class="ph"><b>Profil wysokości</b><button id="pclose" title="Zamknij">✕</button></div><svg id="psv"></svg><div id="pread"></div><div id="pst"></div></div>
 <button class="ib" id="bbtn" title="Podkład mapy"><svg viewBox="-0.5 -0.5 49 27"><path fill="currentColor" d="M29.1 17.8L28.5 20.1L28.3 18.5L29.1 17.8ZM41.5 17.8L42.8 20.2L42.4 22.4L41.2 22.5L40.8 21.5L40.5 21.9L39.9 21.2L37.7 21.8L37.6 19.4L38.5 19.0L39.2 17.9L39.7 18.0L40.0 17.3L40.6 17.4L40.5 18.0L41.1 18.6L41.4 17.3L41.5 17.8ZM40.3 15.4L40.5 15.8L40.8 15.5L41.7 15.9L42.5 17.2L41.7 16.6L40.7 16.8L40.8 16.2L39.8 15.3L40.3 15.4ZM38.1 14.8L37.9 15.9L37.1 15.7L36.9 14.9L38.0 13.8L38.1 14.8ZM46.4 1.8L47.7 2.3L47.3 2.7L46.4 2.4L46.1 2.6L46.3 3.0L44.2 3.5L43.3 5.2L43.2 4.1L44.3 3.0L43.1 3.7L41.4 3.7L40.4 4.5L41.3 5.0L40.8 6.1L39.4 7.4L39.6 8.3L39.3 8.5L39.1 7.5L38.5 7.6L38.6 7.2L38.1 7.5L38.7 7.9L38.3 8.4L38.6 9.7L37.9 10.7L36.5 11.3L37.0 12.5L36.4 13.5L35.7 12.5L36.3 14.9L34.6 10.7L33.1 12.0L32.7 13.6L32.1 11.0L31.2 10.2L30.1 10.1L28.8 9.3L29.3 10.5L29.9 10.0L30.4 10.8L29.8 11.8L28.2 12.7L26.7 9.3L28.1 12.9L29.2 13.1L27.6 16.0L27.8 18.0L27.0 19.0L26.7 20.7L25.8 21.7L24.9 21.8L24.0 18.6L24.2 17.2L23.7 14.4L23.0 13.9L21.2 14.2L20.2 12.8L20.1 10.9L21.6 8.2L23.7 7.9L23.8 8.6L24.9 9.3L25.3 8.8L26.9 9.1L27.2 8.0L26.1 8.0L25.9 7.5L28.0 7.0L27.3 6.4L27.6 6.0L26.9 6.5L26.5 6.1L26.2 7.2L25.4 7.3L25.4 8.1L24.2 6.3L24.9 7.3L24.5 7.8L23.6 6.5L22.8 6.8L22.1 8.0L21.2 8.0L21.1 6.8L22.2 6.6L21.8 5.7L23.5 4.7L23.5 4.1L23.9 4.7L25.0 4.6L25.5 3.7L26.3 3.5L25.2 3.4L25.8 2.5L25.4 2.4L24.1 4.4L23.8 3.6L23.2 3.8L23.2 3.0L25.7 1.4L27.8 2.0L27.7 2.3L26.8 2.2L27.3 2.7L28.3 2.3L28.2 1.8L28.6 2.2L30.5 1.6L31.5 1.9L31.3 1.4L32.1 1.0L32.1 2.3L32.4 1.0L33.3 1.2L33.1 0.8L36.3 0.1L37.6 0.4L37.0 0.7L39.3 0.9L39.9 1.4L41.1 1.0L46.4 1.8ZM10.3 1.6L10.8 2.1L11.4 1.6L11.6 2.0L10.0 3.1L10.1 4.1L11.4 4.4L11.7 5.2L12.2 4.2L12.0 3.0L12.6 3.0L13.4 3.8L13.8 3.4L15.0 5.0L13.5 5.4L12.9 6.0L13.7 5.6L13.8 6.2L14.4 6.2L13.7 6.7L13.8 6.3L13.4 6.4L12.3 7.9L12.2 7.5L12.3 8.2L11.6 9.0L11.7 10.2L11.2 9.3L9.5 9.6L9.6 11.4L10.1 11.5L10.8 11.0L10.5 12.1L11.3 12.2L11.5 13.4L12.2 13.5L12.8 12.7L12.8 13.4L13.1 12.8L14.1 13.1L15.6 14.3L15.7 15.1L17.1 15.7L17.8 16.6L16.9 19.4L16.0 20.0L15.2 21.8L14.6 21.7L14.8 22.3L13.7 23.1L13.6 24.5L12.9 25.6L12.4 25.3L12.3 24.2L13.0 19.0L11.6 16.3L12.0 13.5L11.6 13.7L10.7 12.6L8.6 11.6L7.2 9.0L7.8 10.6L7.4 10.3L5.8 7.3L6.0 5.6L4.5 3.9L2.8 3.3L2.2 3.7L2.3 3.2L0.4 4.6L1.5 3.7L0.4 3.4L1.0 2.6L0.2 2.5ZM0.2 2.3L0.8 2.3L0.2 1.9L1.5 1.3L7.9 2.1L9.6 2.1L9.7 1.2L10.3 1.6ZM7.2 0.9L8.2 1.0L8.9 1.6L6.9 1.7L7.4 1.5L6.5 1.2L7.2 0.9ZM10.9 0.9L12.8 1.3L14.1 2.3L13.3 2.3L13.6 3.1L12.0 2.7L12.7 2.0L10.6 1.5L10.4 1.1L10.9 0.9ZM18.8 0.0L20.8 0.0L19.7 0.0L20.0 0.0L19.5 0.3L19.8 0.7L19.1 1.1L19.5 1.4L18.9 1.5L19.4 1.5L17.1 2.4L16.4 3.5L15.5 2.8L15.2 2.1L15.6 1.6L15.1 1.6L15.5 1.4L14.6 0.5L12.6 0.0L18.8 0.0Z"/></svg><span>Mapa</span></button>
 <button class="ib" id="gps" title="Moja pozycja"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg></button>
+<button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
-<div id="recpill"><button id="rpp" title="Pauza">⏸</button><button id="rpf" title="Zdjęcie na trasie">📷</button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)">📍</button></div>
+<div id="recpill"><button id="rpp" title="Pauza">⏸</button><button id="rpf" title="Zdjęcie na trasie">📷</button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)">📍</button><button id="rpb" title="Powrót do startu po nagrywanym śladzie">↩</button></div>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div></div>
 <div class="pop" id="bmenu"></div>
@@ -2334,22 +2590,22 @@ body.spliton #info {
   <button class="ib go" id="done" title="Zakończ">✓</button>
 </div>
 <div class="bar" id="tools">
-  <button data-g="draw" title="Rysowanie kształtów"></button>
   <button data-g="photo" title="Zdjęcia na mapie"></button>
   <button data-g="icons" title="Ikony (punkty)"></button>
+  <button data-g="draw" title="Rysowanie kształtów"></button>
   <button data-g="data" title="Dane i pomiary"></button>
 </div>
 <div class="pop" id="dmenu"></div>
 <div class="pop" id="sty"></div>
 <div class="pop" id="sheet">
-  <div id="sh"><button id="mapb" title="Mapy"><b id="mtitle"></b><span>▾</span></button><button id="modeb" title="Przełącz tryb: prywatne / praca"></button><button id="closes" title="Zamknij">✕</button></div>
+  <div id="sh"><button id="mapb" title="Mapy"><b id="mtitle"></b><span>▾</span></button><button id="modeb" title="Przełącz tryb: prywatny / praca"></button><button id="setb" title="Ustawienia, O aplikacji">⚙️</button><button id="closes" title="Zamknij">✕</button></div>
   <div id="stabs" class="atabs"><button data-k="mapy">Mapy</button><button data-k="slady">Ślady GPS</button></div>
   <div id="msub"></div>
   <div id="sa"><button id="addl">＋ Dodaj warstwę</button><button id="addg" style="display:none">＋ Grupa</button><button id="impb">⇧ Import</button><button id="fotb">📷 Zdjęcia</button><button id="projb">💾 Kopia</button><button id="selb">☑ Zaznacz</button><button id="fltb">🔍 Filtr</button></div>
-  <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import GPX</button><button id="tselb">☑ Zaznacz</button></div>
+  <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import</button><button id="tsumb">📊 Podsumowanie</button><button id="tselb">☑ Zaznacz</button></div>
   <div id="list"></div>
   <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś…</button><button id="selic">Ikona…</button><button id="selnm">Nazwy…</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
-  <div id="tselbar"><span id="tselc"></span><button id="tsmv">📂 Przenieś…</button><button id="tsvis">👁 Pokaż</button><button id="tshid">🙈 Ukryj</button><button id="tsgpx">⇩ GPX</button><button id="tsdel">🗑 Usuń</button><button id="tsx">Gotowe</button></div>
+  <div id="tselbar"><span id="tselc"></span><button id="tsmv">📂 Przenieś…</button><button id="tsvis">👁 Pokaż</button><button id="tshid">🙈 Ukryj</button><button id="tsact">🏷 Rodzaj…</button><button id="tsgpx">⇩ GPX</button><button id="tsdel">🗑 Usuń</button><button id="tsx">Gotowe</button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
@@ -2358,7 +2614,7 @@ body.spliton #info {
 <script>
 /*
  * ═══════════════════════════════════════════════════════════════════════════════════════
- *  OMM – Own Map Manager · wersja v40 (numer bieżącej wersji: stała APP_VER)
+ *  OMM – Own Map Manager · wersja v41 (numer bieżącej wersji: stała APP_VER)
  *  Twoje mapy, Twoje dane: prywatny notes na mapie (punkty z ikonami, kształty, pomiary,
  *  warstwy, filtr, kopie zapasowe), działający w telefonie także bez zasięgu.
  *
@@ -2434,7 +2690,7 @@ const B = (x, fn, c, t) => {
 const eye = (v, fn) => B('👁', () => fn(!v), 'eye' + (v ? '' : ' off'), 'Widoczność');
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v40';
+const APP_VER = 'v41';
 const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia błędów, prośby o zgodę
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
@@ -5701,14 +5957,97 @@ function retry(l, max = 3) {
   return l;
 }
 
+// ---------- mapy offline: kafle podkładu zapisane w telefonie ----------
+/*
+ * Pobrane kafle leżą w IndexedDB „omm” pod kluczami „tile/<źródło>/<z>/<x>/<y>” (obrazek jako Blob),
+ * lista pobranych obszarów pod „offline-obszary”. Warstwa podkładu najpierw szuka kafla w telefonie;
+ * gdy go nie ma, a telefon jest bez internetu, powiększa kafel z niższego zoomu (np. 16 → 18),
+ * żeby mapa nie była pusta przy przybliżaniu.
+ *  Źródła do pobrania: OSM (do zoomu 16 – zasady serwerów OpenStreetMap zabraniają masowego pobierania
+ *  zoomów 17+) i ortofoto Geoportalu (dane otwarte GUGiK). Kafli Google nie wolno zapisywać (licencja).
+ */
+var OFF = {ready: false, idx: new Set(), areas: []}; // (var: używane przy rysowaniu kafli od pierwszej chwili)
+const OFF_SRC = {
+  osm: {name: 'OpenStreetMap', base: 'OpenStreetMap', zmax: 16, kb: 18, par: 2},
+  orto: {name: 'Ortofoto – Geoportal', base: 'Ortofoto – Geoportal', zmax: 19, kb: 32, par: 4}
+};
+const offKey = (id, z, x, y) => 'tile/' + id + '/' + z + '/' + x + '/' + y;
+function offAncestor(id, c) {
+  // najbliższy pobrany kafel z niższego zoomu, który zawiera ten kafel
+  for (let dz = 1; dz <= 8 && c.z - dz >= 0; dz++) {
+    const k = offKey(id, c.z - dz, c.x >> dz, c.y >> dz);
+    if (OFF.idx.has(k)) return {k, dz};
+  }
+  return null;
+}
+function offWrap(layer, id) {
+  // podmiana tworzenia kafla: najpierw kafel z telefonu, bez internetu – powiększony kafel z niższego zoomu
+  layer._offId = id;
+  const orig = layer.createTile;
+  layer.createTile = function (c, done) {
+    if (!OFF.ready || !OFF.idx.size) return orig.call(this, c, done);
+    const k = offKey(id, c.z, c.x, c.y),
+      anc = !OFF.idx.has(k) && !navigator.onLine ? offAncestor(id, c) : null;
+    if (!OFF.idx.has(k) && !anc) return orig.call(this, c, done);
+    const ts = this.getTileSize(),
+      url = this.getTileUrl(c),
+      rp = this.options.referrerPolicy,
+      cv = document.createElement('canvas');
+    cv.width = ts.x;
+    cv.height = ts.y;
+    // kafla jednak nie ma w telefonie: z internetu (jeśli jest), inaczej puste pole – bez zgłaszania błędu
+    const net = () => {
+      if (!navigator.onLine) return done(null, cv);
+      const im2 = new Image();
+      if (rp) im2.referrerPolicy = rp;
+      im2.onload = () => {
+        cv.getContext('2d').drawImage(im2, 0, 0, ts.x, ts.y);
+        done(null, cv);
+      };
+      im2.onerror = () => done(null, cv);
+      im2.src = url;
+    };
+    IDB.get(anc ? anc.k : k)
+      .then(b => {
+        if (!b) throw new Error('brak kafla');
+        const u = URL.createObjectURL(b),
+          im = new Image();
+        im.onload = () => {
+          const cx = cv.getContext('2d');
+          if (anc) {
+            const s = Math.pow(2, anc.dz),
+              w = im.width / s,
+              sx = (c.x - ((c.x >> anc.dz) << anc.dz)) * w,
+              sy = (c.y - ((c.y >> anc.dz) << anc.dz)) * w;
+            cx.drawImage(im, sx, sy, w, w, 0, 0, ts.x, ts.y);
+          } else cx.drawImage(im, 0, 0, ts.x, ts.y);
+          URL.revokeObjectURL(u);
+          done(null, cv);
+        };
+        im.onerror = () => {
+          URL.revokeObjectURL(u);
+          net();
+        };
+        im.src = u;
+      })
+      .catch(net);
+    return cv;
+  };
+  return layer;
+}
+
 const BASES = {
-  OpenStreetMap: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 21,
-    maxNativeZoom: 19,
-    attribution: '© OpenStreetMap contributors'
-  }),
-  'Ortofoto – Geoportal': retry(
-    L.tileLayer(geo('ORTO'), {maxZoom: 21, maxNativeZoom: 19, attribution: '© GUGiK', ...NOREF})
+  OpenStreetMap: offWrap(
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 21,
+      maxNativeZoom: 19,
+      attribution: '© OpenStreetMap contributors'
+    }),
+    'osm'
+  ),
+  'Ortofoto – Geoportal': offWrap(
+    retry(L.tileLayer(geo('ORTO'), {maxZoom: 21, maxNativeZoom: 19, attribution: '© GUGiK', ...NOREF})),
+    'orto'
   ),
   'Satelita – Google (nieoficjalnie)': L.tileLayer('https://mt{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
     subdomains: '0123',
@@ -6111,6 +6450,12 @@ function buildBMenu() {
       if (OV[k].note) m.append(h('div', 'onote', OV[k].note));
     }
   });
+  m.append(
+    B('⬇ Mapy offline…', () => {
+      m.style.display = 'none';
+      offDlg();
+    }, 'offb')
+  );
   m.append(h('div', 'ver', APP_NAME + ' ' + APP_VER + ' · ' + location.protocol));
 }
 setBase(curKey);
@@ -6754,8 +7099,9 @@ function openItemPopup(it, latlng) {
     B(
       'Usuń',
       async () => {
-        if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?', 'Usuń', true)))
+        if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?\n\nTrafi do kosza na 30 dni.', 'Usuń', true)))
           return;
+        trashPut('obj', nameOf(it) || 'Obiekt', {items: [it]}, {m: P.id, mn: P.name});
         P.items = P.items.filter(x => x.id !== it.id);
         save();
         render();
@@ -8384,8 +8730,9 @@ async function delG(g) {
   if (P.groups.length === 1) return tell('Musi zostać przynajmniej jedna grupa.');
   const ids = g.layers.map(l => l.id),
     k = P.items.filter(i => ids.includes(i.l)).length;
-  if (!(await askYes('Usunąć grupę „' + g.name + '” z warstwami i ' + k + ' obiektami?', 'Usuń', true)))
+  if (!(await askYes('Usunąć grupę „' + g.name + '” z warstwami i ' + k + ' obiektami?\n\nTrafi do kosza na 30 dni.', 'Usuń', true)))
     return;
+  trashPut('grupa', 'Grupa „' + g.name + '” (' + k + ')', {g, items: P.items.filter(i => ids.includes(i.l))}, {m: P.id, mn: P.name});
   P.items = P.items.filter(i => !ids.includes(i.l));
   P.groups = P.groups.filter(x => x !== g);
   selG = null;
@@ -8395,7 +8742,8 @@ async function delG(g) {
 async function delL(g, l) {
   if (allL().length === 1) return tell('Musi zostać przynajmniej jedna warstwa.');
   const k = P.items.filter(i => i.l === l.id).length;
-  if (!(await askYes('Usunąć warstwę „' + l.name + '” z ' + k + ' obiektami?', 'Usuń', true))) return;
+  if (!(await askYes('Usunąć warstwę „' + l.name + '” z ' + k + ' obiektami?\n\nTrafi do kosza na 30 dni.', 'Usuń', true))) return;
+  trashPut('warstwa', 'Warstwa „' + l.name + '” (' + k + ')', {l, gid: g.id, items: P.items.filter(i => i.l === l.id)}, {m: P.id, mn: P.name});
   P.items = P.items.filter(i => i.l !== l.id);
   g.layers = g.layers.filter(x => x !== l);
   lsel = null;
@@ -8722,7 +9070,8 @@ const SAI = {
   impb: '<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v5h16v-5"/>',
   projb: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/>',
   selb: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12.5l3 3 5-6"/>',
-  fltb: '<path d="M4 5h16l-6 7.5V18l-4 2v-7.5z"/>'
+  fltb: '<path d="M4 5h16l-6 7.5V18l-4 2v-7.5z"/>',
+  tsumb: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'
 };
 const sab = (id, t) => {
   $(id).innerHTML =
@@ -9011,19 +9360,6 @@ function openMap(id) {
 $('mapb').onclick = () => {
   const m = $('xmenu');
   m.innerHTML = '';
-  m.append(
-    B('ℹ️ O aplikacji i jak zacząć', () => {
-      m.style.display = 'none';
-      aboutDlg();
-    })
-  );
-  m.append(
-    B('⚙️ Ustawienia', () => {
-      m.style.display = 'none';
-      settingsDlg();
-    })
-  );
-  m.append(h('div', 'sep'));
   m.append(h('div', 'sec', isW() ? 'MAPY – TRYB PRACA' : 'MOJE MAPY – TRYB PRYWATNY'));
   modeMaps().forEach(mm =>
     m.append(
@@ -9065,13 +9401,14 @@ $('mapb').onclick = () => {
               P.name +
               '” razem z ' +
               P.items.length +
-              ' obiektami?\n\nPozostałe mapy zostają. Zostanie zrobiona kopia awaryjna.',
+              ' obiektami?\n\nPozostałe mapy zostają. Mapa trafi do kosza na 30 dni.',
             'Usuń',
             true
           ))
         )
           return;
         snapshot('przed-usunieciem-mapy');
+        trashPut('mapa', 'Mapa „' + P.name + '” (' + P.items.length + ')', P);
         DB.maps = DB.maps.filter(x => x !== P);
         openMap(modeMaps()[0].id);
       })
@@ -9152,7 +9489,8 @@ $('selic').onclick = () => {
 $('seldel').onclick = async () => {
   const l = selItems();
   if (!l.length) return tell('Najpierw zaznacz obiekty na liście.');
-  if (!(await askYes('Usunąć ' + l.length + ' zaznaczonych obiektów?', 'Usuń', true))) return;
+  if (!(await askYes('Usunąć ' + l.length + ' zaznaczonych obiektów?\n\nTrafią do kosza na 30 dni.', 'Usuń', true))) return;
+  trashPut('obj', l.length === 1 ? nameOf(l[0]) || 'Obiekt' : l.length + ' obiektów', {items: l}, {m: P.id, mn: P.name});
   P.items = P.items.filter(i => !SEL.has(i.id));
   SEL.clear();
   sv();
@@ -9162,7 +9500,7 @@ function updMode() {
   const ib = document.querySelector('[data-g="icons"]');
   if (ib) ib.style.display = isW() ? 'none' : '';
   const b = $('modeb');
-  b.textContent = isW() ? '💼 Praca' : '🏠 Prywatne';
+  b.textContent = isW() ? '💼 Tryb pracy' : '🏠 Tryb prywatny';
   b.classList.toggle('work', isW());
   $('lbtn').classList.toggle('work', isW());
 }
@@ -9195,6 +9533,11 @@ $('modeb').onclick = async () => {
 fixActive();
 render();
 updMode();
+$('setb').onclick = () => {
+  // ⚙️ obok trybu: ustawienia, O aplikacji (a w przyszłości samouczek)
+  closePops();
+  settingsDlg();
+};
 
 // ---------- narzędzia: rysowanie, dane, edycja położenia, wydruk ----------
 const svgi = d =>
@@ -9434,6 +9777,7 @@ function clearAll() {
   tmp.clearLayers();
   info.style.display = 'none';
   $('pbtn').style.display = 'none';
+  $('cmeb').style.display = 'none';
 }
 function dropEdit() {
   if (!edit) return;
@@ -9452,6 +9796,7 @@ function setMode(m, force) {
     const a = findL(P.active);
     info.style.display = 'block';
     info.textContent = HINT[mode] + (DRAW_ALL.includes(mode) ? ' ▸ ' + (a ? a.l.name : '') : '');
+    if (mode === 'coord') $('cmeb').style.display = 'inline-block';
   }
 }
 function openMenu(g, btn) {
@@ -9696,12 +10041,13 @@ async function placeText(p) {
   render();
   info.textContent = sessInfo();
 }
-function showCoord(p) {
+function showCoord(p, title, isMe) {
   tmp.clearLayers();
   dot(p);
   const [N, E] = puwg(p[0], p[1]);
   info.textContent =
     p[0].toFixed(6) + ', ' + p[1].toFixed(6) + ' | PL-1992 N ' + N.toFixed(1) + ' E ' + E.toFixed(1);
+  coordPopup(p, title || 'Współrzędne punktu', isMe);
 }
 async function pairInfo() {
   const [a, b] = cur,
@@ -9913,7 +10259,8 @@ async function drawTiles(ctx, l, z, x0, y0, W, H, op, prog) {
       const c = L.point(((x % N) + N) % N, y);
       c.z = nz;
       try {
-        jobs.push({x, y, u: l.getTileUrl(c)});
+        const ok = l._offId && OFF.idx.has(offKey(l._offId, nz, c.x, y)); // kafel pobrany do telefonu
+        jobs.push({x, y, u: ok ? null : l.getTileUrl(c), k: ok ? offKey(l._offId, nz, c.x, y) : null});
       } catch (e) {}
     }
   }
@@ -9948,7 +10295,15 @@ async function drawTiles(ctx, l, z, x0, y0, W, H, op, prog) {
         bad++;
         res();
       };
-      im.src = j.u;
+      if (j.k)
+        // kafel z map offline (z telefonu)
+        IDB.get(j.k)
+          .then(b => {
+            if (!b) throw new Error('brak');
+            im.src = URL.createObjectURL(b);
+          })
+          .catch(() => im.onerror());
+      else im.src = j.u;
     });
   await Promise.all(
     Array.from({length: 8}, async () => {
@@ -10446,7 +10801,11 @@ $('done').onclick = () => {
   }
 };
 infoEl.onclick = e => {
-  if (e.target.id !== 'pbtn' && !mode) clearAll();
+  if (e.target.id !== 'pbtn' && e.target.id !== 'cmeb' && !mode) clearAll();
+};
+$('cmeb').onclick = e => {
+  e.stopPropagation();
+  coordMe();
 };
 
 // ---------- wysokość z NMT (usługa GUGiK) ----------
@@ -10831,8 +11190,14 @@ const ABOUT_START = `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz 
 <li><b>Warstwy</b> – przycisk w lewym dolnym rogu. Tu są Twoje mapy i warstwy (np. „Grzyby”, „Noclegi”) – włączasz je i wyłączasz, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Kopia zapasowa</b> – Kopia → „Zapisz pełną kopię”. Rób ją regularnie: to jeden plik ze wszystkimi danymi, który otworzysz też w innych programach mapowych (format GeoJSON).</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
+<li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postój dłuższy niż 2 min to auto-pauza; w ⚙️ Ustawieniach włączysz komunikat co 1 km i kolor śladu wg prędkości lub wysokości. ↩ na pasku nagrywania prowadzi z powrotem do startu po własnym śladzie.</li>
+<li><b>Dział „Ślady GPS”</b> (w panelu warstw) – rodzaj aktywności (pieszo, rower…), 📊 Podsumowanie tygodnia, miesiąca i roku, import GPX, KML, TCX i GeoJSON (np. z Geo Trackera albo zegarka).</li>
+<li><b>Mapy offline</b> – przycisk mapy → „⬇ Mapy offline”: pobierz podkład dla obszaru na ekranie, zanim wejdziesz do lasu bez zasięgu.</li>
+<li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
+<li><b>Gdzie jestem (SOS)</b> – linijka → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
+<li><b>Kosz</b> – usunięte punkty, warstwy, mapy i ślady czekają 30 dni w ⚙️ Ustawienia → Kosz.</li>
 </ol>
-<p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera jedynie podkłady mapowe.</p>`;
+<p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe, a wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”.</p>`;
 const ABOUT_INFO = () => `<p style="font-size:17px;margin:0 0 4px"><b>${APP_NAME} – ${APP_FULL}</b></p>
 <p class="muted" style="margin:0 0 12px">Wersja ${APP_VER} · Twoje mapy, Twoje dane</p>
 <p><b>Autor i właściciel:</b> ${APP_AUTHOR}<br>© ${APP_YEAR} ${APP_AUTHOR}</p>
@@ -10882,6 +11247,36 @@ let me = null,
   acc = null,
   first = true,
   watching = null;
+// stożek kierunku przy kropce GPS: kompas (deviceorientationabsolute), a bez kompasu – kierunek ruchu z GPS
+const ME_SVG =
+  '<svg viewBox="0 0 64 64" width="64" height="64"><path class="mecone" d="M32 32L19 5A30 30 0 0 1 45 5Z" fill="#1e88e5" opacity=".3"/><circle cx="32" cy="32" r="8" fill="#1e88e5" stroke="#fff" stroke-width="3"/></svg>';
+let meHead = null, // kierunek telefonu z kompasu (stopnie od północy)
+  meHeadAt = 0,
+  meGpsHead = null,
+  compassBound = false;
+function compassOn() {
+  if (compassBound) return;
+  compassBound = true;
+  const on = e => {
+    let hd = null;
+    if (e.webkitCompassHeading != null) hd = e.webkitCompassHeading;
+    else if (e.absolute && e.alpha != null) hd = 360 - e.alpha;
+    if (hd == null) return;
+    meHead = (hd + ((screen.orientation && screen.orientation.angle) || 0) + 360) % 360;
+    meHeadAt = Date.now();
+    meCone();
+  };
+  window.addEventListener('deviceorientationabsolute', on);
+  window.addEventListener('deviceorientation', on);
+}
+function meCone() {
+  const el = me && me.getElement && me.getElement(),
+    c = el && el.querySelector('.mecone');
+  if (!c) return;
+  const hd = meHead != null && Date.now() - meHeadAt < 5000 ? meHead : meGpsHead;
+  c.style.display = hd == null ? 'none' : '';
+  if (hd != null) c.style.transform = 'rotate(' + hd + 'deg)';
+}
 function gpsHelp(err) {
   if (NATIVE && !(err && (err.code === 2 || err.code === 3)))
     return (
@@ -10923,14 +11318,17 @@ $('gps').onclick = async () => {
     pos => {
       const ll = [pos.coords.latitude, pos.coords.longitude];
       if (!mode) info.style.display = 'none';
+      if (pos.coords.heading != null && isFinite(pos.coords.heading) && (pos.coords.speed || 0) > 0.7)
+        meGpsHead = pos.coords.heading; // kierunek ruchu z GPS – gdy telefon nie ma kompasu
       if (!me) {
-        me = L.circleMarker(ll, {
-          radius: 8,
-          color: '#fff',
-          weight: 3,
-          fillColor: '#1e88e5',
-          fillOpacity: 1
+        // kropka pozycji ze stożkiem kierunku (kompas telefonu)
+        me = L.marker(ll, {
+          icon: L.divIcon({className: 'meic', html: ME_SVG, iconSize: [64, 64], iconAnchor: [32, 32]}),
+          interactive: false,
+          keyboard: false,
+          zIndexOffset: 1000
         }).addTo(map);
+        compassOn();
         acc = L.circle(ll, {
           radius: pos.coords.accuracy,
           color: '#1e88e5',
@@ -10939,6 +11337,7 @@ $('gps').onclick = async () => {
         }).addTo(map);
       } else {
         me.setLatLng(ll);
+        meCone();
         acc.setLatLng(ll);
         acc.setRadius(pos.coords.accuracy);
       }
@@ -10973,7 +11372,8 @@ $('gps').onclick = async () => {
  *              wp: [punkt na trasie: {id, p: [szer, dł], s: sekundy od początku, nm?, n?: opis,
  *                    ph?: zdjęcia, i?: ikona, ref?: id punktu mapy dodanego w czasie nagrywania –
  *                    dane punktu są też skopiowane do śladu, więc zostają po usunięciu punktu z mapy}],
- *              noTime?: true = ślad bez czasów (np. z GPX bez znaczników czasu), cr / up: daty (ms) }
+ *              noTime?: true = ślad bez czasów (np. z GPX bez znaczników czasu), cr / up: daty (ms),
+ *              a?: rodzaj aktywności – 'pieszo' | 'bieg' | 'rower' | 'auto' | 'inne' (w GPX jako <type>) }
  *  Zapis: IndexedDB „omm” → „slady” (dużo miejsca); gdy niedostępna – localStorage „omm-slady”.
  *  Trwające nagranie: localStorage „omm-rec”, zapisywane na bieżąco – przetrwa zamknięcie aplikacji.
  *  W kopii zapasowej ślady są obiektami GeoJSON (MultiLineString) z polem „sekcja”: „slady”.
@@ -11003,7 +11403,15 @@ const IDB = (() => {
           t.onerror = t.onabort = () => rej(t.error);
         })
     );
-  return {get: k => run('readonly', s => s.get(k)), set: (k, v) => run('readwrite', s => s.put(v, k))};
+  return {
+    get: k => run('readonly', s => s.get(k)),
+    set: (k, v) => run('readwrite', s => s.put(v, k)),
+    del: k => run('readwrite', s => s.delete(k)),
+    // wiele zapisów / usunięć w jednej transakcji (kafle map offline)
+    setMany: list => run('readwrite', s => (list.forEach(([k, v]) => s.put(v, k)), s.count())),
+    delMany: keys => run('readwrite', s => (keys.forEach(k => s.delete(k)), s.count())),
+    keys: prefix => run('readonly', s => s.getAllKeys(IDBKeyRange.bound(prefix, prefix + '\uffff')))
+  };
 })();
 
 let TRK = {v: 1, active: null, layers: [], items: []},
@@ -11313,6 +11721,94 @@ function smoothBox(v, r) {
     return (cs[b + 1] - cs[a]) / (b - a + 1);
   });
 }
+const SPC = new WeakMap(); // prędkości punktów zapamiętane do kolejnej zmiany śladu
+function trkSpeeds(t) {
+  // prędkość (m/s) przy każdym punkcie: z okna ±10 s (w obrębie odcinka, bez pauz) + średnia krocząca;
+  // wspólna dla kolorów śladu i prędkości min / max w statystykach
+  if (t.noTime || t.pts.length < 2) return null;
+  const c = SPC.get(t);
+  if (c && c.up === t.up && c.n === t.pts.length) return c.v;
+  const s = trkStatsC(t),
+    pts = t.pts,
+    n = pts.length,
+    sg = new Set(t.sg || []),
+    seg = [];
+  for (let i = 0, k = 0; i < n; i++) seg.push(i && sg.has(i) ? ++k : k);
+  let v = new Array(n);
+  for (let i = 0, a = 0, b = 0; i < n; i++) {
+    while (a < i && (seg[a] !== seg[i] || pts[i][3] - pts[a][3] > 10)) a++;
+    if (b < i) b = i;
+    while (b + 1 < n && seg[b + 1] === seg[i] && pts[b + 1][3] - pts[i][3] <= 10) b++;
+    const dt = pts[b][3] - pts[a][3];
+    v[i] = dt > 0 ? (s.cum[b] - s.cum[a]) / dt : null;
+  }
+  v = fillGaps(v);
+  v = v[0] == null ? null : smoothBox(v, 5);
+  SPC.set(t, {up: t.up, n, v});
+  return v;
+}
+function trkVminmax(t) {
+  // najmniejsza prędkość w ruchu (> ~2 km/h – postoje pomijamy) i największa
+  const v = trkSpeeds(t);
+  if (!v) return null;
+  let lo = Infinity,
+    hi = 0;
+  v.forEach(x => {
+    if (x > 0.55 && x < lo) lo = x;
+    if (x > hi) hi = x;
+  });
+  return isFinite(lo) ? [lo, hi] : null;
+}
+// rodzaj aktywności śladu (pole „a”)
+const ACTS = {
+  pieszo: ['🚶', 'Pieszo'],
+  bieg: ['🏃', 'Bieg'],
+  rower: ['🚴', 'Rower'],
+  auto: ['🚗', 'Samochód'],
+  inne: ['📍', 'Inne']
+};
+// GPX <type>: nazwy jak w Stravie / Garminie, żeby inne programy je rozumiały
+const ACT_GPX = {pieszo: 'walking', bieg: 'running', rower: 'cycling', auto: 'driving', inne: 'other'};
+function actFrom(x) {
+  // rodzaj aktywności z opisu w pliku (GPX <type>, TCX Sport, nasze nazwy)
+  x = String(x || '').trim().toLowerCase();
+  if (ACTS[x]) return x;
+  if (/walk|hik|pieszo|spacer|trek/.test(x)) return 'pieszo';
+  if (/run|bieg|jog/.test(x)) return 'bieg';
+  if (/bik|cycl|rower|ride/.test(x)) return 'rower';
+  if (/driv|car|auto|motor/.test(x)) return 'auto';
+  return x ? 'inne' : '';
+}
+function actGuess(s) {
+  // propozycja rodzaju z prędkości w ruchu (km/h)
+  const v = s.vmov * 3.6;
+  return !v ? 'pieszo' : v < 7.5 ? 'pieszo' : v < 13 ? 'bieg' : v < 32 ? 'rower' : 'auto';
+}
+async function trkSetAct(list) {
+  // zmiana rodzaju aktywności jednego lub wielu śladów
+  const v = await dlg({
+    title: 'Rodzaj aktywności' + (list.length > 1 ? ' (' + list.length + ' śladów)' : ''),
+    btns: [
+      ...Object.entries(ACTS).map(([k, [e, n]]) => ({t: e + ' ' + n, v: k, c: list.every(t => t.a === k) ? 'okb' : ''})),
+      {t: 'Bez rodzaju', v: '-'}
+    ]
+  });
+  if (!v) return;
+  list.forEach(t => {
+    if (v === '-') delete t.a;
+    else t.a = v;
+    t.up = Date.now();
+  });
+  trkChanged();
+}
+const fpace = v => {
+  // tempo min/km z prędkości m/s
+  if (!(v > 0.2)) return '—';
+  const s = Math.round(1000 / v);
+  return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
+};
+const trkPaceOn = (t, s) =>
+  t.a ? t.a === 'pieszo' || t.a === 'bieg' : !t.noTime && s.vmov > 0 && s.vmov * 3.6 < 12;
 const GRC = new WeakMap(); // kolory śladu zapamiętane do kolejnej zmiany śladu
 function trkGrad(t, mode) {
   // dla każdego punktu: ułamek 0–1 na skali barw + opis skali (lo, hi, jednostka) do legendy
@@ -11331,27 +11827,12 @@ function trkGrad(t, mode) {
     lo = v.reduce((m, x) => Math.min(m, x), Infinity);
     hi = v.reduce((m, x) => Math.max(m, x), -Infinity);
     if (hi - lo < 10) (lo = (lo + hi) / 2 - 5), (hi = lo + 10); // płaski teren – bez przesadnych kontrastów
-  } else if (n > 1 && mode === 'predkosc' && !t.noTime) {
-    // prędkość z okna ±10 s wokół punktu (w obrębie jednego odcinka, bez pauz)
-    const seg = [];
-    for (let i = 0, k = 0; i < n; i++) seg.push(i && sg.has(i) ? ++k : k);
-    v = new Array(n);
-    for (let i = 0, a = 0, b = 0; i < n; i++) {
-      while (a < i && (seg[a] !== seg[i] || pts[i][3] - pts[a][3] > 10)) a++;
-      if (b < i) b = i;
-      while (b + 1 < n && seg[b + 1] === seg[i] && pts[b + 1][3] - pts[i][3] <= 10) b++;
-      const dt = pts[b][3] - pts[a][3];
-      v[i] = dt > 0 ? (s.cum[b] - s.cum[a]) / dt : null;
-    }
-    v = fillGaps(v);
-    if (v[0] != null) {
-      v = smoothBox(v, 5);
-      // skala od 5. do 95. percentyla – pojedyncze skoki GPS nie spłaszczają kolorów reszty trasy
-      const so = v.slice().sort((x, y) => x - y);
-      lo = so[Math.floor(n * 0.05)];
-      hi = so[Math.min(n - 1, Math.floor(n * 0.95))];
-      if (hi - lo < 0.5) (lo = Math.max(0, (lo + hi) / 2 - 0.25)), (hi = lo + 0.5);
-    } else v = null;
+  } else if (n > 1 && mode === 'predkosc' && !t.noTime && (v = trkSpeeds(t))) {
+    // skala od 5. do 95. percentyla – pojedyncze skoki GPS nie spłaszczają kolorów reszty trasy
+    const so = v.slice().sort((x, y) => x - y);
+    lo = so[Math.floor(n * 0.05)];
+    hi = so[Math.min(n - 1, Math.floor(n * 0.95))];
+    if (hi - lo < 0.5) (lo = Math.max(0, (lo + hi) / 2 - 0.25)), (hi = lo + 0.5);
   }
   if (v)
     g = {
@@ -11549,7 +12030,11 @@ function trkPopup(t, ll) {
   }
   el.append(
     h('b', null, t.nm || 'Ślad'),
-    h('div', 'tsub', fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)) + ' · ' + trkLayer(t).name),
+    h(
+      'div',
+      'tsub',
+      (t.a ? ACTS[t.a][0] + ' ' : '') + fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)) + ' · ' + trkLayer(t).name
+    ),
     h(
       'div',
       'tst',
@@ -11577,8 +12062,16 @@ function trkPopup(t, ll) {
           )
         ]),
     B(
+      '🧭 Prowadź po śladzie',
+      act(() => trkNavAsk(t))
+    ),
+    B(
       '✎ Nazwa',
       act(() => trkRename(t))
+    ),
+    B(
+      t.a ? ACTS[t.a][0] + ' Rodzaj' : '🏷 Rodzaj',
+      act(() => trkSetAct([t]))
     ),
     B(
       '📤 Udostępnij',
@@ -11661,8 +12154,15 @@ async function trkRecolor(t) {
   trkChanged();
 }
 async function trkDelete(t) {
-  if (!(await askYes('Usunąć ślad „' + (t.nm || 'Ślad') + '” (' + fkm(trkStatsC(t).d) + ')?', 'Usuń', true)))
+  if (
+    !(await askYes(
+      'Usunąć ślad „' + (t.nm || 'Ślad') + '” (' + fkm(trkStatsC(t).d) + ')?\n\nTrafi do kosza na 30 dni.',
+      'Usuń',
+      true
+    ))
+  )
     return;
+  trashPut('slad', 'Ślad „' + (t.nm || 'Ślad') + '”', {items: [t]});
   TRK.items = TRK.items.filter(x => x !== t);
   await trkChanged();
   (t.wp || []).forEach(w => (w.ph || []).forEach(fotoForget)); // zdjęcia tylko gdy nic innego ich nie używa
@@ -11925,20 +12425,9 @@ function trkStatsDlg(t) {
       c.append(n, h('div', 'tl', lb));
       grid.append(c);
     },
-    num = (x, k) => x.toFixed(k).replace('.', ',');
-  if (s.d < 1000) tile(String(Math.round(s.d)), 'm', 'Dystans');
-  else tile(num(s.d / 1000, 2), 'km', 'Dystans');
-  if (!t.noTime) {
-    tile(fdur(s.dur), '', 'Czas');
-    tile(num(s.vavg * 3.6, 1), 'km/h', 'Średnia prędkość');
-    tile(num(s.vmov * 3.6, 1), 'km/h', 'Śr. prędkość poruszania się');
-  }
-  if (s.emin != null) {
-    tile(String(Math.round(s.up)), 'm', 'Podejście');
-    tile(String(Math.round(s.down)), 'm', 'Zejście');
-    tile(String(Math.round(s.emax - s.emin)), 'm', 'Różnica wysokości');
-    tile(Math.round(s.emax) + ' / ' + Math.round(s.emin), 'm', 'Wysokość max / min');
-  }
+    // te same kafelki co na obrazku do udostępnienia (statsTiles)
+    tiles = statsTiles(t).tiles;
+  tiles.forEach(([v, u, lb]) => tile(v, u, lb === 'Śr. prędkość w ruchu' ? 'Śr. prędkość poruszania się' : lb));
   body.append(grid);
   const withE = t.pts.map((q, i) => [s.cum[i], s.el[i]]).filter(x => x[1] != null);
   if (withE.length > 1) {
@@ -12029,7 +12518,9 @@ function trkGPX(list, name, photoPath) {
     s +=
       '<trk><name>' +
       esc(t.nm) +
-      '</name>\n<extensions><omm:id>' +
+      '</name>' +
+      (t.a ? '<type>' + ACT_GPX[t.a] + '</type>' : '') +
+      '\n<extensions><omm:id>' +
       esc(t.id) +
       '</omm:id><omm:warstwa id="' +
       esc(l.id) +
@@ -12118,7 +12609,8 @@ function gpxTracks(text) {
       ...(id ? {_id: id.textContent.trim()} : {}),
       ...(wl ? {_l: wl.getAttribute('id') || '', _ln: wl.textContent.trim()} : {}),
       ...(kol && /^#[0-9a-f]{6}$/i.test(kol.textContent.trim()) ? {c: kol.textContent.trim()} : {}),
-      ...(ext(el, 'ukryty') ? {vis: false} : {})
+      ...(ext(el, 'ukryty') ? {vis: false} : {}),
+      ...(kid(el, 'type') && actFrom(kid(el, 'type').textContent) ? {a: actFrom(kid(el, 'type').textContent)} : {})
     });
   };
   [...x.getElementsByTagName('trk')].forEach(t => make(t, [...t.getElementsByTagName('trkseg')], 'trkpt'));
@@ -12154,14 +12646,127 @@ function gpxTracks(text) {
   });
   return out;
 }
+// --- import śladów z innych formatów: KML/KMZ (Google, Moje Mapy), TCX (Garmin, Huawei, Polar), GeoJSON ---
+function segsToTrk(nm, segs, extra) {
+  // segs: [[szer, dł, wysokość|null, czas ms|NaN], …] na odcinek → ślad OMM (jak z GPX)
+  const pts = [],
+    sg = [];
+  let st = null;
+  segs.forEach(s => {
+    const ok = s.filter(q => isFinite(q[0]) && isFinite(q[1]) && Math.abs(q[0]) <= 90 && Math.abs(q[1]) <= 180);
+    if (!ok.length) return;
+    if (pts.length) sg.push(pts.length);
+    ok.forEach(q => {
+      if (st == null && isFinite(q[3])) st = q[3];
+      pts.push([+(+q[0]).toFixed(6), +(+q[1]).toFixed(6), q[2] != null && isFinite(q[2]) ? Math.round(q[2] * 10) / 10 : null, q[3]]);
+    });
+  });
+  if (pts.length < 2) return null;
+  const base = st != null ? st : Date.now();
+  let prev = 0;
+  pts.forEach(q => {
+    q[3] = isFinite(q[3]) ? Math.max(prev, Math.round((q[3] - base) / 1000)) : prev;
+    prev = q[3];
+  });
+  return {nm: (nm || '').trim().slice(0, 200), st: base, pts, sg, wp: [], ...(st == null ? {noTime: true} : {}), ...(extra || {})};
+}
+function kmlTracks(text) {
+  // Placemark z gx:Track (czasy) albo LineString / MultiGeometry (bez czasów)
+  const x = new DOMParser().parseFromString(text, 'application/xml');
+  if (x.getElementsByTagName('parsererror').length) throw new Error('Plik KML jest uszkodzony.');
+  const out = [],
+    all = (el, n) => [...el.getElementsByTagName('*')].filter(c => c.localName === n),
+    kid = (el, n) => [...el.children].find(c => c.localName === n);
+  all(x, 'Placemark').forEach(pm => {
+    const nm = kid(pm, 'name'),
+      segs = [];
+    all(pm, 'Track').forEach(tr => {
+      const wh = all(tr, 'when').map(w => Date.parse(w.textContent)),
+        co = all(tr, 'coord').map(c => c.textContent.trim().split(/\s+/).map(Number));
+      segs.push(co.map((c, i) => [c[1], c[0], c.length > 2 ? c[2] : null, wh[i]]));
+    });
+    if (!segs.length)
+      all(pm, 'LineString').forEach(ls => {
+        const c = kid(ls, 'coordinates');
+        if (c)
+          segs.push(
+            c.textContent
+              .trim()
+              .split(/\s+/)
+              .map(p => p.split(',').map(Number))
+              .map(v => [v[1], v[0], v.length > 2 && v[2] ? v[2] : null, NaN])
+          );
+      });
+    const t = segs.length && segsToTrk(nm && nm.textContent, segs);
+    if (t) out.push(t);
+  });
+  return out;
+}
+function tcxTracks(text) {
+  // TCX: Activity (Sport) → Lap → Track → Trackpoint (Time, Position, AltitudeMeters)
+  const x = new DOMParser().parseFromString(text, 'application/xml');
+  if (x.getElementsByTagName('parsererror').length) throw new Error('Plik TCX jest uszkodzony.');
+  const all = (el, n) => [...el.getElementsByTagName('*')].filter(c => c.localName === n),
+    txt = (el, n) => {
+      const c = all(el, n)[0];
+      return c ? c.textContent : null;
+    },
+    out = [];
+  all(x, 'Activity').forEach(ac => {
+    const segs = all(ac, 'Track').map(tr =>
+      all(tr, 'Trackpoint')
+        .filter(p => all(p, 'Position').length)
+        .map(p => [+txt(p, 'LatitudeDegrees'), +txt(p, 'LongitudeDegrees'), txt(p, 'AltitudeMeters') != null ? +txt(p, 'AltitudeMeters') : null, Date.parse(txt(p, 'Time'))])
+    );
+    const a = actFrom(ac.getAttribute('Sport')),
+      t = segsToTrk(txt(ac, 'Notes') || '', segs, a && a !== 'inne' ? {a} : {});
+    if (t) out.push(t);
+  });
+  return out;
+}
+function geojsonTracks(text) {
+  // LineString / MultiLineString; czasy z properties.coordTimes (format z togeojson), jeśli są
+  const j = JSON.parse(text),
+    fs = j.type === 'FeatureCollection' ? j.features : j.type === 'Feature' ? [j] : [{type: 'Feature', geometry: j, properties: {}}],
+    out = [];
+  (fs || []).forEach(f => {
+    const g = f && f.geometry,
+      pr = (f && f.properties) || {};
+    if (!g || isTrkFeature(f)) return;
+    const lines = g.type === 'LineString' ? [g.coordinates] : g.type === 'MultiLineString' ? g.coordinates : [];
+    if (!lines.length) return;
+    const ct = pr.coordTimes || (pr.coordinateProperties && pr.coordinateProperties.times),
+      tms = lines.length === 1 && Array.isArray(ct) && !Array.isArray(ct[0]) ? [ct] : Array.isArray(ct) ? ct : [];
+    const t = segsToTrk(
+      pr.name || pr.nazwa || '',
+      lines.map((l, k) => l.map((c, i) => [c[1], c[0], c[2] != null ? c[2] : null, tms[k] ? Date.parse(tms[k][i]) : NaN]))
+    );
+    if (t) out.push(t);
+  });
+  return out;
+}
+async function trkParseFile(f) {
+  // rozpoznanie formatu po rozszerzeniu albo po treści
+  const n = f.name.toLowerCase(),
+    text = /\.kmz$/.test(n) ? await fileText(f) : await f.text(),
+    head = text.slice(0, 600);
+  if (/\.tcx$/.test(n) || /<TrainingCenterDatabase/i.test(head)) return tcxTracks(text);
+  if (/\.km[lz]$/.test(n) || /<kml/i.test(head)) return kmlTracks(text);
+  if (/\.(geo)?json$/.test(n) || /^\s*[{[]/.test(head)) return geojsonTracks(text);
+  if (/\.fit$/.test(n)) throw new Error('format FIT nie jest jeszcze obsługiwany – wyeksportuj ślad jako GPX lub TCX');
+  return gpxTracks(text);
+}
 async function trkImport(files) {
-  let n = 0;
+  let n = 0,
+    dup = 0;
   const bad = [];
   for (const f of files) {
     try {
-      const list = gpxTracks(await f.text());
+      const list = await trkParseFile(f);
       if (!list.length) throw new Error('brak śladów');
       list.forEach(t => {
+        // ten sam ślad już jest (ten sam start i liczba punktów) – nie dublujemy
+        if (TRK.items.some(x => Math.abs(x.st - t.st) < 2000 && x.pts.length === t.pts.length)) return dup++;
         const {_id, _l, _ln, ...r} = t; // dane OMM z pliku (identyfikator, warstwa) pomijamy przy imporcie
         r.wp.forEach(
           w => w.ph && (w.ph = w.ph.filter(u => /^https?:/.test(u))) && !w.ph.length && delete w.ph
@@ -12169,8 +12774,8 @@ async function trkImport(files) {
         TRK.items.push({
           id: uid(),
           l: TRK.active,
-          nm: r.nm || f.name.replace(/\.gpx$/i, ''),
           ...r,
+          nm: r.nm || f.name.replace(/\.(gpx|kml|kmz|tcx|geojson|json)$/i, ''), // bez nazwy w pliku – nazwa pliku
           cr: Date.now(),
           up: Date.now()
         });
@@ -12195,10 +12800,210 @@ async function trkImport(files) {
         ' do warstwy „' +
         trkLayer({l: TRK.active}).name +
         '”.'
-      : 'Nie dodano śladów.') + (bad.length ? '\n\nNie udało się wczytać: ' + bad.join(', ') : '')
+      : 'Nie dodano śladów.') +
+      (dup ? '\n\nPominięto ' + dup + ' ' + plural(dup, 'ślad, który już jest', 'ślady, które już są', 'śladów, które już są') + ' w OMM.' : '') +
+      (bad.length ? '\n\nNie udało się wczytać: ' + bad.join(', ') : '')
   );
 }
 
+// --- podsumowanie śladów: tydzień / miesiąc / rok / wszystko, filtr rodzaju, wykres, rekordy ---
+function periodRange(per, k) {
+  // [od, do) w ms dla okresu przesuniętego o k (0 = bieżący, -1 = poprzedni…)
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  if (per === 'tydzien') {
+    d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + 7 * k); // od poniedziałku
+    const e = new Date(d);
+    e.setDate(e.getDate() + 7);
+    return [d.getTime(), e.getTime()];
+  }
+  if (per === 'miesiac') {
+    const a = new Date(d.getFullYear(), d.getMonth() + k, 1),
+      b = new Date(d.getFullYear(), d.getMonth() + k + 1, 1);
+    return [a.getTime(), b.getTime()];
+  }
+  if (per === 'rok') return [new Date(d.getFullYear() + k, 0, 1).getTime(), new Date(d.getFullYear() + k + 1, 0, 1).getTime()];
+  return [-Infinity, Infinity];
+}
+function periodName(per, a, b) {
+  const D = x => new Date(x);
+  if (per === 'tydzien')
+    return D(a).toLocaleDateString('pl-PL', {day: 'numeric', month: 'short'}) + ' – ' + D(b - 1).toLocaleDateString('pl-PL', {day: 'numeric', month: 'short', year: 'numeric'});
+  if (per === 'miesiac') return D(a).toLocaleDateString('pl-PL', {month: 'long', year: 'numeric'});
+  if (per === 'rok') return String(D(a).getFullYear());
+  return 'Wszystkie ślady';
+}
+function trkSummaryDlg() {
+  let per = localStorage.getItem('omm-sum-okres') || 'miesiac',
+    k = 0,
+    fa = ''; // filtr rodzaju: '' = wszystkie
+  const back = h('div', 'dback'),
+    box = h('div', 'dbox about tsumd'),
+    tabs = h('div', 'atabs'),
+    nav = h('div', 'snav'),
+    body = h('div', 'abody'),
+    bt = h('div', 'db');
+  box.append(h('div', 'dt', '📊 Podsumowanie śladów'));
+  const PER = [
+    ['tydzien', 'Tydzień'],
+    ['miesiac', 'Miesiąc'],
+    ['rok', 'Rok'],
+    ['wszystko', 'Wszystko']
+  ];
+  const draw = () => {
+    tabs.innerHTML = '';
+    PER.forEach(([v, n]) => {
+      const b = B(n, () => {
+        per = v;
+        k = 0;
+        localStorage.setItem('omm-sum-okres', v);
+        draw();
+      });
+      b.classList.toggle('on', v === per);
+      tabs.append(b);
+    });
+    const [a, z] = periodRange(per, k),
+      all = TRK.items.filter(t => t.st >= a && t.st < z),
+      its = all.filter(t => !fa || (fa === '-' ? !t.a : t.a === fa)).sort((x, y) => y.st - x.st);
+    nav.innerHTML = '';
+    if (per !== 'wszystko') nav.append(B('◀', () => (k--, draw()), '', 'Wcześniej'));
+    nav.append(h('b', null, periodName(per, a, z)));
+    if (per !== 'wszystko') {
+      const nx = B('▶', () => (k++, draw()), '', 'Później');
+      nx.disabled = k >= 0;
+      nav.append(nx);
+    }
+    body.innerHTML = '';
+    // filtr rodzaju
+    const fr = h('div', 'tfilt'),
+      cnt = x => all.filter(t => (x === '-' ? !t.a : t.a === x)).length;
+    fr.append(B('Wszystkie ' + all.length, () => ((fa = ''), draw()), fa ? '' : 'on'));
+    Object.entries(ACTS).forEach(([key, [e, n]]) => {
+      const c = cnt(key);
+      if (c) fr.append(B(e + ' ' + c, () => ((fa = fa === key ? '' : key), draw()), fa === key ? 'on' : '', n));
+    });
+    if (cnt('-')) fr.append(B('bez rodzaju ' + cnt('-'), () => ((fa = fa === '-' ? '' : '-'), draw()), fa === '-' ? 'on' : ''));
+    body.append(fr);
+    if (!its.length) {
+      body.append(h('div', 'empty', 'Brak śladów w tym okresie.'));
+      return;
+    }
+    const S = its.map(t => ({t, s: trkStatsC(t)})),
+      sum = f => S.reduce((x, o) => x + f(o), 0),
+      d = sum(o => o.s.d),
+      mov = sum(o => o.s.mov),
+      up = sum(o => o.s.up),
+      longest = S.reduce((m, o) => (o.s.d > m.s.d ? o : m), S[0]),
+      grid = h('div', 'tgrid'),
+      tile = (v, u, lb) => {
+        const c = h('div', 'tile'),
+          n = h('div', 'tv');
+        n.append(document.createTextNode(v), h('small', null, u ? ' ' + u : ''));
+        c.append(n, h('div', 'tl', lb));
+        grid.append(c);
+      };
+    tile(String(its.length), '', plural(its.length, 'ślad', 'ślady', 'śladów'));
+    tile(fkm(d).split(' ')[0], fkm(d).split(' ')[1], 'Dystans');
+    tile(fdur(mov), '', 'Czas w ruchu');
+    tile(String(Math.round(up)), 'm', 'Podejście');
+    tile(fkm(d / its.length).split(' ')[0], fkm(d / its.length).split(' ')[1], 'Średnio na ślad');
+    tile(fkm(longest.s.d).split(' ')[0], fkm(longest.s.d).split(' ')[1], 'Najdłuższy');
+    body.append(grid);
+    // wykres dystansu: dni tygodnia / dni miesiąca / miesiące / lata
+    let bins = [],
+      lab = [];
+    if (per === 'tydzien') {
+      lab = ['Pn', 'Wt', 'Śr', 'Cz', 'Pt', 'So', 'Nd'];
+      bins = Array(7).fill(0);
+      S.forEach(o => (bins[(new Date(o.t.st).getDay() + 6) % 7] += o.s.d));
+    } else if (per === 'miesiac') {
+      const nd = new Date(new Date(a).getFullYear(), new Date(a).getMonth() + 1, 0).getDate();
+      bins = Array(nd).fill(0);
+      lab = bins.map((_, i) => (i === 0 || (i + 1) % 5 === 0 ? String(i + 1) : ''));
+      S.forEach(o => (bins[new Date(o.t.st).getDate() - 1] += o.s.d));
+    } else if (per === 'rok') {
+      lab = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+      bins = Array(12).fill(0);
+      S.forEach(o => (bins[new Date(o.t.st).getMonth()] += o.s.d));
+    } else {
+      const ys = S.map(o => new Date(o.t.st).getFullYear()),
+        y0 = Math.min(...ys),
+        y1 = Math.max(...ys);
+      for (let y = y0; y <= y1; y++) {
+        lab.push(String(y));
+        bins.push(0);
+      }
+      S.forEach(o => (bins[new Date(o.t.st).getFullYear() - y0] += o.s.d));
+    }
+    const mx = Math.max(...bins, 1),
+      W = 320,
+      H = 110,
+      bw = W / bins.length;
+    let svg = '<svg class="tch" viewBox="0 0 ' + W + ' ' + (H + 16) + '">';
+    bins.forEach((v, i) => {
+      const bh = v ? Math.max(2, ((H - 14) * v) / mx) : 0;
+      svg +=
+        '<rect x="' + (i * bw + bw * 0.15).toFixed(1) + '" y="' + (H - bh).toFixed(1) + '" width="' + (bw * 0.7).toFixed(1) + '" height="' + bh.toFixed(1) + '" rx="2" fill="#1a73e8"/>';
+      if (lab[i]) svg += '<text x="' + (i * bw + bw / 2).toFixed(1) + '" y="' + (H + 12) + '" text-anchor="middle">' + lab[i] + '</text>';
+    });
+    svg += '<text x="2" y="9">' + fkm(mx) + '</text></svg>';
+    body.append(h('div', 'tchl', 'Dystans'));
+    const c = h('div');
+    c.innerHTML = svg;
+    body.append(c);
+    // według rodzaju
+    if (!fa) {
+      const by = {};
+      S.forEach(o => {
+        const key = o.t.a || '-';
+        (by[key] = by[key] || {n: 0, d: 0, m: 0}).n++;
+        by[key].d += o.s.d;
+        by[key].m += o.s.mov;
+      });
+      if (Object.keys(by).length > 1 || !by['-']) {
+        body.append(h('div', 'tchl', 'Według rodzaju'));
+        const tb = h('table', 'tstat');
+        Object.entries(by)
+          .sort((x, y) => y[1].d - x[1].d)
+          .forEach(([key, o]) => {
+            const tr = h('tr');
+            tr.append(
+              h('td', null, key === '-' ? 'bez rodzaju' : ACTS[key][0] + ' ' + ACTS[key][1]),
+              h('td', null, String(o.n)),
+              h('td', null, fdur(o.m)),
+              h('td', null, fkm(o.d))
+            );
+            tb.append(tr);
+          });
+        body.append(tb);
+      }
+    }
+    // lista śladów okresu
+    body.append(h('div', 'tchl', 'Ślady'));
+    S.forEach(o => {
+      const r = h('div', 'obj');
+      r.append(
+        h('span', 'on', (o.t.a ? ACTS[o.t.a][0] + ' ' : '') + (o.t.nm || 'Ślad')),
+        h('span', 'cm', fday(o.t.st) + ' · ' + fkm(o.s.d))
+      );
+      r.onclick = () => {
+        fin();
+        $('sheet').style.display = 'none';
+        trkFocus(o.t);
+      };
+      body.append(r);
+    });
+  };
+  const fin = () => back.remove();
+  bt.append(B('Zamknij', fin, 'okb'));
+  box.append(tabs, nav, body, bt);
+  back.append(box);
+  back.addEventListener('click', e => {
+    if (e.target === back) fin();
+  });
+  document.body.append(back);
+  draw();
+}
 // --- kopia zapasowa ---
 function trkFeatures() {
   // ślady jako obiekty GeoJSON: MultiLineString [dł, szer, wysokość], czasy w „czasy_s”
@@ -12219,6 +13024,7 @@ function trkFeatures() {
         warstwa_id: t.l,
         ...(t.c ? {kolor: t.c} : {}),
         ...(t.vis === false ? {ukryty: true} : {}),
+        ...(t.a ? {rodzaj: t.a} : {}),
         start: new Date(t.st).toISOString(),
         ...(t.noTime ? {bez_czasu: true} : {czasy_s: t.pts.map(q => q[3])}),
         utworzono: new Date(t.cr || t.st).toISOString(),
@@ -12277,6 +13083,7 @@ function trkFromBackup(j) {
       ...(/^#[0-9a-f]{6}$/i.test(pr.kolor || '') ? {c: pr.kolor} : {}),
       ...(pr.ukryty ? {vis: false} : {}),
       ...(pr.bez_czasu ? {noTime: true} : {}),
+      ...(ACTS[pr.rodzaj] ? {a: pr.rodzaj} : {}),
       st: isFinite(st) ? st : Date.now(),
       pts,
       sg,
@@ -12334,13 +13141,27 @@ function trkSheet() {
     (REC ? ' · ● trwa nagrywanie' : '');
   $('trecb').innerHTML = REC_BADGE + '<span>' + (REC ? 'Pokaż nagrywanie' : 'Nagraj ślad') + '</span>';
   sab('tadd', 'Dodaj warstwę');
-  sab('timp', 'Import GPX');
+  sab('timp', 'Import');
+  sab('tsumb', 'Podsumowanie');
   sab('tselb', TSEL ? 'Zaznaczanie: wł.' : 'Zaznacz');
   tselUi();
   el.innerHTML = '';
   if (!trkReady) return el.append(h('div', 'empty', 'Wczytuję ślady…'));
+  // filtr listy wg rodzaju aktywności (tylko lista – mapa bez zmian)
+  const kinds = [...new Set(TRK.items.map(t => t.a || ''))];
+  if (kinds.length > 1 || (kinds[0] && TFILT)) {
+    const fr = h('div', 'tfilt');
+    fr.append(B('Wszystkie', () => ((TFILT = ''), trkSheet()), TFILT ? '' : 'on'));
+    Object.entries(ACTS)
+      .filter(([k]) => kinds.includes(k))
+      .forEach(([k, [e, n]]) => fr.append(B(e, () => ((TFILT = TFILT === k ? '' : k), trkSheet()), TFILT === k ? 'on' : '', n)));
+    if (kinds.includes('')) fr.append(B('bez rodzaju', () => ((TFILT = TFILT === '-' ? '' : '-'), trkSheet()), TFILT === '-' ? 'on' : ''));
+    el.append(fr);
+  }
   TRK.layers.forEach((l, li) => {
-    const its = TRK.items.filter(t => t.l === l.id).sort((a, b) => b.st - a.st),
+    const its = TRK.items
+      .filter(t => t.l === l.id && (!TFILT || (TFILT === '-' ? !t.a : t.a === TFILT)))
+      .sort((a, b) => b.st - a.st),
       act = l.id === TRK.active,
       w = h('div', 'l' + (act ? ' act' : '') + (l.vis ? '' : ' off')),
       r = h('div', 'lr'),
@@ -12414,12 +13235,14 @@ function trkSheet() {
                   its.length +
                   ' ' +
                   plural(its.length, 'śladem', 'śladami', 'śladami') +
-                  '?',
+                  '?\n\nTrafi do kosza na 30 dni.',
                 'Usuń',
                 true
               ))
             )
               return;
+            const allIts = TRK.items.filter(t => t.l === l.id);
+            trashPut('twarstwa', 'Warstwa śladów „' + l.name + '” (' + allIts.length + ')', {l, items: allIts});
             TRK.items = TRK.items.filter(t => t.l !== l.id);
             TRK.layers = TRK.layers.filter(x => x !== l);
             trkFix();
@@ -12434,7 +13257,7 @@ function trkSheet() {
     if (l.open) {
       if (!its.length) {
         const e = h('div', 'empty');
-        e.innerHTML = 'brak śladów – nagraj ' + REC_BADGE + ' albo wczytaj plik GPX';
+        e.innerHTML = 'brak śladów – nagraj ' + REC_BADGE + ' albo wczytaj plik (GPX, KML, TCX)';
         w.append(e);
       }
       if (TSEL && its.length) {
@@ -12458,7 +13281,11 @@ function trkSheet() {
         // nazwa, a pod nią data, dystans i czas
         nm.append(
           h('span', 'tnm', t.nm || 'Ślad'),
-          h('span', 'tdt', fday(t.st) + ' · ' + fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : ''))
+          h(
+            'span',
+            'tdt',
+            (t.a ? ACTS[t.a][0] + ' ' : '') + fday(t.st) + ' · ' + fkm(s.d) + (s.dur ? ' · ' + fdur(s.dur) : '')
+          )
         );
         ic.innerHTML =
           '<svg viewBox="0 0 20 20"><path d="M3 15c3-1 3-6 6-6s3 4 6 2 2-6 2-6" fill="none" stroke="' +
@@ -12517,6 +13344,7 @@ var EYE_ON =
     '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10c2.2 3 5.4 4.5 9 4.5s6.8-1.5 9-4.5"/><path d="M5.6 13.1L4 15.4M9.4 14.3l-.6 2.6M14.6 14.3l.6 2.6M18.4 13.1l1.6 2.3"/></svg>',
   REC_BADGE = '<span class="recbadge"><i></i>REC</span>';
 var TSEL = null; // zaznaczone ślady (Set z id) albo null, gdy tryb zaznaczania wyłączony
+var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, '-' = bez rodzaju)
 const tselItems = () => (TSEL ? TRK.items.filter(t => TSEL.has(t.id)) : []);
 function tselUi() {
   const n = TSEL ? TSEL.size : 0,
@@ -12581,7 +13409,7 @@ $('tsdel').onclick = async () => {
         plural(l.length, 'ślad', 'ślady', 'śladów') +
         ' (razem ' +
         fkm(d) +
-        ')?\n\nTego nie da się cofnąć.',
+        ')?\n\nTrafią do kosza na 30 dni.',
       'Usuń',
       true
     ))
@@ -12589,12 +13417,18 @@ $('tsdel').onclick = async () => {
     return;
   const ids = new Set(l.map(t => t.id)),
     ph = l.flatMap(t => (t.wp || []).flatMap(w => w.ph || []));
+  trashPut('slad', l.length === 1 ? 'Ślad „' + (l[0].nm || 'Ślad') + '”' : l.length + ' śladów', {items: l});
   TRK.items = TRK.items.filter(t => !ids.has(t.id));
   TSEL.clear();
   await trkChanged();
   ph.forEach(fotoForget); // pliki zdjęć tylko gdy nic innego ich nie używa
 };
 $('timp').onclick = () => $('tfile').click();
+$('tsumb').onclick = () => trkSummaryDlg();
+$('tsact').onclick = () => {
+  const l = tselNeed();
+  if (l.length) trkSetAct(l);
+};
 $('fotb').onclick = () => fotoImportPick();
 $('tfile').onchange = e => {
   const fs = [...e.target.files];
@@ -12612,6 +13446,55 @@ let REC = null, // trwające nagranie: {id, l, st, pts, sg, paused, pz: czas pau
   recFirst = true;
 const REC_KEY = 'omm-rec';
 const recPrecise = () => localStorage.getItem('omm-rec-tryb') !== 'oszczedny';
+// auto-pauza: postój dłuższy niż REC_AP s = przerwa w śladzie (czas postoju nie liczy się do czasu śladu)
+const REC_AP = 120,
+  recAutoOn = () => localStorage.getItem('omm-rec-ap') !== 'nie',
+  recKmMode = () => localStorage.getItem('omm-rec-km') || 'nie'; // 'nie' | 'pow' | 'glos'
+const recIdle = () => {
+  // ile sekund od ostatniego punktu śladu (postój), gdy nagrywanie trwa
+  if (!REC || REC.paused || !REC.pts.length) return 0;
+  return (Date.now() - REC.st) / 1000 - REC.pts[REC.pts.length - 1][3];
+};
+const plN = (n, a, b, c) => n + ' ' + plural(n, a, b, c);
+async function recKmSay(km) {
+  // komunikat co 1 km: powiadomienie (z wibracją), a w trybie „głos” także mowa
+  const s = trkStats({pts: REC.pts, sg: REC.sg, st: REC.st}),
+    sec = Math.round(s.dur),
+    slow = s.vmov > 0 && s.vmov * 3.6 < 12,
+    tempo = slow ? fpace(s.vmov) : '',
+    body =
+      fdur(sec) + (slow ? ' · tempo ' + tempo + ' min/km' : s.vmov ? ' · śr. ' + fkmh(s.vmov) : '');
+  try {
+    navigator.vibrate && navigator.vibrate([300, 150, 300]);
+  } catch (e) {}
+  const LN = plug('LocalNotifications');
+  if (LN)
+    LN.schedule({notifications: [{id: 4100 + (km % 50), title: 'OMM · ' + plN(km, 'kilometr', 'kilometry', 'kilometrów'), body}]}).catch(() => {});
+  if (recKmMode() !== 'glos') return;
+  const hh = Math.floor(sec / 3600),
+    m = Math.floor((sec % 3600) / 60),
+    ss = sec % 60;
+  let txt =
+    plN(km, 'kilometr', 'kilometry', 'kilometrów') +
+    '. Czas: ' +
+    (hh ? plN(hh, 'godzina', 'godziny', 'godzin') + ' ' : '') +
+    plN(m, 'minuta', 'minuty', 'minut') +
+    (hh ? '' : ' ' + plN(ss, 'sekunda', 'sekundy', 'sekund')) +
+    '.';
+  if (slow && s.vmov > 0) {
+    const ps = Math.round(1000 / s.vmov);
+    txt += ' Tempo: ' + plN(Math.floor(ps / 60), 'minuta', 'minuty', 'minut') + ' ' + plN(ps % 60, 'sekunda', 'sekundy', 'sekund') + ' na kilometr.';
+  } else if (s.vmov) txt += ' Średnio ' + (s.vmov * 3.6).toFixed(1).replace('.', ',') + ' kilometra na godzinę.';
+  const TTS = plug('TextToSpeech');
+  try {
+    if (TTS) await TTS.speak({text: txt, lang: 'pl-PL', rate: 1, volume: 1, category: 'playback'});
+    else if (window.speechSynthesis) {
+      const u = new SpeechSynthesisUtterance(txt);
+      u.lang = 'pl-PL';
+      speechSynthesis.speak(u);
+    }
+  } catch (e) {}
+}
 function recPersist(force) {
   if (!REC) return;
   const t = Date.now();
@@ -12736,6 +13619,11 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     // postój wg filtra: szacowana prędkość poniżej ~1,5 km/h – szum GPS nie „chodzi” po mapie
     if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return recUi();
     if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
+    // auto-pauza: po postoju dłuższym niż 2 min ruszyliśmy – postój staje się przerwą w śladzie
+    if (recAutoOn() && dt > REC_AP && d < 40) {
+      REC.sg.push(REC.pts.length);
+      REC.pz = (REC.pz || 0) + dt * 1000;
+    }
   }
   REC.pts.push(q);
   // „szpilka”: punkt B odskoczył i wrócił (A → B → C → D). Usuwamy B tylko, gdy po powrocie ślad
@@ -12755,6 +13643,13 @@ function recPoint(lat, lng, alt, accu, time, extra) {
       hav(A, C) < 0.5 * Math.min(hav(A, Bp), hav(Bp, C))
     )
       REC.pts.splice(n - 3, 1);
+  }
+  if (recKmMode() !== 'nie' && REC.pts.length > 1) {
+    const km = Math.floor(trkStats({pts: REC.pts, sg: REC.sg, st: REC.st}).d / 1000);
+    if (km > (REC.km || 0)) {
+      REC.km = km;
+      recKmSay(km);
+    }
   }
   recPersist();
   recDraw();
@@ -12901,6 +13796,7 @@ async function recStop() {
     id: REC.id,
     l: r.l,
     nm: r.nm,
+    ...(r.a ? {a: r.a} : {}),
     st: REC.st,
     pts: REC.pts,
     sg: REC.sg.filter(i => i > 0 && i < REC.pts.length),
@@ -12937,6 +13833,10 @@ function recSaveDlg() {
     );
     inp.type = 'text';
     inp.value = 'Ślad ' + fday(REC.st) + ' ' + fhm(REC.st);
+    const asel = h('select');
+    asel.className = 'tsel';
+    const ag = actGuess(s);
+    Object.entries(ACTS).forEach(([k, [e, n]]) => asel.add(new Option('Rodzaj: ' + e + ' ' + n, k, false, k === ag)));
     sel.className = 'tsel';
     TRK.layers.forEach(l =>
       sel.add(new Option('Warstwa: ' + l.name, l.id, false, l.id === (REC.l || TRK.active)))
@@ -12951,14 +13851,18 @@ function recSaveDlg() {
       );
       sel.add(new Option('＋ Nowa warstwa…', '+'));
     };
-    box.append(inp, sel);
+    box.append(inp, asel, sel);
     bt.append(
       B('Usuń', () => fin('x'), 'danger'),
       B('Nagrywaj dalej', () => fin('go')),
       B(
         'Zapisz',
         () =>
-          fin({nm: inp.value.trim().slice(0, 200) || 'Ślad', l: sel.value === '+' ? TRK.active : sel.value}),
+          fin({
+            nm: inp.value.trim().slice(0, 200) || 'Ślad',
+            l: sel.value === '+' ? TRK.active : sel.value,
+            a: asel.value
+          }),
         'okb'
       )
     );
@@ -13160,7 +14064,10 @@ function recUi() {
     return;
   }
   const now = Date.now(),
-    el = now - REC.st - (REC.pz || 0) - (REC.paused ? now - (REC.pAt || now) : 0),
+    ap = recAutoOn() && recIdle() > REC_AP, // trwa auto-pauza (postój)
+    el = ap
+      ? REC.pts[REC.pts.length - 1][3] * 1000 - (REC.pz || 0)
+      : now - REC.st - (REC.pz || 0) - (REC.paused ? now - (REC.pAt || now) : 0),
     s = trkStats({pts: REC.pts, sg: REC.sg, st: REC.st}),
     p = REC.pts,
     n = p.length;
@@ -13174,9 +14081,12 @@ function recUi() {
     const dt = p[n - 1][3] - p[i][3];
     if (dt >= 5) v = (s.cum[n - 1] - s.cum[i]) / dt;
   }
+  $('recbar').classList.toggle('paused', !!(REC.paused || ap));
   $('rectx').textContent = REC.paused
     ? 'Pauza · ' + fdur(el / 1000) + ' · ' + fkm(s.d)
-    : !n && (!recPos || recPos.accu > 50)
+    : ap
+      ? 'Auto-pauza · ' + fdur(el / 1000) + ' · ' + fkm(s.d)
+      : !n && (!recPos || recPos.accu > 50)
       ? 'Szukam GPS…' + (recPos ? ' (±' + Math.round(recPos.accu) + ' m)' : '')
       : fdur(el / 1000) + ' · ' + fkm(s.d) + (v != null ? ' · ' + fkmh(v) : '');
   $('rpp').textContent = REC.paused ? '▶' : '⏸';
@@ -13208,7 +14118,16 @@ function recUi() {
           : '🔴 szukam…'
       ],
       ['Podejście', Math.round(s.up) + ' m'],
-      ['Punkty', String(n) + ((REC.wp || []).length ? ' · 📷 ' + REC.wp.length : '')]
+      ['Punkty', String(n) + ((REC.wp || []).length ? ' · 📷 ' + REC.wp.length : '')],
+      ['Tempo', v != null && v > 0.3 ? fpace(v) + ' /km' : s.vmov ? fpace(s.vmov) + ' /km' : '—'],
+      ['Do startu', r && n ? fkm(hav([r.lat, r.lng], p[0])) : '—'],
+      (() => {
+        const q = r ? [r.lat, r.lng] : n ? p[n - 1] : null;
+        if (!q) return ['Zachód słońca', '—'];
+        const st = sunTimes(q[0], q[1]);
+        if (st.polar) return ['Słońce', st.polar === 'day' ? 'nie zachodzi' : 'nie wschodzi'];
+        return now < st.set ? ['Zachód słońca', fhm(st.set) + ' (za ' + fhmin(st.set - now) + ')'] : ['Zachód słońca', fhm(st.set) + ' ✓'];
+      })()
     ];
     $('recgrid').innerHTML = '';
     cells.forEach(([k, val]) => {
@@ -13265,6 +14184,10 @@ $('rectx').onclick = () => {
 $('rpp').onclick = () => REC && recPause(!REC.paused);
 $('rpf').onclick = recFoto;
 $('rpt').onclick = recPin;
+$('rpb').onclick = () => {
+  if (!REC || REC.pts.length < 2) return tell('Ślad jest jeszcze za krótki – nie ma dokąd wracać.');
+  trkNavAsk({nm: 'nagrywany ślad', pts: REC.pts}, true);
+};
 // po powrocie do aplikacji odśwież pasek i linię (w tle punkty przychodzą bez rysowania)
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && REC) {
@@ -13391,6 +14314,7 @@ function fotoUsed() {
   DB.maps.forEach(m => m.items.forEach(i => add(i.ph)));
   TRK.items.forEach(t => (t.wp || []).forEach(w => add(w.ph)));
   if (REC) (REC.wp || []).forEach(w => add(w.ph));
+  if (typeof TRASH !== 'undefined') TRASH.forEach(e => trashPhotos(e).forEach(x => u.add(x.slice(4)))); // kosz
   return u;
 }
 async function fotoForget(ref) {
@@ -14344,10 +15268,48 @@ const brgDeg = (a, b) => {
   return (Math.atan2(y, x) / r + 360) % 360;
 };
 const DIR8 = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+// --- wschód i zachód słońca (bez internetu) ---
+function sunTimes(lat, lng, date) {
+  // wschód i zachód słońca (równanie wschodu słońca, dokładność ~1–2 min); date – dowolna chwila tego dnia
+  const r = Math.PI / 180,
+    d = new Date(date || Date.now());
+  d.setHours(12, 0, 0, 0); // południe lokalne – właściwa doba
+  const J = d.getTime() / 864e5 + 2440587.5,
+    n = Math.round(J - 2451545 + 0.0008),
+    Js = n - lng / 360,
+    M = (357.5291 + 0.98560028 * Js) % 360,
+    C = 1.9148 * Math.sin(M * r) + 0.02 * Math.sin(2 * M * r) + 0.0003 * Math.sin(3 * M * r),
+    lam = (M + C + 180 + 102.9372) % 360,
+    Jt = 2451545 + Js + 0.0053 * Math.sin(M * r) - 0.0069 * Math.sin(2 * lam * r),
+    sd = Math.sin(lam * r) * Math.sin(23.4397 * r),
+    cd = Math.cos(Math.asin(sd)),
+    cw = (Math.sin(-0.833 * r) - Math.sin(lat * r) * sd) / (Math.cos(lat * r) * cd),
+    ms = j => new Date((j - 2440587.5) * 864e5);
+  if (cw > 1) return {rise: null, set: null, polar: 'night', noon: ms(Jt)};
+  if (cw < -1) return {rise: null, set: null, polar: 'day', noon: ms(Jt)};
+  const w = Math.acos(cw) / r;
+  return {rise: ms(Jt - w / 360), set: ms(Jt + w / 360), polar: null, noon: ms(Jt)};
+}
+const fhmin = ms => {
+  // „2 h 13 min” / „40 min”
+  const m = Math.max(0, Math.round(ms / 60000)),
+    hh = Math.floor(m / 60);
+  return (hh ? hh + ' h ' : '') + (m % 60) + ' min';
+};
+function sunLine(lat, lng) {
+  // „☀ 6:55 – 18:03 · do zachodu 2:13”
+  const s = sunTimes(lat, lng),
+    now = Date.now();
+  if (s.polar) return s.polar === 'day' ? '☀ słońce nie zachodzi' : '☀ słońce nie wschodzi';
+  const left =
+    now < s.rise ? ' · do wschodu ' + fhmin(s.rise - now) : now < s.set ? ' · do zachodu ' + fhmin(s.set - now) : ' · po zachodzie';
+  return '☀ wschód ' + fhm(s.rise) + ' · zachód ' + fhm(s.set) + left;
+}
 const ARROW_SVG =
   '<svg viewBox="0 0 34 34" width="34" height="34"><circle cx="17" cy="17" r="15" fill="#1a73e8" opacity=".18"/><path d="M17 4L26 27L17 22L8 27Z" fill="#1a73e8" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg>';
 let NAV = null; // trwająca nawigacja: cel, pozycja, kierunek telefonu, elementy na mapie
-function navStart(to, name) {
+function navStart(to, name, path) {
+  // path (opcjonalnie): prowadzenie po śladzie – lista punktów [szer, dł] od miejsca startu do celu
   navStop();
   map.closePopup();
   $('sheet').style.display = 'none';
@@ -14374,6 +15336,8 @@ function navStart(to, name) {
     gpsHead: null, // kierunek ruchu z GPS (gdy kompasu brak)
     first: true,
     arrived: false,
+    path: path && path.length > 1 ? path.map(q => [q[0], q[1]]) : null,
+    suf: null, // odległość po śladzie od punktu i do celu
     line: L.polyline([], {
       pane: 'tmpP',
       color: '#1a73e8',
@@ -14392,6 +15356,13 @@ function navStart(to, name) {
       icon: L.divIcon({className: 'nme', html: ARROW_SVG, iconSize: [34, 34], iconAnchor: [17, 17]})
     })
   };
+  if (NAV.path) {
+    const P = NAV.path,
+      suf = new Array(P.length).fill(0);
+    for (let i = P.length - 2; i >= 0; i--) suf[i] = suf[i + 1] + hav(P[i], P[i + 1]);
+    NAV.suf = suf;
+    NAV.line.setStyle({dashArray: null, weight: 6, opacity: 0.85}); // trasa po śladzie – linia ciągła
+  }
   L.circleMarker(to, {
     pane: 'tmpP',
     radius: 10,
@@ -14445,10 +15416,30 @@ function navPos(c) {
 }
 function navDraw() {
   if (!NAV || !NAV.pos) return;
-  const d = hav(NAV.pos, NAV.to),
+  let d = hav(NAV.pos, NAV.to),
     b = brgDeg(NAV.pos, NAV.to),
-    hd = NAV.head != null ? NAV.head : NAV.gpsHead;
-  NAV.line.setLatLngs([NAV.pos, NAV.to]);
+    off = 0;
+  const hd = NAV.head != null ? NAV.head : NAV.gpsHead;
+  if (NAV.path) {
+    // po śladzie: najbliższy punkt trasy, reszta drogi po śladzie, strzałka na punkt ~40 m dalej
+    const P = NAV.path;
+    let j = 0,
+      bd = Infinity;
+    for (let i = 0; i < P.length; i++) {
+      const x = hav(NAV.pos, P[i]);
+      if (x < bd) {
+        bd = x;
+        j = i;
+      }
+    }
+    let k = j,
+      a = 0;
+    while (k < P.length - 1 && a < 40) a += hav(P[k], P[++k]);
+    off = bd;
+    d = bd + NAV.suf[j];
+    b = brgDeg(NAV.pos, P[k]);
+    NAV.line.setLatLngs([NAV.pos, ...P.slice(j)]);
+  } else NAV.line.setLatLngs([NAV.pos, NAV.to]);
   NAV.me.setLatLng(NAV.pos);
   const ic = NAV.me.getElement && NAV.me.getElement();
   if (ic && ic.firstChild) ic.firstChild.style.transform = 'rotate(' + (hd != null ? hd : 0) + 'deg)';
@@ -14456,9 +15447,10 @@ function navDraw() {
   NAV.lbl.setLatLng([(NAV.pos[0] + NAV.to[0]) / 2, (NAV.pos[1] + NAV.to[1]) / 2]);
   const le = NAV.lbl.getElement && NAV.lbl.getElement();
   if (le && le.firstChild) le.firstChild.textContent = fkm(d); // odległość na środku linii
+  if (NAV.path) NAV.lbl.setLatLng(NAV.to);
   // strzałka na pasku: „tam” względem tego, gdzie patrzy telefon (bez kompasu – względem północy)
   NAV.arr.style.transform = 'rotate(' + (hd != null ? b - hd : b) + 'deg)';
-  if (d <= Math.max(8, Math.min(25, NAV.acc || 8))) {
+  if (hav(NAV.pos, NAV.to) <= Math.max(8, Math.min(25, NAV.acc || 8))) {
     if (!NAV.arrived) {
       NAV.arrived = true;
       try {
@@ -14473,11 +15465,30 @@ function navDraw() {
     NAV.name +
     ' · ' +
     fkm(d) +
+    (NAV.path ? ' po śladzie' : '') +
     ' · ' +
     Math.round(b) +
     '° ' +
     DIR8[Math.round(b / 45) % 8] +
+    (NAV.path && off > 40 ? ' · ⚠ ' + fkm(off) + ' od śladu' : '') +
     (NAV.acc > 30 ? ' · słaby GPS ±' + Math.round(NAV.acc) + ' m' : '');
+}
+async function trkNavAsk(t, rec) {
+  // prowadzenie po śladzie: powrót do startu albo dalej do mety
+  const pts = t.pts.map(q => [q[0], q[1]]);
+  const v = rec
+    ? 'start'
+    : await dlg({
+        title: 'Prowadzenie po śladzie „' + (t.nm || 'Ślad') + '”',
+        btns: [
+          {t: '↩ Do startu', v: 'start', c: 'okb'},
+          {t: 'Do mety ⟶', v: 'meta'},
+          {t: 'Anuluj', v: null}
+        ]
+      });
+  if (!v) return;
+  if (v === 'start') navStart(pts[0], 'Start śladu', pts.slice().reverse());
+  else navStart(pts[pts.length - 1], 'Meta śladu', pts);
 }
 function navStop() {
   if (!NAV) return;
@@ -14488,6 +15499,152 @@ function navStop() {
   NAV.bar.remove();
   NAV = null;
   document.body.classList.remove('navon');
+}
+
+// ---------- współrzędne punktu: okienko z kopiowaniem, udostępnianiem (SOS), odległością ode mnie i słońcem ----------
+function myPosNow() {
+  // ostatnia znana pozycja: nagrywanie, kropka GPS albo nawigacja
+  if (REC && recPos && Date.now() - recPos.time < 60000) return [recPos.lat, recPos.lng];
+  if (me && watching !== null) {
+    const l = me.getLatLng();
+    return [l.lat, l.lng];
+  }
+  if (NAV && NAV.pos) return NAV.pos;
+  return null;
+}
+function getMyPos() {
+  // pozycja teraz: znana od razu albo jednorazowy odczyt GPS
+  const k = myPosNow();
+  if (k) return Promise.resolve(k);
+  if (!navigator.geolocation) return Promise.resolve(null);
+  return new Promise(res =>
+    navigator.geolocation.getCurrentPosition(
+      x => res([x.coords.latitude, x.coords.longitude, x.coords.accuracy]),
+      e => {
+        if (e.code === 1) tell(gpsHelp(e));
+        res(null);
+      },
+      {enableHighAccuracy: true, timeout: 45000, maximumAge: 10000}
+    )
+  );
+}
+const fdms = (v, p, n) => {
+  // 51°46'12.3"N
+  const a = Math.abs(v),
+    d = Math.floor(a),
+    m = Math.floor((a - d) * 60),
+    s = ((a - d) * 60 - m) * 60;
+  return d + '°' + String(m).padStart(2, '0') + "'" + s.toFixed(1).padStart(4, '0') + '"' + (v >= 0 ? p : n);
+};
+function coordShareText(c, title) {
+  const la = c[0].toFixed(6),
+    lo = c[1].toFixed(6);
+  return (
+    (title ? title + ': ' : '') +
+    la +
+    ', ' +
+    lo +
+    '\n' +
+    fdms(c[0], 'N', 'S') +
+    ' ' +
+    fdms(c[1], 'E', 'W') +
+    '\nhttps://www.google.com/maps?q=' +
+    la +
+    ',' +
+    lo +
+    '\nhttps://www.openstreetmap.org/?mlat=' +
+    la +
+    '&mlon=' +
+    lo +
+    '#map=17/' +
+    la +
+    '/' +
+    lo
+  );
+}
+async function shareTextOut(text, title) {
+  // systemowe „Udostępnij” (SMS, komunikatory, e-mail); w razie braku – kopiowanie do schowka
+  try {
+    const SH = plug('Share');
+    if (SH) return await SH.share({title, text, dialogTitle: title});
+    if (navigator.share) return await navigator.share({title, text});
+  } catch (e) {
+    if (/cancel|abort/i.test(String((e && e.message) || e))) return;
+  }
+  copyText(text);
+}
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toastMsg('Skopiowano do schowka');
+  } catch (e) {
+    await askText('Skopiuj ręcznie:', text);
+  }
+}
+function toastMsg(t) {
+  const d = h('div', 'toast', t);
+  document.body.append(d);
+  setTimeout(() => d.remove(), 1800);
+}
+let cpopTimer = null;
+function coordPopup(c, title, isMe) {
+  // okienko współrzędnych: WGS84 (stopnie dziesiętne i ° ' "), PL-1992, odległość i azymut od mojej pozycji,
+  // wschód / zachód słońca; przyciski: kopiuj, udostępnij, SMS, prowadź, (dla mojej pozycji) 112
+  clearInterval(cpopTimer);
+  const el = h('div', 'tpop cpop'),
+    [N, E] = puwg(c[0], c[1]),
+    dist = h('div', 'cdist'),
+    upd = () => {
+      if (isMe) return (dist.textContent = '');
+      const m = myPosNow();
+      if (!m) {
+        dist.innerHTML = '';
+        dist.append(
+          B('📡 Odległość i kierunek ode mnie', async () => {
+            dist.textContent = 'Ustalam pozycję GPS…';
+            const p = await getMyPos();
+            if (p) {
+              cpopMe = p;
+              upd();
+            } else dist.textContent = 'Nie udało się ustalić pozycji.';
+          })
+        );
+        if (!cpopMe) return;
+      }
+      const q = m || cpopMe,
+        d = hav(q, c),
+        b = brgDeg(q, c);
+      dist.textContent = '↗ Od Ciebie: ' + fkm(d) + ' · azymut ' + Math.round(b) + '° ' + DIR8[Math.round(b / 45) % 8];
+    };
+  let cpopMe = null;
+  el.append(
+    h('b', null, title || 'Współrzędne'),
+    h('div', 'cll', c[0].toFixed(6) + ', ' + c[1].toFixed(6)),
+    h('div', 'tsub', fdms(c[0], 'N', 'S') + ' ' + fdms(c[1], 'E', 'W')),
+    h('div', 'tsub', 'PL-1992: N ' + N.toFixed(1) + ' E ' + E.toFixed(1)),
+    dist,
+    h('div', 'tsub', sunLine(c[0], c[1]))
+  );
+  const txt = coordShareText(c, title),
+    bt = h('div', 'tbt');
+  bt.append(
+    B('📋 Kopiuj', () => copyText(c[0].toFixed(6) + ', ' + c[1].toFixed(6))),
+    B('📤 Udostępnij', () => shareTextOut(txt, title || 'Współrzędne')),
+    B('✉ SMS', () => (location.href = 'sms:?body=' + encodeURIComponent(txt))),
+    ...(isMe ? [B('📞 112', () => (location.href = 'tel:112'), 'danger')] : [B('🧭 Prowadź', () => navStart(c, title || 'punkt'))])
+  );
+  el.append(bt);
+  upd();
+  const pop = L.popup({autoPanPaddingTopLeft: [10, 60]}).setLatLng(c).setContent(el).openOn(map);
+  cpopTimer = setInterval(() => (map.hasLayer(pop) ? upd() : clearInterval(cpopTimer)), 2000);
+}
+async function coordMe() {
+  // „📡 Moja pozycja” w narzędziu współrzędnych – np. żeby szybko podać komuś, gdzie jestem (SOS)
+  info.textContent = 'Ustalam pozycję GPS…';
+  const p = await getMyPos();
+  if (!p) return (info.textContent = 'Nie udało się ustalić pozycji GPS.');
+  map.setView(p.slice(0, 2), Math.max(map.getZoom(), 16));
+  showCoord(p.slice(0, 2), 'Moja pozycja' + (p[2] ? ' (±' + Math.round(p[2]) + ' m)' : ''), true);
 }
 
 // ---------- import zdjęć z lokalizacją (osobny przycisk w panelu) ----------
@@ -14821,6 +15978,9 @@ function statsTiles(t) {
       [n(s.vavg * 3.6, 1), 'km/h', 'Średnia prędkość'],
       [n(s.vmov * 3.6, 1), 'km/h', 'Śr. prędkość w ruchu']
     );
+  const mm = trkVminmax(t);
+  if (mm) out.push([n(mm[0] * 3.6, 1) + ' / ' + n(mm[1] * 3.6, 1), 'km/h', 'Prędkość min / max']);
+  if (trkPaceOn(t, s)) out.push([fpace(s.vmov), 'min/km', 'Tempo w ruchu']);
   if (s.emin != null)
     out.push(
       [String(Math.round(s.up)), 'm', 'Podejście'],
@@ -15032,7 +16192,12 @@ function trkSplit(t, at) {
   splitStop();
   map.closePopup();
   $('sheet').style.display = 'none';
-  const n = t.pts.length,
+  // W = kopia robocza śladu: po dotknięciu linii między dwoma punktami wstawiamy tam punkt pośredni
+  // (położenie, wysokość i czas z interpolacji), żeby ciąć dokładnie w miejscu dotknięcia
+  const T0 = t;
+  let W = t,
+    n = t.pts.length;
+  const
     ui = h('div', 'splitbar'),
     txt = h('div', 'stx'),
     rg = h('input'),
@@ -15072,9 +16237,14 @@ function trkSplit(t, at) {
       })
     }).addTo(g);
   SPLIT = {t, ui, g, rg};
+  const setW = w => {
+    W = w;
+    n = W.pts.length;
+    rg.max = n - 2;
+  };
   const show = () => {
     const i = +rg.value,
-      [A, B] = trkCut(t, i),
+      [A, B] = trkCut(W, i),
       a = trkStats(A),
       b = trkStats(B);
     const LA = trkSegs(A).map(s => s.map(q => [q[0], q[1]])),
@@ -15084,7 +16254,7 @@ function trkSplit(t, at) {
     lb.setLatLngs(LB);
     ba.setLatLng(A.pts[Math.floor(A.pts.length / 2)].slice(0, 2));
     bb.setLatLng(B.pts[Math.floor(B.pts.length / 2)].slice(0, 2));
-    mk.setLatLng(t.pts[i].slice(0, 2));
+    mk.setLatLng(W.pts[i].slice(0, 2));
     const part = (k, c, x) => {
       const d = h('div', 'sa' + k);
       d.innerHTML =
@@ -15100,37 +16270,82 @@ function trkSplit(t, at) {
     };
     txt.innerHTML = '';
     txt.append(
-      h('b', null, '✂ ' + (t.noTime ? 'punkt ' + i + '/' + (n - 1) : fhm(t.st + t.pts[i][3] * 1000))),
+      h('b', null, '✂ ' + (t.noTime ? 'punkt ' + i + '/' + (n - 1) : fhm(t.st + W.pts[i][3] * 1000))),
       part(1, SPLIT_C1, a),
       part(2, SPLIT_C2, b)
     );
   };
   rg.oninput = show;
   const nearest = pt => {
-    // numer punktu śladu najbliższego miejscu na ekranie
-    let best = 1,
+    // miejsce na śladzie najbliższe punktowi na ekranie: odcinek oryginalnego śladu + ułamek (0–1)
+    const P = T0.pts,
+      sg = new Set(T0.sg || []);
+    let best = null,
       bd = Infinity;
-    for (let i = 1; i < n - 1; i++) {
-      const d = map.latLngToContainerPoint(t.pts[i].slice(0, 2)).distanceTo(pt);
+    for (let i = 0; i < P.length - 1; i++) {
+      if (sg.has(i + 1)) continue; // przerwa (pauza) – tam nie ma linii
+      const a = map.latLngToContainerPoint(P[i].slice(0, 2)),
+        b = map.latLngToContainerPoint(P[i + 1].slice(0, 2)),
+        dx = b.x - a.x,
+        dy = b.y - a.y,
+        L2 = dx * dx + dy * dy,
+        u = L2 ? Math.max(0, Math.min(1, ((pt.x - a.x) * dx + (pt.y - a.y) * dy) / L2)) : 0,
+        d = Math.hypot(a.x + u * dx - pt.x, a.y + u * dy - pt.y);
       if (d < bd) {
         bd = d;
-        best = i;
+        best = {i, u};
       }
     }
-    return {i: best, d: bd};
+    return {...best, d: bd};
+  };
+  const snapTo = r => {
+    // ustawia nożyczki w miejscu r: w istniejącym punkcie albo w nowym punkcie pośrednim
+    const P = T0.pts,
+      sc = map.latLngToContainerPoint(P[r.i].slice(0, 2)).distanceTo(map.latLngToContainerPoint(P[r.i + 1].slice(0, 2))),
+      px = r.u * sc; // odległość od punktu i na ekranie (px)
+    let k;
+    if (px < 3 || sc - px < 3) {
+      setW(T0);
+      k = px < 3 ? r.i : r.i + 1;
+    } else {
+      const a = P[r.i],
+        b = P[r.i + 1],
+        u = r.u,
+        q = [
+          +(a[0] + (b[0] - a[0]) * u).toFixed(6),
+          +(a[1] + (b[1] - a[1]) * u).toFixed(6),
+          a[2] != null && b[2] != null ? Math.round((a[2] + (b[2] - a[2]) * u) * 10) / 10 : a[2] != null ? a[2] : b[2],
+          Math.round(a[3] + (b[3] - a[3]) * u)
+        ];
+      setW({
+        ...T0,
+        pts: [...P.slice(0, r.i + 1), q, ...P.slice(r.i + 1)],
+        sg: (T0.sg || []).map(x => (x > r.i ? x + 1 : x))
+      });
+      k = r.i + 1;
+    }
+    rg.value = Math.min(n - 2, Math.max(1, k));
+    show();
   };
   const drag = () => {
     const r = nearest(map.latLngToContainerPoint(mk.getLatLng()));
-    if (r.i !== +rg.value) {
-      rg.value = r.i;
-      show();
-    } else mk.setLatLng(t.pts[r.i].slice(0, 2));
+    if (r.i != null) snapTo(r);
   };
-  mk.on('drag', drag);
   mk.on('dragend', drag);
+  mk.on('drag', () => {
+    // w trakcie przeciągania – podgląd w najbliższym zapisanym punkcie
+    const r = nearest(map.latLngToContainerPoint(mk.getLatLng()));
+    if (r.i == null) return;
+    setW(T0);
+    const k = Math.min(n - 2, Math.max(1, r.u < 0.5 ? r.i : r.i + 1));
+    if (k !== +rg.value) {
+      rg.value = k;
+      show();
+    }
+  });
   const finish = async kind => {
     const i = +rg.value,
-      [A, B] = trkCut(t, i);
+      [A, B] = trkCut(W, i);
     if (
       kind !== 'both' &&
       !(await askYes(
@@ -15148,6 +16363,7 @@ function trkSplit(t, at) {
     if (k < 0) return splitStop();
     // zdjęcia z usuwanej części zostają w kopii aplikacji tylko, jeśli coś ich jeszcze używa
     const gone = kind === 'del2' ? B : kind === 'del1' ? A : null;
+    if (gone) trashPut('slad', 'Odcięta część śladu „' + (t.nm || 'Ślad') + '”', {items: [{...gone, id: uid(), nm: (t.nm || 'Ślad') + ' – odcięta część'}]});
     if (kind === 'both') TRK.items.splice(k, 1, A, B);
     else if (kind === 'del2') TRK.items.splice(k, 1, A);
     else TRK.items.splice(k, 1, {...B, id: t.id, nm: t.nm});
@@ -15173,11 +16389,9 @@ function trkSplit(t, at) {
   document.body.classList.add('spliton');
   // dotknięcie mapy przy śladzie ustawia miejsce podziału
   SPLIT.click = e => {
+    // dotknięcie przy śladzie: nożyczki dokładnie w tym miejscu linii (także między punktami)
     const r = nearest(e.containerPoint);
-    if (r.d < 40) {
-      rg.value = r.i;
-      show();
-    }
+    if (r.i != null && r.d < 40) snapTo(r);
   };
   map.on('click', SPLIT.click);
   map.fitBounds(L.latLngBounds(t.pts.map(q => [q[0], q[1]])), {
@@ -15247,6 +16461,556 @@ async function vehicleAsk(t) {
   if (v) trkSplit(t, k);
 }
 
+// ---------- kosz: usunięte obiekty, warstwy, mapy i ślady – 30 dni na przywrócenie ----------
+/*
+ * TRASH = [{id, k: rodzaj, nm: opis, at: kiedy usunięto (ms), d: kopia danych, m?: id mapy, mn?: nazwa mapy}]
+ *  k = 'obj' (obiekty mapy: d.items), 'warstwa' (d.l + d.items, d.g = id grupy), 'grupa' (d.g + d.items),
+ *      'mapa' (d = cała mapa), 'slad' (d.items = ślady), 'twarstwa' (d.l = warstwa śladów + d.items)
+ *  Zapis: IndexedDB „omm” → „kosz” (gdy niedostępna – localStorage „omm-kosz”). Po 30 dniach wpis znika,
+ *  a zdjęcia, których nic już nie używa, są usuwane z pamięci aplikacji.
+ */
+const TRASH_DAYS = 30;
+var TRASH = []; // (var: fotoUsed() sprawdza kosz także przed tym miejscem skryptu)
+const clone = x => JSON.parse(JSON.stringify(x));
+async function trashLoad() {
+  try {
+    TRASH = (await IDB.get('kosz')) || [];
+  } catch (e) {
+    try {
+      TRASH = JSON.parse(localStorage.getItem('omm-kosz') || '[]');
+    } catch (_) {}
+  }
+  if (!Array.isArray(TRASH)) TRASH = [];
+  trashPurge();
+}
+function trashSave() {
+  IDB.set('kosz', TRASH).catch(() => {
+    try {
+      localStorage.setItem('omm-kosz', JSON.stringify(TRASH));
+    } catch (e) {}
+  });
+}
+function trashPut(k, nm, d, extra) {
+  TRASH.unshift({id: uid(), k, nm: String(nm || '').slice(0, 200), at: Date.now(), d: clone(d), ...(extra || {})});
+  trashSave();
+}
+function trashPhotos(e) {
+  // zdjęcia (nazwy „idb:…”) użyte w danych wpisu kosza
+  const out = [],
+    add = a => (a || []).forEach(x => isLocalPh(x) && out.push(x));
+  const items = e.k === 'mapa' ? e.d.items || [] : e.d.items || [];
+  items.forEach(i => {
+    add(i.ph);
+    (i.wp || []).forEach(w => add(w.ph));
+  });
+  return out;
+}
+function trashPurge() {
+  const lim = Date.now() - TRASH_DAYS * 864e5,
+    old = TRASH.filter(e => e.at < lim);
+  if (!old.length) return;
+  TRASH = TRASH.filter(e => e.at >= lim);
+  trashSave();
+  old.forEach(e => trashPhotos(e).forEach(fotoForget)); // tylko gdy nic innego już ich nie używa
+}
+const mapLayers = m => (m.groups || []).flatMap(g => g.layers.map(l => ({g, l})));
+function trashRestore(e) {
+  // przywraca wpis tam, skąd został usunięty (gdy tego miejsca już nie ma – do bieżącej mapy / aktywnej warstwy)
+  const fresh = (list, have) =>
+    list.forEach(x => {
+      if (have(x.id)) x.id = uid();
+    });
+  let msg = '';
+  if (e.k === 'slad' || e.k === 'twarstwa') {
+    const d = clone(e.d);
+    if (e.k === 'twarstwa') {
+      if (TRK.layers.some(l => l.id === d.l.id)) d.l.id = uid();
+      d.items.forEach(t => (t.l = d.l.id));
+      TRK.layers.push(d.l);
+    } else d.items.forEach(t => TRK.layers.some(l => l.id === t.l) || (t.l = TRK.active));
+    fresh(d.items, id => TRK.items.some(t => t.id === id));
+    TRK.items.push(...d.items);
+    trkFix();
+    trkChanged();
+    msg = 'Przywrócono do śladów GPS.';
+  } else if (e.k === 'mapa') {
+    const m = clone(e.d);
+    if (DB.maps.some(x => x.id === m.id)) m.id = uid();
+    DB.maps.push(m);
+    save();
+    msg = 'Przywrócono mapę „' + m.name + '”' + (!!m.w !== isW() ? ' (jest w trybie ' + (m.w ? 'pracy' : 'prywatnym') + ')' : '') + '.';
+  } else {
+    const m = DB.maps.find(x => x.id === e.m) || P,
+      d = clone(e.d),
+      have = id => DB.maps.some(mm => mm.items.some(i => i.id === id));
+    if (e.k === 'warstwa' || e.k === 'grupa') {
+      const ls = e.k === 'grupa' ? d.g.layers : [d.l];
+      ls.forEach(l => {
+        if (mapLayers(m).some(x => x.l.id === l.id)) {
+          const nid = uid();
+          d.items.forEach(i => i.l === l.id && (i.l = nid));
+          l.id = nid;
+        }
+      });
+      if (e.k === 'grupa') {
+        if (m.groups.some(g => g.id === d.g.id)) d.g.id = uid();
+        m.groups.push(d.g);
+      } else (m.groups.find(g => g.id === d.gid) || m.groups[0]).layers.push(d.l);
+    } else {
+      const ls = mapLayers(m),
+        def = (ls.find(x => x.l.id === m.active) || ls[0]).l.id;
+      d.items.forEach(i => ls.some(x => x.l.id === i.l) || (i.l = def));
+    }
+    fresh(d.items, have);
+    m.items.push(...d.items);
+    save();
+    msg = 'Przywrócono na mapę „' + m.name + '”' + (m !== P ? ' – otwórz ją, by zobaczyć' : '') + '.';
+  }
+  TRASH = TRASH.filter(x => x !== e);
+  trashSave();
+  render();
+  sheetIfOpen();
+  return msg;
+}
+const TRASH_IC = {obj: '📍', warstwa: '🗂', grupa: '🗂', mapa: '🗺', slad: '〰️', twarstwa: '🗂'};
+function trashDlg() {
+  trashPurge();
+  const back = h('div', 'dback'),
+    box = h('div', 'dbox about'),
+    body = h('div', 'abody'),
+    bt = h('div', 'db');
+  box.append(h('div', 'dt', '🗑 Kosz'));
+  const ago = ms => {
+    const d = Math.floor((Date.now() - ms) / 864e5);
+    return d < 1 ? 'dziś' : d === 1 ? 'wczoraj' : d + ' dni temu';
+  };
+  const draw = () => {
+    body.innerHTML = '';
+    body.append(h('p', 'muted', 'Usunięte rzeczy czekają tu ' + TRASH_DAYS + ' dni – potem znikają na zawsze.'));
+    if (!TRASH.length) return body.append(h('div', 'empty', 'Kosz jest pusty.'));
+    TRASH.forEach(e => {
+      const r = h('div', 'trow'),
+        left = Math.max(0, TRASH_DAYS - Math.floor((Date.now() - e.at) / 864e5));
+      r.append(
+        h('span', 'ti', TRASH_IC[e.k] || '•'),
+        (() => {
+          const c = h('div', 'tx');
+          c.append(
+            h('b', null, e.nm || '(bez nazwy)'),
+            h('span', null, (e.mn ? 'mapa „' + e.mn + '” · ' : '') + 'usunięto ' + ago(e.at) + ' · zostało ' + left + ' ' + plural(left, 'dzień', 'dni', 'dni'))
+          );
+          return c;
+        })(),
+        B('↩', async () => {
+          const m = trashRestore(e);
+          draw();
+          tell(m);
+        }, 'okb', 'Przywróć'),
+        B('✕', async () => {
+          if (!(await askYes('Usunąć „' + (e.nm || 'element') + '” na zawsze?', 'Usuń', true))) return;
+          TRASH = TRASH.filter(x => x !== e);
+          trashSave();
+          trashPhotos(e).forEach(fotoForget);
+          draw();
+        }, '', 'Usuń na zawsze')
+      );
+      body.append(r);
+    });
+  };
+  const fin = () => back.remove();
+  bt.append(
+    B('Opróżnij kosz', async () => {
+      if (!TRASH.length) return;
+      if (!(await askYes('Usunąć na zawsze wszystko z kosza (' + TRASH.length + ')?', 'Opróżnij', true))) return;
+      const old = TRASH;
+      TRASH = [];
+      trashSave();
+      old.forEach(e => trashPhotos(e).forEach(fotoForget));
+      draw();
+    }, 'danger'),
+    B('Zamknij', fin, 'okb')
+  );
+  box.append(body, bt);
+  back.append(box);
+  back.addEventListener('click', ev => {
+    if (ev.target === back) fin();
+  });
+  document.body.append(back);
+  draw();
+}
+trashLoad();
+
+// ---------- wyszukiwarka: obiekty map, ślady, współrzędne, adresy (internet) ----------
+function parseCoords(s) {
+  // „51.77, 19.46”, „51,77 19,46”, „N 51°46'12" E 19°27'36"”, „51°46.2'N 19°27.6'E”
+  s = String(s).trim().replace(/[′’]/g, "'").replace(/[″”]/g, '"');
+  // ułamki dziesiętne z przecinkiem: „51,77 19,46” (sprawdzamy najpierw – przecinek nie jest tu separatorem)
+  const dc = s.match(/^(-?\d{1,2},\d+)[\s;]+(-?\d{1,3},\d+)$/);
+  if (dc) s = dc[1].replace(',', '.') + ' ' + dc[2].replace(',', '.');
+  let m = s.match(/^([NS])?\s*(-?\d{1,2}(?:[.,]\d+)?)\s*[°\s]?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*'?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*"?)?)?\s*([NS])?[\s,;]+([EW])?\s*(-?\d{1,3}(?:[.,]\d+)?)\s*[°\s]?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*'?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*"?)?)?\s*([EW])?$/i);
+  if (!m) {
+    // ułamki dziesiętne z przecinkiem: „51,77 19,46”
+    const d = s.match(/^(-?\d{1,2},\d+)\s+(-?\d{1,3},\d+)$/);
+    if (!d) return null;
+    m = [null, null, d[1], null, null, null, null, d[2], null, null, null];
+  }
+  const num = x => (x == null ? 0 : +String(x).replace(',', '.')),
+    dms = (a, b, c) => Math.abs(num(a)) + num(b) / 60 + num(c) / 3600,
+    la = dms(m[2], m[3], m[4]) * (/s/i.test(m[1] || m[5] || '') || num(m[2]) < 0 ? -1 : 1),
+    lo = dms(m[7], m[8], m[9]) * (/w/i.test(m[6] || m[10] || '') || num(m[7]) < 0 ? -1 : 1);
+  return Math.abs(la) <= 90 && Math.abs(lo) <= 180 && (la || lo) ? [la, lo] : null;
+}
+const norm = s =>
+  String(s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/ł/g, 'l');
+function searchDlg() {
+  closePops();
+  const back = h('div', 'dback srch'),
+    box = h('div', 'dbox about'),
+    inp = h('input'),
+    res = h('div', 'abody'),
+    bt = h('div', 'db');
+  inp.type = 'search';
+  inp.placeholder = 'Nazwa, opis, miejscowość, adres albo współrzędne';
+  box.append(h('div', 'dt', '🔍 Szukaj'), inp, res, bt);
+  const fin = () => back.remove();
+  const row = (ic, a, b, fn) => {
+    const r = h('div', 'trow');
+    r.append(h('span', 'ti', ic));
+    const c = h('div', 'tx');
+    c.append(h('b', null, a), ...(b ? [h('span', null, b)] : []));
+    r.append(c);
+    r.onclick = () => {
+      fin();
+      fn();
+    };
+    res.append(r);
+  };
+  let online = null; // wyniki z internetu dla bieżącego tekstu
+  const local = () => {
+    const q = norm(inp.value.trim());
+    res.innerHTML = '';
+    if (!q) return res.append(h('p', 'muted', 'Szukam w mapach bieżącego trybu i w śladach GPS. Miejscowości i adresy – przyciskiem „Szukaj w internecie” (albo Enter).'));
+    const c = parseCoords(inp.value);
+    if (c) row('🎯', c[0].toFixed(6) + ', ' + c[1].toFixed(6), 'Współrzędne – pokaż na mapie', () => coordGo(c, 'Współrzędne'));
+    let n = 0;
+    modeMaps().forEach(m =>
+      m.items.forEach(it => {
+        if (n >= 40) return;
+        const nm = it.nm || (m === P ? nameOf(it) : '') || '';
+        if (!norm(nm).includes(q) && !norm(it.n).includes(q)) return;
+        n++;
+        row(it.t === 'pin' ? '📍' : it.t === 'line' ? '〰️' : it.t === 'text' ? '🔤' : '⬠', nm || '(bez nazwy)', 'mapa „' + m.name + '”' + (it.n && !norm(nm).includes(q) ? ' · w opisie' : ''), () => {
+          if (m !== P) openMap(m.id);
+          focusItem(it);
+        });
+      })
+    );
+    TRK.items.forEach(t => {
+      if (n >= 60 || !norm(t.nm).includes(q)) return;
+      n++;
+      row(t.a ? ACTS[t.a][0] : '〰️', t.nm || 'Ślad', 'ślad · ' + fday(t.st) + ' · ' + fkm(trkStatsC(t).d), () => {
+        $('sheet').style.display = 'none';
+        trkFocus(t);
+      });
+    });
+    if (online && online.q === inp.value.trim())
+      online.list.forEach(p => row('🌐', p.name || p.display_name.split(',')[0], p.display_name, () => coordGo([+p.lat, +p.lon], p.display_name.split(',').slice(0, 2).join(','))));
+    else if (!c && !n) res.append(h('div', 'empty', 'Brak wyników w Twoich danych.'));
+  };
+  const web = async () => {
+    const q = inp.value.trim();
+    if (!q || parseCoords(q)) return;
+    res.prepend(h('p', 'muted', 'Szukam w internecie…'));
+    try {
+      // OpenStreetMap Nominatim – zgodnie z zasadami: tylko po naciśnięciu, bez podpowiedzi przy pisaniu
+      const r = await fetch(
+        'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=8&accept-language=pl&q=' + encodeURIComponent(q)
+      );
+      online = {q, list: r.ok ? await r.json() : []};
+      local();
+      if (!online.list.length) res.append(h('div', 'empty', 'W internecie nic nie znaleziono.'));
+    } catch (e) {
+      local();
+      res.append(h('div', 'empty', 'Brak połączenia z internetem – adresów nie da się teraz wyszukać.'));
+    }
+  };
+  inp.oninput = local;
+  inp.onkeydown = e => {
+    if (e.key === 'Enter') web();
+    if (e.key === 'Escape') fin();
+  };
+  bt.append(B('Zamknij', fin), B('🌐 Szukaj w internecie', web, 'okb'));
+  back.append(box);
+  back.addEventListener('click', e => {
+    if (e.target === back) fin();
+  });
+  document.body.append(back);
+  local();
+  setTimeout(() => inp.focus(), 50);
+}
+function coordGo(c, title) {
+  // przejście do miejsca i okienko współrzędnych (nawigacja, kopiowanie, słońce)
+  $('sheet').style.display = 'none';
+  map.setView(c, Math.max(map.getZoom(), 15));
+  setTimeout(() => coordPopup(c, title), 300);
+}
+$('srchb').onclick = searchDlg;
+
+// ---------- mapy offline: pobieranie obszaru i lista pobranych obszarów ----------
+const fmb = b => (b / 1048576).toFixed(1).replace('.', ',') + ' MB';
+async function offLoad() {
+  try {
+    OFF.areas = (await IDB.get('offline-obszary')) || [];
+    OFF.idx = new Set(await IDB.keys('tile/'));
+  } catch (e) {
+    OFF.areas = [];
+  }
+  OFF.ready = true;
+  if (OFF.idx.size && curBase && curBase._offId) curBase.redraw();
+}
+const lon2x = (lon, z) => Math.floor(((lon + 180) / 360) * 2 ** z),
+  lat2y = (lat, z) => {
+    const r = (Math.max(-85.05, Math.min(85.05, lat)) * Math.PI) / 180;
+    return Math.floor(((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * 2 ** z);
+  };
+function offRanges(a) {
+  // zakresy kafli obszaru dla każdego zoomu: [z, x0, x1, y0, y1]
+  const [s, w, n, e] = a.bb,
+    out = [];
+  for (let z = a.z0; z <= a.z1; z++) out.push([z, lon2x(w, z), lon2x(e, z), lat2y(n, z), lat2y(s, z)]);
+  return out;
+}
+const offCount = a => offRanges(a).reduce((t, [, x0, x1, y0, y1]) => t + (x1 - x0 + 1) * (y1 - y0 + 1), 0);
+function offKeys(a) {
+  const out = [];
+  offRanges(a).forEach(([z, x0, x1, y0, y1]) => {
+    for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) out.push(offKey(a.src, z, x, y));
+  });
+  return out;
+}
+async function offFetch(url) {
+  // pobranie kafla: w aplikacji przez natywne HTTP (bez ograniczeń CORS, z podpisem aplikacji), w przeglądarce – fetch
+  const H = plug('CapacitorHttp');
+  if (H)
+    try {
+      const r = await H.get({
+        url,
+        responseType: 'blob',
+        headers: {'User-Agent': 'OMM-OwnMapManager/' + APP_VER + ' (+https://github.com/OwnMapManager/omm)'}
+      });
+      if (r.status !== 200 || !r.data) throw new Error('HTTP ' + r.status);
+      const bin = atob(r.data),
+        u8 = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      const ct = (r.headers && (r.headers['Content-Type'] || r.headers['content-type'])) || 'image/png';
+      return new Blob([u8], {type: ct});
+    } catch (e) {
+      if (!navigator.onLine) throw e;
+    }
+  const r = await fetch(url, {mode: 'cors', referrerPolicy: 'no-referrer'});
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.blob();
+}
+let OFFJOB = null; // trwające pobieranie
+async function offDownload(a) {
+  const src = OFF_SRC[a.src],
+    layer = BASES[src.base],
+    keys = [],
+    urls = [];
+  const old = layer._tileZoom;
+  offRanges(a).forEach(([z, x0, x1, y0, y1]) => {
+    layer._tileZoom = z; // getTileUrl bierze zoom z warstwy
+    for (let x = x0; x <= x1; x++)
+      for (let y = y0; y <= y1; y++) {
+        const k = offKey(a.src, z, x, y);
+        if (OFF.idx.has(k)) continue; // już jest (np. z innego obszaru)
+        const c = L.point(x, y);
+        c.z = z;
+        keys.push(k);
+        urls.push(layer.getTileUrl(c));
+      }
+  });
+  layer._tileZoom = old;
+  try {
+    if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); // Android nie usunie danych przy braku miejsca
+  } catch (e) {}
+  const bar = h('div', 'offbar'),
+    tx = h('span'),
+    job = (OFFJOB = {stop: false, bar});
+  bar.append(tx, B('✕', () => (job.stop = true), '', 'Przerwij pobieranie'));
+  document.body.append(bar);
+  let i = 0,
+    ok = 0,
+    bad = 0,
+    bytes = 0,
+    buf = [];
+  const flush = async () => {
+    if (!buf.length) return;
+    const b = buf;
+    buf = [];
+    await IDB.setMany(b);
+    b.forEach(([k]) => OFF.idx.add(k));
+  };
+  const show = () => (tx.textContent = '⬇ ' + a.nm + ': ' + (ok + bad) + ' / ' + keys.length + ' · ' + fmb(bytes) + (bad ? ' · błędy: ' + bad : ''));
+  show();
+  await Promise.all(
+    Array.from({length: src.par}, async () => {
+      while (i < keys.length && !job.stop) {
+        const n = i++;
+        try {
+          const b = await offFetch(urls[n]);
+          bytes += b.size;
+          buf.push([keys[n], b]);
+          ok++;
+          if (buf.length >= 25) await flush();
+        } catch (e) {
+          bad++;
+          if (bad > 30 && bad > ok) job.stop = 'err'; // serwer nie odpowiada / brak internetu
+        }
+        if ((ok + bad) % 5 === 0) show();
+      }
+    })
+  );
+  await flush();
+  a.n = offCount(a);
+  a.bytes = (a.bytes || 0) + bytes;
+  a.bad = bad;
+  OFF.areas = OFF.areas.filter(x => x.id !== a.id).concat(a);
+  await IDB.set('offline-obszary', OFF.areas);
+  bar.remove();
+  OFFJOB = null;
+  if (curBase === layer) layer.redraw();
+  tell(
+    job.stop === 'err'
+      ? 'Pobieranie przerwane – serwer nie odpowiada albo nie ma internetu. Pobrano ' + ok + ' kafli; resztę dobierzesz, pobierając ten sam obszar jeszcze raz.'
+      : job.stop
+        ? 'Pobieranie przerwane. Pobrano ' + ok + ' kafli (' + fmb(bytes) + ') – zostają w telefonie.'
+        : '✅ Obszar „' + a.nm + '” jest w telefonie: ' + fmb(bytes) + (bad ? ', nie udało się pobrać ' + bad + ' kafli' : '') + '.\n\nBez internetu mapa pokaże go automatycznie (podkład „' + src.name + '”).'
+  );
+}
+async function offDelete(a) {
+  // usuwa kafle obszaru, których nie potrzebuje żaden inny obszar
+  const rest = OFF.areas.filter(x => x !== a && x.src === a.src),
+    keep = new Set(rest.flatMap(offKeys)),
+    del = offKeys(a).filter(k => !keep.has(k) && OFF.idx.has(k));
+  for (let i = 0; i < del.length; i += 500) await IDB.delMany(del.slice(i, i + 500));
+  del.forEach(k => OFF.idx.delete(k));
+  OFF.areas = OFF.areas.filter(x => x !== a);
+  await IDB.set('offline-obszary', OFF.areas);
+  if (curBase && curBase._offId) curBase.redraw();
+}
+function offDlg() {
+  closePops();
+  const back = h('div', 'dback'),
+    box = h('div', 'dbox about'),
+    body = h('div', 'abody'),
+    bt = h('div', 'db'),
+    fin = () => back.remove();
+  box.append(h('div', 'dt', '⬇ Mapy offline'));
+  const draw = async () => {
+    body.innerHTML = '';
+    body.append(
+      h('p', 'muted', 'Pobierz podkład dla obszaru widocznego teraz na ekranie – przyda się w lesie bez zasięgu. Bez internetu mapa sama sięgnie po pobrane kafle (także przy większym przybliżeniu – wtedy powiększone).')
+    );
+    // nowy obszar
+    const g = h('div', 'sset'),
+      ss = h('select'),
+      zs = h('select'),
+      nm = h('input'),
+      est = h('div', 'muted'),
+      bb = map.getBounds(),
+      area = () => ({
+        src: ss.value,
+        bb: [bb.getSouth(), bb.getWest(), bb.getNorth(), bb.getEast()],
+        z0: Math.max(0, Math.min(8, +zs.value)),
+        z1: +zs.value
+      });
+    g.append(h('b', null, 'Pobierz widoczny obszar'));
+    ss.className = zs.className = 'tsel';
+    Object.entries(OFF_SRC).forEach(([k, s]) => ss.add(new Option('Podkład: ' + s.name, k, false, BASES[s.base] === curBase)));
+    const zl = {12: 'ogólnie, drogi', 13: 'wsie, drogi', 14: 'drogi leśne', 15: 'ścieżki', 16: 'ścieżki i budynki', 17: 'szczegóły', 18: 'bardzo dokładnie', 19: 'najdokładniej'};
+    const fillZ = () => {
+      const zmax = OFF_SRC[ss.value].zmax,
+        cur = Math.min(zmax, Math.max(12, Math.round(map.getZoom()) + 2));
+      zs.innerHTML = '';
+      for (let z = 12; z <= zmax; z++) zs.add(new Option('do zoomu ' + z + ' – ' + zl[z], z, false, z === cur));
+    };
+    const upd = () => {
+      const a = area(),
+        n = offCount(a),
+        mb = (n * OFF_SRC[a.src].kb) / 1024;
+      est.textContent =
+        'ok. ' + n.toLocaleString('pl-PL') + ' kafli, ~' + (mb < 10 ? mb.toFixed(1).replace('.', ',') : Math.round(mb)) + ' MB' +
+        (n > 40000 ? ' – za dużo: przybliż mapę albo zmniejsz zoom' : '') +
+        (a.src === 'osm' ? '. OpenStreetMap pozwala pobierać do zoomu 16 – dalej mapa powiększa pobrane kafle.' : '');
+      go.disabled = n > 40000 || !!OFFJOB;
+    };
+    ss.onchange = () => (fillZ(), upd());
+    zs.onchange = upd;
+    nm.type = 'text';
+    nm.placeholder = 'Nazwa obszaru (np. Lasy Spalskie)';
+    const go = B('⬇ Pobierz', () => {
+      const a = {id: uid(), nm: nm.value.trim().slice(0, 80) || 'Obszar ' + fday(Date.now()), at: Date.now(), ...area()};
+      fin();
+      offDownload(a);
+    }, 'okb');
+    fillZ();
+    g.append(ss, zs, nm, est, go);
+    if (OFFJOB) g.append(h('div', 'muted', 'Trwa pobieranie innego obszaru – poczekaj, aż się skończy.'));
+    body.append(g);
+    upd();
+    // pobrane obszary
+    body.append(h('div', 'tchl', 'Pobrane obszary'));
+    if (!OFF.areas.length) body.append(h('div', 'empty', 'Nic jeszcze nie pobrano.'));
+    OFF.areas
+      .slice()
+      .sort((x, y) => y.at - x.at)
+      .forEach(a => {
+        const r = h('div', 'trow'),
+          c = h('div', 'tx');
+        c.append(
+          h('b', null, a.nm),
+          h('span', null, OFF_SRC[a.src].name + ' · zoom do ' + a.z1 + ' · ' + fmb(a.bytes || 0) + ' · ' + fday(a.at))
+        );
+        c.onclick = () => {
+          fin();
+          if (BASES[OFF_SRC[a.src].base] !== curBase) setBase(OFF_SRC[a.src].base);
+          const b = L.latLngBounds([a.bb[0], a.bb[1]], [a.bb[2], a.bb[3]]),
+            rc = L.rectangle(b, {pane: 'tmpP', color: '#1a73e8', weight: 2, fill: false, dashArray: '6 6', interactive: false}).addTo(map);
+          map.fitBounds(b);
+          setTimeout(() => rc.remove(), 6000);
+        };
+        r.append(
+          h('span', 'ti', '🗺'),
+          c,
+          B('🗑', async () => {
+            if (!(await askYes('Usunąć pobrany obszar „' + a.nm + '” z telefonu?', 'Usuń', true))) return;
+            await offDelete(a);
+            draw();
+          }, '', 'Usuń z telefonu')
+        );
+        body.append(r);
+      });
+    try {
+      const e = await navigator.storage.estimate();
+      body.append(h('p', 'muted', 'Dane OMM w telefonie: ' + (e.usage / 1048576).toFixed(0) + ' MB' + (e.quota ? ' (dostępne ok. ' + (e.quota / 1073741824).toFixed(1).replace('.', ',') + ' GB)' : '') + '.'));
+    } catch (e) {}
+  };
+  bt.append(B('Zamknij', fin, 'okb'));
+  box.append(body, bt);
+  back.append(box);
+  back.addEventListener('click', e => {
+    if (e.target === back) fin();
+  });
+  document.body.append(back);
+  draw();
+}
+offLoad();
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
   const back = h('div', 'dback'),
@@ -15275,6 +17039,21 @@ function settingsDlg() {
     body.append(g);
   };
   box.append(h('div', 'dt', '⚙️ Ustawienia'));
+  const top = h('div', 'setop'),
+    tut = B('📘 Samouczek', () => {}, '', 'Samouczek pojawi się w kolejnych wersjach');
+  tut.disabled = true;
+  top.append(
+    B('ℹ️ O aplikacji i jak zacząć', () => {
+      back.remove();
+      aboutDlg();
+    }),
+    B('🗑 Kosz', () => {
+      back.remove();
+      trashDlg();
+    }),
+    tut
+  );
+  body.append(top);
   radios(
     'Folder zapisu (kopie, eksporty)',
     'omm-folder',
@@ -15295,6 +17074,27 @@ function settingsDlg() {
     ['dokladny', 'Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)'],
     ['oszczedny', 'Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii']
   ]);
+  radios(
+    'Auto-pauza przy postoju',
+    'omm-rec-ap',
+    'tak',
+    [
+      ['tak', 'Włączona – postój dłuższy niż 2 min nie liczy się do czasu śladu'],
+      ['nie', 'Wyłączona – czas liczy się także na postojach']
+    ],
+    'Po ruszeniu nagrywanie samo wraca do zwykłego trybu; na pasku widać wtedy „Auto-pauza”.'
+  );
+  radios(
+    'Komunikat co 1 km',
+    'omm-rec-km',
+    'nie',
+    [
+      ['nie', 'Wyłączony'],
+      ['pow', 'Wibracja i powiadomienie (dystans, czas, tempo lub prędkość)'],
+      ['glos', 'Jak wyżej + komunikat głosowy']
+    ],
+    'Działa także przy wygaszonym ekranie. Głos czyta syntezator mowy telefonu (polski głos musi być zainstalowany).'
+  );
   radios(
     'Kolor śladu',
     'omm-trk-kolor',
