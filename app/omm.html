@@ -2205,6 +2205,11 @@ details.scat summary {
   font-size: 15px;
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+details.scat summary .ic {
+  color: #5f6368;
+  flex: none;
 }
 details.scat summary::-webkit-details-marker {
   display: none;
@@ -2942,6 +2947,196 @@ body.spliton #info {
   box-shadow: 0 1px 5px #0007;
   font-size: 18px;
 }
+
+/* v50: panel map i warstw – wąski pasek (tryb · ustawienia · o aplikacji · zamknij), zakładki ze strzałką ▾,
+   pełna nazwa mapy, paski akcji i zaznaczania z samych ikon (nazwa w podpowiedzi) */
+#sh {
+  padding: 4px 4px 0 8px;
+  gap: 0;
+  min-height: 40px;
+}
+#sh .shsp {
+  flex: 1;
+}
+#sh .ibt {
+  width: 38px;
+  height: 38px;
+  color: #5f6368;
+}
+#modeb {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 28px;
+  padding: 0 10px 0 8px;
+  font-size: 12.5px;
+  color: #3c4043;
+}
+#modeb .ic {
+  color: #5f6368;
+}
+#modeb.work .ic {
+  color: var(--acc);
+}
+#stabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 8px;
+  margin: 0;
+}
+#stabs .stab {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -1px;
+}
+#stabs .stab.on {
+  border-bottom-color: #1a73e8;
+}
+#stabs .stab button {
+  border: 0;
+  background: none;
+  color: #5f6368;
+  font-size: 14px;
+  padding: 9px 4px 8px 8px;
+}
+#stabs .stab.on button {
+  color: #1a73e8;
+  font-weight: 600;
+}
+#stabs .stab .std {
+  padding: 6px 6px 4px 0;
+  display: inline-flex;
+  align-items: center;
+}
+#mname {
+  padding: 10px 16px 8px;
+}
+#mname b {
+  display: block;
+  font-size: 19px;
+  font-weight: 400;
+  color: #202124;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+#mname #msub {
+  padding: 3px 0 0;
+}
+#sa,
+#tsa {
+  flex-wrap: nowrap;
+  gap: 2px;
+  padding: 3px 8px;
+  background: #f1f3f4;
+  border: 0;
+  overflow-x: auto;
+}
+#sa button,
+#tsa button {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f6368;
+}
+#sa button .ic,
+#tsa button .ic {
+  width: 23px;
+  height: 23px;
+}
+#sa button:active,
+#tsa button:active {
+  background: #e3e6e8;
+}
+#sa button.on,
+#tsa button.on {
+  background: var(--accbg);
+  color: var(--acc);
+}
+#sa button .nb {
+  position: absolute;
+  top: 4px;
+  right: 3px;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 8px;
+  background: var(--acc);
+  color: #fff;
+  font: 700 9.5px/15px Roboto, system-ui, sans-serif;
+  font-style: normal;
+  text-align: center;
+  padding: 0 3px;
+}
+#tsa #trecb .recbadge {
+  margin: 0;
+}
+#selbar,
+#tselbar {
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0;
+  padding: 4px 6px 4px;
+}
+#selbar span,
+#tselbar span {
+  flex: 1 1 100%;
+  font-size: 12.5px;
+  padding: 2px 4px 0;
+}
+#selbar button,
+#tselbar button {
+  flex: none;
+  width: 34px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #3c4043;
+}
+#selbar button .ic,
+#tselbar button .ic {
+  margin: 0;
+  vertical-align: 0;
+  width: 21px;
+  height: 21px;
+}
+#selbar #selx,
+#tselbar #tsx {
+  color: var(--acc);
+}
+/* zakładki w „O aplikacji” – cztery w jednym rzędzie */
+.dbox.about .atabs {
+  gap: 0;
+  overflow-x: auto;
+}
+.dbox.about .atabs button {
+  white-space: nowrap;
+  padding: 8px 9px;
+  font-size: 13.5px;
+}
+/* ikona zamknięcia na ciemnych paskach (podgląd zdjęcia) i przy nawigacji / pobieraniu */
+.phb button.ibt {
+  color: #fff;
+  background: #ffffff26;
+  border-radius: 8px;
+  width: 38px;
+}
+.navbar .nx.ibt,
+.offbar button.ibt {
+  background: var(--b2);
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -2973,14 +3168,14 @@ body.spliton #info {
 <div class="pop" id="dmenu"></div>
 <div class="pop" id="sty"></div>
 <div class="pop" id="sheet">
-  <div id="sh"><button id="mapb" title="Mapy"><b id="mtitle"></b><span>▾</span></button><button id="modeb" title="Przełącz tryb: prywatny / praca"></button><button id="setb" title="Ustawienia, O aplikacji">⚙️</button><button id="closes" title="Zamknij">✕</button></div>
-  <div id="stabs" class="atabs"><button data-k="mapy">Mapy</button><button data-k="slady">Ślady GPS</button></div>
-  <div id="msub"></div>
-  <div id="sa"><button id="addl">＋ Dodaj warstwę</button><button id="addg" style="display:none">＋ Grupa</button><button id="impb">⇧ Import</button><button id="fotb">📷 Zdjęcia</button><button id="projb">💾 Kopia</button><button id="selb">☑ Zaznacz</button><button id="fltb">🔍 Filtr</button></div>
-  <div id="tsa"><button id="trecb">Nagraj ślad</button><button id="tadd">＋ Dodaj warstwę</button><button id="timp">⇧ Import</button><button id="tsumb">📊 Podsumowanie</button><button id="tselb">☑ Zaznacz</button></div>
+  <div id="sh"><button id="modeb" title="Przełącz tryb: prywatny / praca"></button><span class="shsp"></span><button id="setb" class="ibt" title="Ustawienia" aria-label="Ustawienia"></button><button id="infob" class="ibt" title="O aplikacji" aria-label="O aplikacji"></button><button id="closes" class="ibt" title="Zamknij" aria-label="Zamknij"></button></div>
+  <div id="stabs" class="atabs"><div class="stab" data-k="mapy"><button class="stl">Mapy</button><button class="std" id="mapb" title="Wybierz mapę" aria-label="Wybierz mapę"></button></div><div class="stab" data-k="slady"><button class="stl">Ślady GPS</button><button class="std" id="trkb" title="Wybierz warstwę śladów" aria-label="Wybierz warstwę śladów"></button></div></div>
+  <div id="mname"><b id="mtitle"></b><div id="msub"></div></div>
+  <div id="sa"><button id="addl"></button><button id="addg" style="display:none">＋ Grupa</button><button id="impb"></button><button id="fotb"></button><button id="projb"></button><button id="selb"></button><button id="fltb"></button></div>
+  <div id="tsa"><button id="trecb"></button><button id="tadd"></button><button id="timp"></button><button id="tsumb"></button><button id="tselb"></button></div>
   <div id="list"></div>
-  <div id="selbar"><span id="selc"></span><button id="selmv">Przenieś</button><button id="selic">Ikona</button><button id="selnm">Nazwy</button><button id="seldel">Usuń</button><button id="selx">Gotowe</button></div>
-  <div id="tselbar"><span id="tselc"></span><button id="tsmv">Przenieś</button><button id="tsvis">Pokaż</button><button id="tshid">Ukryj</button><button id="tsact">Rodzaj</button><button id="tsnm">Nazwy</button><button id="tsmrg">Scal</button><button id="tsgpx">GPX</button><button id="tsdel">Usuń</button><button id="tsx">Gotowe</button></div>
+  <div id="selbar"><span id="selc"></span><button id="selmv"></button><button id="selic"></button><button id="selnm"></button><button id="seldel"></button><button id="selx"></button></div>
+  <div id="tselbar"><span id="tselc"></span><button id="tsmv"></button><button id="tsvis"></button><button id="tshid"></button><button id="tsact"></button><button id="tsnm"></button><button id="tsmrg"></button><button id="tsgpx"></button><button id="tsdel"></button><button id="tsx"></button></div>
 </div>
 <input type="file" id="file" multiple hidden>
 <input type="file" id="pfile" hidden>
@@ -3093,7 +3288,32 @@ const IC = {
   merge: '<path d="M5 4v5c0 3 3 4 7 6M19 4v5c0 3-3 4-7 6v5"/><path d="M9.5 18l2.5 2.5 2.5-2.5"/>', // scal ślady
   down: '<path d="M12 5v14M6 13l6 6 6-6"/>',
   color:
-    '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1-.8-1.4-.8-2.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/>'
+    '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1-.8-1.4-.8-2.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/>',
+  // panel map i warstw (v50) – jeden zestaw ikon dla całej aplikacji
+  gear: '<path d="M21.1 10.4 21.1 13.6 18.7 14.1 18.2 15.3 19.5 17.3 17.3 19.5 15.3 18.2 14.1 18.7 13.6 21.1 10.4 21.1 9.9 18.7 8.7 18.2 6.7 19.5 4.5 17.3 5.8 15.3 5.3 14.1 2.9 13.6 2.9 10.4 5.3 9.9 5.8 8.7 4.5 6.7 6.7 4.5 8.7 5.8 9.9 5.3 10.4 2.9 13.6 2.9 14.1 5.3 15.3 5.8 17.3 4.5 19.5 6.7 18.2 8.7 18.7 9.9z"/><circle cx="12" cy="12" r="3.2"/>', // ustawienia
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/>', // o aplikacji
+  x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>', // zamknij
+  chev: '<path d="M7 10l5 5 5-5"/>', // rozwiń listę
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', // gotowe / zatwierdź
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  home: '<path d="M3.5 11.5L12 4l8.5 7.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5.5h4V20"/>', // tryb prywatny
+  work: '<rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V5.5h6v2M3.5 12.5h17"/>', // tryb praca
+  addLayer: '<path d="M12 3l8 4.5-8 4.5-8-4.5z"/><path d="M4 12.5l8 4.5 3-1.7"/><path d="M19 14v6M16 17h6"/>', // dodaj warstwę
+  imp: '<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v5h16v-5"/>', // import (wczytaj plik)
+  sel: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12.5l3 3 5-6"/>', // zaznaczanie
+  filter: '<path d="M4 5h16l-6 7.5V18l-4 2v-7.5z"/>',
+  folder: '<path d="M3.5 6.5h6l2 2.5h9v10.5h-17z"/>',
+  lock: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+  rec: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.6" fill="currentColor"/>', // nagrywanie śladu
+  route: '<path d="M4 19c4 0 3.5-7 8-7s4-7 8-7"/><circle cx="4" cy="19" r="1.4"/><circle cx="20" cy="5" r="1.4"/>', // ślady na mapie
+  globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.2 3.2 14.8 0 18M12 3c-3.2 3.2-3.2 14.8 0 18"/>',
+  copy: '<rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V4H4v11.5h4.5"/>',
+  phone: '<path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2 2A16.5 16.5 0 0 1 4.5 5.5a2 2 0 0 1 2-2z"/>',
+  gps: '<circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>', // moja pozycja
+  finger: '<path d="M12 11.5v4.5M8.7 19.5c.9-2 1-4.5 1-7.5a2.3 2.3 0 0 1 4.6 0c0 2.2 0 3.8-.5 5.5M6.2 16c.4-1.5.5-3 .5-4.5a5.3 5.3 0 0 1 10.6 0c0 1.5 0 3-.3 4.5M5.2 8a8.3 8.3 0 0 1 13.6 0"/>', // odcisk palca
+  book: '<path d="M3.5 5.5c3-1.4 5.8-1.4 8.5 0 2.7-1.4 5.5-1.4 8.5 0V19c-3-1.4-5.8-1.4-8.5 0-2.7-1.4-5.5-1.4-8.5 0z"/><path d="M12 5.5V19"/>', // samouczek
+  profile: '<path d="M3 4v16h18"/><path d="M6 15l4-5 3 3 5-7"/>', // profil wysokości
+  coffee: '<path d="M5 9.5h11v4.5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8.5 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>',
 };
 // belka ikon w opcjach warstwy / grupy (ta sama kolejność wszędzie: nazwa · kolor · wyżej · niżej · eksport · usuń)
 const belt = (...els) => {
@@ -3130,7 +3350,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v49';
+const APP_VER = 'v50';
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -3139,7 +3359,8 @@ const APP_MAIL = 'onemanmanufacture@gmail.com'; // kontakt: uwagi, zgłoszenia b
 const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
   APP_AUTHOR = 'Paweł Jewuła',
-  APP_YEAR = '2026';
+  APP_YEAR = '2026',
+  APP_COFFEE = ''; // link do „Postaw kawę” (np. buycoffee.to) – pusty: przycisk się nie pokazuje
 // ---------- ikony punktów: grupy, własne rysunki SVG (grzyby, rośliny, teren) ----------
 const O = 'stroke="#3b2a1f" stroke-width="0.9" stroke-linejoin="round"';
 const dome = (cx, cy, w, h, f, ex) =>
@@ -6652,7 +6873,7 @@ function shelPopup(e, ll) {
   crd.textContent = ll[0].toFixed(6) + ', ' + ll[1].toFixed(6);
   const row = h('div', 'pb');
   row.append(
-    B('＋ Dodaj do mojej mapy', () => {
+    BI('plus', 'Dodaj do mojej mapy', () => {
       const a = findL(P.active);
       if (!a) return;
       a.l.vis = true;
@@ -6910,7 +7131,7 @@ function buildBMenu() {
     }
   });
   m.append(
-    B('⬇ Mapy offline…', () => {
+    BI('dl', 'Mapy offline…', () => {
       m.style.display = 'none';
       offDlg();
     }, 'offb')
@@ -8446,7 +8667,7 @@ function photoView(it, k, onChange) {
       i = Math.min(i, it.ph.length - 1);
       show();
     }),
-    B('✕', fin)
+    IB('x', fin, '', 'Zamknij')
   );
   img.referrerPolicy = 'no-referrer';
   img.onclick = e => e.stopPropagation();
@@ -9764,27 +9985,20 @@ async function mergeLayer(g, l, toId) {
   fixActive();
   sv();
 }
-// przyciski panelu w stylu Moich Map: mała szara ikonka + podpis
-const SAI = {
-  addl: '<path d="M12 3l8 4.5-8 4.5-8-4.5z"/><path d="M4 12.5l8 4.5 3-1.7"/><path d="M19 14v6M16 17h6"/>',
-  impb: '<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5"/><path d="M4 15v5h16v-5"/>',
-  projb: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/>',
-  selb: '<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12.5l3 3 5-6"/>',
-  fltb: '<path d="M4 5h16l-6 7.5V18l-4 2v-7.5z"/>',
-  tsumb: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'
-};
-const sab = (id, t) => {
-  $(id).innerHTML =
-    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">' +
-    SAI[id] +
-    '</svg><span>' +
-    esc(t) +
-    '</span>';
+// pasek akcji panelu (Mapy i Ślady GPS): same ikony, nazwa w podpowiedzi (przytrzymanie) i dla czytnika ekranu;
+// włączona funkcja (zaznaczanie, filtr) – podświetlona ikona, liczba w kółku
+const SAK = {addl: 'addLayer', tadd: 'addLayer', impb: 'imp', timp: 'imp', fotb: 'photo', projb: 'save', selb: 'sel', tselb: 'sel', fltb: 'filter', tsumb: 'stats'};
+const sab = (id, t, on, n) => {
+  const b = $(id);
+  b.innerHTML = ico(SAK[id], 23) + (n ? '<i class="nb">' + n + '</i>' : '');
+  b.title = t;
+  b.setAttribute('aria-label', t);
+  b.classList.toggle('on', !!on);
 };
 function updSel() {
   $('selbar').style.display = selMode ? 'flex' : 'none';
   $('selc').textContent = 'Zaznaczono: ' + SEL.size + ' obiekt(ów)';
-  sab('selb', selMode ? 'Zaznaczanie: wł.' : 'Zaznacz');
+  sab('selb', selMode ? 'Zaznaczanie włączone – wyłącz' : 'Zaznacz', selMode);
 }
 const whenTxt = t => {
   if (!t) return '—';
@@ -9812,11 +10026,11 @@ function sheet() {
     many = P.groups.length > 1,
     layers = allL(),
     HSL = hidSet();
-  sab('fltb', HSL.size ? 'Filtr (' + HSL.size + ')' : 'Filtr');
+  sab('fltb', HSL.size ? 'Filtr (ukryte: ' + HSL.size + ')' : 'Filtr', HSL.size > 0, HSL.size);
   sab('addl', 'Dodaj warstwę');
   sab('impb', 'Import');
   sab('fotb', 'Zdjęcia');
-  sab('projb', 'Kopia');
+  sab('projb', 'Kopia zapasowa');
   {
     const n = P.items.length,
       up = P.items.reduce((m, i) => Math.max(m, i.up || 0), 0);
@@ -9888,7 +10102,7 @@ function sheet() {
             IB('down', () => mv(P.groups, gi, 1), '', 'Niżej'),
             IB('del', () => delG(g), 'danger', 'Usuń grupę')
           ),
-          B('＋ Warstwa', () => addLayerTo(g))
+          BI('plus', 'Warstwa', () => addLayerTo(g))
         );
         box.append(c);
       }
@@ -10062,6 +10276,10 @@ function openMap(id) {
   fitSmart(P.items);
 }
 $('mapb').onclick = () => {
+  if (TAB !== 'mapy') {
+    TAB = 'mapy';
+    sheet();
+  }
   const m = $('xmenu');
   m.innerHTML = '';
   m.append(h('div', 'sec', isW() ? 'MAPY – TRYB PRACA' : 'MOJE MAPY – TRYB PRYWATNY'));
@@ -10085,7 +10303,7 @@ $('mapb').onclick = () => {
     })
   );
   m.append(
-    B('＋ Nowa mapa', async () => {
+    BI('plus', 'Nowa mapa', async () => {
       m.style.display = 'none';
       const n = await askText('Nazwa nowej mapy:', 'Mapa ' + (DB.maps.length + 1));
       if (!n || !n.trim()) return;
@@ -10119,7 +10337,7 @@ $('mapb').onclick = () => {
     );
   const r = $('mapb').getBoundingClientRect();
   m.style.display = 'block';
-  m.style.left = Math.max(4, r.left) + 'px';
+  m.style.left = Math.max(4, r.left - 60) + 'px';
   m.style.top = r.bottom + 4 + 'px';
 };
 $('lbtn').onclick = () => {
@@ -10204,7 +10422,7 @@ function updMode() {
   const ib = document.querySelector('[data-g="icons"]');
   if (ib) ib.style.display = isW() ? 'none' : '';
   const b = $('modeb');
-  b.textContent = isW() ? '💼 Tryb pracy' : '🏠 Tryb prywatny';
+  b.innerHTML = ico(isW() ? 'work' : 'home', 17) + '<span>' + (isW() ? 'Praca' : 'Prywatne') + '</span>';
   b.classList.toggle('work', isW());
   $('lbtn').classList.toggle('work', isW());
 }
@@ -10237,10 +10455,18 @@ $('modeb').onclick = async () => {
 fixActive();
 render();
 updMode();
+// wąski pasek na górze panelu: tryb · · · ustawienia, o aplikacji, zamknij
+$('setb').innerHTML = ico('gear', 21);
+$('infob').innerHTML = ico('info', 21);
+$('closes').innerHTML = ico('x', 21);
+$('mapb').innerHTML = $('trkb').innerHTML = ico('chev', 18);
 $('setb').onclick = () => {
-  // ⚙️ obok trybu: ustawienia, O aplikacji (a w przyszłości samouczek)
   closePops();
   settingsDlg();
+};
+$('infob').onclick = () => {
+  closePops();
+  aboutDlg('autor');
 };
 
 // ---------- narzędzia: rysowanie, dane, edycja położenia, wydruk ----------
@@ -11363,6 +11589,8 @@ $('prnb').onclick = () => {
 };
 map.on('click', e => {
   closePops();
+  // dotknięcie mapy obok panelu map i warstw zamyka panel (gdy nic nie jest rysowane ani wybierane na mapie)
+  if (!mode && !SPLIT && !EXT && $('sheet').style.display === 'flex') $('sheet').style.display = 'none';
   if (!mode) return;
   const p = [e.latlng.lat, e.latlng.lng];
   if (mode === 'fotoc' || mode === 'fotog') {
@@ -11876,7 +12104,7 @@ async function profile(pts) {
 }
 
 // ---------- O aplikacji: krótki przewodnik dla początkujących, autor i licencja ----------
-const ABOUT_START = `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz w nim miejsca, które chcesz zapamiętać: grzybowe miejscówki, wiaty i noclegi, źródła, ciekawe zakątki. Rysujesz trasy i obszary, mierzysz odległości i wysokości. Wszystko zapisuje się w telefonie i działa także bez zasięgu.</p>
+const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz w nim miejsca, które chcesz zapamiętać: grzybowe miejscówki, wiaty i noclegi, źródła, ciekawe zakątki. Rysujesz trasy i obszary, mierzysz odległości i wysokości. Wszystko zapisuje się w telefonie i działa także bez zasięgu.</p>
 <ol>
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś.</li>
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu zmienia widok: zwykła mapa, zdjęcia lotnicze, rzeźba terenu, nakładki (działki, szlaki, „Zanocuj w lesie”).</li>
@@ -11886,20 +12114,27 @@ const ABOUT_START = `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz 
 <li><b>Warstwy</b> – przycisk w lewym dolnym rogu. Tu są Twoje mapy i warstwy (np. „Grzyby”, „Noclegi”) – włączasz je i wyłączasz, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Kopia zapasowa</b> – Kopia → „Zapisz pełną kopię”. Rób ją regularnie: to jeden plik ze wszystkimi danymi, który otworzysz też w innych programach mapowych (format GeoJSON).</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
-<li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postój dłuższy niż 2 min to auto-pauza; w ⚙️ Ustawieniach włączysz komunikat co 1 km i kolor śladu wg prędkości lub wysokości. ↩ na pasku nagrywania prowadzi z powrotem do startu po własnym śladzie.</li>
-<li><b>Dział „Ślady GPS”</b> (w panelu warstw) – rodzaj aktywności (pieszo, rower…), 📊 Podsumowanie tygodnia, miesiąca i roku, import GPX, KML, TCX i GeoJSON (np. z Geo Trackera albo zegarka).</li>
+<li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postój dłuższy niż 2 min to auto-pauza; w Ustawieniach (trybik w panelu warstw) włączysz komunikat co 1 km i kolor śladu wg prędkości lub wysokości. ↩ na pasku nagrywania prowadzi z powrotem do startu po własnym śladzie.</li>
+<li><b>Dział „Ślady GPS”</b> (w panelu warstw) – rodzaj aktywności (pieszo, rower…), podsumowanie (ikona wykresu) tygodnia, miesiąca i roku, import GPX, KML, TCX i GeoJSON (np. z Geo Trackera albo zegarka).</li>
 <li><b>Mapy offline</b> – przycisk mapy → „⬇ Mapy offline”: pobierz podkład dla obszaru na ekranie, zanim wejdziesz do lasu bez zasięgu.</li>
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – linijka → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
-<li><b>Kosz</b> – usunięte punkty, warstwy, mapy i ślady czekają 30 dni w ⚙️ Ustawienia → Kosz.</li>
+<li><b>Kosz</b> – usunięte punkty, warstwy, mapy i ślady czekają 30 dni w Ustawieniach (trybik) → Kosz.</li>
 </ol>
-<p><b>OMM jest i zawsze będzie wolny od reklam i śledzenia.</b> Wszystkie funkcje są dostępne dla każdego – bez wersji „premium” i bez blokowania funkcji.</p>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe, a wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”.</p>`;
-const ABOUT_INFO = () => `<p style="font-size:17px;margin:0 0 4px"><b>${APP_NAME} – ${APP_FULL}</b></p>
+const ABOUT_AUTHOR = () => `<p style="font-size:17px;margin:0 0 4px"><b>${APP_NAME} – ${APP_FULL}</b></p>
 <p class="muted" style="margin:0 0 12px">Wersja ${APP_VER} · Twoje mapy, Twoje dane</p>
-<p><b>Autor i właściciel:</b> ${APP_AUTHOR}<br>© ${APP_YEAR} ${APP_AUTHOR}</p>
-<p style="background:#eef4fd;border-radius:8px;padding:10px 12px"><b>Bez reklam. Bez śledzenia. Na zawsze.</b><br>OMM nie wyświetla reklam, nie zbiera danych o Tobie i nie ma płatnych blokad – wszystkie funkcje są dla każdego.</p>
-<p style="background:#f3f7f1;border-radius:8px;padding:10px 12px">Dziękuję za zainteresowanie OMM! 🙂<br>Masz uwagę, pomysł albo znalazłeś błąd? Napisz – każda opinia pomaga ulepszać aplikację.<br>✉️ <a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – uwagi')}">${APP_MAIL}</a></p>
+<p><b>Autor:</b> ${APP_AUTHOR}. OMM powstał z potrzeby: zamiast Moich Map Google, które zniknęły z telefonu, chciałem mieć własny notes na mapie – na grzyby, noclegi w terenie, wiaty, źródła i ślady z wypraw.</p>
+<p><b>Założenia, których się trzymam:</b></p>
+<ul>
+<li><b>Bez reklam i bez śledzenia – na zawsze.</b> Żadnej analityki, żadnych kont, żadnych płatnych blokad: wszystkie funkcje są dla każdego.</li>
+<li><b>Twoje dane są Twoje.</b> Wszystko zapisuje się w telefonie. Kopia to zwykły plik w otwartym formacie (GeoJSON, GPX, KML) – otworzysz go w innych programach i nie jesteś przywiązany do OMM.</li>
+<li><b>Działa w terenie.</b> Punkty, ślady i pomiary działają bez zasięgu, a mapy da się pobrać wcześniej.</li>
+<li><b>Otwarty kod.</b> Każdy może sprawdzić, co aplikacja robi (GitHub: OwnMapManager/omm).</li>
+</ul>
+<p style="background:#f3f7f1;border-radius:8px;padding:10px 12px">Masz uwagę, pomysł albo znalazłeś błąd? Napisz – każda opinia pomaga ulepszać aplikację.<br><a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – uwagi')}">${APP_MAIL}</a></p>
+${APP_COFFEE ? `<p style="background:#fdf6ec;border-radius:8px;padding:10px 12px">${ico('coffee', 18)} <b>Postaw kawę</b><br>OMM jest i zostanie darmowy. Jeśli Ci się przydaje i chcesz wesprzeć jego rozwój – możesz postawić autorowi wirtualną kawę: <a href="${APP_COFFEE}" target="_blank" rel="noopener">${APP_COFFEE.replace(/^https?:\/\//, '')}</a></p>` : ''}`;
+const ABOUT_INFO = () => `<p class="muted" style="margin:0 0 10px">© ${APP_YEAR} ${APP_AUTHOR} · ${APP_NAME} ${APP_VER}</p>
 <p><b>Licencja</b> (wzorowana na OsmAnd):</p>
 <ul>
 <li><b>Kod</b> – GNU GPL v3: wolno go czytać, kopiować, zmieniać i rozpowszechniać, a zmienione wersje muszą mieć otwarty kod. Wyjątek: wydanie aplikacji zbudowanej z tego kodu w sklepach z aplikacjami (Google Play, App Store, AppGallery, Galaxy Store) wymaga pisemnej zgody autora.</li>
@@ -11913,20 +12148,24 @@ function aboutDlg(tab) {
     tabs = h('div', 'atabs'),
     body = h('div', 'abody'),
     bt = h('div', 'db');
+  const fin = () => back.remove();
   const show = k => {
-    body.innerHTML = k === 'info' ? ABOUT_INFO() : ABOUT_START;
+    if (k === 'tut') return fin(), tutStart();
+    body.innerHTML = k === 'info' ? ABOUT_INFO() : k === 'start' ? ABOUT_START() : ABOUT_AUTHOR();
     [...tabs.children].forEach(b => b.classList.toggle('on', b.dataset.k === k));
     body.scrollTop = 0;
   };
+  // pierwsza zakładka: o autorze i założeniach; dalej przewodnik, samouczek (pokaz na żywo) i licencja
   [
+    ['autor', 'O OMM'],
     ['start', 'Jak zacząć'],
-    ['info', 'O aplikacji']
+    ['tut', 'Samouczek'],
+    ['info', 'Licencja']
   ].forEach(([k, t]) => {
     const b = B(t, () => show(k));
     b.dataset.k = k;
     tabs.append(b);
   });
-  const fin = () => back.remove();
   bt.append(B('Zamknij', fin, 'okb'));
   box.append(tabs, body, bt);
   back.append(box);
@@ -11934,7 +12173,7 @@ function aboutDlg(tab) {
   back.addEventListener('click', e => {
     if (e.target === back) fin();
   });
-  show(tab || 'start');
+  show(tab || 'autor');
 }
 $('wm').textContent = APP_NAME + ' ' + APP_VER;
 // ---------- GPS (działa bez internetu) ----------
@@ -12905,7 +13144,7 @@ function trkPopup(t, ll) {
     BI('stats', 'Statystyki', act(() => trkStatsDlg(t))),
     BI('nav', 'Prowadź', act(() => trkNavAsk(t)), '', 'Prowadź po śladzie'),
     B((t.a ? ACTS[t.a][0] : '🏷') + ' ' + (t.a ? ACTS[t.a][1] : 'Rodzaj'), act(() => trkSetAct([t])), '', 'Rodzaj aktywności'),
-    ...((t.wp || []).length ? [B('📍 Punkty na mapę…', act(() => trkWpToMap(t)))] : [])
+    ...((t.wp || []).length ? [BI('pin', 'Punkty na mapę…', act(() => trkWpToMap(t)))] : [])
   );
   // belka ikon: udostępnij · ukryj · podziel · dorysuj · usuń
   const ib = h('div', 'tib');
@@ -13241,7 +13480,7 @@ function trkStatsDlg(t) {
   } else body.append(h('div', 'tchl', 'Brak wysokości z GPS w tym śladzie.'));
   const fin = () => back.remove();
   bt.append(
-    B('⛰ Profil z NMT', () => {
+    BI('profile', 'Profil z NMT', () => {
       fin();
       // dokładniejsza wysokość z numerycznego modelu terenu (GUGiK) – próbka do 200 punktów trasy
       const k = Math.max(1, Math.ceil(t.pts.length / 200)),
@@ -13759,7 +13998,7 @@ function trkSummaryDlg() {
     nav = h('div', 'snav'),
     body = h('div', 'abody'),
     bt = h('div', 'db');
-  box.append(h('div', 'dt', '📊 Podsumowanie śladów'));
+  box.append(h('div', 'dt', 'Podsumowanie śladów'));
   const PER = [
     ['tydzien', 'Tydzień'],
     ['miesiac', 'Miesiąc'],
@@ -14038,31 +14277,54 @@ async function trkReplace(T) {
 }
 
 // --- zakładka „Ślady GPS” w panelu ---
-Object.assign(SAI, {
-  fotb: '<path d="M4 8h3.5l1.8-2.5h5.4L16.5 8H20v11H4z"/><circle cx="12" cy="13.2" r="3.4"/>',
-  tadd: SAI.addl,
-  timp: SAI.impb,
-  tselb: SAI.selb
-});
+var TRKV = ''; // widok listy śladów: '' = wszystkie warstwy, albo id jednej warstwy (wybór strzałką przy zakładce)
 function tabsUi() {
   [...$('stabs').children].forEach(b => b.classList.toggle('on', b.dataset.k === TAB));
   const t = TAB === 'slady';
   $('sa').style.display = t ? 'none' : '';
   $('tsa').style.display = t ? 'flex' : 'none';
-  $('modeb').style.display = t ? 'none' : '';
+  $('modeb').style.visibility = t ? 'hidden' : ''; // tryb dotyczy tylko map; pasek nie „skacze”
+  $('trkb').style.display = TRK.layers.length > 1 ? '' : 'none';
   if (t) $('selbar').style.display = 'none';
   $('tselbar').style.display = t && TSEL ? 'flex' : 'none';
 }
-[...$('stabs').children].forEach(
-  b =>
-    (b.onclick = () => {
-      TAB = b.dataset.k;
-      sheet();
-    })
-);
+// zakładka: dotknięcie nazwy otwiera ją, strzałka ▾ obok – dodatkowo lista do wyboru (mapy / warstwy śladów)
+[...$('stabs').children].forEach(d => {
+  d.querySelector('.stl').onclick = () => {
+    TAB = d.dataset.k;
+    sheet();
+  };
+});
+function trkLayerMenu() {
+  const m = $('xmenu');
+  m.innerHTML = '';
+  m.append(h('div', 'sec', 'WARSTWY ŚLADÓW'));
+  const it = (id, nm, n) =>
+    m.append(
+      B((TRKV === id ? '● ' : '○ ') + nm + '  (' + n + ')', () => {
+        m.style.display = 'none';
+        TRKV = id;
+        trkSheet();
+      }, TRKV === id ? 'on' : '')
+    );
+  it('', 'Wszystkie warstwy', TRK.items.length);
+  TRK.layers.forEach(l => it(l.id, l.name, TRK.items.filter(t => t.l === l.id).length));
+  const r = $('trkb').getBoundingClientRect();
+  m.style.display = 'block';
+  m.style.left = Math.max(4, r.left - 120) + 'px';
+  m.style.top = r.bottom + 4 + 'px';
+}
+$('trkb').onclick = () => {
+  if (TAB !== 'slady') {
+    TAB = 'slady';
+    sheet();
+  }
+  trkLayerMenu();
+};
 function trkSheet() {
   tabsUi();
-  $('mtitle').textContent = 'Ślady GPS';
+  if (TRKV && !TRK.layers.some(l => l.id === TRKV)) TRKV = '';
+  $('mtitle').textContent = TRKV ? TRK.layers.find(l => l.id === TRKV).name : 'Wszystkie ślady';
   const el = $('list'),
     top = el.scrollTop,
     tot = TRK.items.reduce((a, t) => a + trkStatsC(t).d, 0);
@@ -14073,11 +14335,14 @@ function trkSheet() {
     ' · razem ' +
     fkm(tot) +
     (REC ? ' · ● trwa nagrywanie' : '');
-  $('trecb').innerHTML = REC_BADGE + '<span>' + (REC ? 'Pokaż nagrywanie' : 'Nagraj ślad') + '</span>';
-  sab('tadd', 'Dodaj warstwę');
-  sab('timp', 'Import');
-  sab('tsumb', 'Podsumowanie');
-  sab('tselb', TSEL ? 'Zaznaczanie: wł.' : 'Zaznacz');
+  $('trecb').innerHTML = REC_BADGE;
+  $('trecb').title = REC ? 'Pokaż nagrywanie' : 'Nagraj ślad';
+  $('trecb').setAttribute('aria-label', $('trecb').title);
+  $('trecb').classList.toggle('on', !!REC);
+  sab('tadd', 'Dodaj warstwę śladów');
+  sab('timp', 'Import śladów (GPX, KML, KMZ, TCX, GeoJSON – można zaznaczyć wiele plików)');
+  sab('tsumb', 'Podsumowanie tygodnia, miesiąca, roku');
+  sab('tselb', TSEL ? 'Zaznaczanie włączone – wyłącz' : 'Zaznacz', !!TSEL);
   tselUi();
   el.innerHTML = '';
   if (!trkReady) return el.append(h('div', 'empty', 'Wczytuję ślady…'));
@@ -14093,6 +14358,7 @@ function trkSheet() {
     el.append(fr);
   }
   TRK.layers.forEach((l, li) => {
+    if (TRKV && l.id !== TRKV) return; // wybrana jedna warstwa (strzałka przy zakładce)
     const its = TRK.items
       .filter(t => t.l === l.id && (!TFILT || (TFILT === '-' ? !t.a : t.a === TFILT)))
       .sort((a, b) => b.st - a.st),
@@ -14301,21 +14567,27 @@ var EYE_ON = ico('eye'), // oko – wspólna ikona widoczności (IC)
   REC_BADGE = '<span class="recbadge"><i></i>REC</span>';
 var TSEL = null; // zaznaczone ślady (Set z id) albo null, gdy tryb zaznaczania wyłączony
 var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, '-' = bez rodzaju)
-// paski zaznaczania: te same ikony co przy pojedynczym śladzie / obiekcie
+// paski zaznaczania: same ikony (te same co przy pojedynczym śladzie / obiekcie), nazwa w podpowiedzi
 [
-  ['tsmv', 'layer'],
-  ['tsvis', 'eye'],
-  ['tshid', 'eyeOff'],
-  ['tsact', 'tag'],
-  ['tsnm', 'edit'],
-  ['tsmrg', 'merge'],
-  ['tsgpx', 'dl'],
-  ['tsdel', 'del'],
-  ['selmv', 'layer'],
-  ['selic', 'pin'],
-  ['selnm', 'edit'],
-  ['seldel', 'del']
-].forEach(([id, k]) => $(id).insertAdjacentHTML('afterbegin', ico(k, 16)));
+  ['tsmv', 'layer', 'Przenieś do innej warstwy'],
+  ['tsvis', 'eye', 'Pokaż na mapie'],
+  ['tshid', 'eyeOff', 'Ukryj na mapie'],
+  ['tsact', 'tag', 'Rodzaj aktywności'],
+  ['tsnm', 'edit', 'Nadaj nazwy automatycznie'],
+  ['tsmrg', 'merge', 'Scal w jeden ślad'],
+  ['tsgpx', 'dl', 'Zapisz jako GPX'],
+  ['tsdel', 'del', 'Usuń'],
+  ['tsx', 'check', 'Gotowe – zakończ zaznaczanie'],
+  ['selmv', 'layer', 'Przenieś do innej warstwy'],
+  ['selic', 'pin', 'Zmień ikonę'],
+  ['selnm', 'edit', 'Ujednolić nazwy (nazwa = rodzaj ikony)'],
+  ['seldel', 'del', 'Usuń'],
+  ['selx', 'check', 'Gotowe – zakończ zaznaczanie']
+].forEach(([id, k, t]) => {
+  $(id).innerHTML = ico(k, 21);
+  $(id).title = t;
+  $(id).setAttribute('aria-label', t);
+});
 const tselItems = () => (TSEL ? TRK.items.filter(t => TSEL.has(t.id)) : []);
 function tselUi() {
   const n = TSEL ? TSEL.size : 0,
@@ -16203,7 +16475,7 @@ async function trkAnim(t, opt) {
   qSel.onchange = () => localStorage.setItem('omm-anim-q', qSel.value);
   row.append(pb, seek, sp);
   const row2 = h('div', 'frow');
-  row2.append(fmtSel, qSel, recb, B('✕', animStop, 'fx', 'Zamknij'));
+  row2.append(fmtSel, qSel, recb, IB('x', animStop, 'fx', 'Zamknij'));
   bar.append(row, row2);
   seek.oninput = () => {
     if (!A.eng) return;
@@ -16881,7 +17153,7 @@ function navStart(to, name, path) {
     txt = h('span', 'ntx', 'Szukam pozycji GPS…');
   arr.innerHTML =
     '<svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2L20 21L12 16.5L4 21Z" fill="#1a73e8"/></svg>';
-  bar.append(arr, txt, B('✕', navStop, 'nx', 'Zakończ nawigację'));
+  bar.append(arr, txt, IB('x', navStop, 'nx', 'Zakończ nawigację'));
   document.body.append(bar);
   document.body.classList.add('navon');
   const g = L.layerGroup().addTo(map);
@@ -17162,7 +17434,7 @@ function coordPopup(c, title, isMe) {
       if (!m) {
         dist.innerHTML = '';
         dist.append(
-          B('📡 Odległość i kierunek ode mnie', async () => {
+          BI('gps', 'Odległość i kierunek ode mnie', async () => {
             dist.textContent = 'Ustalam pozycję GPS…';
             const p = await getMyPos();
             if (p) {
@@ -17190,10 +17462,10 @@ function coordPopup(c, title, isMe) {
   const txt = coordShareText(c, title),
     bt = h('div', 'tbt');
   bt.append(
-    B('📋 Kopiuj', () => copyText(c[0].toFixed(6) + ', ' + c[1].toFixed(6))),
+    BI('copy', 'Kopiuj', () => copyText(c[0].toFixed(6) + ', ' + c[1].toFixed(6))),
     BI('share', 'Udostępnij', () => shareTextOut(txt, title || 'Współrzędne')),
-    B('✉ SMS', () => (location.href = 'sms:?body=' + encodeURIComponent(txt))),
-    ...(isMe ? [B('📞 112', () => (location.href = 'tel:112'), 'danger')] : [BI('nav', 'Prowadź', () => navStart(c, title || 'punkt'))])
+    BI('note', 'SMS', () => (location.href = 'sms:?body=' + encodeURIComponent(txt))),
+    ...(isMe ? [BI('phone', '112', () => (location.href = 'tel:112'), 'danger')] : [BI('nav', 'Prowadź', () => navStart(c, title || 'punkt'))])
   );
   el.append(bt);
   upd();
@@ -18062,8 +18334,8 @@ function extStart(t, kind, gi) {
     rb.title = 'Układa linię wzdłuż dróg i ścieżek (wysyła współrzędne do routing.openstreetmap.de)';
   };
   bt.append(
-    B('✓ Gotowe', () => extFinish(t, kind, gi, taps, route), 'okb'),
-    B('↶ Cofnij', () => {
+    BI('check', 'Gotowe', () => extFinish(t, kind, gi, taps, route), 'okb'),
+    BI('back', 'Cofnij', () => {
       taps.pop();
       show();
     }),
@@ -18556,7 +18828,7 @@ function trashDlg() {
     box = h('div', 'dbox about'),
     body = h('div', 'abody'),
     bt = h('div', 'db');
-  box.append(h('div', 'dt', '🗑 Kosz'));
+  box.append(h('div', 'dt', 'Kosz'));
   const ago = ms => {
     const d = Math.floor((Date.now() - ms) / 864e5);
     return d < 1 ? 'dziś' : d === 1 ? 'wczoraj' : d + ' dni temu';
@@ -18652,7 +18924,7 @@ function searchDlg() {
     bt = h('div', 'db');
   inp.type = 'search';
   inp.placeholder = 'Nazwa, opis, miejscowość, adres albo współrzędne';
-  box.append(h('div', 'dt', '🔍 Szukaj'), inp, res, bt);
+  box.append(h('div', 'dt', 'Szukaj'), inp, res, bt);
   const fin = () => back.remove();
   const row = (ic, a, b, fn) => {
     const r = h('div', 'trow');
@@ -18720,7 +18992,7 @@ function searchDlg() {
     if (e.key === 'Enter') web();
     if (e.key === 'Escape') fin();
   };
-  bt.append(B('Zamknij', fin), B('🌐 Szukaj w internecie', web, 'okb'));
+  bt.append(B('Zamknij', fin), BI('globe', 'Szukaj w internecie', web, 'okb'));
   back.append(box);
   back.addEventListener('click', e => {
     if (e.target === back) fin();
@@ -18818,7 +19090,7 @@ async function offDownload(a) {
   const bar = h('div', 'offbar'),
     tx = h('span'),
     job = (OFFJOB = {stop: false, bar});
-  bar.append(tx, B('✕', () => (job.stop = true), '', 'Przerwij pobieranie'));
+  bar.append(tx, IB('x', () => (job.stop = true), '', 'Przerwij pobieranie'));
   document.body.append(bar);
   let i = 0,
     ok = 0,
@@ -18887,7 +19159,7 @@ function offDlg() {
     body = h('div', 'abody'),
     bt = h('div', 'db'),
     fin = () => back.remove();
-  box.append(h('div', 'dt', '⬇ Mapy offline'));
+  box.append(h('div', 'dt', 'Mapy offline'));
   const draw = async () => {
     body.innerHTML = '';
     body.append(
@@ -18930,7 +19202,7 @@ function offDlg() {
     zs.onchange = upd;
     nm.type = 'text';
     nm.placeholder = 'Nazwa obszaru (np. Lasy Spalskie)';
-    const go = B('⬇ Pobierz', () => {
+    const go = BI('dl', 'Pobierz', () => {
       const a = {id: uid(), nm: nm.value.trim().slice(0, 80) || 'Obszar ' + fday(Date.now()), at: Date.now(), ...area()};
       fin();
       offDownload(a);
@@ -19127,7 +19399,8 @@ const TUT_STEPS = [
   {sel: '[data-g="data"]', t: 'Pomiary', x: 'Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – tam też „📡 Moja pozycja” do wysłania SMS-em (SOS).'},
   {sel: '#srchb', t: 'Szukaj', x: 'Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.'},
   {sel: '#lbtn', t: 'Mapy, warstwy i ślady', x: 'Tu są Twoje mapy i warstwy, a w zakładce „Ślady GPS” – lista śladów, podsumowania tygodnia, miesiąca i roku, import i eksport.'},
-  {sel: '#setb', open: 'sheet', t: 'Ustawienia', x: 'Automatyczna kopia (także na Dysk Google), nagrywanie śladu, kolory śladów, foldery, kosz – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.'}
+  {sel: '#setb', open: 'sheet', t: 'Ustawienia', x: 'Automatyczna kopia (także na Dysk Google), nagrywanie śladu, kolory śladów, foldery, prywatność i kosz.'},
+  {sel: '#infob', open: 'sheet', t: 'O aplikacji', x: 'O autorze i założeniach OMM, krótki przewodnik „Jak zacząć” – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.'}
 ];
 let TUT = null;
 function tutStart() {
@@ -19227,7 +19500,7 @@ async function tutFirstRun() {
   if (hasData) {
     localStorage.setItem('omm-tut', 'info');
     const v = await dlg({
-      title: 'Nowość w OMM: samouczek – krótki pokaz najważniejszych funkcji (ok. 1 minuta).\n\nZnajdziesz go zawsze w ⚙️ Ustawienia → Aplikacja → 📘 Samouczek.',
+      title: 'Nowość w OMM: samouczek – krótki pokaz najważniejszych funkcji (ok. 1 minuta).\n\nZnajdziesz go zawsze w panelu warstw: przycisk „i” (O aplikacji) → Samouczek.',
       btns: [
         {t: 'OK', v: null},
         {t: 'Pokaż teraz', v: 1, c: 'okb'}
@@ -19237,7 +19510,7 @@ async function tutFirstRun() {
     return;
   }
   const v = await dlg({
-    title: 'Witaj w OMM! 👋\n\nPokazać krótki samouczek? Zajmie ok. 1 minutę.\n\nSamouczek jest też zawsze w ⚙️ Ustawienia → Aplikacja → 📘 Samouczek.',
+    title: 'Witaj w OMM! 👋\n\nPokazać krótki samouczek? Zajmie ok. 1 minutę.\n\nSamouczek jest też zawsze w panelu warstw: przycisk „i” (O aplikacji) → Samouczek.',
     btns: [
       {t: 'Nie pokazuj więcej', v: 'nie'},
       {t: 'Nie teraz', v: 'pozniej'},
@@ -19385,7 +19658,7 @@ function lockShow() {
         inp.focus();
       }
     };
-    const bb = B('👆 Odcisk palca / twarz', bio);
+    const bb = BI('finger', 'Odcisk palca / twarz', bio);
     box.append(bb);
     if (localStorage.getItem('omm-lock-bioreset')) bb.remove();
     else setTimeout(() => LOCKED && bio(), 300);
@@ -19488,9 +19761,11 @@ function settingsDlg() {
     body = h('div', 'abody'),
     bt = h('div', 'db');
   let sec = body; // bieżąca kategoria (radios dopisuje do niej)
-  const cat = (key, title) => {
+  const cat = (key, ik, title) => {
+    // kategoria: rysowana ikona z zestawu IC (jak w całej aplikacji) + nazwa
     const d = h('details', 'scat'),
-      s = h('summary', null, title);
+      s = h('summary');
+    s.innerHTML = ico(ik, 19) + '<span>' + esc(title) + '</span>';
     d.open = localStorage.getItem('omm-set-open') === key;
     d.addEventListener('toggle', () => {
       if (d.open) {
@@ -19529,9 +19804,9 @@ function settingsDlg() {
     r.append(...list);
     sec.append(r);
   };
-  box.append(h('div', 'dt', '⚙️ Ustawienia'));
+  box.append(h('div', 'dt', 'Ustawienia'));
 
-  cat('rec', '🔴 Nagrywanie śladu');
+  cat('rec', 'rec', 'Nagrywanie śladu');
   radios('Dokładność zapisu', 'omm-rec-tryb', 'dokladny', [
     ['dokladny', 'Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)'],
     ['oszczedny', 'Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii']
@@ -19583,7 +19858,7 @@ function settingsDlg() {
     'Po zakończeniu nagrania OMM sprawdza, czy przez co najmniej 10 s jechałeś szybciej niż próg – wtedy proponuje odcięcie jazdy autem, żeby statystyki wycieczki były prawidłowe.'
   );
 
-  cat('trk', '〰️ Ślady na mapie');
+  cat('trk', 'route', 'Ślady na mapie');
   radios(
     'Kolor śladów (domyślny)',
     'omm-trk-kolor',
@@ -19597,7 +19872,7 @@ function settingsDlg() {
     () => trkRender()
   );
 
-  cat('pliki', '📁 Foldery i pliki');
+  cat('pliki', 'folder', 'Foldery i pliki');
   radios(
     'Folder zapisu (kopie, eksporty)',
     'omm-folder',
@@ -19615,7 +19890,7 @@ function settingsDlg() {
     ['pics', FOLDERS.pics.label + ' – widoczne w galerii zdjęć']
   ]);
 
-  cat('dane', '🗂 Kopia zapasowa i dane');
+  cat('dane', 'save', 'Kopia zapasowa i dane');
   radios(
     'Automatyczna kopia',
     'omm-autokopia',
@@ -19695,7 +19970,7 @@ function settingsDlg() {
     })
   ]);
 
-  cat('pryw', '🔒 Prywatność');
+  cat('pryw', 'lock', 'Prywatność');
   {
     // blokada aplikacji
     const g = h('div', 'sset'),
@@ -19795,19 +20070,8 @@ function settingsDlg() {
     ],
     'Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.'
   );
-  cat('app', 'ℹ️ Aplikacja');
-  const tut = B('📘 Samouczek', () => {
-    back.remove();
-    tutStart();
-  });
-  btnRow([
-    B('ℹ️ O aplikacji i jak zacząć', () => {
-      back.remove();
-      aboutDlg();
-    }),
-    tut
-  ]);
-  sec.append(h('div', 'muted', APP_NAME + ' ' + APP_VER + ' – ' + APP_FULL));
+  // „O aplikacji”, „Jak zacząć” i samouczek – pod przyciskiem „i” w panelu warstw (bez dublowania tutaj)
+  body.append(h('div', 'muted', APP_NAME + ' ' + APP_VER + ' – ' + APP_FULL));
 
   const fin = () => back.remove();
   bt.append(B('Zamknij', fin, 'okb'));
