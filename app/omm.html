@@ -3498,7 +3498,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v51';
+const APP_VER = 'v52';
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -7386,6 +7386,7 @@ function cleanItem(it) {
   } else if (own(it, 'r')) delete it.r;
   if (it.t === 'arrow' && it.p.length < 2) return false;
   if (!okId(it.id)) it.id = uid();
+  if (own(it, 'vis') && it.vis !== false) delete it.vis; // jedyna dozwolona wartość: false (obiekt ukryty)
   if (own(it, 'l') && !okId(it.l)) it.l = null;
   if (own(it, 'c')) {
     const c = safeColor(it.c);
@@ -7892,6 +7893,7 @@ async function itemRename(it, latlng) {
   save();
   render();
   sheetIfOpen();
+  if (!latlng) return; // z listy w panelu – bez otwierania okienka na mapie
   map.closePopup();
   openItemPopup(it, latlng);
 }
@@ -8234,14 +8236,7 @@ function openItemPopup(it, latlng) {
     IB(
       'del',
       async () => {
-        if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?\n\nTrafi do kosza na 30 dni.', 'Usuń', true)))
-          return;
-        trashPut('obj', nameOf(it) || 'Obiekt', {items: [it]}, {m: P.id, mn: P.name});
-        P.items = P.items.filter(x => x.id !== it.id);
-        save();
-        render();
-        sheetIfOpen();
-        map.closePopup();
+        if (await itemDelete(it)) map.closePopup();
       },
       'danger',
       'Usuń'
@@ -8317,7 +8312,7 @@ function render() {
   P.items.forEach(it => {
     try {
       const f = findL(it.l);
-      if (!f || !okItem(it) || HS.has(catOf(it))) return;
+      if (!f || !okItem(it) || HS.has(catOf(it)) || it.vis === false) return; // vis false = obiekt ukryty okiem na liście
       const pane = 'p' + it.l,
         c = it.c,
         st = {pane, color: c, weight: it.sz != null ? LW[it.sz] : 4, fillColor: c, fillOpacity: it.o};
@@ -8688,13 +8683,58 @@ async function shareNative(name, opt) {
     if (!/cancel/i.test(String((e && e.message) || e))) tell('Nie udało się udostępnić pliku.');
   }
 }
+function exportItems(items, name, fmt) {
+  const base = String(name || 'obiekt').replace(/[^\p{L}\p{N}_-]+/gu, '_') || 'obiekt';
+  if (fmt === 'GPX') dl(base + '.gpx', 'application/gpx+xml', toGPX(items, name));
+  else if (fmt === 'KML') dl(base + '.kml', 'application/vnd.google-earth.kml+xml', toKML(items, name));
+  else dl(base + '.geojson', 'application/geo+json', toGeoJSON(items));
+}
 function exportLayer(l, fmt) {
   const items = layerItems(l);
   if (!items.length) return tell('Ta warstwa jest pusta.');
-  const base = l.name.replace(/[^\p{L}\p{N}_-]+/gu, '_') || 'warstwa';
-  if (fmt === 'GPX') dl(base + '.gpx', 'application/gpx+xml', toGPX(items, l.name));
-  else if (fmt === 'KML') dl(base + '.kml', 'application/vnd.google-earth.kml+xml', toKML(items, l.name));
-  else dl(base + '.geojson', 'application/geo+json', toGeoJSON(items));
+  exportItems(items, l.name, fmt);
+}
+const itemAt = it =>
+  // punkt „środka” obiektu: pinezka / okrąg – sam punkt, linia – środkowy wierzchołek, kształt – środek obrysu
+  it.t === 'pin' || it.t === 'circle' || it.p.length === 1
+    ? it.p[0]
+    : it.t === 'line'
+      ? it.p[Math.floor((it.p.length - 1) / 2)]
+      : (b => [b.getCenter().lat, b.getCenter().lng])(L.latLngBounds(it.p));
+function itemShareMenu(btn, it) {
+  // udostępnienie jednego obiektu: współrzędne z nazwą (SMS, komunikator) albo plik GPX / KML / GeoJSON
+  const m = $('xmenu'),
+    nm = nameOf(it) || 'Obiekt',
+    at = itemAt(it);
+  m.innerHTML = '';
+  m.append(
+    BI('gps', 'Współrzędne (tekst)', () => {
+      m.style.display = 'none';
+      const c = (+at[0]).toFixed(6) + ', ' + (+at[1]).toFixed(6);
+      shareTextOut(nm + (it.n ? '\n' + it.n : '') + '\n' + c + '\nhttps://www.openstreetmap.org/?mlat=' + (+at[0]).toFixed(6) + '&mlon=' + (+at[1]).toFixed(6) + '#map=17/' + (+at[0]).toFixed(5) + '/' + (+at[1]).toFixed(5), nm);
+    })
+  );
+  ['GPX', 'KML', 'GeoJSON'].forEach(fm =>
+    m.append(
+      BI('dl', 'Plik ' + fm, () => {
+        m.style.display = 'none';
+        exportItems([it], nm, fm);
+      })
+    )
+  );
+  const r = btn.getBoundingClientRect();
+  m.style.display = 'block';
+  m.style.left = Math.max(4, Math.min(r.left, innerWidth - 200)) + 'px';
+  m.style.top = Math.max(4, r.top - m.offsetHeight - 4) + 'px';
+}
+async function itemDelete(it) {
+  if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?\n\nTrafi do kosza na 30 dni.', 'Usuń', true))) return false;
+  trashPut('obj', nameOf(it) || 'Obiekt', {items: [it]}, {m: P.id, mn: P.name});
+  P.items = P.items.filter(x => x.id !== it.id);
+  save();
+  render();
+  sheetIfOpen();
+  return true;
 }
 function xmenu(btn, l) {
   const m = $('xmenu');
@@ -10421,7 +10461,7 @@ function sheet() {
             w.append(sa);
           }
           its.forEach(it => {
-            const o = h('div', 'obj' + (HSL.has(catOf(it)) ? ' hid' : '')),
+            const o = h('div', 'obj' + (HSL.has(catOf(it)) || it.vis === false ? ' hid' : '')),
               ic = h('span', 'oi'),
               nm = h('span', 'on' + (it.nm ? '' : ' auto'));
             ic.innerHTML = glyph(it);
@@ -10442,6 +10482,34 @@ function sheet() {
             if (RATED(it) && it.ra) o.append(h('span', 'cm ra', '★' + it.ra));
             if (it.ph && it.ph.length) o.append(h('span', 'cm', '📷'));
             if (it.n) o.append(h('span', 'cm', '💬'));
+            if (!selMode) {
+              // małe ikony pod nazwą – jak pod śladem w „Śladach GPS”: nazwa · oko · udostępnij · usuń
+              const stop = fn => e => {
+                e.stopPropagation();
+                fn(e);
+              };
+              const ac = h('span', 'tact'),
+                sb = IB('share', stop(() => itemShareMenu(sb, it)), 'eye', 'Udostępnij');
+              ac.append(
+                IB('edit', stop(() => itemRename(it)), 'eye', 'Zmień nazwę'),
+                IB(
+                  it.vis === false ? 'eyeOff' : 'eye',
+                  stop(() => {
+                    if (it.vis === false) delete it.vis;
+                    else it.vis = false;
+                    touch(it);
+                    save();
+                    render();
+                    sheet();
+                  }),
+                  'eye',
+                  it.vis === false ? 'Obiekt ukryty – pokaż' : 'Obiekt widoczny – ukryj'
+                ),
+                sb,
+                IB('del', stop(() => itemDelete(it)), 'eye danger', 'Usuń obiekt')
+              );
+              nm.append(ac);
+            }
             w.append(o);
           });
         }
