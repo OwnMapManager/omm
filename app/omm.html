@@ -1968,12 +1968,24 @@ body.rec #info {
   gap: 4px;
   margin: 2px 0 -4px -6px;
 }
-.obj .tact .eye {
+/* belka pod nazwą warstwy / grupy (Mapy i Ślady GPS) – te same małe ikony co pod śladem */
+.lact {
+  display: flex;
+  gap: 4px;
+  padding: 0 0 4px 34px;
+}
+.l .tag,
+.g .tag {
+  padding-left: 40px;
+}
+.obj .tact .eye,
+.lact .eye {
   width: 28px;
   height: 28px;
   padding: 5px;
 }
-.obj .tact .eye svg {
+.obj .tact .eye svg,
+.lact .eye svg {
   width: 17px;
   height: 17px;
 }
@@ -2349,13 +2361,15 @@ body.rec #info {
   gap: 8px;
   padding: 8px 8px 14px;
 }
-.gpad.snake {
-  grid-template-columns: repeat(3, 70px);
-  grid-template-rows: 56px 56px;
+.gpad {
+  grid-template-columns: 76px 1fr 76px 76px;
+  grid-template-rows: 58px 58px;
+  justify-content: stretch;
+  padding: 8px 12px 14px;
 }
-.gpad.tetris {
-  grid-template-columns: repeat(5, minmax(0, 64px));
-  grid-template-rows: 60px;
+.gpad.grzyby {
+  grid-template-columns: 96px 1fr 96px;
+  grid-template-rows: 72px;
 }
 .gpad button.gk {
   width: auto;
@@ -2373,21 +2387,28 @@ body.rec #info {
   width: 30px;
   height: 30px;
 }
+/* wąż: lewy kciuk góra / dół, prawy kciuk lewo / prawo */
 .gpad.snake .gk.u {
-  grid-column: 2;
+  grid-column: 1;
   grid-row: 1;
 }
-.gpad.snake .gk.l {
+.gpad.snake .gk.d {
   grid-column: 1;
   grid-row: 2;
 }
-.gpad.snake .gk.d {
-  grid-column: 2;
-  grid-row: 2;
+.gpad.snake .gk.l {
+  grid-column: 3;
+  grid-row: 1 / 3;
 }
 .gpad.snake .gk.r {
+  grid-column: 4;
+  grid-row: 1 / 3;
+}
+.gpad.grzyby .gk.l {
+  grid-column: 1;
+}
+.gpad.grzyby .gk.r {
   grid-column: 3;
-  grid-row: 2;
 }
 .gk.l .ic {
   transform: rotate(-90deg);
@@ -3656,8 +3677,6 @@ const IC = {
   refresh: '<path d="M19.5 11A7.5 7.5 0 0 0 6 6.6L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4.5 13A7.5 7.5 0 0 0 18 17.4l2-1.9"/><path d="M20 20v-4.5h-4.5"/>', // odśwież mapę
   map: '<path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/>', // mapa
   more: '<circle cx="12" cy="5.5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor"/>', // więcej opcji
-  rot: '<path d="M19 12a7 7 0 1 1-2.05-4.95"/><path d="M19 4.5V9h-4.5"/>', // gry: obróć klocek
-  drop: '<path d="M12 3.5v11M7.5 10L12 14.5 16.5 10"/><path d="M5 19.5h14"/>', // gry: zrzuć klocek na dół
   coffee: '<path d="M5 9.5h11v4.5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8.5 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>',
 };
 // belka ikon w opcjach warstwy / grupy (ta sama kolejność wszędzie: nazwa · kolor · wyżej · niżej · eksport · usuń)
@@ -3695,7 +3714,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v52';
+const APP_VER = 'v53';
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -7583,7 +7602,7 @@ function cleanItem(it) {
   } else if (own(it, 'r')) delete it.r;
   if (it.t === 'arrow' && it.p.length < 2) return false;
   if (!okId(it.id)) it.id = uid();
-  if (own(it, 'vis') && it.vis !== false) delete it.vis; // jedyna dozwolona wartość: false (obiekt ukryty)
+  delete it.vis; // v52 miało ukrywanie pojedynczych obiektów – wycofane; ukryte wtedy obiekty wracają na mapę
   if (own(it, 'l') && !okId(it.l)) it.l = null;
   if (own(it, 'c')) {
     const c = safeColor(it.c);
@@ -8509,7 +8528,7 @@ function render() {
   P.items.forEach(it => {
     try {
       const f = findL(it.l);
-      if (!f || !okItem(it) || HS.has(catOf(it)) || it.vis === false) return; // vis false = obiekt ukryty okiem na liście
+      if (!f || !okItem(it) || HS.has(catOf(it))) return;
       const pane = 'p' + it.l,
         c = it.c,
         st = {pane, color: c, weight: it.sz != null ? LW[it.sz] : 4, fillColor: c, fillOpacity: it.o};
@@ -8898,32 +8917,6 @@ const itemAt = it =>
     : it.t === 'line'
       ? it.p[Math.floor((it.p.length - 1) / 2)]
       : (b => [b.getCenter().lat, b.getCenter().lng])(L.latLngBounds(it.p));
-function itemShareMenu(btn, it) {
-  // udostępnienie jednego obiektu: współrzędne z nazwą (SMS, komunikator) albo plik GPX / KML / GeoJSON
-  const m = $('xmenu'),
-    nm = nameOf(it) || 'Obiekt',
-    at = itemAt(it);
-  m.innerHTML = '';
-  m.append(
-    BI('gps', 'Współrzędne (tekst)', () => {
-      m.style.display = 'none';
-      const c = (+at[0]).toFixed(6) + ', ' + (+at[1]).toFixed(6);
-      shareTextOut(nm + (it.n ? '\n' + it.n : '') + '\n' + c + '\nhttps://www.openstreetmap.org/?mlat=' + (+at[0]).toFixed(6) + '&mlon=' + (+at[1]).toFixed(6) + '#map=17/' + (+at[0]).toFixed(5) + '/' + (+at[1]).toFixed(5), nm);
-    })
-  );
-  ['GPX', 'KML', 'GeoJSON'].forEach(fm =>
-    m.append(
-      BI('dl', 'Plik ' + fm, () => {
-        m.style.display = 'none';
-        exportItems([it], nm, fm);
-      })
-    )
-  );
-  const r = btn.getBoundingClientRect();
-  m.style.display = 'block';
-  m.style.left = Math.max(4, Math.min(r.left, innerWidth - 200)) + 'px';
-  m.style.top = Math.max(4, r.top - m.offsetHeight - 4) + 'px';
-}
 async function itemDelete(it) {
   if (!(await askYes('Usunąć ten obiekt' + (it.n ? ' razem z komentarzem' : '') + '?\n\nTrafi do kosza na 30 dni.', 'Usuń', true))) return false;
   trashPut('obj', nameOf(it) || 'Obiekt', {items: [it]}, {m: P.id, mn: P.name});
@@ -10509,7 +10502,6 @@ function sheet() {
           },
           'ex'
         ),
-        cb,
         gn,
         IB(
           'more',
@@ -10522,15 +10514,15 @@ function sheet() {
         )
       );
       box.append(r);
+      {
+        const ga = h('div', 'tact lact');
+        ga.append(IB('edit', () => ren(g, 'Nazwa grupy:'), 'eye', 'Zmień nazwę'), cb, IB('del', () => delG(g), 'eye danger', 'Usuń grupę'));
+        box.append(ga);
+      }
       if (selG === g.id) {
         const c = h('div', 'ctl');
         c.append(
-          belt(
-            IB('edit', () => ren(g, 'Nazwa grupy:'), '', 'Zmień nazwę'),
-            IB('up', () => mv(P.groups, gi, -1), '', 'Wyżej'),
-            IB('down', () => mv(P.groups, gi, 1), '', 'Niżej'),
-            IB('del', () => delG(g), 'danger', 'Usuń grupę')
-          ),
+          belt(IB('up', () => mv(P.groups, gi, -1), '', 'Wyżej'), IB('down', () => mv(P.groups, gi, 1), '', 'Niżej')),
           BI('plus', 'Warstwa', () => addLayerTo(g))
         );
         box.append(c);
@@ -10548,7 +10540,6 @@ function sheet() {
             sv();
           });
         r.append(
-          cb,
           B(
             l.open ? '▾' : '▸',
             () => {
@@ -10578,6 +10569,13 @@ function sheet() {
           )
         );
         w.append(r);
+        {
+          // belka pod nazwą warstwy – tak samo w Mapach i Śladach GPS: zmień nazwę · oko · udostępnij · usuń
+          const la = h('div', 'tact lact'),
+            xb = IB('share', () => xmenu(xb, l), 'eye', 'Udostępnij / eksport warstwy (GPX, KML, GeoJSON)');
+          la.append(IB('edit', () => ren(l, 'Nazwa warstwy:'), 'eye', 'Zmień nazwę'), cb, xb, IB('del', () => delL(g, l), 'eye danger', 'Usuń warstwę'));
+          w.append(la);
+        }
         if (act) w.append(h('div', 'tag', 'aktywna – tu trafiają nowe obiekty'));
         if (lsel === l.id) {
           const c = h('div', 'ctl'),
@@ -10595,16 +10593,9 @@ function sheet() {
             if (pn) pn.style.opacity = l.op;
           };
           rg.onchange = save;
-          // belka opcji warstwy – ta sama kolejność w Mapach i Śladach: nazwa · udostępnij · (kolor) · wyżej · niżej · usuń
-          const xb = IB('share', () => xmenu(xb, l), '', 'Udostępnij / eksport warstwy (GPX, KML, GeoJSON)');
+          // „⋮” – pozostałe opcje (nazwa, oko, udostępnij i usuń są na belce pod nazwą)
           c.append(
-            belt(
-              IB('edit', () => ren(l, 'Nazwa warstwy:'), '', 'Zmień nazwę'),
-              xb,
-              IB('up', () => mv(g.layers, li, -1), '', 'Wyżej'),
-              IB('down', () => mv(g.layers, li, 1), '', 'Niżej'),
-              IB('del', () => delL(g, l), 'danger', 'Usuń warstwę')
-            ),
+            belt(IB('up', () => mv(g.layers, li, -1), '', 'Wyżej'), IB('down', () => mv(g.layers, li, 1), '', 'Niżej')),
             h('span', null, 'Krycie'),
             rg,
             pc
@@ -10658,7 +10649,7 @@ function sheet() {
             w.append(sa);
           }
           its.forEach(it => {
-            const o = h('div', 'obj' + (HSL.has(catOf(it)) || it.vis === false ? ' hid' : '')),
+            const o = h('div', 'obj' + (HSL.has(catOf(it)) ? ' hid' : '')),
               ic = h('span', 'oi'),
               nm = h('span', 'on' + (it.nm ? '' : ' auto'));
             ic.innerHTML = glyph(it);
@@ -10679,34 +10670,6 @@ function sheet() {
             if (RATED(it) && it.ra) o.append(h('span', 'cm ra', '★' + it.ra));
             if (it.ph && it.ph.length) o.append(h('span', 'cm', '📷'));
             if (it.n) o.append(h('span', 'cm', '💬'));
-            if (!selMode) {
-              // małe ikony pod nazwą – jak pod śladem w „Śladach GPS”: nazwa · oko · udostępnij · usuń
-              const stop = fn => e => {
-                e.stopPropagation();
-                fn(e);
-              };
-              const ac = h('span', 'tact'),
-                sb = IB('share', stop(() => itemShareMenu(sb, it)), 'eye', 'Udostępnij');
-              ac.append(
-                IB('edit', stop(() => itemRename(it)), 'eye', 'Zmień nazwę'),
-                IB(
-                  it.vis === false ? 'eyeOff' : 'eye',
-                  stop(() => {
-                    if (it.vis === false) delete it.vis;
-                    else it.vis = false;
-                    touch(it);
-                    save();
-                    render();
-                    sheet();
-                  }),
-                  'eye',
-                  it.vis === false ? 'Obiekt ukryty – pokaż' : 'Obiekt widoczny – ukryj'
-                ),
-                sb,
-                IB('del', stop(() => itemDelete(it)), 'eye danger', 'Usuń obiekt')
-              );
-              nm.append(ac);
-            }
             w.append(o);
           });
         }
@@ -12660,19 +12623,39 @@ function magicShroom() {
   document.body.append(b);
   setTimeout(() => b.remove(), 30000);
 }
+// tło wspólne dla gier: ciemny las, który wolno zmienia barwy, i dryfujące zarodniki (bez błysków)
+function gameBg(c, W, H, t, trip) {
+  const hu = (t / 90) * trip,
+    gr = c.createRadialGradient(W / 2, H * 0.45, 0, W / 2, H * 0.45, Math.max(W, H) * 0.75);
+  gr.addColorStop(0, 'hsl(' + ((hu + 280) % 360) + ',55%,20%)');
+  gr.addColorStop(0.55, 'hsl(' + ((hu + 230) % 360) + ',60%,11%)');
+  gr.addColorStop(1, 'hsl(' + ((hu + 200) % 360) + ',65%,6%)');
+  c.fillStyle = gr;
+  c.fillRect(0, 0, W, H);
+  for (let i = 0; i < 14; i++) {
+    const k = i * 97.3,
+      x = (((Math.sin(k) * 0.5 + 0.5) * W + (t / 60) * (0.3 + (i % 3) * 0.2)) % (W + 40)) - 20,
+      y = (((Math.cos(k * 1.7) * 0.5 + 0.5) * H - (t / 45) * (0.4 + (i % 4) * 0.15)) % H + H) % H,
+      r = 2 + (i % 4) * 1.5 + Math.sin(t / 700 + i) * 1.2;
+    c.fillStyle = 'hsla(' + ((hu * 2 + i * 40) % 360) + ',100%,70%,0.35)';
+    c.beginPath();
+    c.arc(x, y, Math.max(0.5, r), 0, 7);
+    c.fill();
+  }
+}
 function snakeGame() {
-  const N = 17,
+  const N = 15,
     D = {L: [-1, 0], R: [1, 0], U: [0, -1], D: [0, 1]};
-  const g = {id: 'snake', title: '🐍 Grzybowy wąż', W: N, H: N, score: 0, over: false, trip: 1, eaten: 0};
+  const g = {id: 'snake', title: '🐍 Grzybowy wąż', W: N, H: N, score: 0, over: false, eaten: 0, acc: 0, speed: 190, fx: []};
   g.body = [
-    [8, 8],
-    [7, 8],
-    [6, 8]
+    [7, 7],
+    [6, 7],
+    [5, 7],
+    [4, 7]
   ];
+  g.prev = g.body.map(p => p.slice());
   g.dir = D.R;
   g.q = [];
-  g.acc = 0;
-  g.speed = 170;
   const on = (p, a) => a.some(b => b[0] === p[0] && b[1] === p[1]);
   const place = () => {
     let p;
@@ -12695,215 +12678,295 @@ function snakeGame() {
   const tick = () => {
     if (g.q.length) g.dir = g.q.shift();
     const hd = g.body[0],
-      n = [(hd[0] + g.dir[0] + N) % N, (hd[1] + g.dir[1] + N) % N], // krawędzie to portale
+      n = [(hd[0] + g.dir[0] + N) % N, (hd[1] + g.dir[1] + N) % N], // krawędzie to przejścia na drugą stronę
       grow = n[0] === g.food[0] && n[1] === g.food[1];
     if (on(n, grow ? g.body : g.body.slice(0, -1))) return (g.over = true);
+    g.prev = g.body.map(p => p.slice());
     g.body.unshift(n);
     if (!grow) return g.body.pop();
+    g.prev.push(g.prev[g.prev.length - 1].slice());
     g.eaten++;
     g.score += 10 * (1 + Math.floor(g.eaten / 5));
-    g.trip = 1 + g.eaten * 0.12;
-    g.speed = Math.max(75, 170 - g.eaten * 4);
+    g.speed = Math.max(85, 190 - g.eaten * 4);
+    g.fx.push({x: n[0], y: n[1], t: 0});
     if (g.body.length >= N * N) return (g.over = true);
     place();
   };
   g.step = dt => {
     g.acc += dt;
+    g.fx.forEach(f => (f.t += dt));
+    g.fx = g.fx.filter(f => f.t < 600);
     while (g.acc >= g.speed && !g.over) {
       g.acc -= g.speed;
       tick();
     }
   };
   g.label = () => 'Faza ' + (1 + Math.floor(g.eaten / 5));
+  // lewy kciuk: góra / dół, prawy kciuk: lewo / prawo
   g.pad = [
     ['U', 'up', 'u', 0, 'W górę'],
-    ['L', 'up', 'l', 0, 'W lewo'],
     ['D', 'up', 'd', 0, 'W dół'],
+    ['L', 'up', 'l', 0, 'W lewo'],
     ['R', 'up', 'r', 0, 'W prawo']
   ];
   g.draw = (c, t, s) => {
     const W = N * s,
-      hue = ((t / 40) * g.trip) % 360;
-    c.fillStyle = 'rgba(8,0,24,0.3)'; // smugi – poprzednie klatki wolno gasną
-    c.fillRect(0, 0, W, W);
-    c.lineWidth = s * 0.5;
-    for (let i = 0; i < 6; i++) {
-      const r = ((t / 18) * g.trip + (i * W) / 6) % (W * 0.8);
-      c.strokeStyle = 'hsla(' + ((hue + i * 60) % 360) + ',100%,60%,0.16)';
-      c.beginPath();
-      c.arc(W / 2, W / 2, r, 0, 7);
-      c.stroke();
-    }
-    g.body.forEach((p, i) => {
-      c.fillStyle = 'hsl(' + ((hue + i * 18) % 360) + ',100%,' + (i ? 58 : 70) + '%)';
-      c.beginPath();
-      c.arc(p[0] * s + s / 2, p[1] * s + s / 2, s / 2 - s * 0.06 - Math.abs(Math.sin(t / 160 + i * 0.6)) * s * 0.08, 0, 7);
-      c.fill();
-    });
-    const hd = g.body[0];
-    c.fillStyle = '#12002a';
-    [-1, 1].forEach(e => {
-      const ox = g.dir[1] ? e * s * 0.18 : g.dir[0] * s * 0.12,
-        oy = g.dir[0] ? e * s * 0.18 : g.dir[1] * s * 0.12;
-      c.beginPath();
-      c.arc(hd[0] * s + s / 2 + ox, hd[1] * s + s / 2 + oy, s * 0.08, 0, 7);
-      c.fill();
-    });
-    c.font = Math.round(s * (0.95 + 0.15 * Math.sin(t / 150))) + 'px sans-serif';
+      trip = 1 + g.eaten * 0.08,
+      hu = (t / 25) * trip,
+      f = Math.min(1, g.acc / g.speed);
+    gameBg(c, W, W, t, trip);
+    c.fillStyle = 'rgba(255,255,255,0.07)';
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) c.fillRect(x * s + s / 2 - 1, y * s + s / 2 - 1, 2, 2);
+    // grzybek z pulsującą poświatą
+    const fx = g.food[0] * s + s / 2,
+      fy = g.food[1] * s + s / 2,
+      halo = c.createRadialGradient(fx, fy, 0, fx, fy, s * 1.1);
+    halo.addColorStop(0, 'hsla(' + ((hu + 60) % 360) + ',100%,70%,0.55)');
+    halo.addColorStop(1, 'hsla(' + ((hu + 60) % 360) + ',100%,70%,0)');
+    c.fillStyle = halo;
+    c.beginPath();
+    c.arc(fx, fy, s * 1.1, 0, 7);
+    c.fill();
+    c.font = Math.round(s * (0.85 + 0.08 * Math.sin(t / 180))) + 'px sans-serif';
     c.textAlign = 'center';
     c.textBaseline = 'middle';
-    c.fillText('🍄', g.food[0] * s + s / 2, g.food[1] * s + s / 2 + s * 0.05);
+    c.fillText('🍄', fx, fy + s * 0.04);
+    // wąż – płynny ruch między krokami, gruba „rura” z tęczowym połyskiem
+    const pts = g.body.map((p, i) => {
+      const q = g.prev[i] || p,
+        jump = Math.abs(p[0] - q[0]) > 1 || Math.abs(p[1] - q[1]) > 1;
+      return jump ? [p[0], p[1], 1] : [q[0] + (p[0] - q[0]) * f, q[1] + (p[1] - q[1]) * f, 0];
+    });
+    c.lineCap = c.lineJoin = 'round';
+    for (let i = pts.length - 1; i > 0; i--) {
+      const a = pts[i],
+        b = pts[i - 1];
+      if (Math.abs(a[0] - b[0]) > 1.5 || Math.abs(a[1] - b[1]) > 1.5) continue; // przejście przez krawędź
+      const w = s * (0.78 - (0.28 * i) / pts.length);
+      c.strokeStyle = 'hsl(' + ((hu + i * 22) % 360) + ',85%,55%)';
+      c.lineWidth = w;
+      c.beginPath();
+      c.moveTo(a[0] * s + s / 2, a[1] * s + s / 2);
+      c.lineTo(b[0] * s + s / 2, b[1] * s + s / 2);
+      c.stroke();
+    }
+    // połysk – jedna ciągła linia (bez przerw między segmentami)
+    c.strokeStyle = 'rgba(255,255,255,0.25)';
+    c.lineWidth = s * 0.16;
+    c.beginPath();
+    pts.forEach((a, i) => {
+      const b = pts[i - 1],
+        o = -s * 0.1;
+      if (!b || Math.abs(a[0] - b[0]) > 1.5 || Math.abs(a[1] - b[1]) > 1.5) c.moveTo(a[0] * s + s / 2 + o, a[1] * s + s / 2 + o);
+      else c.lineTo(a[0] * s + s / 2 + o, a[1] * s + s / 2 + o);
+    });
+    c.stroke();
+    const hx = pts[0][0] * s + s / 2,
+      hy = pts[0][1] * s + s / 2,
+      dx = g.dir[0],
+      dy = g.dir[1];
+    c.fillStyle = 'hsl(' + (hu % 360) + ',90%,62%)';
+    c.beginPath();
+    c.arc(hx, hy, s * 0.44, 0, 7);
+    c.fill();
+    if (Math.sin(t / 300) > 0.6) {
+      // język
+      c.strokeStyle = '#ff3d7f';
+      c.lineWidth = Math.max(1.5, s * 0.07);
+      c.beginPath();
+      c.moveTo(hx + dx * s * 0.4, hy + dy * s * 0.4);
+      c.lineTo(hx + dx * s * 0.68, hy + dy * s * 0.68);
+      c.stroke();
+    }
+    [-1, 1].forEach(e => {
+      const ex = hx + dx * s * 0.12 + (dy ? e * s * 0.19 : 0),
+        ey = hy + dy * s * 0.12 + (dx ? e * s * 0.19 : 0);
+      c.fillStyle = '#fff';
+      c.beginPath();
+      c.arc(ex, ey, s * 0.13, 0, 7);
+      c.fill();
+      c.fillStyle = '#1a0033';
+      c.beginPath();
+      c.arc(ex + dx * s * 0.05, ey + dy * s * 0.05, s * 0.065, 0, 7);
+      c.fill();
+    });
+    // kręgi po zjedzeniu grzybka
+    g.fx.forEach(e => {
+      const k = e.t / 600;
+      c.strokeStyle = 'hsla(' + ((hu + 120) % 360) + ',100%,70%,' + (1 - k) + ')';
+      c.lineWidth = 3;
+      c.beginPath();
+      c.arc(e.x * s + s / 2, e.y * s + s / 2, s * (0.5 + k * 2.2), 0, 7);
+      c.stroke();
+    });
   };
   return g;
 }
-function tetrisGame() {
-  const W = 10,
-    H = 20,
-    SH = {
-      I: [[0, 1], [1, 1], [2, 1], [3, 1]],
-      O: [[1, 0], [2, 0], [1, 1], [2, 1]],
-      T: [[1, 0], [0, 1], [1, 1], [2, 1]],
-      S: [[1, 0], [2, 0], [0, 1], [1, 1]],
-      Z: [[0, 0], [1, 0], [1, 1], [2, 1]],
-      J: [[0, 0], [0, 1], [1, 1], [2, 1]],
-      L: [[2, 0], [0, 1], [1, 1], [2, 1]]
-    },
-    HUE = {I: 180, O: 55, T: 290, S: 120, Z: 0, J: 230, L: 30};
-  const g = {id: 'tetris', title: '🧱 Kwantowe klocki', W, H, side: 4, score: 0, lines: 0, level: 1, over: false, acc: 0, fx: 0};
-  const grid = Array.from({length: H}, () => Array(W).fill(0));
-  let bag = [];
-  const take = () => {
-    if (!bag.length) {
-      bag = Object.keys(SH);
-      for (let i = bag.length - 1; i > 0; i--) {
-        const j = rnd(i + 1);
-        [bag[i], bag[j]] = [bag[j], bag[i]];
-      }
-    }
-    const k = bag.pop();
-    return {k, c: SH[k].map(p => p.slice()), n: k === 'I' || k === 'O' ? 4 : 3, x: 3, y: k === 'I' ? -1 : 0, hue: HUE[k]};
-  };
-  const hit = (c, x, y) => c.some(([a, b]) => a + x < 0 || a + x >= W || b + y >= H || (b + y >= 0 && grid[b + y][a + x]));
-  const spawn = () => {
-    g.p = g.next || take();
-    g.next = take();
-    if (hit(g.p.c, g.p.x, g.p.y)) g.over = true;
-  };
-  const lock = () => {
-    const p = g.p;
-    p.c.forEach(([a, b]) => {
-      if (b + p.y < 0) g.over = true;
-      else grid[b + p.y][a + p.x] = p.hue + 1;
+function shroomDraw(c, x, y, r, k, t) {
+  // grzyby rysowane na płótnie: borowik, kurka, podgrzybek, muchomor i magiczny (tęczowy)
+  const cap = {bor: '#8a5a2b', kur: '#f2b01e', pod: '#4a2f1b', much: '#e0262b'}[k],
+    stem = k === 'kur' ? '#f6c84a' : '#efe3c8';
+  if (k === 'magic') {
+    const gl = c.createRadialGradient(x, y, 0, x, y, r * 2.2);
+    gl.addColorStop(0, 'hsla(' + ((t / 6) % 360) + ',100%,75%,0.8)');
+    gl.addColorStop(1, 'hsla(' + ((t / 6) % 360) + ',100%,75%,0)');
+    c.fillStyle = gl;
+    c.beginPath();
+    c.arc(x, y, r * 2.2, 0, 7);
+    c.fill();
+  }
+  c.fillStyle = stem;
+  c.beginPath();
+  if (k === 'kur') {
+    c.moveTo(x - r * 0.25, y + r * 0.9);
+    c.lineTo(x + r * 0.25, y + r * 0.9);
+    c.lineTo(x + r * 0.7, y - r * 0.1);
+    c.lineTo(x - r * 0.7, y - r * 0.1);
+  } else c.ellipse(x, y + r * 0.35, r * (k === 'bor' ? 0.42 : 0.3), r * 0.6, 0, 0, 7);
+  c.fill();
+  if (k === 'magic') {
+    const gr = c.createLinearGradient(x - r, y, x + r, y);
+    for (let i = 0; i <= 4; i++) gr.addColorStop(i / 4, 'hsl(' + ((t / 5 + i * 72) % 360) + ',100%,60%)');
+    c.fillStyle = gr;
+  } else c.fillStyle = cap;
+  c.beginPath();
+  if (k === 'kur') c.ellipse(x, y - r * 0.15, r * 0.95, r * 0.38, 0, 0, 7);
+  else c.ellipse(x, y - r * 0.1, r, r * 0.62, 0, Math.PI, 0);
+  c.fill();
+  if (k === 'much' || k === 'magic') {
+    c.fillStyle = '#fff';
+    [[-0.5, -0.3], [0, -0.5], [0.45, -0.25], [-0.15, -0.2]].forEach(([a, b]) => {
+      c.beginPath();
+      c.arc(x + a * r, y + b * r, r * 0.11, 0, 7);
+      c.fill();
     });
-    if (g.over) return;
-    let n = 0;
-    for (let y = H - 1; y >= 0; y--)
-      if (grid[y].every(v => v)) {
-        grid.splice(y, 1);
-        grid.unshift(Array(W).fill(0));
-        n++;
-        y++;
-      }
-    if (n) {
-      g.score += [0, 100, 300, 500, 800][n] * g.level;
-      g.lines += n;
-      g.level = 1 + Math.floor(g.lines / 10);
-      g.fx = 1; // fala kolorów po zbiciu linii
-    }
-    spawn();
+  }
+}
+function catchGame() {
+  // „Grzybobranie”: łap jadalne grzyby do koszyka, omijaj muchomory; tęczowy grzybek = odlot (podwójne punkty, wolniej)
+  const W = 9,
+    H = 14,
+    KINDS = [
+      ['bor', 20, 3],
+      ['kur', 10, 5],
+      ['pod', 15, 4],
+      ['much', 0, 3],
+      ['magic', 0, 0.35]
+    ];
+  const g = {id: 'grzyby', title: '🧺 Grzybobranie', W, H, score: 0, over: false, lives: 3, combo: 0, x: W / 2, hold: 0, items: [], pops: [], next: 600, time: 0, trip: 0};
+  const pick = () => {
+    const tot = KINDS.reduce((a, k) => a + k[2], 0);
+    let r = Math.random() * tot;
+    for (const k of KINDS) if ((r -= k[2]) < 0) return k;
+    return KINDS[0];
   };
-  const down = () => {
-    if (!hit(g.p.c, g.p.x, g.p.y + 1)) return g.p.y++, true;
-    lock();
-    return false;
+  g.key = () => {};
+  g.holdKey = (k, on) => {
+    if (k === 'L') g.hold = on ? -1 : g.hold === -1 ? 0 : g.hold;
+    if (k === 'R') g.hold = on ? 1 : g.hold === 1 ? 0 : g.hold;
   };
-  spawn();
-  g.key = k => {
-    const p = g.p;
-    if (k === 'L' || k === 'R') {
-      const d = k === 'L' ? -1 : 1;
-      if (!hit(p.c, p.x + d, p.y)) p.x += d;
-    } else if (k === 'U') {
-      if (p.k === 'O') return;
-      const c = p.c.map(([a, b]) => [p.n - 1 - b, a]);
-      for (const [dx, dy] of [[0, 0], [-1, 0], [1, 0], [-2, 0], [2, 0], [0, -1]])
-        if (!hit(c, p.x + dx, p.y + dy)) return Object.assign(p, {c, x: p.x + dx, y: p.y + dy});
-    } else if (k === 'D') {
-      if (down()) g.score += 1;
-      g.acc = 0;
-    } else if (k === 'X') {
-      while (!hit(p.c, p.x, p.y + 1)) p.y++, (g.score += 2);
-      lock();
-      g.acc = 0;
-    }
-  };
-  g.swipe = (dx, dy, s) => {
-    if (Math.max(Math.abs(dx), Math.abs(dy)) < 14) return g.key('U'); // dotknięcie = obrót
-    if (Math.abs(dx) > Math.abs(dy)) for (let i = 0; i < Math.max(1, Math.round(Math.abs(dx) / s)); i++) g.key(dx > 0 ? 'R' : 'L');
-    else if (dy > 40) g.key('X');
-  };
+  g.drag = cx => (g.x = Math.max(0.8, Math.min(W - 0.8, cx)));
   g.step = dt => {
-    g.acc += dt;
-    if (g.acc >= Math.max(90, 800 - (g.level - 1) * 70)) {
-      g.acc = 0;
-      down();
+    g.time += dt;
+    if (g.trip > 0) g.trip = Math.max(0, g.trip - dt);
+    g.x = Math.max(0.8, Math.min(W - 0.8, g.x + g.hold * dt * 0.007));
+    const lvl = Math.min(1, g.time / 120000),
+      slow = g.trip ? 0.6 : 1;
+    if ((g.next -= dt) <= 0) {
+      const k = pick();
+      g.items.push({k: k[0], pts: k[1], x: 0.6 + Math.random() * (W - 1.2), y: -0.6, v: (0.0028 + Math.random() * 0.0015 + lvl * 0.004) * (k[0] === 'magic' ? 0.8 : 1), sw: Math.random() * 6});
+      g.next = 900 - lvl * 520 + Math.random() * 300;
     }
+    g.items.forEach(it => (it.y += it.v * dt * slow));
+    g.items = g.items.filter(it => {
+      if (it.y > H - 1.6 && it.y < H - 0.7 && Math.abs(it.x - g.x) < 1.05) {
+        // złapany
+        let txt;
+        if (it.k === 'much') {
+          g.lives--;
+          g.combo = 0;
+          txt = '💀';
+          if (!g.lives) g.over = true;
+        } else if (it.k === 'magic') {
+          g.trip = 8000;
+          txt = 'odlot!';
+        } else {
+          g.combo = Math.min(5, g.combo + 1);
+          const p = it.pts * g.combo * (g.trip ? 2 : 1);
+          g.score += p;
+          txt = '+' + p;
+        }
+        g.pops.push({x: it.x, y: H - 2 - 0.8 * g.pops.filter(p => p.t < 400).length, t: 0, txt});
+        return false;
+      }
+      if (it.y > H + 0.5) {
+        if (it.pts) g.combo = 0; // przepuszczony jadalny grzyb zeruje serię
+        return false;
+      }
+      return true;
+    });
+    g.pops.forEach(p => (p.t += dt));
+    g.pops = g.pops.filter(p => p.t < 900);
   };
-  g.label = () => 'Poziom ' + g.level;
+  g.label = () => '❤️'.repeat(g.lives) + (g.combo > 1 ? ' · seria ×' + g.combo : '');
+  // lewy kciuk – w lewo, prawy kciuk – w prawo (albo przeciągnij koszyk palcem)
   g.pad = [
-    ['L', 'up', 'l', 110, 'W lewo'],
-    ['D', 'up', 'd', 55, 'Szybciej w dół'],
-    ['R', 'up', 'r', 110, 'W prawo'],
-    ['U', 'rot', '', 0, 'Obróć'],
-    ['X', 'drop', '', 0, 'Zrzuć na dół']
+    ['L', 'up', 'l', 0, 'W lewo'],
+    ['R', 'up', 'r', 0, 'W prawo']
   ];
   g.draw = (c, t, s) => {
     const BW = W * s,
       BH = H * s,
-      hue = (t / 30) % 360;
-    g.fx = Math.max(0, g.fx - 0.015);
-    const gr = c.createLinearGradient(0, 0, BW, BH);
-    gr.addColorStop(0, 'hsl(' + hue + ',70%,12%)');
-    gr.addColorStop(0.5, 'hsl(' + ((hue + 120) % 360) + ',70%,' + (12 + g.fx * 18) + '%)');
-    gr.addColorStop(1, 'hsl(' + ((hue + 240) % 360) + ',70%,12%)');
-    c.fillStyle = gr;
-    c.fillRect(0, 0, BW, BH);
-    const box = (x, y, hh, a, sz) => {
-      const z = sz || s,
-        w = Math.sin(t / 220 + x * 0.7 + y * 0.5) * z * 0.05;
-      c.fillStyle = 'hsla(' + (hh % 360) + ',100%,60%,' + a + ')';
-      c.fillRect(x * z + 1.5 + w, y * z + 1.5, z - 3, z - 3);
-      c.fillStyle = 'rgba(255,255,255,' + 0.28 * a + ')';
-      c.fillRect(x * z + 1.5 + w, y * z + 1.5, z - 3, (z - 3) * 0.3);
-    };
-    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (grid[y][x]) box(x, y, grid[y][x] + t / 25 + y * 9, 1);
-    const p = g.p;
-    if (!g.over) {
-      let gy = p.y;
-      while (!hit(p.c, p.x, gy + 1)) gy++;
-      c.lineWidth = 1.5;
-      p.c.forEach(([a, b]) => {
-        c.strokeStyle = 'hsla(' + ((p.hue + t / 25) % 360) + ',100%,70%,0.55)';
-        c.strokeRect((a + p.x) * s + 2.5, (b + gy) * s + 2.5, s - 5, s - 5);
-      });
-      p.c.forEach(([a, b]) => b + p.y >= 0 && box(a + p.x, b + p.y, p.hue + t / 25, 1));
+      trip = g.trip ? 3 : 1;
+    gameBg(c, BW, BH, t, trip);
+    // sylwetki świerków falujące w odlocie
+    for (let i = 0; i < 7; i++) {
+      const bx = (i + 0.5) * (BW / 7),
+        sway = g.trip ? Math.sin(t / 300 + i) * s * 0.3 : 0,
+        th = s * (2.6 + (i % 3) * 0.7);
+      c.fillStyle = 'hsla(' + ((t / 40 + i * 25) % 360) + ',45%,' + (g.trip ? 30 : 16) + '%,0.9)';
+      c.beginPath();
+      c.moveTo(bx - s * 0.9, BH);
+      c.lineTo(bx + sway, BH - th);
+      c.lineTo(bx + s * 0.9, BH);
+      c.fill();
     }
-    c.clearRect(BW, 0, g.side * s, BH);
-    c.fillStyle = 'rgba(0,0,0,0.45)';
-    c.fillRect(BW, 0, g.side * s, BH);
-    c.fillStyle = '#fff';
-    c.font = Math.round(s * 0.55) + 'px sans-serif';
-    c.textAlign = 'left';
-    c.textBaseline = 'top';
-    c.fillText('Następny', BW + s * 0.3, s * 0.4);
-    const z = s * 0.75;
-    c.save();
-    c.translate(BW + s * 0.5, s * 1.4);
-    g.next.c.forEach(([a, b]) => box(a, b, g.next.hue + t / 25, 1, z));
-    c.restore();
-    c.fillStyle = '#fff';
-    c.fillText('Linie', BW + s * 0.3, s * 5);
-    c.fillText(String(g.lines), BW + s * 0.3, s * 5.8);
+    g.items.forEach(it => shroomDraw(c, (it.x + Math.sin(t / 400 + it.sw) * 0.08) * s, it.y * s, s * 0.45, it.k, t));
+    // koszyk
+    const kx = g.x * s,
+      ky = BH - s * 1.1;
+    c.strokeStyle = '#c99a5b';
+    c.lineWidth = s * 0.12;
+    c.beginPath();
+    c.ellipse(kx, ky - s * 0.1, s * 0.62, s * 0.55, 0, Math.PI, 0);
+    c.stroke();
+    c.fillStyle = '#a8743a';
+    c.beginPath();
+    c.moveTo(kx - s * 0.95, ky);
+    c.lineTo(kx + s * 0.95, ky);
+    c.lineTo(kx + s * 0.7, ky + s * 0.75);
+    c.lineTo(kx - s * 0.7, ky + s * 0.75);
+    c.fill();
+    c.strokeStyle = 'rgba(70,40,10,0.55)';
+    c.lineWidth = 1.5;
+    for (let i = 1; i < 3; i++) {
+      c.beginPath();
+      c.moveTo(kx - s * (0.95 - i * 0.08), ky + i * s * 0.25);
+      c.lineTo(kx + s * (0.95 - i * 0.08), ky + i * s * 0.25);
+      c.stroke();
+    }
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    g.pops.forEach(p => {
+      c.fillStyle = 'rgba(255,255,255,' + (1 - p.t / 900) + ')';
+      c.font = 'bold ' + Math.round(s * 0.6) + 'px sans-serif';
+      c.fillText(p.txt, p.x * s, (p.y - p.t / 500) * s);
+    });
+    if (g.trip) {
+      c.fillStyle = 'hsla(' + ((t / 8) % 360) + ',100%,75%,0.9)';
+      c.font = 'bold ' + Math.round(s * 0.55) + 'px sans-serif';
+      c.fillText('🌈 odlot ×2 · ' + Math.ceil(g.trip / 1000) + ' s', BW / 2, s * 0.6);
+    }
   };
   return g;
 }
@@ -12933,12 +12996,11 @@ function gameOpen() {
   const fit = () => {
     if (!g) return;
     const r = stage.getBoundingClientRect(),
-      W = g.W + (g.side || 0),
       dpr = window.devicePixelRatio || 1;
-    cell = Math.max(8, Math.floor(Math.min((r.width - 16) / W, (r.height - 16) / g.H)));
-    cv.style.width = cell * W + 'px';
+    cell = Math.max(8, Math.floor(Math.min((r.width - 16) / g.W, (r.height - 16) / g.H)));
+    cv.style.width = cell * g.W + 'px';
     cv.style.height = cell * g.H + 'px';
-    cv.width = Math.round(cell * W * dpr);
+    cv.width = Math.round(cell * g.W * dpr);
     cv.height = Math.round(cell * g.H * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
@@ -12965,28 +13027,25 @@ function gameOpen() {
       h('div', 'gh', 'Zjadłeś magicznego grzybka…'),
       h('div', 'gp', 'Świat lekko faluje. W co odpływasz?'),
       B('🐍 Grzybowy wąż', () => start('snake'), 'gbig'),
-      B('🧱 Kwantowe klocki', () => start('tetris'), 'gbig'),
-      h('div', 'gp', 'Sterowanie: przyciski na dole albo przesunięcie palcem po planszy.')
+      B('🧺 Grzybobranie', () => start('grzyby'), 'gbig'),
+      h('div', 'gp', 'Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy.')
     );
   };
-  const holdBtn = (ic, fn, cls, rep, t) => {
+  const live = () => g && !paused && !g.over;
+  const holdBtn = (k, ic, cls, t) => {
     const b = IB(ic, null, 'gk' + (cls ? ' ' + cls : ''), t);
-    let to = 0,
-      iv = 0;
-    const live = () => g && !paused && !g.over,
-      stop = () => (clearTimeout(to), clearInterval(iv));
+    const up = () => g && g.holdKey && g.holdKey(k, false);
     b.addEventListener('pointerdown', e => {
       e.preventDefault();
-      stop();
       if (!live()) return;
-      fn();
-      if (rep) to = setTimeout(() => (iv = setInterval(() => (live() ? fn() : stop()), rep)), 180);
+      if (g.holdKey) g.holdKey(k, true);
+      else g.key(k);
     });
-    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, stop));
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, up));
     return b;
   };
   const start = id => {
-    g = id === 'snake' ? snakeGame() : tetrisGame();
+    g = id === 'snake' ? snakeGame() : catchGame();
     ttl.textContent = g.title.split(' ')[0]; // w grze sama ikonka – miejsce na wynik
     ttl.title = g.title;
     paused = false;
@@ -12996,9 +13055,8 @@ function gameOpen() {
     showOv();
     pad.innerHTML = '';
     pad.className = 'gpad ' + id;
-    g.pad.forEach(([k, ic, cls, rep, t]) => pad.append(holdBtn(ic, () => g.key(k), cls, rep, t)));
+    g.pad.forEach(([k, ic, cls, , t]) => pad.append(holdBtn(k, ic, cls, t)));
     fit();
-    ctx.clearRect(0, 0, cv.width, cv.height);
     last = 0;
   };
   const end = () => {
@@ -13016,6 +13074,7 @@ function gameOpen() {
   const pause = v => {
     if (!g || g.over || paused === v) return;
     paused = v;
+    if (g.holdKey) g.hold = 0;
     setPb();
     if (v) showOv(h('div', 'gh', 'Pauza'), BI('play', 'Wznów', () => pause(false), 'gbig'), B('Zmień grę', menu, 'gbig2'));
     else showOv();
@@ -13034,43 +13093,57 @@ function gameOpen() {
     if (s !== txt) sc.textContent = txt = s;
     g.draw(ctx, t, cell);
   };
+  const KM = {ArrowLeft: 'L', ArrowRight: 'R', ArrowUp: 'U', ArrowDown: 'D'};
   const onKey = e => {
-    const k = {ArrowLeft: 'L', ArrowRight: 'R', ArrowUp: 'U', ArrowDown: 'D', ' ': 'X'}[e.key];
+    const k = KM[e.key];
     if (e.key === 'Escape') return e.preventDefault(), close();
     if (e.key === 'p' || e.key === 'P') return pause(!paused);
     if (!k || !g) return;
     e.preventDefault();
-    if (!paused && !g.over) g.key(k);
+    if (!live()) return;
+    if (g.holdKey) g.holdKey(k, true);
+    else g.key(k);
   };
+  const onKeyUp = e => KM[e.key] && g && g.holdKey && g.holdKey(KM[e.key], false);
   const onVis = () => document.hidden && pause(true);
   let sx = 0,
     sy = 0,
     sOn = false;
+  const cellX = e => (e.clientX - cv.getBoundingClientRect().left) / cell;
   cv.addEventListener('pointerdown', e => {
     sx = e.clientX;
     sy = e.clientY;
     sOn = true;
+    if (live() && g.drag) g.drag(cellX(e));
   });
+  cv.addEventListener('pointermove', e => sOn && live() && g.drag && g.drag(cellX(e)));
   cv.addEventListener('pointerup', e => {
-    if (!sOn || !g || paused || g.over) return;
+    if (!sOn) return;
     sOn = false;
-    g.swipe(e.clientX - sx, e.clientY - sy, cell);
+    if (live() && g.swipe) g.swipe(e.clientX - sx, e.clientY - sy, cell);
   });
   cv.addEventListener('pointercancel', () => (sOn = false));
   const close = () => {
     cancelAnimationFrame(raf);
     document.removeEventListener('keydown', onKey);
+    document.removeEventListener('keyup', onKeyUp);
     document.removeEventListener('visibilitychange', onVis);
     window.removeEventListener('resize', fit);
     root.remove();
     GAME = null;
   };
   document.addEventListener('keydown', onKey);
+  document.addEventListener('keyup', onKeyUp);
   document.addEventListener('visibilitychange', onVis);
   window.addEventListener('resize', fit);
-  GAME = {close, start, pause, get g() {
-    return g;
-  }};
+  GAME = {
+    close,
+    start,
+    pause,
+    get g() {
+      return g;
+    }
+  };
   menu();
   raf = requestAnimationFrame(frame);
 }
@@ -15481,7 +15554,6 @@ function trkSheet() {
       sw = h('span', 'tsw');
     sw.style.background = l.c;
     r.append(
-      cb,
       B(l.open ? '▾' : '▸', () => ((l.open = !l.open), trkChanged()), 'ex', 'Lista śladów'),
       sw,
       B(l.name, () => (trkSetActive(l.id), trkChanged()), 'nm'),
@@ -15490,29 +15562,66 @@ function trkSheet() {
     );
     w.append(r);
     if (act) w.append(h('div', 'tag', 'aktywna – tu zapisują się nowe ślady'));
+    {
+      // belka pod nazwą warstwy – tak samo jak w Mapach: zmień nazwę · oko · udostępnij · usuń
+      const la = h('div', 'tact lact');
+      la.append(
+        IB(
+          'edit',
+          async () => {
+            const n = await askText('Nazwa warstwy śladów:', l.name);
+            if (n && n.trim()) {
+              l.name = n.trim().slice(0, 200);
+              trkChanged();
+            }
+          },
+          'eye',
+          'Zmień nazwę'
+        ),
+        cb,
+        IB(
+          'share',
+          () => (its.length ? dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name)) : tell('Ta warstwa nie ma jeszcze śladów.')),
+          'eye',
+          'Udostępnij / eksport warstwy (GPX)'
+        ),
+        IB(
+          'del',
+          async () => {
+            if (catIds.size < 2) return tell('To jedyna warstwa w tej kategorii – nie można jej usunąć (możesz usunąć całą kategorię strzałką przy zakładce).');
+            if (
+              its.length &&
+              !(await askYes(
+                'Usunąć warstwę „' +
+                  l.name +
+                  '” razem z ' +
+                  its.length +
+                  ' ' +
+                  plural(its.length, 'śladem', 'śladami', 'śladami') +
+                  '?\n\nTrafi do kosza na 30 dni.',
+                'Usuń',
+                true
+              ))
+            )
+              return;
+            const allIts = TRK.items.filter(t => t.l === l.id);
+            trashPut('twarstwa', 'Warstwa śladów „' + l.name + '” (' + allIts.length + ')', {l, items: allIts});
+            TRK.items = TRK.items.filter(t => t.l !== l.id);
+            TRK.layers = TRK.layers.filter(x => x !== l);
+            trkFix();
+            trkChanged();
+          },
+          'eye danger',
+          'Usuń warstwę'
+        )
+      );
+      w.insertBefore(la, w.lastChild.classList.contains('tag') ? w.lastChild : null);
+    }
     if (tsel === l.id) {
       const c = h('div', 'ctl');
+      // „⋮” – pozostałe opcje (nazwa, oko, udostępnij i usuń są na belce pod nazwą)
       c.append(
         belt(
-          IB(
-            'edit',
-            async () => {
-              const n = await askText('Nazwa warstwy śladów:', l.name);
-              if (n && n.trim()) {
-                l.name = n.trim().slice(0, 200);
-                trkChanged();
-              }
-            },
-            '',
-            'Zmień nazwę'
-          ),
-          // ta sama kolejność co w warstwie mapy: nazwa · udostępnij · kolor · wyżej · niżej · usuń
-          IB(
-            'share',
-            () => (its.length ? dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name)) : tell('Ta warstwa nie ma jeszcze śladów.')),
-            '',
-            'Udostępnij / eksport warstwy (GPX)'
-          ),
           IB(
             'color',
             async () => {
@@ -15526,36 +15635,7 @@ function trkSheet() {
             'Kolor warstwy'
           ),
           IB('up', () => trkMoveLayer(l, -1), '', 'Wyżej'),
-          IB('down', () => trkMoveLayer(l, 1), '', 'Niżej'),
-        IB(
-            'del',
-            async () => {
-              if (catIds.size < 2) return tell('To jedyna warstwa w tej kategorii – nie można jej usunąć (możesz usunąć całą kategorię strzałką przy zakładce).');
-              if (
-                its.length &&
-                !(await askYes(
-                  'Usunąć warstwę „' +
-                    l.name +
-                    '” razem z ' +
-                    its.length +
-                    ' ' +
-                    plural(its.length, 'śladem', 'śladami', 'śladami') +
-                    '?\n\nTrafi do kosza na 30 dni.',
-                  'Usuń',
-                  true
-                ))
-              )
-                return;
-              const allIts = TRK.items.filter(t => t.l === l.id);
-              trashPut('twarstwa', 'Warstwa śladów „' + l.name + '” (' + allIts.length + ')', {l, items: allIts});
-              TRK.items = TRK.items.filter(t => t.l !== l.id);
-              TRK.layers = TRK.layers.filter(x => x !== l);
-              trkFix();
-              trkChanged();
-            },
-            'danger',
-            'Usuń warstwę'
-          )
+          IB('down', () => trkMoveLayer(l, 1), '', 'Niżej')
         )
       );
       w.append(c);
