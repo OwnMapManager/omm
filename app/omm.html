@@ -2209,6 +2209,201 @@ body.rec #info {
     transform: translateY(110vh) rotate(360deg);
   }
 }
+/* ukryte gry (easter egg 2): magiczny grzybek → Snake / Tetris; tło wolno płynie (bez błysków) */
+.magic {
+  position: fixed;
+  left: 50%;
+  bottom: calc(110px + var(--sa));
+  z-index: 7000;
+  width: 68px;
+  height: 68px;
+  margin-left: -34px;
+  border-radius: 50%;
+  border: 0;
+  padding: 0;
+  font-size: 40px;
+  line-height: 1;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0, rgba(255, 0, 204, 0.25) 45%, transparent 70%);
+  animation:
+    magicb 1.6s ease-in-out infinite,
+    magich 6s linear infinite;
+}
+@keyframes magicb {
+  50% {
+    transform: translateY(-14px) scale(1.12);
+  }
+}
+@keyframes magich {
+  from {
+    filter: hue-rotate(0deg) drop-shadow(0 0 10px #f0f);
+  }
+  to {
+    filter: hue-rotate(360deg) drop-shadow(0 0 10px #f0f);
+  }
+}
+.game {
+  position: fixed;
+  inset: 0;
+  z-index: 3500;
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  background: #12002a;
+  overflow: hidden;
+  padding-bottom: var(--sa);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.game::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  z-index: -1;
+  background: conic-gradient(#ff00cc, #3333ff, #00ffcc, #ccff00, #ff6600, #ff00cc);
+  opacity: 0.35;
+  animation: gspin 24s linear infinite;
+}
+@keyframes gspin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.gtop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 6px 6px 12px;
+  background: rgba(0, 0, 0, 0.35);
+}
+.gtt {
+  flex: none;
+  font-size: 15px;
+}
+.gsc {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+.game button.ibt {
+  color: #fff;
+}
+.game button.ibt:active {
+  background: rgba(255, 255, 255, 0.25);
+}
+.gstage {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gcv {
+  border-radius: 10px;
+  box-shadow:
+    0 0 24px rgba(255, 0, 255, 0.55),
+    0 0 2px #fff;
+}
+.gov {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+  background: rgba(10, 0, 30, 0.55);
+}
+.gh {
+  font-size: 22px;
+  font-weight: 700;
+  text-shadow: 0 0 12px #f0f;
+}
+.gp {
+  font-size: 14px;
+  max-width: 300px;
+}
+.gov button {
+  min-width: 230px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 24px;
+  font-size: 16px;
+  color: #fff;
+  justify-content: center;
+  background: linear-gradient(90deg, #ff00cc, #3333ff);
+}
+.gov button.gbig2 {
+  background: rgba(255, 255, 255, 0.16);
+}
+.gpad {
+  display: grid;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 8px 14px;
+}
+.gpad.snake {
+  grid-template-columns: repeat(3, 70px);
+  grid-template-rows: 56px 56px;
+}
+.gpad.tetris {
+  grid-template-columns: repeat(5, minmax(0, 64px));
+  grid-template-rows: 60px;
+}
+.gpad button.gk {
+  width: auto;
+  height: auto;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  touch-action: none;
+}
+.gpad button.gk:active {
+  background: rgba(255, 255, 255, 0.32);
+}
+.gpad button.gk .ic {
+  width: 30px;
+  height: 30px;
+}
+.gpad.snake .gk.u {
+  grid-column: 2;
+  grid-row: 1;
+}
+.gpad.snake .gk.l {
+  grid-column: 1;
+  grid-row: 2;
+}
+.gpad.snake .gk.d {
+  grid-column: 2;
+  grid-row: 2;
+}
+.gpad.snake .gk.r {
+  grid-column: 3;
+  grid-row: 2;
+}
+.gk.l .ic {
+  transform: rotate(-90deg);
+}
+.gk.r .ic {
+  transform: rotate(90deg);
+}
+.gk.d .ic {
+  transform: rotate(180deg);
+}
+@media (prefers-reduced-motion: reduce) {
+  .game::before,
+  .magic {
+    animation: none;
+  }
+}
 /* menu wyboru mapy / kategorii: wiersz z nazwą i okiem, przyciski z ikoną */
 #xmenu .mrow {
   display: flex;
@@ -3461,6 +3656,8 @@ const IC = {
   refresh: '<path d="M19.5 11A7.5 7.5 0 0 0 6 6.6L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4.5 13A7.5 7.5 0 0 0 18 17.4l2-1.9"/><path d="M20 20v-4.5h-4.5"/>', // odśwież mapę
   map: '<path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/>', // mapa
   more: '<circle cx="12" cy="5.5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor"/>', // więcej opcji
+  rot: '<path d="M19 12a7 7 0 1 1-2.05-4.95"/><path d="M19 4.5V9h-4.5"/>', // gry: obróć klocek
+  drop: '<path d="M12 3.5v11M7.5 10L12 14.5 16.5 10"/><path d="M5 19.5h14"/>', // gry: zrzuć klocek na dół
   coffee: '<path d="M5 9.5h11v4.5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8.5 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>',
 };
 // belka ikon w opcjach warstwy / grupy (ta sama kolejność wszędzie: nazwa · kolor · wyżej · niżej · eksport · usuń)
@@ -12427,8 +12624,455 @@ function eggTap() {
   document.body.append(box);
   setTimeout(() => box.remove(), 5000);
   tell(
-    '🍄 Trafiłeś na ukrytą polankę!\n\nPrawdziwy grzybiarz nie zdradza swoich miejscówek – OMM też ich nikomu nie zdradzi. Twoje punkty zostają w Twoim telefonie.\n\nDarz grzyb!'
+    '🍄 Trafiłeś na ukrytą polankę!\n\nPrawdziwy grzybiarz nie zdradza swoich miejscówek – OMM też ich nikomu nie zdradzi. Twoje punkty zostają w Twoim telefonie.\n\nDarz grzyb!\n\n…a na dole wyrósł jakiś dziwny, mieniący się grzybek. Dotknij go, jeśli się odważysz.'
   );
+  setTimeout(magicShroom, 1200);
+}
+// ---------- ukryte gry (easter egg 2): magiczny grzybek z polanki → „Grzybowy wąż” (Snake) albo „Kwantowe klocki” (Tetris)
+// Całość w aplikacji: canvas, bez sieci, bez uprawnień; rekordy tylko w tym telefonie (localStorage „omm-gra-…”).
+let GAME = null;
+const gBest = k => {
+  try {
+    return +localStorage.getItem('omm-gra-' + k) || 0;
+  } catch (e) {
+    return 0;
+  }
+};
+const gSave = (k, v) => {
+  try {
+    localStorage.setItem('omm-gra-' + k, String(v));
+  } catch (e) {}
+};
+const rnd = n => Math.floor(Math.random() * n);
+function magicShroom() {
+  document.querySelectorAll('.magic').forEach(e => e.remove());
+  const b = B(
+    '🍄',
+    () => {
+      b.remove();
+      document.querySelectorAll('.dback, .eggrain').forEach(d => d.remove());
+      gameOpen();
+    },
+    'magic',
+    'Magiczny grzybek'
+  );
+  b.setAttribute('aria-label', 'Magiczny grzybek – ukryte gry');
+  document.body.append(b);
+  setTimeout(() => b.remove(), 30000);
+}
+function snakeGame() {
+  const N = 17,
+    D = {L: [-1, 0], R: [1, 0], U: [0, -1], D: [0, 1]};
+  const g = {id: 'snake', title: '🐍 Grzybowy wąż', W: N, H: N, score: 0, over: false, trip: 1, eaten: 0};
+  g.body = [
+    [8, 8],
+    [7, 8],
+    [6, 8]
+  ];
+  g.dir = D.R;
+  g.q = [];
+  g.acc = 0;
+  g.speed = 170;
+  const on = (p, a) => a.some(b => b[0] === p[0] && b[1] === p[1]);
+  const place = () => {
+    let p;
+    do p = [rnd(N), rnd(N)];
+    while (on(p, g.body));
+    g.food = p;
+  };
+  place();
+  g.key = k => {
+    const d = D[k];
+    if (!d) return;
+    const l = g.q.length ? g.q[g.q.length - 1] : g.dir;
+    if ((d[0] === -l[0] && d[1] === -l[1]) || d === l || g.q.length > 2) return; // bez zawracania w miejscu
+    g.q.push(d);
+  };
+  g.swipe = (dx, dy) => {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 16) return;
+    g.key(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'R' : 'L') : dy > 0 ? 'D' : 'U');
+  };
+  const tick = () => {
+    if (g.q.length) g.dir = g.q.shift();
+    const hd = g.body[0],
+      n = [(hd[0] + g.dir[0] + N) % N, (hd[1] + g.dir[1] + N) % N], // krawędzie to portale
+      grow = n[0] === g.food[0] && n[1] === g.food[1];
+    if (on(n, grow ? g.body : g.body.slice(0, -1))) return (g.over = true);
+    g.body.unshift(n);
+    if (!grow) return g.body.pop();
+    g.eaten++;
+    g.score += 10 * (1 + Math.floor(g.eaten / 5));
+    g.trip = 1 + g.eaten * 0.12;
+    g.speed = Math.max(75, 170 - g.eaten * 4);
+    if (g.body.length >= N * N) return (g.over = true);
+    place();
+  };
+  g.step = dt => {
+    g.acc += dt;
+    while (g.acc >= g.speed && !g.over) {
+      g.acc -= g.speed;
+      tick();
+    }
+  };
+  g.label = () => 'Faza ' + (1 + Math.floor(g.eaten / 5));
+  g.pad = [
+    ['U', 'up', 'u', 0, 'W górę'],
+    ['L', 'up', 'l', 0, 'W lewo'],
+    ['D', 'up', 'd', 0, 'W dół'],
+    ['R', 'up', 'r', 0, 'W prawo']
+  ];
+  g.draw = (c, t, s) => {
+    const W = N * s,
+      hue = ((t / 40) * g.trip) % 360;
+    c.fillStyle = 'rgba(8,0,24,0.3)'; // smugi – poprzednie klatki wolno gasną
+    c.fillRect(0, 0, W, W);
+    c.lineWidth = s * 0.5;
+    for (let i = 0; i < 6; i++) {
+      const r = ((t / 18) * g.trip + (i * W) / 6) % (W * 0.8);
+      c.strokeStyle = 'hsla(' + ((hue + i * 60) % 360) + ',100%,60%,0.16)';
+      c.beginPath();
+      c.arc(W / 2, W / 2, r, 0, 7);
+      c.stroke();
+    }
+    g.body.forEach((p, i) => {
+      c.fillStyle = 'hsl(' + ((hue + i * 18) % 360) + ',100%,' + (i ? 58 : 70) + '%)';
+      c.beginPath();
+      c.arc(p[0] * s + s / 2, p[1] * s + s / 2, s / 2 - s * 0.06 - Math.abs(Math.sin(t / 160 + i * 0.6)) * s * 0.08, 0, 7);
+      c.fill();
+    });
+    const hd = g.body[0];
+    c.fillStyle = '#12002a';
+    [-1, 1].forEach(e => {
+      const ox = g.dir[1] ? e * s * 0.18 : g.dir[0] * s * 0.12,
+        oy = g.dir[0] ? e * s * 0.18 : g.dir[1] * s * 0.12;
+      c.beginPath();
+      c.arc(hd[0] * s + s / 2 + ox, hd[1] * s + s / 2 + oy, s * 0.08, 0, 7);
+      c.fill();
+    });
+    c.font = Math.round(s * (0.95 + 0.15 * Math.sin(t / 150))) + 'px sans-serif';
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    c.fillText('🍄', g.food[0] * s + s / 2, g.food[1] * s + s / 2 + s * 0.05);
+  };
+  return g;
+}
+function tetrisGame() {
+  const W = 10,
+    H = 20,
+    SH = {
+      I: [[0, 1], [1, 1], [2, 1], [3, 1]],
+      O: [[1, 0], [2, 0], [1, 1], [2, 1]],
+      T: [[1, 0], [0, 1], [1, 1], [2, 1]],
+      S: [[1, 0], [2, 0], [0, 1], [1, 1]],
+      Z: [[0, 0], [1, 0], [1, 1], [2, 1]],
+      J: [[0, 0], [0, 1], [1, 1], [2, 1]],
+      L: [[2, 0], [0, 1], [1, 1], [2, 1]]
+    },
+    HUE = {I: 180, O: 55, T: 290, S: 120, Z: 0, J: 230, L: 30};
+  const g = {id: 'tetris', title: '🧱 Kwantowe klocki', W, H, side: 4, score: 0, lines: 0, level: 1, over: false, acc: 0, fx: 0};
+  const grid = Array.from({length: H}, () => Array(W).fill(0));
+  let bag = [];
+  const take = () => {
+    if (!bag.length) {
+      bag = Object.keys(SH);
+      for (let i = bag.length - 1; i > 0; i--) {
+        const j = rnd(i + 1);
+        [bag[i], bag[j]] = [bag[j], bag[i]];
+      }
+    }
+    const k = bag.pop();
+    return {k, c: SH[k].map(p => p.slice()), n: k === 'I' || k === 'O' ? 4 : 3, x: 3, y: k === 'I' ? -1 : 0, hue: HUE[k]};
+  };
+  const hit = (c, x, y) => c.some(([a, b]) => a + x < 0 || a + x >= W || b + y >= H || (b + y >= 0 && grid[b + y][a + x]));
+  const spawn = () => {
+    g.p = g.next || take();
+    g.next = take();
+    if (hit(g.p.c, g.p.x, g.p.y)) g.over = true;
+  };
+  const lock = () => {
+    const p = g.p;
+    p.c.forEach(([a, b]) => {
+      if (b + p.y < 0) g.over = true;
+      else grid[b + p.y][a + p.x] = p.hue + 1;
+    });
+    if (g.over) return;
+    let n = 0;
+    for (let y = H - 1; y >= 0; y--)
+      if (grid[y].every(v => v)) {
+        grid.splice(y, 1);
+        grid.unshift(Array(W).fill(0));
+        n++;
+        y++;
+      }
+    if (n) {
+      g.score += [0, 100, 300, 500, 800][n] * g.level;
+      g.lines += n;
+      g.level = 1 + Math.floor(g.lines / 10);
+      g.fx = 1; // fala kolorów po zbiciu linii
+    }
+    spawn();
+  };
+  const down = () => {
+    if (!hit(g.p.c, g.p.x, g.p.y + 1)) return g.p.y++, true;
+    lock();
+    return false;
+  };
+  spawn();
+  g.key = k => {
+    const p = g.p;
+    if (k === 'L' || k === 'R') {
+      const d = k === 'L' ? -1 : 1;
+      if (!hit(p.c, p.x + d, p.y)) p.x += d;
+    } else if (k === 'U') {
+      if (p.k === 'O') return;
+      const c = p.c.map(([a, b]) => [p.n - 1 - b, a]);
+      for (const [dx, dy] of [[0, 0], [-1, 0], [1, 0], [-2, 0], [2, 0], [0, -1]])
+        if (!hit(c, p.x + dx, p.y + dy)) return Object.assign(p, {c, x: p.x + dx, y: p.y + dy});
+    } else if (k === 'D') {
+      if (down()) g.score += 1;
+      g.acc = 0;
+    } else if (k === 'X') {
+      while (!hit(p.c, p.x, p.y + 1)) p.y++, (g.score += 2);
+      lock();
+      g.acc = 0;
+    }
+  };
+  g.swipe = (dx, dy, s) => {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 14) return g.key('U'); // dotknięcie = obrót
+    if (Math.abs(dx) > Math.abs(dy)) for (let i = 0; i < Math.max(1, Math.round(Math.abs(dx) / s)); i++) g.key(dx > 0 ? 'R' : 'L');
+    else if (dy > 40) g.key('X');
+  };
+  g.step = dt => {
+    g.acc += dt;
+    if (g.acc >= Math.max(90, 800 - (g.level - 1) * 70)) {
+      g.acc = 0;
+      down();
+    }
+  };
+  g.label = () => 'Poziom ' + g.level;
+  g.pad = [
+    ['L', 'up', 'l', 110, 'W lewo'],
+    ['D', 'up', 'd', 55, 'Szybciej w dół'],
+    ['R', 'up', 'r', 110, 'W prawo'],
+    ['U', 'rot', '', 0, 'Obróć'],
+    ['X', 'drop', '', 0, 'Zrzuć na dół']
+  ];
+  g.draw = (c, t, s) => {
+    const BW = W * s,
+      BH = H * s,
+      hue = (t / 30) % 360;
+    g.fx = Math.max(0, g.fx - 0.015);
+    const gr = c.createLinearGradient(0, 0, BW, BH);
+    gr.addColorStop(0, 'hsl(' + hue + ',70%,12%)');
+    gr.addColorStop(0.5, 'hsl(' + ((hue + 120) % 360) + ',70%,' + (12 + g.fx * 18) + '%)');
+    gr.addColorStop(1, 'hsl(' + ((hue + 240) % 360) + ',70%,12%)');
+    c.fillStyle = gr;
+    c.fillRect(0, 0, BW, BH);
+    const box = (x, y, hh, a, sz) => {
+      const z = sz || s,
+        w = Math.sin(t / 220 + x * 0.7 + y * 0.5) * z * 0.05;
+      c.fillStyle = 'hsla(' + (hh % 360) + ',100%,60%,' + a + ')';
+      c.fillRect(x * z + 1.5 + w, y * z + 1.5, z - 3, z - 3);
+      c.fillStyle = 'rgba(255,255,255,' + 0.28 * a + ')';
+      c.fillRect(x * z + 1.5 + w, y * z + 1.5, z - 3, (z - 3) * 0.3);
+    };
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (grid[y][x]) box(x, y, grid[y][x] + t / 25 + y * 9, 1);
+    const p = g.p;
+    if (!g.over) {
+      let gy = p.y;
+      while (!hit(p.c, p.x, gy + 1)) gy++;
+      c.lineWidth = 1.5;
+      p.c.forEach(([a, b]) => {
+        c.strokeStyle = 'hsla(' + ((p.hue + t / 25) % 360) + ',100%,70%,0.55)';
+        c.strokeRect((a + p.x) * s + 2.5, (b + gy) * s + 2.5, s - 5, s - 5);
+      });
+      p.c.forEach(([a, b]) => b + p.y >= 0 && box(a + p.x, b + p.y, p.hue + t / 25, 1));
+    }
+    c.clearRect(BW, 0, g.side * s, BH);
+    c.fillStyle = 'rgba(0,0,0,0.45)';
+    c.fillRect(BW, 0, g.side * s, BH);
+    c.fillStyle = '#fff';
+    c.font = Math.round(s * 0.55) + 'px sans-serif';
+    c.textAlign = 'left';
+    c.textBaseline = 'top';
+    c.fillText('Następny', BW + s * 0.3, s * 0.4);
+    const z = s * 0.75;
+    c.save();
+    c.translate(BW + s * 0.5, s * 1.4);
+    g.next.c.forEach(([a, b]) => box(a, b, g.next.hue + t / 25, 1, z));
+    c.restore();
+    c.fillStyle = '#fff';
+    c.fillText('Linie', BW + s * 0.3, s * 5);
+    c.fillText(String(g.lines), BW + s * 0.3, s * 5.8);
+  };
+  return g;
+}
+function gameOpen() {
+  if (GAME) return;
+  const root = h('div', 'game'),
+    top = h('div', 'gtop'),
+    ttl = h('b', 'gtt'),
+    sc = h('span', 'gsc'),
+    stage = h('div', 'gstage'),
+    cv = h('canvas', 'gcv'),
+    pad = h('div', 'gpad'),
+    ov = h('div', 'gov'),
+    ctx = cv.getContext('2d');
+  let g = null,
+    raf = 0,
+    last = 0,
+    paused = false,
+    cell = 20,
+    txt = '';
+  const pb = IB('pause', () => pause(!paused), '', 'Pauza'),
+    xb = IB('x', () => close(), '', 'Zamknij grę');
+  top.append(ttl, sc, pb, xb);
+  stage.append(cv, ov);
+  root.append(top, stage, pad);
+  document.body.append(root);
+  const fit = () => {
+    if (!g) return;
+    const r = stage.getBoundingClientRect(),
+      W = g.W + (g.side || 0),
+      dpr = window.devicePixelRatio || 1;
+    cell = Math.max(8, Math.floor(Math.min((r.width - 16) / W, (r.height - 16) / g.H)));
+    cv.style.width = cell * W + 'px';
+    cv.style.height = cell * g.H + 'px';
+    cv.width = Math.round(cell * W * dpr);
+    cv.height = Math.round(cell * g.H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  };
+  const setPb = () => {
+    pb.innerHTML = ico(paused ? 'play' : 'pause');
+    pb.title = paused ? 'Wznów' : 'Pauza';
+    pb.setAttribute('aria-label', pb.title);
+  };
+  const showOv = (...els) => {
+    ov.innerHTML = '';
+    ov.append(...els);
+    ov.style.display = els.length ? 'flex' : 'none';
+  };
+  const menu = () => {
+    g = null;
+    paused = false;
+    ttl.textContent = '🍄 Magiczna polanka';
+    sc.textContent = txt = '';
+    pad.innerHTML = '';
+    pad.className = 'gpad';
+    pb.style.visibility = 'hidden';
+    cv.style.display = 'none';
+    showOv(
+      h('div', 'gh', 'Zjadłeś magicznego grzybka…'),
+      h('div', 'gp', 'Świat lekko faluje. W co odpływasz?'),
+      B('🐍 Grzybowy wąż', () => start('snake'), 'gbig'),
+      B('🧱 Kwantowe klocki', () => start('tetris'), 'gbig'),
+      h('div', 'gp', 'Sterowanie: przyciski na dole albo przesunięcie palcem po planszy.')
+    );
+  };
+  const holdBtn = (ic, fn, cls, rep, t) => {
+    const b = IB(ic, null, 'gk' + (cls ? ' ' + cls : ''), t);
+    let to = 0,
+      iv = 0;
+    const live = () => g && !paused && !g.over,
+      stop = () => (clearTimeout(to), clearInterval(iv));
+    b.addEventListener('pointerdown', e => {
+      e.preventDefault();
+      stop();
+      if (!live()) return;
+      fn();
+      if (rep) to = setTimeout(() => (iv = setInterval(() => (live() ? fn() : stop()), rep)), 180);
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, stop));
+    return b;
+  };
+  const start = id => {
+    g = id === 'snake' ? snakeGame() : tetrisGame();
+    ttl.textContent = g.title.split(' ')[0]; // w grze sama ikonka – miejsce na wynik
+    ttl.title = g.title;
+    paused = false;
+    setPb();
+    pb.style.visibility = '';
+    cv.style.display = '';
+    showOv();
+    pad.innerHTML = '';
+    pad.className = 'gpad ' + id;
+    g.pad.forEach(([k, ic, cls, rep, t]) => pad.append(holdBtn(ic, () => g.key(k), cls, rep, t)));
+    fit();
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    last = 0;
+  };
+  const end = () => {
+    const id = g.id,
+      best = gBest(id),
+      rec = g.score > best;
+    if (rec) gSave(id, g.score);
+    showOv(
+      h('div', 'gh', rec && g.score ? '✨ Nowy rekord: ' + g.score + '!' : 'Koniec odlotu'),
+      h('div', 'gp', 'Wynik ' + g.score + ' · Rekord ' + Math.max(best, g.score)),
+      BI('play', 'Jeszcze raz', () => start(id), 'gbig'),
+      B('Zmień grę', menu, 'gbig2')
+    );
+  };
+  const pause = v => {
+    if (!g || g.over || paused === v) return;
+    paused = v;
+    setPb();
+    if (v) showOv(h('div', 'gh', 'Pauza'), BI('play', 'Wznów', () => pause(false), 'gbig'), B('Zmień grę', menu, 'gbig2'));
+    else showOv();
+  };
+  const frame = t => {
+    raf = requestAnimationFrame(frame);
+    const dt = Math.min(100, t - (last || t));
+    last = t;
+    if (!g) return;
+    if (document.documentElement.classList.contains('locked')) pause(true);
+    if (!paused && !g.over) {
+      g.step(dt);
+      if (g.over) end();
+    }
+    const s = g.label() + ' · ' + g.score + ' pkt · 🏆 ' + Math.max(gBest(g.id), g.score);
+    if (s !== txt) sc.textContent = txt = s;
+    g.draw(ctx, t, cell);
+  };
+  const onKey = e => {
+    const k = {ArrowLeft: 'L', ArrowRight: 'R', ArrowUp: 'U', ArrowDown: 'D', ' ': 'X'}[e.key];
+    if (e.key === 'Escape') return e.preventDefault(), close();
+    if (e.key === 'p' || e.key === 'P') return pause(!paused);
+    if (!k || !g) return;
+    e.preventDefault();
+    if (!paused && !g.over) g.key(k);
+  };
+  const onVis = () => document.hidden && pause(true);
+  let sx = 0,
+    sy = 0,
+    sOn = false;
+  cv.addEventListener('pointerdown', e => {
+    sx = e.clientX;
+    sy = e.clientY;
+    sOn = true;
+  });
+  cv.addEventListener('pointerup', e => {
+    if (!sOn || !g || paused || g.over) return;
+    sOn = false;
+    g.swipe(e.clientX - sx, e.clientY - sy, cell);
+  });
+  cv.addEventListener('pointercancel', () => (sOn = false));
+  const close = () => {
+    cancelAnimationFrame(raf);
+    document.removeEventListener('keydown', onKey);
+    document.removeEventListener('visibilitychange', onVis);
+    window.removeEventListener('resize', fit);
+    root.remove();
+    GAME = null;
+  };
+  document.addEventListener('keydown', onKey);
+  document.addEventListener('visibilitychange', onVis);
+  window.addEventListener('resize', fit);
+  GAME = {close, start, pause, get g() {
+    return g;
+  }};
+  menu();
+  raf = requestAnimationFrame(frame);
 }
 function aboutDlg(tab) {
   const back = h('div', 'dback'),
@@ -20552,6 +21196,7 @@ function settingsDlg() {
 if (plug('App'))
   plug('App').addListener('backButton', () => {
     if (LOCKED) return plug('App').minimizeApp().catch(() => {}); // zablokowany – do tła
+    if (GAME) return GAME.close(); // ukryta gra – „Wstecz” wraca do mapy
     const dialogs = document.querySelectorAll('.dback');
     if (dialogs.length) {
       // kliknięcie w tło okna = „Anuluj” (tak samo jak palcem obok okna)
