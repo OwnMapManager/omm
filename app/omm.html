@@ -2513,6 +2513,41 @@ body.rec #info {
 #bmenu button.eyeb.on .ic {
   color: var(--acc);
 }
+/* katalog map w Ustawieniach: oko · nazwa · (PL/USA) · wyżej · niżej · gwiazdka */
+.mcat {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 1px 0;
+}
+.mcat .mnm {
+  flex: 1;
+  min-width: 0;
+  padding: 0 4px;
+}
+.mcat.off .mnm {
+  color: var(--sub);
+}
+.mcat .mreg {
+  font-size: 10px;
+  color: var(--sub);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0 4px;
+  margin-right: 2px;
+}
+.mcat .eye {
+  width: 32px;
+  height: 32px;
+  padding: 6px;
+}
+.mcat .eye.on .ic {
+  color: var(--acc);
+}
+.mcat .mstar.on .ic {
+  color: #f9a825;
+  fill: currentColor;
+}
 /* katalog map w Ustawieniach – ten sam wiersz z okiem co w menu podkładu */
 .mnote {
   margin-bottom: 10px;
@@ -4145,6 +4180,7 @@ const EN = {
   "Najpierw zaznacz obiekty na liście.": "First select objects in the list.",
   "Najpierw zaznacz ślady na liście.": "First select tracks in the list.",
   "Najwyższa": "Highest",
+  "Nakładki": "Overlays",
   "Napisy": "Labels",
   "Nazwa grupy:": "Group name:",
   "Nazwa kategorii śladów:": "Track category name:",
@@ -4252,6 +4288,7 @@ const EN = {
   "Ognisko": "Campfire",
   "Ognisko oficjalne": "Official fire pit",
   "Ogólne": "General",
+  "Oko – czy mapa jest na liście pod ikoną mapy. Strzałki – kolejność na liście. Gwiazdka – podkład, z którym aplikacja startuje.": "Eye – whether the map is on the list under the map icon. Arrows – its position on the list. Star – the base map the app starts with.",
   "Okrąg": "Circle",
   "Okręgi": "Circles",
   "Opcje grupy": "Group options",
@@ -4312,10 +4349,13 @@ const EN = {
   "Podejście": "Ascent",
   "Podgrzybek": "Bay bolete",
   "Podgrzybek brunatny": "Bay bolete (Imleria badia)",
+  "Podkład domyślny": "Default base map",
+  "Podkład domyślny: ": "Default base map: ",
   "Podkład i mapy offline": "Base map and offline maps",
   "Podkład mapy": "Base map",
   "Podkład nie pozwala na nagranie (albo brak internetu), dlatego film ma jasne tło bez mapy.": "The base map does not allow recording (or there is no internet), so the video has a plain background without a map.",
   "Podkład: ": "Base map: ",
+  "Podkłady": "Base maps",
   "Podpowiedź „przesiadka do auta”": "“Switched to a car” hint",
   "Podsumowanie tygodnia, miesiąca, roku": "Summary of the week, month, year",
   "Podsumowanie śladów": "Track summary",
@@ -4398,6 +4438,7 @@ const EN = {
   "Przywrócono na mapę „": "Restored to map “",
   "Przywróć": "Restore",
   "Przywróć domyślny": "Restore default",
+  "Przywróć kolejność domyślną": "Restore default order",
   "Przywróć z kopii…": "Restore from backup…",
   "Prąd": "Power line",
   "Prędkość": "Speed",
@@ -4544,11 +4585,13 @@ const EN = {
   "Ukryj": "Hide",
   "Ukryj na mapie": "Hide on map",
   "Ukryj ślad": "Hide track",
+  "Ukryta – pokaż na liście": "Hidden – show on the list",
   "Ukryte mapy znikają z listy pod ikoną mapy. Mapy tylko dla Polski lub tylko dla USA możesz ukryć, jeśli z nich nie korzystasz.": "Hidden maps disappear from the list under the map icon. You can hide maps that cover only Poland or only the USA if you do not use them.",
   "Ukryte – pokaż": "Hidden – show",
   "Układa linię wzdłuż dróg i ścieżek (wysyła współrzędne do routing.openstreetmap.de)": "Lays the line along roads and paths (sends coordinates to routing.openstreetmap.de)",
   "Układam linię po ścieżkach…": "Laying the line along paths…",
   "Ustalam pozycję GPS…": "Finding GPS position…",
+  "Ustaw jako podkład domyślny": "Set as the default base map",
   "Ustawienia": "Settings",
   "Ustawienia z kopii częściowo pominięte": "Settings from the backup partly skipped",
   "Usunięte punkty, warstwy, mapy i ślady czekają w koszu 30 dni.": "Deleted points, layers, maps and tracks wait in the trash for 30 days.",
@@ -4625,6 +4668,7 @@ const EN = {
   "Wiaty, schrony i biwaki (OpenStreetMap)": "Shelters, huts and bivouacs (OpenStreetMap)",
   "Wiaty: © OpenStreetMap (Overpass API)": "Shelters: © OpenStreetMap (Overpass API)",
   "Wibracja i powiadomienie (dystans, czas, tempo lub prędkość)": "Vibration and notification (distance, time, pace or speed)",
+  "Widoczna – ukryj z listy": "Visible – hide from the list",
   "Widoczne – ukryj": "Visible – hide",
   "Wielokąt": "Polygon",
   "Wielokąty": "Polygons",
@@ -5156,6 +5200,7 @@ const IC = {
   gear: '<path d="M21.1 10.4 21.1 13.6 18.7 14.1 18.2 15.3 19.5 17.3 17.3 19.5 15.3 18.2 14.1 18.7 13.6 21.1 10.4 21.1 9.9 18.7 8.7 18.2 6.7 19.5 4.5 17.3 5.8 15.3 5.3 14.1 2.9 13.6 2.9 10.4 5.3 9.9 5.8 8.7 4.5 6.7 6.7 4.5 8.7 5.8 9.9 5.3 10.4 2.9 13.6 2.9 14.1 5.3 15.3 5.8 17.3 4.5 19.5 6.7 18.2 8.7 18.7 9.9z"/><circle cx="12" cy="12" r="3.2"/>', // ustawienia
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/>', // o aplikacji
   x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>', // zamknij
+  star: '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>', // domyślny (np. podkład)
   chev: '<path d="M7 10l5 5 5-5"/>', // rozwiń listę
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', // gotowe / zatwierdź
   plus: '<path d="M12 5v14M5 12h14"/>',
@@ -5217,7 +5262,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v54';
+const APP_VER = 'v55';
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -8647,9 +8692,31 @@ const mapHid = () => {
   return new Set(Object.keys(MAP_REG).filter(k => MAP_REG[k] === (LANG === 'pl' ? 'us' : 'pl')));
 };
 const mapHidSet = set => localStorage.setItem('omm-maps-hid', JSON.stringify([...set]));
+// kolejność map pod ikoną mapy (osobno podkłady i nakładki) – ustawiana strzałkami w Ustawieniach
+const mapOrd = (kind, all) => {
+  let v = [];
+  try {
+    v = (JSON.parse(localStorage.getItem('omm-maps-ord')) || {})[kind] || [];
+  } catch (e) {}
+  v = v.filter(k => all.includes(k));
+  return v.concat(all.filter(k => !v.includes(k)));
+};
+const mapOrdSet = (kind, list) => {
+  let o = {};
+  try {
+    o = JSON.parse(localStorage.getItem('omm-maps-ord')) || {};
+  } catch (e) {}
+  o[kind] = list;
+  localStorage.setItem('omm-maps-ord', JSON.stringify(o));
+};
+// podkład domyślny: ten, z którym aplikacja startuje (wybór użytkownika; początkowo PL – Ortofoto, EN – OpenTopoMap)
+const baseDef = () => {
+  const k = localStorage.getItem('omm-base-def');
+  return BASES[k] ? k : LANG === 'pl' ? 'Ortofoto – Geoportal' : 'OpenTopoMap';
+};
 let curBase = null,
-  curKey = localStorage.getItem('mapa-base');
-if (!BASES[curKey]) curKey = LANG === 'pl' ? 'Ortofoto – Geoportal' : 'OpenStreetMap';
+  curKey = localStorage.getItem('omm-base-def') || localStorage.getItem('mapa-base');
+if (!BASES[curKey]) curKey = baseDef();
 
 // nakładki: zwykłe WMS dodawane nad podkładem, dokładnie jak w działającym pliku
 const KIEG = 'https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow';
@@ -9030,7 +9097,7 @@ function buildBMenu() {
   m.append(top);
   m.append(h('div', 'sec', _t('PODKŁAD')));
   const HID = mapHid();
-  Object.keys(BASES).forEach(n => {
+  mapOrd('b', Object.keys(BASES)).forEach(n => {
     if (HID.has(n) && n !== curKey) return; // ukryta w Ustawieniach (bieżąca zostaje widoczna)
     const b = B(
       (n === curKey ? '● ' : '○ ') + _t(n),
@@ -9046,9 +9113,11 @@ function buildBMenu() {
   m.lastChild.style.cssText = 'font-weight:700;color:var(--txt)';
   let grp = '',
     shown = '';
-  Object.keys(OV).forEach(k => {
+  const grpOf = {};
+  Object.keys(OV).forEach(k => (grpOf[k] = grp = OVGRP[k] || grp)); // grupa nakładki wg kolejności domyślnej
+  mapOrd('o', Object.keys(OV)).forEach(k => {
     const o = OVS[k];
-    if (OVGRP[k]) grp = OVGRP[k];
+    grp = grpOf[k];
     if (HID.has(k) && !o.on) return; // ukryta w Ustawieniach (włączona zostaje, żeby dało się ją wyłączyć)
     if (grp !== shown) m.append(h('div', 'sec', (shown = grp)));
     {
@@ -23074,36 +23143,77 @@ function settingsDlg() {
     relaunch
   );
 
-  // katalog map: które podkłady i nakładki są na liście pod ikoną mapy (oko – jak wszędzie w aplikacji)
+  // katalog map: które podkłady i nakładki są pod ikoną mapy (oko), w jakiej kolejności (strzałki)
+  // i z którym podkładem aplikacja startuje (gwiazdka) – te same ikony co przy warstwach
   cat('mapy', 'map', _t('Mapy pod ikoną mapy'));
-  sec.append(h('div', 'muted mnote', _t('Ukryte mapy znikają z listy pod ikoną mapy. Mapy tylko dla Polski lub tylko dla USA możesz ukryć, jeśli z nich nie korzystasz.')));
-  const hidM = mapHid(),
-    regName = {pl: _t('Polska'), us: _t('USA'), w: _t('Cały świat')};
-  ['w', 'pl', 'us'].forEach(rg => {
-    const g = h('div', 'sset');
-    g.append(h('b', null, regName[rg]));
-    const row = (k, label) => {
-      const b = B(
-        '',
-        () => {
-          if (hidM.has(k)) hidM.delete(k);
-          else hidM.add(k);
-          mapHidSet(hidM);
-          b.classList.toggle('on', !hidM.has(k));
-          b.innerHTML = ico(hidM.has(k) ? 'eyeOff' : 'eye', 18);
-          b.append(h('span', null, label));
-          buildBMenu();
-        },
-        hidM.has(k) ? 'eyeb' : 'on eyeb'
-      );
-      b.innerHTML = ico(hidM.has(k) ? 'eyeOff' : 'eye', 18);
-      b.append(h('span', null, label));
-      g.append(b);
-    };
-    Object.keys(BASES).forEach(k => MAP_REG[k] === rg && row(k, _t(k)));
-    Object.keys(OV).forEach(k => MAP_REG[k] === rg && row(k, OV[k].n));
-    if (g.childNodes.length > 1) sec.append(g);
-  });
+  sec.append(
+    h('div', 'muted mnote', _t('Oko – czy mapa jest na liście pod ikoną mapy. Strzałki – kolejność na liście. Gwiazdka – podkład, z którym aplikacja startuje.'))
+  );
+  const mapsBox = h('div');
+  sec.append(mapsBox);
+  const regTag = {pl: 'PL', us: 'USA'};
+  const drawMaps = () => {
+    const hidM = mapHid(),
+      def = baseDef();
+    mapsBox.innerHTML = '';
+    [
+      ['b', _t('Podkłady'), Object.keys(BASES), k => _t(k)],
+      ['o', _t('Nakładki'), Object.keys(OV), k => OV[k].n]
+    ].forEach(([kind, title, all, label]) => {
+      const g = h('div', 'sset'),
+        ord = mapOrd(kind, all);
+      g.append(h('b', null, title));
+      ord.forEach((k, i) => {
+        const r = h('div', 'mcat' + (hidM.has(k) ? ' off' : '')),
+          ey = IB(
+            hidM.has(k) ? 'eyeOff' : 'eye',
+            () => {
+              if (hidM.has(k)) hidM.delete(k);
+              else hidM.add(k);
+              mapHidSet(hidM);
+              buildBMenu();
+              drawMaps();
+            },
+            'eye' + (hidM.has(k) ? '' : ' on'),
+            hidM.has(k) ? _t('Ukryta – pokaż na liście') : _t('Widoczna – ukryj z listy')
+          ),
+          mv = d => () => {
+            const j = i + d;
+            if (j < 0 || j >= ord.length) return;
+            [ord[i], ord[j]] = [ord[j], ord[i]];
+            mapOrdSet(kind, ord);
+            buildBMenu();
+            drawMaps();
+          };
+        r.append(ey, h('span', 'mnm', label(k)));
+        if (regTag[MAP_REG[k]]) r.append(h('small', 'mreg', regTag[MAP_REG[k]]));
+        r.append(IB('up', mv(-1), 'eye', _t('Wyżej')), IB('down', mv(1), 'eye', _t('Niżej')));
+        if (kind === 'b')
+          r.append(
+            IB(
+              'star',
+              () => {
+                localStorage.setItem('omm-base-def', k);
+                drawMaps();
+                toastMsg(_t('Podkład domyślny: ') + _t(k));
+              },
+              'eye mstar' + (k === def ? ' on' : ''),
+              k === def ? _t('Podkład domyślny') : _t('Ustaw jako podkład domyślny')
+            )
+          );
+        g.append(r);
+      });
+      mapsBox.append(g);
+    });
+    mapsBox.append(
+      B(_t('Przywróć kolejność domyślną'), () => {
+        localStorage.removeItem('omm-maps-ord');
+        buildBMenu();
+        drawMaps();
+      })
+    );
+  };
+  drawMaps();
 
   cat('rec', 'rec', _t('Nagrywanie śladu'));
   radios(_t('Dokładność zapisu'), 'omm-rec-tryb', 'dokladny', [
