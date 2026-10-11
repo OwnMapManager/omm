@@ -14,5 +14,6 @@
     "preferences": {
       "DisableDeploy": "true"
     }
-  }
+  },
+  "appendUserAgent": "OMM-OwnMapManager (+https://github.com/OwnMapManager/omm)"
 }

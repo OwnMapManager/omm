@@ -6,7 +6,7 @@ PNG=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42m
 R={}
 with sync_playwright() as p:
     br=p.chromium.launch()
-    pg=br.new_page(viewport={'width':400,'height':820}); errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)))
+    pg=br.new_page(locale='pl-PL',viewport={'width':400,'height':820}); errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)))
     net=[]
     def route(r):
         if r.request.url.startswith('http://localhost'): return r.continue_()

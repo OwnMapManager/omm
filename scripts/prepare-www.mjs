@@ -37,7 +37,12 @@ const TILES = [
   'https://tile.openstreetmap.org',
   'https://tile.waymarkedtrails.org',
   'https://*.google.com',
-  'https://server.arcgisonline.com'
+  'https://server.arcgisonline.com',
+  // mapy „światowe” (v54)
+  'https://tile.openmaps.fr',
+  'https://*.tile-cyclosm.openstreetmap.fr',
+  'https://tiles.maps.eox.at',
+  'https://basemap.nationalmap.gov'
 ];
 const CSP = [
   "default-src 'self'",

@@ -5,7 +5,7 @@ import os; EV=os.path.join(os.path.dirname(__file__),'dane')+'/'
 PNG=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==')
 res={}
 def new(p, init=None):
-    pg=p.chromium.launch().new_page(viewport={'width':400,'height':820})
+    pg=p.chromium.launch().new_page(locale='pl-PL',viewport={'width':400,'height':820})
     pg.errs=[]; pg.on('pageerror',lambda e:pg.errs.append(str(e)))
     pg.route('**/*', lambda r: r.fulfill(body=PNG,content_type='image/png') if not r.request.url.startswith('http://localhost') else r.continue_())
     pg.goto('http://localhost:8765/index.html')

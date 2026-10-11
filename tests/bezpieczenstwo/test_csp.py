@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 import base64
 PNG=base64.b64decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==')
 with sync_playwright() as p:
-    pg=p.chromium.launch().new_page(viewport={'width':400,'height':820})
+    pg=p.chromium.launch().new_page(locale='pl-PL',viewport={'width':400,'height':820})
     errs=[];csp=[]
     pg.on('pageerror',lambda e:errs.append(str(e)))
     pg.on('console',lambda m: csp.append(m.text) if 'Content Security Policy' in m.text or 'Refused' in m.text else None)
