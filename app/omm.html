@@ -15,7 +15,71 @@
   --accbg: #e8f0fe;
   --txt: #202124;
   --sub: #5f6368;
+  --txt2: #3c4043;
+  --bg: #fff;
   --sa: env(safe-area-inset-bottom, 0px);
+}
+/* tryb ciemny (v58): Ustawienia → Wygląd; te same zmienne kolorów w całej aplikacji */
+html.dark {
+  --bar: rgba(32, 33, 36, 0.97);
+  --b2: #303134;
+  --line: #4a4d51;
+  --acc: #8ab4f8;
+  --accbg: #253552;
+  --txt: #e8eaed;
+  --sub: #a8adb3;
+  --txt2: #d0d3d7;
+  --bg: #202124;
+  color-scheme: dark;
+}
+html.dark body {
+  background: #121314;
+}
+html.dark input,
+html.dark select,
+html.dark textarea {
+  background: #303134;
+  color: var(--txt);
+  border-color: var(--line);
+}
+html.dark .leaflet-popup-content-wrapper,
+html.dark .leaflet-popup-tip {
+  background: var(--bg);
+  color: var(--txt);
+}
+html.dark .leaflet-popup-close-button {
+  color: var(--sub) !important;
+}
+html.dark .leaflet-control-attribution {
+  background: rgba(32, 33, 36, 0.75) !important;
+  color: #bbb;
+}
+html.dark .leaflet-control-attribution a {
+  color: #8ab4f8;
+}
+html.dark .leaflet-bar a {
+  background: var(--bg);
+  color: var(--txt);
+  border-color: var(--line);
+}
+html.dark .leaflet-container {
+  background: #2a2b2d;
+}
+html.dark #lbtn.work,
+html.dark .szr button.on,
+html.dark .bar button.on,
+html.dark #pbtn,
+html.dark .db button.okb,
+html.dark .sset .okb,
+html.dark #lockscr button.okb,
+html.dark .tut .tnav button.okb,
+html.dark .film .frec,
+html.dark .splitbar .sbt button.okb {
+  color: #0b1b33;
+}
+html.dark.dimmap .leaflet-tile-pane,
+html.dark.dimmap .imgmap {
+  filter: brightness(0.72) contrast(1.06);
 }
 * {
   box-sizing: border-box;
@@ -77,7 +141,7 @@ textarea {
   align-items: center;
   justify-content: center;
   gap: 0;
-  color: #202124;
+  color: var(--txt);
 }
 #bbtn svg {
   width: 33px;
@@ -96,7 +160,7 @@ textarea {
   height: 22px;
   display: block;
   margin: auto;
-  color: #202124;
+  color: var(--txt);
 }
 #gps {
   top: calc(56px + env(safe-area-inset-top, 0px));
@@ -135,7 +199,7 @@ textarea {
 }
 #modeb {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 14px;
   padding: 4px 10px;
   font-size: 12px;
@@ -177,7 +241,7 @@ textarea {
 #selbar button,
 #tselbar button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 6px;
   height: 32px;
   padding: 0 10px;
@@ -212,7 +276,7 @@ textarea {
   height: 32px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: #fff;
+  background: var(--bg);
   margin: 0 !important;
 }
 .szr button.on {
@@ -263,7 +327,7 @@ textarea {
   height: 20px;
   margin: 3px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg);
   border: 3px solid var(--acc);
   box-shadow: 0 1px 4px #0006;
   box-sizing: border-box;
@@ -571,7 +635,7 @@ textarea {
 }
 .cpop .cdist button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 6px;
   padding: 4px 8px;
   font-size: 12.5px;
@@ -641,7 +705,7 @@ textarea {
   bottom: calc(56px + var(--sa));
   width: min(330px, calc(100% - 60px));
   flex-direction: column;
-  background: #fff;
+  background: var(--bg);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -725,7 +789,7 @@ textarea {
 }
 .ctl button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 6px;
   min-width: 34px;
   height: 32px;
@@ -736,7 +800,7 @@ textarea {
   height: 32px;
   border: 1px solid var(--line);
   border-radius: 6px;
-  background: #fff;
+  background: var(--bg);
 }
 .ctl input[type="range"] {
   flex: 1;
@@ -859,7 +923,7 @@ textarea {
   padding: 16px;
 }
 .dbox {
-  background: #fff;
+  background: var(--bg);
   color: var(--txt);
   border-radius: 12px;
   padding: 18px;
@@ -879,7 +943,7 @@ textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--bg);
   padding: 0 10px;
   font-size: 16px;
   margin-bottom: 14px;
@@ -950,7 +1014,7 @@ textarea {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg);
   border: 2px solid #202124;
   box-sizing: border-box;
 }
@@ -971,7 +1035,7 @@ textarea {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg);
   border: 2px solid #2e7d32;
   font-size: 14px;
   line-height: 22px;
@@ -1028,7 +1092,7 @@ textarea {
   height: 13px;
   line-height: 13px;
   text-align: center;
-  background: #fff;
+  background: var(--bg);
   border-radius: 50%;
   box-shadow: 0 1px 2px #0006;
 }
@@ -1156,7 +1220,7 @@ textarea {
   height: 17px;
   line-height: 17px;
   text-align: center;
-  background: #fff;
+  background: var(--bg);
   border-radius: 50%;
   box-shadow: 0 1px 3px #0007;
   text-shadow: none;
@@ -1269,7 +1333,7 @@ textarea {
   width: 15px !important;
   height: 15px !important;
   text-align: center;
-  background: #fff;
+  background: var(--bg);
   border-radius: 50%;
   box-shadow: 0 1px 3px #0007;
 }
@@ -1533,7 +1597,7 @@ textarea {
 }
 .dbox .dx button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 8px;
   min-height: 32px;
   padding: 0 10px;
@@ -1580,16 +1644,16 @@ textarea {
 #mapb b {
   font-size: 19px;
   font-weight: 400;
-  color: #202124;
+  color: var(--txt);
 }
 #msub {
   padding: 0 16px 10px;
   font-size: 12px;
-  color: #5f6368;
+  color: var(--sub);
   line-height: 1.35;
 }
 #sa {
-  background: #f1f3f4;
+  background: var(--b2);
   border: 0;
   gap: 0 16px;
   padding: 5px 14px;
@@ -1598,7 +1662,7 @@ textarea {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #3c4043;
+  color: var(--txt2);
   font-size: 13px;
   font-weight: 500;
   padding: 6px 0;
@@ -1606,7 +1670,7 @@ textarea {
 #sa button svg {
   width: 18px;
   height: 18px;
-  color: #5f6368;
+  color: var(--sub);
   flex: none;
 }
 #list {
@@ -1618,7 +1682,7 @@ textarea {
 }
 .l.act {
   border-left-color: #1a73e8;
-  background: #fff;
+  background: var(--bg);
 }
 .lr {
   padding: 3px 4px 3px 10px;
@@ -1632,7 +1696,7 @@ textarea {
 }
 .nm {
   font-size: 15px;
-  color: #202124;
+  color: var(--txt);
 }
 .l.act .nm {
   font-weight: 500;
@@ -1655,10 +1719,10 @@ textarea {
 }
 .obj .on {
   font-size: 13.5px;
-  color: #3c4043;
+  color: var(--txt2);
 }
 .obj .on.auto {
-  color: #5f6368;
+  color: var(--sub);
 }
 .obj .oi svg {
   width: 20px;
@@ -1709,7 +1773,7 @@ textarea {
   background: none;
   padding: 8px 10px;
   font-size: 14px;
-  color: #5f6368;
+  color: var(--sub);
   border-bottom: 3px solid transparent;
   margin-bottom: -1px;
 }
@@ -1736,7 +1800,7 @@ textarea {
   margin: 0 0 10px;
 }
 .abody .muted {
-  color: #5f6368;
+  color: var(--sub);
   font-size: 13px;
 }
 :is(#dmenu, .dbox, .leaflet-popup-content) .ipk .igh .is svg {
@@ -1903,7 +1967,7 @@ body.rec #info {
   border-radius: 50%;
   padding: 6px;
   flex: none;
-  color: #3c4043;
+  color: var(--txt2);
 }
 .obj.hid .eye {
   color: var(--sub);
@@ -1935,7 +1999,7 @@ body.rec #info {
   gap: 3px;
   vertical-align: -2px;
   border-radius: 9px;
-  background: #fff;
+  background: var(--bg);
   box-shadow: 0 0 0 1px var(--line);
   padding: 1px 6px 1px 4px;
   color: #8b1a1a;
@@ -2015,7 +2079,7 @@ body.rec #info {
 }
 .tfilt button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 14px;
   padding: 3px 10px;
   font-size: 13px;
@@ -2043,7 +2107,7 @@ body.rec #info {
 }
 .snav button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -2108,7 +2172,7 @@ body.rec #info {
 }
 .trow button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 50%;
   width: 34px;
   height: 34px;
@@ -2172,7 +2236,7 @@ body.rec #info {
 .gh .ibt.eye {
   width: 32px;
   height: 32px;
-  color: #5f6368;
+  color: var(--sub);
 }
 .l.off .lr .ibt.eye,
 .g.off .gh .ibt.eye {
@@ -2182,7 +2246,7 @@ body.rec #info {
 .gh .ibt.more {
   width: 34px;
   height: 34px;
-  color: #5f6368;
+  color: var(--sub);
 }
 .lr .ibt.more .ic,
 .gh .ibt.more .ic {
@@ -2195,7 +2259,7 @@ body.rec #info {
   gap: 6px;
 }
 .gh .nm .ic {
-  color: #5f6368;
+  color: var(--sub);
   flex: none;
 }
 .ctl button.bic {
@@ -2355,6 +2419,23 @@ body.rec #info {
 .gov button.gbig2 {
   background: rgba(255, 255, 255, 0.16);
 }
+.gopts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.gov button.gopt {
+  min-width: 0;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.gov button.gopt.on {
+  background: rgba(105, 240, 174, 0.25);
+  border-color: rgba(105, 240, 174, 0.8);
+}
 .gov.gin > * {
   animation: gin 0.35s ease-out both;
 }
@@ -2467,6 +2548,18 @@ body.rec #info {
   justify-content: stretch;
   padding: 8px 12px 14px;
 }
+.gpad.saper {
+  grid-template-columns: 1fr;
+  grid-template-rows: 56px;
+}
+.gpad.saper .gk.f {
+  grid-column: 1;
+  font-weight: 700;
+}
+.gpad.saper .gk.f.on {
+  background: rgba(229, 57, 53, 0.45);
+  border-color: #ff8a80;
+}
 .gpad.grzyby {
   grid-template-columns: 96px 1fr 96px;
   grid-template-rows: 72px;
@@ -2528,6 +2621,27 @@ body.rec #info {
 .gpad.wojna .gk.u {
   grid-column: 5;
   grid-row: 1;
+}
+.gpad.wojna.mv .gk.ml {
+  grid-column: 1;
+  grid-row: 2;
+}
+.gpad.wojna.mv .gk.mr {
+  grid-column: 5;
+  grid-row: 2;
+}
+.gpad.wojna.mv .gk.f {
+  grid-column: 2 / 5 !important;
+}
+.gk.ml .ic {
+  transform: rotate(-90deg);
+}
+.gk.mr .ic {
+  transform: rotate(90deg);
+}
+.gpad.wojna .gk.ml,
+.gpad.wojna .gk.mr {
+  background: rgba(255, 213, 79, 0.18);
 }
 .gpad.wojna .gk.f {
   grid-column: 1 / -1;
@@ -2604,7 +2718,7 @@ body.rec #info {
   gap: 8px;
 }
 #bmenu button.eyeb .ic {
-  color: #5f6368;
+  color: var(--sub);
   flex: none;
 }
 #bmenu button.eyeb > span {
@@ -2666,7 +2780,7 @@ body.rec #info {
   color: var(--txt);
 }
 .sset button.eyeb .ic {
-  color: #5f6368;
+  color: var(--sub);
   flex: none;
 }
 .sset button.eyeb.on .ic {
@@ -2695,7 +2809,7 @@ button.ibt {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #3c4043;
+  color: var(--txt2);
   flex: none;
 }
 button.ibt:active {
@@ -2728,7 +2842,7 @@ details.scat {
   border: 1px solid var(--line);
   border-radius: 10px;
   margin-bottom: 8px;
-  background: #fff;
+  background: var(--bg);
 }
 details.scat summary {
   list-style: none;
@@ -2741,7 +2855,7 @@ details.scat summary {
   gap: 10px;
 }
 details.scat summary .ic {
-  color: #5f6368;
+  color: var(--sub);
   flex: none;
 }
 details.scat summary::-webkit-details-marker {
@@ -2798,7 +2912,7 @@ html.locked body > *:not(#lockscr) {
   position: fixed;
   inset: 0;
   z-index: 5000;
-  background: #f1f3f4;
+  background: var(--b2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2831,7 +2945,7 @@ html.locked body > *:not(#lockscr) {
   padding: 11px;
   border-radius: 10px;
   border: 0;
-  background: #fff;
+  background: var(--bg);
   font-size: 15px;
 }
 #lockscr button.okb {
@@ -2904,7 +3018,7 @@ html.locked body > *:not(#lockscr) {
 }
 .tut .tbub {
   position: absolute;
-  background: #fff;
+  background: var(--bg);
   border-radius: 14px;
   padding: 12px 14px 10px;
   box-shadow: 0 6px 24px #0007;
@@ -2983,7 +3097,7 @@ html.locked body > *:not(#lockscr) {
 }
 .setop button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 8px;
   padding: 7px 10px;
   font-size: 13px;
@@ -3033,7 +3147,7 @@ html.locked body > *:not(#lockscr) {
 }
 .tbt button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 6px;
   padding: 5px 8px;
   font-size: 12.5px;
@@ -3097,7 +3211,7 @@ html.locked body > *:not(#lockscr) {
   margin-top: 8px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: #fff;
+  background: var(--bg);
   font-size: 14px;
 }
 /* ustawienia */
@@ -3185,7 +3299,7 @@ body.rec.recpan #info {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg);
   box-shadow: 0 1px 4px #0006;
   font-size: 14px;
 }
@@ -3370,7 +3484,7 @@ body.navon #info {
   font-weight: 700;
   font-size: 13px;
   color: #1a73e8;
-  background: #fff;
+  background: var(--bg);
   border-radius: 10px;
   padding: 2px 7px;
   box-shadow: 0 1px 3px #0005;
@@ -3411,7 +3525,7 @@ body.navon #info {
 }
 .splitbar .sbt button {
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--bg);
   border-radius: 8px;
   padding: 7px 10px;
   font-size: 13px;
@@ -3476,7 +3590,7 @@ body.spliton #info {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #fff;
+  background: var(--bg);
   box-shadow: 0 1px 5px #0007;
   font-size: 18px;
 }
@@ -3494,7 +3608,7 @@ body.spliton #info {
 #sh .ibt {
   width: 38px;
   height: 38px;
-  color: #5f6368;
+  color: var(--sub);
 }
 #modeb {
   display: inline-flex;
@@ -3503,10 +3617,10 @@ body.spliton #info {
   height: 28px;
   padding: 0 10px 0 8px;
   font-size: 12.5px;
-  color: #3c4043;
+  color: var(--txt2);
 }
 #modeb .ic {
-  color: #5f6368;
+  color: var(--sub);
 }
 #modeb.work .ic {
   color: var(--acc);
@@ -3529,7 +3643,7 @@ body.spliton #info {
 #stabs .stab button {
   border: 0;
   background: none;
-  color: #5f6368;
+  color: var(--sub);
   font-size: 14px;
   padding: 9px 4px 8px 8px;
 }
@@ -3549,7 +3663,7 @@ body.spliton #info {
   display: block;
   font-size: 19px;
   font-weight: 400;
-  color: #202124;
+  color: var(--txt);
   line-height: 1.25;
   overflow-wrap: anywhere;
 }
@@ -3561,7 +3675,7 @@ body.spliton #info {
   flex-wrap: nowrap;
   gap: 2px;
   padding: 3px 8px;
-  background: #f1f3f4;
+  background: var(--b2);
   border: 0;
   overflow-x: auto;
 }
@@ -3580,7 +3694,7 @@ body.spliton #info {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #5f6368;
+  color: var(--sub);
 }
 #sa button .ic,
 #tsa button .ic {
@@ -3664,7 +3778,7 @@ body.spliton #info {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #3c4043;
+  color: var(--txt2);
 }
 #selbar button .ic,
 #tselbar button .ic {
@@ -3698,6 +3812,193 @@ body.spliton #info {
 .offbar button.ibt {
   background: var(--b2);
 }
+
+/* v58: funkcje terenowe */
+.carmk {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #1a73e8;
+  color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+.clu div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 50%;
+  border: 3px solid #1a73e8;
+  background: rgba(255, 255, 255, 0.95);
+  color: #202124;
+  font: 700 13px system-ui, sans-serif;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+.clu .ci {
+  display: flex;
+}
+.heatc {
+  pointer-events: none;
+}
+.imgmap {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  max-width: none !important;
+  pointer-events: none;
+  user-select: none;
+}
+.imgpick {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  background: #111;
+  color: #fff;
+}
+.imgpick .ipt {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.6);
+  font-size: 13px;
+}
+.imgpick .ipt span {
+  flex: 1;
+}
+.imgpick .ipt button {
+  min-width: 38px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #666;
+  background: #333;
+  color: #fff;
+}
+.imgpick .ips {
+  flex: 1;
+  overflow: auto;
+}
+.imgpick .ipw {
+  position: relative;
+  width: 100%;
+}
+.imgpick .ipw img {
+  display: block;
+  width: 100%;
+  cursor: crosshair;
+}
+.imgpick .ipd {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  background: #ffc83d;
+  border: 2px solid #000;
+  pointer-events: none;
+}
+.ffrm {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 10px;
+}
+.ffrm label {
+  font-weight: 600;
+  margin-top: 4px;
+}
+.ffrm input {
+  padding: 8px;
+  font-size: 15px;
+}
+.ffrm .pst {
+  font-size: 16px;
+  font-weight: 700;
+}
+.pfld {
+  margin: 6px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.pfr {
+  display: flex;
+  gap: 8px;
+  padding: 5px 8px;
+  border-top: 1px solid var(--line);
+  cursor: pointer;
+}
+.pfr:first-child {
+  border-top: 0;
+}
+.pfk {
+  flex: none;
+  max-width: 45%;
+  color: var(--sub);
+}
+.pfv {
+  flex: 1;
+  text-align: right;
+  font-weight: 600;
+  word-break: break-word;
+}
+.pfv.empty {
+  color: var(--sub);
+  font-weight: 400;
+}
+#info button.plt {
+  display: none;
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--txt);
+  font-size: 12px;
+}
+#recbt {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+#recbt button {
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--txt);
+}
+#bmenu .yrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 12px 8px 34px;
+}
+#bmenu .yrow select {
+  padding: 4px 6px;
+}
+#bmenu .yrow .onote {
+  flex-basis: 100%;
+  padding: 0;
+}
+#bmenu .imgrow {
+  display: flex;
+  align-items: center;
+}
+#bmenu .imgrow > button:first-child {
+  flex: 1;
+  min-width: 0;
+}
+#bmenu button.imgadd {
+  margin: 4px 8px 8px;
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -3711,7 +4012,7 @@ body.spliton #info {
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
 <div id="recpill"><button id="rpp" title="Pauza"></button><button id="rpf" title="Zdjęcie na trasie"></button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)"></button><button id="rpb" title="Powrót do startu po nagrywanym śladzie"></button></div>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button></div>
-<div id="recpan"><div id="recgrid"></div><div id="recll"></div></div>
+<div id="recpan"><div id="recgrid"></div><div id="recll"></div><div id="recbt"></div></div>
 <div class="pop" id="bmenu"></div>
 <div class="pop" id="xmenu"></div>
 <button class="ib" id="lbtn" title="Warstwy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5" opacity=".6"/></svg></button>
@@ -3759,6 +4060,140 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "tekst": "text",
+  "Ortofoto archiwalne – Geoportal": "Archival orthophoto – Geoportal (PL)",
+  "Siedliska leśne (BDL) – typy siedliskowe lasu": "Forest sites (BDL, PL) – forest site types",
+  "Gdzie jaki las rośnie: bory, bory mieszane, lasy. Pomaga szukać grzybów, które lubią dane siedlisko. Dotknij mapy, by zobaczyć opis miejsca.": "Which kind of forest grows where: pine forests, mixed forests, broadleaf forests. Helps you find mushrooms that like a given site. Tap the map to see the description of a place.",
+  "Drzewostany (BDL) – gatunek i wiek lasu": "Forest stands (BDL, PL) – tree species and age",
+  "Dotknij mapy, by zobaczyć opis wydzielenia (np. gatunek panujący i wiek).": "Tap the map to see the description of the forest stand (e.g. main species and age).",
+  "MOJE PUNKTY": "MY POINTS",
+  "Mapa ciepła moich punktów": "Heat map of my points",
+  "Grupuj punkty przy oddaleniu": "Group points when zoomed out",
+  "MAPY ZE ZDJĘCIA": "MAPS FROM A PHOTO",
+  "Dodaj zdjęcie mapy (np. tablica w lesie)…": "Add a photo of a map (e.g. a forest signboard)…",
+  "📅 Rok zdjęć:": "📅 Imagery year:",
+  "📅 Stan na rok:": "📅 As of year:",
+  "Zdjęcia lotnicze z archiwum Geoportalu wykonane do końca wybranego roku – widać dawne wycinki, młodniki i zmiany lasu. Nie każdy obszar był fotografowany co roku.": "Aerial photos from the Geoportal archive taken up to the end of the chosen year – you can see old clearcuts, young plantations and changes in the forest. Not every area was photographed every year.",
+  "Pola danych: ": "Data fields: ",
+  "Pola danych…": "Data fields…",
+  "Alarm przy punktach: włączony": "Alarm near points: on",
+  "Alarm przy punktach: wyłączony": "Alarm near points: off",
+  "🔔 Podejdziesz bliżej niż ": "🔔 When you get closer than ",
+  " do punktu tej warstwy – telefon zawibruje (przy włączonym GPS albo nagrywaniu)": " to a point of this layer, the phone will vibrate (with GPS on or while recording)",
+  "Zaplanuj trasę": "Plan a route",
+  "Idź na azymut (kompas)": "Walk on a bearing (compass)",
+  "Dotknij startu trasy": "Tap the start of the route",
+  "Grad": "Hail",
+  "Grad już wykorzystany": "Hail already used",
+  "◀ Jedź": "◀ Drive",
+  "Jedź ▶": "Drive ▶",
+  "🍄 Grzybowy saper": "🍄 Mushroom Minesweeper",
+  "💥 Muchomor! Koniec grzybobrania": "💥 Fly agaric! Mushroom picking is over",
+  "🏆 Wszystkie muchomory znalezione! Czas: ": "🏆 All fly agarics found! Time: ",
+  "🚩 Tryb flag: włączony": "🚩 Flag mode: on",
+  "🚩 Tryb flag": "🚩 Flag mode",
+  "Klasyk z Windowsa: pod mchem schowane są muchomory. Liczba mówi, ile ich jest dookoła pola. Dotknij – odkryj, przytrzymaj – postaw flagę. Pierwsze dotknięcie jest zawsze bezpieczne.": "The Windows classic: fly agarics are hidden under the moss. A number tells you how many are around that square. Tap to uncover, press and hold to place a flag. The first tap is always safe.",
+  "💨 Wiatr: włączony": "💨 Wind: on",
+  "💨 Wiatr: wyłączony": "💨 Wind: off",
+  "🚶 Ruch grzybów: włączony": "🚶 Moving mushrooms: on",
+  "🚶 Ruch grzybów: wyłączony": "🚶 Moving mushrooms: off",
+  "🌱 Łatwy – 9 × 12, 14 muchomorów": "🌱 Easy – 9 × 12, 14 fly agarics",
+  "🌿 Średni – 9 × 14, 22 muchomory": "🌿 Medium – 9 × 14, 22 fly agarics",
+  "🌲 Trudny – 10 × 16, 34 muchomory": "🌲 Hard – 10 × 16, 34 fly agarics",
+  " · odchyłka ": " · off course ",
+  "Tu stoi auto": "My car is here",
+  "🚗 Zapamiętano miejsce auta. Wrócisz do niego przyciskiem „Do auta” w panelu nagrywania.": "🚗 Car location saved. Get back to it with “To the car” in the recording panel.",
+  "🚗 Zapamiętano miejsce auta": "🚗 Car location saved",
+  "Auto": "Car",
+  "🚗 Auto": "🚗 Car",
+  "Zapisane: ": "Saved: ",
+  "Prowadź do auta": "Navigate to the car",
+  "Nie ma zapisanego miejsca auta. OMM zapamiętuje je sam, gdy podczas nagrywania przejdziesz z jazdy w marsz; możesz też w okienku „📡 Moja pozycja” wybrać „Tu stoi auto”.": "No car location is saved. OMM saves it by itself when, while recording, you switch from driving to walking; you can also choose “My car is here” in the “📡 My position” window.",
+  "np. 235": "e.g. 235",
+  "pusto = 2 km": "empty = 2 km",
+  "Azymut (stopnie od północy)": "Bearing (degrees from north)",
+  "Odległość w metrach (jeśli znasz)": "Distance in metres (if you know it)",
+  "OMM wyznaczy punkt na tym azymucie od miejsca, w którym stoisz, i poprowadzi strzałką. Możesz omijać przeszkody – strzałka sama poprawi kierunek. Na pasku widać też odchyłkę telefonu od kursu.": "OMM sets a point on this bearing from where you stand and guides you with an arrow. You can walk around obstacles – the arrow corrects the direction by itself. The bar also shows how far the phone points off course.",
+  "🧭 Idź na azymut": "🧭 Walk on a bearing",
+  "Idź": "Go",
+  "Podaj azymut w stopniach (0–359).": "Enter a bearing in degrees (0–359).",
+  "Azymut ": "Bearing ",
+  " stąd": " from here",
+  "⚠ Zszedłeś ze śladu – ": "⚠ You left the track – ",
+  " · ~": " · ~",
+  "numer telefonu": "phone number",
+  "Wrócę najpóźniej o": "I will be back by",
+  "Kogo powiadomić SMS-em": "Who to notify by SMS",
+  "O tej godzinie OMM zapyta, czy wszystko w porządku (także powiadomieniem, gdy telefon śpi). Jeśli nie potwierdzisz, przypomni co 15 minut i przygotuje SMS z Twoją ostatnią pozycją – wysyłasz go jednym dotknięciem. OMM sam niczego nie wysyła.": "At that time OMM will ask whether everything is fine (also with a notification when the phone is asleep). If you do not confirm, it reminds you every 15 minutes and prepares an SMS with your last position – you send it with one tap. OMM sends nothing by itself.",
+  "⏰ Plan wyjścia": "⏰ Trip plan",
+  "Wyłącz plan": "Turn the plan off",
+  "Plan wyjścia wyłączony": "Trip plan turned off",
+  "Plan zapisany: powrót do ": "Plan saved: back by ",
+  "⏰ OMM – czy wszystko OK?": "⏰ OMM – is everything OK?",
+  "Minęła planowana godzina powrotu. Otwórz OMM i potwierdź albo wyślij SMS.": "Your planned return time has passed. Open OMM and confirm, or send an SMS.",
+  "⏰ Minęła planowana godzina powrotu (": "⏰ Your planned return time has passed (",
+  ").\n\nCzy wszystko w porządku?": ").\n\nIs everything fine?",
+  "Wyślij SMS": "Send SMS",
+  "+30 min": "+30 min",
+  "Jestem OK – koniec planu": "I'm OK – end the plan",
+  "Wiadomość z OMM: miałem wrócić do ": "Message from OMM: I was supposed to be back by ",
+  ". Ostatnia pozycja: ": ". Last position: ",
+  "nieznana": "unknown",
+  " punktów – dotknij, by przybliżyć": " points – tap to zoom in",
+  "Punkt ": "Point ",
+  ": dotknij charakterystycznego miejsca na zdjęciu (skrzyżowanie, róg budynku, most)": ": tap a distinctive spot on the photo (a junction, a building corner, a bridge)",
+  "Nie udało się wczytać zdjęcia.": "Could not load the photo.",
+  "Nazwa mapy ze zdjęcia (np. „Leśnictwo Spała – tablica”):": "Name of the map from the photo (e.g. “Forest district – signboard”):",
+  "Dopasowanie zdjęcia do mapy: wskaż 2 albo 3 te same miejsca – najpierw na zdjęciu, potem na mapie. Wybieraj punkty daleko od siebie (np. w rogach). Trzy punkty wyrównają też zdjęcie zrobione pod kątem.": "Fitting the photo to the map: mark 2 or 3 of the same places – first on the photo, then on the map. Pick points far apart (e.g. in the corners). Three points also straighten a photo taken at an angle.",
+  ": dotknij tego samego miejsca na mapie": ": tap the same place on the map",
+  "Dwa punkty wystarczą, jeśli zdjęcie jest zrobione na wprost. Dodać trzeci punkt dla dokładności?": "Two points are enough if the photo was taken straight on. Add a third point for accuracy?",
+  "Trzeci punkt": "Third point",
+  "Mapa ze zdjęcia": "Map from a photo",
+  "Brak miejsca na zdjęcie mapy w pamięci aplikacji.": "Not enough space for the map photo in the app storage.",
+  "Dodano mapę ze zdjęcia: ": "Map from a photo added: ",
+  "Usunąć mapę ze zdjęcia „": "Delete the map from a photo “",
+  "Pola danych warstwy „": "Data fields of layer “",
+  "” – jedna nazwa w linii (np. Ilość, Stan, Nr urządzenia). Wartości wpiszesz w okienku punktu; trafią do eksportu CSV i do kopii.": "” – one name per line (e.g. Quantity, Condition, Device no.). You fill in the values in the point window; they go into the CSV export and the backup.",
+  "Nazwa": "Name",
+  "Typ": "Type",
+  "Szerokość": "Latitude",
+  "Długość": "Longitude",
+  "Komentarz": "Comment",
+  "Ocena": "Rating",
+  "Utworzono": "Created",
+  "Dotknij kolejnego punktu trasy": "Tap the next point of the route",
+  " · układam po ścieżkach…": " · routing along paths…",
+  " · ✓ zakończ": " · ✓ finish",
+  "🥾 po ścieżkach": "🥾 along paths",
+  "📏 prosto": "📏 straight",
+  " · marsz ~": " · walk ~",
+  "Czas wg Twojego tempa marszu z pieszych śladów (bez nich ~4,5 km/h); podejścia doliczane jak w regule Naismitha: +1 h na 600 m w górę.": "Time from your walking pace on walking tracks (without them ~4.5 km/h); climbs added as in Naismith's rule: +1 h per 600 m up.",
+  "🗺 Zaplanowana trasa": "🗺 Planned route",
+  "Odrzuć": "Discard",
+  "Zapisz jako linię": "Save as a line",
+  "Koniec trasy": "End of route",
+  "Trasa ": "Route ",
+  "Zapisano trasę w warstwie „": "Route saved in layer “",
+  "Las – opis z BDL": "Forest – description from BDL",
+  "Do auta": "To the car",
+  "Plan wyjścia": "Trip plan",
+  "W terenie": "In the field",
+  "Alarm przy miejscówkach – odległość": "Alarm near your spots – distance",
+  "Alarm włączasz dla wybranej warstwy: panel warstw → ⋮ przy warstwie → „Alarm przy punktach”. Działa przy włączonym GPS (kropka pozycji), a w tle – podczas nagrywania śladu.": "You turn the alarm on for a chosen layer: layers panel → ⋮ next to the layer → “Alarm near points”. It works with GPS on (the position dot), and in the background while recording a track.",
+  "Miejsce auta": "Car location",
+  "Zapamiętuj samo – gdy podczas nagrywania przejdziesz z jazdy w marsz": "Save automatically – when, while recording, you switch from driving to walking",
+  "Tylko ręcznie („📡 Moja pozycja” → „Tu stoi auto”)": "Only manually (“📡 My position” → “My car is here”)",
+  "Do auta prowadzi przycisk „Do auta” w panelu nagrywania albo dotknięcie ikony auta na mapie.": "“To the car” in the recording panel, or tapping the car icon on the map, guides you to the car.",
+  "Plan wyjścia…": "Trip plan…",
+  "Wygląd": "Appearance",
+  "Motyw": "Theme",
+  "Jasny": "Light",
+  "Ciemny": "Dark",
+  "Jak w telefonie": "Same as the phone",
+  "Mapa w trybie ciemnym": "Map in dark mode",
+  "Przyciemniona – nie razi w nocy": "Dimmed – easy on the eyes at night",
+  "Normalna": "Normal",
+  "Udostępnij / eksport warstwy (GPX, KML, GeoJSON, CSV)": "Share / export layer (GPX, KML, GeoJSON, CSV)",
   "W lewo": "Left",
   "W prawo": "Right",
   "Złapany! ": "Caught! ",
@@ -5300,6 +5735,14 @@ const B = (x, fn, c, t) => {
 // ---------- wspólne ikony: jedna funkcja = jedna ikona w całej aplikacji ----------
 // Zanim dodasz nową ikonę, sprawdź, czy taka funkcja nie ma już ikony tutaj – i użyj tej.
 const IC = {
+  car: '<path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 12h16"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
+  bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  clock: '<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2"/><path d="M5 4L2.5 6.5M19 4l2.5 2.5"/>',
+  fields: '<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9.5h17M3.5 15h17M9.5 4v16"/>',
+  imgmap: '<path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2z"/><path d="M9 4v14M15 6v14"/><circle cx="18" cy="17" r="3.5" fill="currentColor" stroke="none" opacity=".35"/>',
+  flame: '<path d="M12 21c-4 0-6.5-2.6-6.5-6 0-3.6 3-5.5 3.5-9 2 1.5 3 3.5 3 5.5 1-.8 1.6-2 1.8-3.2C16.6 10 18.5 12.6 18.5 15c0 3.4-2.5 6-6.5 6z"/>',
+  cluster: '<circle cx="8" cy="9" r="3"/><circle cx="16" cy="8" r="2.4"/><circle cx="14" cy="16" r="3.4"/>',
+  moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>',
   snd: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
   mute: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>',
   share:
@@ -5398,7 +5841,18 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v57';
+const APP_VER = 'v58';
+// tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
+function themeApply() {
+  const v = localStorage.getItem('omm-motyw') || 'jasny',
+    dk = v === 'ciemny' || (v === 'auto' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  document.documentElement.classList.toggle('dark', dk);
+  document.documentElement.classList.toggle('dimmap', dk && localStorage.getItem('omm-mapa-noc') !== 'nie');
+}
+themeApply();
+try {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeApply);
+} catch (e) {}
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -8638,6 +9092,20 @@ const esri = s =>
   });
 // Serwery Geoportalu odrzucają kafle, gdy strona wysyła dziwny nagłówek Referer (np. content:// z telefonu), więc go nie wysyłamy
 const NOREF = {referrerPolicy: 'no-referrer', keepBuffer: 4, updateWhenZooming: false};
+// lata zdjęć (v58): Sentinel-2 bez chmur – mozaiki roczne EOX; ortofotomapa archiwalna Geoportalu – stan na koniec roku
+const S2_YEARS = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+  s2Year = () => {
+    const y = +localStorage.getItem('omm-s2-rok');
+    return S2_YEARS.includes(y) ? y : 2024;
+  },
+  s2Attr = y =>
+    '<a href="https://s2maps.eu">Sentinel-2 cloudless</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data ' + (y === 2018 ? '2017 & 2018' : y) + ')',
+  ORTO_YEARS = Array.from({length: 2025 - 1995 + 1}, (_, i) => 2025 - i),
+  ortoYear = () => {
+    const y = +localStorage.getItem('omm-orto-rok');
+    return ORTO_YEARS.includes(y) ? y : 2015;
+  },
+  ortoTime = y => '1995-01-01T00:00:00.000Z/' + y + '-12-31T23:59:59.000Z';
 // Wszystkie połączenia wyłącznie przez https (od v46 bez zapasowego http – audyt bezpieczeństwa R02).
 const GEO = 'https://mapy.geoportal.gov.pl';
 localStorage.removeItem('mapa-geo-http'); // dawne obejście przez http – już nieużywane
@@ -8778,13 +9246,24 @@ const BASES = {
     attribution: '<a href="https://www.cyclosm.org">CyclOSM</a> · <a href="https://openstreetmap.fr">OSM France</a> · © OpenStreetMap contributors'
   }),
   'Sentinel-2 – satelita bez chmur': L.tileLayer.wms('https://tiles.maps.eox.at/', {
-    layers: 's2cloudless-2024_3857',
+    layers: 's2cloudless-' + s2Year() + '_3857',
     styles: '',
     format: 'image/jpeg',
     version: '1.1.1',
     maxZoom: 21,
-    attribution:
-      '<a href="https://s2maps.eu">Sentinel-2 cloudless</a> by <a href="https://eox.at">EOX IT Services GmbH</a> (Contains modified Copernicus Sentinel data 2024)'
+    attribution: s2Attr(s2Year())
+  }),
+  // archiwalne zdjęcia lotnicze (v58): stan na wybrany rok – usługa z wymiarem czasu, tylko w układach 2180 / 4326
+  'Ortofoto archiwalne – Geoportal': L.tileLayer.wms(GEO + '/wss/service/PZGIK/ORTO/WMS/StandardResolutionTime', {
+    layers: 'Raster',
+    styles: '',
+    format: 'image/jpeg',
+    version: '1.3.0',
+    crs: L.CRS.EPSG4326,
+    time: ortoTime(ortoYear()),
+    maxZoom: 21,
+    attribution: '© GUGiK – ortofotomapa archiwalna',
+    ...NOREF
   }),
   'USGS Topo (USA)': L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 21,
@@ -8806,6 +9285,7 @@ const MAP_REG = {
   OpenTopoMap: 'w',
   CyclOSM: 'w',
   'Sentinel-2 – satelita bez chmur': 'w',
+  'Ortofoto archiwalne – Geoportal': 'pl',
   'USGS Topo (USA)': 'us',
   'USGS – zdjęcia lotnicze (USA)': 'us',
   'Bez podkładu (siatka)': 'w',
@@ -8815,6 +9295,8 @@ const MAP_REG = {
   kiut: 'pl',
   zwl: 'pl',
   bdlt: 'pl',
+  bdls: 'pl',
+  bdld: 'pl',
   shel: 'w',
   wmt: 'w',
   wmc: 'w'
@@ -8857,7 +9339,7 @@ if (!BASES[curKey]) curKey = baseDef();
 // nakładki: zwykłe WMS dodawane nad podkładem, dokładnie jak w działającym pliku
 const KIEG = 'https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow';
 let OVS = JSON.parse(localStorage.getItem('mapa-ov3') || '{}');
-const OVDEF = {nmt: 0.55, dz: 1, bud: 1, kiut: 1, zwl: 0.55, bdlt: 1, shel: 1, wmt: 0.9, wmc: 0.9};
+const OVDEF = {nmt: 0.55, dz: 1, bud: 1, kiut: 1, zwl: 0.55, bdlt: 1, bdls: 0.6, bdld: 0.6, shel: 1, wmt: 0.9, wmc: 0.9};
 Object.keys(OVDEF).forEach(k => {
   const o = (OVS[k] = OVS[k] || {on: false, op: OVDEF[k]});
   if (!(o.op >= 0.1)) o.op = OVDEF[k];
@@ -9090,6 +9572,16 @@ const OV = {
       attribution: _t('© Bank Danych o Lasach')
     })
   },
+  bdls: {
+    n: _t('Siedliska leśne (BDL) – typy siedliskowe lasu'),
+    note: _t('Gdzie jaki las rośnie: bory, bory mieszane, lasy. Pomaga szukać grzybów, które lubią dane siedlisko. Dotknij mapy, by zobaczyć opis miejsca.'),
+    l: bdlDyn('WMS_BDL_mapa_siedlisk', OVS.bdls.op)
+  },
+  bdld: {
+    n: _t('Drzewostany (BDL) – gatunek i wiek lasu'),
+    note: _t('Dotknij mapy, by zobaczyć opis wydzielenia (np. gatunek panujący i wiek).'),
+    l: bdlDyn('WMS_BDL_mapa_drzewostanow', OVS.bdld.op)
+  },
   shel: {
     n: _t('Wiaty, schrony i biwaki (OpenStreetMap)'),
     note: _t('Pobierane na bieżąco dla widocznego obszaru (od średniego zbliżenia). Dotknij ikonę, by zobaczyć szczegóły i dodać miejsce do swojej mapy. Czerwona obwódka = dostęp prywatny.'),
@@ -9182,7 +9674,7 @@ Object.values(OV).forEach(o => track(o.l));
  */
 let underBase = null;
 function underFor(l) {
-  if (!(l instanceof L.TileLayer) || !l._url) return null;
+  if (!(l instanceof L.TileLayer) || !l._url || l instanceof L.TileLayer.WMS) return null;
   if (!map.getPane('under')) map.createPane('under').style.zIndex = 150;
   const o = l.options,
     u = L.tileLayer(l._url, {
@@ -9244,6 +9736,7 @@ function buildBMenu() {
       n === curKey ? 'on' : ''
     );
     m.append(n === curKey ? withStat(b, BASES[n]) : b);
+    if (n === curKey && (n === 'Sentinel-2 – satelita bez chmur' || n === 'Ortofoto archiwalne – Geoportal')) m.append(yearRow(n));
   });
   m.append(h('div', 'sec', _t('NAKŁADKI')));
   m.lastChild.style.cssText = 'font-weight:700;color:var(--txt)';
@@ -9293,7 +9786,85 @@ function buildBMenu() {
       if (OV[k].note) m.append(h('div', 'onote', OV[k].note));
     }
   });
+  // moje punkty: mapa ciepła i grupowanie (v58)
+  m.append(h('div', 'sec', _t('MOJE PUNKTY')));
+  [
+    ['flame', _t('Mapa ciepła moich punktów'), heatOn(), v => heatSet(v)],
+    ['cluster', _t('Grupuj punkty przy oddaleniu'), cluOn(), v => (localStorage.setItem('omm-grupuj', v ? 'tak' : 'nie'), clusterUpd())]
+  ].forEach(([ik, t, on, set]) => {
+    const b = B('', () => {
+      set(!on);
+      buildBMenu();
+    }, on ? 'on eyeb' : 'eyeb');
+    b.innerHTML = ico(on ? 'eye' : 'eyeOff', 18) + ico(ik, 16);
+    b.append(h('span', null, t));
+    m.append(b);
+  });
+  // mapy ze zdjęcia (v58)
+  m.append(h('div', 'sec', _t('MAPY ZE ZDJĘCIA')));
+  (IMGS || []).forEach(o => {
+    const row = h('div', 'imgrow'),
+      b = B('', () => {
+        o.vis = !o.vis;
+        imgsSave();
+        imgsShow();
+        buildBMenu();
+      }, o.vis ? 'on eyeb' : 'eyeb');
+    b.innerHTML = ico(o.vis ? 'eye' : 'eyeOff', 18);
+    b.append(h('span', null, o.nm));
+    row.append(
+      b,
+      IB('nav', () => {
+        m.style.display = 'none';
+        map.fitBounds(L.latLngBounds(o.pts.map(q => [q[2], q[3]])).pad(0.6));
+      }, '', _t('Pokaż na mapie')),
+      IB('del', () => imgDel(o), 'danger', _t('Usuń'))
+    );
+    m.append(row);
+    if (o.vis) {
+      const d = h('div', 'ov'),
+        r = h('input');
+      r.type = 'range';
+      r.min = 10;
+      r.max = 100;
+      r.value = Math.round(o.op * 100);
+      r.title = _t('Krycie');
+      r.oninput = () => IMGL[o.id] && IMGL[o.id].setOpacity(r.value / 100);
+      r.onchange = () => {
+        o.op = r.value / 100;
+        imgsSave();
+      };
+      d.append(r);
+      m.append(d);
+    }
+  });
+  m.append(BI('imgmap', _t('Dodaj zdjęcie mapy (np. tablica w lesie)…'), imgAdd, 'imgadd'));
   m.append(h('div', 'ver', APP_NAME + ' ' + APP_VER + ' · ' + location.protocol));
+}
+function yearRow(n) {
+  // wybór roku zdjęć dla Sentinel-2 i ortofotomapy archiwalnej (v58)
+  const s2 = n === 'Sentinel-2 – satelita bez chmur',
+    d = h('div', 'yrow'),
+    sel = h('select'),
+    cur = s2 ? s2Year() : ortoYear();
+  (s2 ? S2_YEARS.slice().reverse() : ORTO_YEARS).forEach(y => sel.add(new Option(String(y), String(y), false, y === cur)));
+  sel.onchange = () => {
+    const y = +sel.value,
+      l = BASES[n];
+    if (s2) {
+      localStorage.setItem('omm-s2-rok', String(y));
+      if (map.attributionControl) map.attributionControl.removeAttribution(l.options.attribution);
+      l.options.attribution = s2Attr(y);
+      if (map.attributionControl) map.attributionControl.addAttribution(l.options.attribution);
+      l.setParams({layers: 's2cloudless-' + y + '_3857'});
+    } else {
+      localStorage.setItem('omm-orto-rok', String(y));
+      l.setParams({time: ortoTime(y)});
+    }
+  };
+  d.append(h('span', null, s2 ? _t('📅 Rok zdjęć:') : _t('📅 Stan na rok:')), sel);
+  if (!s2) d.append(h('div', 'onote', _t('Zdjęcia lotnicze z archiwum Geoportalu wykonane do końca wybranego roku – widać dawne wycinki, młodniki i zmiany lasu. Nie każdy obszar był fotografowany co roku.')));
+  return d;
 }
 function refreshMap() {
   // ponowne pobranie kafli podkładu, podkładu zastępczego i włączonych nakładek
@@ -9401,6 +9972,20 @@ function cleanItem(it) {
   cleanStr(it, 'n', 20000);
   cleanPh(it);
   cleanTimes(it);
+  if (own(it, 'fv')) {
+    // własne pola warstwy (v58): {nazwa pola: wartość}, tylko tekst
+    const o = {};
+    if (it.fv && typeof it.fv === 'object' && !Array.isArray(it.fv))
+      Object.keys(it.fv)
+        .slice(0, 30)
+        .forEach(k => {
+          const v = it.fv[k];
+          if (typeof k === 'string' && k && (typeof v === 'string' || typeof v === 'number') && String(v).trim())
+            o[k.slice(0, 60)] = String(v).slice(0, 500);
+        });
+    if (Object.keys(o).length) it.fv = o;
+    else delete it.fv;
+  }
   return true;
 }
 function cleanMap(m) {
@@ -9426,6 +10011,15 @@ function cleanMap(m) {
       cleanStr(l, 'name', 200);
       if (!l.name) l.name = _t('Warstwa');
       if (own(l, 'op')) l.op = safeNum(l.op, 0, 1, 1);
+      if (own(l, 'f')) {
+        // nazwy własnych pól warstwy (v58)
+        l.f = Array.isArray(l.f) ? [...new Set(l.f.filter(x => typeof x === 'string').map(x => x.trim().slice(0, 60)).filter(Boolean))].slice(0, 20) : [];
+        if (!l.f.length) delete l.f;
+      }
+      if (own(l, 'alarm')) {
+        if (l.alarm === true) l.alarm = true;
+        else delete l.alarm;
+      }
       if (own(l, 'c')) {
         const c = safeColor(l.c);
         if (c) l.c = c;
@@ -9960,6 +10554,10 @@ function openItemPopup(it, latlng) {
   nt.append(h('span', null, it.n || _t('Dodaj komentarz')), IB('edit', () => itemNote(it, latlng), 'nted', it.n ? _t('Edytuj komentarz') : _t('Dodaj komentarz')));
   if (!it.n) nt.onclick = () => itemNote(it, latlng);
   body.append(nt);
+  {
+    const fs = fieldsSec(it, latlng); // własne pola warstwy (v58)
+    if (fs) body.append(fs);
+  }
   if (RATED(it)) {
     const rr = h('div', 'rate'),
       drawR = () => {
@@ -10435,6 +11033,10 @@ function render() {
     }
   });
   if (trkDrawOn) trkRefCheck(); // punkty śladów powiązane z obiektami tej mapy
+  if (FLD_READY) {
+    clusterUpd(); // grupowanie punktów przy oddaleniu (v58)
+    heatRedraw();
+  }
 }
 
 // ---------- eksport ----------
@@ -10690,6 +11292,7 @@ function exportItems(items, name, fmt) {
   const base = String(name || _t('obiekt')).replace(/[^\p{L}\p{N}_-]+/gu, '_') || _t('obiekt');
   if (fmt === 'GPX') dl(base + '.gpx', 'application/gpx+xml', toGPX(items, name));
   else if (fmt === 'KML') dl(base + '.kml', 'application/vnd.google-earth.kml+xml', toKML(items, name));
+  else if (fmt === 'CSV') dl(base + '.csv', 'text/csv', toCSV(items));
   else dl(base + '.geojson', 'application/geo+json', toGeoJSON(items));
 }
 function exportLayer(l, fmt) {
@@ -10716,7 +11319,7 @@ async function itemDelete(it) {
 function xmenu(btn, l) {
   const m = $('xmenu');
   m.innerHTML = '';
-  ['GPX', 'KML', 'GeoJSON'].forEach(f =>
+  ['GPX', 'KML', 'GeoJSON', 'CSV'].forEach(f =>
     m.append(
       B(f, () => {
         exportLayer(l, f);
@@ -11305,6 +11908,7 @@ function toFeature(it, m, AN) {
   if (it.n) pr.komentarz = it.n;
   if (it.ra) pr.ocena = it.ra;
   if (it.ph && it.ph.length) pr.zdjecia = it.ph;
+  if (it.fv && Object.keys(it.fv).length) pr.pola = it.fv;
   let g;
   if (it.sz != null) pr.rozmiar = it.sz;
   if (it.t === 'num') pr.numer = it.no;
@@ -11364,7 +11968,7 @@ function fullBackup(vis, only) {
         vis: g.vis,
         layers: g.layers
           .filter(l => okLy(g, l))
-          .map(l => ({id: l.id, name: l.name, vis: l.vis, op: l.op, open: !!l.open}))
+          .map(l => ({id: l.id, name: l.name, vis: l.vis, op: l.op, open: !!l.open, ...(l.f && l.f.length ? {pola: l.f} : {}), ...(l.alarm ? {alarm: true} : {})}))
       }))
     })),
     settings: settingsObj(),
@@ -11406,7 +12010,9 @@ function buildMap(mm, feats) {
       name: l.name || _t('Warstwa'),
       vis: l.vis !== false,
       op: +l.op > 0 ? +l.op : 1,
-      open: !!l.open
+      open: !!l.open,
+      ...(Array.isArray(l.pola) ? {f: l.pola.filter(x => typeof x === 'string').map(x => x.slice(0, 60)).slice(0, 20)} : {}),
+      ...(l.alarm === true ? {alarm: true} : {})
     }))
   }));
   if (!groups.length) groups.push({id: uid(), name: _t('Grupa 1'), open: true, vis: true, layers: []});
@@ -11471,6 +12077,7 @@ function buildMap(mm, feats) {
       if (x.t === 'circle') it.r = +x.r;
       if (x.n) it.n = String(x.n);
       if (pr.nazwa) it.nm = String(pr.nazwa).slice(0, 200);
+      if (pr.pola && typeof pr.pola === 'object' && !Array.isArray(pr.pola)) it.fv = {...pr.pola}; // oczyszcza cleanItem
       if (x.t === 'pin' && (t === 'dot' || t === 'num' || t === 'text')) {
         it.t = t;
         delete it.i;
@@ -12359,7 +12966,7 @@ function sheet() {
         {
           // belka pod nazwą warstwy – tak samo w Mapach i Śladach GPS: zmień nazwę · oko · udostępnij · usuń
           const la = h('div', 'tact lact'),
-            xb = IB('share', () => xmenu(xb, l), 'eye', _t('Udostępnij / eksport warstwy (GPX, KML, GeoJSON)'));
+            xb = IB('share', () => xmenu(xb, l), 'eye', _t('Udostępnij / eksport warstwy (GPX, KML, GeoJSON, CSV)'));
           la.append(IB('edit', () => ren(l, _t('Nazwa warstwy:')), 'eye', _t('Zmień nazwę')), cb, xb, IB('del', () => delL(g, l), 'eye danger', _t('Usuń warstwę')));
           w.append(la);
         }
@@ -12391,6 +12998,23 @@ function sheet() {
           if (its.some(i => i.t === 'pin')) c.append(BI('pin', _t('Ikona punktów…'), () => massIcon(its)));
           if (its.some(i => i.nm && icOfItem(i))) c.append(BI('edit', _t('Ujednolić nazwy…'), () => massUnify(its)));
           if (its.length) c.append(BI('layer', _t('Przenieś obiekty…'), () => massMove(its)));
+          c.append(
+            BI('fields', l.f && l.f.length ? _t('Pola danych: ') + l.f.join(', ') : _t('Pola danych…'), () => fieldsDlg(l)),
+            BI(
+              'bell',
+              l.alarm ? _t('Alarm przy punktach: włączony') : _t('Alarm przy punktach: wyłączony'),
+              () => {
+                if (l.alarm) delete l.alarm;
+                else {
+                  l.alarm = true;
+                  toastMsg(_t('🔔 Podejdziesz bliżej niż ') + fm(alarmR()) + _t(' do punktu tej warstwy – telefon zawibruje (przy włączonym GPS albo nagrywaniu)'));
+                }
+                save();
+                sheet();
+              },
+              l.alarm ? 'on' : ''
+            )
+          );
           if (layers.length > 1) {
             const ms = h('select');
             ms.add(new Option(_t('Scal z warstwą…'), ''));
@@ -12707,6 +13331,8 @@ const ICON = {
   profile: svgi('<path d="M3 4v16h18"/><path d="M6 15l4-5 3 3 5-7"/>'),
   height: svgi('<path d="M2 20l7-12 4 7 3-4 6 9z"/>'),
   coord: svgi('<circle cx="12" cy="12" r="3"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/>'),
+  plan: svgi('<circle cx="6" cy="18" r="2"/><circle cx="18" cy="6" r="2"/><path d="M8 18h6a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h6"/>'),
+  azgo: svgi('<circle cx="12" cy="12" r="9"/><path d="M14.5 9.5l-1.5 4-3.5 1 1.5-4z"/><path d="M12 3v1.5M12 19.5V21M3 12h1.5M19.5 12H21"/>'),
   photo: svgi('<path d="M3.5 8h3.8l1.8-2.6h5.8L16.7 8h3.8v11h-17z"/><circle cx="12" cy="13.3" r="3.5"/>')
 };
 const LABEL = {
@@ -12724,17 +13350,20 @@ const LABEL = {
   dh: _t('Różnica wysokości'),
   profile: _t('Profil wysokościowy'),
   height: _t('Wysokość z NMT'),
-  coord: _t('Współrzędne punktu')
+  coord: _t('Współrzędne punktu'),
+  plan: _t('Zaplanuj trasę'),
+  azgo: _t('Idź na azymut (kompas)')
 };
 const GROUPS = {
   draw: ['line', 'circle', 'poly'],
   drawW: ['dot', 'num', 'text', 'arrow', 'seg', 'line', 'poly'],
-  data: ['measure', 'marea', 'azimuth', 'dh', 'profile', 'height', 'coord']
+  data: ['measure', 'marea', 'azimuth', 'dh', 'profile', 'height', 'coord', 'plan', 'azgo']
 };
 const DRAW_ALL = ['pin', 'line', 'circle', 'poly', 'dot', 'num', 'seg', 'arrow', 'text'];
 const drawList = () => (isW() ? GROUPS.drawW : GROUPS.draw);
 const PINS = IGROUPS.flatMap(g => g.ids);
 const HINT = {
+  plan: _t('Dotknij startu trasy'),
   pin: _t('Dotykaj mapy, by stawiać punkty; ✓ gdy skończysz'),
   line: _t('Dotykaj punktów linii; ✓ zapisuje linię i kończy rysowanie'),
   poly: _t('Dotykaj wierzchołków; ✓ zapisuje wielokąt i kończy rysowanie'),
@@ -12909,6 +13538,8 @@ function ui() {
   ib.style.display = isW() ? 'none' : '';
 }
 function clearAll() {
+  if (mode !== 'plan') PLN = null; // planowanie trasy (v58) kończy się razem z trybem
+  if ($('plnb')) $('plnb').style.display = 'none';
   cur = [];
   sess = [];
   pcm = null;
@@ -12994,6 +13625,8 @@ function openMenu(g, btn) {
       '',
       () => {
         m.style.display = 'none';
+        if (k === 'azgo') return azGoDlg(); // okno, nie tryb rysowania
+        if (k === 'plan') return planStart();
         setMode(k);
       },
       k === mode ? 'on' : ''
@@ -13796,10 +14429,14 @@ $('prnb').onclick = () => {
   setMode('print');
 };
 map.on('click', e => {
+  if (PICKING) return; // wybór punktu na mapie (dopasowanie zdjęcia mapy)
   closePops();
   // dotknięcie mapy obok panelu map i warstw zamyka panel (gdy nic nie jest rysowane ani wybierane na mapie)
   if (!mode && !SPLIT && !EXT && $('sheet').style.display === 'flex') $('sheet').style.display = 'none';
-  if (!mode) return;
+  if (!mode) {
+    if (!SPLIT && !EXT) bdlInfo(e); // włączone siedliska / drzewostany BDL – opis miejsca
+    return;
+  }
   const p = [e.latlng.lat, e.latlng.lng];
   if (mode === 'fotoc' || mode === 'fotog') {
     fotoTap(p, null);
@@ -13823,6 +14460,10 @@ map.on('click', e => {
   }
   if (mode === 'coord') {
     showCoord(p);
+    return;
+  }
+  if (mode === 'plan') {
+    planTap(p);
     return;
   }
   if (mode === 'pin' || mode === 'dot' || mode === 'num') {
@@ -13854,6 +14495,7 @@ map.on('click', e => {
 });
 const isDraw = () => DRAW_ALL.includes(mode);
 $('undo').onclick = () => {
+  if (mode === 'plan') return planUndo();
   if (mode === 'edit') {
     editUndo();
     return;
@@ -13904,6 +14546,7 @@ $('cancel').onclick = () => {
   ui();
 };
 $('done').onclick = () => {
+  if (mode === 'plan') return planDone();
   if (mode === 'edit') {
     editDone(true);
     return;
@@ -14327,6 +14970,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Mapy offline</b> – przycisk mapy → „Mapy offline” (na samej górze menu): pobierz podkład dla obszaru na ekranie, zanim wejdziesz do lasu bez zasięgu.</li>
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – linijka → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
+<li><b>W terenie</b> – linijka → „Zaplanuj trasę” (dystans, przewyższenie, czas) i „Idź na azymut”; panel nagrywania → „Do auta” i „Plan wyjścia”; ⋮ przy warstwie → „Alarm przy punktach” (wibracja, gdy podchodzisz do miejscówki) i „Pola danych”. Tryb ciemny: Ustawienia → Wygląd.</li>
 <li><b>Kosz</b> – usunięte punkty, warstwy, mapy i ślady czekają 30 dni w Ustawieniach (trybik) → Kosz.</li>
 </ol>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe, a wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”.</p>`;
@@ -14369,6 +15013,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Offline maps</b> – map button → “Offline maps” (at the very top of the menu): download the base map for the area on the screen before you go where there is no signal.</li>
 <li><b>Search</b> – 🔍 in the bottom-left corner: your points, tracks, coordinates, and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – ruler → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
+<li><b>In the field</b> – ruler → “Plan a route” (distance, climb, time) and “Walk on a bearing”; recording panel → “To the car” and “Trip plan”; ⋮ next to a layer → “Alarm near points” (vibrates as you approach a spot) and “Data fields”. Dark mode: Settings → Appearance.</li>
 <li><b>Trash</b> – deleted points, layers, maps and tracks wait for 30 days in Settings (gear) → Trash.</li>
 </ol>
 <p class="muted">Your data are yours only – the app sends them to no one. From the internet it downloads base maps, and the address search asks OpenStreetMap only after you press “Search the internet”.</p>`;
@@ -15573,8 +16218,11 @@ function warGame(opt) {
       {k: 'puch', n: _t('Purchawka'), e: '💥', r: 1.1, dmg: 38},
       {k: 'tri', n: _t('Potrójna'), e: '✳️', r: 0.75, dmg: 20},
       {k: 'kop', n: _t('Kopacz'), e: '⛏️', r: 0.6, dmg: 16},
-      {k: 'much', n: _t('Muchomor'), e: '🍄', r: 1.9, dmg: 58}
-    ];
+      {k: 'much', n: _t('Muchomor'), e: '🍄', r: 1.9, dmg: 58, lim: 1},
+      {k: 'grad', n: _t('Grad'), e: '🌨️', r: 0.6, dmg: 15, lim: 2} // w szczycie lotu rozpada się na 5
+    ],
+    GRADB = {k: 'gradb', n: '', e: '', r: 0.6, dmg: 15},
+    MOVE = 2.2; // ruch grzyba: ile kratek na turę
   const g = {id: 'wojna', opt, title: _t('💥 Wojna grzybów'), W, H, score: 0, over: false, shake: 0};
   const FX = gFx();
   const T = new Float32Array(N + 1);
@@ -15600,8 +16248,8 @@ function warGame(opt) {
     for (let i = c - 6; i <= c + 6; i++) if (i >= 0 && i <= N) T[i] = y;
   };
   const P = [
-    {x: 1.6 + Math.random() * 1.6, hp: 100, a: 50, pw: 62, hue: 330, much: 1, w: 0, rec: 0},
-    {x: W - 1.6 - Math.random() * 1.6, hp: 100, a: 130, pw: 62, hue: 200, much: 1, w: 0, rec: 0}
+    {x: 1.6 + Math.random() * 1.6, hp: 100, a: 50, pw: 62, hue: 330, ammo: {much: 1, grad: 2}, w: 0, rec: 0, mv: MOVE},
+    {x: W - 1.6 - Math.random() * 1.6, hp: 100, a: 130, pw: 62, hue: 200, ammo: {much: 1, grad: 2}, w: 0, rec: 0, mv: MOVE}
   ];
   P.forEach(p => {
     flat(p.x);
@@ -15619,7 +16267,7 @@ function warGame(opt) {
     aiT = 0,
     aiPlan = null,
     trail = [];
-  const newWind = () => (wind = Math.round((Math.random() * 2 - 1) * (1 + opt.ai * 0.3) * 10) / 10);
+  const newWind = () => (wind = opt.wind === false ? 0 : Math.round((Math.random() * 2 - 1) * (1 + opt.ai * 0.3) * 10) / 10);
   newWind();
   const human = () => !opt.ai || cur === 0;
   const name = i => (opt.ai ? (i ? _t('Komputer') : _t('Ty')) : _t('Gracz ') + (i + 1));
@@ -15655,9 +16303,9 @@ function warGame(opt) {
     if (st !== 'aim') return;
     const p = P[cur],
       w = WEAP[p.w];
-    if (w.k === 'much') {
-      if (!p.much) return say(_t('Muchomor już wykorzystany w tej rundzie'));
-      p.much--;
+    if (w.lim) {
+      if (!p.ammo[w.k]) return say(w.k === 'much' ? _t('Muchomor już wykorzystany w tej rundzie') : _t('Grad już wykorzystany'));
+      p.ammo[w.k]--;
     }
     shots = (w.k === 'tri' ? [-5, 0, 5] : [0]).map(d => Object.assign(launch(p, p.a + d, p.pw, cur), {w, tr: []}));
     trail = shots.map(sh => sh.tr); // ślady lotu zostają do następnego strzału
@@ -15745,6 +16393,7 @@ function warGame(opt) {
       return;
     }
     cur = 1 - cur;
+    P[cur].mv = MOVE;
     newWind();
     st = 'aim';
     if (human()) say(name(cur) + _t(' – Twój ruch'));
@@ -15771,6 +16420,21 @@ function warGame(opt) {
     hold = k;
     g.adj = 0;
     adjust(k, 1);
+  };
+  const moveStep = (dir, dt) => {
+    // ruch grzyba po terenie: ograniczony na turę, pod zbyt stromą górkę nie wjedzie, drugiego grzyba nie minie
+    const p = P[cur],
+      o = P[1 - cur],
+      dx = Math.min(p.mv, (dt / 1000) * 1.6) * dir;
+    if (!opt.move || p.mv <= 0.01 || !dx) return;
+    const nx = Math.max(0.5, Math.min(W - 0.5, p.x + dx)),
+      ny = top(nx);
+    if (Math.abs(nx - o.x) < 0.9 || (p.y - ny) / Math.abs(nx - p.x || 1) > 2.8) return;
+    p.mv = Math.max(0, p.mv - Math.abs(nx - p.x));
+    p.x = nx;
+    p.y = ny;
+    p.fy = ny;
+    if (Math.random() < 0.35) FX.burst(p.x - dir * 0.3, p.y, 1, {v: 0.8, up: 0.6, g: 3, c: ['#8d6e63', '#a1887f'], sq: true, life: 400, r: 0.05});
   };
   const adjust = (k, n) => {
     const p = P[cur];
@@ -15799,7 +16463,7 @@ function warGame(opt) {
   const updW = () => {
     const p = P[cur],
       w = WEAP[p.w];
-    if (wBtn) wBtn.textContent = w.e + ' ' + w.n + (w.k === 'much' ? ' ×' + p.much : '');
+    if (wBtn) wBtn.textContent = w.e + ' ' + w.n + (w.lim ? ' ×' + p.ammo[w.k] : '');
   };
   g.padInit = el => {
     wBtn = el.querySelector('.gk.w');
@@ -15816,7 +16480,8 @@ function warGame(opt) {
       if (p.hurt > 0) p.hurt -= dt;
     });
     if (st === 'aim') {
-      if (hold) {
+      if (hold === 'ML' || hold === 'MR') moveStep(hold === 'ML' ? -1 : 1, dt);
+      else if (hold) {
         g.adj += dt;
         if (g.adj > 180) adjust(hold, Math.max(1, Math.round(dt / 30)));
       }
@@ -15828,14 +16493,15 @@ function warGame(opt) {
         p.a += Math.sign(aiPlan.a - p.a) * Math.min(Math.abs(aiPlan.a - p.a), dt * 0.12);
         p.pw += Math.sign(aiPlan.pw - p.pw) * Math.min(Math.abs(aiPlan.pw - p.pw), dt * 0.08);
         if (Math.abs(aiPlan.a - p.a) < 0.5 && Math.abs(aiPlan.pw - p.pw) < 0.5) {
-          p.w = P[1].much && Math.random() < 0.25 ? 3 : Math.random() < 0.3 ? 1 : 0;
+          p.w = P[1].ammo.much && Math.random() < 0.25 ? 3 : P[1].ammo.grad && Math.random() < 0.2 ? 4 : Math.random() < 0.3 ? 1 : 0;
           fire();
         }
       }
       return;
     }
     if (st === 'fly') {
-      for (let k = 0; k < 4; k++)
+      for (let k = 0; k < 4; k++) {
+        const add = []; // pociski z rozpadu gradu – dochodzą po tym kroku
         shots = shots.filter(sh => {
           const r = fly(sh, s / 4);
           if (k === 3) {
@@ -15843,8 +16509,18 @@ function warGame(opt) {
             if (Math.random() < 0.7) FX.burst(sh.x, sh.y, 1, {v: 0.4, g: 0.5, c: sh.w.k === 'much' ? '#ff6e6e' : '#ffcc80', glow: true, life: 380, r: 0.09});
           }
           if (r === 'hit') blast(sh.x, Math.min(sh.y, H), sh.w);
+          if (!r && sh.w.k === 'grad' && sh.vy > 0) {
+            // grad: w szczycie lotu rozpada się na 5 mniejszych pocisków
+            sh.split = true;
+            for (let j = -2; j <= 2; j++) add.push({x: sh.x, y: sh.y, vx: sh.vx + j * 0.9, vy: sh.vy - Math.abs(j) * 0.3, age: 1, from: sh.from, w: GRADB, tr: sh.tr});
+            FX.burst(sh.x, sh.y, 16, {v: 3, g: 1, c: ['#e1f5fe', '#81d4fa'], glow: true, life: 400, r: 0.08});
+            gSfx('pop');
+            return false;
+          }
           return !r;
         });
+        shots.push(...add);
+      }
       if (!shots.length) st = 'boom';
       return;
     }
@@ -15881,7 +16557,7 @@ function warGame(opt) {
   g._P = P; // do testów
   g.hud = () => {
     const p = P[cur];
-    return name(cur) + ' · ' + Math.round(p.a) + '° · ' + Math.round(p.pw) + '%';
+    return name(cur) + ' · ' + Math.round(p.a) + '° · ' + Math.round(p.pw) + '%' + (opt.move ? ' · ⛽' + Math.round((p.mv / MOVE) * 100) + '%' : '');
   };
   g.label = g.hud;
   g.pad = [
@@ -15890,8 +16566,15 @@ function warGame(opt) {
     ['W', null, 'w', 0, _t('Zmień amunicję')],
     ['D', 'up', 'd', 0, _t('Słabiej')],
     ['U', 'up', 'u', 0, _t('Mocniej')],
+    ...(opt.move
+      ? [
+          ['ML', null, 'ml', 0, _t('◀ Jedź')],
+          ['MR', null, 'mr', 0, _t('Jedź ▶')]
+        ]
+      : []),
     ['F', null, 'f', 0, _t('Strzał!')]
   ];
+  g.padClass = opt.move ? 'mv' : '';
   g.draw = (c, t, s) => {
     const BW = W * s,
       BH = H * s;
@@ -16156,6 +16839,225 @@ function warGame(opt) {
   };
   return g;
 }
+function saperGame(opt) {
+  // „Grzybowy saper” (jak Saper z Windowsa): pod mchem schowane muchomory. Liczba mówi, ile muchomorów
+  // jest dookoła pola. Dotknięcie – odkryj, przytrzymanie (albo tryb flagi) – oznacz muchomora flagą.
+  // Pierwsze dotknięcie jest zawsze bezpieczne. Wynik: im szybciej i trudniej, tym więcej punktów.
+  const LV = [
+      {W: 9, H: 12, M: 14},
+      {W: 9, H: 14, M: 22},
+      {W: 10, H: 16, M: 34}
+    ][opt.lv || 0],
+    {W, H, M} = LV;
+  const g = {id: 'saper', opt, title: _t('🍄 Grzybowy saper'), W, H, score: 0, over: false, shake: 0};
+  const FX = gFx();
+  const C = Array.from({length: W * H}, () => ({m: 0, n: 0, open: 0, flag: 0, t: 0}));
+  let started = false,
+    time = 0,
+    flags = 0,
+    opened = 0,
+    flagMode = false,
+    boom = null,
+    flagBtn = null;
+  const at = (x, y) => (x >= 0 && y >= 0 && x < W && y < H ? C[y * W + x] : null),
+    near = (x, y) => {
+      const out = [];
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && at(x + dx, y + dy)) out.push([x + dx, y + dy]);
+      return out;
+    };
+  const lay = (sx, sy) => {
+    // muchomory rozkładane po pierwszym dotknięciu – nigdy pod nim ani obok
+    const free = [];
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (Math.abs(x - sx) > 1 || Math.abs(y - sy) > 1) free.push([x, y]);
+    for (let k = 0; k < M && free.length; k++) {
+      const [x, y] = free.splice(rnd(free.length), 1)[0];
+      at(x, y).m = 1;
+    }
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) at(x, y).n = near(x, y).filter(([a, b]) => at(a, b).m).length;
+    started = true;
+  };
+  const open = (x, y) => {
+    // odkrywanie: puste pola odsłaniają sąsiadów falą (z opóźnieniem do animacji)
+    const q = [[x, y, 0]];
+    let n = 0;
+    while (q.length) {
+      const [a, b, d] = q.shift(),
+        c = at(a, b);
+      if (!c || c.open || c.flag) continue;
+      c.open = 1;
+      c.t = -d * 25; // fala odsłaniania
+      opened++;
+      n++;
+      if (!c.m && !c.n) near(a, b).forEach(([u, v]) => !at(u, v).open && q.push([u, v, d + 1]));
+    }
+    return n;
+  };
+  const lose = (x, y) => {
+    boom = [x, y];
+    g.over = true;
+    g.endTitle = _t('💥 Muchomor! Koniec grzybobrania');
+    g.score = 0;
+    C.forEach(c => c.m && (c.open = 1));
+    g.shake = 14;
+    FX.burst(x + 0.5, y + 0.5, 40, {v: 6, g: 4, c: ['#ff4a3d', '#fff', '#ffd54f'], glow: true, life: 900, r: 0.12});
+    gSfx('boom');
+    gBuzz([80, 40, 120]);
+  };
+  const checkWin = () => {
+    if (opened < W * H - M) return;
+    g.over = true;
+    C.forEach(c => c.m && (c.flag = 1));
+    const sec = Math.max(1, time / 1000);
+    g.score = Math.max(1, Math.round(M * 60 * (1 + (opt.lv || 0) * 0.5) - sec * 4));
+    g.endTitle = _t('🏆 Wszystkie muchomory znalezione! Czas: ') + Math.round(sec) + ' s';
+    FX.burst(W / 2, H / 2, 70, {v: 7, up: 3, g: 5, c: ['#69f0ae', '#ffd740', '#40c4ff', '#ff4081'], sq: true, life: 1600, r: 0.1});
+    gSfx('win');
+  };
+  const reveal = (x, y) => {
+    const c = at(x, y);
+    if (!c || g.over) return;
+    if (!started) lay(x, y);
+    if (c.open && c.n) {
+      // „akord”: przy odkrytej liczbie z kompletem flag – odkrywa resztę sąsiadów
+      const nb = near(x, y);
+      if (nb.filter(([a, b]) => at(a, b).flag).length === c.n)
+        for (const [a, b] of nb) {
+          const d = at(a, b);
+          if (!d.open && !d.flag) {
+            if (d.m) return lose(a, b);
+            open(a, b);
+          }
+        }
+      checkWin();
+      return;
+    }
+    if (c.open || c.flag) return;
+    if (c.m) return lose(x, y);
+    const n = open(x, y);
+    gSfx(n > 6 ? 'gold' : 'click');
+    if (n > 6) FX.burst(x + 0.5, y + 0.5, 14, {v: 3, g: -0.5, c: ['#c5e1a5', '#fff59d'], glow: true, life: 700, r: 0.07});
+    checkWin();
+  };
+  const flag = (x, y) => {
+    const c = at(x, y);
+    if (!c || c.open || g.over) return;
+    c.flag = c.flag ? 0 : 1;
+    flags += c.flag ? 1 : -1;
+    gSfx('click');
+    gBuzz(25);
+  };
+  g.tap = (x, y) => {
+    const cx = Math.floor(x),
+      cy = Math.floor(y);
+    if (flagMode) flag(cx, cy);
+    else reveal(cx, cy);
+  };
+  g.press = (x, y) => flag(Math.floor(x), Math.floor(y));
+  g.key = () => {};
+  g.holdKey = (k, on) => {
+    if (!on || k !== 'F') return;
+    flagMode = !flagMode;
+    if (flagBtn) {
+      flagBtn.classList.toggle('on', flagMode);
+      flagBtn.textContent = flagMode ? _t('🚩 Tryb flag: włączony') : _t('🚩 Tryb flag');
+    }
+  };
+  g.padInit = el => {
+    flagBtn = el.querySelector('.gk.f');
+    if (flagBtn) flagBtn.textContent = _t('🚩 Tryb flag');
+  };
+  g.pad = [['F', null, 'f', 0, _t('🚩 Tryb flag')]];
+  g.step = dt => {
+    if (started && !g.over) time += dt;
+    C.forEach(c => c.open && c.t < 400 && (c.t += dt));
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+  };
+  g.idle = dt => {
+    C.forEach(c => c.open && c.t < 400 && (c.t += dt));
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+  };
+  g.hud = () => '🍄 ' + Math.max(0, M - flags) + ' · ⏱ ' + Math.floor(time / 1000) + ' s';
+  g.label = g.hud;
+  const NUMC = ['', '#1e88e5', '#43a047', '#e53935', '#5e35b1', '#8d6e63', '#00897b', '#212121', '#757575'];
+  g.draw = (c, t, s) => {
+    const BW = W * s,
+      BH = H * s;
+    gameBg(c, BW, BH, t, 1, {noForest: true});
+    for (let y = 0; y < H; y++)
+      for (let x = 0; x < W; x++) {
+        const k = at(x, y),
+          px = x * s,
+          py = y * s,
+          a = k.open ? Math.max(0, Math.min(1, k.t / 160)) : 0;
+        // mech (zakryte)
+        if (a < 1) {
+          const gr = c.createLinearGradient(px, py, px + s, py + s);
+          gr.addColorStop(0, '#5aa04a');
+          gr.addColorStop(1, '#2f6b2a');
+          c.globalAlpha = 1 - a;
+          c.fillStyle = gr;
+          c.beginPath();
+          c.roundRect ? c.roundRect(px + 1, py + 1, s - 2, s - 2, s * 0.18) : c.rect(px + 1, py + 1, s - 2, s - 2);
+          c.fill();
+          c.fillStyle = 'rgba(255,255,255,0.12)';
+          c.fillRect(px + s * 0.18, py + s * 0.14, s * 0.5, s * 0.08);
+          c.fillStyle = 'rgba(20,60,15,0.35)';
+          for (let i = 0; i < 3; i++) c.fillRect(px + ((x * 7 + i * 11) % 9) * s * 0.09 + s * 0.12, py + ((y * 5 + i * 13) % 9) * s * 0.09 + s * 0.12, 2, 2);
+          c.globalAlpha = 1;
+        }
+        // odkryte: ściółka
+        if (a > 0) {
+          c.globalAlpha = a;
+          c.fillStyle = (x + y) % 2 ? '#d9c7a1' : '#cfbb93';
+          c.fillRect(px, py, s, s);
+          c.strokeStyle = 'rgba(90,60,30,0.18)';
+          c.strokeRect(px + 0.5, py + 0.5, s - 1, s - 1);
+          if (k.m) {
+            if (boom && boom[0] === x && boom[1] === y) {
+              c.fillStyle = 'rgba(255,60,40,0.7)';
+              c.fillRect(px, py, s, s);
+            }
+            shroomDraw(c, px + s / 2, py + s * 0.52, s * 0.34, 'much', t, {noShadow: true});
+          } else if (k.n) {
+            c.fillStyle = NUMC[k.n];
+            c.font = '800 ' + Math.round(s * 0.62) + 'px system-ui, sans-serif';
+            c.textAlign = 'center';
+            c.textBaseline = 'middle';
+            c.fillText(String(k.n), px + s / 2, py + s * 0.55);
+          }
+          c.globalAlpha = 1;
+        }
+        if (k.flag) {
+          // flaga
+          c.strokeStyle = '#4e342e';
+          c.lineWidth = Math.max(1.5, s * 0.06);
+          c.beginPath();
+          c.moveTo(px + s * 0.38, py + s * 0.82);
+          c.lineTo(px + s * 0.38, py + s * 0.2);
+          c.stroke();
+          c.fillStyle = '#e53935';
+          c.beginPath();
+          c.moveTo(px + s * 0.4, py + s * 0.2);
+          c.lineTo(px + s * 0.78, py + s * 0.34);
+          c.lineTo(px + s * 0.4, py + s * 0.48);
+          c.fill();
+          if (g.over && !k.m) {
+            // zła flaga po przegranej
+            c.strokeStyle = '#000';
+            c.beginPath();
+            c.moveTo(px + s * 0.2, py + s * 0.2);
+            c.lineTo(px + s * 0.8, py + s * 0.8);
+            c.stroke();
+          }
+        }
+      }
+    FX.draw(c, s);
+    gVignette(c, BW, BH);
+  };
+  return g;
+}
 function gameOpen() {
   if (GAME) return;
   const root = h('div', 'game'),
@@ -16221,6 +17123,7 @@ function gameOpen() {
   const GAMES = {
     snake: {t: _t('🐍 Grzybowy wąż'), d: _t('Zbieraj grzyby, nie gryź własnego ogona i omijaj pieńki. Czasem grzyb dostaje nóżek i ucieka – złapany w biegu daje potrójne punkty.')},
     grzyby: {t: _t('🧺 Grzybobranie'), d: _t('Łap jadalne grzyby, omijaj muchomory. Złoty borowik to 100 punktów. Bonusy: tarcza, karabiny przy koszyku, laser, magnes i szerszy koszyk.')},
+    saper: {t: _t('🍄 Grzybowy saper'), d: _t('Klasyk z Windowsa: pod mchem schowane są muchomory. Liczba mówi, ile ich jest dookoła pola. Dotknij – odkryj, przytrzymaj – postaw flagę. Pierwsze dotknięcie jest zawsze bezpieczne.')},
     wojna: {t: _t('💥 Wojna grzybów'), d: _t('Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą.')}
   };
   const fdt = d => new Date(d).toLocaleDateString(LOC, {day: 'numeric', month: 'numeric', year: '2-digit'});
@@ -16251,19 +17154,48 @@ function gameOpen() {
       b.append(h('b', null, GAMES[id].t), h('span', null, _t('Rekord: ') + gBest(id)));
       return b;
     };
-    showOv(h('div', 'gh', _t('Zjadłeś magicznego grzybka…')), h('div', 'gp', _t('Świat lekko faluje. W co odpływasz?')), card('snake'), card('grzyby'), card('wojna'), h('div', 'gp gsm', _t('Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy. Dźwięk włączysz głośniczkiem u góry.')));
+    showOv(h('div', 'gh', _t('Zjadłeś magicznego grzybka…')), h('div', 'gp', _t('Świat lekko faluje. W co odpływasz?')), card('snake'), card('grzyby'), card('wojna'), card('saper'), h('div', 'gp gsm', _t('Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy. Dźwięk włączysz głośniczkiem u góry.')));
+  };
+  const warOpt = () => ({wind: localStorage.getItem('omm-gra-wiatr') !== 'nie', move: localStorage.getItem('omm-gra-ruch') !== 'nie'});
+  const warOpts = () => {
+    // przełączniki Wojny grzybów: wiatr i przemieszczanie się grzybów
+    const d = h('div', 'gopts'),
+      mk = (key, on, off) => {
+        const b = B('', () => {
+          localStorage.setItem(key, localStorage.getItem(key) === 'nie' ? 'tak' : 'nie');
+          upd();
+          gSfx('click');
+        }, 'gopt');
+        const upd = () => {
+          const v = localStorage.getItem(key) !== 'nie';
+          b.textContent = v ? on : off;
+          b.classList.toggle('on', v);
+        };
+        upd();
+        return b;
+      };
+    d.append(mk('omm-gra-wiatr', _t('💨 Wiatr: włączony'), _t('💨 Wiatr: wyłączony')), mk('omm-gra-ruch', _t('🚶 Ruch grzybów: włączony'), _t('🚶 Ruch grzybów: wyłączony')));
+    return d;
   };
   const intro = id => {
     // ekran tytułowy gry: opis, tabela wyników i start
-    const btns =
+    const opts = id === 'wojna' ? warOpts() : null,
+      btns =
       id === 'wojna'
         ? [
-            B(_t('🤖 Komputer – łatwy'), () => start('wojna', {ai: 1}), 'gbig'),
-            B(_t('🤖 Komputer – średni'), () => start('wojna', {ai: 2}), 'gbig'),
-            B(_t('🤖 Komputer – trudny'), () => start('wojna', {ai: 3}), 'gbig'),
-            B(_t('👥 Dwóch graczy na jednym telefonie'), () => start('wojna', {ai: 0}), 'gbig')
+            opts,
+            B(_t('🤖 Komputer – łatwy'), () => start('wojna', {ai: 1, ...warOpt()}), 'gbig'),
+            B(_t('🤖 Komputer – średni'), () => start('wojna', {ai: 2, ...warOpt()}), 'gbig'),
+            B(_t('🤖 Komputer – trudny'), () => start('wojna', {ai: 3, ...warOpt()}), 'gbig'),
+            B(_t('👥 Dwóch graczy na jednym telefonie'), () => start('wojna', {ai: 0, ...warOpt()}), 'gbig')
           ]
-        : [BI('play', _t('Graj'), () => start(id), 'gbig')];
+        : id === 'saper'
+          ? [
+              B(_t('🌱 Łatwy – 9 × 12, 14 muchomorów'), () => start('saper', {lv: 0}), 'gbig'),
+              B(_t('🌿 Średni – 9 × 14, 22 muchomory'), () => start('saper', {lv: 1}), 'gbig'),
+              B(_t('🌲 Trudny – 10 × 16, 34 muchomory'), () => start('saper', {lv: 2}), 'gbig')
+            ]
+          : [BI('play', _t('Graj'), () => start(id), 'gbig')];
     showOv(h('div', 'gh', GAMES[id].t), h('div', 'gp', GAMES[id].d), topTable(id, -1), ...btns, B(_t('Wstecz'), menu, 'gbig2'));
   };
   const live = () => g && !paused && !g.over;
@@ -16280,7 +17212,7 @@ function gameOpen() {
     return b;
   };
   const start = (id, opt) => {
-    g = id === 'snake' ? snakeGame() : id === 'grzyby' ? catchGame() : warGame(opt || {ai: 2});
+    g = id === 'snake' ? snakeGame() : id === 'grzyby' ? catchGame() : id === 'saper' ? saperGame(opt || {lv: 0}) : warGame(opt || {ai: 2});
     ttl.textContent = g.title.split(' ')[0]; // w grze sama ikonka – miejsce na wynik
     ttl.title = g.title;
     paused = false;
@@ -16289,7 +17221,7 @@ function gameOpen() {
     cv.style.display = '';
     showOv();
     pad.innerHTML = '';
-    pad.className = 'gpad ' + id;
+    pad.className = 'gpad ' + id + (g.padClass ? ' ' + g.padClass : '');
     g.pad.forEach(([k, ic, cls, , t]) => pad.append(holdBtn(k, ic, cls, t)));
     if (g.padInit) g.padInit(pad);
     fit();
@@ -16362,25 +17294,44 @@ function gameOpen() {
     sOn = false;
   const cellX = e => (e.clientX - cv.getBoundingClientRect().left) / cell,
     cellY = e => (e.clientY - cv.getBoundingClientRect().top) / cell;
+  let prT = null,
+    prDone = false,
+    prMoved = false;
   cv.addEventListener('pointerdown', e => {
     sx = e.clientX;
     sy = e.clientY;
     sOn = true;
+    prDone = prMoved = false;
+    clearTimeout(prT);
+    if (live() && g.press) {
+      // przytrzymanie (saper: flaga)
+      const x = cellX(e),
+        y = cellY(e);
+      prT = setTimeout(() => {
+        if (!sOn || prMoved || !live()) return;
+        prDone = true;
+        g.press(x, y);
+      }, 420);
+    }
     if (live() && g.drag) g.drag(cellX(e));
     if (live() && g.aim) g.aim(cellX(e), cellY(e), 'down');
   });
   cv.addEventListener('pointermove', e => {
     if (!sOn || !live()) return;
+    if (Math.hypot(e.clientX - sx, e.clientY - sy) > 12) prMoved = true;
     if (g.drag) g.drag(cellX(e));
     if (g.aim) g.aim(cellX(e), cellY(e), 'move');
   });
   cv.addEventListener('pointerup', e => {
     if (!sOn) return;
     sOn = false;
+    clearTimeout(prT);
+    if (live() && g.tap && !prDone && !prMoved) g.tap(cellX(e), cellY(e));
     if (live() && g.aim) g.aim(cellX(e), cellY(e), 'up');
     if (live() && g.swipe) g.swipe(e.clientX - sx, e.clientY - sy, cell);
   });
   cv.addEventListener('pointercancel', () => (sOn = false));
+  cv.addEventListener('contextmenu', e => e.preventDefault()); // przytrzymanie palcem to flaga, nie menu
   const close = () => {
     cancelAnimationFrame(raf);
     document.removeEventListener('keydown', onKey);
@@ -16583,6 +17534,7 @@ $('gps').onclick = async () => {
     pos => {
       const ll = [pos.coords.latitude, pos.coords.longitude];
       preBufAdd(pos);
+      if (FLD_READY && !REC) alarmCheck(ll); // alarm przy miejscówkach (podczas nagrywania sprawdza go nagrywanie)
       if (!mode) info.style.display = 'none';
       if (pos.coords.heading != null && isFinite(pos.coords.heading) && (pos.coords.speed || 0) > 0.7)
         meGpsHead = pos.coords.heading; // kierunek ruchu z GPS – gdy telefon nie ma kompasu
@@ -19320,7 +20272,8 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
     return recUi();
   }
-  const newSeg = REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length;
+  // po ręcznej pauzie (REC.rs) albo na starym odcinku: filtr zaczyna od nowa
+  const newSeg = !!REC.rs || (REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length);
   if (newSeg || !REC.pts.length) (recKF.on = 0), (recAnc = null); // po pauzie filtr zaczyna od nowa
   const hasV = x.speed != null && isFinite(x.speed);
   if (hasV && x.speed > 1) REC.vOk = 1; // telefon podaje prawdziwą prędkość z GPS (nie same zera)
@@ -19372,7 +20325,10 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     // bez GPS) to jazda, nie postój.
     if (recAutoOn() && dt > REC_AP && (d < 40 || (wasAnc && d / dt < 0.5))) (REC.pa = REC.pa || []).push([last[3], q[3]]);
   }
+  if (REC.rs && last) (REC.pa = REC.pa || []).push([last[3], q[3]]); // ręczna pauza: linia ciągła, czas pauzy = pauza
+  delete REC.rs;
   REC.pts.push(q);
+  fieldHook(q, x);
   // „szpilka”: punkt B odskoczył i wrócił (A → B → C → D). Usuwamy B tylko, gdy po powrocie ślad
   // znów idzie w pierwotnym kierunku (zawrócenie przy B i ponownie przy C). Prawdziwe zawrócenie
   // – np. rowerem w drugą stronę – zostaje, bo po nim ślad dalej biegnie z powrotem.
@@ -19524,7 +20480,7 @@ function recPause(on) {
   } else {
     REC.pz += Date.now() - (REC.pAt || Date.now());
     delete REC.pAt;
-    if (REC.pts.length) REC.sg.push(REC.pts.length); // po pauzie zaczyna się nowy odcinek
+    if (REC.pts.length) REC.rs = 1; // po pauzie linia biegnie dalej (bez przerwy), czas pauzy zapisze się jako pauza
     recWatchOn();
   }
   recPersist(true);
@@ -19855,7 +20811,7 @@ function recUi() {
   }
   const now = Date.now(),
     ap = recAutoOn() && recIdle() > REC_AP, // trwa auto-pauza (postój)
-    el = now - REC.st - (REC.pz || 0) - (REC.paused ? now - (REC.pAt || now) : 0), // czas całkowity (bez ręcznej pauzy)
+    el = now - REC.st, // czas całkowity – biegnie także w czasie pauzy (ręcznej i auto)
     s = trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}),
     p = REC.pts,
     n = p.length;
@@ -21753,11 +22709,15 @@ function navDraw() {
     return;
   }
   NAV.arrived = false;
+  const eta = navAlerts(off, d),
+    dev = NAV.az != null && hd != null ? Math.round(((NAV.az - hd + 540) % 360) - 180) : null;
   NAV.txt.textContent =
     NAV.name +
     ' · ' +
     fkm(d) +
     (NAV.path ? _t(' po śladzie') : '') +
+    eta +
+    (dev != null ? _t(' · odchyłka ') + (dev > 0 ? '+' : '') + dev + '°' : '') +
     ' · ' +
     Math.round(b) +
     '° ' +
@@ -21822,10 +22782,10 @@ function getMyPos() {
 }
 const fdms = (v, p, n) => {
   // 51°46'12.3"N
-  const a = Math.abs(v),
-    d = Math.floor(a),
-    m = Math.floor((a - d) * 60),
-    s = ((a - d) * 60 - m) * 60;
+  const t = Math.round(Math.abs(v) * 36000), // dziesiąte części sekundy – bez „60.0"” przy zaokrągleniu
+    d = Math.floor(t / 36000),
+    m = Math.floor((t % 36000) / 600),
+    s = (t % 600) / 10;
   return d + '°' + String(m).padStart(2, '0') + "'" + s.toFixed(1).padStart(4, '0') + '"' + (v >= 0 ? p : n);
 };
 function coordShareText(c, title) {
@@ -21914,6 +22874,8 @@ function coordPopup(c, title, isMe) {
     h('div', 'cll', c[0].toFixed(6) + ', ' + c[1].toFixed(6)),
     h('div', 'tsub', fdms(c[0], 'N', 'S') + ' ' + fdms(c[1], 'E', 'W')),
     h('div', 'tsub', 'PL-1992: N ' + N.toFixed(1) + ' E ' + E.toFixed(1)),
+    h('div', 'tsub', 'UTM: ' + utmStr(c[0], c[1])),
+    h('div', 'tsub', 'MGRS: ' + mgrsStr(c[0], c[1])),
     dist,
     h('div', 'tsub', sunLine(c[0], c[1]))
   );
@@ -21924,7 +22886,13 @@ function coordPopup(c, title, isMe) {
     BI('share', _t('Udostępnij'), () => shareTextOut(txt, title || _t('Współrzędne'))),
     BI('note', 'SMS', () => (location.href = 'sms:?body=' + encodeURIComponent(txt))),
     ...(isMe
-      ? [BI('phone', '112', () => (location.href = 'tel:112'), 'danger')]
+      ? [
+          BI('car', _t('Tu stoi auto'), () => {
+            carSet(c);
+            map.closePopup();
+          }),
+          BI('phone', '112', () => (location.href = 'tel:112'), 'danger')
+        ]
       : [
           BI('nav', _t('Prowadź'), () => navStart(c, title || _t('punkt'))),
           BI('pin', _t('Zapisz punkt'), () => {
@@ -23429,6 +24397,9 @@ trashLoad();
 // ---------- wyszukiwarka: obiekty map, ślady, współrzędne, adresy (internet) ----------
 function parseCoords(s) {
   // „51.77, 19.46”, „51,77 19,46”, „N 51°46'12" E 19°27'36"”, „51°46.2'N 19°27.6'E”
+  // oraz (v58) MGRS „34U CB 12345 67890”, UTM „34U 412345 5734567”, PL-1992 „N 470123 E 520456”
+  const gr = parseGrid(s);
+  if (gr) return gr;
   s = String(s).trim().replace(/[′’]/g, "'").replace(/[″”]/g, '"');
   // ułamki dziesiętne z przecinkiem: „51,77 19,46” (sprawdzamy najpierw – przecinek nie jest tu separatorem)
   const dc = s.match(/^(-?\d{1,2},\d+)[\s;]+(-?\d{1,3},\d+)$/);
@@ -24356,6 +25327,1148 @@ async function lockOff() {
   return true;
 }
 
+// ---------- v58: funkcje terenowe ----------
+/*
+ * Auto (P2), kompas na azymut (P9), alarm przy miejscówkach (P1), prowadzenie po śladzie – ostrzeżenia (P3),
+ * plan wyjścia (P10), układy współrzędnych UTM / MGRS / PL-1992 (P11), grupowanie punktów i mapa ciepła (P16),
+ * mapy ze zdjęcia (P8), własne pola warstwy (P12), planowanie trasy (P13), siedliska i drzewostany BDL (P7).
+ * Stan modułu w `var` – część funkcji (render, recPoint) może zostać wywołana, zanim ten kod się wykona.
+ */
+var FLD_READY = false;
+function formDlg(title, content, btns) {
+  // okno z dowolną treścią (pola formularza) i przyciskami; wynik = v przycisku (null – zamknięte obok)
+  return new Promise(res => {
+    const back = h('div', 'dback'),
+      box = h('div', 'dbox'),
+      bt = h('div', 'db');
+    box.append(h('div', 'dt', title));
+    if (content) box.append(content);
+    const fin = v => {
+      back.remove();
+      res(v);
+    };
+    (btns || [{t: 'OK', v: true, c: 'okb'}]).forEach(b => bt.append(B(b.t, () => fin(b.v), b.c || '')));
+    box.append(bt);
+    back.append(box);
+    document.body.append(back);
+    back.addEventListener('click', e => e.target === back && fin(null));
+  });
+}
+const vibe = p => {
+  try {
+    if (navigator.vibrate) navigator.vibrate(p);
+  } catch (e) {}
+};
+function notifyNow(id, title, body) {
+  // powiadomienie systemowe (działa też przy wygaszonym ekranie, gdy trwa nagrywanie)
+  const LN = plug('LocalNotifications');
+  if (LN) LN.schedule({notifications: [{id, title, body, isExactNotification: false}]}).catch(() => {});
+}
+const feta = sec => {
+  // czas dojścia: „25 min”, „1 h 05 min”
+  sec = Math.max(0, Math.round(sec));
+  if (sec < 3600) return Math.max(1, Math.round(sec / 60)) + ' min';
+  return Math.floor(sec / 3600) + ' h ' + String(Math.round((sec % 3600) / 60)).padStart(2, '0') + ' min';
+};
+function myPace() {
+  // Twoje tempo marszu (m/s) z ostatnich pieszych śladów; bez nich ~4,5 km/h
+  const v = TRK.items
+    .filter(t => t.a === 'pieszo' && !t.noTime)
+    .slice(-20)
+    .map(t => trkStatsC(t).vmov)
+    .filter(x => x > 0.5 && x < 2.5);
+  return v.length ? v.reduce((a, b) => a + b, 0) / v.length : 1.25;
+}
+function destPt(p, brgd, d) {
+  // punkt w odległości d (m) od p na azymucie brgd (°)
+  const R = 6371008.8,
+    r = Math.PI / 180,
+    f1 = p[0] * r,
+    l1 = p[1] * r,
+    b = brgd * r,
+    dd = d / R,
+    f2 = Math.asin(Math.sin(f1) * Math.cos(dd) + Math.cos(f1) * Math.sin(dd) * Math.cos(b)),
+    l2 = l1 + Math.atan2(Math.sin(b) * Math.sin(dd) * Math.cos(f1), Math.cos(dd) - Math.sin(f1) * Math.sin(f2));
+  return [f2 / r, ((((l2 / r + 540) % 360) + 360) % 360) - 180];
+}
+
+// --- P2: gdzie auto ---
+var CAR = null,
+  carMk = null,
+  CARD = {drv: 0, stopAt: null, stopT: 0};
+function carLoad() {
+  try {
+    const c = JSON.parse(localStorage.getItem('omm-auto') || 'null');
+    CAR = c && Array.isArray(c.p) && okLL(c.p) && isFinite(c.t) ? {p: [+c.p[0], +c.p[1]], t: +c.t} : null;
+  } catch (e) {
+    CAR = null;
+  }
+}
+function carSet(p, auto) {
+  CAR = p ? {p: [+(+p[0]).toFixed(6), +(+p[1]).toFixed(6)], t: Date.now()} : null;
+  try {
+    if (CAR) localStorage.setItem('omm-auto', JSON.stringify(CAR));
+    else localStorage.removeItem('omm-auto');
+  } catch (e) {}
+  carDraw();
+  if (!CAR) return;
+  if (auto) {
+    vibe(80);
+    notifyNow(4201, 'OMM', _t('🚗 Zapamiętano miejsce auta. Wrócisz do niego przyciskiem „Do auta” w panelu nagrywania.'));
+  }
+  toastMsg(_t('🚗 Zapamiętano miejsce auta'));
+}
+function carDraw() {
+  if (carMk) {
+    carMk.remove();
+    carMk = null;
+  }
+  if (!CAR) return;
+  carMk = L.marker(CAR.p, {
+    icon: L.divIcon({className: 'carmk', html: ico('car', 20), iconSize: [34, 34], iconAnchor: [17, 17]}),
+    zIndexOffset: 900,
+    title: _t('Auto')
+  }).addTo(map);
+  carMk.on('click', e => {
+    L.DomEvent.stop(e);
+    carPopup();
+  });
+}
+function carPopup() {
+  if (!CAR) return;
+  const el = h('div', 'tpop'),
+    bt = h('div', 'tbt'),
+    m = myPosNow();
+  el.append(
+    h('b', null, _t('🚗 Auto')),
+    h('div', 'tsub', _t('Zapisane: ') + fday(CAR.t) + ', ' + fhm(CAR.t)),
+    ...(m ? [h('div', 'tsub', _t('↗ Od Ciebie: ') + fkm(hav(m, CAR.p)) + _t(' · azymut ') + Math.round(brgDeg(m, CAR.p)) + '°')] : [])
+  );
+  bt.append(
+    BI('nav', _t('Prowadź do auta'), carGo),
+    BI('del', _t('Usuń'), () => {
+      carSet(null);
+      map.closePopup();
+    }, 'danger')
+  );
+  el.append(bt);
+  L.popup({autoPanPaddingTopLeft: [10, 60]}).setLatLng(CAR.p).setContent(el).openOn(map);
+}
+function carGo() {
+  if (!CAR) return tell(_t('Nie ma zapisanego miejsca auta. OMM zapamiętuje je sam, gdy podczas nagrywania przejdziesz z jazdy w marsz; możesz też w okienku „📡 Moja pozycja” wybrać „Tu stoi auto”.'));
+  map.closePopup();
+  navStart(CAR.p, _t('Auto'));
+}
+function carDetect(q, x) {
+  // jazda (>29 km/h), potem postój i marsz ponad 35 m od miejsca zatrzymania → tam stoi auto
+  if (localStorage.getItem('omm-auto-wykr') === 'nie') return;
+  const n = REC.pts.length;
+  let v = x && x.speed != null && isFinite(x.speed) && x.speed >= 0 ? x.speed : null;
+  if (v == null && n > 1) {
+    const a = REC.pts[n - 2],
+      dt = q[3] - a[3];
+    if (dt > 0) v = hav(a, q) / dt;
+  }
+  if (v == null) return;
+  if (v > 8) {
+    CARD.drv = q[3];
+    CARD.stopAt = null;
+    return;
+  }
+  if (!CARD.drv || q[3] - CARD.drv > 1800) return;
+  if (!CARD.stopAt && v < 3) {
+    const a = n > 1 ? REC.pts[n - 2] : q; // ostatni punkt jazdy – tam auto stanęło
+    CARD.stopAt = [a[0], a[1]];
+    CARD.stopT = q[3];
+  }
+  if (CARD.stopAt && v < 3 && hav(CARD.stopAt, q) > 35 && q[3] - CARD.stopT > 20) {
+    if (!CAR || hav(CAR.p, CARD.stopAt) > 30 || Date.now() - CAR.t > 6 * 3600e3) carSet(CARD.stopAt, true);
+    CARD.drv = 0;
+    CARD.stopAt = null;
+  }
+}
+
+// --- P9: kompas na azymut ---
+async function azGoDlg() {
+  const body = h('div', 'ffrm'),
+    a = h('input'),
+    d = h('input');
+  a.type = 'number';
+  a.inputMode = 'numeric';
+  a.min = 0;
+  a.max = 359;
+  a.value = localStorage.getItem('omm-azgo') || '';
+  a.placeholder = _t('np. 235');
+  d.type = 'number';
+  d.inputMode = 'numeric';
+  d.min = 10;
+  d.placeholder = _t('pusto = 2 km');
+  body.append(
+    h('label', null, _t('Azymut (stopnie od północy)')),
+    a,
+    h('label', null, _t('Odległość w metrach (jeśli znasz)')),
+    d,
+    h('div', 'muted', _t('OMM wyznaczy punkt na tym azymucie od miejsca, w którym stoisz, i poprowadzi strzałką. Możesz omijać przeszkody – strzałka sama poprawi kierunek. Na pasku widać też odchyłkę telefonu od kursu.'))
+  );
+  const v = await formDlg(_t('🧭 Idź na azymut'), body, [
+    {t: _t('Anuluj'), v: null},
+    {t: _t('Idź'), v: 'go', c: 'okb'}
+  ]);
+  if (v !== 'go') return;
+  const az = +String(a.value).replace(',', '.');
+  if (a.value === '' || !isFinite(az)) return tell(_t('Podaj azymut w stopniach (0–359).'));
+  const azn = ((az % 360) + 360) % 360;
+  localStorage.setItem('omm-azgo', String(azn));
+  info.style.display = 'block';
+  info.textContent = _t('Ustalam pozycję GPS…');
+  const p = await getMyPos();
+  if (!mode) info.style.display = 'none';
+  if (!p) return tell(_t('Nie udało się ustalić pozycji GPS.'));
+  const dist = +d.value > 0 ? Math.min(100000, +d.value) : 2000;
+  navStart(destPt(p, azn, dist), _t('Azymut ') + Math.round(azn) + '°');
+  if (NAV) NAV.az = azn;
+}
+
+// --- P1: alarm przy miejscówkach ---
+var ALR = {last: Object.create(null), t: 0};
+const alarmR = () => +(localStorage.getItem('omm-alarm-r') || 50);
+function alarmCheck(ll) {
+  if (!P || !Array.isArray(P.items) || Date.now() - ALR.t < 3000) return;
+  ALR.t = Date.now();
+  const lay = new Set();
+  allL().forEach(({g, l}) => l.alarm && g.vis && l.vis && lay.add(l.id));
+  if (!lay.size) return;
+  const R = alarmR();
+  let best = null,
+    bd = Infinity;
+  P.items.forEach(it => {
+    if (!lay.has(it.l) || !isPt(it)) return;
+    const d = hav(ll, it.p[0]),
+      st = ALR.last[it.id];
+    if (st && d > R * 2) st.away = true; // odszedłeś – przy następnym podejściu alarm znów zadziała
+    if (d <= R && (!st || st.away) && d < bd) {
+      bd = d;
+      best = it;
+    }
+  });
+  if (!best) return;
+  ALR.last[best.id] = {away: false};
+  const f = findL(best.l),
+    nm = nameOf(best) || _t('Punkt');
+  vibe([400, 200, 400]);
+  notifyNow(4300 + (Object.keys(ALR.last).length % 50), '🔔 ' + nm, fkm(bd) + _t(' stąd') + (f ? ' · ' + f.l.name : ''));
+  toastMsg('🔔 ' + nm + ' – ' + fkm(bd));
+}
+
+// --- P3: prowadzenie po śladzie – ostrzeżenie o zejściu, czas dojścia ---
+function navAlerts(off, d) {
+  if (!NAV) return '';
+  if (NAV.pace == null) NAV.pace = myPace();
+  if (NAV.path) {
+    if (off > 50 && !NAV.offAl) {
+      NAV.offAl = true;
+      vibe([300, 150, 300, 150, 300]);
+      notifyNow(4202, 'OMM', _t('⚠ Zszedłeś ze śladu – ') + fkm(off));
+    } else if (off < 25) NAV.offAl = false;
+  }
+  return d > 30 ? _t(' · ~') + feta(d / NAV.pace) : '';
+}
+
+// --- P10: plan wyjścia ---
+const planGet = () => {
+  try {
+    const p = JSON.parse(localStorage.getItem('omm-plan') || 'null');
+    return p && isFinite(p.at) ? p : null;
+  } catch (e) {
+    return null;
+  }
+};
+const hhmm = ms => {
+  const d = new Date(ms);
+  return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+};
+async function planDlg() {
+  const pl = planGet(),
+    body = h('div', 'ffrm'),
+    tm = h('input'),
+    ph = h('input');
+  tm.type = 'time';
+  tm.value = hhmm(pl && pl.at > Date.now() ? pl.at : Date.now() + 3 * 3600e3);
+  ph.type = 'tel';
+  ph.value = localStorage.getItem('omm-plan-tel') || '';
+  ph.placeholder = _t('numer telefonu');
+  body.append(
+    h('label', null, _t('Wrócę najpóźniej o')),
+    tm,
+    h('label', null, _t('Kogo powiadomić SMS-em')),
+    ph,
+    h('div', 'muted', _t('O tej godzinie OMM zapyta, czy wszystko w porządku (także powiadomieniem, gdy telefon śpi). Jeśli nie potwierdzisz, przypomni co 15 minut i przygotuje SMS z Twoją ostatnią pozycją – wysyłasz go jednym dotknięciem. OMM sam niczego nie wysyła.'))
+  );
+  const v = await formDlg(_t('⏰ Plan wyjścia'), body, [
+    ...(pl ? [{t: _t('Wyłącz plan'), v: 'off'}] : []),
+    {t: _t('Anuluj'), v: null},
+    {t: _t('Zapisz'), v: 'ok', c: 'okb'}
+  ]);
+  if (v === 'off') {
+    planSet(null);
+    return toastMsg(_t('Plan wyjścia wyłączony'));
+  }
+  if (v !== 'ok') return;
+  const [hh, mm] = String(tm.value).split(':').map(Number);
+  if (!isFinite(hh) || !isFinite(mm)) return;
+  const d = new Date();
+  d.setHours(hh, mm, 0, 0);
+  if (d.getTime() < Date.now()) d.setDate(d.getDate() + 1);
+  try {
+    localStorage.setItem('omm-plan-tel', ph.value.trim().slice(0, 40));
+  } catch (e) {}
+  planSet({at: d.getTime(), tel: ph.value.trim().slice(0, 40)});
+  toastMsg(_t('Plan zapisany: powrót do ') + fhm(d.getTime()));
+}
+function planSet(pl) {
+  const LN = plug('LocalNotifications');
+  if (LN) LN.cancel({notifications: [0, 1, 2, 3].map(i => ({id: 4400 + i}))}).catch(() => {});
+  try {
+    if (!pl) localStorage.removeItem('omm-plan');
+    else localStorage.setItem('omm-plan', JSON.stringify(pl));
+  } catch (e) {}
+  if (pl && LN)
+    LN.schedule({
+      notifications: [0, 15, 30, 45].map((m, i) => ({
+        id: 4400 + i,
+        title: _t('⏰ OMM – czy wszystko OK?'),
+        body: _t('Minęła planowana godzina powrotu. Otwórz OMM i potwierdź albo wyślij SMS.'),
+        schedule: {at: new Date(pl.at + m * 60000), allowWhileIdle: true}
+      }))
+    }).catch(() => {});
+  recUi && REC && recUi();
+}
+var planAsked = 0;
+function planCheck() {
+  const pl = planGet();
+  if (!pl || Date.now() < pl.at || Date.now() - planAsked < 15 * 60000 || document.hidden) return;
+  planAsked = Date.now();
+  planAlert(pl);
+}
+async function planAlert(pl) {
+  vibe([500, 200, 500]);
+  const v = await dlg({
+    title: _t('⏰ Minęła planowana godzina powrotu (') + fhm(pl.at) + _t(').\n\nCzy wszystko w porządku?'),
+    btns: [
+      {t: _t('Wyślij SMS'), v: 'sms', c: 'danger'},
+      {t: _t('+30 min'), v: 'more'},
+      {t: _t('Jestem OK – koniec planu'), v: 'ok', c: 'okb'}
+    ]
+  });
+  if (v === 'ok') planSet(null);
+  else if (v === 'more') planSet({...pl, at: Date.now() + 30 * 60000});
+  else if (v === 'sms') planSms(pl);
+}
+async function planSms(pl) {
+  const last = REC && REC.pts.length ? REC.pts[REC.pts.length - 1] : null,
+    p = myPosNow() || (last ? [last[0], last[1]] : null) || (await getMyPos()),
+    txt = _t('Wiadomość z OMM: miałem wrócić do ') + fhm((pl || planGet() || {at: Date.now()}).at) + _t('. Ostatnia pozycja: ') + (p ? coordShareText([p[0], p[1]]) : _t('nieznana'));
+  location.href = 'sms:' + encodeURIComponent((pl && pl.tel) || localStorage.getItem('omm-plan-tel') || '') + '?body=' + encodeURIComponent(txt);
+}
+
+// --- P11: układy współrzędnych (UTM, MGRS, PL-1992 – w obie strony) ---
+const GRS = {a: 6378137, e2: 0.00669438002290};
+function tmFwd(lat, lon, lon0, k0, FE, FN) {
+  const {a, e2} = GRS,
+    ep2 = e2 / (1 - e2),
+    r = Math.PI / 180,
+    f = lat * r,
+    sn = Math.sin(f),
+    c = Math.cos(f),
+    t = Math.tan(f),
+    T = t * t,
+    C = ep2 * c * c,
+    A = (lon - lon0) * r * c,
+    N = a / Math.sqrt(1 - e2 * sn * sn),
+    M = a * ((1 - e2 / 4 - (3 * e2 * e2) / 64 - (5 * e2 ** 3) / 256) * f - ((3 * e2) / 8 + (3 * e2 * e2) / 32 + (45 * e2 ** 3) / 1024) * Math.sin(2 * f) + ((15 * e2 * e2) / 256 + (45 * e2 ** 3) / 1024) * Math.sin(4 * f) - ((35 * e2 ** 3) / 3072) * Math.sin(6 * f));
+  const E = FE + k0 * N * (A + ((1 - T + C) * A ** 3) / 6 + ((5 - 18 * T + T * T + 72 * C - 58 * ep2) * A ** 5) / 120),
+    Y = FN + k0 * (M + N * t * ((A * A) / 2 + ((5 - T + 9 * C + 4 * C * C) * A ** 4) / 24 + ((61 - 58 * T + T * T + 600 * C - 330 * ep2) * A ** 6) / 720));
+  return [E, Y];
+}
+function tmInv(E, Y, lon0, k0, FE, FN) {
+  const {a, e2} = GRS,
+    ep2 = e2 / (1 - e2),
+    r = Math.PI / 180,
+    M = (Y - FN) / k0,
+    mu = M / (a * (1 - e2 / 4 - (3 * e2 * e2) / 64 - (5 * e2 ** 3) / 256)),
+    e1 = (1 - Math.sqrt(1 - e2)) / (1 + Math.sqrt(1 - e2)),
+    p1 = mu + ((3 * e1) / 2 - (27 * e1 ** 3) / 32) * Math.sin(2 * mu) + ((21 * e1 * e1) / 16 - (55 * e1 ** 4) / 32) * Math.sin(4 * mu) + ((151 * e1 ** 3) / 96) * Math.sin(6 * mu) + ((1097 * e1 ** 4) / 512) * Math.sin(8 * mu),
+    s1 = Math.sin(p1),
+    c1 = Math.cos(p1),
+    C1 = ep2 * c1 * c1,
+    T1 = Math.tan(p1) ** 2,
+    N1 = a / Math.sqrt(1 - e2 * s1 * s1),
+    R1 = (a * (1 - e2)) / (1 - e2 * s1 * s1) ** 1.5,
+    D = (E - FE) / (N1 * k0),
+    lat = p1 - ((N1 * Math.tan(p1)) / R1) * ((D * D) / 2 - ((5 + 3 * T1 + 10 * C1 - 4 * C1 * C1 - 9 * ep2) * D ** 4) / 24 + ((61 + 90 * T1 + 298 * C1 + 45 * T1 * T1 - 252 * ep2 - 3 * C1 * C1) * D ** 6) / 720),
+    lon = lon0 * r + (D - ((1 + 2 * T1 + C1) * D ** 3) / 6 + ((5 - 2 * C1 + 28 * T1 - 3 * C1 * C1 + 8 * ep2 + 24 * T1 * T1) * D ** 5) / 120) / c1;
+  return [lat / r, lon / r];
+}
+const BANDS = 'CDEFGHJKLMNPQRSTUVWX';
+function utmOf(lat, lon) {
+  let z = Math.floor((lon + 180) / 6) + 1;
+  if (lat >= 56 && lat < 64 && lon >= 3 && lon < 12) z = 32; // Norwegia
+  if (lat >= 72 && lat < 84 && lon >= 0 && lon < 42) z = lon < 9 ? 31 : lon < 21 ? 33 : lon < 33 ? 35 : 37; // Svalbard
+  const [E, N] = tmFwd(lat, lon, (z - 1) * 6 - 180 + 3, 0.9996, 500000, lat < 0 ? 10000000 : 0),
+    band = BANDS[Math.max(0, Math.min(19, Math.floor((lat + 80) / 8)))];
+  return {z, band, E, N};
+}
+function utmStr(lat, lon) {
+  if (lat < -80 || lat > 84) return '';
+  const u = utmOf(lat, lon);
+  return u.z + u.band + ' ' + Math.round(u.E) + ' ' + Math.round(u.N);
+}
+const MG_COL = ['ABCDEFGH', 'JKLMNPQR', 'STUVWXYZ'],
+  MG_ROW = 'ABCDEFGHJKLMNPQRSTUV';
+function mgrsStr(lat, lon) {
+  if (lat < -80 || lat > 84) return '';
+  const u = utmOf(lat, lon),
+    col = MG_COL[(u.z - 1) % 3][Math.floor(u.E / 100000) - 1],
+    row = MG_ROW[(Math.floor(u.N / 100000) + (u.z % 2 === 0 ? 5 : 0)) % 20],
+    e = String(Math.floor(u.E % 100000)).padStart(5, '0'),
+    n = String(Math.floor(u.N % 100000)).padStart(5, '0');
+  return col ? u.z + u.band + ' ' + col + row + ' ' + e + ' ' + n : '';
+}
+function utmInv(z, band, E, N) {
+  const south = BANDS.indexOf(band.toUpperCase()) < 10;
+  return tmInv(E, N, (z - 1) * 6 - 180 + 3, 0.9996, 500000, south ? 10000000 : 0);
+}
+function mgrsInv(z, band, c, r, e, n) {
+  band = band.toUpperCase();
+  const ci = MG_COL[(z - 1) % 3].indexOf(c.toUpperCase()),
+    bi = BANDS.indexOf(band);
+  let ri = MG_ROW.indexOf(r.toUpperCase());
+  if (ci < 0 || ri < 0 || bi < 0) return null;
+  ri = (ri - (z % 2 === 0 ? 5 : 0) + 20) % 20;
+  const E = (ci + 1) * 100000 + e,
+    latMin = -80 + bi * 8,
+    south = bi < 10,
+    nMin = tmFwd(latMin, (z - 1) * 6 - 180 + 3, (z - 1) * 6 - 180 + 3, 0.9996, 500000, south ? 10000000 : 0)[1];
+  let N = ri * 100000 + n;
+  while (N < nMin - 50000) N += 2000000;
+  return utmInv(z, band, E, N);
+}
+const puwgInv = (x, y) => tmInv(y, x, 19, 0.9993, 500000, -5300000); // x = N, y = E (jak w GUGiK)
+function parseGrid(s) {
+  // MGRS „34U CB 12345 67890”, UTM „34U 412345 5734567”, PL-1992 „N 470123.4 E 520456.7” albo „x=… y=…”
+  s = String(s).trim().replace(/,(?=\d{1,3}(\D|$))/g, '.');
+  const okP = c => (c && okLL(c) ? [+c[0].toFixed(6), +c[1].toFixed(6)] : null);
+  let m = s.match(/^(\d{1,2})\s*([C-HJ-NP-X])\s*([A-HJ-NP-Z])\s*([A-HJ-NP-V])\s*(\d{1,5})\s*(\d{1,5})$/i);
+  if (m && m[5].length === m[6].length) {
+    const k = 10 ** (5 - m[5].length);
+    return okP(mgrsInv(+m[1], m[2], m[3], m[4], +m[5] * k, +m[6] * k));
+  }
+  m = s.match(/^(\d{1,2})\s*([C-HJ-NP-X])\s*([A-HJ-NP-Z])\s*([A-HJ-NP-V])\s*(\d{2,10})$/i);
+  if (m && m[5].length % 2 === 0) {
+    const h2 = m[5].length / 2,
+      k = 10 ** (5 - h2);
+    return okP(mgrsInv(+m[1], m[2], m[3], m[4], +m[5].slice(0, h2) * k, +m[5].slice(h2) * k));
+  }
+  m = s.match(/^(\d{1,2})\s*([C-HJ-NP-X])\s+E?\s*(\d{5,7}(?:\.\d+)?)\s*[mE]?[\s;]+N?\s*(\d{6,8}(?:\.\d+)?)\s*[mN]?$/i);
+  if (m) return okP(utmInv(+m[1], m[2], +m[3], +m[4]));
+  if (/1992|puwg|x\s*[=:]|^n\s*\d/i.test(s) || /^\d{6,7}(\.\d+)?[\s;]+\d{6,7}(\.\d+)?$/.test(s)) {
+    const nums = s.replace(/pl-?1992|puwg\s*1992|2180/gi, '').match(/\d{5,7}(?:\.\d+)?/g);
+    if (nums && nums.length === 2) {
+      let x = +nums[0],
+        y = +nums[1];
+      if (/\bE\b|y\s*[=:]/i.test(s) && /\bN\b|x\s*[=:]/i.test(s) && s.search(/\bE\b|y\s*[=:]/i) < s.search(/\bN\b|x\s*[=:]/i)) [x, y] = [y, x];
+      let c = puwgInv(x, y);
+      if (!(c[0] > 48.5 && c[0] < 55.2 && c[1] > 13.5 && c[1] < 24.5)) c = puwgInv(y, x); // odwrotna kolejność
+      if (c[0] > 48.5 && c[0] < 55.2 && c[1] > 13.5 && c[1] < 24.5) return okP(c);
+    }
+  }
+  return null;
+}
+
+// --- P16: grupowanie punktów przy oddaleniu i mapa ciepła ---
+var CLU = null,
+  cluHidden = [],
+  cluT = null;
+function cluOn() {
+  return localStorage.getItem('omm-grupuj') !== 'nie';
+}
+function clusterUpd() {
+  if (!CLU) return;
+  cluHidden.forEach(l => grp.hasLayer(l) || grp.addLayer(l));
+  cluHidden = [];
+  CLU.clearLayers();
+  if (!cluOn() || map.getZoom() >= 15) return;
+  const b = map.getBounds().pad(0.25),
+    cell = 58,
+    bk = new Map(),
+    byId = new Map(P.items.map(it => [it.id, it]));
+  Object.keys(LAY).forEach(id => {
+    const l = LAY[id],
+      it = byId.get(id);
+    if (!it || it.t !== 'pin' || !(l instanceof L.Marker) || !grp.hasLayer(l)) return;
+    const pn = map.getPane(l.options.pane);
+    if (pn && pn.style.display === 'none') return;
+    const ll = l.getLatLng();
+    if (!b.contains(ll)) return;
+    const pt = map.latLngToLayerPoint(ll),
+      k = Math.floor(pt.x / cell) + ':' + Math.floor(pt.y / cell);
+    if (!bk.has(k)) bk.set(k, []);
+    bk.get(k).push([l, ll, it]);
+  });
+  bk.forEach(arr => {
+    if (arr.length < 4) return;
+    arr.forEach(([l]) => {
+      grp.removeLayer(l);
+      cluHidden.push(l);
+    });
+    const c = [arr.reduce((s, x) => s + x[1].lat, 0) / arr.length, arr.reduce((s, x) => s + x[1].lng, 0) / arr.length],
+      cnt = {};
+    arr.forEach(x => (cnt[x[2].c || '#1a73e8'] = (cnt[x[2].c || '#1a73e8'] || 0) + 1));
+    const col = safeColor(Object.keys(cnt).sort((p, q) => cnt[q] - cnt[p])[0]) || '#1a73e8',
+      n = arr.length,
+      d = n < 10 ? 34 : n < 100 ? 40 : 46,
+      ic = icOfItem(arr[0][2]) && arr.every(x => x[2].i === arr[0][2].i) ? iconHtml(arr[0][2].i, 18, col) : '';
+    L.marker(c, {
+      pane: 'cluP',
+      icon: L.divIcon({
+        className: 'clu',
+        html: '<div style="border-color:' + col + ';width:' + d + 'px;height:' + d + 'px">' + (ic ? '<span class="ci">' + ic + '</span>' : '') + '<b>' + n + '</b></div>',
+        iconSize: [d, d],
+        iconAnchor: [d / 2, d / 2]
+      }),
+      title: n + _t(' punktów – dotknij, by przybliżyć')
+    })
+      .on('click', e => {
+        L.DomEvent.stop(e);
+        map.fitBounds(L.latLngBounds(arr.map(x => x[1])), {padding: [40, 40], maxZoom: Math.max(15, map.getZoom() + 2)});
+      })
+      .addTo(CLU);
+  });
+}
+const cluSoon = () => {
+  clearTimeout(cluT);
+  cluT = setTimeout(clusterUpd, 120);
+};
+var HEAT = null;
+function heatOn() {
+  return localStorage.getItem('omm-cieplo') === 'tak';
+}
+const HeatLayer = L.Layer.extend({
+  onAdd(m) {
+    this._c = L.DomUtil.create('canvas', 'heatc leaflet-zoom-hide');
+    m.getPanes().overlayPane.appendChild(this._c);
+    m.on('moveend zoomend resize', this._draw, this);
+    this._draw();
+  },
+  onRemove(m) {
+    this._c.remove();
+    m.off('moveend zoomend resize', this._draw, this);
+  },
+  _draw() {
+    const m = this._map,
+      s = m.getSize(),
+      c = this._c;
+    c.width = s.x;
+    c.height = s.y;
+    c.style.width = s.x + 'px';
+    c.style.height = s.y + 'px';
+    L.DomUtil.setPosition(c, m.containerPointToLayerPoint([0, 0]));
+    const x = c.getContext('2d'),
+      r = Math.max(14, Math.min(48, 6 * 1.35 ** (m.getZoom() - 8))),
+      HS = hidSet();
+    x.clearRect(0, 0, s.x, s.y);
+    P.items.forEach(it => {
+      if (!isPt(it) || HS.has(catOf(it))) return;
+      const f = findL(it.l);
+      if (!f || !f.g.vis || !f.l.vis) return;
+      const q = m.latLngToContainerPoint(it.p[0]);
+      if (q.x < -r || q.y < -r || q.x > s.x + r || q.y > s.y + r) return;
+      const g = x.createRadialGradient(q.x, q.y, 0, q.x, q.y, r);
+      g.addColorStop(0, 'rgba(0,0,0,0.35)');
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      x.fillStyle = g;
+      x.fillRect(q.x - r, q.y - r, 2 * r, 2 * r);
+    });
+    if (!s.x || !s.y) return;
+    const im = x.getImageData(0, 0, s.x, s.y),
+      d = im.data,
+      stops = [
+        [0, [65, 105, 225]],
+        [0.35, [0, 200, 180]],
+        [0.6, [255, 220, 0]],
+        [0.8, [255, 120, 0]],
+        [1, [220, 20, 60]]
+      ];
+    for (let i = 0; i < d.length; i += 4) {
+      const a = d[i + 3];
+      if (!a) continue;
+      const t = Math.min(1, a / 200);
+      let k = 1;
+      while (k < stops.length - 1 && t > stops[k][0]) k++;
+      const [t0, c0] = stops[k - 1],
+        [t1, c1] = stops[k],
+        u = Math.max(0, Math.min(1, (t - t0) / (t1 - t0 || 1)));
+      d[i] = c0[0] + (c1[0] - c0[0]) * u;
+      d[i + 1] = c0[1] + (c1[1] - c0[1]) * u;
+      d[i + 2] = c0[2] + (c1[2] - c0[2]) * u;
+      d[i + 3] = Math.min(210, 40 + a * 1.4);
+    }
+    x.putImageData(im, 0, 0);
+  }
+});
+function heatSet(on) {
+  try {
+    localStorage.setItem('omm-cieplo', on ? 'tak' : 'nie');
+  } catch (e) {}
+  if (!HEAT) HEAT = new HeatLayer();
+  if (on && !map.hasLayer(HEAT)) HEAT.addTo(map);
+  if (!on && map.hasLayer(HEAT)) map.removeLayer(HEAT);
+}
+const heatRedraw = () => HEAT && map.hasLayer(HEAT) && HEAT._draw();
+
+// --- P8: mapa ze zdjęcia (np. tablica w lesie, mapa leśnictwa) dopasowana 2–3 punktami ---
+var IMGS = [],
+  IMGL = {};
+function imgsLoad() {
+  try {
+    const a = JSON.parse(localStorage.getItem('omm-imgmaps') || '[]');
+    IMGS = Array.isArray(a)
+      ? a.filter(o => o && okId(o.id) && Array.isArray(o.pts) && o.pts.length >= 2 && o.pts.every(q => Array.isArray(q) && q.length === 4 && q.every(isFinite) && okLL([q[2], q[3]]))).map(o => ({id: o.id, nm: String(o.nm || '').slice(0, 100), op: safeNum(o.op, 0.1, 1, 0.7), vis: o.vis !== false, pts: o.pts.slice(0, 3).map(q => q.map(Number))}))
+      : [];
+  } catch (e) {
+    IMGS = [];
+  }
+}
+const imgsSave = () => {
+  try {
+    localStorage.setItem('omm-imgmaps', JSON.stringify(IMGS));
+  } catch (e) {}
+};
+const ImgLayer = L.Layer.extend({
+  initialize(o) {
+    this._o = o;
+  },
+  onAdd(m) {
+    if (!m.getPane('imgP')) m.createPane('imgP').style.zIndex = 350;
+    const im = (this._im = L.DomUtil.create('img', 'imgmap leaflet-zoom-hide'));
+    im.alt = '';
+    im.draggable = false;
+    m.getPane('imgP').appendChild(im);
+    IDB.get('mapimg/' + this._o.id)
+      .then(b => {
+        if (b && this._im) {
+          this._url = URL.createObjectURL(b);
+          this._im.src = this._url;
+        }
+      })
+      .catch(() => {});
+    m.on('zoomend viewreset', this._upd, this);
+    this._upd();
+  },
+  onRemove(m) {
+    m.off('zoomend viewreset', this._upd, this);
+    if (this._url) URL.revokeObjectURL(this._url);
+    this._im.remove();
+    this._im = null;
+  },
+  setOpacity(v) {
+    this._o.op = v;
+    if (this._im) this._im.style.opacity = v;
+  },
+  _upd() {
+    if (!this._im || !this._map) return;
+    const ps = this._o.pts.map(q => [q[0], q[1], this._map.latLngToLayerPoint([q[2], q[3]])]);
+    let mt;
+    if (ps.length >= 3) {
+      // afiniczne: 3 pary punktów
+      const [a, b, c] = ps,
+        det = a[0] * (b[1] - c[1]) - a[1] * (b[0] - c[0]) + (b[0] * c[1] - c[0] * b[1]);
+      if (!det) return;
+      const solve = (u, v, w) => [
+        (u * (b[1] - c[1]) - a[1] * (v - w) + (v * c[1] - w * b[1])) / det,
+        (a[0] * (v - w) - u * (b[0] - c[0]) + (b[0] * w - c[0] * v)) / det,
+        (a[0] * (b[1] * w - c[1] * v) - a[1] * (b[0] * w - c[0] * v) + u * (b[0] * c[1] - c[0] * b[1])) / det
+      ];
+      const X = solve(a[2].x, b[2].x, c[2].x),
+        Y = solve(a[2].y, b[2].y, c[2].y);
+      mt = [X[0], Y[0], X[1], Y[1], X[2], Y[2]];
+    } else {
+      // podobieństwo: 2 pary punktów (skala, obrót, przesunięcie)
+      const [p, q] = ps,
+        wx = q[0] - p[0],
+        wy = q[1] - p[1],
+        zx = q[2].x - p[2].x,
+        zy = q[2].y - p[2].y,
+        dd = wx * wx + wy * wy;
+      if (!dd) return;
+      const ar = (zx * wx + zy * wy) / dd,
+        ai = (zy * wx - zx * wy) / dd;
+      mt = [ar, ai, -ai, ar, p[2].x - (ar * p[0] - ai * p[1]), p[2].y - (ai * p[0] + ar * p[1])];
+    }
+    this._im.style.transform = 'matrix(' + mt.map(v => v.toFixed(6)).join(',') + ')';
+    this._im.style.opacity = this._o.op;
+  }
+});
+function imgsShow() {
+  Object.values(IMGL).forEach(l => map.removeLayer(l));
+  IMGL = {};
+  IMGS.forEach(o => {
+    if (!o.vis) return;
+    IMGL[o.id] = new ImgLayer(o).addTo(map);
+  });
+}
+async function imgDownscale(file) {
+  // duże zdjęcie mapy → najwyżej 3000 px (JPEG); mniej pamięci, płynniejsza mapa
+  const url = URL.createObjectURL(file);
+  try {
+    const im = await new Promise((res, rej) => {
+      const i = new Image();
+      i.onload = () => res(i);
+      i.onerror = rej;
+      i.src = url;
+    });
+    const k = Math.min(1, 3000 / Math.max(im.naturalWidth, im.naturalHeight)),
+      cv = document.createElement('canvas');
+    cv.width = Math.round(im.naturalWidth * k);
+    cv.height = Math.round(im.naturalHeight * k);
+    cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+    const blob = await new Promise(r => cv.toBlob(r, 'image/jpeg', 0.86));
+    return {blob, w: cv.width, h: cv.height};
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+function imgPickPoint(url, k, prev) {
+  // dotknięcie punktu na zdjęciu (z powiększeniem); zwraca [x, y] w pikselach zdjęcia albo null
+  return new Promise(res => {
+    const back = h('div', 'imgpick'),
+      top = h('div', 'ipt'),
+      sc = h('div', 'ips'),
+      wrap = h('div', 'ipw'),
+      im = h('img');
+    let z = 1;
+    im.src = url;
+    im.alt = '';
+    wrap.append(im);
+    sc.append(wrap);
+    const zoom = d => {
+      const cx = sc.scrollLeft + sc.clientWidth / 2,
+        cy = sc.scrollTop + sc.clientHeight / 2,
+        old = z;
+      z = Math.max(1, Math.min(8, z * d));
+      wrap.style.width = z * 100 + '%';
+      sc.scrollLeft = (cx * z) / old - sc.clientWidth / 2;
+      sc.scrollTop = (cy * z) / old - sc.clientHeight / 2;
+    };
+    top.append(
+      h('span', null, _t('Punkt ') + k + _t(': dotknij charakterystycznego miejsca na zdjęciu (skrzyżowanie, róg budynku, most)')),
+      B('－', () => zoom(0.5), 'ipz'),
+      B('＋', () => zoom(2), 'ipz'),
+      B(_t('Anuluj'), () => fin(null), 'ipx')
+    );
+    const fin = v => {
+      back.remove();
+      res(v);
+    };
+    im.onclick = e => {
+      const r = im.getBoundingClientRect(),
+        x = ((e.clientX - r.left) / r.width) * im.naturalWidth,
+        y = ((e.clientY - r.top) / r.height) * im.naturalHeight;
+      fin([+x.toFixed(1), +y.toFixed(1)]);
+    };
+    (prev || []).forEach(q => {
+      const d = h('span', 'ipd');
+      d.style.left = (q[0] / (im.naturalWidth || 1)) * 100 + '%';
+      d.style.top = (q[1] / (im.naturalHeight || 1)) * 100 + '%';
+      im.addEventListener('load', () => {
+        d.style.left = (q[0] / im.naturalWidth) * 100 + '%';
+        d.style.top = (q[1] / im.naturalHeight) * 100 + '%';
+      });
+      wrap.append(d);
+    });
+    back.append(top, sc);
+    document.body.append(back);
+  });
+}
+function mapPickPoint(msg) {
+  // dotknięcie miejsca na mapie (jak przy dzieleniu śladu); zwraca [szer, dł] albo null
+  return new Promise(res => {
+    closePops();
+    $('sheet').style.display = 'none';
+    const bar = h('div', 'navbar'),
+      txt = h('span', 'ntx', msg);
+    bar.append(txt, IB('x', () => fin(null), 'nx', _t('Anuluj')));
+    document.body.append(bar);
+    map.getContainer().style.cursor = 'crosshair';
+    const click = e => {
+      L.DomEvent.stop(e);
+      fin([e.latlng.lat, e.latlng.lng]);
+    };
+    const fin = v => {
+      map.off('click', click);
+      bar.remove();
+      map.getContainer().style.cursor = '';
+      setTimeout(() => (PICKING = false), 50);
+      res(v);
+    };
+    PICKING = true;
+    map.on('click', click);
+  });
+}
+var PICKING = false;
+async function imgAdd() {
+  $('bmenu').style.display = 'none';
+  const [f] = await pickPhotos(false, false);
+  if (!f) return;
+  let pic;
+  try {
+    pic = await imgDownscale(f);
+  } catch (e) {
+    return tell(_t('Nie udało się wczytać zdjęcia.'));
+  }
+  const nm = await askText(_t('Nazwa mapy ze zdjęcia (np. „Leśnictwo Spała – tablica”):'), (f.name || '').replace(/\.[^.]+$/, '').slice(0, 60));
+  if (nm === null) return;
+  const url = URL.createObjectURL(pic.blob),
+    pts = [];
+  try {
+    await tell(_t('Dopasowanie zdjęcia do mapy: wskaż 2 albo 3 te same miejsca – najpierw na zdjęciu, potem na mapie. Wybieraj punkty daleko od siebie (np. w rogach). Trzy punkty wyrównają też zdjęcie zrobione pod kątem.'));
+    for (let k = 1; k <= 3; k++) {
+      const ip = await imgPickPoint(url, k, pts);
+      if (!ip) {
+        if (pts.length >= 2) break;
+        return;
+      }
+      const mp = await mapPickPoint(_t('Punkt ') + k + _t(': dotknij tego samego miejsca na mapie'));
+      if (!mp) return;
+      pts.push([ip[0], ip[1], +mp[0].toFixed(7), +mp[1].toFixed(7)]);
+      if (k === 2) {
+        const v = await dlg({
+          title: _t('Dwa punkty wystarczą, jeśli zdjęcie jest zrobione na wprost. Dodać trzeci punkt dla dokładności?'),
+          btns: [
+            {t: _t('Gotowe'), v: 'ok', c: 'okb'},
+            {t: _t('Trzeci punkt'), v: 'more'}
+          ]
+        });
+        if (v !== 'more') break;
+      }
+    }
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+  if (pts.length < 2) return;
+  const o = {id: uid(), nm: String(nm || _t('Mapa ze zdjęcia')).trim().slice(0, 100) || _t('Mapa ze zdjęcia'), op: 0.7, vis: true, pts};
+  try {
+    await IDB.set('mapimg/' + o.id, pic.blob);
+  } catch (e) {
+    return tell(_t('Brak miejsca na zdjęcie mapy w pamięci aplikacji.'));
+  }
+  IMGS.push(o);
+  imgsSave();
+  imgsShow();
+  toastMsg(_t('Dodano mapę ze zdjęcia: ') + o.nm);
+}
+async function imgDel(o) {
+  if (!(await askYes(_t('Usunąć mapę ze zdjęcia „') + o.nm + _t('”?'), _t('Usuń'), true))) return;
+  IMGS = IMGS.filter(x => x !== o);
+  imgsSave();
+  IDB.del && IDB.del('mapimg/' + o.id).catch(() => {});
+  imgsShow();
+  buildBMenu();
+}
+
+// --- P12: własne pola warstwy ---
+async function fieldsDlg(l) {
+  const v = await askNote(_t('Pola danych warstwy „') + l.name + _t('” – jedna nazwa w linii (np. Ilość, Stan, Nr urządzenia). Wartości wpiszesz w okienku punktu; trafią do eksportu CSV i do kopii.'), (l.f || []).join('\n'));
+  if (v === null) return;
+  const f = [...new Set(String(v).split('\n').map(x => x.trim().slice(0, 60)).filter(Boolean))].slice(0, 20);
+  if (f.length) l.f = f;
+  else delete l.f;
+  save();
+  sheetIfOpen();
+}
+function fieldsSec(it, latlng) {
+  // pola warstwy w okienku obiektu: nazwa – wartość, dotknięcie = edycja
+  const f = findL(it.l),
+    names = f && f.l.f;
+  if (!names || !names.length) return null;
+  const box = h('div', 'pfld');
+  names.forEach(k => {
+    const r = h('div', 'pfr'),
+      v = it.fv && it.fv[k];
+    r.append(h('span', 'pfk', k), h('span', 'pfv' + (v ? '' : ' empty'), v || '—'));
+    r.onclick = async e => {
+      e.stopPropagation();
+      const nv = await askText(k + ':', v || '');
+      if (nv === null) return;
+      it.fv = it.fv || {};
+      if (nv.trim()) it.fv[k] = nv.trim().slice(0, 500);
+      else delete it.fv[k];
+      if (!Object.keys(it.fv).length) delete it.fv;
+      touch(it);
+      save();
+      map.closePopup();
+      openItemPopup(it, latlng);
+    };
+    box.append(r);
+  });
+  return box;
+}
+function toCSV(items) {
+  // tabela do Excela / Arkuszy: jeden obiekt w wierszu, pola warstw jako kolumny (separator ; i UTF-8 z BOM)
+  const AN = autoNameMap(),
+    fields = [];
+  items.forEach(it => {
+    const f = findL(it.l);
+    ((f && f.l.f) || []).forEach(k => fields.includes(k) || fields.push(k));
+    Object.keys(it.fv || {}).forEach(k => fields.includes(k) || fields.push(k));
+  });
+  const q = v => {
+    let s = v == null ? '' : String(v);
+    if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; // bez formuł w arkuszu
+    return /[;"\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+  const head = [_t('Nazwa'), _t('Typ'), _t('Szerokość'), _t('Długość'), _t('Warstwa'), _t('Ikona'), _t('Komentarz'), _t('Ocena'), _t('Utworzono'), ...fields],
+    rows = items.map(it => {
+      const f = findL(it.l),
+        c = itemAt(it);
+      return [it.nm || AN[it.id], NAMES[it.t], c[0].toFixed(6), c[1].toFixed(6), f ? f.l.name : '', it.t === 'pin' ? (ICONS[it.i] ? ICONS[it.i].n : it.i) : '', it.n || '', it.ra || '', it.cr ? new Date(it.cr).toISOString().slice(0, 16).replace('T', ' ') : '', ...fields.map(k => (it.fv && it.fv[k]) || '')];
+    });
+  return '﻿' + [head, ...rows].map(r => r.map(q).join(';')).join('\r\n');
+}
+
+// --- P13: planowanie trasy (po ścieżkach albo prosto), dystans, przewyższenie z NMT, czas wg Twojego tempa ---
+var PLN = null;
+function planStart() {
+  setMode('plan', true);
+  PLN = {taps: [], segs: [], route: localStorage.getItem('omm-plan-trasy') !== 'prosto', busy: 0};
+  planInfo();
+}
+function planPath() {
+  const out = [];
+  PLN.segs.forEach((s, i) => out.push(...(i ? s.slice(1) : s)));
+  return out.length ? out : PLN.taps.slice();
+}
+function planInfo() {
+  if (!PLN) return;
+  tmp.clearLayers();
+  const p = planPath(),
+    d = p.length > 1 ? dist(p) : 0;
+  if (p.length > 1) L.polyline(p, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.85}).addTo(tmp);
+  PLN.taps.forEach((q, i) => (i === 0 ? lab(q, 'A', '#2e9e6b') : i === PLN.taps.length - 1 ? lab(q, 'B', '#d32f2f') : dot(q)));
+  info.style.display = 'block';
+  info.textContent =
+    PLN.taps.length < 2
+      ? PLN.taps.length
+        ? _t('Dotknij kolejnego punktu trasy')
+        : _t('Dotknij startu trasy')
+      : fm(d) + _t(' · ~') + feta(d / myPace()) + (PLN.busy ? _t(' · układam po ścieżkach…') : '') + _t(' · ✓ zakończ');
+  let tg = $('plnb');
+  if (!tg) {
+    // przełącznik: po ścieżkach / prosto (w pasku podpowiedzi)
+    tg = B('', e => {
+      e.stopPropagation();
+      if (!PLN) return;
+      PLN.route = !PLN.route;
+      localStorage.setItem('omm-plan-trasy', PLN.route ? 'sciezki' : 'prosto');
+      planInfo();
+    }, 'plt');
+    tg.id = 'plnb';
+    infoEl.append(tg);
+  }
+  tg.textContent = PLN.route ? _t('🥾 po ścieżkach') : _t('📏 prosto');
+  tg.style.display = 'inline-block';
+}
+async function planTap(p) {
+  PLN.taps.push(p);
+  if (PLN.taps.length === 1) PLN.segs = [];
+  else {
+    const a = PLN.taps[PLN.taps.length - 2],
+      i = PLN.segs.length;
+    PLN.segs.push([a, p]);
+    if (PLN.route) {
+      PLN.busy++;
+      planInfo();
+      const r = await extRoute(a, p);
+      PLN.busy--;
+      if (!PLN) return;
+      if (r && PLN.segs[i] && PLN.segs[i][0] === a) PLN.segs[i] = r;
+      else if (!r) toastMsg(_t('Część linii prosto – serwer tras nie odpowiedział'));
+    }
+  }
+  planInfo();
+}
+function planUndo() {
+  if (!PLN || !PLN.taps.length) return;
+  PLN.taps.pop();
+  PLN.segs.pop();
+  if (PLN.taps.length < 2) PLN.segs = [];
+  planInfo();
+}
+async function planDone() {
+  if (!PLN || PLN.taps.length < 2) {
+    if (PLN && PLN.taps.length) return (info.textContent = _t('Za mało punktów'));
+    PLN = null;
+    mode = null;
+    clearAll();
+    ui();
+    return;
+  }
+  const path = planPath().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]),
+    d = dist(path);
+  PLN = null;
+  mode = null;
+  clearAll();
+  ui();
+  const line = L.polyline(path, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.85}).addTo(tmp),
+    body = h('div', 'ffrm'),
+    st = h('div', 'pst', fm(d) + _t(' · marsz ~') + feta(d / myPace()));
+  body.append(st, h('div', 'muted', _t('Czas wg Twojego tempa marszu z pieszych śladów (bez nich ~4,5 km/h); podejścia doliczane jak w regule Naismitha: +1 h na 600 m w górę.')));
+  // przewyższenie z NMT (tylko Polska) – w tle
+  let up = 0;
+  (async () => {
+    try {
+      const n = Math.min(200, Math.max(2, Math.round(d / 25))),
+        cum = [0];
+      for (let i = 1; i < path.length; i++) cum.push(cum[i - 1] + hav(path[i - 1], path[i]));
+      const smp = [];
+      for (let k = 0; k <= n; k++) {
+        const t = (cum[cum.length - 1] * k) / n;
+        let i = 1;
+        while (i < cum.length - 1 && cum[i] < t) i++;
+        const a = path[i - 1],
+          b = path[i],
+          u = (t - cum[i - 1]) / (cum[i] - cum[i - 1] || 1);
+        smp.push([a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u]);
+      }
+      const hs = await hList(smp);
+      let dn = 0;
+      for (let i = 1; i < hs.length; i++) {
+        const x = hs[i] - hs[i - 1];
+        if (x > 0) up += x;
+        else dn -= x;
+      }
+      st.textContent = fm(d) + ' · ↗ ' + fel(up) + ' ↘ ' + fel(dn) + _t(' · marsz ~') + feta(d / myPace() + (up / 600) * 3600);
+    } catch (e) {}
+  })();
+  const v = await formDlg(_t('🗺 Zaplanowana trasa'), body, [
+    {t: _t('Odrzuć'), v: null},
+    {t: _t('Prowadź'), v: 'nav'},
+    {t: _t('Zapisz jako linię'), v: 'save', c: 'okb'}
+  ]);
+  line.remove();
+  if (v === 'nav') return navStart(path[path.length - 1], _t('Koniec trasy'), path);
+  if (v !== 'save') return;
+  const a = findL(P.active);
+  if (!a) return tell(_t('Brak warstwy na mapie – dodaj warstwę w panelu.'));
+  a.l.vis = a.g.vis = true;
+  const it = {id: uid(), t: 'line', p: path, l: P.active, c: '#1a73e8', o: curOp, sz: 2, nm: _t('Trasa ') + fday(Date.now()), n: st.textContent, cr: Date.now(), up: Date.now()};
+  P.items.push(it);
+  save();
+  render();
+  sheetIfOpen();
+  toastMsg(_t('Zapisano trasę w warstwie „') + a.l.name + '”');
+}
+
+// --- P7: siedliska i drzewostany z Banku Danych o Lasach (WMS; nazwy warstw z GetCapabilities) ---
+var BDL_SRV = 'https://mapserver.bdl.lasy.gov.pl/arcgis/services/';
+function bdlDyn(path, op) {
+  const url = 'https://mapserver.bdl.lasy.gov.pl/arcgis/services/' + path + '/MapServer/WMSServer',
+    l = L.tileLayer.wms(url, {layers: '0', styles: '', format: 'image/png', transparent: true, version: '1.3.0', maxZoom: 21, opacity: op, attribution: _t('© Bank Danych o Lasach')});
+  l._bdl = {url, ready: false};
+  l.on('add', () => bdlNames(l));
+  return l;
+}
+async function bdlNames(l) {
+  if (l._bdl.ready) return;
+  const key = 'omm-bdlcap-' + l._bdl.url.split('/services/')[1].split('/')[0];
+  let names = null;
+  try {
+    const c = JSON.parse(localStorage.getItem(key) || 'null');
+    if (c && Date.now() - c.t < 30 * 864e5 && Array.isArray(c.n)) names = c.n;
+  } catch (e) {}
+  if (!names)
+    try {
+      const r = await fetch(l._bdl.url + '?service=WMS&request=GetCapabilities&version=1.3.0', {referrerPolicy: 'no-referrer'}),
+        x = new DOMParser().parseFromString(await r.text(), 'application/xml');
+      names = [...x.getElementsByTagName('Layer')]
+        .filter(e => !e.getElementsByTagName('Layer').length)
+        .map(e => {
+          const n = [...e.children].find(c => c.localName === 'Name');
+          return n ? n.textContent.trim() : '';
+        })
+        .filter(n => /^[\w.-]{1,40}$/.test(n))
+        .slice(0, 60);
+      if (names.length) localStorage.setItem(key, JSON.stringify({t: Date.now(), n: names}));
+    } catch (e) {
+      names = null;
+    }
+  if (names && names.length) {
+    l._bdl.ready = true;
+    l.setParams({layers: names.join(',')});
+  }
+}
+async function bdlInfo(e) {
+  // dotknięcie mapy przy włączonych siedliskach / drzewostanach: opis wydzielenia (GetFeatureInfo)
+  const on = ['bdls', 'bdld'].filter(k => OVS[k] && OVS[k].on && OV[k].l._bdl && OV[k].l._bdl.ready);
+  if (!on.length) return false;
+  const sz = map.getSize(),
+    b = map.getBounds(),
+    pt = map.latLngToContainerPoint(e.latlng),
+    out = [];
+  for (const k of on) {
+    const l = OV[k].l,
+      sw = L.CRS.EPSG3857.project(b.getSouthWest()),
+      ne = L.CRS.EPSG3857.project(b.getNorthEast()),
+      q = new URLSearchParams({service: 'WMS', request: 'GetFeatureInfo', version: '1.3.0', layers: l.wmsParams.layers, query_layers: l.wmsParams.layers, styles: '', crs: 'EPSG:3857', bbox: [sw.x, sw.y, ne.x, ne.y].join(','), width: sz.x, height: sz.y, i: Math.round(pt.x), j: Math.round(pt.y), info_format: 'text/xml', feature_count: 3});
+    try {
+      const r = await fetch(l._bdl.url + '?' + q, {referrerPolicy: 'no-referrer'}),
+        x = new DOMParser().parseFromString(await r.text(), 'application/xml');
+      [...x.getElementsByTagName('*')].forEach(el => {
+        [...el.attributes].forEach(a => {
+          const nm = a.name,
+            v = a.value.trim();
+          if (!v || v === 'Null' || /^(objectid|shape|fid|globalid|xmlns|id)/i.test(nm) || /shape/i.test(nm)) return;
+          if (out.length < 14 && !out.some(o => o[0] === nm)) out.push([nm.replace(/_/g, ' ').slice(0, 40), v.slice(0, 80)]);
+        });
+      });
+    } catch (er) {}
+  }
+  if (!out.length) return false;
+  const el = h('div', 'tpop');
+  el.append(h('b', null, _t('Las – opis z BDL')));
+  out.forEach(([k, v]) => el.append(h('div', 'tsub', k + ': ' + v)));
+  L.popup({maxWidth: 280}).setLatLng(e.latlng).setContent(el).openOn(map);
+  return true;
+}
+
+// --- hak wywoływany przy każdym nowym punkcie nagrywanego śladu (także w tle) ---
+function fieldHook(q, x) {
+  if (!FLD_READY) return;
+  try {
+    carDetect(q, x);
+  } catch (e) {}
+  try {
+    alarmCheck([q[0], q[1]]);
+  } catch (e) {}
+  planCheck();
+}
+function fieldInit() {
+  carLoad();
+  carDraw();
+  imgsLoad();
+  imgsShow();
+  $('recbt').append(BI('car', _t('Do auta'), carGo), BI('clock', _t('Plan wyjścia'), planDlg));
+  if (!map.getPane('cluP')) map.createPane('cluP').style.zIndex = 640;
+  CLU = L.layerGroup().addTo(map);
+  map.on('moveend', cluSoon);
+  if (heatOn()) heatSet(true);
+  setInterval(planCheck, 30000);
+  document.addEventListener('visibilitychange', () => !document.hidden && planCheck());
+  FLD_READY = true;
+  clusterUpd();
+}
+fieldInit();
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
   // ustawienia w zwijanych kategoriach; otwarta kategoria zapamiętana
@@ -24772,6 +26885,56 @@ function settingsDlg() {
       ['zawsze', _t('Wczytuj zawsze')]
     ],
     _t('Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.')
+  );
+  // w terenie (v58): alarm przy miejscówkach, auto, plan wyjścia
+  cat('field', 'bell', _t('W terenie'));
+  radios(
+    _t('Alarm przy miejscówkach – odległość'),
+    'omm-alarm-r',
+    '50',
+    [
+      ['30', '30 m'],
+      ['50', '50 m'],
+      ['100', '100 m'],
+      ['200', '200 m']
+    ],
+    _t('Alarm włączasz dla wybranej warstwy: panel warstw → ⋮ przy warstwie → „Alarm przy punktach”. Działa przy włączonym GPS (kropka pozycji), a w tle – podczas nagrywania śladu.')
+  );
+  radios(
+    _t('Miejsce auta'),
+    'omm-auto-wykr',
+    'tak',
+    [
+      ['tak', _t('Zapamiętuj samo – gdy podczas nagrywania przejdziesz z jazdy w marsz')],
+      ['nie', _t('Tylko ręcznie („📡 Moja pozycja” → „Tu stoi auto”)')]
+    ],
+    _t('Do auta prowadzi przycisk „Do auta” w panelu nagrywania albo dotknięcie ikony auta na mapie.')
+  );
+  btnRow([BI('clock', _t('Plan wyjścia…'), () => planDlg())]);
+  // wygląd (v58): tryb ciemny
+  cat('look', 'moon', _t('Wygląd'));
+  radios(
+    _t('Motyw'),
+    'omm-motyw',
+    'jasny',
+    [
+      ['jasny', _t('Jasny')],
+      ['ciemny', _t('Ciemny')],
+      ['auto', _t('Jak w telefonie')]
+    ],
+    null,
+    themeApply
+  );
+  radios(
+    _t('Mapa w trybie ciemnym'),
+    'omm-mapa-noc',
+    'tak',
+    [
+      ['tak', _t('Przyciemniona – nie razi w nocy')],
+      ['nie', _t('Normalna')]
+    ],
+    null,
+    themeApply
   );
   // „O aplikacji”, „Jak zacząć” i samouczek – pod przyciskiem „i” w panelu warstw (bez dublowania tutaj)
   body.append(h('div', 'muted', APP_NAME + ' ' + APP_VER + ' – ' + APP_FULL));
