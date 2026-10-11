@@ -3787,6 +3787,7 @@ const EN = {
   " – odcięta część": " – cut-off part",
   " – ok. ": " – approx. ",
   " – otwórz ją, by zobaczyć": " – open it to see",
+  " – pokaż, prowadź, zapisz": " – show, navigate, save",
   " – statystyki": " – statistics",
   " – widoczne w galerii zdjęć": " – visible in the photo gallery",
   " – za dużo: przybliż mapę albo zmniejsz zoom": " – too much: zoom in or lower the zoom",
@@ -4395,6 +4396,7 @@ const EN = {
   "Poziomka": "Wild strawberry",
   "Poziomka pospolita": "Wild strawberry (Fragaria vesca)",
   "Pozostałe": "Other",
+  "Pozycja z wiadomości": "Position from the message",
   "Praca": "Work",
   "Prawdziwek": "Porcini",
   "Profil wysokości": "Elevation profile",
@@ -4431,6 +4433,7 @@ const EN = {
   "Przygotowuję film…": "Preparing the video…",
   "Przygotowuję mapę…": "Preparing the map…",
   "Przygotowuję obraz…": "Preparing the image…",
+  "Przytrzymaj pole wyszukiwania i wybierz „Wklej”": "Press and hold the search field and choose “Paste”",
   "Przywracanie: OMM → Warstwy → Kopia → Przywróć z kopii… i wskaż ten plik ZIP.\r\n": "Restoring: OMM → Layers → Backup → Restore from backup… and pick this ZIP file.\r\n",
   "Przywrócona mapa": "Restored map",
   "Przywrócono do śladów GPS.": "Restored to GPS tracks.",
@@ -4675,6 +4678,8 @@ const EN = {
   "Wierzba": "Willow",
   "Wierzba (bazie, kora)": "Willow (catkins, bark)",
   "Witaj w OMM! 👋\n\nPokazać krótki samouczek? Zajmie ok. 1 minutę.\n\nSamouczek jest też zawsze w panelu warstw: przycisk „i” (O aplikacji) → Samouczek.": "Welcome to OMM! 👋\n\nShow a short tutorial? It takes about 1 minute.\n\nThe tutorial is always in the layers panel too: the “i” button (About) → Tutorial.",
+  "Wklej": "Paste",
+  "Wklej ze schowka (np. SMS z pozycją)": "Paste from the clipboard (e.g. an SMS with a position)",
   "Woda": "Water",
   "Woda / strumień": "Water / stream",
   "Woda / strumień (rzeka)": "Water / stream (river)",
@@ -4759,6 +4764,7 @@ const EN = {
   "Zapisz film": "Save video",
   "Zapisz jako GPX": "Save as GPX",
   "Zapisz pełną kopię – mapy, ślady, zdjęcia i ustawienia (ZIP)": "Save a full backup – maps, tracks, photos and settings (ZIP)",
+  "Zapisz punkt": "Save point",
   "Zapisz szablon": "Save template",
   "Zapisz tylko to, co widać (ta mapa, włączone warstwy i filtr) + ustawienia": "Save only what is visible (this map, visible layers and filter) + settings",
   "Zapisz ślad": "Save track",
@@ -5200,6 +5206,7 @@ const IC = {
   gear: '<path d="M21.1 10.4 21.1 13.6 18.7 14.1 18.2 15.3 19.5 17.3 17.3 19.5 15.3 18.2 14.1 18.7 13.6 21.1 10.4 21.1 9.9 18.7 8.7 18.2 6.7 19.5 4.5 17.3 5.8 15.3 5.3 14.1 2.9 13.6 2.9 10.4 5.3 9.9 5.8 8.7 4.5 6.7 6.7 4.5 8.7 5.8 9.9 5.3 10.4 2.9 13.6 2.9 14.1 5.3 15.3 5.8 17.3 4.5 19.5 6.7 18.2 8.7 18.7 9.9z"/><circle cx="12" cy="12" r="3.2"/>', // ustawienia
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/>', // o aplikacji
   x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>', // zamknij
+  paste: '<rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h4"/>', // wklej ze schowka
   star: '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>', // domyślny (np. podkład)
   chev: '<path d="M7 10l5 5 5-5"/>', // rozwiń listę
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', // gotowe / zatwierdź
@@ -5262,7 +5269,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v55';
+const APP_VER = 'v56';
 try {
   // blokada aplikacji: zasłaniamy wszystko od pierwszej chwili (ekran PIN-u pojawia się chwilę później)
   if (localStorage.getItem('omm-lock')) document.documentElement.classList.add('locked');
@@ -20756,7 +20763,23 @@ function coordPopup(c, title, isMe) {
     BI('copy', _t('Kopiuj'), () => copyText(c[0].toFixed(6) + ', ' + c[1].toFixed(6))),
     BI('share', _t('Udostępnij'), () => shareTextOut(txt, title || _t('Współrzędne'))),
     BI('note', 'SMS', () => (location.href = 'sms:?body=' + encodeURIComponent(txt))),
-    ...(isMe ? [BI('phone', '112', () => (location.href = 'tel:112'), 'danger')] : [BI('nav', _t('Prowadź'), () => navStart(c, title || _t('punkt')))])
+    ...(isMe
+      ? [BI('phone', '112', () => (location.href = 'tel:112'), 'danger')]
+      : [
+          BI('nav', _t('Prowadź'), () => navStart(c, title || _t('punkt'))),
+          BI('pin', _t('Zapisz punkt'), () => {
+            // punkt w aktywnej warstwie bieżącej mapy (np. pozycja z SMS-a)
+            const a = findL(P.active);
+            if (!a) return tell(_t('Brak warstwy na mapie – dodaj warstwę w panelu.'));
+            a.l.vis = a.g.vis = true;
+            const it = {id: uid(), t: 'pin', p: [[c[0], c[1]]], i: '📍', l: P.active, c: curColor, o: curOp, nm: String(title || _t('Punkt')).slice(0, 200), cr: Date.now(), up: Date.now()};
+            P.items.push(it);
+            save();
+            render();
+            sheetIfOpen();
+            toastMsg(_t('Dodano „') + it.nm + _t('” do warstwy „') + a.l.name + _t('”.'));
+          })
+        ])
   );
   el.append(bt);
   upd();
@@ -22217,6 +22240,41 @@ function parseCoords(s) {
     lo = dms(m[7], m[8], m[9]) * (/w/i.test(m[6] || m[10] || '') || num(m[7]) < 0 ? -1 : 1);
   return Math.abs(la) <= 90 && Math.abs(lo) <= 180 && (la || lo) ? [la, lo] : null;
 }
+// pozycja z dowolnego tekstu (np. wklejony SMS „📡 Moja pozycja” z OMM albo z innej aplikacji):
+// linki Google Maps / OpenStreetMap / geo:, para liczb dziesiętnych, stopnie-minuty-sekundy.
+// Zwraca {c: [szer, dł], nm: nazwa z wiadomości (tekst przed dwukropkiem) albo ''} lub null. Nic nie wysyła do sieci.
+function findCoords(text) {
+  const s = String(text || '').slice(0, 5000),
+    ok = (a, b) => (Math.abs(a) <= 90 && Math.abs(b) <= 180 && (a || b) ? [+a, +b] : null),
+    F = '(-?\\d{1,3}\\.\\d+)';
+  let c = null,
+    m;
+  // 1. linki: OSM (mlat/mlon, #map=z/szer/dł), Google (q=, ll=, @szer,dł), geo:
+  if ((m = s.match(new RegExp('[?&]mlat=' + F + '&mlon=' + F)))) c = ok(m[1], m[2]);
+  if (!c && (m = s.match(new RegExp('#map=\\d+/' + F + '/' + F)))) c = ok(m[1], m[2]);
+  if (!c && (m = s.match(new RegExp('[?&](?:q|ll|query|destination)=' + F + '(?:,|%2C)\\s*' + F, 'i')))) c = ok(m[1], m[2]);
+  if (!c && (m = s.match(new RegExp('@' + F + ',' + F)))) c = ok(m[1], m[2]);
+  if (!c && (m = s.match(new RegExp('geo:' + F + ',' + F, 'i')))) c = ok(m[1], m[2]);
+  // 2. para liczb dziesiętnych (co najmniej 3 miejsca po przecinku, żeby nie łapać godzin czy cen)
+  if (!c && (m = s.match(/(-?\d{1,2}[.,]\d{3,})\s*[,;\s]\s*(-?\d{1,3}[.,]\d{3,})/)))
+    c = ok(m[1].replace(',', '.'), m[2].replace(',', '.'));
+  // 3. stopnie, minuty, sekundy w środku tekstu (np. 51°46'12.3"N 19°27'36.0"E – tak pisze OMM)
+  if (!c && (m = s.replace(/[′’]/g, "'").replace(/[″”]/g, '"').match(/(\d{1,2})°\s*(\d{1,2})'\s*(\d{1,2}(?:[.,]\d+)?)"\s*([NS])[\s,;]*(\d{1,3})°\s*(\d{1,2})'\s*(\d{1,2}(?:[.,]\d+)?)"\s*([EW])/i))) {
+    const d = (a, b, x) => +a + b / 60 + +String(x).replace(',', '.') / 3600;
+    c = ok(d(m[1], m[2], m[3]) * (/s/i.test(m[4]) ? -1 : 1), d(m[5], m[6], m[7]) * (/w/i.test(m[8]) ? -1 : 1));
+  }
+  // 4. każda linijka osobno – inne zapisy, które rozumie wyszukiwarka
+  if (!c)
+    for (const ln of s.split(/[\r\n]+/)) {
+      const t = ln.replace(/^[^:]*:\s*/, '');
+      if ((c = parseCoords(t) || parseCoords(ln))) break;
+    }
+  if (!c) return null;
+  // nazwa: tekst przed dwukropkiem w linijce ze współrzędnymi (np. „📡 Moja pozycja: 51.7…”)
+  let nm = ((s.match(/^\s*([^:\r\n]{1,80}?):\s*-?\d/) || [])[1] || '').trim();
+  if (/^(geo|https?)$/i.test(nm) || /\d[.,]\d{3}/.test(nm)) nm = '';
+  return {c, nm};
+}
 const norm = s =>
   String(s || '')
     .toLowerCase()
@@ -22251,8 +22309,19 @@ function searchDlg() {
     const q = norm(inp.value.trim());
     res.innerHTML = '';
     if (!q) return res.append(h('p', 'muted', _t('Szukam w mapach bieżącego trybu i w śladach GPS. Miejscowości i adresy – przyciskiem „Szukaj w internecie” (albo Enter).')));
-    const c = parseCoords(inp.value);
+    let c = parseCoords(inp.value);
     if (c) row('🎯', c[0].toFixed(6) + ', ' + c[1].toFixed(6), _t('Współrzędne – pokaż na mapie'), () => coordGo(c, _t('Współrzędne')));
+    else {
+      // wklejona wiadomość (SMS SOS z OMM, link z mapy…) – pozycja do pokazania i prowadzenia po azymucie
+      const f = findCoords(inp.value);
+      if (f) {
+        c = f.c;
+        const me = /moja pozycja|my position/i.test(f.nm),
+          nm = f.nm && !me ? f.nm : _t('Pozycja z wiadomości');
+        row('📍', nm, c[0].toFixed(6) + ', ' + c[1].toFixed(6) + _t(' – pokaż, prowadź, zapisz'), () => coordGo(c, nm));
+      }
+    }
+    if (c && inp.value.length > 40) return; // wklejona wiadomość – nie szukamy jej treści w mapach
     let n = 0;
     modeMaps().forEach(m =>
       m.items.forEach(it => {
@@ -22297,11 +22366,30 @@ function searchDlg() {
     }
   };
   inp.oninput = local;
+  // wklejony SMS ma kilka linijek – pole jednowierszowe skleiłoby je, więc zamieniamy znaki nowej linii na spacje
+  inp.addEventListener('paste', e => {
+    const t = e.clipboardData && e.clipboardData.getData('text');
+    if (!t || !/[\r\n]/.test(t)) return;
+    e.preventDefault();
+    inp.value = t.replace(/\s*[\r\n]+\s*/g, '  ').trim();
+    local();
+  });
+  const paste = async () => {
+    try {
+      const t = await navigator.clipboard.readText();
+      if (!t) throw 0;
+      inp.value = t.replace(/\s*[\r\n]+\s*/g, '  ').trim();
+      local();
+    } catch (e) {
+      inp.focus();
+      toastMsg(_t('Przytrzymaj pole wyszukiwania i wybierz „Wklej”'));
+    }
+  };
   inp.onkeydown = e => {
     if (e.key === 'Enter') web();
     if (e.key === 'Escape') fin();
   };
-  bt.append(B(_t('Zamknij'), fin), BI('globe', _t('Szukaj w internecie'), web, 'okb'));
+  bt.append(B(_t('Zamknij'), fin), BI('paste', _t('Wklej'), paste, '', _t('Wklej ze schowka (np. SMS z pozycją)')), BI('globe', _t('Szukaj w internecie'), web, 'okb'));
   back.append(box);
   back.addEventListener('click', e => {
     if (e.target === back) fin();
