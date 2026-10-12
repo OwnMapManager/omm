@@ -421,6 +421,9 @@ textarea {
 #tools.open #tmore {
   max-height: 170px;
 }
+#tools.open #toolsb {
+  display: none; /* rozwinięty pasek zwija się sam (v60) */
+}
 .bar button {
   width: 36px;
   height: 36px;
@@ -4154,7 +4157,7 @@ body.planctx #wm::after {
   color: #1a73e8;
 }
 .leaflet-popup.mres .leaflet-popup-content {
-  margin: 9px 11px;
+  margin: 9px 28px 9px 11px;
   font-size: 13.5px;
   line-height: 1.4;
 }
@@ -4198,6 +4201,149 @@ body.planctx #wm::after {
   width: 24px;
   height: 24px;
 }
+label.fnet {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 14px 6px;
+  font-size: 13px;
+  color: var(--sub);
+}
+label.fnet input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+/* tryb Sport (v60): przycisk licznika i ekran licznika (ciemne tło) */
+#sportb {
+  display: none;
+  top: calc(248px + env(safe-area-inset-top, 0px));
+  right: 8px;
+  color: #1a73e8;
+}
+body.sport #sportb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#sport {
+  position: fixed;
+  inset: 0;
+  z-index: 2600;
+  background: #000;
+  color: #e8eaed;
+  display: none;
+  flex-direction: column;
+  padding: calc(10px + env(safe-area-inset-top, 0px)) 12px calc(10px + env(safe-area-inset-bottom, 0px));
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+#sport .stop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+  color: #9aa0a6;
+}
+#sport .snm {
+  color: #e8eaed;
+  font-weight: 600;
+}
+#sport .sbig {
+  text-align: center;
+  margin: 2vh 0 1vh;
+}
+#sport .sbig b {
+  display: block;
+  font-size: min(25vw, 19vh);
+  line-height: 1.05;
+  white-space: nowrap;
+  font-weight: 700;
+  color: #fff;
+}
+#sport.paused .sbig b {
+  color: #fbbc04;
+}
+#sport .sbig span {
+  display: block;
+  margin-top: 6px;
+  font-size: 18px;
+  color: #9aa0a6;
+}
+#sport .sgrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: #222;
+  border-radius: 12px;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+#sport .st {
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+}
+#sport .st b {
+  font-size: min(8.5vw, 4.6vh);
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+#sport .st i {
+  font-style: normal;
+  font-size: 11.5px;
+  color: #9aa0a6;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+#sport .sbt {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  margin-top: 10px;
+}
+#sport .sbt button {
+  flex: 1;
+  border: 0;
+  background: #202124;
+  color: #e8eaed;
+  border-radius: 12px;
+  padding: 8px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+}
+#sport .sbt button.on {
+  background: #1a73e8;
+  color: #fff;
+}
+#sport .sbt button.srec.on {
+  background: #b3261e;
+}
+#sport .sbt button.danger {
+  color: #f28b82;
+}
+.sset.nset label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.sset.nset input {
+  width: 90px;
+  padding: 6px 8px;
+  border: 1px solid var(--line, #ccc);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--txt);
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -4209,6 +4355,7 @@ body.planctx #wm::after {
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg></button>
 <button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
+<button class="ib" id="sportb" title="Licznik rowerowy"></button>
 <div id="recpill"><button id="rpp" title="Pauza"></button><button id="rpf" title="Zdjęcie na trasie"></button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)"></button><button id="rpb" title="Powrót do startu po nagrywanym śladzie"></button></div>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><div id="recbt"></div></div>
@@ -4263,6 +4410,65 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  " (zostaje do wyzerowania)": " (kept until you reset it)",
+  " Pokazuj zdjęcia z internetu (linki)": " Show photos from the internet (links)",
+  " · całkowity: ": " · total: ",
+  " – licznik rowerowy i treningi": " – bike computer and workouts",
+  " – szkice: kropki, odcinki, strzałki, numeracja": " – sketches: dots, segments, arrows, numbering",
+  ") – prowadzę prosto": ") – guiding in a straight line",
+  "Całkowity": "Total",
+  "Czas jazdy": "Riding time",
+  "Dane do szacowania kalorii": "Data for the calorie estimate",
+  "Dystans całkowity roweru zostanie wyzerowany na zawsze.\nWpisz ZERUJ, aby potwierdzić:": "The bike's total distance will be reset for good.\nType RESET to confirm:",
+  "Dziś": "Today",
+  "Dziś: ": "Today: ",
+  "Ekran licznika gaśnie normalnie": "The bike computer screen turns off as usual",
+  "GPS…": "GPS…",
+  "Kalorie (szac.)": "Calories (est.)",
+  "Kalorie to szacunek (±20–30%) z intensywności wysiłku (MET) dla dyscypliny i prędkości, wagi i czasu ruchu, z dodatkiem za podjazdy – bez pulsometru. Wiek i wzrost poprawiają dokładność. Dane zostają tylko w telefonie.": "Calories are an estimate (±20–30%) from the effort intensity (MET) for the discipline and speed, your weight and moving time, plus climbing – without a heart-rate monitor. Age and height improve accuracy. The data stay on your phone only.",
+  "Kobieta": "Woman",
+  "Licznik rowerowy": "Bike computer",
+  "Maks. ": "Max ",
+  "Moją pozycję (GPS)": "My position (GPS)",
+  "Mężczyzna": "Man",
+  "Nachylenie": "Gradient",
+  "Nagrywaj ślad": "Record track",
+  "Nie udało się wyznaczyć trasy (": "Could not calculate a route (",
+  "Nie wyzerowano": "Not reset",
+  "Odcinek prosto – ": "Segment straight – ",
+  "Ostatni widok – miejsce i przybliżenie z poprzedniego razu": "Last view – the place and zoom from last time",
+  "Podjazd ↗": "Climb ↗",
+  "Prywatny": "Private",
+  "Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport korzysta z map prywatnych i dodaje na mapie przycisk licznika rowerowego (ciemny ekran, prędkość, dystans dzienny i całkowity, kalorie); ślady z treningów trafiają do kategorii „Sport”.": "Private, Work or Sport. Work has separate maps and sketch tools. Sport uses the private maps and adds a bike computer button on the map (dark screen, speed, daily and total distance, calories); workout tracks go to the “Sport” category.",
+  "Przejazd": "Trip",
+  "Przejazd: ": "Trip: ",
+  "Przy uruchomieniu pokaż": "At start-up show",
+  "Przytrzymaj przycisk 2 sekundy": "Hold the button for 2 seconds",
+  "Płeć": "Sex",
+  "Sport": "Sport",
+  "Trwa już nagrywanie śladu – licznik korzysta z niego.": "A track is already being recorded – the bike computer uses it.",
+  "Tryb": "Mode",
+  "Tryb pracy aplikacji\n\nPrywatny i Praca mają osobne listy map i śladów. Sport korzysta z map prywatnych, a ślady z treningów zapisuje w kategorii „Sport”.": "App mode\n\nPrivate and Work have separate lists of maps and tracks. Sport uses the private maps and saves workout tracks in the “Sport” category.",
+  "Ustaw obecny widok jako domyślny": "Set the current view as default",
+  "Waga (kg) – wymagana": "Weight (kg) – required",
+  "Widok domyślny": "Default view",
+  "Widok domyślny to cała Polska albo miejsce ustawione przyciskiem poniżej. Podkład przy uruchomieniu wybierasz gwiazdką w menu mapy.": "The default view is the whole of Poland (Europe in English) or the place set with the button below. The base map at start-up is chosen with the star in the map menu.",
+  "Wiek (lata) – opcjonalnie": "Age (years) – optional",
+  "Wyzerowano dystans całkowity": "Total distance reset",
+  "Wyzerować przejazd (dystans, czas, średnia, maks., kalorie)?\n\nDzienny i całkowity zostają.": "Reset the trip (distance, time, average, max, calories)?\n\nDaily and total stay.",
+  "Wyzeruj dystans całkowity (przytrzymaj)": "Reset total distance (hold)",
+  "Wzrost (cm) – opcjonalnie": "Height (cm) – optional",
+  "ZERUJ": "RESET",
+  "Zapisano widok domyślny": "Default view saved",
+  "Zeruj": "Reset",
+  "Zeruj przejazd": "Reset trip",
+  "brak internetu": "no internet",
+  "podaj wagę": "enter weight",
+  "serwer tras nie odpowiedział": "the routing server did not respond",
+  "serwer tras: ": "routing server: ",
+  "Średnia ": "Average ",
+  "💡 Ekran licznika nie zgaśnie": "💡 The bike computer screen will stay on",
+  "Trasy rowerowe": "Bike routes",
   "Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.": "Choose the map (OSM, aerial photos – also archival from a chosen year, satellite), overlays (parcels, trails, forest sites), and at the top “Offline maps” – download an area before you go where there is no signal.",
   "REC nagrywa trasę także przy wygaszonym ekranie. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "REC records the route also with the screen off. Stops are auto-paused (the line does not break; “moving” and total statistics). In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
@@ -6147,6 +6353,7 @@ const IC = {
   refresh: '<path d="M19.5 11A7.5 7.5 0 0 0 6 6.6L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4.5 13A7.5 7.5 0 0 0 18 17.4l2-1.9"/><path d="M20 20v-4.5h-4.5"/>', // odśwież mapę
   map: '<path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/>', // mapa
   more: '<circle cx="12" cy="5.5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor"/>', // więcej opcji
+  sport: '<circle cx="6" cy="16.5" r="3.5"/><circle cx="18" cy="16.5" r="3.5"/><path d="M6 16.5l4-7h5l3 7M10 9.5L8.5 6.5H6.5M15 9.5l-1.8-3H16"/>', // tryb Sport (rower)
   bulb: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/>', // ekran nie gaśnie
   roadnav: '<path d="M8 21l2.5-18M16 21L13.5 3"/><path d="M12 6v2M12 11v2M12 16v2"/>', // prowadzenie po drogach
   plan: '<circle cx="6" cy="18" r="2.2"/><path d="M8.2 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5"/><path d="M15 3.5l3 2.5-3 2.5"/>', // zaplanuj trasę
@@ -6196,7 +6403,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v59';
+const APP_VER = 'v60';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   const v = localStorage.getItem('omm-motyw') || 'jasny',
@@ -9411,12 +9618,22 @@ async function editTpl(k) {
   TPL[k] = ls;
   saveTpl();
 }
+// widok przy uruchomieniu (v60): ostatni / domyślny (ustawiony przez użytkownika albo cała Polska) / moja pozycja
+const viewOk = v => v && Array.isArray(v.c) && isFinite(v.c[0]) && isFinite(v.c[1]) && isFinite(v.z);
+const viewDef = () => {
+  try {
+    const v = JSON.parse(localStorage.getItem('omm-widok-dom'));
+    if (viewOk(v)) return v;
+  } catch (e) {}
+  return LANG === 'pl' ? {c: [52.07, 19.48], z: 6} : {c: [50, 12], z: 4};
+};
 const VIEW0 = (() => {
+  if (localStorage.getItem('omm-start') === 'domyslny') return viewDef();
   try {
     const v = JSON.parse(localStorage.getItem('mapa-view'));
-    if (v && isFinite(v.c[0]) && isFinite(v.c[1]) && isFinite(v.z)) return v;
+    if (viewOk(v)) return v;
   } catch (e) {}
-  return {c: [51.76, 19.46], z: 13};
+  return viewDef();
 })();
 // ---------- mapa Leaflet i przyciski na mapie ----------
 const map = L.map('map', {zoomControl: false, attributionControl: false}).setView(VIEW0.c, VIEW0.z);
@@ -10525,7 +10742,7 @@ function cleanDB(d) {
   ['cur', 'curW'].forEach(k => {
     if (own(d, k) && d[k] != null) d[k] = remap.get(String(d[k])) || (okId(d[k]) ? d[k] : undefined);
   });
-  if (own(d, 'mode') && d.mode !== 'work') d.mode = 'priv';
+  if (own(d, 'mode') && d.mode !== 'work' && d.mode !== 'sport') d.mode = 'priv'; // v60: także tryb Sport
   return d;
 }
 const TRK_CM = ['jedn', 'predkosc', 'wysokosc'];
@@ -13762,7 +13979,8 @@ function fotoSheet() {
   tabsUi();
   const el = $('list');
   el.innerHTML = '';
-  const all = fotoAll(),
+  const net = localStorage.getItem('omm-foto-net') === '1', // zdjęcia-linki z internetu (v60, domyślnie nie)
+    all = fotoAll().filter(x => net || isLocalPh(x.u)),
     fr = h('div', 'tfilt'),
     cnt = k => all.filter(x => k === 'all' || x.src === k).length;
   [
@@ -13772,6 +13990,16 @@ function fotoSheet() {
     ['plan', _t('Planowanie')]
   ].forEach(([k, n]) => fr.append(B(n + ' (' + cnt(k) + ')', () => ((FOTOF = k), fotoSheet()), FOTOF === k ? 'on' : '')));
   el.append(fr);
+  const nl = h('label', 'chk fnet'),
+    nc = h('input');
+  nc.type = 'checkbox';
+  nc.checked = net;
+  nc.onchange = () => {
+    localStorage.setItem('omm-foto-net', nc.checked ? '1' : '0');
+    fotoSheet();
+  };
+  nl.append(nc, h('span', null, _t(' Pokazuj zdjęcia z internetu (linki)')));
+  el.append(nl);
   const its = all.filter(x => FOTOF === 'all' || x.src === FOTOF);
   if (!its.length) return el.append(h('div', 'empty', _t('Brak zdjęć. Zdjęcia dodasz przyciskiem 📷 na mapie, w okienku punktu albo podczas nagrywania śladu.')));
   const grid = h('div', 'fgrid');
@@ -13978,28 +14206,31 @@ $('seldel').onclick = async () => {
 function updMode() {
   const ib = document.querySelector('[data-g="icons"]');
   if (ib) ib.style.display = isW() ? 'none' : '';
-  const b = $('modeb');
-  b.innerHTML = ico(isW() ? 'work' : 'home', 17) + '<span>' + (isW() ? _t('Praca') : _t('Prywatne')) + '</span>';
+  const b = $('modeb'),
+    sp = isSport();
+  b.innerHTML = ico(isW() ? 'work' : sp ? 'sport' : 'home', 17) + '<span>' + (isW() ? _t('Praca') : sp ? _t('Sport') : _t('Prywatne')) + '</span>';
   b.classList.toggle('work', isW());
   $('lbtn').classList.toggle('work', isW());
+  document.body.classList.toggle('sport', sp); // tryb Sport: przycisk licznika na mapie (v60)
 }
 $('modeb').onclick = async () => {
-  const to = isW() ? 'prywatny' : 'praca';
-  if (
-    !(await askYes(
-      _t('Przełączyć na tryb „') +
-        to +
-        _t('”?\n\nKażdy tryb ma własną listę map') +
-        (to === 'praca' ? _t(' i narzędzia do szkiców (kropki, odcinki, strzałki, numeracja)') : '') +
-        _t('. Dane z drugiego trybu zostają nietknięte.'),
-      _t('Przełącz')
-    ))
-  )
-    return;
+  // v60: wybór trybu z listy – Prywatny / Praca / Sport (Sport = mapy prywatne + narzędzia treningowe)
+  const curM = isW() ? 'work' : isSport() ? 'sport' : 'priv';
+  const to = await dlg({
+    title: _t('Tryb pracy aplikacji\n\nPrywatny i Praca mają osobne listy map i śladów. Sport korzysta z map prywatnych, a ślady z treningów zapisuje w kategorii „Sport”.'),
+    btns: [
+      {t: '🏠 ' + _t('Prywatny'), v: 'priv', c: curM === 'priv' ? 'okb' : ''},
+      {t: '💼 ' + _t('Praca') + _t(' – szkice: kropki, odcinki, strzałki, numeracja'), v: 'work', c: curM === 'work' ? 'okb' : ''},
+      {t: '🏅 ' + _t('Sport') + _t(' – licznik rowerowy i treningi'), v: 'sport', c: curM === 'sport' ? 'okb' : ''},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (!to || to === curM) return;
   if (mode) setMode(null);
   selMode = false;
   SEL.clear();
-  DB.mode = isW() ? 'priv' : 'work';
+  DB.mode = to;
+  updMode();
   trkCur(); // ślady: otwarta kategoria nowego trybu (tryby się nie mieszają)
   trkSave();
   trkRender();
@@ -14273,14 +14504,31 @@ function ui() {
   const tb = $('toolsb'),
     open = $('tools').classList.contains('open'),
     hid = mode && !open && (mode === 'pin' || mode === 'plan' || inGroup('draw', mode) || inGroup('data', mode));
-  tb.innerHTML = hid ? (mode === 'pin' ? ib.innerHTML : mode === 'plan' ? pb.innerHTML : ICON[mode] || ico('tools', 22)) : open ? ico('x', 22) : ico('tools', 22);
+  tb.innerHTML = hid ? (mode === 'pin' ? ib.innerHTML : mode === 'plan' ? pb.innerHTML : ICON[mode] || ico('tools', 22)) : ico('tools', 22);
   tb.classList.toggle('on', !!hid);
 }
 var UI_LAST = null;
+var TOOLT = null;
 function toolsOpen(on) {
+  // v60: rozwinięty pasek sam się zwija po ok. 4 s bez dotyku (otwarte podmenu wstrzymuje odliczanie)
   $('tools').classList.toggle('open', on);
+  clearTimeout(TOOLT);
   if (!on && $('dmenu').dataset.g !== 'photo') $('dmenu').style.display = 'none';
+  if (on && !TUT) TOOLT = setTimeout(toolsIdle, 4000);
 }
+function toolsIdle() {
+  if (!$('tools').classList.contains('open')) return;
+  const dm = $('dmenu');
+  if (dm.style.display === 'block' && dm.dataset.g !== 'photo') return void (TOOLT = setTimeout(toolsIdle, 4000)); // podmenu otwarte
+  toolsOpen(false);
+  ui();
+}
+$('tools').addEventListener('pointerdown', () => {
+  if ($('tools').classList.contains('open')) {
+    clearTimeout(TOOLT);
+    TOOLT = setTimeout(toolsIdle, 4000);
+  }
+});
 function clearAll() {
   if (mode !== 'plan') PLN = null; // planowanie trasy (v58) kończy się razem z trybem
   if ($('plnb')) $('plnb').style.display = 'none';
@@ -15463,28 +15711,35 @@ const hErr = e =>
 var RESB = null; // dymek z wynikiem pomiaru (v59)
 function resBubble(pts, lines, extra) {
   // dymek wskazujący na zmierzony kształt: zaczepiony u najdalej na północ wysuniętego punktu (dymek jest nad nim,
-  // więc nie zasłania linii); ✕ zamyka dymek i czyści pomiar; dotknięcie samego dymku nic nie robi
+  // więc nie zasłania linii); ✕ w prawym górnym rogu (jak w innych okienkach) zamyka dymek i czyści pomiar (v60)
   resClose();
   const top = pts.reduce((a, b) => (b[0] > a[0] ? b : a), pts[0]),
-    box = h('div', 'mrb'),
-    bt = h('div', 'mrbt');
+    box = h('div', 'mrb');
   lines.forEach((t, i) => box.append(h(i ? 'div' : 'b', null, t)));
-  bt.append(...(extra || []), BI('x', _t('Zamknij'), () => resClose(true)));
-  box.append(bt);
+  if (extra && extra.length) {
+    const bt = h('div', 'mrbt');
+    bt.append(...extra);
+    box.append(bt);
+  }
   L.DomEvent.disableClickPropagation(box);
-  RESB = L.popup({closeButton: false, autoClose: false, closeOnClick: false, autoPan: true, className: 'mres', offset: [0, -8], maxWidth: 280})
-    .setLatLng(top)
-    .setContent(box)
-    .openOn(map);
+  const pop = L.popup({autoClose: false, closeOnClick: false, autoPan: true, className: 'mres', offset: [0, -8], maxWidth: 280}).setLatLng(top).setContent(box);
+  pop.on('remove', () => {
+    if (RESB !== pop) return; // zastąpiony nowym dymkiem
+    RESB = null;
+    tmp.clearLayers();
+    info.style.display = 'none';
+  });
+  RESB = pop;
+  pop.openOn(map);
 }
 function resClose(clear) {
-  if (RESB) {
-    map.closePopup(RESB);
-    RESB = null;
-    if (clear) {
-      tmp.clearLayers();
-      info.style.display = 'none';
-    }
+  if (!RESB) return;
+  const p = RESB;
+  RESB = null;
+  map.closePopup(p);
+  if (clear) {
+    tmp.clearLayers();
+    info.style.display = 'none';
   }
 }
 async function showHeight(p) {
@@ -15777,6 +16032,8 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
 <li><b>Ustawienia</b> (trybik w panelu) – kopia zapasowa (także automatyczna na Dysk Google), nagrywanie śladu, <b>W terenie</b> (alerty głosowe, ekran nie gaśnie, rodzaj dróg, alarm przy miejscówkach, auto, plan wyjścia), <b>Wygląd</b> (tryb ciemny) i <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni.</li>
+<li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – mapy prywatne plus przycisk licznika rowerowego na mapie: ciemny ekran z prędkością, średnią, maks., dystansem przejazdu, dziennym i całkowitym, wysokością, podjazdem i kaloriami (po podaniu wagi w Ustawieniach → Sport). Ślad nagrany z licznika trafia do kategorii „Sport”, warstwa „Trasy rowerowe”.</li>
+<li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
 </ol>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe; wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”, a trasy po drogach liczy serwer Valhalla (FOSSGIS) – dostaje wtedy tylko współrzędne punktów trasy.</p>`;
@@ -15821,6 +16078,8 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Search</b> – 🔍 in the bottom-left corner: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – backup (also automatic to Google Drive), track recording, <b>In the field</b> (voice alerts, keep the screen on, road type, alarm near spots, car, trip plan), <b>Appearance</b> (dark mode) and <b>Trash</b> – deleted things wait there for 30 days.</li>
+<li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – private maps plus a bike computer button on the map: a dark screen with speed, average, max, trip, daily and total distance, elevation, climb and calories (after entering your weight in Settings → Sport). A track recorded from the bike computer goes to the “Sport” category, layer “Bike routes”.</li>
+<li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
 </ol>
 <p class="muted">Your data are yours only – the app sends them to no one. From the internet it downloads base maps; the address search asks OpenStreetMap only after you press “Search the internet”, and routes along roads are calculated by the Valhalla server (FOSSGIS) – it receives only the coordinates of the route points.</p>`;
@@ -20216,6 +20475,8 @@ function trkSummaryDlg() {
     tile(String(Math.round(elv(up))), UE, _t('Podejście'));
     tile(fkm(d / its.length).split(' ')[0], fkm(d / its.length).split(' ')[1], _t('Średnio na ślad'));
     tile(fkm(longest.s.d).split(' ')[0], fkm(longest.s.d).split(' ')[1], _t('Najdłuższy'));
+    const kc = sum(o => trkKcal(o.t, o.s)); // kalorie (v60) – gdy podano wagę w Ustawieniach → Sport
+    if (kc > 0) tile(String(Math.round(kc)), 'kcal', _t('Kalorie (szac.)'));
     body.append(grid);
     // wykres dystansu: dni tygodnia / dni miesiąca / miesiące / lata
     let bins = [],
@@ -21375,7 +21636,7 @@ function recSaveDlg() {
     inp.type = 'text';
     const asel = h('select');
     asel.className = 'tsel';
-    const ag = actGuess(s, {pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st});
+    const ag = REC.a && ACTS[REC.a] ? REC.a : actGuess(s, {pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}); // trening w trybie Sport – rodzaj z góry
     Object.entries(ACTS).forEach(([k, [e, n]]) => asel.add(new Option(_t('Rodzaj: ') + e + ' ' + n, k, false, k === ag)));
     // automatyczna nazwa wg Ustawień; zmienia się z rodzajem i po ustaleniu miejsca, dopóki nie wpiszesz własnej
     const nmode = trkNameMode();
@@ -21737,6 +21998,8 @@ function recFollow() {
   if (map.latLngToContainerPoint(ll).distanceTo(map.getSize().divideBy(2)) < 4) return;
   map.panTo(ll, {animate: true, duration: 0.6});
 }
+$('sportb').innerHTML = ico('sport', 24);
+$('sportb').onclick = () => sportPick();
 $('recb').onclick = () => {
   // REC: start, a w trakcie nagrywania – zakończenie (z pytaniem o zapis)
   if (!REC) recStart();
@@ -23536,7 +23799,7 @@ async function navRoute(again) {
   NAV.rrT = Date.now();
   if (!NAV.road) return;
   if (!r) {
-    toastMsg(_t('Nie udało się wyznaczyć trasy (brak internetu?) – prowadzę prosto'));
+    toastMsg(_t('Nie udało się wyznaczyć trasy (') + RT_ERR + _t(') – prowadzę prosto'));
     if (!again) navRoadSet(false);
     return;
   }
@@ -23836,7 +24099,7 @@ function navStop() {
 }
 // ---------- ekran nie gaśnie (v59): Screen Wake Lock z WebView, bez nowych uprawnień ----------
 const wlMode = () => (['trasa', 'zawsze'].includes(localStorage.getItem('omm-ekran')) ? localStorage.getItem('omm-ekran') : 'nie');
-const wlWant = () => wlMode() === 'zawsze' || (wlMode() === 'trasa' && !!(REC || NAV));
+const wlWant = () => wlMode() === 'zawsze' || (wlMode() === 'trasa' && !!(REC || NAV)) || (SPT_OPEN && localStorage.getItem('omm-sport-ekran') !== 'nie');
 let WL = null;
 async function wlSync() {
   // trzyma albo zwalnia blokadę wygaszania zgodnie z ustawieniem i tym, co się dzieje (nagrywanie, prowadzenie)
@@ -24387,7 +24650,15 @@ function statsTiles(t) {
       [String(Math.round(elv(s.emax - s.emin))), UE, _t('Różnica wysokości')],
       [Math.round(elv(s.emax)) + ' / ' + Math.round(elv(s.emin)), UE, _t('Wysokość max / min')]
     );
+  const kc = trkKcal(t, s);
+  if (kc > 0) out.push([String(Math.round(kc)), 'kcal', _t('Kalorie (szac.)')]);
   return {s, tiles: out};
+}
+function trkKcal(t, s) {
+  // szacunek kalorii śladu (v60): rower / bieg / pieszo, gdy w Ustawieniach → Sport podano wagę
+  if (t.noTime || !['rower', 'bieg', 'pieszo'].includes(t.a)) return 0;
+  s = s || trkStatsC(t);
+  return kcalOf(t.a, s.vmov, s.mov, s.up);
 }
 function drawHeader(cx, t, x, y, w, small, tall) {
   // nazwa i data śladu w białej ramce
@@ -24988,6 +25259,7 @@ async function routeAB(pts, opt = {}) {
   // trasa przez punkty pts ([szer, dł]); opt.prof – rodzaj dróg, opt.priv – także drogi prywatne / zamknięte
   // zwraca {p: punkty, man: polecenia [{i, txt, pre, typ}], len: m, time: s, src} albo null
   const pf = RT_PROF[opt.prof || rtProf()];
+  RT_ERR = navigator.onLine === false ? _t('brak internetu') : _t('serwer tras nie odpowiedział');
   try {
     const q = {
       locations: pts.map(x => ({lat: +x[0].toFixed(6), lon: +x[1].toFixed(6)})),
@@ -24996,6 +25268,7 @@ async function routeAB(pts, opt = {}) {
       directions_options: {language: LANG === 'pl' ? 'pl-PL' : 'en-US', units: 'kilometers'}
     };
     const j = await rtFetch('https://valhalla1.openstreetmap.de/route?json=' + encodeURIComponent(JSON.stringify(q)));
+    if (j && j.error) RT_ERR = _t('serwer tras: ') + String(j.error).slice(0, 120); // np. brak drogi w pobliżu punktu
     const legs = j && j.trip && j.trip.legs;
     if (Array.isArray(legs) && legs.length) {
       const p = [],
@@ -25027,17 +25300,22 @@ async function routeAB(pts, opt = {}) {
   } catch (e) {}
   return null;
 }
+var RT_ERR = '';
 async function routeSeg(a, b, opt = {}) {
-  // odcinek a→b po drogach do rysowania (planer, dorysowanie śladu). Kontrola sensu: gdy serwer „przykleił”
-  // punkt dalej niż 25 m od dotknięcia albo trasa idzie dużo naokoło – odcinek prosto (bad = powód).
+  // odcinek a→b po drogach. Planer: zawsze po drogach, od drogi do dotkniętego punktu krótki odcinek prosto (v60).
+  // Dorysowanie śladu (opt.strict): kontrola sensu – serwer „przykleił” punkt dalej niż 25 m od dotknięcia albo
+  // trasa idzie dużo naokoło → odcinek prosto (bad = powód).
   const r = await routeAB([a, b], opt);
-  if (!r) return {p: [a, b], bad: 'net'};
-  const p = despur(r.p),
-    st = hav(a, b),
-    L2 = dist(p);
-  if (hav(a, p[0]) > 25 || hav(b, p[p.length - 1]) > 25) return {p: [a, b], bad: 'snap'};
-  if (L2 > st * 1.5 && L2 - st > 150) return {p: [a, b], bad: 'detour'};
-  return {p: [a, ...p.slice(1, -1), b], bad: null};
+  if (!r) return {p: [a, b], bad: 'net', why: RT_ERR};
+  const p = despur(r.p);
+  if (opt.strict) {
+    const st = hav(a, b),
+      L2 = dist(p);
+    if (hav(a, p[0]) > 25 || hav(b, p[p.length - 1]) > 25) return {p: [a, b], bad: 'snap'};
+    if (L2 > st * 1.5 && L2 - st > 150) return {p: [a, b], bad: 'detour'};
+  }
+  const out = [a, ...p, b].filter((q, i, arr) => !i || hav(q, arr[i - 1]) > 0.5); // bez zdublowanych punktów
+  return {p: out, bad: null};
 }
 async function extRoute(a, b) {
   // zgodność wstecz: sam odcinek po ścieżkach albo null
@@ -25081,7 +25359,7 @@ async function extFinish(t, kind, gi, taps, route) {
     let net = 0,
       bad = 0;
     for (let i = 1; i < path.length; i++) {
-      const r = await routeSeg(path[i - 1], path[i], {priv: true});
+      const r = await routeSeg(path[i - 1], path[i], {priv: true, strict: true});
       if (r.bad === 'net') net++;
       else if (r.bad) bad++;
       out.push(...r.p.slice(1));
@@ -26227,6 +26505,8 @@ if (plug('App')) {
   plug('App').addListener('resume', () => setTimeout(() => autoBackup(false), 8000));
 }
 setTimeout(() => autoBackup(false), 12000);
+// widok przy uruchomieniu: moja pozycja (v60) – włącza kropkę GPS jak przycisk ◎
+if (localStorage.getItem('omm-start') === 'gps') setTimeout(() => $('gps') && $('gps').click(), 700);
 
 // ---------- samouczek: podświetlony przycisk, animowana dłoń i dymek z opisem ----------
 /*
@@ -26250,6 +26530,7 @@ const TUT_STEPS = [
   {sel: '#lbtn', t: _t('Mapy, warstwy i ślady'), x: _t('Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.')},
   {sel: '#stabs .stab[data-k="plan"]', open: 'sheet', tab: 'plan', t: _t('Planowanie'), x: _t('Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
+  {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport korzysta z map prywatnych i dodaje na mapie przycisk licznika rowerowego (ciemny ekran, prędkość, dystans dzienny i całkowity, kalorie); ślady z treningów trafiają do kategorii „Sport”.')},
   {sel: '#setb', open: 'sheet', t: _t('Ustawienia'), x: _t('Kopia (także na Dysk Google), nagrywanie śladu, „W terenie” (alerty głosowe, ekran, rodzaj dróg, alarm przy miejscówkach, auto), wygląd (tryb ciemny), prywatność i kosz.')},
   {sel: '#infob', open: 'sheet', t: _t('O aplikacji'), x: _t('O autorze i założeniach OMM, krótki przewodnik „Jak zacząć” – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.')}
 ];
@@ -27616,8 +27897,7 @@ async function planTap(p) {
       PLN.busy--;
       if (!PLN) return;
       if (PLN.segs[i] && PLN.segs[i][0] === a) PLN.segs[i] = r.p;
-      if (r.bad === 'net') toastMsg(_t('Odcinek prosto – serwer tras nie odpowiedział'));
-      else if (r.bad) toastMsg(_t('Odcinek prosto – drogi prowadziły naokoło'));
+      if (r.bad) toastMsg(_t('Odcinek prosto – ') + (r.why || _t('serwer tras nie odpowiedział')));
     }
   }
   planInfo();
@@ -27809,6 +28089,9 @@ async function bdlInfo(e) {
 
 // --- hak wywoływany przy każdym nowym punkcie nagrywanego śladu (także w tle) ---
 function fieldHook(q, x) {
+  try {
+    sportRecPoint(q, x); // licznik sportowy liczy także z nagrywania (w tle)
+  } catch (e) {}
   if (!FLD_READY) return;
   try {
     carDetect(q, x);
@@ -27834,6 +28117,330 @@ function fieldInit() {
   clusterUpd();
 }
 fieldInit();
+
+
+// ---------- tryb Sport (v60): narzędzie dla dyscypliny – na początek licznik rowerowy ----------
+/*
+ * Tryb Sport korzysta z map trybu prywatnego (bez osobnych map). Ślady z treningu trafiają do Śladów GPS:
+ * kategoria „Sport”, warstwa wg dyscypliny (np. „Trasy rowerowe”), rodzaj aktywności ustawiony z góry.
+ * Licznik: przejazd (zerowany przyciskiem), dzienny (sam o północy) i całkowity (ODO – tylko w Ustawieniach,
+ * przytrzymanie + wpisanie „ZERUJ”), osobno dla każdej dyscypliny. Pozycje: z własnego GPS przy otwartym
+ * liczniku i z nagrywania śladu (także w tle) – bez dublowania (liczy się czas punktu).
+ * Kalorie: szacunek MET (Compendium of Physical Activities 2011) × waga × czas ruchu + praca na podjazdach.
+ */
+function isSport() {
+  return DB.mode === 'sport';
+}
+const SPORTS = {rower: {ic: '🚲', n: 'Rower', ln: 'Trasy rowerowe', a: 'rower', c: '#1e88e5', mv: 1.2}};
+var SPT = null, // bieżący przejazd (pamiętany do wyzerowania)
+  SPT_OPEN = false,
+  SPT_W = null, // obserwacja GPS licznika
+  SPT_EL = null,
+  SPT_REC = false; // nagrywanie włączone przez licznik
+function sptLoad() {
+  try {
+    const x = JSON.parse(localStorage.getItem('omm-sport-przejazd') || 'null');
+    if (x && SPORTS[x.disc]) return x;
+  } catch (e) {}
+  return null;
+}
+function sptNew(disc) {
+  return {disc, d: 0, mov: 0, max: 0, up: 0, kc: 0, t0: Date.now(), lastT: 0, last: null, eleRef: null, ele: null, v: 0, gr: null, gbuf: []};
+}
+function sptSave() {
+  try {
+    if (SPT) localStorage.setItem('omm-sport-przejazd', JSON.stringify({...SPT, gbuf: []}));
+  } catch (e) {}
+}
+const dayKey = (t = Date.now()) => {
+  const d = new Date(t);
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+};
+function odoGet() {
+  let o = {};
+  try {
+    o = JSON.parse(localStorage.getItem('omm-sport-odo') || '{}') || {};
+  } catch (e) {}
+  return o;
+}
+function odoAdd(disc, m) {
+  const o = odoGet(),
+    x = o[disc] || {tot: 0, day: 0, dk: dayKey()};
+  if (x.dk !== dayKey()) {
+    x.day = 0; // nowy dzień – licznik dzienny od zera
+    x.dk = dayKey();
+  }
+  x.tot += m;
+  x.day += m;
+  o[disc] = x;
+  try {
+    localStorage.setItem('omm-sport-odo', JSON.stringify(o));
+  } catch (e) {}
+  return x;
+}
+function odoNow(disc) {
+  const x = odoGet()[disc] || {tot: 0, day: 0, dk: dayKey()};
+  return {tot: x.tot, day: x.dk === dayKey() ? x.day : 0};
+}
+// --- kalorie ---
+const bodyW = () => {
+  const w = +String(localStorage.getItem('omm-waga') || '').replace(',', '.');
+  return w >= 25 && w <= 300 ? w : 0;
+};
+function metFor(act, v) {
+  // MET wg prędkości (km/h); rower: Compendium 2011 (01009–01050), bieg i marsz – na przyszłe dyscypliny
+  const k = v * 3.6;
+  if (act === 'rower') return k < 3 ? 0 : k < 16 ? 4 : k < 19 ? 6.8 : k < 22.5 ? 8 : k < 25.5 ? 10 : k < 30.5 ? 12 : 15.8;
+  if (act === 'bieg') return k < 3 ? 0 : Math.max(6, 1.05 * k - 0.6);
+  if (act === 'pieszo') return k < 1.5 ? 0 : k < 3.2 ? 2.3 : k < 4.5 ? 3 : k < 5.5 ? 3.8 : k < 6.5 ? 5 : 6.3;
+  return 0;
+}
+function metCorr() {
+  // poprawka na przemianę podstawową (gdy podano płeć, wiek, wzrost): MET liczony względem 3,5 ml/kg/min
+  const w = bodyW(),
+    a = +localStorage.getItem('omm-wiek'),
+    hgt = +localStorage.getItem('omm-wzrost'),
+    sx = localStorage.getItem('omm-plec');
+  if (!w || !(a > 10 && a < 110) || !(hgt > 100 && hgt < 230) || !sx) return 1;
+  const bmr = sx === 'k' ? 447.593 + 9.247 * w + 3.098 * hgt - 4.33 * a : 88.362 + 13.397 * w + 4.799 * hgt - 5.677 * a, // Harris–Benedict (kcal/doba)
+    rmr = (bmr / 1440 / 5 / w) * 1000; // ml O2 / kg / min
+  return Math.max(0.7, Math.min(1.4, 3.5 / rmr));
+}
+function kcalOf(act, vmov, movSec, up) {
+  // szacunek kalorii dla śladu albo przejazdu; 0 = brak wagi w Ustawieniach
+  const w = bodyW();
+  if (!w || !movSec) return 0;
+  const met = metFor(act, vmov) * metCorr();
+  return met * w * (movSec / 3600) + (w * 9.81 * (up || 0)) / 0.25 / 4184;
+}
+// --- dane z GPS ---
+function sptFeed(lat, lon, alt, acc, spd, t) {
+  // jeden punkt pozycji (z GPS licznika albo z nagrywania); punkty starsze niż poprzedni – pomijane
+  if (!SPT || !(t > SPT.lastT + 400)) return;
+  if (acc != null && acc > 35) return; // za słaby sygnał
+  const S = SPORTS[SPT.disc],
+    p = [lat, lon];
+  if (SPT.last && !SPT.paused) {
+    const dt = (t - SPT.lastT) / 1000,
+      d = hav(SPT.last, p),
+      v = spd != null && isFinite(spd) && spd >= 0 ? spd : dt > 0 ? d / dt : 0;
+    SPT.v = v;
+    if (v >= S.mv && dt < 30) {
+      // w ruchu: dystans, czas ruchu, maks., kalorie
+      SPT.d += d;
+      SPT.mov += dt;
+      if (v > SPT.max && v < 40) SPT.max = v; // >144 km/h = błąd GPS
+      const o = odoAdd(SPT.disc, d);
+      SPT.day = o.day;
+      SPT.tot = o.tot;
+      SPT.kc += kcalOf(S.a, v, dt, 0);
+    } else if (v < S.mv) SPT.v = v < 0.5 ? 0 : v;
+    if (alt != null && isFinite(alt)) {
+      // wysokość i podjazd (histereza 3 m na szum GPS), nachylenie z ostatnich ~100 m
+      SPT.ele = alt;
+      if (SPT.eleRef == null) SPT.eleRef = alt;
+      else if (alt - SPT.eleRef >= 3) {
+        const du = alt - SPT.eleRef;
+        SPT.up += du;
+        if (bodyW()) SPT.kc += (bodyW() * 9.81 * du) / 0.25 / 4184; // praca na podjeździe
+        SPT.eleRef = alt;
+      } else if (SPT.eleRef - alt >= 3) SPT.eleRef = alt;
+      SPT.gbuf.push([SPT.d, alt]);
+      while (SPT.gbuf.length > 2 && SPT.d - SPT.gbuf[0][0] > 120) SPT.gbuf.shift();
+      const g0 = SPT.gbuf[0];
+      SPT.gr = SPT.d - g0[0] >= 40 ? ((alt - g0[1]) / (SPT.d - g0[0])) * 100 : null;
+    }
+  }
+  SPT.last = p;
+  SPT.lastT = t;
+  if (SPT_OPEN) sptDraw();
+}
+function sportRecPoint(q, x) {
+  // punkt z nagrywania śladu (działa też w tle)
+  if (!SPT || !REC) return;
+  sptFeed(q[0], q[1], q[2], x && x.accuracy, x && x.speed, REC.st + q[3] * 1000);
+}
+// --- ekran licznika ---
+const fkmh1 = v => (v * 3.6).toFixed(1).replace('.', DEC);
+function sptDraw() {
+  if (!SPT_EL || !SPT) return;
+  const E = SPT_EL,
+    S = SPORTS[SPT.disc],
+    o = odoNow(SPT.disc),
+    avg = SPT.mov > 5 ? SPT.d / SPT.mov : 0,
+    set = (k, v) => {
+      const el = E.querySelector('[data-k="' + k + '"]');
+      if (el) el.textContent = v;
+    };
+  set('v', IMP ? (SPT.v * 2.23694).toFixed(1) : fkmh1(SPT.v));
+  set('avg', IMP ? (avg * 2.23694).toFixed(1) : fkmh1(avg));
+  const mx = Math.max(SPT.max, avg); // maks. nigdy mniejsza od średniej (prędkość z GPS vs dystans)
+  set('max', IMP ? (mx * 2.23694).toFixed(1) : fkmh1(mx));
+  set('d', fkm(SPT.d));
+  set('mov', fdur(Math.round(SPT.mov)));
+  set('day', fkm(o.day));
+  set('tot', fkm(o.tot));
+  set('ele', SPT.ele != null ? fel(SPT.ele) : '–');
+  set('up', fel(SPT.up));
+  set('gr', SPT.gr != null ? (SPT.gr > 0 ? '+' : '') + Math.round(SPT.gr) + '%' : '–');
+  set('kc', bodyW() ? Math.round(SPT.kc) + ' kcal' : _t('podaj wagę'));
+  set('clk', fhm(Date.now()));
+  set('gps', SPT_ACC != null ? '±' + Math.round(SPT_ACC) + ' m' : _t('GPS…'));
+  E.querySelector('.spau').innerHTML = SPT.paused ? ico('play', 22) + '<span>' + _t('Dalej') + '</span>' : ico('pause', 22) + '<span>' + _t('Pauza') + '</span>';
+  E.classList.toggle('paused', !!SPT.paused);
+  E.querySelector('.swl').classList.toggle('on', wlWant());
+  E.querySelector('.srec').classList.toggle('on', !!REC);
+  E.querySelector('.srec span').textContent = REC ? _t('Nagrywa') : _t('Nagrywaj ślad');
+}
+var SPT_ACC = null;
+function sportOpen(disc = 'rower') {
+  // otwarcie licznika (przejazd trwa dalej, aż go wyzerujesz)
+  const S = SPORTS[disc];
+  SPT = sptLoad();
+  if (!SPT || SPT.disc !== disc) SPT = sptNew(disc);
+  SPT.last = null; // po przerwie nie łączymy odległej pozycji z poprzednią
+  SPT.lastT = Math.max(SPT.lastT || 0, Date.now() - 1000);
+  SPT_OPEN = true;
+  let E = $('sport');
+  if (!E) {
+    E = h('div');
+    E.id = 'sport';
+    document.body.append(E);
+  }
+  SPT_EL = E;
+  const tile = (k, l) => '<div class="st"><b data-k="' + k + '">–</b><i>' + esc(l) + '</i></div>',
+    U = IMP ? 'mph' : 'km/h';
+  E.innerHTML =
+    '<div class="stop"><span class="snm">' + S.ic + ' ' + esc(_t(S.n)) + '</span><span data-k="gps"></span><span data-k="clk"></span></div>' +
+    '<div class="sbig"><b data-k="v">0</b><span>' + U + '</span></div>' +
+    '<div class="sgrid">' +
+    tile('avg', _t('Średnia ') + U) +
+    tile('max', _t('Maks. ') + U) +
+    tile('d', _t('Przejazd')) +
+    tile('mov', _t('Czas jazdy')) +
+    tile('day', _t('Dziś')) +
+    tile('tot', _t('Całkowity')) +
+    tile('ele', _t('Wysokość')) +
+    tile('up', _t('Podjazd ↗')) +
+    tile('gr', _t('Nachylenie')) +
+    tile('kc', _t('Kalorie (szac.)')) +
+    '</div><div class="sbt"></div>';
+  const bt = E.querySelector('.sbt'),
+    mk = (ic, l, fn, c) => {
+      const b = BI(ic, l, fn, c);
+      return b;
+    };
+  bt.append(
+    mk('pause', _t('Pauza'), () => {
+      SPT.paused = !SPT.paused;
+      SPT.last = null;
+      if (SPT_REC && REC) recPause(SPT.paused);
+      sptSave();
+      sptDraw();
+    }, 'spau'),
+    mk('rec', _t('Nagrywaj ślad'), sportRecToggle, 'srec'),
+    mk('refresh', _t('Zeruj przejazd'), async () => {
+      if (!(await askYes(_t('Wyzerować przejazd (dystans, czas, średnia, maks., kalorie)?\n\nDzienny i całkowity zostają.'), _t('Zeruj')))) return;
+      SPT = sptNew(SPT.disc);
+      sptSave();
+      sptDraw();
+    }),
+    mk('bulb', _t('Ekran'), () => {
+      const on = localStorage.getItem('omm-sport-ekran') === 'nie';
+      localStorage.setItem('omm-sport-ekran', on ? 'tak' : 'nie');
+      toastMsg(on ? _t('💡 Ekran licznika nie zgaśnie') : _t('Ekran licznika gaśnie normalnie'));
+      wlSync();
+      sptDraw();
+    }, 'swl'),
+    mk('map', _t('Mapa'), sportClose),
+    mk('x', _t('Zakończ'), sportEnd, 'danger')
+  );
+  E.style.display = 'flex';
+  document.body.classList.add('sporton');
+  if (navigator.geolocation && SPT_W == null)
+    SPT_W = navigator.geolocation.watchPosition(
+      p => {
+        SPT_ACC = p.coords.accuracy;
+        sptFeed(p.coords.latitude, p.coords.longitude, p.coords.altitude, p.coords.accuracy, p.coords.speed, p.timestamp || Date.now());
+        sptDraw();
+      },
+      e => {
+        if (e.code === 1) tell(gpsHelp(e));
+      },
+      {enableHighAccuracy: true, maximumAge: 1000, timeout: 60000}
+    );
+  clearInterval(SPT_EL._tm);
+  SPT_EL._tm = setInterval(() => {
+    sptDraw();
+    sptSave();
+  }, 5000);
+  wlSync();
+  sptDraw();
+}
+function sportClose() {
+  // licznik chowa się (przejazd i nagrywanie trwają dalej) – wraca przyciskiem w trybie Sport
+  SPT_OPEN = false;
+  if (SPT_W != null) navigator.geolocation.clearWatch(SPT_W);
+  SPT_W = null;
+  if (SPT_EL) {
+    clearInterval(SPT_EL._tm);
+    SPT_EL.style.display = 'none';
+  }
+  document.body.classList.remove('sporton');
+  sptSave();
+  wlSync();
+}
+async function sportEnd() {
+  // koniec treningu: licznik zamknięty; gdy nagrywał – zapis śladu (warstwa dyscypliny w kategorii „Sport”)
+  sportClose();
+  if (SPT_REC && REC) {
+    SPT_REC = false;
+    await recStop();
+  }
+  toastMsg(_t('Przejazd: ') + fkm(SPT ? SPT.d : 0) + ' · ' + fdur(Math.round(SPT ? SPT.mov : 0)) + _t(' (zostaje do wyzerowania)'));
+}
+async function sportRecToggle() {
+  // nagrywanie śladu z licznika – ślad trafi do kategorii „Sport”, warstwa wg dyscypliny
+  if (REC) {
+    if (SPT_REC) {
+      SPT_REC = false;
+      sportClose();
+      await recStop();
+      if (!REC) sportOpen(SPT.disc);
+      return;
+    }
+    return tell(_t('Trwa już nagrywanie śladu – licznik korzysta z niego.'));
+  }
+  const l = sportLayer(SPT.disc);
+  await recStart();
+  if (!REC) return;
+  REC.l = l.id;
+  REC.a = SPORTS[SPT.disc].a;
+  recPersist(true);
+  SPT_REC = true;
+  sptDraw();
+}
+function sportLayer(disc) {
+  // kategoria „Sport” (tryb prywatny) i warstwa dyscypliny – tworzone przy pierwszym treningu
+  const S = SPORTS[disc];
+  let c = TRK.cats.find(x => x.sport && !x.w);
+  if (!c) {
+    c = {id: uid(), name: _t('Sport'), vis: true, active: null, sport: true};
+    TRK.cats.push(c);
+  }
+  let l = TRK.layers.find(x => x.cat === c.id && x.disc === disc);
+  if (!l) {
+    l = {id: uid(), name: _t(S.ln), vis: true, c: S.c, open: true, cat: c.id, disc};
+    TRK.layers.push(l);
+  }
+  if (!c.active) c.active = l.id;
+  trkSave();
+  return l;
+}
+async function sportPick() {
+  // wybór dyscypliny (v60: rower; kolejne – bieg, marsz, trekking, jeździectwo, rolki – w następnej wersji)
+  sportOpen('rower');
+}
 
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg() {
@@ -28306,6 +28913,62 @@ function settingsDlg() {
     _t('Dotyczy planowania trasy „po ścieżkach”, dorysowania śladu i prowadzenia „po drogach”. Trasy liczy darmowy serwer Valhalla (FOSSGIS, dane © OpenStreetMap) – wysyłane są tylko współrzędne punktów trasy. Bez internetu – linia prosta.')
   );
   btnRow([BI('clock', _t('Plan wyjścia…'), () => planDlg())]);
+  // sport (v60): dane do szacowania kalorii i liczniki dystansu
+  cat('sport', 'sport', _t('Sport'));
+  radios(
+    _t('Płeć'),
+    'omm-plec',
+    '',
+    [
+      ['k', _t('Kobieta')],
+      ['m', _t('Mężczyzna')]
+    ],
+    null
+  );
+  {
+    const g = h('div', 'sset nset');
+    g.append(h('b', null, _t('Dane do szacowania kalorii')));
+    [
+      ['omm-waga', _t('Waga (kg) – wymagana'), '75'],
+      ['omm-wiek', _t('Wiek (lata) – opcjonalnie'), '40'],
+      ['omm-wzrost', _t('Wzrost (cm) – opcjonalnie'), '176']
+    ].forEach(([k, l, ph]) => {
+      const lb = h('label'),
+        inp = h('input');
+      inp.type = 'text';
+      inp.inputMode = 'decimal';
+      inp.placeholder = ph;
+      inp.value = localStorage.getItem(k) || '';
+      inp.onchange = () => {
+        const v = String(inp.value).replace(',', '.').trim();
+        if (v === '' || isFinite(+v)) localStorage.setItem(k, v);
+      };
+      lb.append(h('span', null, l), inp);
+      g.append(lb);
+    });
+    g.append(h('div', 'muted', _t('Kalorie to szacunek (±20–30%) z intensywności wysiłku (MET) dla dyscypliny i prędkości, wagi i czasu ruchu, z dodatkiem za podjazdy – bez pulsometru. Wiek i wzrost poprawiają dokładność. Dane zostają tylko w telefonie.')));
+    sec.append(g);
+  }
+  {
+    const o = odoNow('rower'),
+      g = h('div', 'sset');
+    g.append(h('b', null, _t('Licznik rowerowy')), h('div', null, _t('Dziś: ') + fkm(o.day) + _t(' · całkowity: ') + fkm(o.tot)));
+    const rb = B(_t('Wyzeruj dystans całkowity (przytrzymaj)'), () => toastMsg(_t('Przytrzymaj przycisk 2 sekundy')), 'danger');
+    let tm = null;
+    rb.addEventListener('pointerdown', () => {
+      tm = setTimeout(async () => {
+        const v = await askText(_t('Dystans całkowity roweru zostanie wyzerowany na zawsze.\nWpisz ZERUJ, aby potwierdzić:'), '');
+        if (String(v || '').trim().toUpperCase() !== _t('ZERUJ')) return toastMsg(_t('Nie wyzerowano'));
+        const od = odoGet();
+        delete od.rower;
+        localStorage.setItem('omm-sport-odo', JSON.stringify(od));
+        toastMsg(_t('Wyzerowano dystans całkowity'));
+      }, 2000);
+    });
+    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => rb.addEventListener(ev, () => clearTimeout(tm)));
+    g.append(rb);
+    sec.append(g);
+  }
   // wygląd (v58): tryb ciemny
   cat('look', 'moon', _t('Wygląd'));
   radios(
@@ -28320,6 +28983,24 @@ function settingsDlg() {
     null,
     themeApply
   );
+  radios(
+    _t('Przy uruchomieniu pokaż'),
+    'omm-start',
+    'ostatni',
+    [
+      ['ostatni', _t('Ostatni widok – miejsce i przybliżenie z poprzedniego razu')],
+      ['domyslny', _t('Widok domyślny')],
+      ['gps', _t('Moją pozycję (GPS)')]
+    ],
+    _t('Widok domyślny to cała Polska albo miejsce ustawione przyciskiem poniżej. Podkład przy uruchomieniu wybierasz gwiazdką w menu mapy.')
+  );
+  btnRow([
+    BI('map', _t('Ustaw obecny widok jako domyślny'), () => {
+      const c = map.getCenter();
+      localStorage.setItem('omm-widok-dom', JSON.stringify({c: [+c.lat.toFixed(6), +c.lng.toFixed(6)], z: map.getZoom()}));
+      toastMsg(_t('Zapisano widok domyślny'));
+    })
+  ]);
   radios(
     _t('Mapa w trybie ciemnym'),
     'omm-mapa-noc',
