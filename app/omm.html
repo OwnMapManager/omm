@@ -3994,6 +3994,31 @@ body.spliton #info {
   color: var(--sub);
   font-weight: 400;
 }
+#plnrow {
+  display: none;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+#info #plnrow button.pli {
+  display: inline-block;
+  margin: 0;
+  padding: 4px 7px;
+  font-size: 17px;
+  line-height: 1;
+}
+#info #plnrow button.pli.on {
+  border-color: var(--acc);
+  background: var(--acc);
+  box-shadow: 0 0 0 1px var(--acc);
+}
+.pln-nm {
+  display: none;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--sub);
+}
 #info button.plt {
   display: none;
   margin-left: 8px;
@@ -4327,6 +4352,12 @@ body.sport #sportb {
 #sport .sbt button.srec.on {
   background: #b3261e;
 }
+.odor {
+  margin: 6px 0 8px;
+}
+.odor button {
+  margin-top: 4px;
+}
 #sport .sbt button.danger {
   color: #f28b82;
 }
@@ -4355,7 +4386,7 @@ body.sport #sportb {
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg></button>
 <button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
-<button class="ib" id="sportb" title="Licznik rowerowy"></button>
+<button class="ib" id="sportb" title="Licznik treningu"></button>
 <div id="recpill"><button id="rpp" title="Pauza"></button><button id="rpf" title="Zdjęcie na trasie"></button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)"></button><button id="rpb" title="Powrót do startu po nagrywanym śladzie"></button></div>
 <div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><div id="recbt"></div></div>
@@ -4410,6 +4441,107 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  " kroków osiągnięty.": " steps reached.",
+  " · jazda ~": " · drive ~",
+  " · rowerem ~": " · by bike ~",
+  " – liczniki treningów (rower, bieg, marsz, trekking, konie, rolki)": " – workout counters (bike, running, walking, trekking, horse, skates)",
+  ") zakończony – nowy licznik": ") finished – new counter",
+  ") zostanie wyzerowany na zawsze.\nWpisz ZERUJ, aby potwierdzić:": ") will be reset for good.\nType RESET to confirm:",
+  ". Biegnij!": ". Run!",
+  "Cel": "Goal",
+  "Cel dzienny": "Daily goal",
+  "Cel tempa": "Pace target",
+  "Cel tempa (min:s na ": "Pace target (min:s per ",
+  "Chwila – układam trasę…": "One moment – planning the route…",
+  "Czas ": "Time ",
+  "Czas biegu": "Running time",
+  "Czas dojścia": "Time to arrival",
+  "Czas marszu": "Walking time",
+  "Czas wg serwera tras dla wybranego sposobu przejazdu.": "Time from the routing server for the chosen way of travel.",
+  "Czas wg typowej prędkości (rower: Twoje rowerowe ślady).": "Time from a typical speed (bike: your cycling tracks).",
+  "Część trasy prosto – ": "Part of the route straight – ",
+  "Do zachodu": "To sunset",
+  "Dotykaj kolejnych punktów, a potem w rzędzie ikon wybierz, czym to przebędziesz (pieszo, rower trekkingowy, szosowy, górski, auto albo prosto) – cała trasa od razu przelicza się na nowo. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap the next points, then pick in the icon row how you will travel (on foot, trekking, road or mountain bike, car or straight) – the whole route re-plans at once. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
+  "Dyscyplina": "Discipline",
+  "Dystans całkowity (": "Total distance (",
+  "Dzienny cel kroków:": "Daily step goal:",
+  "Dziesięć sekund": "Ten seconds",
+  "Galop": "Canter",
+  "Gratulacje! Dzienny cel ": "Congratulations! Daily goal of ",
+  "Głos licznika (okrążenia, interwały, cel tempa, cel kroków)": "Counter voice (laps, intervals, pace target, step goal)",
+  "Interwał": "Interval",
+  "Interwał ": "Interval ",
+  "Interwał 1 z ": "Interval 1 of ",
+  "Interwały: praca / przerwa × powtórzenia\n(np. 3:00 / 1:30 × 6 albo 0:45 / 0:15 × 10)": "Intervals: work / rest × repeats\n(e.g. 3:00 / 1:30 × 6 or 0:45 / 0:15 × 10)",
+  "Interwały: praca i przerwa na czas, polecenia głosem. Cel tempa: głos podpowie, gdy biegniesz za wolno albo za szybko. Co kilometr – czas okrążenia głosem.": "Intervals: timed work and rest with voice commands. Pace target: the voice tells you when you run too slow or too fast. Every kilometre – the lap time by voice.",
+  "Jeździectwo": "Horse riding",
+  "Kilometr ": "Kilometre ",
+  "Koniec interwałów. Dobra robota!": "Intervals finished. Well done!",
+  "Kroki (marsz)": "Steps (walk)",
+  "Kłus": "Trot",
+  "Liczniki dyscyplin": "Discipline counters",
+  "Mila ": "Mile ",
+  "Najlepsze okr.": "Best lap",
+  "Nie rozumiem zapisu. Wpisz np. 3:00 / 1:30 × 6": "I don't understand that. Type e.g. 3:00 / 1:30 × 6",
+  "Okrążenia": "Laps",
+  "Okrążenie": "Lap",
+  "Okrążenie ": "Lap ",
+  "Ostatni km": "Last km",
+  "Ostatnie okr.": "Last lap",
+  "Podaj liczbę od 500 do 100 000.": "Enter a number from 500 to 100,000.",
+  "Podbiegi ↗": "Climbs ↗",
+  "Podejście ↗": "Ascent ↗",
+  "Poprzedni trening (": "Previous workout (",
+  "Pozostałe dyscypliny pojawią się tu po pierwszym treningu.": "Other disciplines appear here after their first workout.",
+  "Praca 0:10–60:00, przerwa do 60:00, powtórzeń 1–50.": "Work 0:10–60:00, rest up to 60:00, 1–50 repeats.",
+  "Prosto (bez dróg)": "Straight (no roads)",
+  "Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport korzysta z map prywatnych i dodaje na mapie przycisk licznika: wybierasz dyscyplinę (rower, rower szosowy, bieg, marsz, trekking, jeździectwo, rolki) i dostajesz jej narzędzie – np. przy biegu tempo i interwały, przy marszu kroki. Ślady z treningów trafiają do kategorii „Sport”.": "Private, Work or Sport. Work has separate maps and sketch tools. Sport uses the private maps and adds a counter button on the map: pick a discipline (bike, road bike, running, walking, trekking, horse riding, inline skating) and get its tool – e.g. pace and intervals for running, steps for walking. Workout tracks go to the “Sport” category.",
+  "Przejście": "Distance",
+  "Przerwa, ": "Rest, ",
+  "Rolki": "Inline skating",
+  "Stęp": "Walk",
+  "Tempo pod górę": "Climbing rate",
+  "Trekking": "Trekking",
+  "Trening": "Workout",
+  "Trening biegowy": "Running workout",
+  "Trening: ": "Workout: ",
+  "Wpisz tempo jako min:s, np. 5:30": "Enter the pace as min:s, e.g. 5:30",
+  "Wyzerować trening (dystans, czas, średnia, maks., okrążenia, kalorie)?\n\nDzienny i całkowity zostają.": "Reset the workout (distance, time, average, max, laps, calories)?\n\nDaily and total stay.",
+  "Wyzeruj całkowity (przytrzymaj)": "Reset total (hold)",
+  "Wyłącz cel tempa": "Turn off pace target",
+  "Wyłącz interwały": "Turn off intervals",
+  "Włączony": "On",
+  "Za szybko. Tempo ": "Too fast. Pace ",
+  "Za wolno. Tempo ": "Too slow. Pace ",
+  "Zejście ↘": "Descent ↘",
+  "dziś: ": "today: ",
+  "koniec": "done",
+  "milę": "mile",
+  "min/km": "min/km",
+  "min/km – tempo": "min/km – pace",
+  "min/mi": "min/mi",
+  "min/mi – tempo": "min/mi – pace",
+  "po zach.": "after sunset",
+  "prowadź…": "navigate…",
+  "przerwa": "rest",
+  "Średnie tempo": "Average pace",
+  "Średnie tempo ": "Average pace ",
+  "⏱ Interwały…": "⏱ Intervals…",
+  "🎯 Cel tempa…": "🎯 Pace target…",
+  "📏 Prosto – linie między punktami": "📏 Straight – lines between points",
+  "📏 Prosto. ": "📏 Straight. ",
+  "🔇 Wycisz głos licznika": "🔇 Mute counter voice",
+  "🔊 Włącz głos licznika": "🔊 Turn on counter voice",
+  "Rower szosowy": "Road bike",
+  "Rower szosowy – tylko asfalt i utwardzone": "Road bike – asphalt and paved only",
+  "Trasy szosowe": "Road rides",
+  "Trasy biegowe": "Runs",
+  "Marsz": "Walking",
+  "Marsze": "Walks",
+  "Trasy trekkingowe": "Treks",
+  "Trasy konne": "Rides",
+  "Trasy rolkowe": "Skating routes",
+  "Licznik treningu": "Workout counter",
   " (zostaje do wyzerowania)": " (kept until you reset it)",
   " Pokazuj zdjęcia z internetu (linki)": " Show photos from the internet (links)",
   " · całkowity: ": " · total: ",
@@ -6403,7 +6535,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v60';
+const APP_VER = 'v61';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   const v = localStorage.getItem('omm-motyw') || 'jasny',
@@ -9494,6 +9626,7 @@ function dlg(o) {
       bt = h('div', 'db');
     t.textContent = o.title;
     box.append(t);
+    if (o.msg) box.append(h('div', 'muted', o.msg)); // v61: krótki opis pod tytułem
     let inp = null,
       cb = null,
       ok = null;
@@ -14221,7 +14354,7 @@ $('modeb').onclick = async () => {
     btns: [
       {t: '🏠 ' + _t('Prywatny'), v: 'priv', c: curM === 'priv' ? 'okb' : ''},
       {t: '💼 ' + _t('Praca') + _t(' – szkice: kropki, odcinki, strzałki, numeracja'), v: 'work', c: curM === 'work' ? 'okb' : ''},
-      {t: '🏅 ' + _t('Sport') + _t(' – licznik rowerowy i treningi'), v: 'sport', c: curM === 'sport' ? 'okb' : ''},
+      {t: '🏅 ' + _t('Sport') + _t(' – liczniki treningów (rower, bieg, marsz, trekking, konie, rolki)'), v: 'sport', c: curM === 'sport' ? 'okb' : ''},
       {t: _t('Anuluj'), v: null}
     ]
   });
@@ -14531,8 +14664,8 @@ $('tools').addEventListener('pointerdown', () => {
 });
 function clearAll() {
   if (mode !== 'plan') PLN = null; // planowanie trasy (v58) kończy się razem z trybem
-  if ($('plnb')) $('plnb').style.display = 'none';
-  if ($('plnp')) $('plnp').style.display = 'none';
+  if ($('plnrow')) $('plnrow').style.display = 'none';
+  if ($('plnnm')) $('plnnm').style.display = 'none';
   resClose(true);
   cur = [];
   sess = [];
@@ -16020,7 +16153,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś.</li>
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (linie, wielokąty, okręgi) i <b>pomiary</b> (odległość, powierzchnia, azymut, wysokość, profil, współrzędne – wynik w dymku z ✕).</li>
-<li><b>Zaplanuj trasę</b> – dotykaj punktów; linia ułoży się po drogach (rodzaj dróg: wszystkie ścieżki, bez dróg leśnych, rower, auto) albo prosto. ✓ pokazuje dystans, przewyższenie i czas marszu; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
+<li><b>Zaplanuj trasę</b> – dotykaj punktów, a potem w rzędzie ikon pod podpowiedzią wybierz, czym chcesz to przebyć: 🥾 pieszo wszystkimi ścieżkami, 🚶 pieszo bez dróg leśnych, 🚲 rower trekkingowy, 🚴 rower szosowy (tylko asfalt i utwardzone), 🚵 rower górski, 🚗 samochód albo 📏 prosto. Zmiana ikony od razu przelicza całą trasę – nie trzeba zaczynać od nowa. Czas przejazdu liczy się wg wybranego sposobu (pieszo – Twoje tempo, rower i auto – serwer tras). ✓ pokazuje dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
@@ -16032,7 +16165,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
 <li><b>Ustawienia</b> (trybik w panelu) – kopia zapasowa (także automatyczna na Dysk Google), nagrywanie śladu, <b>W terenie</b> (alerty głosowe, ekran nie gaśnie, rodzaj dróg, alarm przy miejscówkach, auto, plan wyjścia), <b>Wygląd</b> (tryb ciemny) i <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni.</li>
-<li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – mapy prywatne plus przycisk licznika rowerowego na mapie: ciemny ekran z prędkością, średnią, maks., dystansem przejazdu, dziennym i całkowitym, wysokością, podjazdem i kaloriami (po podaniu wagi w Ustawieniach → Sport). Ślad nagrany z licznika trafia do kategorii „Sport”, warstwa „Trasy rowerowe”.</li>
+<li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – mapy prywatne plus przycisk licznika na mapie. Najpierw wybierasz dyscyplinę, każda ma własne narzędzie na ciemnym ekranie: <b>🚲 rower</b> i <b>🚴 rower szosowy</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>🏃 bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>🚶 marsz</b> (tempo, kroki, dzienny cel kroków), <b>🥾 trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>🐎 jeździectwo</b> (stęp, kłus, galop – czas w każdym chodzie) i <b>🛼 rolki</b> (prędkość i okrążenia – liczą się same, gdy wracasz na start okrążenia, albo przyciskiem). Każda dyscyplina ma osobny dystans dzienny i całkowity, kalorie liczą się po podaniu wagi w Ustawieniach → Sport. Ślad nagrany z licznika trafia do kategorii „Sport”, do warstwy dyscypliny.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
 </ol>
@@ -16066,7 +16199,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are.</li>
 <li><b>Base map</b> – the map button in the top-right corner: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (lines, polygons, circles) and <b>measurements</b> (distance, area, bearing, elevation, profile, coordinates – the result in a bubble with ✕).</li>
-<li><b>Plan a route</b> – tap points; the line follows roads (road type: all paths, no forest tracks, bike, car) or goes straight. ✓ shows distance, climb and walking time; save the route in the “Planning” tab or “Navigate” right away.</li>
+<li><b>Plan a route</b> – tap points, then pick how you want to travel in the icon row under the hint: 🥾 on foot on all paths, 🚶 on foot without forest tracks, 🚲 trekking bike, 🚴 road bike (paved only), 🚵 mountain bike, 🚗 car or 📏 straight. Changing the icon re-plans the whole route at once – no need to start over. The time follows the chosen way of travel (on foot – your pace, bike and car – the routing server). ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
@@ -16078,7 +16211,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Search</b> – 🔍 in the bottom-left corner: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – backup (also automatic to Google Drive), track recording, <b>In the field</b> (voice alerts, keep the screen on, road type, alarm near spots, car, trip plan), <b>Appearance</b> (dark mode) and <b>Trash</b> – deleted things wait there for 30 days.</li>
-<li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – private maps plus a bike computer button on the map: a dark screen with speed, average, max, trip, daily and total distance, elevation, climb and calories (after entering your weight in Settings → Sport). A track recorded from the bike computer goes to the “Sport” category, layer “Bike routes”.</li>
+<li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – private maps plus a workout counter button on the map. First you pick a discipline; each has its own tool on a dark screen: <b>🚲 bike</b> and <b>🚴 road bike</b> (speed, average, max, climb, gradient), <b>🏃 running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>🚶 walking</b> (pace, steps, daily step goal), <b>🥾 trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>🐎 horse riding</b> (walk, trot, canter – time in each gait) and <b>🛼 inline skating</b> (speed and laps – counted automatically when you return to the lap start, or with a button). Each discipline has its own daily and total distance; calories appear after entering your weight in Settings → Sport. A track recorded from the counter goes to the “Sport” category, into the discipline's layer.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
 </ol>
@@ -19137,18 +19270,24 @@ function trkVminmax(t) {
 // rodzaj aktywności śladu (pole „a”)
 const ACTS = Object.assign(Object.create(null), {
   pieszo: ['🚶', _t('Pieszo')],
+  trekking: ['🥾', _t('Trekking')],
   bieg: ['🏃', _t('Bieg')],
   rower: ['🚴', _t('Rower')],
+  rolki: ['🛼', _t('Rolki')],
+  konno: ['🐎', _t('Jeździectwo')],
   auto: ['🚗', _t('Samochód')],
   inne: ['📍', _t('Inne')]
 });
 // GPX <type>: nazwy jak w Stravie / Garminie, żeby inne programy je rozumiały
-const ACT_GPX = {pieszo: 'walking', bieg: 'running', rower: 'cycling', auto: 'driving', inne: 'other'};
+const ACT_GPX = {pieszo: 'walking', trekking: 'hiking', bieg: 'running', rower: 'cycling', rolki: 'inline_skating', konno: 'horseback_riding', auto: 'driving', inne: 'other'};
 function actFrom(x) {
   // rodzaj aktywności z opisu w pliku (GPX <type>, TCX Sport, nasze nazwy)
   x = String(x || '').trim().toLowerCase();
   if (ACTS[x]) return x;
-  if (/walk|hik|pieszo|spacer|trek/.test(x)) return 'pieszo';
+  if (/hik|trek/.test(x)) return 'trekking';
+  if (/horse|equest|konn|jeźd|jezd/.test(x)) return 'konno';
+  if (/skat|rolk|roller/.test(x)) return 'rolki';
+  if (/walk|pieszo|spacer/.test(x)) return 'pieszo';
   if (/run|bieg|jog/.test(x)) return 'bieg';
   if (/bik|cycl|rower|ride/.test(x)) return 'rower';
   if (/driv|car|auto|motor/.test(x)) return 'auto';
@@ -19194,7 +19333,7 @@ const fpace = v => {
   return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0');
 };
 const trkPaceOn = (t, s) =>
-  t.a ? t.a === 'pieszo' || t.a === 'bieg' : !t.noTime && s.vmov > 0 && s.vmov * 3.6 < 12;
+  t.a ? t.a === 'pieszo' || t.a === 'bieg' || t.a === 'trekking' : !t.noTime && s.vmov > 0 && s.vmov * 3.6 < 12;
 const GRC = new WeakMap(); // kolory śladu zapamiętane do kolejnej zmiany śladu
 function trkGrad(t, mode) {
   // dla każdego punktu: ułamek 0–1 na skali barw + opis skali (lo, hi, jednostka) do legendy
@@ -23982,6 +24121,7 @@ function navDraw() {
     NAV.dash.setLatLngs([pos, NAV.to]);
     NAV.lbl.setLatLng([(pos[0] + NAV.to[0]) / 2, (pos[1] + NAV.to[1]) / 2]);
   }
+  NAV.left = NAV.free ? null : d; // pozostało do celu (licznik trekkingowy – czas dojścia)
   const le = NAV.lbl.getElement && NAV.lbl.getElement();
   if (le && le.firstChild) le.firstChild.textContent = fkm(d); // odległość na środku linii
   // strzałka na pasku: „tam” względem tego, gdzie patrzy telefon (bez kompasu – względem północy)
@@ -25206,7 +25346,7 @@ const RT_PROF = {
   piesze: {ic: '🥾', n: 'Pieszo – wszystkie ścieżki i drogi leśne', c: 'pedestrian', o: {use_tracks: 1, max_hiking_difficulty: 6}, osrm: 'foot'},
   utw: {ic: '🚶', n: 'Pieszo – bez dróg leśnych i polnych', c: 'pedestrian', o: {use_tracks: 0, max_hiking_difficulty: 1}, osrm: 'foot'},
   rower: {ic: '🚲', n: 'Rower – trekking', c: 'bicycle', o: {bicycle_type: 'Hybrid', avoid_bad_surfaces: 0.5}, osrm: 'bike'},
-  szosa: {ic: '🚴', n: 'Rower – tylko utwardzone', c: 'bicycle', o: {bicycle_type: 'Road', avoid_bad_surfaces: 1}, osrm: 'bike'},
+  szosa: {ic: '🚴', n: 'Rower szosowy – tylko asfalt i utwardzone', c: 'bicycle', o: {bicycle_type: 'Road', avoid_bad_surfaces: 1}, osrm: 'bike'},
   mtb: {ic: '🚵', n: 'Rower – górski, leśne drogi', c: 'bicycle', o: {bicycle_type: 'Mountain', avoid_bad_surfaces: 0}, osrm: 'bike'},
   auto: {ic: '🚗', n: 'Samochód', c: 'auto', o: {}, osrm: 'car'}
 };
@@ -25272,16 +25412,19 @@ async function routeAB(pts, opt = {}) {
     const legs = j && j.trip && j.trip.legs;
     if (Array.isArray(legs) && legs.length) {
       const p = [],
-        man = [];
+        man = [],
+        lgs = [];
       legs.forEach(lg => {
         const sh = polyDec(String(lg.shape || '')),
           off = p.length ? p.length - 1 : 0;
         p.push(...(p.length ? sh.slice(1) : sh));
+        lgs.push({s: off, e: p.length - 1, time: +(lg.summary && lg.summary.time) || 0});
         (lg.maneuvers || []).forEach(m =>
           man.push({i: off + (m.begin_shape_index | 0), txt: String(m.instruction || ''), pre: String(m.verbal_pre_transition_instruction || m.instruction || ''), typ: m.type | 0})
         );
       });
       const ok = p.filter(okLL);
+      if (ok.length === p.length && ok.length > 1) return {p: ok, man, legs: lgs, len: (+j.trip.summary.length || 0) * 1000, time: +j.trip.summary.time || 0, src: 'valhalla'};
       if (ok.length > 1) return {p: ok, man, len: (+j.trip.summary.length || 0) * 1000, time: +j.trip.summary.time || 0, src: 'valhalla'};
     }
   } catch (e) {}
@@ -25315,7 +25458,7 @@ async function routeSeg(a, b, opt = {}) {
     if (L2 > st * 1.5 && L2 - st > 150) return {p: [a, b], bad: 'detour'};
   }
   const out = [a, ...p, b].filter((q, i, arr) => !i || hav(q, arr[i - 1]) > 0.5); // bez zdublowanych punktów
-  return {p: out, bad: null};
+  return {p: out, bad: null, time: r.time || 0};
 }
 async function extRoute(a, b) {
   // zgodność wstecz: sam odcinek po ścieżkach albo null
@@ -26522,7 +26665,7 @@ const TUT_STEPS = [
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
-  {sel: '#planb', open: 'tools', t: _t('Zaplanuj trasę'), x: _t('Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.')},
+  {sel: '#planb', open: 'tools', t: _t('Zaplanuj trasę'), x: _t('Dotykaj kolejnych punktów, a potem w rzędzie ikon wybierz, czym to przebędziesz (pieszo, rower trekkingowy, szosowy, górski, auto albo prosto) – cała trasa od razu przelicza się na nowo. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.')},
   {sel: '[data-g="draw"]', open: 'tools', t: _t('Rysowanie'), x: _t('Linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść.')},
   {sel: '[data-g="data"]', open: 'tools', t: _t('Pomiary'), x: _t('Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik w dymku przy mierzonym miejscu. Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).')},
   {sel: '#srchb', t: _t('Szukaj'), x: _t('Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.')},
@@ -26530,7 +26673,7 @@ const TUT_STEPS = [
   {sel: '#lbtn', t: _t('Mapy, warstwy i ślady'), x: _t('Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.')},
   {sel: '#stabs .stab[data-k="plan"]', open: 'sheet', tab: 'plan', t: _t('Planowanie'), x: _t('Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
-  {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport korzysta z map prywatnych i dodaje na mapie przycisk licznika rowerowego (ciemny ekran, prędkość, dystans dzienny i całkowity, kalorie); ślady z treningów trafiają do kategorii „Sport”.')},
+  {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport korzysta z map prywatnych i dodaje na mapie przycisk licznika: wybierasz dyscyplinę (rower, rower szosowy, bieg, marsz, trekking, jeździectwo, rolki) i dostajesz jej narzędzie – np. przy biegu tempo i interwały, przy marszu kroki. Ślady z treningów trafiają do kategorii „Sport”.')},
   {sel: '#setb', open: 'sheet', t: _t('Ustawienia'), x: _t('Kopia (także na Dysk Google), nagrywanie śladu, „W terenie” (alerty głosowe, ekran, rodzaj dróg, alarm przy miejscówkach, auto), wygląd (tryb ciemny), prywatność i kosz.')},
   {sel: '#infob', open: 'sheet', t: _t('O aplikacji'), x: _t('O autorze i założeniach OMM, krótki przewodnik „Jak zacząć” – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.')}
 ];
@@ -27829,10 +27972,16 @@ function toCSV(items) {
 
 // --- P13: planowanie trasy (po drogach albo prosto), dystans, przewyższenie z NMT, czas wg Twojego tempa ---
 // v59: osobne narzędzie na pasku, wybór rodzaju dróg (Valhalla), kontrola objazdów, zapis do zakładki „Planowanie”
+// v61: dynamicznie – najpierw punkty, potem sposób przejazdu (rząd ikon); zmiana sposobu przelicza CAŁĄ trasę
 var PLN = null;
+const PLAN_KS = [...Object.keys(RT_PROF), 'prosto'];
+function planProf() {
+  // bieżący sposób przejazdu w planerze: klucz RT_PROF albo 'prosto'
+  return localStorage.getItem('omm-plan-trasy') === 'prosto' ? 'prosto' : rtProf();
+}
 function planStart() {
   setMode('plan', true);
-  PLN = {taps: [], segs: [], route: localStorage.getItem('omm-plan-trasy') !== 'prosto', busy: 0, bad: 0};
+  PLN = {taps: [], segs: [], tm: [], pr: planProf(), busy: 0, gen: 0};
   planInfo();
 }
 function planPath() {
@@ -27840,12 +27989,40 @@ function planPath() {
   PLN.segs.forEach((s, i) => out.push(...(i ? s.slice(1) : s)));
   return out.length ? out : PLN.taps.slice();
 }
+function profSpeed(pr) {
+  // prędkość (m/s) dla czasu przejazdu: pieszo – Twoje tempo; rower/auto – Twoje ślady albo typowa prędkość
+  const k = RT_PROF[pr] ? RT_PROF[pr].c : 'pedestrian';
+  if (k === 'pedestrian') return myPace();
+  if (k === 'auto') return 13.9; // ~50 km/h (bez serwera tras)
+  const def = pr === 'szosa' ? 6.9 : pr === 'mtb' ? 3.6 : 4.4, // ~25 / 13 / 16 km/h
+    v = TRK.items
+      .filter(t => t.a === 'rower' && !t.noTime)
+      .slice(-20)
+      .map(t => trkStatsC(t).vmov)
+      .filter(x => x > 2 && x < 15);
+  if (!v.length) return def;
+  const m = v.reduce((a, b) => a + b, 0) / v.length;
+  return pr === 'szosa' ? Math.max(m, def) : pr === 'mtb' ? Math.min(m, def * 1.2) : m;
+}
+function planSecs(path, pr, tm, up) {
+  // czas przejazdu: pieszo – długość / Twoje tempo (+ podejścia wg Naismitha); rower/auto – czas z serwera tras, jeśli jest
+  const d = dist(path),
+    walk = !RT_PROF[pr] || RT_PROF[pr].c === 'pedestrian';
+  let sec = walk || !tm ? d / (pr === 'prosto' ? myPace() : profSpeed(pr)) : tm;
+  if (walk && up) sec += (up / 600) * 3600;
+  return sec;
+}
+function planSrvTime(tm) {
+  // suma czasów odcinków z serwera; null, gdy któryś liczony bez serwera
+  return tm.length && tm.every(x => x > 0) ? tm.reduce((a, b) => a + b, 0) : null;
+}
 function planInfo() {
   if (!PLN) return;
   tmp.clearLayers();
   const p = planPath(),
-    d = p.length > 1 ? dist(p) : 0;
-  if (p.length > 1) L.polyline(p, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.85}).addTo(tmp);
+    d = p.length > 1 ? dist(p) : 0,
+    pr = PLN.pr;
+  if (p.length > 1) L.polyline(p, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: PLN.busy ? 0.45 : 0.85, dashArray: PLN.busy ? '6 8' : null}).addTo(tmp);
   PLN.taps.forEach((q, i) => (i === 0 ? lab(q, 'A', '#2e9e6b') : i === PLN.taps.length - 1 ? lab(q, 'B', '#d32f2f') : dot(q)));
   info.style.display = 'block';
   info.textContent =
@@ -27853,50 +28030,104 @@ function planInfo() {
       ? PLN.taps.length
         ? _t('Dotknij kolejnego punktu trasy')
         : _t('Dotknij startu trasy')
-      : fm(d) + _t(' · ~') + feta(d / myPace()) + (PLN.busy ? _t(' · układam trasę…') : '') + _t(' · ✓ zakończ');
-  let tg = $('plnb'),
-    pr = $('plnp');
-  if (!tg) {
-    // przełącznik: po drogach / prosto i wybór rodzaju dróg (w pasku podpowiedzi)
-    tg = B('', e => {
-      e.stopPropagation();
-      if (!PLN) return;
-      PLN.route = !PLN.route;
-      localStorage.setItem('omm-plan-trasy', PLN.route ? 'sciezki' : 'prosto');
-      planInfo();
-    }, 'plt');
-    tg.id = 'plnb';
-    pr = B('', async e => {
-      e.stopPropagation();
-      const v = await dlg({
-        title: _t('Rodzaj dróg dla trasy'),
-        btns: [...Object.entries(RT_PROF).map(([k, x]) => ({t: x.ic + ' ' + _t(x.n), v: k, c: k === rtProf() ? 'okb' : ''})), {t: _t('Anuluj'), v: null}]
-      });
-      if (v) localStorage.setItem('omm-trasa-drogi', v);
-      planInfo();
-    }, 'plt');
-    pr.id = 'plnp';
-    infoEl.append(tg, pr);
+      : fm(d) + ' · ~' + feta(planSecs(p, pr, pr === 'prosto' ? null : planSrvTime(PLN.tm))) + (PLN.busy ? _t(' · układam trasę…') : '') + _t(' · ✓ zakończ');
+  let row = $('plnrow');
+  if (!row) {
+    // rząd ikon: sposób przejazdu; dotknięcie przelicza całą trasę
+    row = h('div', '');
+    row.id = 'plnrow';
+    PLAN_KS.forEach(k => {
+      const b = B(k === 'prosto' ? '📏' : RT_PROF[k].ic, e => {
+        e.stopPropagation();
+        planSetProf(k);
+      }, 'plt pli');
+      b.dataset.k = k;
+      b.title = k === 'prosto' ? _t('Prosto (bez dróg)') : _t(RT_PROF[k].n);
+      row.append(b);
+    });
+    infoEl.append(row);
   }
-  tg.textContent = PLN.route ? _t('🛣 po drogach') : _t('📏 prosto');
-  pr.textContent = RT_PROF[rtProf()].ic + ' ▾';
-  tg.style.display = 'inline-block';
-  pr.style.display = PLN.route ? 'inline-block' : 'none';
+  row.style.display = 'flex';
+  row.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === pr));
+  const nm = $('plnnm') || (() => {
+    const x = h('div', 'pln-nm');
+    x.id = 'plnnm';
+    infoEl.append(x);
+    return x;
+  })();
+  nm.style.display = 'block';
+  nm.textContent = pr === 'prosto' ? _t('📏 Prosto – linie między punktami') : RT_PROF[pr].ic + ' ' + _t(RT_PROF[pr].n);
+}
+function planSetProf(k) {
+  if (!PLN || k === PLN.pr) return;
+  PLN.pr = k;
+  if (k === 'prosto') localStorage.setItem('omm-plan-trasy', 'prosto');
+  else {
+    localStorage.setItem('omm-plan-trasy', 'sciezki');
+    localStorage.setItem('omm-trasa-drogi', k);
+  }
+  planReroute();
+}
+async function planReroute() {
+  // przeliczenie wszystkich odcinków: jedno zapytanie przez wszystkie punkty (zapasowo odcinek po odcinku)
+  if (!PLN) return;
+  const g = ++PLN.gen,
+    taps = PLN.taps.slice(),
+    pr = PLN.pr;
+  PLN.segs = taps.slice(1).map((q, i) => [taps[i], q]);
+  PLN.tm = PLN.segs.map(() => 0);
+  if (pr === 'prosto' || taps.length < 2) return planInfo();
+  PLN.busy++;
+  planInfo();
+  let r = null;
+  try {
+    r = await routeAB(taps, {prof: pr});
+  } catch (e) {}
+  if (!PLN || PLN.gen !== g) return;
+  if (r && r.legs && r.legs.length === taps.length - 1) {
+    r.legs.forEach((lg, i) => {
+      const sp = despur(r.p.slice(lg.s, lg.e + 1));
+      PLN.segs[i] = [taps[i], ...sp, taps[i + 1]].filter((q, j, arr) => !j || hav(q, arr[j - 1]) > 0.5);
+      PLN.tm[i] = lg.time;
+    });
+  } else {
+    let why = '';
+    for (let i = 0; i < taps.length - 1; i++) {
+      const s = await routeSeg(taps[i], taps[i + 1], {prof: pr});
+      if (!PLN || PLN.gen !== g) return;
+      PLN.segs[i] = s.p;
+      PLN.tm[i] = s.bad ? 0 : s.time || 0;
+      if (s.bad) why = s.why || why;
+      planInfo();
+    }
+    if (why) toastMsg(_t('Część trasy prosto – ') + why);
+  }
+  PLN.busy--;
+  planInfo();
 }
 async function planTap(p) {
   PLN.taps.push(p);
-  if (PLN.taps.length === 1) PLN.segs = [];
-  else {
+  if (PLN.taps.length === 1) {
+    PLN.segs = [];
+    PLN.tm = [];
+  } else {
     const a = PLN.taps[PLN.taps.length - 2],
-      i = PLN.segs.length;
+      i = PLN.segs.length,
+      g = PLN.gen,
+      pr = PLN.pr;
     PLN.segs.push([a, p]);
-    if (PLN.route) {
+    PLN.tm.push(0);
+    if (pr !== 'prosto') {
       PLN.busy++;
       planInfo();
-      const r = await routeSeg(a, p);
-      PLN.busy--;
+      const r = await routeSeg(a, p, {prof: pr});
       if (!PLN) return;
-      if (PLN.segs[i] && PLN.segs[i][0] === a) PLN.segs[i] = r.p;
+      PLN.busy--;
+      if (PLN.gen !== g) return planInfo(); // w międzyczasie zmieniono sposób przejazdu – trasa liczona na nowo
+      if (PLN.segs[i] && PLN.segs[i][0] === a) {
+        PLN.segs[i] = r.p;
+        PLN.tm[i] = r.bad ? 0 : r.time || 0;
+      }
       if (r.bad) toastMsg(_t('Odcinek prosto – ') + (r.why || _t('serwer tras nie odpowiedział')));
     }
   }
@@ -27906,7 +28137,11 @@ function planUndo() {
   if (!PLN || !PLN.taps.length) return;
   PLN.taps.pop();
   PLN.segs.pop();
-  if (PLN.taps.length < 2) PLN.segs = [];
+  PLN.tm.pop();
+  if (PLN.taps.length < 2) {
+    PLN.segs = [];
+    PLN.tm = [];
+  }
   planInfo();
 }
 async function planDone() {
@@ -27918,19 +28153,32 @@ async function planDone() {
     ui();
     return;
   }
-  const prof = PLN.route ? rtProf() : null,
+  if (PLN.busy) return toastMsg(_t('Chwila – układam trasę…'));
+  const prof = PLN.pr === 'prosto' ? null : PLN.pr,
+    srv = prof ? planSrvTime(PLN.tm) : null,
     path = planPath().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]),
-    d = dist(path);
+    d = dist(path),
+    walk = !prof || RT_PROF[prof].c === 'pedestrian',
+    verb = walk ? _t(' · marsz ~') : RT_PROF[prof].c === 'auto' ? _t(' · jazda ~') : _t(' · rowerem ~');
   PLN = null;
   mode = null;
   clearAll();
   ui();
   const line = L.polyline(path, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.85}).addTo(tmp),
     body = h('div', 'ffrm'),
-    st = h('div', 'pst', fm(d) + _t(' · marsz ~') + feta(d / myPace()));
+    st = h('div', 'pst', fm(d) + verb + feta(planSecs(path, prof || 'prosto', srv)));
   body.append(
     st,
-    h('div', 'muted', (prof ? RT_PROF[prof].ic + ' ' + _t(RT_PROF[prof].n) + '. ' : '') + _t('Czas wg Twojego tempa marszu z pieszych śladów (bez nich ~4,5 km/h); podejścia doliczane jak w regule Naismitha: +1 h na 600 m w górę.'))
+    h(
+      'div',
+      'muted',
+      (prof ? RT_PROF[prof].ic + ' ' + _t(RT_PROF[prof].n) + '. ' : _t('📏 Prosto. ')) +
+        (walk
+          ? _t('Czas wg Twojego tempa marszu z pieszych śladów (bez nich ~4,5 km/h); podejścia doliczane jak w regule Naismitha: +1 h na 600 m w górę.')
+          : srv
+            ? _t('Czas wg serwera tras dla wybranego sposobu przejazdu.')
+            : _t('Czas wg typowej prędkości (rower: Twoje rowerowe ślady).'))
+    )
   );
   // przewyższenie z NMT (tylko Polska) – w tle
   let up = null,
@@ -27960,7 +28208,7 @@ async function planDone() {
       }
       up = Math.round(u2);
       dn = Math.round(d2);
-      st.textContent = fm(d) + ' · ↗ ' + fel(up) + ' ↘ ' + fel(dn) + _t(' · marsz ~') + feta(d / myPace() + (up / 600) * 3600);
+      st.textContent = fm(d) + ' · ↗ ' + fel(up) + ' ↘ ' + fel(dn) + verb + feta(planSecs(path, prof || 'prosto', srv, up));
     } catch (e) {}
   })();
   const v = await formDlg(_t('🗺 Zaplanowana trasa'), body, [
@@ -28000,7 +28248,7 @@ async function planDone() {
     sz: 2,
     nm: _t('Trasa ') + fday(Date.now()),
     n: st.textContent,
-    rt: {...(up != null ? {up, dn} : {}), ...(prof ? {pr: prof} : {})},
+    rt: {...(up != null ? {up, dn} : {}), ...(prof ? {pr: prof} : {}), ...(srv ? {tm: Math.round(srv)} : {})},
     cr: Date.now(),
     up: Date.now()
   };
@@ -28119,7 +28367,7 @@ function fieldInit() {
 fieldInit();
 
 
-// ---------- tryb Sport (v60): narzędzie dla dyscypliny – na początek licznik rowerowy ----------
+// ---------- tryb Sport (v60–v61): narzędzie dla każdej dyscypliny ----------
 /*
  * Tryb Sport korzysta z map trybu prywatnego (bez osobnych map). Ślady z treningu trafiają do Śladów GPS:
  * kategoria „Sport”, warstwa wg dyscypliny (np. „Trasy rowerowe”), rodzaj aktywności ustawiony z góry.
@@ -28131,7 +28379,22 @@ fieldInit();
 function isSport() {
   return DB.mode === 'sport';
 }
-const SPORTS = {rower: {ic: '🚲', n: 'Rower', ln: 'Trasy rowerowe', a: 'rower', c: '#1e88e5', mv: 1.2}};
+/*
+ * v61: każda dyscyplina ma własne narzędzie (tl):
+ *  bike – licznik rowerowy (rower trekkingowy i szosowy – osobne liczniki), run – bieg: tempo, okrążenia co 1 km
+ *  z głosem, interwały z komendami, cel tempa; walk – marsz: tempo, kroki, cel dzienny; trek – trekking: podejście,
+ *  zejście, tempo pod górę, czas do zachodu słońca, czas dojścia (przy prowadzeniu); horse – jeździectwo: stęp / kłus /
+ *  galop wg prędkości; skate – rolki: prędkość i okrążenia (samo, gdy wracasz na start okrążenia, albo przyciskiem).
+ */
+const SPORTS = {
+  rower: {ic: '🚲', n: 'Rower', ln: 'Trasy rowerowe', a: 'rower', c: '#1e88e5', mv: 1.2, tl: 'bike'},
+  szosa: {ic: '🚴', n: 'Rower szosowy', ln: 'Trasy szosowe', a: 'rower', c: '#3949ab', mv: 1.5, tl: 'bike'},
+  bieg: {ic: '🏃', n: 'Bieg', ln: 'Trasy biegowe', a: 'bieg', c: '#e53935', mv: 0.9, tl: 'run'},
+  marsz: {ic: '🚶', n: 'Marsz', ln: 'Marsze', a: 'pieszo', c: '#43a047', mv: 0.5, tl: 'walk'},
+  trekking: {ic: '🥾', n: 'Trekking', ln: 'Trasy trekkingowe', a: 'trekking', c: '#6d4c41', mv: 0.4, tl: 'trek'},
+  konno: {ic: '🐎', n: 'Jeździectwo', ln: 'Trasy konne', a: 'konno', c: '#8e24aa', mv: 0.6, tl: 'horse'},
+  rolki: {ic: '🛼', n: 'Rolki', ln: 'Trasy rolkowe', a: 'rolki', c: '#fb8c00', mv: 1.2, tl: 'skate'}
+};
 var SPT = null, // bieżący przejazd (pamiętany do wyzerowania)
   SPT_OPEN = false,
   SPT_W = null, // obserwacja GPS licznika
@@ -28145,11 +28408,35 @@ function sptLoad() {
   return null;
 }
 function sptNew(disc) {
-  return {disc, d: 0, mov: 0, max: 0, up: 0, kc: 0, t0: Date.now(), lastT: 0, last: null, eleRef: null, ele: null, v: 0, gr: null, gbuf: []};
+  return {
+    disc,
+    d: 0,
+    mov: 0,
+    max: 0,
+    up: 0,
+    dn: 0,
+    kc: 0,
+    t0: Date.now(),
+    lastT: 0,
+    last: null,
+    eleRef: null,
+    ele: null,
+    v: 0,
+    vs: 0,
+    gr: null,
+    gbuf: [],
+    wb: [],
+    ub: [],
+    laps: [],
+    lapD: 0,
+    lapM: 0,
+    lapP: null,
+    gait: {s: 0, k: 0, g: 0}
+  };
 }
 function sptSave() {
   try {
-    if (SPT) localStorage.setItem('omm-sport-przejazd', JSON.stringify({...SPT, gbuf: []}));
+    if (SPT) localStorage.setItem('omm-sport-przejazd', JSON.stringify({...SPT, gbuf: [], wb: []}));
   } catch (e) {}
 }
 const dayKey = (t = Date.now()) => {
@@ -28188,11 +28475,14 @@ const bodyW = () => {
   return w >= 25 && w <= 300 ? w : 0;
 };
 function metFor(act, v) {
-  // MET wg prędkości (km/h); rower: Compendium 2011 (01009–01050), bieg i marsz – na przyszłe dyscypliny
+  // MET wg prędkości (km/h) – Compendium of Physical Activities 2011
   const k = v * 3.6;
-  if (act === 'rower') return k < 3 ? 0 : k < 16 ? 4 : k < 19 ? 6.8 : k < 22.5 ? 8 : k < 25.5 ? 10 : k < 30.5 ? 12 : 15.8;
-  if (act === 'bieg') return k < 3 ? 0 : Math.max(6, 1.05 * k - 0.6);
-  if (act === 'pieszo') return k < 1.5 ? 0 : k < 3.2 ? 2.3 : k < 4.5 ? 3 : k < 5.5 ? 3.8 : k < 6.5 ? 5 : 6.3;
+  if (act === 'rower') return k < 3 ? 0 : k < 16 ? 4 : k < 19 ? 6.8 : k < 22.5 ? 8 : k < 25.5 ? 10 : k < 30.5 ? 12 : 15.8; // 01009–01050
+  if (act === 'bieg') return k < 3 ? 0 : Math.max(6, 1.05 * k - 0.6); // 12020–12150
+  if (act === 'pieszo') return k < 1.5 ? 0 : k < 3.2 ? 2.3 : k < 4.5 ? 3 : k < 5.5 ? 3.8 : k < 6.5 ? 5 : 6.3; // 17150–17231
+  if (act === 'trekking') return k < 1 ? 0 : k < 3 ? 5.3 : k < 5 ? 6 : 7; // 17080 hiking cross-country
+  if (act === 'konno') return k < 1 ? 0 : k < 8 ? 3.8 : k < 15.5 ? 5.8 : 7.3; // 15380 stęp, 15390 kłus, 15395 galop
+  if (act === 'rolki') return k < 3 ? 0 : k < 12 ? 5.5 : k < 16 ? 7.5 : k < 19.5 ? 9.8 : k < 22.5 ? 12.3 : 14; // 15591–15594
   return 0;
 }
 function metCorr() {
@@ -28207,11 +28497,166 @@ function metCorr() {
   return Math.max(0.7, Math.min(1.4, 3.5 / rmr));
 }
 function kcalOf(act, vmov, movSec, up) {
-  // szacunek kalorii dla śladu albo przejazdu; 0 = brak wagi w Ustawieniach
+  // szacunek kalorii dla śladu albo przejazdu; 0 = brak wagi w Ustawieniach (konno – bez pracy na podjazdach: niesie koń)
   const w = bodyW();
   if (!w || !movSec) return 0;
   const met = metFor(act, vmov) * metCorr();
-  return met * w * (movSec / 3600) + (w * 9.81 * (up || 0)) / 0.25 / 4184;
+  return met * w * (movSec / 3600) + (act === 'konno' ? 0 : (w * 9.81 * (up || 0)) / 0.25 / 4184);
+}
+// --- pomocnicze dla narzędzi ---
+const sptVoice = () => localStorage.getItem('omm-sport-glos') !== 'nie';
+const sSay = t => sptVoice() && say(t, true);
+const fsec = s => {
+  // „5:32” albo „1:05:32”
+  s = Math.max(0, Math.round(s));
+  const hh = Math.floor(s / 3600),
+    m = Math.floor((s % 3600) / 60),
+    ss = String(s % 60).padStart(2, '0');
+  return hh ? hh + ':' + String(m).padStart(2, '0') + ':' + ss : m + ':' + ss;
+};
+const saySec = s => {
+  // „5 minut 32 sekundy” do odczytu głosem
+  s = Math.max(0, Math.round(s));
+  const m = Math.floor(s / 60),
+    ss = s % 60;
+  return (m ? plN(m, _t('minuta'), _t('minuty'), _t('minut')) + ' ' : '') + (ss || !m ? plN(ss, _t('sekunda'), _t('sekundy'), _t('sekund')) : '');
+};
+const sayPace = v => (v > 0.2 ? saySec((IMP ? MI : 1000) / v) : '');
+const stride = () => {
+  // długość kroku marszowego (m): ~0,415 × wzrost; bez wzrostu 0,72 m
+  const hg = +localStorage.getItem('omm-wzrost');
+  return hg > 100 && hg < 230 ? (hg * 0.415) / 100 : 0.72;
+};
+const stepGoal = () => {
+  const g = +localStorage.getItem('omm-cel-krokow');
+  return g >= 500 && g <= 100000 ? g : 10000;
+};
+function gaitOf(v) {
+  // chód konia wg prędkości (km/h): stęp < 8, kłus 8–15,5, galop powyżej
+  const k = v * 3.6;
+  return k < 1.5 ? '' : k < 8 ? 's' : k < 15.5 ? 'k' : 'g';
+}
+const GAIT = {s: 'Stęp', k: 'Kłus', g: 'Galop'};
+function sptLap(why) {
+  // zamknięcie okrążenia: dystans i czas ruchu od poprzedniego
+  const d = SPT.d - SPT.lapD,
+    t = SPT.mov - SPT.lapM;
+  if (d < 20 || t < 5) return;
+  SPT.laps.push({d: Math.round(d), t: Math.round(t)});
+  if (SPT.laps.length > 200) SPT.laps.shift();
+  SPT.lapD = SPT.d;
+  SPT.lapM = SPT.mov;
+  SPT.lapP = SPT.last;
+  const n = SPT.laps.length,
+    tl = SPORTS[SPT.disc].tl;
+  if (tl === 'run' || tl === 'walk' || tl === 'trek')
+    sSay(
+      (IMP ? _t('Mila ') : _t('Kilometr ')) + n + '. ' + _t('Czas ') + saySec(t) + '. ' + _t('Średnie tempo ') + sayPace(SPT.mov > 5 ? SPT.d / SPT.mov : 0) + '.'
+    );
+  else if (tl === 'skate') sSay(_t('Okrążenie ') + n + '. ' + saySec(t) + (why === 'auto' ? '' : '.'));
+}
+// --- interwały (bieg) ---
+function ivTick() {
+  // faza interwału liczona z czasu zegara (bez pauzy); polecenia głosem
+  const I = SPT && SPT.iv;
+  if (!I || I.ph === 'end') return;
+  const now = Date.now();
+  if (SPT.paused) return void (I.lt = now);
+  I.el += Math.min(60, Math.max(0, (now - (I.lt || now)) / 1000));
+  I.lt = now;
+  const len = I.ph === 'w' ? I.w : I.r;
+  if (!I.s10 && len >= 30 && len - I.el <= 10) {
+    I.s10 = true;
+    sSay(_t('Dziesięć sekund'));
+  }
+  if (I.el < len) return;
+  I.el = 0;
+  I.s10 = false;
+  if (I.ph === 'w') {
+    if (I.k >= I.n) {
+      I.ph = 'end';
+      sSay(_t('Koniec interwałów. Dobra robota!'));
+      vibe([300, 120, 300, 120, 600]);
+    } else {
+      I.ph = 'r';
+      sSay(_t('Przerwa, ') + saySec(I.r) + '.');
+      vibe([500]);
+    }
+  } else {
+    I.k++;
+    I.ph = 'w';
+    sSay(_t('Interwał ') + I.k + _t(' z ') + I.n + _t('. Biegnij!'));
+    vibe([200, 100, 200]);
+  }
+}
+function ivLabel() {
+  const I = SPT && SPT.iv;
+  if (!I) return '–';
+  if (I.ph === 'end') return _t('koniec');
+  const left = (I.ph === 'w' ? I.w : I.r) - I.el;
+  return (I.ph === 'w' ? '▶ ' + I.k + '/' + I.n : _t('przerwa')) + ' ' + fsec(left);
+}
+async function runSetup() {
+  // ustawienia treningu biegowego: interwały, cel tempa, głos
+  const v = await dlg({
+    title: _t('Trening biegowy'),
+    msg: _t('Interwały: praca i przerwa na czas, polecenia głosem. Cel tempa: głos podpowie, gdy biegniesz za wolno albo za szybko. Co kilometr – czas okrążenia głosem.'),
+    btns: [
+      {t: _t('⏱ Interwały…'), v: 'iv', c: 'okb'},
+      {t: _t('🎯 Cel tempa…'), v: 'tp'},
+      ...(SPT.iv ? [{t: _t('Wyłącz interwały'), v: 'ivx'}] : []),
+      ...(SPT.tp ? [{t: _t('Wyłącz cel tempa'), v: 'tpx'}] : []),
+      {t: sptVoice() ? _t('🔇 Wycisz głos licznika') : _t('🔊 Włącz głos licznika'), v: 'gl'},
+      {t: _t('Zamknij'), v: null}
+    ]
+  });
+  if (v === 'gl') localStorage.setItem('omm-sport-glos', sptVoice() ? 'nie' : 'tak');
+  if (v === 'ivx') SPT.iv = null;
+  if (v === 'tpx') SPT.tp = null;
+  if (v === 'iv') {
+    const prev = localStorage.getItem('omm-interwaly') || '3:00 / 1:30 × 6',
+      s = await askText(_t('Interwały: praca / przerwa × powtórzenia\n(np. 3:00 / 1:30 × 6 albo 0:45 / 0:15 × 10)'), prev);
+    if (s === null) return sptDraw();
+    const m = String(s).match(/(\d+)(?::(\d{1,2}))?\s*\/\s*(\d+)(?::(\d{1,2}))?\s*[x×*]\s*(\d+)/i);
+    if (!m) return tell(_t('Nie rozumiem zapisu. Wpisz np. 3:00 / 1:30 × 6'));
+    const w = +m[1] * 60 + +(m[2] || 0),
+      r = +m[3] * 60 + +(m[4] || 0),
+      n = +m[5];
+    if (!(w >= 10 && w <= 3600 && r >= 0 && r <= 3600 && n >= 1 && n <= 50)) return tell(_t('Praca 0:10–60:00, przerwa do 60:00, powtórzeń 1–50.'));
+    localStorage.setItem('omm-interwaly', s.trim());
+    SPT.iv = {w, r, n, k: 1, ph: 'w', el: 0, lt: Date.now()};
+    sSay(_t('Interwał 1 z ') + n + _t('. Biegnij!'));
+  }
+  if (v === 'tp') {
+    const s = await askText(_t('Cel tempa (min:s na ') + (IMP ? _t('milę') : _t('kilometr')) + ')', localStorage.getItem('omm-cel-tempa') || '5:30');
+    const m = s && String(s).match(/^\s*(\d{1,2}):(\d{2})\s*$/);
+    if (m) {
+      SPT.tp = +m[1] * 60 + +m[2];
+      SPT.tpT = 0;
+      localStorage.setItem('omm-cel-tempa', s.trim());
+    } else if (s !== null) tell(_t('Wpisz tempo jako min:s, np. 5:30'));
+  }
+  sptSave();
+  sptDraw();
+}
+function tpCheck() {
+  // cel tempa: podpowiedź głosem najwyżej co 30 s, gdy tempo odbiega o ponad 15 s
+  if (!SPT.tp || SPT.paused || !(SPT.vs > 0.5) || (SPT.iv && SPT.iv.ph === 'r')) return;
+  const now = Date.now();
+  if (now - (SPT.tpT || 0) < 30000 || SPT.d < 200) return;
+  const p = (IMP ? MI : 1000) / SPT.vs;
+  if (p > SPT.tp + 15) sSay(_t('Za wolno. Tempo ') + saySec(p) + '.');
+  else if (p < SPT.tp - 15) sSay(_t('Za szybko. Tempo ') + saySec(p) + '.');
+  else return;
+  SPT.tpT = now;
+}
+async function walkSetup() {
+  const s = await askText(_t('Dzienny cel kroków:'), String(stepGoal()));
+  if (s === null) return;
+  const g = Math.round(+String(s).replace(/\s/g, ''));
+  if (!(g >= 500 && g <= 100000)) return tell(_t('Podaj liczbę od 500 do 100 000.'));
+  localStorage.setItem('omm-cel-krokow', String(g));
+  sptDraw();
 }
 // --- dane z GPS ---
 function sptFeed(lat, lon, alt, acc, spd, t) {
@@ -28234,25 +28679,61 @@ function sptFeed(lat, lon, alt, acc, spd, t) {
       SPT.day = o.day;
       SPT.tot = o.tot;
       SPT.kc += kcalOf(S.a, v, dt, 0);
+      if (S.tl === 'horse') {
+        const g = gaitOf(v);
+        if (g) SPT.gait[g] = (SPT.gait[g] || 0) + dt;
+      }
     } else if (v < S.mv) SPT.v = v < 0.5 ? 0 : v;
+    // prędkość wygładzona (ostatnie ~20 s) – tempo biegu i marszu, chód konia
+    (SPT.wb = SPT.wb || []).push([t, SPT.d]);
+    while (SPT.wb.length > 2 && t - SPT.wb[0][0] > 20000) SPT.wb.shift();
+    const w0 = SPT.wb[0];
+    SPT.vs = t - w0[0] > 4000 ? (SPT.d - w0[1]) / ((t - w0[0]) / 1000) : SPT.v;
     if (alt != null && isFinite(alt)) {
-      // wysokość i podjazd (histereza 3 m na szum GPS), nachylenie z ostatnich ~100 m
+      // wysokość, podjazd i zjazd (histereza 3 m na szum GPS), nachylenie z ostatnich ~100 m
       SPT.ele = alt;
       if (SPT.eleRef == null) SPT.eleRef = alt;
       else if (alt - SPT.eleRef >= 3) {
         const du = alt - SPT.eleRef;
         SPT.up += du;
-        if (bodyW()) SPT.kc += (bodyW() * 9.81 * du) / 0.25 / 4184; // praca na podjeździe
+        if (bodyW() && S.a !== 'konno') SPT.kc += (bodyW() * 9.81 * du) / 0.25 / 4184; // praca na podjeździe
         SPT.eleRef = alt;
-      } else if (SPT.eleRef - alt >= 3) SPT.eleRef = alt;
+      } else if (SPT.eleRef - alt >= 3) {
+        SPT.dn = (SPT.dn || 0) + (SPT.eleRef - alt);
+        SPT.eleRef = alt;
+      }
       SPT.gbuf.push([SPT.d, alt]);
       while (SPT.gbuf.length > 2 && SPT.d - SPT.gbuf[0][0] > 120) SPT.gbuf.shift();
       const g0 = SPT.gbuf[0];
       SPT.gr = SPT.d - g0[0] >= 40 ? ((alt - g0[1]) / (SPT.d - g0[0])) * 100 : null;
+      // tempo pod górę (trekking): metry w górę na godzinę z ostatnich 10 min
+      (SPT.ub = SPT.ub || []).push([t, SPT.up]);
+      while (SPT.ub.length > 2 && t - SPT.ub[0][0] > 600000) SPT.ub.shift();
     }
+    // okrążenia: co 1 km (bieg, marsz, trekking); rolki – powrót na start okrążenia
+    if (S.tl === 'run' || S.tl === 'walk' || S.tl === 'trek') {
+      if (SPT.d - SPT.lapD >= (IMP ? MI : 1000)) sptLap('km');
+    } else if (S.tl === 'skate') {
+      if (!SPT.lapP) SPT.lapP = p;
+      else if (SPT.d - SPT.lapD > 200 && hav(p, SPT.lapP) < 20) {
+        const lp = SPT.lapP;
+        sptLap('auto');
+        SPT.lapP = lp; // ten sam punkt startu okrążenia
+      }
+    }
+    if (S.tl === 'walk') {
+      const st = Math.round(odoNow(SPT.disc).day / stride());
+      if (st >= stepGoal() && SPT.goalDk !== dayKey()) {
+        SPT.goalDk = dayKey();
+        sSay(_t('Gratulacje! Dzienny cel ') + stepGoal() + _t(' kroków osiągnięty.'));
+        vibe([200, 100, 200, 100, 400]);
+      }
+    }
+    if (S.tl === 'run') tpCheck();
   }
   SPT.last = p;
   SPT.lastT = t;
+  if (SPT.iv) ivTick();
   if (SPT_OPEN) sptDraw();
 }
 function sportRecPoint(q, x) {
@@ -28262,30 +28743,160 @@ function sportRecPoint(q, x) {
 }
 // --- ekran licznika ---
 const fkmh1 = v => (v * 3.6).toFixed(1).replace('.', DEC);
+const fspd = v => (IMP ? (v * 2.23694).toFixed(1) : fkmh1(v));
+function sptTiles(tl) {
+  // kafelki licznika dla narzędzia: [klucz, podpis]
+  const U = IMP ? 'mph' : 'km/h',
+    P = IMP ? _t('min/mi') : _t('min/km');
+  if (tl === 'run')
+    return [
+      ['avgp', _t('Średnie tempo')],
+      ['d', _t('Dystans')],
+      ['mov', _t('Czas biegu')],
+      ['lap', _t('Ostatni km')],
+      ['iv', _t('Interwał')],
+      ['tp', _t('Cel tempa')],
+      ['day', _t('Dziś')],
+      ['tot', _t('Całkowity')],
+      ['up', _t('Podbiegi ↗')],
+      ['kc', _t('Kalorie (szac.)')]
+    ];
+  if (tl === 'walk')
+    return [
+      ['steps', _t('Kroki (marsz)')],
+      ['goal', _t('Cel dzienny')],
+      ['avgp', _t('Średnie tempo')],
+      ['d', _t('Dystans')],
+      ['mov', _t('Czas marszu')],
+      ['lap', _t('Ostatni km')],
+      ['day', _t('Dziś')],
+      ['tot', _t('Całkowity')],
+      ['up', _t('Podejście ↗')],
+      ['kc', _t('Kalorie (szac.)')]
+    ];
+  if (tl === 'trek')
+    return [
+      ['d', _t('Przejście')],
+      ['mov', _t('Czas marszu')],
+      ['up', _t('Podejście ↗')],
+      ['dn', _t('Zejście ↘')],
+      ['vup', _t('Tempo pod górę')],
+      ['ele', _t('Wysokość')],
+      ['sun', _t('Do zachodu')],
+      ['eta', _t('Czas dojścia')],
+      ['day', _t('Dziś')],
+      ['kc', _t('Kalorie (szac.)')]
+    ];
+  if (tl === 'horse')
+    return [
+      ['avg', _t('Średnia ') + U],
+      ['max', _t('Maks. ') + U],
+      ['d', _t('Dystans')],
+      ['mov', _t('Czas jazdy')],
+      ['gs', _t('Stęp')],
+      ['gk', _t('Kłus')],
+      ['gg', _t('Galop')],
+      ['day', _t('Dziś')],
+      ['tot', _t('Całkowity')],
+      ['kc', _t('Kalorie (szac.)')]
+    ];
+  if (tl === 'skate')
+    return [
+      ['avg', _t('Średnia ') + U],
+      ['max', _t('Maks. ') + U],
+      ['d', _t('Dystans')],
+      ['mov', _t('Czas jazdy')],
+      ['laps', _t('Okrążenia')],
+      ['lap', _t('Ostatnie okr.')],
+      ['best', _t('Najlepsze okr.')],
+      ['day', _t('Dziś')],
+      ['tot', _t('Całkowity')],
+      ['kc', _t('Kalorie (szac.)')]
+    ];
+  return [
+    ['avg', _t('Średnia ') + U],
+    ['max', _t('Maks. ') + U],
+    ['d', _t('Przejazd')],
+    ['mov', _t('Czas jazdy')],
+    ['day', _t('Dziś')],
+    ['tot', _t('Całkowity')],
+    ['ele', _t('Wysokość')],
+    ['up', _t('Podjazd ↗')],
+    ['gr', _t('Nachylenie')],
+    ['kc', _t('Kalorie (szac.)')]
+  ];
+}
 function sptDraw() {
   if (!SPT_EL || !SPT) return;
   const E = SPT_EL,
     S = SPORTS[SPT.disc],
+    tl = S.tl,
     o = odoNow(SPT.disc),
     avg = SPT.mov > 5 ? SPT.d / SPT.mov : 0,
     set = (k, v) => {
       const el = E.querySelector('[data-k="' + k + '"]');
       if (el) el.textContent = v;
-    };
-  set('v', IMP ? (SPT.v * 2.23694).toFixed(1) : fkmh1(SPT.v));
-  set('avg', IMP ? (avg * 2.23694).toFixed(1) : fkmh1(avg));
+    },
+    lastLap = SPT.laps && SPT.laps.length ? SPT.laps[SPT.laps.length - 1] : null;
+  // duża liczba: tempo (bieg, marsz) albo prędkość
+  if (tl === 'run' || tl === 'walk') set('v', SPT.vs > 0.3 ? fpace(SPT.vs) : '–:––');
+  else set('v', fspd(SPT.v));
+  set('avg', fspd(avg));
+  set('avgp', fpace(avg));
   const mx = Math.max(SPT.max, avg); // maks. nigdy mniejsza od średniej (prędkość z GPS vs dystans)
-  set('max', IMP ? (mx * 2.23694).toFixed(1) : fkmh1(mx));
+  set('max', fspd(mx));
   set('d', fkm(SPT.d));
   set('mov', fdur(Math.round(SPT.mov)));
   set('day', fkm(o.day));
   set('tot', fkm(o.tot));
   set('ele', SPT.ele != null ? fel(SPT.ele) : '–');
   set('up', fel(SPT.up));
+  set('dn', fel(SPT.dn || 0));
   set('gr', SPT.gr != null ? (SPT.gr > 0 ? '+' : '') + Math.round(SPT.gr) + '%' : '–');
   set('kc', bodyW() ? Math.round(SPT.kc) + ' kcal' : _t('podaj wagę'));
   set('clk', fhm(Date.now()));
   set('gps', SPT_ACC != null ? '±' + Math.round(SPT_ACC) + ' m' : _t('GPS…'));
+  if (tl === 'run' || tl === 'walk' || tl === 'trek') set('lap', lastLap ? fsec(lastLap.t) : '–');
+  if (tl === 'run') {
+    set('iv', ivLabel());
+    set('tp', SPT.tp ? fsec(SPT.tp) + (SPT.vs > 0.5 ? ((IMP ? MI : 1000) / SPT.vs > SPT.tp + 15 ? ' ↑' : (IMP ? MI : 1000) / SPT.vs < SPT.tp - 15 ? ' ↓' : ' ✓') : '') : '–');
+  }
+  if (tl === 'walk') {
+    const sd = Math.round(o.day / stride());
+    set('steps', Math.round(SPT.d / stride()).toLocaleString(LOC));
+    set('goal', sd.toLocaleString(LOC) + ' / ' + stepGoal().toLocaleString(LOC) + (sd >= stepGoal() ? ' ✓' : ''));
+  }
+  if (tl === 'trek') {
+    const ub = SPT.ub || [],
+      u0 = ub[0],
+      u1 = ub[ub.length - 1],
+      dt = u0 && u1 ? (u1[0] - u0[0]) / 3600000 : 0;
+    set('vup', dt > 0.033 ? Math.round((u1[1] - u0[1]) / dt) + ' m/h' : '–');
+    const pos = SPT.last || (NAV && NAV.pos);
+    if (pos) {
+      const s = sunTimes(pos[0], pos[1]),
+        now = Date.now();
+      set('sun', s.polar ? '–' : now < s.set ? fhmin(s.set - now) : _t('po zach.'));
+    } else set('sun', '–');
+    if (NAV && NAV.left != null) {
+      const sp = avg > 0.3 ? avg : myPace();
+      set('eta', feta(NAV.left / sp) + ' · ' + fkm(NAV.left));
+    } else set('eta', _t('prowadź…'));
+  }
+  if (tl === 'horse') {
+    const g = SPT.gait || {};
+    set('gs', fdur(Math.round(g.s || 0)));
+    set('gk', fdur(Math.round(g.k || 0)));
+    set('gg', fdur(Math.round(g.g || 0)));
+    const now = gaitOf(SPT.vs || SPT.v);
+    set('unit', (IMP ? 'mph' : 'km/h') + (now ? ' · ' + _t(GAIT[now]) : ''));
+  }
+  if (tl === 'skate') {
+    const L2 = SPT.laps || [];
+    set('laps', String(L2.length));
+    set('lap', lastLap ? fsec(lastLap.t) : '–');
+    set('best', L2.length ? fsec(Math.min(...L2.map(x => x.t))) : '–');
+  }
   E.querySelector('.spau').innerHTML = SPT.paused ? ico('play', 22) + '<span>' + _t('Dalej') + '</span>' : ico('pause', 22) + '<span>' + _t('Pauza') + '</span>';
   E.classList.toggle('paused', !!SPT.paused);
   E.querySelector('.swl').classList.toggle('on', wlWant());
@@ -28295,11 +28906,19 @@ function sptDraw() {
 var SPT_ACC = null;
 function sportOpen(disc = 'rower') {
   // otwarcie licznika (przejazd trwa dalej, aż go wyzerujesz)
-  const S = SPORTS[disc];
+  if (!SPORTS[disc]) disc = 'rower';
+  const S = SPORTS[disc],
+    tl = S.tl;
   SPT = sptLoad();
-  if (!SPT || SPT.disc !== disc) SPT = sptNew(disc);
+  if (!SPT || SPT.disc !== disc) {
+    if (SPT && SPT.d > 50) toastMsg(_t('Poprzedni trening (') + _t(SPORTS[SPT.disc].n) + ', ' + fkm(SPT.d) + _t(') zakończony – nowy licznik'));
+    SPT = sptNew(disc);
+  }
+  SPT = {...sptNew(disc), ...SPT, wb: []}; // starsze zapisy (v60) – brakujące pola
+  localStorage.setItem('omm-sport-dysc', disc);
   SPT.last = null; // po przerwie nie łączymy odległej pozycji z poprzednią
   SPT.lastT = Math.max(SPT.lastT || 0, Date.now() - 1000);
+  if (SPT.iv) SPT.iv.lt = Date.now();
   SPT_OPEN = true;
   let E = $('sport');
   if (!E) {
@@ -28309,38 +28928,41 @@ function sportOpen(disc = 'rower') {
   }
   SPT_EL = E;
   const tile = (k, l) => '<div class="st"><b data-k="' + k + '">–</b><i>' + esc(l) + '</i></div>',
-    U = IMP ? 'mph' : 'km/h';
+    U = tl === 'run' || tl === 'walk' ? (IMP ? _t('min/mi – tempo') : _t('min/km – tempo')) : IMP ? 'mph' : 'km/h';
   E.innerHTML =
     '<div class="stop"><span class="snm">' + S.ic + ' ' + esc(_t(S.n)) + '</span><span data-k="gps"></span><span data-k="clk"></span></div>' +
-    '<div class="sbig"><b data-k="v">0</b><span>' + U + '</span></div>' +
+    '<div class="sbig"><b data-k="v">0</b><span data-k="unit">' + esc(U) + '</span></div>' +
     '<div class="sgrid">' +
-    tile('avg', _t('Średnia ') + U) +
-    tile('max', _t('Maks. ') + U) +
-    tile('d', _t('Przejazd')) +
-    tile('mov', _t('Czas jazdy')) +
-    tile('day', _t('Dziś')) +
-    tile('tot', _t('Całkowity')) +
-    tile('ele', _t('Wysokość')) +
-    tile('up', _t('Podjazd ↗')) +
-    tile('gr', _t('Nachylenie')) +
-    tile('kc', _t('Kalorie (szac.)')) +
+    sptTiles(tl).map(([k, l]) => tile(k, l)).join('') +
     '</div><div class="sbt"></div>';
   const bt = E.querySelector('.sbt'),
-    mk = (ic, l, fn, c) => {
-      const b = BI(ic, l, fn, c);
-      return b;
-    };
+    mk = (ic, l, fn, c) => BI(ic, l, fn, c);
   bt.append(
     mk('pause', _t('Pauza'), () => {
       SPT.paused = !SPT.paused;
       SPT.last = null;
+      if (SPT.iv) SPT.iv.lt = Date.now();
       if (SPT_REC && REC) recPause(SPT.paused);
       sptSave();
       sptDraw();
     }, 'spau'),
-    mk('rec', _t('Nagrywaj ślad'), sportRecToggle, 'srec'),
-    mk('refresh', _t('Zeruj przejazd'), async () => {
-      if (!(await askYes(_t('Wyzerować przejazd (dystans, czas, średnia, maks., kalorie)?\n\nDzienny i całkowity zostają.'), _t('Zeruj')))) return;
+    mk('rec', _t('Nagrywaj ślad'), sportRecToggle, 'srec')
+  );
+  // narzędzie dyscypliny
+  if (tl === 'run') bt.append(mk('clock', _t('Trening'), runSetup));
+  if (tl === 'walk') bt.append(mk('star', _t('Cel'), walkSetup));
+  if (tl === 'skate')
+    bt.append(
+      mk('refresh', _t('Okrążenie'), () => {
+        sptLap('btn');
+        SPT.lapP = SPT.last;
+        sptSave();
+        sptDraw();
+      })
+    );
+  bt.append(
+    mk('del', _t('Zeruj'), async () => {
+      if (!(await askYes(_t('Wyzerować trening (dystans, czas, średnia, maks., okrążenia, kalorie)?\n\nDzienny i całkowity zostają.'), _t('Zeruj')))) return;
       SPT = sptNew(SPT.disc);
       sptSave();
       sptDraw();
@@ -28371,9 +28993,11 @@ function sportOpen(disc = 'rower') {
     );
   clearInterval(SPT_EL._tm);
   SPT_EL._tm = setInterval(() => {
+    if (SPT && SPT.iv) ivTick();
     sptDraw();
-    sptSave();
-  }, 5000);
+    if (++SPT_EL._n % 5 === 0) sptSave();
+  }, 1000);
+  SPT_EL._n = 0;
   wlSync();
   sptDraw();
 }
@@ -28397,7 +29021,7 @@ async function sportEnd() {
     SPT_REC = false;
     await recStop();
   }
-  toastMsg(_t('Przejazd: ') + fkm(SPT ? SPT.d : 0) + ' · ' + fdur(Math.round(SPT ? SPT.mov : 0)) + _t(' (zostaje do wyzerowania)'));
+  toastMsg(_t('Trening: ') + fkm(SPT ? SPT.d : 0) + ' · ' + fdur(Math.round(SPT ? SPT.mov : 0)) + _t(' (zostaje do wyzerowania)'));
 }
 async function sportRecToggle() {
   // nagrywanie śladu z licznika – ślad trafi do kategorii „Sport”, warstwa wg dyscypliny
@@ -28438,8 +29062,22 @@ function sportLayer(disc) {
   return l;
 }
 async function sportPick() {
-  // wybór dyscypliny (v60: rower; kolejne – bieg, marsz, trekking, jeździectwo, rolki – w następnej wersji)
-  sportOpen('rower');
+  // wybór dyscypliny – trwający trening otwiera się od razu (zmiana: przytrzymanie przycisku albo „Zakończ” i wybór)
+  const cur = sptLoad();
+  if (cur && REC && SPT_REC) return sportOpen(cur.disc); // trwa nagrywanie z licznika – od razu do niego
+  const last = localStorage.getItem('omm-sport-dysc');
+  const v = await dlg({
+    title: _t('Dyscyplina'),
+    btns: [
+      ...Object.entries(SPORTS).map(([k, x]) => ({
+        t: x.ic + ' ' + _t(x.n) + (cur && cur.disc === k && cur.d > 0 ? ' · ' + fkm(cur.d) : ''),
+        v: k,
+        c: k === (cur ? cur.disc : last) ? 'okb' : ''
+      })),
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (v) sportOpen(v);
 }
 
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
@@ -28950,25 +29588,42 @@ function settingsDlg() {
     sec.append(g);
   }
   {
-    const o = odoNow('rower'),
-      g = h('div', 'sset');
-    g.append(h('b', null, _t('Licznik rowerowy')), h('div', null, _t('Dziś: ') + fkm(o.day) + _t(' · całkowity: ') + fkm(o.tot)));
-    const rb = B(_t('Wyzeruj dystans całkowity (przytrzymaj)'), () => toastMsg(_t('Przytrzymaj przycisk 2 sekundy')), 'danger');
-    let tm = null;
-    rb.addEventListener('pointerdown', () => {
-      tm = setTimeout(async () => {
-        const v = await askText(_t('Dystans całkowity roweru zostanie wyzerowany na zawsze.\nWpisz ZERUJ, aby potwierdzić:'), '');
-        if (String(v || '').trim().toUpperCase() !== _t('ZERUJ')) return toastMsg(_t('Nie wyzerowano'));
-        const od = odoGet();
-        delete od.rower;
-        localStorage.setItem('omm-sport-odo', JSON.stringify(od));
-        toastMsg(_t('Wyzerowano dystans całkowity'));
-      }, 2000);
+    // dystans dzienny i całkowity każdej dyscypliny; całkowity zerowany tylko tu: przytrzymanie + „ZERUJ”
+    const g = h('div', 'sset');
+    g.append(h('b', null, _t('Liczniki dyscyplin')));
+    Object.entries(SPORTS).forEach(([k, S]) => {
+      const o = odoNow(k);
+      if (!o.tot && k !== 'rower') return;
+      const r = h('div', 'odor');
+      r.append(h('div', null, S.ic + ' ' + _t(S.n) + ' – ' + _t('dziś: ') + fkm(o.day) + _t(' · całkowity: ') + fkm(o.tot)));
+      const rb = B(_t('Wyzeruj całkowity (przytrzymaj)'), () => toastMsg(_t('Przytrzymaj przycisk 2 sekundy')), 'danger');
+      let tm = null;
+      rb.addEventListener('pointerdown', () => {
+        tm = setTimeout(async () => {
+          const v = await askText(_t('Dystans całkowity (') + _t(S.n) + _t(') zostanie wyzerowany na zawsze.\nWpisz ZERUJ, aby potwierdzić:'), '');
+          if (String(v || '').trim().toUpperCase() !== _t('ZERUJ')) return toastMsg(_t('Nie wyzerowano'));
+          const od = odoGet();
+          delete od[k];
+          localStorage.setItem('omm-sport-odo', JSON.stringify(od));
+          toastMsg(_t('Wyzerowano dystans całkowity'));
+        }, 2000);
+      });
+      ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => rb.addEventListener(ev, () => clearTimeout(tm)));
+      r.append(rb);
+      g.append(r);
     });
-    ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => rb.addEventListener(ev, () => clearTimeout(tm)));
-    g.append(rb);
+    g.append(h('div', 'muted', _t('Pozostałe dyscypliny pojawią się tu po pierwszym treningu.')));
     sec.append(g);
   }
+  radios(
+    _t('Głos licznika (okrążenia, interwały, cel tempa, cel kroków)'),
+    'omm-sport-glos',
+    'tak',
+    [
+      ['tak', _t('Włączony')],
+      ['nie', _t('Wyłączony')]
+    ]
+  );
   // wygląd (v58): tryb ciemny
   cat('look', 'moon', _t('Wygląd'));
   radios(
