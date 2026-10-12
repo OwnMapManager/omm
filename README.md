@@ -74,7 +74,7 @@ Dane są tylko Twoje: aplikacja nikomu ich nie wysyła, z internetu pobiera jedy
 
 ## Dla programistów – jak zbudowany jest kod
 
-- **Jeden plik HTML**: style (CSS) → układ przycisków → jeden skrypt JavaScript. Jedyna biblioteka: [Leaflet](https://leafletjs.com) 1.9.4.
+- **Jeden plik HTML**: style (CSS) → układ przycisków → jeden skrypt JavaScript. Biblioteki: [Leaflet](https://leafletjs.com) 1.9.4 i [leaflet-rotate](https://github.com/Raruto/leaflet-rotate) 0.2.8 (obrót mapy w nawigacji, GPL-3.0).
 - Sekcje skryptu zaczynają się od komentarza `// ---------- nazwa ----------` – wyszukaj go w pliku. Na początku skryptu jest spis sekcji i **opis modelu danych** (wszystkie pola obiektów).
 - Dane są zapisywane w `localStorage` pod kluczem `mapa-v2` po każdej zmianie. Krótkie nazwy pól (`t`, `p`, `i`, `nm`, `n`, `ra`…) zostają bez zmian, bo w tym formacie zapisane są dane użytkowników – ich znaczenie opisuje nagłówek skryptu.
 - **Zmiana struktury danych**: podnieś `SCHEMA` i dopisz krok w `MIGR` – stare dane przechodzą automatycznie, a przed migracją robiona jest kopia awaryjna.
@@ -88,7 +88,7 @@ Ikony to rysunki SVG w siatce 32×32, rejestrowane funkcją `igroup(kod_grupy, n
 
 ```
 app/omm.html                aplikacja (ten sam plik działa w przeglądarce)
-scripts/prepare-www.mjs     tworzy www/: wbudowany Leaflet zamiast CDN, numer wersji z APP_VER
+scripts/prepare-www.mjs     tworzy www/: wbudowany Leaflet i leaflet-rotate zamiast CDN, numer wersji z APP_VER
 android/                    projekt Android (Capacitor 8) – uprawnienia GPS, podpis, ikony
 art/logo.svg, art/render.py logo i skrypt generujący z niego ikony aplikacji i ekran startowy
 .github/workflows/android.yml  budowanie APK w chmurze i publikacja w Releases

@@ -40,6 +40,8 @@ komercyjnego. Inne wykorzystanie wymaga zgody autora.
 -------------------------------------------------------------------------------
  • Leaflet – biblioteka mapy, licencja BSD-2-Clause, © Volodymyr Agafonkin
    i współtwórcy (ładowana z cdnjs.cloudflare.com).
+ • leaflet-rotate 0.2.8 – obrót mapy w nawigacji, licencja GPL-3.0, © Raruto
+   i współtwórcy (w aplikacji wbudowana, w wersji przeglądarkowej z cdn.jsdelivr.net).
  • Dane mapowe należą do swoich właścicieli i podlegają ich warunkom:
    OpenStreetMap (ODbL, „© autorzy OpenStreetMap”), Geoportal / GUGiK,
    Bank Danych o Lasach, Waymarked Trails (CC BY-SA). Podkłady Google są

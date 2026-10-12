@@ -1,6 +1,7 @@
 // Przygotowuje folder www/ – to, co trafia do środka aplikacji na Androida.
 //  • app/omm.html → www/index.html
 //  • Leaflet z CDN (internet) zamieniony na kopię wbudowaną w aplikację (działa bez zasięgu)
+//  • leaflet-rotate (obrót mapy w nawigacji, v64) – też kopia wbudowana
 //  • dołączony rdzeń Capacitora (lib/capacitor.js) – dostęp do wtyczek: zapis plików, GPS w tle…
 //  • numer wersji (np. APP_VER = 'v34') zapisany w www/version.txt – Gradle nadaje go plikowi APK
 //  • skrypt aplikacji przeniesiony do osobnego pliku app.js i ścisła polityka CSP: przeglądarka
@@ -16,6 +17,11 @@ for (const f of ['leaflet.css', 'leaflet.js']) {
   if (!html.includes(cdn + f)) throw new Error(`W ${src} nie ma odnośnika do ${cdn + f}`);
   html = html.replaceAll(cdn + f, 'lib/leaflet/' + f);
 }
+
+// obrót mapy (v64): leaflet-rotate z CDN zamieniony na kopię wbudowaną (bez internetu, bez obcych adresów w CSP)
+const rotCdn = 'https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.8/dist/leaflet-rotate.js';
+if (!html.includes(rotCdn)) throw new Error('W ' + src + ' nie ma odnośnika do ' + rotCdn);
+html = html.replace(rotCdn, 'lib/leaflet-rotate.js');
 
 // rdzeń Capacitora wczytujemy przed skryptem aplikacji
 const leafletTag = '<script src="lib/leaflet/leaflet.js"'; // (z atrybutem integrity – suma SRI pasuje też do kopii lokalnej)
@@ -74,4 +80,5 @@ writeFileSync('www/app.js', appJs);
 writeFileSync('www/version.txt', ver[1] + '\n');
 cpSync('node_modules/leaflet/dist', 'www/lib/leaflet', {recursive: true});
 cpSync('node_modules/@capacitor/core/dist/capacitor.js', 'www/lib/capacitor.js');
+cpSync('node_modules/leaflet-rotate/dist/leaflet-rotate.js', 'www/lib/leaflet-rotate.js');
 console.log(`www/ gotowe – OMM v${ver[1]}`);

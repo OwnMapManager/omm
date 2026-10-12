@@ -19,7 +19,8 @@
     "@capacitor/filesystem": "^8.1.4",
     "@capacitor/local-notifications": "^8.0.0",
     "@capacitor/share": "^8.0.3",
-    "leaflet": "1.9.4"
+    "leaflet": "1.9.4",
+    "leaflet-rotate": "0.2.8"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.3"

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <!-- Polityka bezpieczeństwa treści: skrypty i style tylko z aplikacji (oraz Leaflet z cdnjs w wersji przeglądarkowej),
      zakaz ramek, wtyczek i obcych formularzy. Obrazki i zapytania – do serwerów map (różne adresy). -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; child-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; child-src 'none'; base-uri 'none'; form-action 'none'">
 <title>OMM – Own Map Manager</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
 <style>
@@ -3467,6 +3467,98 @@ body.animon #wm {
 body.rec .navbar {
   top: calc(56px + env(safe-area-inset-top, 0px));
 }
+.navbar {
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.navbar .ntw {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.navbar .nbig {
+  display: none;
+  line-height: 1.15;
+}
+.navbar .nbig b {
+  display: block;
+  font-size: 24px;
+  font-weight: 800;
+}
+.navbar .nbig small {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 1px 0 2px;
+}
+.navbar .nmv {
+  display: none;
+  position: relative;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--acc);
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+}
+html.dark .navbar .nmv {
+  color: #202124;
+}
+.navbar .nmv .ic {
+  stroke-width: 2.6;
+}
+.navbar .nmv b {
+  position: absolute;
+  right: 4px;
+  bottom: 2px;
+  font-size: 13px;
+  font-weight: 800;
+}
+.navbar.man .nmv {
+  display: flex;
+}
+.navbar.man .narr {
+  display: none;
+}
+.navbar.man .ntx {
+  font-size: 12.5px;
+  color: var(--sub);
+}
+.navbar .nbt {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  width: 100%;
+  border-top: 1px solid var(--line);
+  padding-top: 4px;
+}
+.navbar .nb .ic {
+  transition: transform 0.15s linear;
+}
+.navrc {
+  position: fixed;
+  z-index: 1150;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  display: none;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 24px;
+  padding: 12px 20px;
+  background: var(--acc);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 2px 10px #0005;
+}
+html.dark .navrc {
+  color: #202124;
+}
 .navbar .narr {
   display: flex;
   flex: none;
@@ -4903,6 +4995,8 @@ body.sboardon #sportb {
 <input type="file" id="pfile" hidden>
 <input type="file" id="tfile" multiple hidden>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js" integrity="sha512-BwHfrr4c9kmRkLw6iXFdzcdWV/PGkVgiIyIWLLlTSXzWQzxuSg4DiQUCpauz/EWjgk5TYQqX/kvn9pG1NpYfqg==" crossorigin="anonymous"></script>
+<!-- v64: obrót mapy w nawigacji (kierunek jazdy u góry) – leaflet-rotate 0.2.8, GPL-3.0, w aplikacji kopia wbudowana -->
+<script src="https://cdn.jsdelivr.net/npm/leaflet-rotate@0.2.8/dist/leaflet-rotate.js" integrity="sha384-MtIdllebpZyms2pw9K3YJl8BEqrKNQCdSFAySjeglab6z2PkeFdF4Lb9cDsnxQuG" crossorigin="anonymous"></script>
 <script>
 // ---------- język interfejsu: polski (teksty źródłowe) i angielski ----------
 // Ustawienia → „Język / Language”: auto (jak język telefonu: polski → PL, każdy inny → EN), Polski, English.
@@ -4920,6 +5014,21 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Kierunek jazdy u góry / północ u góry": "Direction of travel up / north up",
+  "Cała trasa": "Whole route",
+  "Wyśrodkuj": "Re-centre",
+  "🧭 Kierunek jazdy u góry": "🧭 Direction of travel up",
+  "🧭 Północ u góry": "🧭 North up",
+  "Cel: ": "Destination: ",
+  "Mapa podczas prowadzenia": "Map while navigating",
+  "Automatycznie – samochodem i rowerem kierunek jazdy u góry, pieszo północ": "Automatic – by car and bike the direction of travel up, on foot north",
+  "Zawsze kierunek jazdy u góry": "Always direction of travel up",
+  "Zawsze północ u góry": "Always north up",
+  "Mapa jedzie za Tobą, a zoom dopasowuje się do prędkości; przed skrętem przybliża skrzyżowanie. Przesunięcie mapy palcem wstrzymuje to na 10 s (albo do „Wyśrodkuj”). Przełącznik kompasu jest też na pasku prowadzenia.": "The map follows you and the zoom adapts to your speed; before a turn it zooms in on the junction. Moving the map with a finger pauses this for 10 s (or until “Re-centre”). The compass switch is also on the navigation bar.",
+  "Zoom podczas prowadzenia": "Zoom while navigating",
+  "Bliżej": "Closer",
+  "Normalnie": "Normal",
+  "„Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Mapa jedzie za Tobą i sama dobiera zoom do prędkości, przed skrętem przybliża skrzyżowanie; samochodem i rowerem kierunek jazdy jest u góry. Na pasku: cała trasa, kompas (kierunek / północ), po drogach i 💡 ekran. Przesunięcie mapy palcem – „Wyśrodkuj” wraca.": "“Navigate” in the window of a point, line, track, car or photo. The map follows you and picks the zoom for your speed, zooming in on junctions before turns; by car and bike the direction of travel is up. On the bar: whole route, compass (direction / north), along roads and 💡 screen. If you move the map with a finger – “Re-centre” brings it back.",
   " w tym miejscu": " in this place",
   "Cel trasy": "Destination",
   " (wszystko z licznika, także bez zakończonych treningów)": " (everything from the counter, including unfinished workouts)",
@@ -7044,6 +7153,19 @@ const IC = {
   refresh: '<path d="M19.5 11A7.5 7.5 0 0 0 6 6.6L4 8.5"/><path d="M4 4v4.5h4.5"/><path d="M4.5 13A7.5 7.5 0 0 0 18 17.4l2-1.9"/><path d="M20 20v-4.5h-4.5"/>', // odśwież mapę
   map: '<path d="M3.5 6.5l5.5-2 6 2 5.5-2v13l-5.5 2-6-2-5.5 2z"/><path d="M9 4.5v13M15 6.5v13"/>', // mapa
   more: '<circle cx="12" cy="5.5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor"/>', // więcej opcji
+  // nawigacja (v64): kompas (orientacja mapy), cała trasa, strzałki manewrów
+  compass: '<circle cx="12" cy="12" r="9"/><path d="M12 4.5l2.6 7.5H9.4z" fill="currentColor"/><path d="M12 19.5L9.4 12h5.2z"/>',
+  fit: '<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/><path d="M8 15c2-1 2-5 4-6s3 2 4 0"/>',
+  mv_s: '<path d="M12 21V4M6 10l6-6 6 6"/>',
+  mv_r: '<path d="M7 21v-8a4 4 0 0 1 4-4h9M16 5l4 4-4 4"/>',
+  mv_l: '<path d="M17 21v-8a4 4 0 0 0-4-4H4M8 5L4 9l4 4"/>',
+  mv_sr: '<path d="M9 21v-7l8-8M11 6h6v6"/>',
+  mv_sl: '<path d="M15 21v-7L7 6M13 6H7v6"/>',
+  mv_shr: '<path d="M8 21V7a3 3 0 0 1 5.4-1.8L19 14M19 8v6h-6"/>',
+  mv_shl: '<path d="M16 21V7a3 3 0 0 0-5.4-1.8L5 14M5 8v6h6"/>',
+  mv_u: '<path d="M16 21V9a4 4 0 0 0-8 0v6M4 12l4 4 4-4"/>',
+  mv_rb: '<circle cx="12" cy="10" r="4.5"/><path d="M12 21v-6.5M15.2 6.8L19 3M15 3h4v4"/>',
+  mv_end: '<path d="M6 21V4M6 4h11l-2.5 4 2.5 4H6"/>',
   // dyscypliny Sportu (v62) – rysowane jak reszta ikon, bez kolorów
   sp_bike: '<circle cx="5.5" cy="16.5" r="3.6"/><circle cx="18.5" cy="16.5" r="3.6"/><path d="M5.5 16.5L9 9.5h6.5l3 7M9 9.5l3.5 7h-7M12.5 16.5l3-7M8 6.5h3M15.5 9.5l-1-3h2.5"/>',
   sp_run: '<circle cx="15" cy="4.2" r="2"/><path d="M13.6 8.2L10.8 13.3l3.3 2.9-1.2 5.3M10.8 13.3l-3.6 1.6-2.4 3.4M7.8 9.8l3.2-1.8 2.6.2 2.4 3 3.2.6"/>',
@@ -7101,7 +7223,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v63';
+const APP_VER = 'v64';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   const v = localStorage.getItem('omm-motyw') || 'jasny',
@@ -10335,7 +10457,40 @@ const VIEW0 = (() => {
   return viewDef();
 })();
 // ---------- mapa Leaflet i przyciski na mapie ----------
-const map = L.map('map', {zoomControl: false, attributionControl: false}).setView(VIEW0.c, VIEW0.z);
+// v64: mapa z możliwością obrotu (leaflet-rotate) – obracana tylko w nawigacji („kierunek jazdy u góry”); bez obrotu
+// palcami, bez kontrolki obrotu i bez Shift+kółko. Gdy dodatek się nie wczyta – zwykła mapa (bez obrotu).
+const ROT_OK = !!(L.Map.prototype.setBearing && L.Browser.any3d) && localStorage.getItem('omm-obrot') !== 'wyl';
+const map = L.map('map', {
+  zoomControl: false,
+  attributionControl: false,
+  ...(ROT_OK ? {rotate: true, bearing: 0, rotateControl: false, touchRotate: false, shiftKeyRotate: false, compassBearing: false} : {rotateControl: false, shiftKeyRotate: false})
+}).setView(VIEW0.c, VIEW0.z);
+if (map._rotate) {
+  // Własne panele OMM mieszają obiekty (linie i ikony w jednej warstwie). Przy obracanej mapie linie, wielokąty, kafle
+  // i obrazy muszą być w panelu obracanym, a ikony (znaczniki) – w nieobracanym, żeby stały pionowo. Każdy własny
+  // panel dostaje więc „bliźniaka” dla znaczników; kolejność, krycie i widoczność bliźniak kopiuje z panelu głównego.
+  const cp0 = map.createPane.bind(map);
+  map.createPane = (name, container) => {
+    if (container) return cp0(name, container);
+    const p = cp0(name, map._rotatePane),
+      m = cp0(name + '__m', map._norotatePane),
+      sync = () => {
+        m.style.zIndex = p.style.zIndex;
+        m.style.opacity = p.style.opacity;
+        m.style.display = p.style.display;
+      };
+    p._omTwin = m;
+    new MutationObserver(sync).observe(p, {attributes: true, attributeFilter: ['style']});
+    return p;
+  };
+  const gp0 = L.Layer.prototype.getPane;
+  L.Marker.include({
+    getPane(n) {
+      const p = gp0.call(this, n);
+      return (p && p._omTwin) || p;
+    }
+  });
+}
 map.on('moveend', () => {
   const c = map.getCenter();
   try {
@@ -16737,7 +16892,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
-<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Na pasku prowadzenia: <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Po zejściu ze śladu telefon wibruje i mówi, gdzie jest ślad; po dojściu – „Jesteś na miejscu”.</li>
+<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Po zejściu ze śladu telefon wibruje i mówi, gdzie jest ślad; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
 <li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON.</li>
@@ -16769,7 +16924,7 @@ const ABOUT_INFO = () => `<p class="muted" style="margin:0 0 10px">© ${APP_YEAR
 <li><b>Ikony i logo</b> – CC BY-NC-ND 4.0: wolno pokazywać z podaniem autora, bez zmian i bez użytku komercyjnego.</li>
 <li><b>Nazwa „OMM – Own Map Manager”</b> jest zastrzeżona – zmienione wersje muszą nosić inną nazwę i informację, że nie są wersją oficjalną.</li>
 </ul>
-<p><b>Źródła danych mapowych:</b> © autorzy OpenStreetMap (ODbL) · Geoportal / GUGiK (ortofotomapa, NMT, działki, uzbrojenie terenu) · Bank Danych o Lasach · Waymarked Trails (CC BY-SA) · OpenTopoMap-R / openmaps.fr (CC-BY-SA) · CyclOSM / OSM France · Sentinel-2 cloudless, EOX IT Services (CC BY-NC-SA 4.0, zawiera zmodyfikowane dane Copernicus Sentinel) · USGS The National Map (domena publiczna) · Google (zdjęcia satelitarne – nieoficjalnie, tylko do użytku prywatnego). Biblioteka mapy: Leaflet (BSD-2).</p>`;
+<p><b>Źródła danych mapowych:</b> © autorzy OpenStreetMap (ODbL) · Geoportal / GUGiK (ortofotomapa, NMT, działki, uzbrojenie terenu) · Bank Danych o Lasach · Waymarked Trails (CC BY-SA) · OpenTopoMap-R / openmaps.fr (CC-BY-SA) · CyclOSM / OSM France · Sentinel-2 cloudless, EOX IT Services (CC BY-NC-SA 4.0, zawiera zmodyfikowane dane Copernicus Sentinel) · USGS The National Map (domena publiczna) · Google (zdjęcia satelitarne – nieoficjalnie, tylko do użytku prywatnego). Biblioteka mapy: Leaflet (BSD-2), obrót mapy w nawigacji: leaflet-rotate (GPL-3.0, Raruto i współautorzy).</p>`;
 // źródła danych mapowych (wersja angielska; polska jest w ABOUT_INFO)
 const MAP_SOURCES_EN = () =>
   '© OpenStreetMap contributors (ODbL) · Geoportal / GUGiK, Poland (orthophoto, DTM, parcels, utilities) · Polish Forest Data Bank · Waymarked Trails (CC BY-SA) · OpenTopoMap-R / openmaps.fr (CC-BY-SA) · CyclOSM / OSM France · Sentinel-2 cloudless by EOX IT Services (CC BY-NC-SA 4.0, contains modified Copernicus Sentinel data) · USGS The National Map (public domain) · Google (satellite images – unofficial, for private use only)';
@@ -16784,7 +16939,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
-<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line – in the chosen direction (from far away, first to its start). On the navigation bar: <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
+<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are far away, OMM asks how you'll get to the start (by car, by bike, on foot – along roads with voice directions – or straight) and switches to guiding along the route at the start. The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
 <li><b>GPS tracks</b> – REC records the route (also with the screen off). Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON.</li>
@@ -16816,7 +16971,7 @@ const ABOUT_INFO_EN = () => `<p class="muted" style="margin:0 0 10px">© ${APP_Y
 <li><b>Icons and logo</b> – CC BY-NC-ND 4.0: may be shown with credit to the author, unchanged and not for commercial use.</li>
 <li><b>The name “OMM – Own Map Manager”</b> is reserved – modified versions must carry a different name and state that they are not the official version.</li>
 </ul>
-<p><b>Map data sources:</b> ${MAP_SOURCES_EN()}. Map library: Leaflet (BSD-2).</p>`;
+<p><b>Map data sources:</b> ${MAP_SOURCES_EN()}. Map library: Leaflet (BSD-2), map rotation while navigating: leaflet-rotate (GPL-3.0, Raruto and contributors).</p>`;
 // ---------- niespodzianka (easter egg) ----------
 // 7 × dotknięcie nazwy „OMM – Own Map Manager” w „O OMM” (jak „numer kompilacji” w Androidzie).
 let eggN = 0,
@@ -24408,6 +24563,7 @@ function navSetPath(P) {
   for (let i = P.length - 2; i >= 0; i--) suf[i] = suf[i + 1] + hav(P[i], P[i + 1]);
   NAV.suf = suf;
   NAV.j = null;
+  NAV.mzi = null; // nowa trasa – nowe numery punktów manewrów
   NAV.line.setStyle({dashArray: null, weight: 6, opacity: 0.85}); // trasa – linia ciągła
 }
 function navStart(to, name, path, opt = {}) {
@@ -24418,7 +24574,11 @@ function navStart(to, name, path, opt = {}) {
   closePops();
   const bar = h('div', 'navbar'),
     arr = h('span', 'narr'),
-    txt = h('span', 'ntx', _t('Szukam pozycji GPS…'));
+    mvi = h('span', 'nmv'), // v64: duża strzałka najbliższego manewru (trasa po drogach)
+    big = h('span', 'nbig'),
+    txt = h('span', 'ntx', _t('Szukam pozycji GPS…')),
+    tw = h('span', 'ntw');
+  tw.append(big, txt);
   arr.innerHTML = '<svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 2L20 21L12 16.5L4 21Z" fill="#1a73e8"/></svg>';
   const g = L.layerGroup().addTo(map);
   NAV = {
@@ -24427,6 +24587,8 @@ function navStart(to, name, path, opt = {}) {
     bar,
     arr,
     txt,
+    big,
+    mvi,
     g,
     pos: null,
     acc: null,
@@ -24462,7 +24624,17 @@ function navStart(to, name, path, opt = {}) {
   const wb = IB('bulb', () => wlToggle(), 'nb' + (wlWant() ? ' on' : ''), _t('Nie wygaszaj ekranu'));
   NAV.wb = wb;
   btns.push(wb);
-  bar.append(arr, txt, ...btns, IB('x', navStop, 'nx', _t('Zakończ nawigację')));
+  // v64: orientacja mapy (kierunek jazdy / północ) i podgląd całej trasy
+  if (map._rotate) {
+    const ob = IB('compass', navOrientToggle, 'nb', _t('Kierunek jazdy u góry / północ u góry'));
+    NAV.ob = ob;
+    btns.unshift(ob);
+  }
+  btns.unshift(IB('fit', navOverview, 'nb', _t('Cała trasa')));
+  const row2 = h('div', 'nbt');
+  row2.append(...btns);
+  bar.append(arr, mvi, tw, IB('x', navStop, 'nx', _t('Zakończ nawigację')), row2);
+  navCamInit();
   document.body.append(bar);
   document.body.classList.add('navon');
   if (!NAV.free)
@@ -24542,6 +24714,11 @@ async function navRoute(again) {
 }
 function navPos(c) {
   if (!NAV) return;
+  const now = Date.now(),
+    prev = NAV.pos,
+    v = c.speed != null && isFinite(c.speed) && c.speed >= 0 ? c.speed : prev && NAV.posT ? hav(prev, [c.latitude, c.longitude]) / Math.max(0.5, (now - NAV.posT) / 1000) : 0;
+  NAV.spd = NAV.spd == null ? v : NAV.spd * 0.6 + v * 0.4; // prędkość wygładzona (m/s) – do zoomu kamery
+  NAV.posT = now;
   NAV.pos = [c.latitude, c.longitude];
   NAV.acc = c.accuracy;
   if (c.heading != null && isFinite(c.heading) && (c.speed || 0) > 0.7) NAV.gpsHead = c.heading;
@@ -24549,6 +24726,8 @@ function navPos(c) {
     NAV.first = false;
     NAV.me.addTo(NAV.g);
     NAV.lbl.addTo(NAV.g);
+    NAV.camOff = Date.now() + 3500; // kamera nawigacji po krótkim podglądzie
+    navRcShow(true);
     map.fitBounds(L.latLngBounds([NAV.pos, NAV.free ? NAV.free.s : NAV.to, ...(NAV.path ? [NAV.path[0]] : [])]), {
       paddingTopLeft: [40, 90],
       paddingBottomRight: [40, 80],
@@ -24590,7 +24769,9 @@ function navDraw() {
     endLeft = d;
   NAV.me.setLatLng(pos);
   const ic = NAV.me.getElement && NAV.me.getElement();
-  if (ic && ic.firstChild) ic.firstChild.style.transform = 'rotate(' + (hd != null ? hd : 0) + 'deg)';
+  if (ic && ic.firstChild) ic.firstChild.style.transform = 'rotate(' + ((hd != null ? hd : 0) + navBear()) + 'deg)';
+  NAV.rdir = null;
+  NAV.nx = null;
   if (ic) ic.style.opacity = hd != null ? 1 : 0.7;
   if (NAV.free) {
     // azymut bez celu: odchyłka od linii kursu poprowadzonej z miejsca startu
@@ -24618,6 +24799,9 @@ function navDraw() {
       (off >= 10 ? ' · ' + fkm(off) + (xt > 0 ? _t(' w prawo od kursu') : _t(' w lewo od kursu')) : '') +
       (dev != null ? _t(' · odchyłka ') + (dev > 0 ? '+' : '') + dev + '°' : '') +
       (NAV.acc > 30 ? _t(' · słaby GPS ±') + fel(NAV.acc) : '');
+    NAV.rdir = off < 30 ? F.az : null;
+    navManDraw();
+    navCam();
     return;
   }
   if (NAV.path) {
@@ -24665,23 +24849,45 @@ function navDraw() {
       let k = j,
         a = 0;
       while (k < P.length - 1 && a < 40) a += hav(P[k], P[++k]);
-      off = bd;
-      d = bd + NAV.suf[j];
-      endLeft = NAV.suf[j];
+      // v64: rzut pozycji na odcinek trasy (nie najbliższy punkt) – odległości do skrętu i celu bez skakania
+      let pj = P[j],
+        sj = j,
+        bp = Infinity;
+      for (const [a1, b1] of [
+        [j - 1, j],
+        [j, j + 1]
+      ])
+        if (a1 >= 0 && b1 < P.length) {
+          const q = nearOnSeg(pos, P[a1], P[b1]),
+            dq = hav(pos, q);
+          if (dq < bp) (bp = dq), (pj = q), (sj = b1);
+        }
+      if (!isFinite(bp)) bp = bd;
+      const left = hav(pj, P[sj]) + NAV.suf[sj]; // do końca trasy wzdłuż niej
+      off = bp;
+      d = bp + left;
+      endLeft = left;
       b = brgDeg(pos, P[k]);
       NAV.line.setLatLngs(P.slice(j));
       NAV.dash.setLatLngs(bd > 15 ? [pos, P[j]] : []);
+      if (bd < 30 && k > j) NAV.rdir = brgDeg(P[j], P[k]); // kierunek trasy przed Tobą – stabilny obrót mapy
       // polecenia skrętów (trasa po drogach)
       if (NAV.man) {
-        const nx = NAV.man.find(m => m.i > j);
+        // najbliższy manewr przed Tobą; po ostatnim – cel trasy (flaga)
+        const nx = NAV.man.find(m => m.i >= sj) || {i: P.length - 1, typ: 4, txt: NAV.name, pre: '', said: true, end: true};
         if (nx) {
-          const dm = bd + NAV.suf[j] - NAV.suf[Math.min(nx.i, P.length - 1)];
+          const dm = left - NAV.suf[Math.min(nx.i, P.length - 1)];
           if (dm <= 80 && !nx.said) {
             nx.said = true;
             say((dm >= 25 ? _t('Za ') + fmSay(dm) + '. ' : '') + nx.pre);
           }
-          extra = ' · ↱ ' + nx.txt + ' (' + fkm(Math.max(0, dm)) + ')';
+          NAV.nx = nx;
+          NAV.dm = Math.max(0, dm);
+          // kamera: przybliżenie ok. 15 s przed manewrem (wg prędkości), najwyżej 600 m przed nim
+          if (!nx.end && NAV.mzi == null && ((dm / Math.max(NAV.spd || 0, 1.4) < 15 && dm < 600) || dm < 60)) NAV.mzi = nx.i;
         }
+        // …i trzymane, aż miniesz manewr o ok. 40 m (rondo, skrzyżowanie)
+        if (NAV.mzi != null && NAV.suf[Math.min(NAV.mzi, P.length - 1)] - left > 40) NAV.mzi = null;
       }
       if (NAV.road) {
         // przeliczenie trasy po dłuższym zejściu (gdy jest internet)
@@ -24722,9 +24928,14 @@ function navDraw() {
       }
     }
     NAV.txt.textContent = _t('✅ Jesteś na miejscu: ') + NAV.name;
+    NAV.nx = null;
+    navManDraw();
+    navCam();
     return;
   }
   NAV.arrived = false;
+  navManDraw();
+  navCam();
   const eta = d > 30 ? _t(' · ~') + feta(NAV.road && NAV.rtime && NAV.rlen ? (NAV.rtime * d) / NAV.rlen : d / NAV.pace) : '',
     dev = NAV.az != null && hd != null ? Math.round(((NAV.az - hd + 540) % 360) - 180) : null;
   NAV.txt.textContent =
@@ -24837,8 +25048,235 @@ function nearOnSeg(p, a, b) {
     u = L2 ? Math.max(0, Math.min(1, ((px - ax) * dx + (p[0] - a[0]) * dy) / L2)) : 0;
   return [a[0] + dy * u, a[1] + (b[1] - a[1]) * u];
 }
+// ---------- kamera nawigacji (v64) ----------
+/*
+ * Jak w nawigacjach samochodowych (TomTom, HERE, Google Maps, Kurviger):
+ *  – mapa jedzie za Tobą; strzałka w dolnej części ekranu, więcej widać przed Tobą,
+ *  – orientacja: kierunek jazdy u góry (auto, rower) albo północ (pieszo) – Ustawienia → W terenie albo przycisk kompasu,
+ *  – zoom wg prędkości (pasma z histerezą – bez skakania), ok. 15 s przed manewrem przybliżenie na skrzyżowanie,
+ *    trzymane do ok. 40 m za nim, potem płynny powrót,
+ *  – przesunięcie / przybliżenie palcem wstrzymuje kamerę: „Wyśrodkuj” albo samo po 10 s.
+ */
+const NAV_TH = [7, 25, 55, 90], // km/h – progi pasm prędkości
+  NAV_W = [150, 250, 400, 600, 1000]; // szerokość widoku (m) w paśmie: pieszo, rower, miasto, droga, szybko
+let NAV_ROT = null;
+const navBear = () => (map._rotate ? map.getBearing() : 0);
+const angD = (a, b) => ((a - b + 540) % 360) - 180; // różnica kątów −180…180
+function navCamInit() {
+  NAV.zs0 = map.options.zoomSnap;
+  map.options.zoomSnap = 0.25; // płynniejszy zoom podczas prowadzenia
+  NAV.camOff = Infinity; // kamera rusza ok. 3,5 s po pierwszej pozycji GPS (najpierw podgląd trasy)
+  NAV.onUser = () => navCamPause(10000);
+  NAV.onTouch = e => e.touches && e.touches.length > 1 && navCamPause(10000);
+  map.on('dragstart', NAV.onUser);
+  map.getContainer().addEventListener('touchstart', NAV.onTouch, {passive: true});
+  map.getContainer().addEventListener('wheel', NAV.onUser, {passive: true});
+  NAV.camI = setInterval(() => NAV && navCam(), 1000);
+  const rc = BI('gps', _t('Wyśrodkuj'), () => {
+    if (!NAV) return;
+    NAV.camOff = 0;
+    navCam(true);
+  }, 'navrc');
+  NAV.rc = rc;
+  document.body.append(rc);
+  navRcShow(false);
+}
+function navCamDone() {
+  clearInterval(NAV.camI);
+  clearTimeout(NAV_ROT);
+  NAV_ROT = null;
+  map.off('dragstart', NAV.onUser);
+  map.getContainer().removeEventListener('touchstart', NAV.onTouch);
+  map.getContainer().removeEventListener('wheel', NAV.onUser);
+  if (NAV.rc) NAV.rc.remove();
+  map.options.zoomSnap = NAV.zs0 != null ? NAV.zs0 : 1;
+  if (map._rotate && map.getBearing()) map.setBearing(0); // po nawigacji – zawsze północ u góry
+  const z = map.getZoom();
+  if (z !== Math.round(z)) map.setZoom(Math.round(z), {animate: false});
+}
+function navRcShow(on) {
+  if (NAV && NAV.rc) NAV.rc.style.display = on ? 'flex' : 'none';
+}
+function navCamPause(ms) {
+  if (!NAV) return;
+  NAV.camOff = Date.now() + ms;
+  navRcShow(true);
+}
+function navOrientHead() {
+  // czy obracać mapę kierunkiem jazdy do góry
+  if (!map._rotate) return false;
+  const o = localStorage.getItem('omm-nav-orient') || 'auto';
+  if (o === 'polnoc') return false;
+  if (o === 'kierunek') return true;
+  const pr = NAV.prof || (NAV.road ? rtProf() : null);
+  if (pr && RT_PROF[pr]) return RT_PROF[pr].c !== 'pedestrian'; // auto i rower – kierunek jazdy, pieszo – północ
+  return (NAV.band || 0) >= 1; // bez rodzaju: od ok. 10 km/h
+}
+function navOrientToggle() {
+  if (!NAV) return;
+  const on = !navOrientHead();
+  localStorage.setItem('omm-nav-orient', on ? 'kierunek' : 'polnoc');
+  toastMsg(on ? _t('🧭 Kierunek jazdy u góry') : _t('🧭 Północ u góry'));
+  NAV.camOff = 0;
+  navCam(true);
+}
+function navOverview() {
+  // podgląd całej trasy (północ u góry) – kamera wraca sama po 10 s albo przyciskiem „Wyśrodkuj”
+  if (!NAV) return;
+  navCamPause(10000);
+  NAV.bTarget = 0;
+  navRotLoop();
+  const pts = [...(NAV.path || [NAV.to]), ...(NAV.pos ? [NAV.pos] : [])];
+  map.fitBounds(L.latLngBounds(pts), {paddingTopLeft: [30, 150], paddingBottomRight: [30, 90], maxZoom: 17});
+}
+function navZoomOf(m) {
+  const w = Math.max(200, map.getSize().x);
+  return Math.log2((156543.03392 * Math.cos((NAV.pos[0] * Math.PI) / 180) * w) / m);
+}
+function navBandUpd() {
+  // pasmo prędkości z histerezą: wyżej po 3 s powyżej progu (+3 km/h), niżej po 6 s poniżej progu (−5 km/h)
+  const k = (NAV.spd || 0) * 3.6,
+    now = Date.now();
+  let b = NAV.band || 0,
+    up = 0,
+    dn = b;
+  while (up < NAV_TH.length && k > NAV_TH[up] + 3) up++;
+  while (dn > 0 && k < NAV_TH[dn - 1] - 5) dn--;
+  if (NAV.band == null) return (NAV.band = up); // pierwsza pozycja – od razu właściwe pasmo
+  if (up > b) {
+    NAV.bUp = NAV.bUp || now;
+    if (now - NAV.bUp > 3000) (b = up), (NAV.bUp = 0);
+  } else NAV.bUp = 0;
+  if (dn < b) {
+    NAV.bDn = NAV.bDn || now;
+    if (now - NAV.bDn > 6000) (b = dn), (NAV.bDn = 0);
+  } else NAV.bDn = 0;
+  return (NAV.band = b);
+}
+function navCourse() {
+  // kierunek ruchu: trasa przed Tobą (najstabilniejszy), GPS w ruchu, kompas pieszo
+  let c = NAV.rdir;
+  if (c == null && NAV.gpsHead != null && (NAV.spd || 0) > 1.5) c = NAV.gpsHead;
+  if (c == null) c = NAV.head != null ? NAV.head : NAV.gpsHead;
+  if (c == null) return NAV.crs != null ? NAV.crs : null;
+  NAV.crs = NAV.crs == null ? c : (NAV.crs + 0.45 * angD(c, NAV.crs) + 360) % 360; // wygładzenie
+  return NAV.crs;
+}
+function navCam(force) {
+  if (!NAV || !NAV.pos) return;
+  const now = Date.now();
+  if (NAV.camOff) {
+    if (now < NAV.camOff) return;
+    NAV.camOff = 0;
+    NAV.camSm = false; // powrót kamery – od razu właściwy zoom
+  }
+  navRcShow(false);
+  if (!force && now - (NAV.camT || 0) < 900) return; // przesunięcie i zoom raz na ok. 1 s (tempo GPS)
+  NAV.camT = now;
+  const band = navBandUpd(),
+    zs = navZoomOf(NAV_W[band]);
+  let z = zs;
+  if (NAV.mzi != null && NAV.path) {
+    // przybliżenie na manewr: w kadrze Ty, skrzyżowanie i ok. 50 m drogi za nim
+    const P = NAV.path,
+      i = Math.min(NAV.mzi, P.length - 1);
+    let k = i,
+      a = 0;
+    while (k < P.length - 1 && a < 50) a += hav(P[k], P[++k]);
+    const far = Math.max(hav(NAV.pos, P[i]), hav(NAV.pos, P[k]));
+    z = Math.max(zs, Math.min(18.5, navZoomOf(Math.max(110, far * 2.4))));
+  }
+  z += {blizej: 0.5, dalej: -0.5}[localStorage.getItem('omm-nav-zoom')] || 0;
+  const z0 = map.getZoom();
+  if (NAV.camSm) z = z0 + Math.max(-0.5, Math.min(0.75, z - z0)); // płynnie: oddalanie w krokach, bez skoków
+  NAV.camSm = true;
+  z = Math.max(12, Math.min(19, Math.round(z * 4) / 4));
+  const head = navOrientHead(),
+    crs = navCourse(),
+    sz = map.getSize(),
+    offPx = crs == null ? 0 : head ? 0.22 * sz.y : (NAV.spd || 0) > 1 ? 0.15 * sz.y : 0,
+    mpp = (156543.03392 * Math.cos((NAV.pos[0] * Math.PI) / 180)) / Math.pow(2, z),
+    c = offPx ? destPt(NAV.pos, crs, offPx * mpp) : NAV.pos;
+  NAV.bTarget = head && crs != null ? -crs : 0;
+  if (Math.abs(z - map.getZoom()) >= 0.25) map.setView(c, z, {animate: true});
+  else map.panTo(c, {animate: true, duration: 0.9, easeLinearity: 0.6, noMoveStart: true});
+  navRotLoop();
+}
+function navRotLoop() {
+  // płynny obrót mapy do kierunku jazdy (ok. 15 kroków na sekundę, bez drgań przy małych zmianach)
+  if (!map._rotate || NAV_ROT) return;
+  const step = () => {
+    NAV_ROT = null;
+    if (!NAV) return;
+    const cur = map.getBearing(),
+      dl = angD(NAV.bTarget || 0, cur);
+    if (Math.abs(dl) < (NAV.rotOn ? 0.8 : 4)) {
+      NAV.rotOn = false;
+      return navArrow();
+    }
+    NAV.rotOn = true;
+    map.setBearing(cur + Math.sign(dl) * Math.min(Math.abs(dl), Math.max(0.8, Math.abs(dl) * 0.18)));
+    navArrow();
+    NAV_ROT = setTimeout(step, 66);
+  };
+  NAV_ROT = setTimeout(step, 0);
+}
+function navArrow() {
+  // strzałka „to ja” – kierunek telefonu względem obróconej mapy; igła kompasu na przycisku – północ
+  if (!NAV) return;
+  const hd = NAV.head != null ? NAV.head : NAV.gpsHead,
+    ic = NAV.me.getElement && NAV.me.getElement();
+  if (ic && ic.firstChild) ic.firstChild.style.transform = 'rotate(' + ((hd != null ? hd : 0) + navBear()) + 'deg)';
+  if (NAV.ob) {
+    NAV.ob.firstChild.style.transform = 'rotate(' + navBear() + 'deg)';
+    NAV.ob.classList.toggle('on', navOrientHead());
+  }
+}
+// strzałki manewrów (typy z serwera tras Valhalla)
+const MV_IC = t =>
+  [8, 22, 17, 7, 25, 1, 28, 29].includes(t)
+    ? 'mv_s'
+    : [9, 23, 18, 20, 37].includes(t)
+      ? 'mv_sr'
+      : [10, 2].includes(t)
+        ? 'mv_r'
+        : t === 11
+          ? 'mv_shr'
+          : [12, 13].includes(t)
+            ? 'mv_u'
+            : t === 14
+              ? 'mv_shl'
+              : [15, 3].includes(t)
+                ? 'mv_l'
+                : [16, 24, 19, 21, 38].includes(t)
+                  ? 'mv_sl'
+                  : [26, 27].includes(t)
+                    ? 'mv_rb'
+                    : [4, 5, 6].includes(t)
+                      ? 'mv_end'
+                      : 'mv_s';
+function navManDraw() {
+  // panel manewru: duża strzałka, odległość, polecenie / ulica
+  if (!NAV) return;
+  const nx = NAV.nx;
+  NAV.bar.classList.toggle('man', !!nx);
+  if (!nx) {
+    NAV.big.textContent = '';
+    NAV.big.style.display = 'none';
+    return;
+  }
+  const k = MV_IC(nx.typ);
+  if (NAV.mvk !== k + nx.rx) {
+    NAV.mvk = k + nx.rx;
+    NAV.mvi.innerHTML = ico(k, 34) + (k === 'mv_rb' && nx.rx ? '<b>' + nx.rx + '</b>' : '');
+  }
+  NAV.big.style.display = 'block';
+  NAV.big.innerHTML =
+    '<b>' + esc(fkm(Math.round(NAV.dm / 10) * 10)) + '</b><small>' + esc(nx.end ? _t('Cel: ') + NAV.name : (nx.txt || '').replace(/\.$/, '')) + '</small>';
+}
 function navStop() {
   if (!NAV) return;
+  navCamDone();
   if (NAV.watch != null) navigator.geolocation.clearWatch(NAV.watch);
   window.removeEventListener('deviceorientationabsolute', NAV.onOri);
   window.removeEventListener('deviceorientation', NAV.onOri);
@@ -26031,7 +26469,14 @@ async function routeAB(pts, opt = {}) {
         p.push(...(p.length ? sh.slice(1) : sh));
         lgs.push({s: off, e: p.length - 1, time: +(lg.summary && lg.summary.time) || 0});
         (lg.maneuvers || []).forEach(m =>
-          man.push({i: off + (m.begin_shape_index | 0), txt: String(m.instruction || ''), pre: String(m.verbal_pre_transition_instruction || m.instruction || ''), typ: m.type | 0})
+          man.push({
+            i: off + (m.begin_shape_index | 0),
+            txt: String(m.instruction || ''),
+            pre: String(m.verbal_pre_transition_instruction || m.instruction || ''),
+            typ: m.type | 0,
+            st: Array.isArray(m.street_names) && m.street_names.length ? String(m.street_names[0]).slice(0, 80) : '',
+            rx: m.roundabout_exit_count | 0
+          })
         );
       });
       const ok = p.filter(okLL);
@@ -27280,7 +27725,7 @@ const TUT_STEPS = [
   {sel: '[data-g="draw"]', open: 'tools', t: _t('Rysowanie'), x: _t('Linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść.')},
   {sel: '[data-g="data"]', open: 'tools', t: _t('Pomiary'), x: _t('Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik w dymku przy mierzonym miejscu. Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).')},
   {sel: '#srchb', t: _t('Szukaj'), x: _t('Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.')},
-  {sel: null, t: _t('Prowadzenie'), x: _t('„Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia: strzałka i dystans, po linii – w wybraną stronę. Na pasku: prowadzenie po drogach (polecenia skrętów głosem) i 💡 ekran. Po zejściu z trasy telefon wibruje i mówi, gdzie jest ślad.')},
+  {sel: null, t: _t('Prowadzenie'), x: _t('„Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Mapa jedzie za Tobą i sama dobiera zoom do prędkości, przed skrętem przybliża skrzyżowanie; samochodem i rowerem kierunek jazdy jest u góry. Na pasku: cała trasa, kompas (kierunek / północ), po drogach i 💡 ekran. Przesunięcie mapy palcem – „Wyśrodkuj” wraca.')},
   {sel: '#lbtn', t: _t('Mapy, warstwy i ślady'), x: _t('Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.')},
   {sel: '#stabs .stab[data-k="plan"]', open: 'sheet', tab: 'plan', t: _t('Planowanie'), x: _t('Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
@@ -30915,6 +31360,27 @@ function settingsDlg() {
       ['nie', _t('Wyłączone – tylko wibracja i powiadomienie')]
     ],
     _t('Głos z syntezatora mowy telefonu. Przy zejściu ze śladu dalej niż 50 m komunikat powtarza się co 30 s, dopóki nie wrócisz.')
+  );
+  radios(
+    _t('Mapa podczas prowadzenia'),
+    'omm-nav-orient',
+    'auto',
+    [
+      ['auto', _t('Automatycznie – samochodem i rowerem kierunek jazdy u góry, pieszo północ')],
+      ['kierunek', _t('Zawsze kierunek jazdy u góry')],
+      ['polnoc', _t('Zawsze północ u góry')]
+    ],
+    _t('Mapa jedzie za Tobą, a zoom dopasowuje się do prędkości; przed skrętem przybliża skrzyżowanie. Przesunięcie mapy palcem wstrzymuje to na 10 s (albo do „Wyśrodkuj”). Przełącznik kompasu jest też na pasku prowadzenia.')
+  );
+  radios(
+    _t('Zoom podczas prowadzenia'),
+    'omm-nav-zoom',
+    'normalnie',
+    [
+      ['blizej', _t('Bliżej')],
+      ['normalnie', _t('Normalnie')],
+      ['dalej', _t('Dalej')]
+    ]
   );
   radios(
     _t('Nie wygaszaj ekranu'),
