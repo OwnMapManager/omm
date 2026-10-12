@@ -193,6 +193,23 @@ textarea {
   left: 8px;
   bottom: calc(70px + var(--sa)); /* nad przyciskiem warstw i podpisem podkładu */
 }
+/* v65: kompas – widoczny tylko, gdy mapa jest obrócona; dotknięcie = północ u góry */
+#compb {
+  display: none;
+  left: 8px;
+  bottom: calc(130px + var(--sa));
+  align-items: center;
+  justify-content: center;
+}
+#compb.on {
+  display: flex;
+}
+body.navon #compb {
+  display: none;
+}
+#compb .ic {
+  color: #d32f2f;
+}
 #lbtn.work {
   background: var(--acc);
   color: #fff;
@@ -4920,6 +4937,19 @@ body.sboardon #sportb {
 #sport .sbt button.srec.on {
   background: #b3261e;
 }
+.bguide summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+.bguide .bgrow {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0;
+  font-size: 13.5px;
+}
+.bguide button {
+  margin-top: 8px;
+}
 .dmsg {
   margin: -2px 0 12px;
 }
@@ -4955,6 +4985,7 @@ body.sboardon #sportb {
 <button class="ib" id="gps" title="Moja pozycja"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
 <div id="wm" aria-hidden="true"></div>
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg></button>
+<button class="ib" id="compb" title="Północ u góry" aria-label="Północ u góry"></button>
 <button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
 <button class="ib" id="sportb" title="Licznik treningu"></button>
@@ -5014,6 +5045,30 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Zakończyć prowadzenie?": "End navigation?",
+  "Przeliczam trasę…": "Re-routing…",
+  "Przeliczam trasę.": "Re-routing.",
+  " · na miejscu ": " · arrival ",
+  "OMM prowadzi do celu": "OMM is navigating",
+  " – dotknij, aby wrócić do OMM.": " – tap to return to OMM.",
+  "Moją pozycję (GPS) – jak w Google Maps: od razu ostatni widok, po złapaniu GPS przelot na Ciebie": "My position (GPS) – like Google Maps: the last view right away, then a fly-over to you once GPS has a fix",
+  "Północ u góry": "North up",
+  "⚠ Nie udaje się zapisywać nagrania w pamięci telefonu (": "⚠ The recording can't be saved in the phone's storage (",
+  ").\n\nNagrywanie trwa dalej, a ślad zapisuje się też do pliku awaryjnego „": ").\n\nRecording continues, and the track is also saved to the emergency file “",
+  "” w folderze OMM. Zwolnij trochę miejsca w telefonie.": "” in the OMM folder. Free up some space on the phone.",
+  "brak miejsca": "no space",
+  "Nagrywanie w toku – ": "Recording in progress – ",
+  "Nagrywanie w toku": "Recording in progress",
+  "Nagrywanie albo prowadzenie przerywa się przy wygaszonym ekranie?": "Recording or navigation stops when the screen is off?",
+  "Niektórzy producenci (Samsung, Xiaomi, Huawei, OnePlus i inni) wyłączają aplikacje działające w tle, żeby oszczędzać baterię. Wyłącz to dla OMM – nagrywanie i prowadzenie będą działać bez przerw:": "Some manufacturers (Samsung, Xiaomi, Huawei, OnePlus and others) stop apps running in the background to save battery. Turn this off for OMM – recording and navigation will run without breaks:",
+  "Ustawienia aplikacji OMM → Bateria → „Bez ograniczeń”. Dodatkowo: Ustawienia → Bateria → Limity użycia w tle – OMM nie może być na liście aplikacji uśpionych.": "OMM app settings → Battery → “Unrestricted”. Also: Settings → Battery → Background usage limits – OMM must not be on the sleeping apps list.",
+  "Ustawienia aplikacji OMM → Oszczędzanie baterii → „Bez ograniczeń” i włącz „Autostart”. W ostatnich aplikacjach przytrzymaj OMM i dotknij kłódki.": "OMM app settings → Battery saver → “No restrictions” and turn on “Autostart”. In recent apps, long-press OMM and tap the lock.",
+  "Ustawienia → Bateria → Uruchamianie aplikacji → OMM → „Zarządzaj ręcznie” i włącz wszystkie trzy przełączniki.": "Settings → Battery → App launch → OMM → “Manage manually” and turn on all three switches.",
+  "Ustawienia aplikacji OMM → Zużycie baterii → zezwól na działanie w tle i wyłącz optymalizację.": "OMM app settings → Battery usage → allow background activity and turn off optimisation.",
+  "Inne (Pixel, Motorola…)": "Others (Pixel, Motorola…)",
+  "Ustawienia aplikacji OMM → Bateria → „Bez ograniczeń”.": "OMM app settings → Battery → “Unrestricted”.",
+  "Więcej o swoim telefonie: dontkillmyapp.com": "More about your phone: dontkillmyapp.com",
+  "Otwórz ustawienia aplikacji OMM": "Open OMM app settings",
   "Kierunek jazdy u góry / północ u góry": "Direction of travel up / north up",
   "Cała trasa": "Whole route",
   "Wyśrodkuj": "Re-centre",
@@ -7223,7 +7278,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v64';
+const APP_VER = 'v65';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   const v = localStorage.getItem('omm-motyw') || 'jasny',
@@ -10465,6 +10520,58 @@ const map = L.map('map', {
   attributionControl: false,
   ...(ROT_OK ? {rotate: true, bearing: 0, rotateControl: false, touchRotate: false, shiftKeyRotate: false, compassBearing: false} : {rotateControl: false, shiftKeyRotate: false})
 }).setView(VIEW0.c, VIEW0.z);
+if (map._rotate) {
+  // v65: obrót dwoma palcami jak w Google Maps – dopiero po przekręceniu o ok. 12°, żeby samo przybliżanie
+  // nie obracało mapy; kompas na mapie (gdy obrócona) przywraca północ
+  const TG = map.touchGestures,
+    ts0 = TG._onTouchStart,
+    tm0 = TG._onTouchMove,
+    ROT_TH = 12;
+  TG._onTouchStart = function (e) {
+    this._rotLock = false;
+    return ts0.call(this, e);
+  };
+  TG._onTouchMove = function (e) {
+    if (this._rotating && !this._rotLock && e.touches && e.touches.length === 2) {
+      const v = map.mouseEventToContainerPoint(e.touches[0]).subtract(map.mouseEventToContainerPoint(e.touches[1]));
+      let d = (Math.atan(v.x / v.y) - this._startTheta) * L.DomUtil.RAD_TO_DEG;
+      if (v.y < 0) d += 180;
+      d = ((d + 540) % 360) - 180;
+      if (Math.abs(d) < ROT_TH) {
+        // jeszcze za mało – tylko przybliżanie / przesuwanie
+        this._rotating = false;
+        const r = tm0.call(this, e);
+        this._rotating = true;
+        return r;
+      }
+      this._rotLock = true;
+      this._startTheta += Math.sign(d) * ROT_TH * L.DomUtil.DEG_TO_RAD; // obrót rusza od zera, bez skoku
+    }
+    return tm0.call(this, e);
+  };
+  map.touchRotate.enable();
+  const cb = $('compb');
+  cb.innerHTML = ico('compass', 24);
+  const compUpd = () => {
+    const b = map.getBearing(),
+      on = Math.abs(((b + 540) % 360) - 180) > 1;
+    cb.classList.toggle('on', on);
+    if (on) cb.firstChild.style.transform = 'rotate(' + b + 'deg)';
+  };
+  map.on('rotate', compUpd);
+  cb.onclick = () => {
+    // płynny powrót do północy
+    const st = map.getBearing(),
+      dl = ((0 - st + 540) % 360) - 180,
+      t0 = Date.now(),
+      step = () => {
+        const k = Math.min(1, (Date.now() - t0) / 400);
+        map.setBearing(st + dl * (1 - Math.pow(1 - k, 3)));
+        if (k < 1) requestAnimationFrame(step);
+      };
+    requestAnimationFrame(step);
+  };
+}
 if (map._rotate) {
   // Własne panele OMM mieszają obiekty (linie i ikony w jednej warstwie). Przy obracanej mapie linie, wielokąty, kafle
   // i obrazy muszą być w panelu obracanym, a ikony (znaczniki) – w nieobracanym, żeby stały pionowo. Każdy własny
@@ -16888,11 +16995,12 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (linie, wielokąty, okręgi) i <b>pomiary</b> (odległość, powierzchnia, azymut, wysokość, profil, współrzędne – wynik w dymku z ✕).</li>
 <li><b>Zaplanuj trasę</b> – u góry przełącznik <b>Planuję / Nawiguję</b>. <b>Nawiguję</b>: start w Twojej pozycji, dotykasz celu (i ewentualnie punktów po drodze), wybierasz sposób i ✓ od razu prowadzi. <b>Planuję</b>: dotykaj punktów, a potem w rzędzie ikon pod podpowiedzią wybierz, czym chcesz to przebyć: 🥾 pieszo wszystkimi ścieżkami, 🚶 pieszo bez dróg leśnych, 🚲 rower trekkingowy, 🚴 rower szosowy (tylko asfalt i utwardzone), 🚵 rower górski, 🚗 samochód albo 📏 prosto. Zmiana ikony od razu przelicza całą trasę – nie trzeba zaczynać od nowa. Czas przejazdu liczy się wg wybranego sposobu (pieszo – Twoje tempo, rower i auto – serwer tras). ✓ pokazuje dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
+<li><b>Obracanie mapy</b> – przekręć mapę dwoma palcami (samo przybliżanie jej nie obraca). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
-<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Po zejściu ze śladu telefon wibruje i mówi, gdzie jest ślad; po dojściu – „Jesteś na miejscu”.</li>
+<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
 <li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON.</li>
@@ -16935,11 +17043,12 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Base map</b> – the map button in the top-right corner: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (lines, polygons, circles) and <b>measurements</b> (distance, area, bearing, elevation, profile, coordinates – the result in a bubble with ✕).</li>
 <li><b>Plan a route</b> – at the top, a <b>Plan / Navigate</b> switch. <b>Navigate</b>: starts at your position, tap the destination (and any points on the way), pick how you travel and ✓ starts guidance right away. <b>Plan</b>: tap points, then pick how you want to travel in the icon row under the hint: 🥾 on foot on all paths, 🚶 on foot without forest tracks, 🚲 trekking bike, 🚴 road bike (paved only), 🚵 mountain bike, 🚗 car or 📏 straight. Changing the icon re-plans the whole route at once – no need to start over. The time follows the chosen way of travel (on foot – your pace, bike and car – the routing server). ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.</li>
+<li><b>Rotating the map</b> – twist the map with two fingers (zooming alone doesn't rotate it). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
-<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are far away, OMM asks how you'll get to the start (by car, by bike, on foot – along roads with voice directions – or straight) and switches to guiding along the route at the start. The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
+<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are far away, OMM asks how you'll get to the start (by car, by bike, on foot – along roads with voice directions – or straight) and switches to guiding along the route at the start. The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
 <li><b>GPS tracks</b> – REC records the route (also with the screen off). Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON.</li>
@@ -19455,16 +19564,28 @@ function gpsOff() {
   if (!mode) info.style.display = 'none';
   gpsUi();
 }
-$('gps').onclick = async () => {
-  if (!navigator.geolocation) return tell(_t('Ta przeglądarka nie obsługuje GPS. Otwórz OMM w Chrome.'));
-  if (watching !== null) return gpsOff(); // ponowne dotknięcie: koniec lokalizowania, kropka znika, mapa zostaje
+$('gps').onclick = () => gpsStart();
+async function gpsStart(opt = {}) {
+  // opt.quiet (start aplikacji, v65): bez komunikatów o błędach; pierwsza pozycja – płynny przelot z zoomem 16,
+  // chyba że w międzyczasie sam przesunąłeś albo przybliżyłeś mapę
+  if (!navigator.geolocation) return opt.quiet || tell(_t('Ta przeglądarka nie obsługuje GPS. Otwórz OMM w Chrome.'));
+  if (watching !== null) return opt.quiet || gpsOff(); // ponowne dotknięcie: koniec lokalizowania, kropka znika, mapa zostaje
+  let moved = false;
+  const mv = () => (moved = true);
+  if (opt.quiet) {
+    map.once('dragstart', mv);
+    map.getContainer().addEventListener('wheel', mv, {once: true, passive: true});
+    map.getContainer().addEventListener('touchstart', e => e.touches.length > 1 && mv(), {once: true, passive: true});
+  }
   try {
     // w APK o zgodę pyta Android przy pierwszym użyciu GPS – nie sprawdzamy jej wcześniej
     const st = !NATIVE && navigator.permissions && (await navigator.permissions.query({name: 'geolocation'}));
-    if (st && st.state === 'denied') return tell(gpsHelp({code: 1}));
+    if (st && st.state === 'denied') return opt.quiet || tell(gpsHelp({code: 1}));
   } catch (e) {}
-  info.style.display = 'block';
-  info.textContent = _t('Szukam pozycji GPS…');
+  if (!opt.quiet) {
+    info.style.display = 'block';
+    info.textContent = _t('Szukam pozycji GPS…');
+  }
   watching = navigator.geolocation.watchPosition(
     pos => {
       const ll = [pos.coords.latitude, pos.coords.longitude];
@@ -19495,7 +19616,8 @@ $('gps').onclick = async () => {
         acc.setRadius(pos.coords.accuracy);
       }
       if (first) {
-        map.setView(ll, 17);
+        if (!opt.quiet) map.setView(ll, 17);
+        else if (!moved && !NAV && !mode) map.flyTo(ll, 16, {duration: 1.2}); // jak w Google Maps: z ostatniego widoku na Ciebie
         first = false;
         gpsUi();
       }
@@ -19503,12 +19625,12 @@ $('gps').onclick = async () => {
     err => {
       if (err.code === 3 && me) return; // chwilowy brak sygnału przy działającym śledzeniu – czekamy dalej
       gpsOff();
-      tell(gpsHelp(err));
+      if (!opt.quiet) tell(gpsHelp(err));
     },
-    {enableHighAccuracy: true, maximumAge: 2000, timeout: 60000}
+    {enableHighAccuracy: true, maximumAge: 2000, timeout: opt.quiet ? 20000 : 60000}
   );
   gpsUi();
-};
+}
 
 // ---------- ślady GPS: nagrywanie, menedżer śladów, statystyki ----------
 /*
@@ -22118,14 +22240,101 @@ async function recKmSay(km) {
     }
   } catch (e) {}
 }
+// --- v65: odporny zapis nagrywania ---
+/*
+ * Punkty nagrania trafiają do IndexedDB kawałkami po 250 (dopisywanie; ostatni kawałek przepisywany, bo filtr GPS
+ * poprawia ostatnie punkty) – bez limitu długości śladu. W localStorage zostaje tylko „nagłówek” nagrania (bez punktów).
+ * Co ok. minutę i przy wyjściu z aplikacji: plik awaryjny „nagrywanie-w-toku.gpx” w folderze OMM (Dokumenty/OMM)
+ * – przetrwa nawet wyczyszczenie danych aplikacji i otworzy się w innym programie. Po zapisaniu śladu plik znika.
+ * Gdy zapis się nie udaje (np. brak miejsca) – ostrzeżenie zamiast cichego błędu.
+ */
+const RECDB = 'recpts/',
+  RECCH = 250,
+  REC_FILE = 'nagrywanie-w-toku.gpx';
+let recDbN = 0,
+  recDbFail = false,
+  recFileAt = 0,
+  recWarned = false;
+function recSaveFail(what) {
+  if (recWarned) return;
+  recWarned = true;
+  tell(
+    _t('⚠ Nie udaje się zapisywać nagrania w pamięci telefonu (') +
+      what +
+      _t(').\n\nNagrywanie trwa dalej, a ślad zapisuje się też do pliku awaryjnego „') +
+      REC_FILE +
+      _t('” w folderze OMM. Zwolnij trochę miejsca w telefonie.')
+  );
+}
+const recFolder = () => FOLDERS[localStorage.getItem('omm-folder') || 'docs'] || FOLDERS.docs;
+async function recFileSave() {
+  // plik awaryjny GPX z bieżącym nagraniem
+  const FS = plug('Filesystem');
+  if (!FS || !REC || !REC.pts.length) return;
+  recFileAt = Date.now();
+  try {
+    const F = recFolder(),
+      txt = trkGPX([{...REC, nm: _t('Nagrywanie w toku – ') + fday(REC.st) + ' ' + fhm(REC.st)}], _t('Nagrywanie w toku'));
+    await FS.writeFile({path: F.base + '/' + REC_FILE, directory: F.dir, recursive: true, data: txt, encoding: 'utf8'});
+  } catch (e) {}
+}
+async function recFileDrop() {
+  const FS = plug('Filesystem');
+  if (!FS) return;
+  try {
+    const F = recFolder();
+    await FS.deleteFile({path: F.base + '/' + REC_FILE, directory: F.dir});
+  } catch (e) {}
+}
 function recPersist(force) {
   if (!REC) return;
   const t = Date.now();
-  if (!force && t - recSavedAt < 5000) return;
+  if (!force && t - recSavedAt < 2000) return;
   recSavedAt = t;
+  const n = REC.pts.length,
+    from = force ? 0 : Math.max(0, Math.floor((Math.min(recDbN, n) - 50) / RECCH)),
+    list = [];
+  for (let c = from; c * RECCH < n; c++) list.push([RECDB + REC.id + '/' + String(c).padStart(5, '0'), REC.pts.slice(c * RECCH, (c + 1) * RECCH)]);
+  if (list.length && !recDbFail)
+    IDB.setMany(list)
+      .then(() => (recDbN = n))
+      .catch(e => {
+        recDbFail = true; // awaryjnie: całe nagranie w localStorage (jak przed v65) i w pliku
+        recSaveFail(String((e && e.name) || e));
+        recPersist(true);
+      });
   try {
-    localStorage.setItem(REC_KEY, JSON.stringify(REC));
+    const {pts, ...head} = REC;
+    localStorage.setItem(REC_KEY, JSON.stringify(recDbFail ? REC : {...head, npts: n, db: 1}));
+  } catch (e) {
+    recSaveFail(_t('brak miejsca'));
+  }
+  if (NATIVE && (force || t - recFileAt > 60000)) recFileSave();
+}
+async function recLoad(r) {
+  // nagranie po awarii: punkty z IndexedDB (kawałki), w razie braków – z pliku awaryjnego GPX
+  if (Array.isArray(r.pts)) return r; // stary zapis (cały w localStorage)
+  let pts = [];
+  try {
+    const keys = ((await IDB.keys(RECDB + r.id + '/')) || []).sort();
+    for (const k of keys) pts.push(...((await IDB.get(k)) || []));
   } catch (e) {}
+  pts = pts.slice(0, r.npts || pts.length);
+  if (pts.length < (r.npts || 0)) {
+    // baza niepełna – plik awaryjny
+    try {
+      const FS = plug('Filesystem'),
+        F = recFolder(),
+        f = FS && (await FS.readFile({path: F.base + '/' + REC_FILE, directory: F.dir, encoding: 'utf8'})),
+        t = f && gpxTracks(String(f.data))[0];
+      if (t && t.pts && t.pts.length > pts.length) pts = t.pts.map(q => [q[0], q[1], q[2], q[3] != null ? q[3] - (r.st - t.st) / 1000 : q[3]]);
+    } catch (e) {}
+  }
+  delete r.npts;
+  delete r.db;
+  r.pts = pts;
+  recDbN = 0;
+  return r;
 }
 let recAnc = null, // kotwica postoju: ostatni punkt przed postojem (patrz recPoint)
   recExit = null; // pierwszy pomiar poza promieniem postoju – czeka na potwierdzenie kolejnym
@@ -22572,6 +22781,16 @@ function recDropCar() {
 }
 function recClear() {
   recWatchOff();
+  if (REC) {
+    const id = REC.id;
+    IDB.keys(RECDB + id + '/')
+      .then(k => k && k.length && IDB.delMany(k))
+      .catch(() => {});
+    recFileDrop();
+  }
+  recDbN = 0;
+  recDbFail = false;
+  recWarned = false;
   REC = null;
   recPos = null;
   try {
@@ -22587,7 +22806,8 @@ async function recCheck() {
   try {
     r = JSON.parse(localStorage.getItem(REC_KEY) || 'null');
   } catch (e) {}
-  if (!r || !Array.isArray(r.pts)) return;
+  if (!r || !(Array.isArray(r.pts) || r.db)) return;
+  r = await recLoad(r);
   REC = r;
   if (!REC.paused) {
     REC.paused = true;
@@ -24569,6 +24789,7 @@ function navSetPath(P) {
 function navStart(to, name, path, opt = {}) {
   // path (opcjonalnie): prowadzenie po trasie – lista punktów [szer, dł] od startu do celu
   navStop();
+  if (mode) setMode(null); // v65: otwarte narzędzie (planer, pomiar, rysowanie…) zamykamy – bez ✓ ✕ ↶ w trakcie prowadzenia
   map.closePopup();
   $('sheet').style.display = 'none';
   closePops();
@@ -24633,7 +24854,7 @@ function navStart(to, name, path, opt = {}) {
   btns.unshift(IB('fit', navOverview, 'nb', _t('Cała trasa')));
   const row2 = h('div', 'nbt');
   row2.append(...btns);
-  bar.append(arr, mvi, tw, IB('x', navStop, 'nx', _t('Zakończ nawigację')), row2);
+  bar.append(arr, mvi, tw, IB('x', navAskStop, 'nx', _t('Zakończ nawigację')), row2);
   navCamInit();
   document.body.append(bar);
   document.body.classList.add('navon');
@@ -24642,8 +24863,45 @@ function navStart(to, name, path, opt = {}) {
   else L.circleMarker(NAV.free.s, {pane: 'tmpP', radius: 7, color: '#1a73e8', weight: 3, fillColor: '#fff', fillOpacity: 0.9, interactive: false}).addTo(g);
   wlSync();
   if (!NAV.path && !NAV.free && (opt.road || localStorage.getItem('omm-nav-tryb') === 'drogi')) navRoadSet(true);
-  if (!navigator.geolocation) return (txt.textContent = _t('Brak GPS w tym urządzeniu.'));
-  NAV.watch = navigator.geolocation.watchPosition(
+  const BG = plug('BackgroundGeolocation');
+  if (BG) {
+    // v65: aplikacja na Androida – GPS przez usługę w tle (jak nagrywanie śladu): prowadzenie i komunikaty głosowe
+    // działają też przy zablokowanym ekranie i w innej aplikacji; Android pokazuje wtedy stałe powiadomienie
+    const me = NAV;
+    (async () => {
+      try {
+        const LN = plug('LocalNotifications');
+        if (LN) await LN.requestPermissions();
+      } catch (e) {}
+      try {
+        const id = await BG.addWatcher(
+          {
+            backgroundTitle: _t('OMM prowadzi do celu'),
+            backgroundMessage: (name || _t('punkt')) + _t(' – dotknij, aby wrócić do OMM.'),
+            requestPermissions: true,
+            stale: false,
+            distanceFilter: 2
+          },
+          (loc, err) => {
+            if (NAV !== me) return;
+            if (err) {
+              if (err.code === 'NOT_AUTHORIZED') {
+                navStop();
+                tell(gpsHelp({code: 1}));
+              }
+              return;
+            }
+            if (loc) navPos({latitude: loc.latitude, longitude: loc.longitude, accuracy: loc.accuracy, speed: loc.speed, heading: loc.bearing});
+          }
+        );
+        if (NAV === me) me.bgw = id;
+        else BG.removeWatcher({id}).catch(() => {}); // prowadzenie zakończone, zanim GPS ruszył
+      } catch (e) {
+        if (NAV === me) txt.textContent = _t('Nie udało się włączyć GPS: ') + ((e && e.message) || e);
+      }
+    })();
+  } else if (!navigator.geolocation) return (txt.textContent = _t('Brak GPS w tym urządzeniu.'));
+  else NAV.watch = navigator.geolocation.watchPosition(
     p => navPos(p.coords),
     e => {
       if (e.code === 1) {
@@ -24685,8 +24943,8 @@ async function navRoute(again) {
   if (!NAV || NAV.rr) return;
   if (!NAV.pos) return void (NAV.wantRoute = true); // policzy się po pierwszej pozycji GPS
   NAV.rr = true;
-  NAV.txt.textContent = _t('Wyznaczam trasę po drogach…');
-  if (again) say(_t('Wyznaczam nową trasę.'));
+  NAV.txt.textContent = again ? _t('Przeliczam trasę…') : _t('Wyznaczam trasę po drogach…');
+  if (again) say(_t('Przeliczam trasę.'));
   const r = await routeAB([NAV.pos, NAV.to], {prof: NAV.prof || undefined});
   if (!NAV) return;
   NAV.rr = false;
@@ -24716,8 +24974,14 @@ function navPos(c) {
   if (!NAV) return;
   const now = Date.now(),
     prev = NAV.pos,
-    v = c.speed != null && isFinite(c.speed) && c.speed >= 0 ? c.speed : prev && NAV.posT ? hav(prev, [c.latitude, c.longitude]) / Math.max(0.5, (now - NAV.posT) / 1000) : 0;
-  NAV.spd = NAV.spd == null ? v : NAV.spd * 0.6 + v * 0.4; // prędkość wygładzona (m/s) – do zoomu kamery
+    dt = NAV.posT ? (now - NAV.posT) / 1000 : 0,
+    jump = prev ? hav(prev, [c.latitude, c.longitude]) : 0,
+    v = c.speed != null && isFinite(c.speed) && c.speed >= 0 ? c.speed : prev && NAV.posT ? jump / Math.max(0.5, dt) : 0;
+  // v65: pozycja „pewna” do sprawdzania zejścia – dobra dokładność i realny ruch od poprzedniej;
+  // po przerwie w GPS (np. powrót do aplikacji) przez 15 s nic nie sprawdzamy
+  if (dt > 10) NAV.grace = now + 15000;
+  NAV.trust = !(c.accuracy > 30) && !(prev && dt > 0 && jump > Math.max(NAV.spd || 0, 2) * dt * 2 + 50);
+  if (NAV.trust || NAV.spd == null) NAV.spd = NAV.spd == null ? v : NAV.spd * 0.6 + v * 0.4; // prędkość wygładzona (m/s) – do zoomu kamery
   NAV.posT = now;
   NAV.pos = [c.latitude, c.longitude];
   NAV.acc = c.accuracy;
@@ -24740,21 +25004,50 @@ function navPos(c) {
   }
   navDraw();
 }
+function navPace() {
+  // prędkość do czasu dojazdu (m/s): po drogach – z serwera; samochodem/rowerem – Twoja średnia prędkość w ruchu
+  // (po ok. pół minuty jazdy; wcześniej typowa dla rodzaju), pieszo – Twoje tempo marszu
+  if (navVehicle()) {
+    if ((NAV.spd || 0) > 2 && NAV.posT !== NAV.vT) {
+      NAV.vT = NAV.posT;
+      NAV.vN = (NAV.vN || 0) + 1;
+      NAV.vAvg = NAV.vAvg ? NAV.vAvg * 0.97 + NAV.spd * 0.03 : NAV.spd;
+    }
+    const pr = NAV.prof || (NAV.road ? rtProf() : null);
+    return NAV.vN > 30 ? NAV.vAvg : pr ? profSpeed(pr) : Math.max(NAV.spd || 0, 4.4);
+  }
+  return NAV.pace;
+}
+function navVehicle() {
+  // jazda samochodem albo rowerem po drogach – tam zamiast alarmu zejścia trasa liczy się na nowo (v65)
+  const pr = NAV.prof || (NAV.road ? rtProf() : null);
+  if (pr && RT_PROF[pr]) return RT_PROF[pr].c !== 'pedestrian';
+  return (NAV.band || 0) >= 2; // bez rodzaju: powyżej ok. 25 km/h
+}
 function navOff(off, msg, okMsg, dirB, hd) {
-  // zejście z trasy / kursu: wibracja i powiadomienie, głos co 30 s; po powrocie – komunikat
+  // zejście z trasy / kursu (v65): tylko głos i wibracja, bez powiadomień; bez fałszywych alarmów:
+  // nie po powrocie do aplikacji ani po przerwie w GPS (15 s), nie na niepewnej pozycji (słaba dokładność,
+  // nierealny skok), zejście musi trwać ok. 10 s i kilka kolejnych pozycji. Samochodem i rowerem – bez alarmu.
   const now = Date.now();
+  if (navVehicle()) return void (NAV.offAl = false);
+  if (!NAV.trust || now < (NAV.grace || 0)) return;
   if (off > 50) {
+    NAV.offN = (NAV.offN || 0) + 1;
+    NAV.offS = NAV.offS || now;
+    if (NAV.offN < 3 || now - NAV.offS < 10000) return;
     if (!NAV.offAl || now - (NAV.offT || 0) > 30000) {
-      const firstTime = !NAV.offAl;
       NAV.offAl = true;
       NAV.offT = now;
       vibe([400, 150, 400, 150, 400]);
-      if (firstTime) notifyNow(4202, 'OMM', '⚠ ' + msg + ' – ' + fkm(off));
       say(msg + '. ' + okMsg[0] + ' ' + fmSay(off) + ' ' + navSayDir(dirB, hd) + '.');
     }
-  } else if (off < 25 && NAV.offAl) {
-    NAV.offAl = false;
-    say(okMsg[1]);
+  } else {
+    NAV.offN = 0;
+    NAV.offS = 0;
+    if (off < 25 && NAV.offAl) {
+      NAV.offAl = false;
+      say(okMsg[1]);
+    }
   }
 }
 function navDraw() {
@@ -24890,11 +25183,14 @@ function navDraw() {
         if (NAV.mzi != null && NAV.suf[Math.min(NAV.mzi, P.length - 1)] - left > 40) NAV.mzi = null;
       }
       if (NAV.road) {
-        // przeliczenie trasy po dłuższym zejściu (gdy jest internet)
-        if (bd > 60) {
+        // przeliczenie trasy po zejściu (gdy jest internet): samochodem i rowerem szybko (ok. 50 m przez 5 s),
+        // pieszo po ok. 60 m przez 12 s; tylko na pewnych pozycjach GPS
+        const veh = navVehicle(),
+          lim = veh ? 50 : 60;
+        if (bp > lim && NAV.trust && Date.now() >= (NAV.grace || 0)) {
           NAV.offSince = NAV.offSince || Date.now();
-          if (Date.now() - NAV.offSince > 12000 && !NAV.rr && Date.now() - (NAV.rrT || 0) > 30000) navRoute(true);
-        } else if (bd < 40) NAV.offSince = 0;
+          if (Date.now() - NAV.offSince > (veh ? 5000 : 12000) && !NAV.rr && Date.now() - (NAV.rrT || 0) > (veh ? 15000 : 30000)) navRoute(true);
+        } else if (bp < 40) NAV.offSince = 0;
       }
       navOff(
         off,
@@ -24936,7 +25232,8 @@ function navDraw() {
   NAV.arrived = false;
   navManDraw();
   navCam();
-  const eta = d > 30 ? _t(' · ~') + feta(NAV.road && NAV.rtime && NAV.rlen ? (NAV.rtime * d) / NAV.rlen : d / NAV.pace) : '',
+  const etaS = NAV.road && NAV.rtime && NAV.rlen ? (NAV.rtime * d) / NAV.rlen : d / navPace(),
+    eta = d > 30 ? _t(' · ~') + feta(etaS) + _t(' · na miejscu ') + fhm(Date.now() + etaS * 1000) : '', // v65: godzina przyjazdu
     dev = NAV.az != null && hd != null ? Math.round(((NAV.az - hd + 540) % 360) - 180) : null;
   NAV.txt.textContent =
     (NAV.road ? RT_PROF[NAV.prof || rtProf()].ic + ' ' : '') +
@@ -25274,10 +25571,19 @@ function navManDraw() {
   NAV.big.innerHTML =
     '<b>' + esc(fkm(Math.round(NAV.dm / 10) * 10)) + '</b><small>' + esc(nx.end ? _t('Cel: ') + NAV.name : (nx.txt || '').replace(/\.$/, '')) + '</small>';
 }
+async function navAskStop() {
+  // ✕ i „Wstecz” w trakcie prowadzenia – najpierw pytanie (v65)
+  if (!NAV || NAV.asking) return;
+  NAV.asking = true;
+  const ok = await askYes(_t('Zakończyć prowadzenie?'), _t('Zakończ'));
+  if (NAV) NAV.asking = false;
+  if (ok) navStop();
+}
 function navStop() {
   if (!NAV) return;
   navCamDone();
   if (NAV.watch != null) navigator.geolocation.clearWatch(NAV.watch);
+  if (NAV.bgw != null && plug('BackgroundGeolocation')) plug('BackgroundGeolocation').removeWatcher({id: NAV.bgw}).catch(() => {});
   window.removeEventListener('deviceorientationabsolute', NAV.onOri);
   window.removeEventListener('deviceorientation', NAV.onOri);
   NAV.g.remove();
@@ -25319,7 +25625,11 @@ function wlToggle() {
   } else toastMsg(on ? _t('💡 Ekran nie zgaśnie podczas nagrywania i prowadzenia') : _t('Ekran gaśnie normalnie'));
   wlSync();
 }
-document.addEventListener('visibilitychange', () => wlSync());
+document.addEventListener('visibilitychange', () => {
+  wlSync();
+  // v65: po powrocie do aplikacji pierwsze pozycje GPS bywają stare albo przesunięte – 15 s bez alarmów zejścia
+  if (NAV && document.visibilityState === 'visible') NAV.grace = Date.now() + 15000;
+});
 // ---------- współrzędne punktu: okienko z kopiowaniem, udostępnianiem (SOS), odległością ode mnie i słońcem ----------
 function myPosNow() {
   // ostatnia znana pozycja: nagrywanie, kropka GPS albo nawigacja
@@ -27700,12 +28010,16 @@ async function abPickDrive() {
 }
 // kopia przy zamykaniu / chowaniu aplikacji, a gdy nie zdążyła – po uruchomieniu
 if (plug('App')) {
-  plug('App').addListener('pause', () => autoBackup(false));
+  plug('App').addListener('pause', () => {
+    if (REC) recPersist(true); // v65: przed zejściem do tła – pełny zapis nagrania i plik awaryjny
+    autoBackup(false);
+  });
   plug('App').addListener('resume', () => setTimeout(() => autoBackup(false), 8000));
 }
 setTimeout(() => autoBackup(false), 12000);
 // widok przy uruchomieniu: moja pozycja (v60) – włącza kropkę GPS jak przycisk ◎
-if (localStorage.getItem('omm-start') === 'gps') setTimeout(() => $('gps') && $('gps').click(), 700);
+// v65: domyślnie (gdy nic nie wybrano) start na Twojej pozycji – najpierw ostatni widok, potem przelot na pozycję GPS
+if ((localStorage.getItem('omm-start') || 'gps') === 'gps') setTimeout(() => gpsStart({quiet: true}), 500);
 
 // ---------- samouczek: podświetlony przycisk, animowana dłoń i dymek z opisem ----------
 /*
@@ -31114,6 +31428,32 @@ function settingsDlg() {
     ],
     _t('Po zakończeniu nagrania OMM sprawdza, czy przez co najmniej 10 s jechałeś szybciej niż próg – wtedy proponuje odcięcie jazdy autem, żeby statystyki wycieczki były prawidłowe.')
   );
+  {
+    // v65: poradnik – oszczędzanie baterii producenta potrafi przerwać nagrywanie i prowadzenie w tle
+    const g = h('div', 'sset'),
+      d = h('details', 'bguide'),
+      sm = h('summary', null, _t('Nagrywanie albo prowadzenie przerywa się przy wygaszonym ekranie?'));
+    d.append(sm);
+    d.append(
+      h('div', 'muted', _t('Niektórzy producenci (Samsung, Xiaomi, Huawei, OnePlus i inni) wyłączają aplikacje działające w tle, żeby oszczędzać baterię. Wyłącz to dla OMM – nagrywanie i prowadzenie będą działać bez przerw:')),
+      ...[
+        ['Samsung', _t('Ustawienia aplikacji OMM → Bateria → „Bez ograniczeń”. Dodatkowo: Ustawienia → Bateria → Limity użycia w tle – OMM nie może być na liście aplikacji uśpionych.')],
+        ['Xiaomi / Redmi / POCO', _t('Ustawienia aplikacji OMM → Oszczędzanie baterii → „Bez ograniczeń” i włącz „Autostart”. W ostatnich aplikacjach przytrzymaj OMM i dotknij kłódki.')],
+        ['Huawei / Honor', _t('Ustawienia → Bateria → Uruchamianie aplikacji → OMM → „Zarządzaj ręcznie” i włącz wszystkie trzy przełączniki.')],
+        ['OnePlus / Oppo / Realme', _t('Ustawienia aplikacji OMM → Zużycie baterii → zezwól na działanie w tle i wyłącz optymalizację.')],
+        [_t('Inne (Pixel, Motorola…)'), _t('Ustawienia aplikacji OMM → Bateria → „Bez ograniczeń”.')]
+      ].map(([m, t]) => {
+        const r = h('div', 'bgrow');
+        r.append(h('b', null, m), h('span', null, t));
+        return r;
+      }),
+      h('div', 'muted', _t('Więcej o swoim telefonie: dontkillmyapp.com'))
+    );
+    const BG = plug('BackgroundGeolocation');
+    if (BG) d.append(B(_t('Otwórz ustawienia aplikacji OMM'), () => BG.openSettings(), 'okb'));
+    g.append(d);
+    sec.append(g);
+  }
 
   cat('trk', 'route', _t('Ślady na mapie'));
   radios(
@@ -31492,11 +31832,11 @@ function settingsDlg() {
   radios(
     _t('Przy uruchomieniu pokaż'),
     'omm-start',
-    'ostatni',
+    'gps',
     [
+      ['gps', _t('Moją pozycję (GPS) – jak w Google Maps: od razu ostatni widok, po złapaniu GPS przelot na Ciebie')],
       ['ostatni', _t('Ostatni widok – miejsce i przybliżenie z poprzedniego razu')],
-      ['domyslny', _t('Widok domyślny')],
-      ['gps', _t('Moją pozycję (GPS)')]
+      ['domyslny', _t('Widok domyślny')]
     ],
     _t('Widok domyślny to cała Polska albo miejsce ustawione przyciskiem poniżej. Podkład przy uruchomieniu wybierasz gwiazdką w menu mapy.')
   );
@@ -31552,7 +31892,7 @@ if (plug('App'))
     if (map._popup && map.hasLayer(map._popup)) return map.closePopup();
     if (TUT) return tutStop();
     if (ANIM) return animStop();
-    if (NAV) return navStop();
+    if (NAV) return navAskStop();
     if (SPLIT) return splitStop();
     if (EXT) return extStop();
     if ($('recpan').style.display === 'block') return $('rectx').click();
