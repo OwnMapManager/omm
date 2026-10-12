@@ -3867,20 +3867,52 @@ body.spliton #info {
   border: 2px solid #fff;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
 }
-.clu div {
+.clu .clw {
+  position: relative;
+  width: 52px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
   border-radius: 50%;
-  border: 3px solid #1a73e8;
-  background: rgba(255, 255, 255, 0.95);
-  color: #202124;
-  font: 700 13px system-ui, sans-serif;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  /* poświata: miękka aureola w kolorze ikony + jasny środek – odróżnia grupę od pojedynczego punktu */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.95) 0 44%, color-mix(in srgb, var(--g) 45%, transparent) 58%, transparent 72%);
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
 }
-.clu .ci {
+.clu .clw.mix::before {
+  /* różne ikony w grupie – druga, przesunięta warstwa jak stos */
+  content: '';
+  position: absolute;
+  inset: 9px 5px 5px 13px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--g) 60%, #fff);
+  opacity: 0.8;
+}
+.clu .clw img,
+.clu .clw .ce {
+  position: relative;
   display: flex;
+}
+.clu .clw b {
+  position: absolute;
+  top: -3px;
+  right: -5px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: #202124;
+  color: #fff;
+  border: 2px solid #fff;
+  font: 700 11.5px/16px system-ui, sans-serif;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+/* przy dużym oddaleniu bez dymków komentarzy (zaśmiecały mapę) */
+body.zfar .cmb,
+body.zfar .cmi {
+  display: none;
 }
 .heatc {
   pointer-events: none;
@@ -4888,6 +4920,7 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  " w tym miejscu": " in this place",
   "Cel trasy": "Destination",
   " (wszystko z licznika, także bez zakończonych treningów)": " (everything from the counter, including unfinished workouts)",
   " od Ciebie.": " from you.",
@@ -7068,7 +7101,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v62';
+const APP_VER = 'v63';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   const v = localStorage.getItem('omm-motyw') || 'jasny',
@@ -16700,6 +16733,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (linie, wielokąty, okręgi) i <b>pomiary</b> (odległość, powierzchnia, azymut, wysokość, profil, współrzędne – wynik w dymku z ✕).</li>
 <li><b>Zaplanuj trasę</b> – u góry przełącznik <b>Planuję / Nawiguję</b>. <b>Nawiguję</b>: start w Twojej pozycji, dotykasz celu (i ewentualnie punktów po drodze), wybierasz sposób i ✓ od razu prowadzi. <b>Planuję</b>: dotykaj punktów, a potem w rzędzie ikon pod podpowiedzią wybierz, czym chcesz to przebyć: 🥾 pieszo wszystkimi ścieżkami, 🚶 pieszo bez dróg leśnych, 🚲 rower trekkingowy, 🚴 rower szosowy (tylko asfalt i utwardzone), 🚵 rower górski, 🚗 samochód albo 📏 prosto. Zmiana ikony od razu przelicza całą trasę – nie trzeba zaczynać od nowa. Czas przejazdu liczy się wg wybranego sposobu (pieszo – Twoje tempo, rower i auto – serwer tras). ✓ pokazuje dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
+<li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
@@ -16746,6 +16780,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Base map</b> – the map button in the top-right corner: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (lines, polygons, circles) and <b>measurements</b> (distance, area, bearing, elevation, profile, coordinates – the result in a bubble with ✕).</li>
 <li><b>Plan a route</b> – at the top, a <b>Plan / Navigate</b> switch. <b>Navigate</b>: starts at your position, tap the destination (and any points on the way), pick how you travel and ✓ starts guidance right away. <b>Plan</b>: tap points, then pick how you want to travel in the icon row under the hint: 🥾 on foot on all paths, 🚶 on foot without forest tracks, 🚲 trekking bike, 🚴 road bike (paved only), 🚵 mountain bike, 🚗 car or 📏 straight. Changing the icon re-plans the whole route at once – no need to start over. The time follows the chosen way of travel (on foot – your pace, bike and car – the routing server). ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.</li>
+<li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
@@ -28103,15 +28138,18 @@ function cluOn() {
   return localStorage.getItem('omm-grupuj') !== 'nie';
 }
 function clusterUpd() {
+  // v62.1 (punkt 57): grupy wg odległości na ekranie (nie siatki kwadratów) – od 2 punktów; grupa = ta sama ikona
+  // co punkty (przeważająca, gdy różne) z poświatą i plakietką z liczbą; dymki komentarzy chowane przy dużym oddaleniu
+  document.body.classList.toggle('zfar', map.getZoom() < 12);
   if (!CLU) return;
   cluHidden.forEach(l => grp.hasLayer(l) || grp.addLayer(l));
   cluHidden = [];
   CLU.clearLayers();
   if (!cluOn() || map.getZoom() >= 15) return;
   const b = map.getBounds().pad(0.25),
-    cell = 58,
-    bk = new Map(),
-    byId = new Map(P.items.map(it => [it.id, it]));
+    R = 60, // px: punkty i grupy bliżej siebie łączą się (ikony z poświatą by na siebie nachodziły)
+    byId = new Map(P.items.map(it => [it.id, it])),
+    pts = [];
   Object.keys(LAY).forEach(id => {
     const l = LAY[id],
       it = byId.get(id);
@@ -28120,41 +28158,109 @@ function clusterUpd() {
     if (pn && pn.style.display === 'none') return;
     const ll = l.getLatLng();
     if (!b.contains(ll)) return;
-    const pt = map.latLngToLayerPoint(ll),
-      k = Math.floor(pt.x / cell) + ':' + Math.floor(pt.y / cell);
-    if (!bk.has(k)) bk.set(k, []);
-    bk.get(k).push([l, ll, it]);
+    const pt = map.latLngToLayerPoint(ll);
+    pts.push({x: pt.x, y: pt.y, m: [[l, ll, it]]});
   });
-  bk.forEach(arr => {
-    if (arr.length < 4) return;
+  // łączenie najbliższych grup, aż żadne dwie nie są bliżej niż R (kilka przebiegów z siatką pomocniczą)
+  let cl = pts;
+  for (let pass = 0; pass < 8; pass++) {
+    const grid = new Map(),
+      key = (x, y) => Math.floor(x / R) + ':' + Math.floor(y / R);
+    cl.forEach((c, i) => {
+      const k = key(c.x, c.y);
+      if (!grid.has(k)) grid.set(k, []);
+      grid.get(k).push(i);
+    });
+    const dead = new Set();
+    let merged = 0;
+    cl.forEach((c, i) => {
+      if (dead.has(i)) return;
+      const gx = Math.floor(c.x / R),
+        gy = Math.floor(c.y / R);
+      for (let dx = -1; dx <= 1; dx++)
+        for (let dy = -1; dy <= 1; dy++)
+          (grid.get(gx + dx + ':' + (gy + dy)) || []).forEach(j => {
+            if (j <= i || dead.has(j)) return;
+            const o = cl[j];
+            if ((o.x - c.x) ** 2 + (o.y - c.y) ** 2 > R * R) return;
+            const n1 = c.m.length,
+              n2 = o.m.length;
+            c.x = (c.x * n1 + o.x * n2) / (n1 + n2);
+            c.y = (c.y * n1 + o.y * n2) / (n1 + n2);
+            c.m.push(...o.m);
+            dead.add(j);
+            merged++;
+          });
+    });
+    cl = cl.filter((c, i) => !dead.has(i));
+    if (!merged) break;
+  }
+  cl.forEach(c => {
+    const arr = c.m;
+    if (arr.length < 2) return;
     arr.forEach(([l]) => {
       grp.removeLayer(l);
       cluHidden.push(l);
     });
-    const c = [arr.reduce((s, x) => s + x[1].lat, 0) / arr.length, arr.reduce((s, x) => s + x[1].lng, 0) / arr.length],
-      cnt = {};
-    arr.forEach(x => (cnt[x[2].c || '#1a73e8'] = (cnt[x[2].c || '#1a73e8'] || 0) + 1));
-    const col = safeColor(Object.keys(cnt).sort((p, q) => cnt[q] - cnt[p])[0]) || '#1a73e8',
+    // przeważająca ikona i jej kolor
+    const cntI = {};
+    arr.forEach(x => {
+      const k = (x[2].i || '📍') + '|' + (x[2].c || '');
+      cntI[k] = (cntI[k] || 0) + 1;
+    });
+    const top = Object.keys(cntI).sort((p, q) => cntI[q] - cntI[p])[0].split('|'),
+      icI = top[0],
+      icC = top[1] || undefined,
+      glow = safeColor(icC || (ICONS[icI] && ICONS[icI].c) || '') || '#1a73e8',
       n = arr.length,
-      d = n < 10 ? 34 : n < 100 ? 40 : 46,
-      ic = icOfItem(arr[0][2]) && arr.every(x => x[2].i === arr[0][2].i) ? iconHtml(arr[0][2].i, 18, col) : '';
-    L.marker(c, {
+      z = 40,
+      u = iconUrl(icI, icC),
+      mixed = Object.keys(cntI).length > 1,
+      ll = arr.length ? L.latLng(arr.reduce((s, x) => s + x[1].lat, 0) / n, arr.reduce((s, x) => s + x[1].lng, 0) / n) : null;
+    L.marker(ll, {
       pane: 'cluP',
       icon: L.divIcon({
         className: 'clu',
-        html: '<div style="border-color:' + col + ';width:' + d + 'px;height:' + d + 'px">' + (ic ? '<span class="ci">' + ic + '</span>' : '') + '<b>' + n + '</b></div>',
-        iconSize: [d, d],
-        iconAnchor: [d / 2, d / 2]
+        html:
+          '<div class="clw' +
+          (mixed ? ' mix' : '') +
+          '" style="--g:' +
+          glow +
+          '">' +
+          (u ? '<img src="' + u + '" width="' + z + '" height="' + z + '" alt="" draggable="false">' : '<span class="ce">' + iconHtml(icI, 30, icC) + '</span>') +
+          '<b>' +
+          (n > 999 ? '999+' : n) +
+          '</b></div>',
+        iconSize: [z + 12, z + 12],
+        iconAnchor: [(z + 12) / 2, (z + 12) / 2]
       }),
       title: n + _t(' punktów – dotknij, by przybliżyć')
     })
       .on('click', e => {
         L.DomEvent.stop(e);
-        map.fitBounds(L.latLngBounds(arr.map(x => x[1])), {padding: [40, 40], maxZoom: Math.max(15, map.getZoom() + 2)});
+        cluTap(arr);
       })
       .addTo(CLU);
   });
 }
+async function cluTap(arr) {
+  // dotknięcie grupy: przybliżenie; gdy punkty leżą prawie w jednym miejscu – lista do wyboru
+  const bb = L.latLngBounds(arr.map(x => x[1])),
+    span = bb.getNorthWest().distanceTo(bb.getSouthEast());
+  if (span > 40 && map.getZoom() < 17) return map.fitBounds(bb, {padding: [50, 50], maxZoom: Math.max(15, map.getZoom() + 2)});
+  const AN = autoNameMap(),
+    v = await dlg({
+      title: plN(arr.length, _t('punkt'), _t('punkty'), _t('punktów')) + _t(' w tym miejscu'),
+      btns: [...arr.slice(0, 40).map(x => ({t: iconHtmlTxt(x[2]) + ' ' + (x[2].nm || AN[x[2].id] || _t('Punkt')), v: x[2].id})), {t: _t('Anuluj'), v: null}]
+    });
+  const it = v && P.items.find(x => x.id === v);
+  if (it) focusItem(it);
+}
+const iconHtmlTxt = it => {
+  // ikona punktu jako znak do listy (emoji albo nic dla ikon rysowanych)
+  const d = ICONS[it.i];
+  return d && d.e ? d.e : d ? '' : it.i || '📍';
+};
 const cluSoon = () => {
   clearTimeout(cluT);
   cluT = setTimeout(clusterUpd, 120);
