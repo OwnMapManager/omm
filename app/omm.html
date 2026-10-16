@@ -3422,6 +3422,20 @@ html.locked body > *:not(#lockscr) {
   border-radius: 4px;
   min-width: 60px;
 }
+/* v67: pasek kolorów w okienku śladu jest przełącznikiem kolorowania */
+.tleg.cyc {
+  cursor: pointer;
+  padding: 5px 6px;
+  margin: -4px -6px 8px;
+  border-radius: 8px;
+}
+.tleg.cyc:active {
+  background: var(--accbg);
+}
+.tleg .cycm {
+  display: flex;
+  color: var(--acc);
+}
 .tph {
   display: flex;
   align-items: center;
@@ -4705,6 +4719,126 @@ body.planctx #wm::after {
   font-size: 13px;
   color: var(--txt);
 }
+.dotm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 0;
+}
+.dotm i {
+  display: block;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1.5px #fff;
+}
+/* v67: pasek wyglądu rysowanego obiektu w miejscu narzędzi (wysuwa się w górę jak menu narzędzi) */
+#tpal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+#tools.drawing:not(.open) #tpal {
+  max-height: 420px;
+  padding: 4px 0 2px;
+}
+#tools.drawing:not(.open) [data-g='photo'],
+#tools.drawing:not(.open) #tmore {
+  display: none;
+}
+#tpal .psw {
+  display: grid;
+  grid-template-columns: 16px 16px;
+  gap: 5px;
+  padding: 2px;
+}
+#tpal .psw button {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+}
+#tpal .psw button.wh {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.22);
+}
+#tpal .psw button.on {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+#tpal .pgr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+#tpal .pgr button {
+  width: 36px;
+  height: 22px;
+  padding: 0;
+  border-radius: 11px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#tpal .pgr button.fw {
+  font-size: 13px;
+  font-weight: 800;
+}
+#tpal .pgr button i {
+  display: block;
+  background: currentColor;
+  border-radius: 3px;
+}
+#tpal .pgr button.on {
+  background: var(--accbg);
+  color: var(--acc);
+}
+/* v67: ✓ ✕ ↶ – pasek wysuwany w lewo z paska narzędzi, ✓ wyróżnione */
+#fin {
+  display: flex !important;
+  align-items: center;
+  padding: 3px;
+  gap: 2px;
+  background: var(--bar);
+  border-radius: 22px;
+  box-shadow: 0 1px 4px #0005;
+  opacity: 0;
+  transform: translateX(40px);
+  pointer-events: none;
+  transition:
+    transform 0.22s ease,
+    opacity 0.18s ease;
+}
+#fin.show {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+#fin.quick #undo,
+#fin.quick #done {
+  display: none;
+}
+#fin .ib {
+  width: 36px;
+  height: 36px;
+  box-shadow: none !important;
+}
+#fin #done.ib {
+  background: #1e8e3e !important;
+  color: #fff !important;
+}
+html.dark #fin #done.ib {
+  background: #2e9b55 !important;
+}
 /* przyciski ✓ ✕ ↶ przy rysowaniu i pomiarach – jak reszta przycisków; kolor tylko na znaku */
 #fin .ib.go,
 #fin .ib.no,
@@ -5336,6 +5470,7 @@ body.sboardon #sportb {
   <button data-g="draw" title="Rysowanie kształtów"></button>
   <button data-g="data" title="Dane i pomiary"></button>
   </div>
+  <div id="tpal" aria-label="Kolor i wygląd rysowanego obiektu"></div>
   <button id="toolsb" title="Narzędzia"></button>
 </div>
 <div class="pop" id="dmenu"></div>
@@ -5656,7 +5791,7 @@ const EN = {
   "REC nagrywa trasę także przy wygaszonym ekranie. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "REC records the route also with the screen off. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics), and after you park the car recording waits until you drive on. In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
   "Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap successive points – the line follows roads (choose the type: forest paths, paved, bike, car) or goes straight. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
-  "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik w dymku przy mierzonym miejscu. Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DEM elevation, terrain profile and coordinates – the result in a bubble at the measured place. Here also “Walk on a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
+  "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DTM elevation, terrain profile and coordinates – the result appears at once in a bubble at the measured place, with “Share” (a map image with the results). Also “Walk a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
   "Prowadzenie": "Navigation",
   "„Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia: strzałka i dystans, po linii – w wybraną stronę. Na pasku: prowadzenie po drogach (polecenia skrętów głosem) i 💡 ekran. Po zejściu z trasy telefon wibruje i mówi, gdzie jest ślad.": "“Navigate” in the window of a point, line, track, car or photo: arrow and distance, along a line – in the chosen direction. On the bar: navigation along roads (spoken turn instructions) and 💡 screen. When you leave the route the phone vibrates and says where the track is.",
   "Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.": "A panel with tabs: Maps (your maps and layers), GPS tracks, Planning and Photos. The eye shows and hides, the arrow next to the name expands the list.",
@@ -6411,7 +6546,7 @@ const EN = {
   "Linia (odcinek)": "Line (segment)",
   "Linia łamana": "Polyline",
   "Linie": "Lines",
-  "Linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść.": "Lines, polygons and circles – e.g. a plot boundary or the route you want to walk.",
+  "Kropki, linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść. Kolor, krycie i grubość wybierasz na pasku, który wysuwa się w miejscu narzędzi.": "Dots, lines, polygons and circles – e.g. a plot boundary or a route you want to walk. Colour, opacity and thickness are on the strip that slides out in place of the tools.",
   "Lista obiektów": "Object list",
   "Lista śladów": "Track list",
   "MAPY – TRYB PRACA": "MAPS – WORK MODE",
@@ -7496,7 +7631,33 @@ const EN = {
   "Kolor: zielony – dobra, pomarańczowy – średnia, czerwony – słaba. Przytrzymaj przycisk pozycji, żeby zobaczyć wszystkie dane GPS.": "Colour: green – good, orange – fair, red – weak. Press and hold the position button to see all GPS data.",
   "Obracanie mapy dwoma palcami": "Rotate the map with two fingers",
   "Mapa obraca się dopiero po wyraźnym przekręceniu palców (25°). Kompas na mapie przywraca północ. Prowadzenie „kierunkiem jazdy” działa niezależnie od tej opcji.": "The map rotates only after a clear twist of the fingers (25°). The compass on the map restores north. “Heading up” guidance works regardless of this option.",
-  "Normalna – czytelne kolory mapy": "Normal – readable map colours"
+  "Normalna – czytelne kolory mapy": "Normal – readable map colours",
+  "Zarządzaj mapą ze zdjęcia": "Manage the photo map",
+  "Profil: dotknij punktu A, potem B": "Profile: tap point A, then B",
+  "Grubość ": "Thickness ",
+  "Tło": "Bg",
+  "Z tłem / bez tła": "With / without background",
+  "Pogrubiony / zwykły": "Bold / regular",
+  "Azymut A→B: ": "Bearing A→B: ",
+  "Azymut B→A: ": "Bearing B→A: ",
+  "Odległość: ": "Distance: ",
+  "Różnica wysokości: …": "Height difference: …",
+  "Różnica wysokości: ": "Height difference: ",
+  " n.p.m. (NMT)": " a.s.l. (DTM)",
+  " · nachylenie ": " · slope ",
+  "Zapisz i zakończ": "Save and finish",
+  "Odległość": "Distance",
+  "jednolity": "solid",
+  "Dotknij, by zmienić kolorowanie (prędkość / wysokość / jednolity)": "Tap to change the colouring (speed / elevation / solid)",
+  "Udostępnij pomiar jako:": "Share the measurement as:",
+  "Obraz – mapa z pomiarem i wynikami": "Image – map with the measurement and results",
+  "Pomiar": "Measurement",
+  "Krycie na mapie:": "Opacity on the map:",
+  "Dopasuj ponownie": "Fit again",
+  "Nazwa mapy ze zdjęcia:": "Photo map name:",
+  "Zmieniono nazwę": "Renamed",
+  "Nie znaleziono zdjęcia tej mapy w pamięci aplikacji.": "The image of this map was not found in the app's storage.",
+  "Mapa ze zdjęcia dopasowana ponownie": "Photo map fitted again"
 };
 const _t = s => (LANG === 'en' && EN[s] != null ? EN[s] : s);
 const DEC = LANG === 'pl' ? ',' : '.'; // separator dziesiętny w liczbach pokazywanych na ekranie
@@ -7659,6 +7820,10 @@ const IC = {
   star: '<path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>', // domyślny (np. podkład)
   chev: '<path d="M7 10l5 5 5-5"/>', // rozwiń listę
   check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>', // gotowe / zatwierdź
+  swap: '<path d="M4 8h13l-3.5-3.5M20 16H7l3.5 3.5"/>', // v67: przełącz (kolorowanie śladu)
+  fok: '<path d="M5.5 12.8l4.2 4.2 8.8-9.6" stroke-width="2.8"/>', // v67: ✓ na pasku rysowania (pogrubiony)
+  fno: '<path d="M7 7l10 10M17 7L7 17" stroke-width="2.5"/>', // v67: ✕ na pasku rysowania
+  fundo: '<path d="M8.5 6.5L4.5 10.5l4 4" stroke-width="2.3"/><path d="M4.5 10.5h9.5a5 5 0 0 1 0 10H11" stroke-width="2.3"/>', // v67: ↶ cofnij
   plus: '<path d="M12 5v14M5 12h14"/>',
   home: '<path d="M3.5 11.5L12 4l8.5 7.5"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5.5h4V20"/>', // tryb prywatny
   work: '<rect x="3.5" y="7.5" width="17" height="12" rx="2"/><path d="M9 7.5V5.5h6v2M3.5 12.5h17"/>', // tryb praca
@@ -7753,7 +7918,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v66';
+const APP_VER = 'v67';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -11972,31 +12137,15 @@ function buildBMenu() {
       }, o.vis ? 'on eyeb' : 'eyeb');
     b.innerHTML = ico(o.vis ? 'eye' : 'eyeOff', 18);
     b.append(h('span', null, o.nm));
+    // v67: wszystkie operacje na mapie ze zdjęcia pod jednym przyciskiem „⋮” (nazwa, dopasowanie, krycie, usuń)
     row.append(
       b,
-      IB('nav', () => {
+      IB('more', () => {
         m.style.display = 'none';
-        map.fitBounds(L.latLngBounds(o.pts.map(q => [q[2], q[3]])).pad(0.6));
-      }, '', _t('Pokaż na mapie')),
-      IB('del', () => imgDel(o), 'danger', _t('Usuń'))
+        imgManage(o);
+      }, '', _t('Zarządzaj mapą ze zdjęcia'))
     );
     m.append(row);
-    if (o.vis) {
-      const d = h('div', 'ov'),
-        r = h('input');
-      r.type = 'range';
-      r.min = 10;
-      r.max = 100;
-      r.value = Math.round(o.op * 100);
-      r.title = _t('Krycie');
-      r.oninput = () => IMGL[o.id] && IMGL[o.id].setOpacity(r.value / 100);
-      r.onchange = () => {
-        o.op = r.value / 100;
-        imgsSave();
-      };
-      d.append(r);
-      m.append(d);
-    }
   });
   m.append(BI('imgmap', _t('Dodaj zdjęcie mapy (np. tablica w lesie)…'), imgAdd, 'imgadd'));
   m.append(h('div', 'ver', APP_NAME + ' ' + APP_VER + ' · ' + location.protocol));
@@ -13109,15 +13258,20 @@ function render() {
       };
       let l;
       if (it.t === 'pin') l = L.marker(it.p[0], {pane, icon: pinDivIcon(P.plan && it.v ? {...it, c} : it)});
-      else if (it.t === 'dot')
-        l = L.circleMarker(it.p[0], {
+      else if (it.t === 'dot') {
+        // v67: kropka jako znacznik z większym, niewidocznym polem dotyku (min. 34 px) – łatwo ją trafić przy edycji
+        const r = DR[szOf(it)],
+          hit = Math.max(34, r * 2 + 14);
+        l = L.marker(it.p[0], {
           pane,
-          radius: DR[szOf(it)],
-          color: '#fff',
-          weight: 1.5,
-          fillColor: c,
-          fillOpacity: 1
+          icon: L.divIcon({
+            className: 'dotm',
+            html: '<i style="width:' + r * 2 + 'px;height:' + r * 2 + 'px;background:' + c + '"></i>',
+            iconSize: [hit, hit],
+            iconAnchor: [hit / 2, hit / 2]
+          })
         });
+      }
       else if (it.t === 'num' && it.bg !== false) {
         const d = ND[szOf(it)];
         l = L.marker(it.p[0], {
@@ -15869,7 +16023,7 @@ const LABEL = {
   azgo: _t('Idź na azymut (kompas)')
 };
 const GROUPS = {
-  draw: ['line', 'circle', 'poly'],
+  draw: ['dot', 'line', 'circle', 'poly'], // v67: kropka także w trybie prywatnym
   drawW: ['dot', 'num', 'text', 'arrow', 'seg', 'line', 'poly'],
   data: ['measure', 'marea', 'azimuth', 'dh', 'profile', 'height', 'coord', 'azgo'] // „Zaplanuj trasę” – osobny przycisk (v59)
 };
@@ -15891,7 +16045,7 @@ const HINT = {
   marea: _t('Powierzchnia: dotykaj wierzchołków obszaru (bez zapisu)'),
   azimuth: _t('Azymut: dotknij punkt startowy A, potem docelowy B'),
   dh: _t('Różnica wysokości: dotknij punkt startowy A, potem docelowy B'),
-  profile: _t('Profil: zaznacz trasę od A do B, potem ✓'),
+  profile: _t('Profil: dotknij punktu A, potem B'),
   height: _t('Dotknij mapy: wysokość z NMT'),
   coord: _t('Dotknij mapy: współrzędne punktu'),
   edit: _t('Przesuwanie: przeciągnij uchwyt(y) albo dotknij mapy w nowym miejscu punktu; ✓ zapisz, ✕ anuluj'),
@@ -15932,104 +16086,99 @@ const PAL = [
   '#9e9e9e',
   '#212121'
 ];
+// v67: wygląd rysowanego obiektu – wąski pionowy pasek w miejscu narzędzi (kolory bez ramek, krycie w %, grubość);
+// zmiana działa na bieżący obiekt: rysowany kształt, a gdy nic nie jest rysowane – ostatnio dodany w tej sesji
+const OP_STEPS = [0.25, 0.5, 0.75, 1];
+function styLive() {
+  if (cur.length) return preview();
+  const id = sess[sess.length - 1],
+    it = id && P.items.find(x => x.id === id);
+  if (!it) return;
+  if (!(it.t === 'pin' && !(ICONS[it.i] && ICONS[it.i].col))) it.c = curColor;
+  if (it.t === 'poly' || it.t === 'circle') it.o = curOp;
+  if (['line', 'arrow', 'dot', 'num', 'text', 'pin'].includes(it.t) && it.sz != null) it.sz = curSz;
+  if (it.t === 'num' || it.t === 'text') {
+    it.bg = curBg;
+    it.fw = curFw;
+  }
+  touch(it);
+  save();
+  render();
+}
 function buildSty(showOp, showSz, showBg) {
-  const m = $('sty');
+  const m = $('tpal');
   m.innerHTML = '';
-  const sw = h('div', 'sw');
+  const set = fn => () => {
+    fn();
+    buildSty(showOp, showSz, showBg);
+    styLive();
+  };
+  const sw = h('div', 'psw');
   PAL.forEach(c => {
-    const b = B(
-      '',
-      () => {
-        curColor = c;
-        localStorage.setItem('mapa-col', c);
-        buildSty(showOp, showSz, showBg);
-      },
-      c === curColor ? 'on' : ''
-    );
+    const b = B('', set(() => {
+      curColor = c;
+      localStorage.setItem('mapa-col', c);
+    }), c === curColor ? 'on' : '');
     b.style.background = c;
     b.title = c;
+    if (c === '#ffffff') b.classList.add('wh');
     sw.append(b);
   });
   m.append(sw);
-  if (showSz) {
-    const r = h('div', 'szr');
-    SZ_NAMES.forEach((n, i) =>
+  if (showOp) {
+    const r = h('div', 'pgr');
+    OP_STEPS.forEach(v =>
       r.append(
-        B(
-          n,
-          () => {
-            curSz = i;
-            localStorage.setItem('mapa-sz', i);
-            buildSty(showOp, showSz, showBg);
-          },
-          i === curSz ? 'on' : ''
-        )
+        B(Math.round(v * 100) + '%', set(() => {
+          curOp = v;
+          localStorage.setItem('mapa-op', v);
+        }), Math.abs(curOp - v) < 0.13 ? 'on' : '')
       )
     );
+    r.title = _t('Krycie wypełnienia');
+    m.append(r);
+  }
+  if (showSz) {
+    const r = h('div', 'pgr');
+    SZ_NAMES.forEach((n, i) => {
+      const b = B('', set(() => {
+        curSz = i;
+        localStorage.setItem('mapa-sz', i);
+      }), i === curSz ? 'on' : '');
+      b.innerHTML = '<i style="width:' + (6 + i * 4) + 'px;height:' + LW[i] + 'px"></i>';
+      b.title = _t('Grubość ') + n;
+      r.append(b);
+    });
     m.append(r);
   }
   if (showBg) {
-    const r = h('div', 'szr');
-    [
-      [_t('Z tłem'), true],
-      [_t('Bez tła'), false]
-    ].forEach(([n, v]) =>
-      r.append(
-        B(
-          n,
-          () => {
-            curBg = v;
-            localStorage.setItem('mapa-bg', v ? '1' : '0');
-            buildSty(showOp, showSz, showBg);
-          },
-          curBg === v ? 'on' : ''
-        )
-      )
-    );
+    const r = h('div', 'pgr');
+    const bg = B(_t('Tło'), set(() => {
+      curBg = !curBg;
+      localStorage.setItem('mapa-bg', curBg ? '1' : '0');
+    }), curBg ? 'on' : '');
+    bg.title = _t('Z tłem / bez tła');
+    const fw = B('B', set(() => {
+      curFw = curFw === 'b' ? 'n' : 'b';
+      localStorage.setItem('mapa-fw', curFw);
+    }), 'fw' + (curFw === 'b' ? ' on' : ''));
+    fw.title = _t('Pogrubiony / zwykły');
+    r.append(bg, fw);
     m.append(r);
-    const r2 = h('div', 'szr');
-    [
-      [_t('Zwykły'), 'n'],
-      [_t('Pogrubiony'), 'b']
-    ].forEach(([n, v]) =>
-      r2.append(
-        B(
-          n,
-          () => {
-            curFw = v;
-            localStorage.setItem('mapa-fw', v);
-            buildSty(showOp, showSz, showBg);
-          },
-          curFw === v ? 'on' : ''
-        )
-      )
-    );
-    m.append(r2);
-  }
-  if (showOp) {
-    const lb = h('label'),
-      pc = h('span', null, Math.round(curOp * 100) + '%'),
-      r = h('input');
-    r.type = 'range';
-    r.min = 0;
-    r.max = 100;
-    r.value = Math.round(curOp * 100);
-    r.oninput = () => {
-      curOp = r.value / 100;
-      pc.textContent = r.value + '%';
-    };
-    r.onchange = () => localStorage.setItem('mapa-op', curOp);
-    lb.append(h('span', null, _t('Krycie')), r, pc);
-    m.append(lb);
   }
 }
 function ui() {
-  $('fin').style.display = mode ? 'flex' : 'none';
+  // v67: ✓ ✕ ↶ wysuwają się w lewo z paska narzędzi (pasek „fin”), w narzędziach jednym dotknięciem – tylko ✕
+  const fin = $('fin'),
+    q = QUICK.includes(mode);
+  fin.classList.toggle('show', !!mode);
+  fin.classList.toggle('quick', q);
   map.getContainer().style.cursor = mode ? 'crosshair' : '';
   const ds =
     ['line', 'poly', 'circle', 'dot', 'num', 'text', 'seg', 'arrow'].includes(mode) ||
     (mode === 'pin' && !!ICONS[pinIcon] && !!ICONS[pinIcon].col);
-  $('sty').style.display = ds ? 'flex' : 'none';
+  $('sty').style.display = 'none';
+  $('tools').classList.toggle('drawing', ds);
   if (ds)
     buildSty(
       mode === 'poly' || mode === 'circle',
@@ -16113,11 +16262,19 @@ function setMode(m, force) {
   closePops();
   if (mode) {
     const a = findL(P.active);
+    if (QUICK.includes(mode) && mode !== 'coord') {
+      // v67: pomiary jednym–dwoma dotknięciami – bez belki u góry, tylko krótka podpowiedź
+      info.style.display = 'none';
+      toastMsg(HINT[mode]);
+      return;
+    }
     info.style.display = 'block';
     info.textContent = HINT[mode] + (DRAW_ALL.includes(mode) ? ' ▸ ' + (a ? a.l.name : '') : '');
     if (mode === 'coord') $('cmeb').style.display = 'inline-block';
   }
 }
+// v67: narzędzia kończące się same po 1–2 dotknięciach (bez ✓ i ↶ – tylko ✕, żeby zrezygnować)
+const QUICK = ['azimuth', 'dh', 'profile', 'height', 'coord'];
 function openMenu(g, btn) {
   const m = $('dmenu');
   if (m.style.display === 'block' && m.dataset.g === g) {
@@ -16374,16 +16531,23 @@ function showCoord(p, title, isMe) {
   else info.style.display = 'none';
   coordPopup(p, title || _t('Współrzędne punktu'), isMe);
 }
-async function pairInfo() {
+async function pairBubble() {
+  // v67: azymut / różnica wysokości – wynik od razu w dymku przy pomiarze, narzędzie się kończy
   const [a, b] = cur,
-    d = map.distance(a, b);
-  if (mode === 'azimuth') {
-    info.textContent =
-      'A→B ' + brg(a, b).toFixed(1) + '° | B→A ' + brg(b, a).toFixed(1) + _t('° | odległość ') + fm(d);
-    return;
+    m = mode,
+    d = map.distance(a, b),
+    c = [a, b],
+    so = {name: m === 'azimuth' ? _t('Azymut') : _t('Różnica wysokości')};
+  mode = null;
+  ui();
+  info.style.display = 'none';
+  if (m === 'azimuth') {
+    const ab = brg(a, b),
+      ba = brg(b, a);
+    return resBubble(c, [_t('Azymut A→B: ') + nf(ab, 1) + '° ' + DIR8[Math.round(ab / 45) % 8], _t('Azymut B→A: ') + nf(ba, 1) + '° ' + DIR8[Math.round(ba / 45) % 8], _t('Odległość: ') + fm(d)], [], so);
   }
-  const base = _t('Odległość ') + fm(d);
-  info.textContent = base + _t(' | wysokości…');
+  resBubble(c, [_t('Różnica wysokości: …'), _t('Odległość: ') + fm(d)], [], so);
+  let lines;
   try {
     let hh;
     try {
@@ -16391,23 +16555,17 @@ async function pairInfo() {
     } catch (_) {
       hh = [await hAt(a), await hAt(b)];
     }
-    const [ha, hb] = hh;
-    if (cur.length !== 2 || cur[0] !== a || cur[1] !== b) return;
-    const dh = hb - ha;
-    info.textContent =
-      'A ' +
-      ha.toFixed(1) +
-      ' m | B ' +
-      hb.toFixed(1) +
-      ' m | Δh ' +
-      (dh >= 0 ? '+' : '') +
-      dh.toFixed(1) +
-      ' m | ' +
-      base +
-      (d > 0 ? ' | nachylenie ' + ((Math.abs(dh) / d) * 100).toFixed(1) + '%' : '');
+    const [ha, hb] = hh,
+      dh = hb - ha;
+    lines = [
+      _t('Różnica wysokości: ') + (dh >= 0 ? '+' : '−') + fel(Math.abs(dh)),
+      'A: ' + fel(ha) + ' · B: ' + fel(hb) + _t(' n.p.m. (NMT)'),
+      _t('Odległość: ') + fm(d) + (d > 0 ? _t(' · nachylenie ') + nf((Math.abs(dh) / d) * 100, 1) + '%' : '')
+    ];
   } catch (e) {
-    if (cur[0] === a && cur[1] === b) info.textContent = base + _t(' | wysokość: ') + hErr(e);
+    lines = [_t('Wysokość: ') + hErr(e), _t('Odległość: ') + fm(d)];
   }
+  if (RESB && RESB.getLatLng && !mode) resBubble(c, lines, [], so);
 }
 // ---- przesuwanie gotowych obiektów (punkt, numer, wierzchołki linii i wielokątów, okrąg) ----
 function startEdit(it) {
@@ -17008,12 +17166,31 @@ map.on('click', e => {
     if (cur.length === 2) printDialog();
     return;
   }
+  // v67: pomiary jednym dotknięciem (wysokość, współrzędne) i dwoma (azymut, różnica wysokości, profil) – bez belki
+  // i przycisków ✓: wynik od razu w dymku (profil – w oknie profilu), narzędzie się kończy, zamknięcie dymka czyści
   if (mode === 'height') {
+    mode = null;
+    ui();
+    info.style.display = 'none';
     showHeight(p);
     return;
   }
   if (mode === 'coord') {
+    mode = null;
+    ui();
     showCoord(p);
+    return;
+  }
+  if (mode === 'profile') {
+    cur.push(p);
+    preview();
+    if (cur.length === 2) {
+      const c = cur.slice();
+      mode = null;
+      ui();
+      info.style.display = 'none';
+      profile(c);
+    }
     return;
   }
   if (mode === 'plan') {
@@ -17041,16 +17218,19 @@ map.on('click', e => {
     if (cur.length >= 2) cur = [];
     cur.push(p);
     preview();
-    if (cur.length === 2) pairInfo();
+    if (cur.length === 2) pairBubble();
     return;
   }
   cur.push(p);
   preview();
 });
 const isDraw = () => DRAW_ALL.includes(mode);
-$('undo').innerHTML = ico('back', 24);
-$('cancel').innerHTML = ico('x', 24);
-$('done').innerHTML = ico('check', 24);
+$('undo').innerHTML = ico('fundo', 22);
+$('cancel').innerHTML = ico('fno', 22);
+$('done').innerHTML = ico('fok', 24);
+$('undo').title = _t('Cofnij');
+$('cancel').title = _t('Anuluj');
+$('done').title = _t('Zapisz i zakończ');
 $('undo').onclick = () => {
   if (mode === 'plan') return planUndo();
   if (mode === 'edit') {
@@ -17139,7 +17319,10 @@ $('done').onclick = () => {
     ui();
     info.style.display = 'none';
     $('pbtn').style.display = 'none';
-    resBubble(c, lines, m === 'measure' ? [BI('profile', _t('Profil'), () => profile(c))] : []);
+    resBubble(c, lines, m === 'measure' ? [BI('profile', _t('Profil'), () => profile(c))] : [], {
+      closed: m === 'marea',
+      name: m === 'marea' ? _t('Powierzchnia') : m === 'measure' ? _t('Odległość') : m === 'azimuth' ? _t('Azymut') : _t('Różnica wysokości')
+    });
     return;
   }
   if (['height', 'coord', 'measure', 'marea', 'azimuth', 'dh', 'fotoc', 'fotog'].includes(mode)) {
@@ -17265,20 +17448,20 @@ const hErr = e =>
       ? _t('brak odpowiedzi usługi GUGiK (brak internetu albo blokada CORS w przeglądarce)')
       : e.message;
 var RESB = null; // dymek z wynikiem pomiaru (v59)
-function resBubble(pts, lines, extra) {
+function resBubble(pts, lines, extra, so) {
   // dymek wskazujący na zmierzony kształt: zaczepiony u najdalej na północ wysuniętego punktu (dymek jest nad nim,
   // więc nie zasłania linii); ✕ w prawym górnym rogu (jak w innych okienkach) zamyka dymek i czyści pomiar (v60)
+  // v67: zawsze z „Udostępnij” – obraz (mapa + wyniki + znak wodny OMM) albo tekst
   resClose();
   const top = pts.reduce((a, b) => (b[0] > a[0] ? b : a), pts[0]),
     box = h('div', 'mrb');
   lines.forEach((t, i) => box.append(h(i ? 'div' : 'b', null, t)));
-  if (extra && extra.length) {
-    const bt = h('div', 'mrbt');
-    bt.append(...extra);
-    box.append(bt);
-  }
+  const bt = h('div', 'mrbt');
+  bt.append(...(extra || []), BI('share', _t('Udostępnij'), () => measShareAsk(pts, lines, so || {})));
+  box.append(bt);
   L.DomEvent.disableClickPropagation(box);
-  const pop = L.popup({autoClose: false, closeOnClick: false, autoPan: true, className: 'mres', offset: [0, -8], maxWidth: 280}).setLatLng(top).setContent(box);
+  // v67: margines przy autoprzesuwaniu – dymek nie wchodzi pod przyciski z prawej i pasek u góry
+  const pop = L.popup({autoClose: false, closeOnClick: false, autoPan: true, autoPanPaddingTopLeft: [12, 64], autoPanPaddingBottomRight: [64, 80], className: 'mres', offset: [0, -8], maxWidth: 280}).setLatLng(top).setContent(box);
   pop.on('remove', () => {
     if (RESB !== pop) return; // zastąpiony nowym dymkiem
     RESB = null;
@@ -17582,7 +17765,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <ol>
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś; <b>przytrzymany</b> otwiera <b>Informacje GPS</b> – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut.</li>
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
-<li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (linie, wielokąty, okręgi) i <b>pomiary</b> (odległość, powierzchnia, azymut, wysokość, profil, współrzędne – wynik w dymku z ✕).</li>
+<li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu w miejscu narzędzi wysuwa się pasek wyglądu: kolor, krycie w % i grubość – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Obok, w lewo, wysuwa się pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst).</li>
 <li><b>Zaplanuj trasę</b> – u góry przełącznik <b>Planuję / Nawiguję</b>. <b>Nawiguję</b>: start w Twojej pozycji, dotykasz celu (i ewentualnie punktów po drodze), wybierasz sposób i ✓ od razu prowadzi. <b>Planuję</b>: dotykaj punktów, a potem w rzędzie ikon pod podpowiedzią wybierz, czym chcesz to przebyć: 🥾 pieszo wszystkimi ścieżkami, 🚶 pieszo bez dróg leśnych, 🚲 rower trekkingowy, 🚴 rower szosowy (tylko asfalt i utwardzone), 🚵 rower górski, 🚗 samochód albo 📏 prosto. Zmiana ikony od razu przelicza całą trasę – nie trzeba zaczynać od nowa. Czas przejazdu liczy się wg wybranego sposobu (pieszo – Twoje tempo, rower i auto – serwer tras). ✓ pokazuje dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
@@ -17632,7 +17815,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <ol>
 <li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are; <b>press and hold</b> it for <b>GPS information</b> – accuracy, fix age, speed, course and an accuracy chart of the last minutes.</li>
 <li><b>Base map</b> – the map button in the top-right corner: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
-<li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (lines, polygons, circles) and <b>measurements</b> (distance, area, bearing, elevation, profile, coordinates – the result in a bubble with ✕).</li>
+<li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, a style strip slides out in place of the tools: colour, fill opacity in % and thickness – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). Next to it, to the left, slides out the ↶ undo · ✕ cancel · ✓ save bar. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text).</li>
 <li><b>Plan a route</b> – at the top, a <b>Plan / Navigate</b> switch. <b>Navigate</b>: starts at your position, tap the destination (and any points on the way), pick how you travel and ✓ starts guidance right away. <b>Plan</b>: tap points, then pick how you want to travel in the icon row under the hint: 🥾 on foot on all paths, 🚶 on foot without forest tracks, 🚲 trekking bike, 🚴 road bike (paved only), 🚵 mountain bike, 🚗 car or 📏 straight. Changing the icon re-plans the whole route at once – no need to start over. The time follows the chosen way of travel (on foot – your pace, bike and car – the routing server). ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.</li>
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
@@ -21280,7 +21463,31 @@ function trkPopup(t, ll) {
   );
   const gm = trkModeOf(t),
     gl = gm !== 'jedn' ? trkGrad(t, gm) : t.noTime || t.cm ? null : trkGrad(t, 'predkosc');
-  if (gl) el.append(gradLegend(gl));
+  // v67: dotknięcie paska kolorów przełącza kolorowanie tego śladu: prędkość → wysokość → jednolity → …
+  const modes = [...(t.noTime ? [] : ['predkosc']), ...(t.pts.some(q => q[2] != null) ? ['wysokosc'] : []), 'jedn'],
+    curM = gl ? gl.mode : 'jedn',
+    cycle = () => {
+      t.cm = modes[(modes.indexOf(curM) + 1) % modes.length];
+      t.up = Date.now();
+      trkChanged();
+      setTimeout(() => trkPopup(t, ll), 0);
+    };
+  if (modes.length > 1) {
+    const lg = gl ? gradLegend(gl) : h('div', 'tleg');
+    if (!gl) {
+      const bar = h('i');
+      bar.style.background = trkColor(t);
+      lg.append(h('span', null, _t('jednolity')), bar, h('span', null, ''));
+    }
+    lg.classList.add('cyc');
+    lg.title = _t('Dotknij, by zmienić kolorowanie (prędkość / wysokość / jednolity)');
+    lg.append(h('b', 'cycm', ico('swap', 14)));
+    lg.onclick = e => {
+      e.stopPropagation();
+      cycle();
+    };
+    el.append(lg);
+  } else if (gl) el.append(gradLegend(gl));
   const bt = h('div', 'tbt');
   bt.append(
     BI('stats', _t('Statystyki'), act(() => trkStatsDlg(t))),
@@ -27192,7 +27399,7 @@ async function trkMapCanvas(t, W, H, top, bot) {
   const M = TRK_IMG_MARGIN,
     aw = W - 2 * M,
     ah = H - top - bot - 2 * M,
-    bb = L.latLngBounds(t.pts.concat((t.wp || []).map(w => w.p)).map(q => [q[0], q[1]])),
+    bb = L.latLngBounds((t.bb || t.pts.concat((t.wp || []).map(w => w.p))).map(q => [q[0], q[1]])), // v67: t.bb – własny kadr (pomiary)
     A = map.project(bb.getNorthWest(), 18),
     B = map.project(bb.getSouthEast(), 18);
   // ułamkowy zoom: dokładnie tyle, by ślad dotknął marginesu w szerszym kierunku
@@ -27260,6 +27467,13 @@ async function trkMapCanvas(t, W, H, top, bot) {
   cx.lineWidth = 15;
   cx.stroke();
   const g = trkModeOf(t) !== 'jedn' ? trkGrad(t, trkModeOf(t)) : null;
+  if (t.fill) {
+    // v67: obszar (pomiar powierzchni) – półprzezroczyste wypełnienie
+    path();
+    cx.closePath();
+    cx.fillStyle = t.fill;
+    cx.fill();
+  }
   if (g) {
     // każdy odcinek z gradientem od koloru jednego punktu do następnego – przejścia bez skoków
     cx.lineWidth = 8;
@@ -27291,8 +27505,11 @@ async function trkMapCanvas(t, W, H, top, bot) {
     cx.strokeStyle = '#fff';
     cx.stroke();
   };
-  dot(P2[0], '#2e7d32', 15);
-  dot(P2[P2.length - 1], '#212121', 15);
+  if (t.marks) t.marks(cx, pr, dot); // v67: znaczniki pomiaru (A, B, punkt) zamiast startu i mety śladu
+  else {
+    dot(P2[0], '#2e7d32', 15);
+    dot(P2[P2.length - 1], '#212121', 15);
+  }
   // zdjęcia i punkty na trasie
   cx.textAlign = 'center';
   cx.textBaseline = 'middle';
@@ -27456,6 +27673,102 @@ function drawSignature(cx, W, H) {
   cx.fill();
   cx.fillStyle = '#3a2c22';
   cx.fillText(sig, W - 10 - sw, H - 46);
+}
+async function measShareAsk(pts, lines, o) {
+  const v = await dlg({
+    title: _t('Udostępnij pomiar jako:'),
+    btns: [
+      {t: _t('Obraz – mapa z pomiarem i wynikami'), v: 'img', c: 'okb'},
+      {t: _t('Tekst'), v: 'txt'},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (v === 'img') return measShare(pts, lines, o);
+  if (v === 'txt')
+    shareTextOut(
+      lines.join('\n') + '\n' + pts.map((q, i) => (pts.length > 1 ? (i ? (i === pts.length - 1 && !o.closed ? 'B' : String(i + 1)) : 'A') + ': ' : '') + q[0].toFixed(6) + ', ' + q[1].toFixed(6)).join('\n'),
+      o.name || _t('Pomiar')
+    );
+}
+// v67: „Udostępnij” w dymku pomiaru – obraz 1080 px: fragment mapy z pomiarem, ramka z wynikami i znak wodny OMM
+async function measShare(pts, lines, o = {}) {
+  info.style.display = 'block';
+  info.textContent = _t('Przygotowuję obraz…');
+  try {
+    const W = 1080,
+      cardH = 36 + lines.length * 56 + 18,
+      H = Math.max(1200, 900 + cardH),
+      one = pts.length === 1 || (pts.length === 2 && hav(pts[0], pts[1]) < 1),
+      p0 = pts[0],
+      d = 0.0025,
+      bb = one ? [[p0[0] + d, p0[1] - d * 1.6], [p0[0] - d, p0[1] + d * 1.6]] : null,
+      t = {
+        pts: one ? [p0, p0] : o.closed ? pts.concat([pts[0]]) : pts,
+        sg: [],
+        wp: [],
+        c: '#ff6d00',
+        cm: 'jedn',
+        ...(bb ? {bb} : {}),
+        ...(o.closed ? {fill: 'rgba(255,109,0,.22)'} : {}),
+        marks: (cx, pr, dot) => {
+          const lab = (q, txt, col) => {
+            const p = pr(q);
+            dot(p, col, 22);
+            cx.fillStyle = '#fff';
+            cx.font = '700 26px system-ui, sans-serif';
+            cx.textAlign = 'center';
+            cx.textBaseline = 'middle';
+            cx.fillText(txt, p[0], p[1] + 1);
+            cx.textAlign = 'start';
+            cx.textBaseline = 'alphabetic';
+          };
+          if (one) dot(pr(p0), '#ff6d00', 18);
+          else if (o.closed) pts.forEach(q => dot(pr(q), '#ff6d00', 10));
+          else {
+            lab(pts[0], 'A', '#2e9e6b');
+            lab(pts[pts.length - 1], 'B', '#d32f2f');
+            pts.slice(1, -1).forEach(q => dot(pr(q), '#ff6d00', 10));
+          }
+        }
+      },
+      r = await trkMapCanvas(t, W, H, 30, cardH + 120),
+      cx = r.cx,
+      y = H - cardH - 110;
+    // ramka z wynikami
+    cx.fillStyle = 'rgba(255,255,255,.96)';
+    cx.beginPath();
+    cx.roundRect(30, y, W - 60, cardH, 28);
+    cx.fill();
+    cx.fillStyle = '#202124';
+    lines.forEach((ln, i) => {
+      cx.font = (i ? '' : '700 ') + (i ? 36 : 44) + 'px system-ui, sans-serif';
+      cx.fillStyle = i ? '#3c4043' : '#202124';
+      cx.fillText(String(ln).slice(0, 52), 62, y + 66 + i * 56);
+    });
+    // znak wodny z adresem do pobrania aplikacji
+    cx.font = '600 28px system-ui, sans-serif';
+    const sig = 'OMM · Own Map Manager',
+      url = 'github.com/OwnMapManager/omm',
+      sw = Math.max(cx.measureText(sig).width, (cx.font = '24px system-ui, sans-serif', cx.measureText(url).width)) + 44;
+    cx.fillStyle = 'rgba(255,255,255,.9)';
+    cx.beginPath();
+    cx.roundRect(W - 30 - sw, H - 100, sw, 76, 24);
+    cx.fill();
+    cx.fillStyle = '#202124';
+    cx.font = '600 28px system-ui, sans-serif';
+    cx.fillText(sig, W - 8 - sw, H - 66);
+    cx.fillStyle = '#5f6368';
+    cx.font = '24px system-ui, sans-serif';
+    cx.fillText(url, W - 8 - sw, H - 36);
+    const blob = await new Promise(res => r.cv.toBlob(res, 'image/png'));
+    info.style.display = 'none';
+    if (!blob) return tell(_t('Nie udało się przygotować obrazu (brak pamięci).'));
+    await shareOut((o.name || _t('Pomiar')) + ' ' + dateStamp() + '.png', 'image/png', blob);
+    if (r.used === 'osm') tell(_t('Wybrany podkład nie pozwala na zapis do obrazu, dlatego na obrazie jest mapa OpenStreetMap.'));
+  } catch (e) {
+    info.style.display = 'none';
+    tell(_t('Nie udało się przygotować obrazu: ') + ((e && e.message) || e));
+  }
 }
 async function trkImage(t, kind) {
   // obraz do udostępnienia (szerokość 1080 px – dobrze wygląda w komunikatorach)
@@ -29338,8 +29651,8 @@ const TUT_STEPS = [
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
   {sel: '#planb', open: 'tools', t: _t('Zaplanuj trasę'), x: _t('U góry wybierz: Planuję (dowolne punkty, zapis w „Planowaniu”) albo Nawiguję (od Twojej pozycji do celu, ✓ od razu prowadzi). W rzędzie ikon wybierz, czym to przebędziesz (pieszo, rower trekkingowy, szosowy, górski, auto albo prosto) – cała trasa od razu przelicza się na nowo.')},
-  {sel: '[data-g="draw"]', open: 'tools', t: _t('Rysowanie'), x: _t('Linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść.')},
-  {sel: '[data-g="data"]', open: 'tools', t: _t('Pomiary'), x: _t('Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik w dymku przy mierzonym miejscu. Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).')},
+  {sel: '[data-g="draw"]', open: 'tools', t: _t('Rysowanie'), x: _t('Kropki, linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść. Kolor, krycie i grubość wybierasz na pasku, który wysuwa się w miejscu narzędzi.')},
+  {sel: '[data-g="data"]', open: 'tools', t: _t('Pomiary'), x: _t('Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).')},
   {sel: '#srchb', t: _t('Szukaj'), x: _t('Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.')},
   {sel: null, t: _t('Prowadzenie'), x: _t('„Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Mapa jedzie za Tobą i sama dobiera zoom do prędkości, przed skrętem przybliża skrzyżowanie; samochodem i rowerem kierunek jazdy jest u góry. Na pasku: cała trasa, kompas (kierunek / północ), po drogach i 💡 ekran. Przesunięcie mapy palcem – „Wyśrodkuj” wraca.')},
   {sel: '#lbtn', t: _t('Mapy, warstwy i ślady'), x: _t('Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.')},
@@ -30669,7 +30982,22 @@ async function imgAdd() {
   }
   const nm = await askText(_t('Nazwa mapy ze zdjęcia (np. „Leśnictwo Spała – tablica”):'), (f.name || '').replace(/\.[^.]+$/, '').slice(0, 60));
   if (nm === null) return;
-  const url = URL.createObjectURL(pic.blob),
+  const pts = await imgFit(pic.blob);
+  if (!pts) return;
+  const o = {id: uid(), nm: String(nm || _t('Mapa ze zdjęcia')).trim().slice(0, 100) || _t('Mapa ze zdjęcia'), op: 0.7, vis: true, pts};
+  try {
+    await IDB.set('mapimg/' + o.id, pic.blob);
+  } catch (e) {
+    return tell(_t('Brak miejsca na zdjęcie mapy w pamięci aplikacji.'));
+  }
+  IMGS.push(o);
+  imgsSave();
+  imgsShow();
+  toastMsg(_t('Dodano mapę ze zdjęcia: ') + o.nm);
+}
+async function imgFit(blob) {
+  // dopasowanie zdjęcia do mapy 2–3 parami punktów; zwraca pary [x, y, szer, dł] albo null
+  const url = URL.createObjectURL(blob),
     pts = [];
   try {
     await tell(_t('Dopasowanie zdjęcia do mapy: wskaż 2 albo 3 te same miejsca – najpierw na zdjęciu, potem na mapie. Wybieraj punkty daleko od siebie (np. w rogach). Trzy punkty wyrównają też zdjęcie zrobione pod kątem.'));
@@ -30677,10 +31005,10 @@ async function imgAdd() {
       const ip = await imgPickPoint(url, k, pts);
       if (!ip) {
         if (pts.length >= 2) break;
-        return;
+        return null;
       }
       const mp = await mapPickPoint(_t('Punkt ') + k + _t(': dotknij tego samego miejsca na mapie'));
-      if (!mp) return;
+      if (!mp) return null;
       pts.push([ip[0], ip[1], +mp[0].toFixed(7), +mp[1].toFixed(7)]);
       if (k === 2) {
         const v = await dlg({
@@ -30696,17 +31024,58 @@ async function imgAdd() {
   } finally {
     URL.revokeObjectURL(url);
   }
-  if (pts.length < 2) return;
-  const o = {id: uid(), nm: String(nm || _t('Mapa ze zdjęcia')).trim().slice(0, 100) || _t('Mapa ze zdjęcia'), op: 0.7, vis: true, pts};
-  try {
-    await IDB.set('mapimg/' + o.id, pic.blob);
-  } catch (e) {
-    return tell(_t('Brak miejsca na zdjęcie mapy w pamięci aplikacji.'));
-  }
-  IMGS.push(o);
-  imgsSave();
-  imgsShow();
-  toastMsg(_t('Dodano mapę ze zdjęcia: ') + o.nm);
+  return pts.length >= 2 ? pts : null;
+}
+async function imgManage(o) {
+  // v67: zarządzanie mapą ze zdjęcia – pokaż, nazwa, krycie, ponowne dopasowanie, usuń
+  const body = h('div', 'imgman'),
+    opr = h('div', 'szr');
+  [0.25, 0.5, 0.75, 1].forEach(v =>
+    opr.append(
+      B(Math.round(v * 100) + '%', () => {
+        o.op = v;
+        imgsSave();
+        if (IMGL[o.id]) IMGL[o.id].setOpacity(v);
+        [...opr.children].forEach(x => x.classList.toggle('on', x.textContent === Math.round(v * 100) + '%'));
+      }, Math.abs(o.op - v) < 0.13 ? 'on' : '')
+    )
+  );
+  body.append(h('div', 'muted', _t('Krycie na mapie:')), opr);
+  const v = await formDlg(o.nm, body, [
+    {t: _t('Pokaż na mapie'), v: 'show'},
+    {t: _t('Zmień nazwę'), v: 'nm'},
+    {t: _t('Dopasuj ponownie'), v: 'fit'},
+    {t: _t('Usuń'), v: 'del', c: 'danger'},
+    {t: 'OK', v: null, c: 'okb'}
+  ]);
+  if (v === 'show') {
+    if (!o.vis) {
+      o.vis = true;
+      imgsSave();
+      imgsShow();
+    }
+    map.fitBounds(L.latLngBounds(o.pts.map(q => [q[2], q[3]])).pad(0.6));
+  } else if (v === 'nm') {
+    const nm = await askText(_t('Nazwa mapy ze zdjęcia:'), o.nm);
+    if (nm && nm.trim()) {
+      o.nm = nm.trim().slice(0, 100);
+      imgsSave();
+      toastMsg(_t('Zmieniono nazwę'));
+    }
+  } else if (v === 'fit') {
+    let blob = null;
+    try {
+      blob = await IDB.get('mapimg/' + o.id);
+    } catch (e) {}
+    if (!blob) return tell(_t('Nie znaleziono zdjęcia tej mapy w pamięci aplikacji.'));
+    const pts = await imgFit(blob);
+    if (!pts) return;
+    o.pts = pts;
+    o.vis = true;
+    imgsSave();
+    imgsShow();
+    toastMsg(_t('Mapa ze zdjęcia dopasowana ponownie'));
+  } else if (v === 'del') imgDel(o);
 }
 async function imgDel(o) {
   if (!(await askYes(_t('Usunąć mapę ze zdjęcia „') + o.nm + _t('”?'), _t('Usuń'), true))) return;
