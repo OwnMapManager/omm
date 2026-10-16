@@ -20,7 +20,7 @@ OMM jest i zawsze będzie wolny od reklam i śledzenia. Wszystkie funkcje są do
 
 ## Instalacja na telefonie z Androidem
 
-1. Na telefonie otwórz **[Releases → najnowsze wydanie](https://github.com/OwnMapManager/omm/releases/latest)** i pobierz plik `omm-vXX.apk`.
+1. Na telefonie otwórz **[Releases → najnowsze wydanie](https://github.com/OwnMapManager/omm/releases/latest)** i pobierz plik `omm-vXX.apk` – albo od razu najnowszy plik ze stałego linku: **https://github.com/OwnMapManager/omm/releases/latest/download/omm.apk**.
 2. Otwórz pobrany plik. Android zapyta o zgodę na instalację z tego źródła (np. z Chrome) – zezwól.
 3. **Aktualizacja**: pobierz nowszy plik i zainstaluj go na starą wersję. Dane zostają (nie odinstalowuj wcześniej – odinstalowanie kasuje dane z telefonu).
 4. Pliki zapisywane przez aplikację (kopie, eksporty, wydruki) trafiają do folderu **Dokumenty/OMM** albo **Pobrane/OMM** (wybór w ⚙️ Ustawieniach; wydruki mogą iść do **Obrazy/OMM**, widocznych w galerii). Z okna po zapisie można je też „Udostępnić…” (np. na Dysk Google).

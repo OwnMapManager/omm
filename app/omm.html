@@ -20,27 +20,56 @@
   --sa: env(safe-area-inset-bottom, 0px);
 }
 /* tryb ciemny (v58): Ustawienia → Wygląd; te same zmienne kolorów w całej aplikacji */
+/* v66: ciemny motyw OMM od nowa – grafit (nie czerń), wyraźne poziomy powierzchni, jeden akcent,
+   mapa domyślnie nieprzyciemniana (przyciemnienie – opcja) */
 html.dark {
-  --bar: rgba(32, 33, 36, 0.97);
-  --b2: #303134;
-  --line: #4a4d51;
-  --acc: #8ab4f8;
-  --accbg: #253552;
-  --txt: #e8eaed;
-  --sub: #a8adb3;
-  --txt2: #d0d3d7;
-  --bg: #202124;
+  --bar: rgba(30, 34, 38, 0.96);
+  --b2: #2c3238;
+  --line: #3c434a;
+  --acc: #7fbaff;
+  --accbg: #1f3450;
+  --txt: #eceff2;
+  --sub: #9ba5af;
+  --txt2: #cfd5db;
+  --bg: #22272c;
   color-scheme: dark;
 }
 html.dark body {
-  background: #121314;
+  background: #171a1e;
 }
 html.dark input,
 html.dark select,
 html.dark textarea {
-  background: #303134;
+  background: #2c3238;
   color: var(--txt);
   border-color: var(--line);
+}
+html.dark .ib {
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+html.dark .dbox,
+html.dark .leaflet-popup-content-wrapper {
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.6),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+html.dark .l.act {
+  background: #1d2a39;
+}
+html.dark .leaflet-popup-content .note {
+  background: #2a3036;
+}
+html.dark .leaflet-popup-content .pb button.del {
+  background: #3d2626;
+  color: #ff8a80;
+}
+html.dark .sset {
+  border-color: var(--line);
+}
+html.dark summary {
+  color: var(--txt);
 }
 html.dark .leaflet-popup-content-wrapper,
 html.dark .leaflet-popup-tip {
@@ -63,7 +92,7 @@ html.dark .leaflet-bar a {
   border-color: var(--line);
 }
 html.dark .leaflet-container {
-  background: #2a2b2d;
+  background: #2a2f34;
 }
 html.dark #lbtn.work,
 html.dark .szr button.on,
@@ -77,7 +106,132 @@ html.dark .film .frec,
 html.dark .splitbar .sbt button.okb {
   color: #0b1b33;
 }
+/* v66: wybór trybu pracy – trzy kafle obok siebie */
+.msw .mswr {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 8px 0 10px;
+}
+.mswb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  background: var(--bg);
+  color: var(--txt);
+  font-weight: 600;
+  font-size: 14px;
+}
+.mswb svg {
+  width: 26px;
+  height: 26px;
+  color: var(--sub);
+}
+.mswb.on {
+  border-color: var(--acc);
+  background: var(--accbg);
+  color: var(--acc);
+}
+.mswb.on svg {
+  color: var(--acc);
+}
+.msw .mswd {
+  min-height: 2.8em;
+  font-size: 13px;
+}
+.msw .mswn {
+  font-size: 12px;
+  margin-top: 6px;
+}
+/* v66: ramki w „O OMM” – kontakt, najnowsza wersja, kawa, wpłata (oba motywy) */
+.abx {
+  background: #eef5ec;
+  color: var(--txt);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 0 0 10px;
+  line-height: 1.45;
+}
+.abx.cof {
+  background: #fbf3e6;
+}
+.abx .abl {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+.abx svg {
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+}
+.abx .iban {
+  font-variant-numeric: tabular-nums;
+  user-select: all;
+  font-weight: 600;
+}
+html.dark .abx {
+  background: #22302a;
+}
+html.dark .abx.cof {
+  background: #352c1f;
+}
+html.dark .abx .abl {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+html.dark a {
+  color: var(--acc);
+}
+/* v66: podziałka mapy – mała, półprzezroczysta, na dole pośrodku */
+.omscale {
+  position: absolute;
+  z-index: 800;
+  left: 50%;
+  bottom: calc(58px + var(--sa));
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 6px 4px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.62);
+  pointer-events: none;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #202124;
+  font-variant-numeric: tabular-nums;
+}
+.omscale i {
+  display: block;
+  height: 5px;
+  border: 1.5px solid #202124;
+  border-top: 0;
+}
+html.dark .omscale {
+  background: rgba(30, 34, 38, 0.6);
+  color: #eceff2;
+}
+html.dark .omscale i {
+  border-color: #eceff2;
+}
+.swarn {
+  background: #fdecea;
+  color: #8a1c12;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: -4px 0 10px;
+}
+html.dark .swarn {
+  background: #3a2422;
+  color: #f2b8b2;
+}
 html.dark.dimmap .leaflet-tile-pane,
+html.dark.dimmap .leaflet-under-pane,
 html.dark.dimmap .imgmap {
   filter: brightness(0.72) contrast(1.06);
 }
@@ -99,6 +253,12 @@ input,
 textarea {
   font: inherit;
   color: inherit;
+}
+/* v66: przytrzymanie przycisku nie zaznacza jego napisu (np. „Wyzeruj całkowity (przytrzymaj)”) */
+button {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 #map {
   position: absolute;
@@ -177,6 +337,102 @@ textarea {
 }
 #gps.fix {
   background: var(--accbg);
+}
+/* v66: plakietka dokładności GPS na przycisku (Ustawienia → Wygląd) */
+#gps {
+  overflow: visible;
+}
+#gps .gacc {
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  padding: 0 5px;
+  border-radius: 7px;
+  white-space: nowrap;
+  color: #fff;
+  background: #8a8f98;
+  pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+#gps .gacc[data-q='b'] {
+  background: #2e7d32;
+}
+#gps .gacc[data-q='g'] {
+  background: #558b2f;
+}
+#gps .gacc[data-q='m'] {
+  background: #b26a00;
+}
+#gps .gacc[data-q='w'] {
+  background: #c62828;
+}
+/* v66: ekran „Informacje GPS” */
+.ginh {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-weight: 600;
+}
+.ginh small {
+  flex-basis: 100%;
+  font-weight: 400;
+  color: var(--sub);
+}
+.gdot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #8a8f98;
+  box-shadow: 0 0 0 3px rgba(138, 143, 152, 0.25);
+}
+.gdot[data-q='b'],
+.gdot[data-q='g'] {
+  background: #2e7d32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.25);
+}
+.gdot[data-q='m'] {
+  background: #b26a00;
+  box-shadow: 0 0 0 3px rgba(178, 106, 0, 0.25);
+}
+.gdot[data-q='w'] {
+  background: #c62828;
+  box-shadow: 0 0 0 3px rgba(198, 40, 40, 0.25);
+}
+.gill {
+  margin-top: 6px;
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  color: var(--sub);
+  user-select: text;
+}
+.gicap {
+  margin: 12px 0 4px;
+  font-size: 12px;
+  color: var(--sub);
+}
+.ginfo .muted {
+  font-size: 12px;
+  color: var(--sub);
+  margin-top: 6px;
+}
+.ginfo .setop {
+  margin: 4px 0;
+}
+.abx a {
+  overflow-wrap: anywhere;
+}
+.gichart {
+  width: 100%;
+  height: 90px;
+  display: block;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 #gps.fix svg {
   color: var(--acc);
@@ -3288,6 +3544,61 @@ html.locked body > *:not(#lockscr) {
   font-size: 12px;
   color: var(--sub);
 }
+.sset input[type='checkbox'] {
+  width: 18px !important;
+  height: 18px;
+  padding: 0;
+  margin: 1px 0 0;
+  flex: none;
+  accent-color: var(--acc);
+}
+/* v66: grupy pól wyboru (forma komunikatów, alerty) i wzór nazwy śladu */
+.sset .fchk {
+  margin: 4px 0 2px 2px;
+  padding-left: 10px;
+  border-left: 2px solid var(--line);
+}
+.sset .fchk .muted {
+  margin-top: 6px;
+}
+.sset select.tsel {
+  width: 100%;
+  margin: 6px 0 2px;
+}
+.sset .tplinp {
+  width: 100%;
+  margin: 6px 0;
+  font-size: 15px;
+}
+.tplchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.tplchips button.chip {
+  margin: 0;
+  padding: 5px 11px;
+  border-radius: 16px;
+  font-size: 13px;
+  min-height: 0;
+  background: var(--accbg);
+  color: var(--acc);
+  border: 1px solid transparent;
+}
+.tplchips button.chip.ghost {
+  background: none;
+  color: var(--txt);
+  border-color: var(--line);
+}
+.tplprev {
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--bg2, rgba(127, 127, 127, 0.08));
+  margin-bottom: 4px;
+}
 /* v35: panel na żywo w czasie nagrywania */
 #recpan {
   display: none;
@@ -3626,6 +3937,23 @@ body.navon #info {
 .nlbl {
   background: none;
   border: 0;
+}
+/* v66: znacznik „ja” podczas nagrywania – strzałka kierunku na końcu śladu; kropka GPS wtedy znika */
+html.recme .meic {
+  display: none;
+}
+.recme {
+  background: none;
+  border: 0;
+  color: #e53935;
+}
+.recme.pz {
+  color: #8a8f98;
+}
+.recme .rmar {
+  transform-box: view-box;
+  transform-origin: 20px 20px;
+  transition: transform 0.25s;
 }
 .nme svg {
   transition: transform 0.25s;
@@ -5051,7 +5379,7 @@ const EN = {
   " · na miejscu ": " · arrival ",
   "OMM prowadzi do celu": "OMM is navigating",
   " – dotknij, aby wrócić do OMM.": " – tap to return to OMM.",
-  "Moją pozycję (GPS) – jak w Google Maps: od razu ostatni widok, po złapaniu GPS przelot na Ciebie": "My position (GPS) – like Google Maps: the last view right away, then a fly-over to you once GPS has a fix",
+  "Moją pozycję (GPS) – od razu ostatni widok, po złapaniu GPS przelot na Ciebie": "My position (GPS) – the last view right away, then a fly-over to you once GPS has a fix",
   "Północ u góry": "North up",
   "⚠ Nie udaje się zapisywać nagrania w pamięci telefonu (": "⚠ The recording can't be saved in the phone's storage (",
   ").\n\nNagrywanie trwa dalej, a ślad zapisuje się też do pliku awaryjnego „": ").\n\nRecording continues, and the track is also saved to the emergency file “",
@@ -5325,7 +5653,7 @@ const EN = {
   "💡 Ekran licznika nie zgaśnie": "💡 The bike computer screen will stay on",
   "Trasy rowerowe": "Bike routes",
   "Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.": "Choose the map (OSM, aerial photos – also archival from a chosen year, satellite), overlays (parcels, trails, forest sites), and at the top “Offline maps” – download an area before you go where there is no signal.",
-  "REC nagrywa trasę także przy wygaszonym ekranie. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "REC records the route also with the screen off. Stops are auto-paused (the line does not break; “moving” and total statistics). In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
+  "REC nagrywa trasę także przy wygaszonym ekranie. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "REC records the route also with the screen off. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics), and after you park the car recording waits until you drive on. In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
   "Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap successive points – the line follows roads (choose the type: forest paths, paved, bike, car) or goes straight. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
   "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik w dymku przy mierzonym miejscu. Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DEM elevation, terrain profile and coordinates – the result in a bubble at the measured place. Here also “Walk on a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
@@ -5334,7 +5662,7 @@ const EN = {
   "Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.": "A panel with tabs: Maps (your maps and layers), GPS tracks, Planning and Photos. The eye shows and hides, the arrow next to the name expands the list.",
   "Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.": "Planned routes, points and drawings for your next trips. Tick done ones “✓ Visited” – they go to the common “Visited” section and turn grey on the map; you can link a recorded track to them.",
   "Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.": "All photos from maps, tracks and plans in one gallery – tap to show the place on the map or navigate to it.",
-  "Kopia (także na Dysk Google), nagrywanie śladu, „W terenie” (alerty głosowe, ekran, rodzaj dróg, alarm przy miejscówkach, auto), wygląd (tryb ciemny), prywatność i kosz.": "Backup (also to Google Drive), track recording, “In the field” (voice alerts, screen, road type, alarm near spots, car), appearance (dark mode), privacy and trash.",
+  "Kopia (w prywatnej pamięci OMM i na Dysku Google), foldery, nagrywanie śladu (komunikaty, wzór nazwy), „W terenie” (alerty przy prowadzeniu, ekran, alarm przy miejscówkach, auto), wygląd (motyw, podziałka, dokładność GPS), prywatność i kosz.": "Backup (in OMM's private storage and to Google Drive), folders, track recording (announcements, name pattern), “In the field” (guidance alerts, screen, alarm near spots, car), appearance (theme, scale bar, GPS accuracy), privacy and trash.",
   "🚗 Usunięto też miejsce auta z tego śladu": "🚗 The car location from this track was deleted too",
   " Bez celu – idę, aż sam zakończę": " No target – I walk until I stop myself",
   " m n.p.m. (NMT)": " m above sea level (DEM)",
@@ -5898,7 +6226,7 @@ const EN = {
   "Dodano „": "Added “",
   "Dodać zdjęcie do punktu?": "Add a photo to the point?",
   "Dokumenty/OMM": "Documents/OMM",
-  "Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)": "Precise – a point every ~2 s while moving (like Geo Tracker)",
+  "Dokładne – punkt co ~2 s w ruchu": "Precise – a point every ~2 s while moving",
   "Dokładność zapisu": "Recording accuracy",
   "Domek": "Cabin",
   "Domek do wynajęcia": "Cabin for rent",
@@ -6328,7 +6656,7 @@ const EN = {
   "Podsumowanie śladów": "Track summary",
   "Podziel ślad": "Split track",
   "Pogrubiony": "Bold",
-  "Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz.": "Shows where you are. The cone at the dot shows which way you are facing.",
+  "Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.": "Shows where you are. The cone at the dot shows which way you are facing. Press and hold the button – GPS information: accuracy, fix age, signal chart.",
   "Pokaż": "Show",
   "Pokaż na mapie": "Show on map",
   "Pokaż nagrywanie": "Show recording",
@@ -7023,7 +7351,152 @@ const EN = {
   "🤖 Komputer – trudny": "🤖 Computer – hard",
   "🤖 Komputer – łatwy": "🤖 Computer – easy",
   "🤖 Komputer – średni": "🤖 Computer – medium",
-  "🧺 Grzybobranie": "🧺 Mushroom Picking"
+  "🧺 Grzybobranie": "🧺 Mushroom Picking",
+  "Pamięć OMM (prywatna)": "OMM storage (private)",
+  "⚠ W kopii brak ": "⚠ The backup is missing ",
+  " zdjęć, których nie ma już w telefonie": " photos that are no longer on the phone",
+  "Brak miejsca w pamięci – kopia nie została przywrócona, obecne dane są bez zmian.": "Not enough storage – the backup was not restored, your current data are unchanged.",
+  "✅ Kopia przywrócona": "✅ Backup restored",
+  "Tryb pracy": "Work mode",
+  "Twoje mapy, punkty i ślady – grzyby, wycieczki, miejsca.": "Your maps, points and tracks – mushrooms, trips, places.",
+  "Osobne mapy i ślady do pracy; szkice: kropki, odcinki, strzałki, numeracja.": "Separate maps and tracks for work; sketches: dots, segments, arrows, numbering.",
+  "Osobny widok: licznik treningu, dyscypliny i statystyki. Korzysta z map prywatnych.": "A separate view: workout counter, disciplines and statistics. Uses the private maps.",
+  "Prywatny i Praca mają osobne listy map i śladów – nic się nie miesza.": "Private and Work have separate lists of maps and tracks – nothing gets mixed.",
+  "Skopiowano": "Copied",
+  "Nie udało się skopiować – przytrzymaj numer i wybierz „Kopiuj”": "Could not copy – press and hold the number and choose “Copy”",
+  "Dokładność pozioma": "Horizontal accuracy",
+  "Dokładność pionowa": "Vertical accuracy",
+  "Wysokość GPS (n.p.m.)": "GPS altitude (a.s.l.)",
+  "Kurs (kierunek ruchu)": "Course (direction of travel)",
+  "Wiek pomiaru": "Fix age",
+  "Co ile pomiar": "Fix interval",
+  "Pomiarów w tej sesji": "Fixes this session",
+  "Liczba satelitów i mapa nieba (GPS, GLONASS, Galileo, BeiDou) – w przygotowaniu: Android podaje je tylko kodowi natywnemu aplikacji, który przejdzie najpierw przegląd bezpieczeństwa.": "Satellite count and sky map (GPS, GLONASS, Galileo, BeiDou) – coming soon: Android gives them only to the app's native code, which will go through a security review first.",
+  "Porównaj wysokość z mapą terenu (NMT GUGiK)": "Compare altitude with the terrain model (GUGiK DTM)",
+  "Pytam GUGiK…": "Asking GUGiK…",
+  "Teren (NMT): ": "Terrain (DTM): ",
+  " · GPS: ": " · GPS: ",
+  " · różnica ": " · difference ",
+  ". Wysokość z GPS bywa o kilka–kilkanaście metrów niedokładna.": ". GPS altitude can be off by several to over a dozen metres.",
+  "Nie udało się pobrać wysokości terenu (tylko Polska, potrzebny internet).": "Could not get the terrain height (Poland only, internet needed).",
+  "Dokładność w ostatnich 10 minutach (mniej = lepiej)": "Accuracy over the last 10 minutes (lower = better)",
+  "Szukam sygnału GPS…": "Looking for a GPS signal…",
+  "bardzo dobry": "very good",
+  "dobry": "good",
+  "średni": "fair",
+  "słaby": "weak",
+  "brak świeżej pozycji": "no recent position",
+  "Brak sygnału": "No signal",
+  "Pozycja ustalona": "Position fixed",
+  "sygnał ": "signal ",
+  "źródło: usługa nagrywania w tle": "source: background recording service",
+  "źródło: lokalizacja telefonu": "source: phone location",
+  "teraz": "now",
+  "📡 Informacje GPS": "📡 GPS information",
+  "surowe pomiary GPS": "raw GPS fixes",
+  "Mój wzór: ": "My pattern: ",
+  "Nie udało się odłożyć obecnych śladów – przywracanie przerwane, dane są bez zmian.": "Could not set aside the current tracks – restoring stopped, your data are unchanged.",
+  "Nie udało się zapisać śladów z kopii – przywracanie przerwane, obecne ślady są bez zmian.": "Could not save the tracks from the backup – restoring stopped, your current tracks are unchanged.",
+  "mila": "mile",
+  "mile": "miles",
+  "mil": "miles",
+  "mili": "miles",
+  "Dystans ": "Distance ",
+  " na milę.": " per mile.",
+  " mili na godzinę.": " miles per hour.",
+  "🅿 Auto zaparkowane – nagrywanie czeka, aż ruszysz autem (albo odejdziesz dalej pieszo)": "🅿 Car parked – recording waits until you drive off (or walk further away)",
+  "🚗 Jazda – nagrywanie wróciło": "🚗 Driving – recording resumed",
+  "🚶 Wyjście pieszo – nagrywanie wróciło (z drogą od auta)": "🚶 Walking away – recording resumed (with the way from the car)",
+  "🅿 Auto zaparkowane · ": "🅿 Car parked · ",
+  "Nie zrobiono zdjęcia.": "No photo was taken.",
+  "Wybierz z galerii": "Choose from the gallery",
+  "Nie udało się odczytać klucza szyfrowania kopii – kopia NIE została zapisana, żeby nie powstał plik bez szyfrowania. Uruchom OMM ponownie; jeśli to nie pomoże, ustaw hasło kopii jeszcze raz (Ustawienia → 🔒 Prywatność).": "Could not read the backup encryption key – the backup was NOT saved, so that no unencrypted file is created. Restart OMM; if that does not help, set the backup password again (Settings → 🔒 Privacy).",
+  "Nie udało się odczytać zdjęcia „": "Could not read the photo “",
+  "” – kopia NIE została zapisana. Spróbuj ponownie po uruchomieniu OMM od nowa.": "” – the backup was NOT saved. Try again after restarting OMM.",
+  "Nie udało się nadać nazwy zdjęciu z kopii – przywracanie przerwane.": "Could not name a photo from the backup – restoring stopped.",
+  "Za długi tekst do wyszukania – wpisz samą miejscowość albo adres": "Text too long to search – type just the place or address",
+  "brak ": "missing ",
+  "⚠ Kopia nie udała się.\n\n": "⚠ The backup failed.\n\n",
+  "Nieudana próba ": "Failed attempt ",
+  "Nie ma jeszcze kopii automatycznych w telefonie. Kopię z innego miejsca przywrócisz: panel warstw → 💾 → „Przywróć z kopii…”.": "There are no automatic backups on the phone yet. To restore a backup from elsewhere: layers panel → 💾 → “Restore from backup…”.",
+  "Którą kopię przywrócić?": "Which backup to restore?",
+  "Nie udało się odczytać kopii: ": "Could not read the backup: ",
+  "Android nadal pokazuje uprawnienie do tego pliku.": "Android still lists the permission for this file.",
+  "⚠ Nie udało się cofnąć dostępu OMM do poprzedniego pliku kopii.\n\n": "⚠ Could not revoke OMM's access to the previous backup file.\n\n",
+  "\n\nOMM już z niego nie korzysta i spróbuje cofnąć dostęp ponownie przy następnym uruchomieniu. Jeśli to nie pomoże, dostęp znika po wyczyszczeniu danych OMM w ustawieniach Androida (najpierw zrób kopię).": "\n\nOMM no longer uses it and will try to revoke the access again on the next start. If that does not help, the access disappears after clearing OMM's data in Android settings (make a backup first).",
+  "🔒 Zmiana w kopiach automatycznych\n\nOd tej wersji kopie automatyczne zapisują się w prywatnej pamięci OMM – nie widzą ich menedżer plików ani inne aplikacje. Dotychczasowe kopie zostały w folderze ": "🔒 A change in automatic backups\n\nFrom this version automatic backups are saved in OMM's private storage – file managers and other apps cannot see them. Your earlier backups stayed in the folder ",
+  " – możesz je przenieść lub usunąć sam.\n\nUwaga: pamięć OMM znika przy odinstalowaniu aplikacji, więc warto mieć kopię na Dysku Google. Miejsce zmienisz w Ustawieniach → Foldery i pliki.": " – you can move or delete them yourself.\n\nNote: OMM's storage is removed when the app is uninstalled, so it is worth having a backup on Google Drive. You can change the location in Settings → Folders and files.",
+  "Sprawdzam…": "Checking…",
+  "Ustawienia blokady w telefonie są uszkodzone – PIN nie zadziała. Użyj odcisku palca (jeśli był włączony) albo zobacz „Nie pamiętam PIN-u”.": "The lock settings on this phone are damaged – the PIN will not work. Use your fingerprint (if it was enabled) or see “I forgot my PIN”.",
+  " s. Nic nie zmieniono.": " s. Nothing was changed.",
+  "Powierzchnia (pomiary, obszary)": "Area (measurements, polygons)",
+  "Automatycznie – m² i hektary razem": "Automatic – m² and hectares together",
+  "Metry kwadratowe (m²)": "Square metres (m²)",
+  "Ary (a)": "Ares (a)",
+  "Hektary (ha)": "Hectares (ha)",
+  "Kilometry kwadratowe (km²)": "Square kilometres (km²)",
+  "Przy jednostkach imperialnych zawsze akry i stopy kwadratowe.": "With imperial units always acres and square feet.",
+  "Komunikaty w trakcie nagrywania": "Announcements while recording",
+  "Wyłączone": "Off",
+  "Co ": "Every ",
+  "Co 5 minut": "Every 5 minutes",
+  "Co 10 minut": "Every 10 minutes",
+  "Co 15 minut": "Every 15 minutes",
+  "Co 30 minut": "Every 30 minutes",
+  "Powiadomienie": "Notification",
+  "Wibracja": "Vibration",
+  "Krótki dźwięk": "Short sound",
+  "Komunikat głosowy": "Voice announcement",
+  "Komunikat podaje dystans, czas i tempo (bieg, marsz) albo średnią prędkość. Działa także przy wygaszonym ekranie; głos czyta syntezator mowy telefonu.": "The announcement gives distance, time and pace (running, walking) or average speed. Works with the screen off too; the voice is the phone's text-to-speech.",
+  "Przykład: ": "Example: ",
+  "Następny numer dla tego wzoru: ": "Next number for this pattern: ",
+  "numer": "number",
+  "data": "date",
+  "dyscyplina": "discipline",
+  "miejsce": "place",
+  "Dyscyplina + data": "Discipline + date",
+  "Dyscyplina + numer": "Discipline + number",
+  "Dyscyplina + miejsce": "Discipline + place",
+  "Wstaw w miejscu kursora:": "Insert at the cursor:",
+  "Gotowe wzory:": "Ready patterns:",
+  "Numer liczy się osobno dla każdego wzoru. Miejsce (dzielnicę, wieś, miasto) podaje OpenStreetMap: przy zapisie śladu OMM wysyła tam współrzędne startu i mety – tylko gdy wzór zawiera {miejsce}. Bez internetu miejsce dopisze się, gdy wróci zasięg. Nazwę zawsze można zmienić przed zapisem.": "The number counts separately for each pattern. The place (district, village, town) comes from OpenStreetMap: when a track is saved OMM sends it the start and end coordinates – only if the pattern contains {miejsce}. Without internet the place is added once signal returns. You can always change the name before saving.",
+  "Po zaparkowaniu auta podczas nagrywania": "After parking the car while recording",
+  "Wstrzymaj nagrywanie do ponownej jazdy (zalecane)": "Pause recording until you drive again (recommended)",
+  "Nagrywaj dalej pieszo": "Keep recording on foot",
+  "Gdy OMM wykryje, że wysiadłeś z auta (jazda, postój i marsz), chodzenie po sklepie czy budynku nie narysuje pętli. Jeśli odejdziesz pieszo dalej niż 300 m (np. do lasu), nagrywanie wróci samo razem z drogą od auta.": "When OMM detects that you got out of the car (driving, a stop and walking), walking around a shop or a building will not draw loops. If you walk further than 300 m away (e.g. into the forest), recording resumes by itself, including the way from the car.",
+  "Tryb diagnostyczny GPS": "GPS diagnostic mode",
+  "Zapisuje dodatkowo każdy surowy pomiar GPS (dokładność, prędkość, kierunek i decyzję filtra) – pojawia się jako drugi ślad w eksporcie GPX. Przydatne, gdy ślad wygląda dziwnie i chcesz to komuś pokazać. Plik GPX jest wtedy większy.": "Also saves every raw GPS fix (accuracy, speed, direction and the filter's decision) – it appears as a second track in the GPX export. Useful when a track looks odd and you want to show it to someone. The GPX file is larger then.",
+  "Kopie automatyczne i plik awaryjny nagrania": "Automatic backups and the recording rescue file",
+  " – zalecane": " – recommended",
+  "Pamięć OMM jest prywatna: menedżer plików, kabel USB i inne aplikacje jej nie widzą. Uwaga: znika razem z aplikacją przy odinstalowaniu – dlatego warto mieć też kopię na Dysku Google (Kopia zapasowa i dane). Kopie z pamięci OMM przywrócisz z listy w „Kopia zapasowa i dane”.": "OMM storage is private: file managers, a USB cable and other apps cannot see it. Note: it is removed together with the app on uninstall – so it is worth having a backup on Google Drive too (Backup and data). Backups from OMM storage are restored from the list in “Backup and data”.",
+  "Dotyczy aplikacji na Androida.": "Applies to the Android app.",
+  "Pliki zapisywane ręcznie (eksport, kopie „Zapisz…”, wydruki, filmy)": "Files you save yourself (export, “Save…” backups, prints, videos)",
+  "Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.": "Files go to subfolders: kopie, eksport, wydruki, filmy. After each save you can also “Share…” the file – e.g. to Google Drive.",
+  "Kopie zdjęć w folderze OMM/zdjecia": "Photo copies in the OMM/zdjecia folder",
+  "Zdjęcia dodane w OMM są zawsze w pamięci aplikacji i w pełnej kopii. Ta opcja dodatkowo zapisuje ich jawne kopie w folderze plików ustawionym wyżej – widoczne dla menedżera plików i innych aplikacji.": "Photos added in OMM are always in the app's storage and in the full backup. This option also saves plain copies in the file folder set above – visible to file managers and other apps.",
+  "Zdjęcia z aparatu OMM także w galerii telefonu (Obrazy/OMM)": "Photos from the OMM camera also in the phone gallery (Pictures/OMM)",
+  "Pełnej wielkości oryginał, razem z położeniem GPS zapisanym w zdjęciu. Bez tej opcji OMM trzyma tylko swoją kopię (do 2000 px).": "The full-size original, including the GPS position stored in the photo. Without this option OMM keeps only its own copy (up to 2000 px).",
+  "Wybór dowolnego folderu w telefonie wymaga dodatkowego kodu dla Androida – pojawi się po kolejnym przeglądzie bezpieczeństwa.": "Choosing any folder on the phone needs extra Android code – it will come after the next security review.",
+  "⚠ Kopie nie są zaszyfrowane. W pamięci OMM nie widzi ich nikt poza aplikacją, ale kopia na Dysku Google i pliki zapisane ręcznie są czytelne dla każdego, kto ma do nich dostęp – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.": "⚠ Backups are not encrypted. In OMM storage nobody but the app can see them, but the Google Drive backup and files you save yourself are readable by anyone with access to them – and they contain all tracks with times, points and photos. Recommended: 🔒 Privacy → “Encrypt backups with a password”.",
+  "Przywróć z kopii automatycznej…": "Restore from an automatic backup…",
+  "Alerty przy prowadzeniu": "Guidance alerts",
+  "Włączone": "On",
+  "O czym mówić:": "What to announce:",
+  "Zapowiedzi skrętów": "Turn announcements",
+  "„Przeliczam trasę” (samochodem i rowerem)": "“Recalculating route” (car and bike)",
+  "Zejście z trasy i powrót (pieszo)": "Leaving the route and returning (on foot)",
+  "Dojście do celu": "Arriving at the destination",
+  "Jak:": "How:",
+  "Głos": "Voice",
+  "Głos z syntezatora mowy telefonu. Pieszo alarm zejścia z trasy pojawia się po kilku pewnych pozycjach dalej niż 50 m od trasy i powtarza się co 30 s, dopóki nie wrócisz.": "The voice is the phone's text-to-speech. On foot the off-route alarm comes after several reliable positions more than 50 m from the route and repeats every 30 s until you return.",
+  "Automatycznie – ciemny od zachodu do wschodu słońca": "Automatic – dark from sunset to sunrise",
+  "Godziny wschodu i zachodu OMM liczy sam (bez internetu) dla miejsca, w którym ostatnio był GPS.": "OMM calculates sunrise and sunset itself (no internet) for the place of the last GPS position.",
+  "Podziałka mapy (skala w metrach)": "Map scale bar (in metres)",
+  "Dokładność GPS na przycisku pozycji (np. ±5 m)": "GPS accuracy on the position button (e.g. ±5 m)",
+  "Kolor: zielony – dobra, pomarańczowy – średnia, czerwony – słaba. Przytrzymaj przycisk pozycji, żeby zobaczyć wszystkie dane GPS.": "Colour: green – good, orange – fair, red – weak. Press and hold the position button to see all GPS data.",
+  "Obracanie mapy dwoma palcami": "Rotate the map with two fingers",
+  "Mapa obraca się dopiero po wyraźnym przekręceniu palców (25°). Kompas na mapie przywraca północ. Prowadzenie „kierunkiem jazdy” działa niezależnie od tej opcji.": "The map rotates only after a clear twist of the fingers (25°). The compass on the map restores north. “Heading up” guidance works regardless of this option.",
+  "Normalna – czytelne kolory mapy": "Normal – readable map colours"
 };
 const _t = s => (LANG === 'en' && EN[s] != null ? EN[s] : s);
 const DEC = LANG === 'pl' ? ',' : '.'; // separator dziesiętny w liczbach pokazywanych na ekranie
@@ -7236,6 +7709,8 @@ const IC = {
   visited: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5.5-6"/>', // odwiedzone
   gallery: '<rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.2"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.2"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.2"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.2"/>', // zdjęcia
   coffee: '<path d="M5 9.5h11v4.5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h1.5a2.5 2.5 0 0 1 0 5H16M8.5 3.5c-.8 1 .8 2 0 3M12 3.5c-.8 1 .8 2 0 3"/>',
+  dlapk: '<path d="M12 4v10M7.5 9.5 12 14l4.5-4.5"/><path d="M4.5 15v3.5h15V15"/>', // v66: pobierz najnowszą wersję
+  bank: '<path d="M4 9.5 12 5l8 4.5"/><path d="M5.5 10v7M10 10v7M14 10v7M18.5 10v7M4 19h16"/>', // v66: wpłata na konto
 };
 // belka ikon w opcjach warstwy / grupy (ta sama kolejność wszędzie: nazwa · kolor · wyżej · niżej · eksport · usuń)
 const belt = (...els) => {
@@ -7278,15 +7753,27 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v65';
+const APP_VER = 'v66';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
-  const v = localStorage.getItem('omm-motyw') || 'jasny',
-    dk = v === 'ciemny' || (v === 'auto' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
+  const v = localStorage.getItem('omm-motyw') || 'jasny';
+  let dk = v === 'ciemny' || (v === 'auto' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  if (v === 'slonce') {
+    let ll = [52, 19.4]; // bez znanej pozycji – środek Polski
+    try {
+      const j = JSON.parse(localStorage.getItem('omm-slonce-ll') || 'null');
+      if (Array.isArray(j) && isFinite(j[0]) && isFinite(j[1])) ll = j;
+    } catch (e) {}
+    const now = Date.now(),
+      t = sunTimes(ll[0], ll[1], now);
+    dk = t.polar ? t.polar === 'night' : !(now >= t.rise && now < t.set);
+  }
   document.documentElement.classList.toggle('dark', dk);
-  document.documentElement.classList.toggle('dimmap', dk && localStorage.getItem('omm-mapa-noc') !== 'nie');
+  document.documentElement.classList.toggle('dimmap', dk && localStorage.getItem('omm-mapa-noc') === 'tak');
 }
 themeApply();
+setInterval(() => localStorage.getItem('omm-motyw') === 'slonce' && themeApply(), 60000);
 try {
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', themeApply);
 } catch (e) {}
@@ -7299,7 +7786,9 @@ const APP_NAME = 'OMM',
   APP_FULL = 'Own Map Manager',
   APP_AUTHOR = 'Paweł Jewuła',
   APP_YEAR = '2026',
-  APP_COFFEE = ''; // link do „Postaw kawę” (np. buycoffee.to) – pusty: przycisk się nie pokazuje
+  APP_COFFEE = 'https://buycoffee.to/omm', // „Postaw kawę” – pusty: ramka się nie pokazuje
+  APP_IBAN = '88 2910 0006 0000 0000 0274 6999', // wpłaty bezpośrednie (v66) – pusty: ramka się nie pokazuje
+  APP_RELEASES = 'https://github.com/OwnMapManager/omm/releases/latest'; // strona z najnowszą wersją (v66)
 // ---------- ikony punktów: grupy, własne rysunki SVG (grzyby, rośliny, teren) ----------
 const O = 'stroke="#3b2a1f" stroke-width="0.9" stroke-linejoin="round"';
 const dome = (cx, cy, w, h, f, ex) =>
@@ -10521,12 +11010,12 @@ const map = L.map('map', {
   ...(ROT_OK ? {rotate: true, bearing: 0, rotateControl: false, touchRotate: false, shiftKeyRotate: false, compassBearing: false} : {rotateControl: false, shiftKeyRotate: false})
 }).setView(VIEW0.c, VIEW0.z);
 if (map._rotate) {
-  // v65: obrót dwoma palcami jak w Google Maps – dopiero po przekręceniu o ok. 12°, żeby samo przybliżanie
-  // nie obracało mapy; kompas na mapie (gdy obrócona) przywraca północ
+  // v65: obrót dwoma palcami – dopiero po wyraźnym przekręceniu (v66: 25°), żeby samo przybliżanie
+  // nie obracało mapy; kompas na mapie (gdy obrócona) przywraca północ. v66: można wyłączyć w Ustawieniach.
   const TG = map.touchGestures,
     ts0 = TG._onTouchStart,
     tm0 = TG._onTouchMove,
-    ROT_TH = 12;
+    ROT_TH = 25;
   TG._onTouchStart = function (e) {
     this._rotLock = false;
     return ts0.call(this, e);
@@ -10549,7 +11038,8 @@ if (map._rotate) {
     }
     return tm0.call(this, e);
   };
-  map.touchRotate.enable();
+  if (localStorage.getItem('omm-obrot-palce') !== '0') map.touchRotate.enable();
+  else map.touchRotate.disable();
   const cb = $('compb');
   cb.innerHTML = ico('compass', 24);
   const compUpd = () => {
@@ -10572,6 +11062,33 @@ if (map._rotate) {
     requestAnimationFrame(step);
   };
 }
+// v66: dyskretna podziałka mapy (Ustawienia → Wygląd) – długość odcinka dobierana do przybliżenia (1-2-5)
+const scaleEl = h('div', 'omscale');
+scaleEl.innerHTML = '<span></span><i></i>';
+map.getContainer().append(scaleEl);
+function scaleUpd() {
+  const on = localStorage.getItem('omm-podzialka') === '1';
+  scaleEl.style.display = on ? '' : 'none';
+  if (!on) return;
+  const sz = map.getSize(),
+    y = sz.y / 2,
+    a = map.containerPointToLatLng([sz.x / 2 - 50, y]),
+    b = map.containerPointToLatLng([sz.x / 2 + 50, y]),
+    mpp = map.distance(a, b) / 100, // metrów na piksel
+    U = IMP ? 0.3048 : 1, // stopy
+    maxM = mpp * 110;
+  let unit = IMP ? 'ft' : 'm',
+    f = U;
+  if (IMP ? maxM > 1609.344 * 0.2 : maxM >= 1000) (unit = IMP ? 'mi' : 'km'), (f = IMP ? 1609.344 : 1000);
+  const mx = maxM / f,
+    p10 = Math.pow(10, Math.floor(Math.log10(mx))),
+    nice = [5, 2, 1].map(k => k * p10).find(v => v <= mx) || p10,
+    px = Math.round((nice * f) / mpp);
+  scaleEl.firstChild.textContent = String(nice).replace('.', DEC) + ' ' + unit;
+  scaleEl.lastChild.style.width = px + 'px';
+}
+map.on('zoomend moveend rotate resize', scaleUpd);
+setTimeout(scaleUpd, 0);
 if (map._rotate) {
   // Własne panele OMM mieszają obiekty (linie i ikony w jednej warstwie). Przy obracanej mapie linie, wielokąty, kafle
   // i obrazy muszą być w panelu obracanym, a ikony (znaczniki) – w nieobracanym, żeby stały pionowo. Każdy własny
@@ -12094,14 +12611,17 @@ function area(p) {
 }
 const fm = m =>
   IMP ? (m < 304.8 ? nf(m * FT, 1) + ' ft' : nf(m / MI, 3) + ' mi') : m < 1000 ? nf(m, 1) + ' m' : nf(m / 1000, 3) + ' km';
-const fa = a =>
-  IMP
-    ? a >= 4046.856
-      ? nf(a / 4046.856, 3) + ' ac (' + Math.round(a * 10.7639) + ' ft²)'
-      : nf(a * 10.7639, 1) + ' ft²'
-    : a >= 10000
-      ? nf(a / 10000, 3) + ' ha (' + Math.round(a) + ' m²)'
-      : nf(a, 1) + ' m²';
+// v66: jednostka powierzchni z Ustawień (Język i jednostki): auto | m2 | ar | ha | km2
+const fa = a => {
+  if (IMP)
+    return a >= 4046.856 ? nf(a / 4046.856, 3) + ' ac (' + Math.round(a * 10.7639) + ' ft²)' : nf(a * 10.7639, 1) + ' ft²';
+  const u = localStorage.getItem('omm-pow') || 'auto';
+  if (u === 'm2') return nf(a, 1) + ' m²';
+  if (u === 'ar') return nf(a / 100, 2) + ' a';
+  if (u === 'ha') return nf(a / 10000, 4) + ' ha';
+  if (u === 'km2') return nf(a / 1e6, 4) + ' km²';
+  return a >= 10000 ? nf(a / 10000, 3) + ' ha (' + Math.round(a) + ' m²)' : nf(a, 1) + ' m² (' + nf(a / 10000, 4) + ' ha)';
+};
 // ---------- okno obiektu (po dotknięciu punktu, linii lub obszaru) ----------
 function describe(it) {
   if (isLn(it))
@@ -12859,6 +13379,7 @@ const plug = name => {
 };
 // Folder zapisu plików w telefonie (Ustawienia). dir = katalog wtyczki Filesystem, base = podfolder.
 const FOLDERS = {
+  prv: {dir: 'DATA', base: 'OMM', label: _t('Pamięć OMM (prywatna)')},
   docs: {dir: 'DOCUMENTS', base: 'OMM', label: _t('Dokumenty/OMM')},
   down: {dir: 'EXTERNAL_STORAGE', base: 'Download/OMM', label: _t('Pobrane (Download)/OMM')},
   pics: {dir: 'EXTERNAL_STORAGE', base: 'Pictures/OMM', label: _t('Obrazy (Pictures)/OMM')}
@@ -12878,6 +13399,12 @@ const outFolder = (mime, name) => {
               ? 'filmy'
               : 'eksport';
   return {dir: r.dir, base: r.base + '/' + sub, label: r.label + '/' + sub};
+};
+// v66 (audyt v2, R01): kopie automatyczne i plik awaryjny nagrania domyślnie w prywatnej pamięci OMM
+// (inne aplikacje i menedżer plików ich nie widzą); folder publiczny tylko z wyboru w Ustawieniach
+const abFolder = () => {
+  const r = FOLDERS[localStorage.getItem('omm-folder-kopie') || 'prv'] || FOLDERS.prv;
+  return {dir: r.dir, base: r.base + '/kopie', label: r.label + '/kopie', prv: r === FOLDERS.prv};
 };
 function dl(name, mime, data) {
   if (NATIVE) return saveNative(name, mime, data);
@@ -13906,15 +14433,27 @@ $('projb').onclick = () => {
       m.style.display = 'none';
       info.style.display = 'block';
       info.textContent = _t('Kopia: pakuję mapy, ślady i zdjęcia…');
-      const z = await zipBackup(false);
+      let z;
+      try {
+        z = await zipBackup(false);
+      } catch (e) {
+        info.style.display = 'none';
+        return tell((e && e.message) || String(e));
+      }
       info.style.display = 'none';
       dl('omm-kopia-' + stamp() + '.zip', 'application/zip', z);
+      if (ZIP_LAST.brak) toastMsg(_t('⚠ W kopii brak ') + ZIP_LAST.brak + _t(' zdjęć, których nie ma już w telefonie'));
     })
   );
   m.append(
     B(_t('Zapisz tylko to, co widać (ta mapa, włączone warstwy i filtr) + ustawienia'), async () => {
       m.style.display = 'none';
-      const z = await zipBackup(true);
+      let z;
+      try {
+        z = await zipBackup(true);
+      } catch (e) {
+        return tell((e && e.message) || String(e));
+      }
       dl(
         'omm-widoczne-' + (P.name || 'mapa').replace(/[^\p{L}\p{N}_-]+/gu, '_') + '-' + stamp() + '.zip',
         'application/zip',
@@ -13948,10 +14487,17 @@ $('pfile').onchange = async e => {
   e.target.value = '';
   if (!f) return;
   try {
-    // kopia ZIP (od v35) albo dawna kopia GeoJSON / JSON
     fileOk(f);
-    const buf = await f.arrayBuffer(),
-      u8 = new Uint8Array(buf),
+  } catch (err) {
+    return tell(err.message);
+  }
+  await restoreBuf(await f.arrayBuffer());
+};
+async function restoreBuf(buf) {
+  // v66: wspólne przywracanie – z wybranego pliku i z listy kopii automatycznych w pamięci OMM
+  try {
+    // kopia ZIP (od v35) albo dawna kopia GeoJSON / JSON
+    const u8 = new Uint8Array(buf),
       j =
         u8[0] === 0x50 && u8[1] === 0x4b ? await zipToBackup(buf) : JSON.parse(new TextDecoder().decode(u8));
     let r = null,
@@ -14059,8 +14605,22 @@ $('pfile').onchange = async e => {
         return;
       await fotoCommit(foto, r.maps, tr);
       snapshot('przed-przywroceniem');
+      const dbPrev = DB;
       DB = {v: SCHEMA, mode: DB.mode, cur: r.cur, curW: r.curW, maps: r.maps};
-      if (tr) trkReplace(tr);
+      // v66 (audyt v2, R02): najpierw mapy muszą się zapisać, potem ślady; błąd = powrót do poprzednich danych
+      if (!save()) {
+        DB = dbPrev;
+        save();
+        throw new Error(_t('Brak miejsca w pamięci – kopia nie została przywrócona, obecne dane są bez zmian.'));
+      }
+      if (tr)
+        try {
+          await trkReplace(tr);
+        } catch (e) {
+          DB = dbPrev;
+          save();
+          throw e;
+        }
     } else {
       if (
         !(await askYes(
@@ -14084,15 +14644,16 @@ $('pfile').onchange = async e => {
     fixActive();
     selG = null;
     lsel = null;
-    save();
+    const ok = save();
     render();
     sheet();
     if ((r.multi || part) && settings) applySettings(settings);
     if (part || !r.multi) fitSmart(P.items);
+    if (ok) toastMsg(_t('✅ Kopia przywrócona'));
   } catch (err) {
     tell(err.message);
   }
-};
+}
 
 // ---------- panel map i warstw (wzorowany na Moich Mapach Google) ----------
 let selG = null,
@@ -15181,14 +15742,35 @@ $('modeb').onclick = () => modeSwitch();
 async function modeSwitch() {
   // v60: wybór trybu z listy – Prywatny / Praca / Sport; v62: Sport = osobny widok (tablica dyscyplin)
   const curM = isW() ? 'work' : isSport() ? 'sport' : 'priv';
-  const to = await dlg({
-    title: _t('Tryb pracy aplikacji\n\nPrywatny i Praca mają osobne listy map i śladów. Sport korzysta z map prywatnych, a ślady z treningów zapisuje w kategorii „Sport”.'),
-    btns: [
-      {t: '🏠 ' + _t('Prywatny'), v: 'priv', c: curM === 'priv' ? 'okb' : ''},
-      {t: '💼 ' + _t('Praca') + _t(' – szkice: kropki, odcinki, strzałki, numeracja'), v: 'work', c: curM === 'work' ? 'okb' : ''},
-      {t: '🏅 ' + _t('Sport') + _t(' – osobny widok: liczniki treningów i statystyki'), v: 'sport', c: curM === 'sport' ? 'okb' : ''},
-      {t: _t('Anuluj'), v: null}
-    ]
+  // v66: trzy kafle obok siebie (ikony z zestawu aplikacji) zamiast listy przycisków z emoji
+  const to = await new Promise(res => {
+    const back = h('div', 'dback'),
+      box = h('div', 'dbox msw'),
+      row = h('div', 'mswr'),
+      desc = h('div', 'muted mswd'),
+      fin = v => {
+        back.remove();
+        res(v);
+      };
+    box.append(h('div', 'dt', _t('Tryb pracy')), row, desc);
+    [
+      ['priv', 'home', _t('Prywatny'), _t('Twoje mapy, punkty i ślady – grzyby, wycieczki, miejsca.')],
+      ['work', 'work', _t('Praca'), _t('Osobne mapy i ślady do pracy; szkice: kropki, odcinki, strzałki, numeracja.')],
+      ['sport', 'sport', _t('Sport'), _t('Osobny widok: licznik treningu, dyscypliny i statystyki. Korzysta z map prywatnych.')]
+    ].forEach(([v, ik, nm, ds]) => {
+      const b = h('button', 'mswb' + (v === curM ? ' on' : ''));
+      b.innerHTML = ico(ik, 26) + '<span>' + esc(nm) + '</span>';
+      b.onclick = () => fin(v);
+      b.onpointerenter = () => (desc.textContent = ds);
+      row.append(b);
+      if (v === curM) desc.textContent = ds;
+    });
+    const bt = h('div', 'db');
+    bt.append(B(_t('Anuluj'), () => fin(null)));
+    box.append(h('div', 'muted mswn', _t('Prywatny i Praca mają osobne listy map i śladów – nic się nie miesza.')), bt);
+    back.append(box);
+    back.addEventListener('click', e => e.target === back && fin(null));
+    document.body.append(back);
   });
   if (!to || to === curM) return;
   if (mode) setMode(null);
@@ -16745,7 +17327,10 @@ async function showHeight(p) {
 }
 $('pclose').onclick = () => {
   $('prof').style.display = 'none';
-  if (!mode) tmp.clearLayers();
+  if (!mode) {
+    tmp.clearLayers();
+    resClose(true); // v66: razem z linią pomiaru znika też jej dymek z wynikiem
+  }
   pcm = null;
 };
 $('pbtn').onclick = () => profile(cur);
@@ -16855,10 +17440,14 @@ async function profile(pts) {
     pw = W - ml - mr,
     ph = H - mt - mb;
   svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+  // v66: oś wysokości obejmuje co najmniej 50 m – 10 m różnicy na kilometrze nie wygląda jak góry
+  const span = Math.max(mx - mn, 50),
+    lo = mn - (span - (mx - mn)) / 2,
+    hi = lo + span;
   const PX = d => ml + (d / total) * pw,
-    PY = v => mt + (mx > mn ? (mx - v) / (mx - mn) : 0.5) * ph;
+    PY = v => mt + ((hi - v) / (hi - lo)) * ph;
   let g = '';
-  [mn, (mn + mx) / 2, mx].forEach(v => {
+  [lo, (lo + hi) / 2, hi].forEach(v => {
     g +=
       '<line x1="' +
       ml +
@@ -16991,23 +17580,23 @@ async function profile(pts) {
 // ---------- O aplikacji: krótki przewodnik dla początkujących, autor i licencja ----------
 const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz w nim miejsca, które chcesz zapamiętać: grzybowe miejscówki, wiaty i noclegi, źródła, ciekawe zakątki. Planujesz trasy, nagrywasz ślady, mierzysz odległości i wysokości. Wszystko zapisuje się w telefonie i działa także bez zasięgu.</p>
 <ol>
-<li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś.</li>
+<li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś; <b>przytrzymany</b> otwiera <b>Informacje GPS</b> – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut.</li>
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (linie, wielokąty, okręgi) i <b>pomiary</b> (odległość, powierzchnia, azymut, wysokość, profil, współrzędne – wynik w dymku z ✕).</li>
 <li><b>Zaplanuj trasę</b> – u góry przełącznik <b>Planuję / Nawiguję</b>. <b>Nawiguję</b>: start w Twojej pozycji, dotykasz celu (i ewentualnie punktów po drodze), wybierasz sposób i ✓ od razu prowadzi. <b>Planuję</b>: dotykaj punktów, a potem w rzędzie ikon pod podpowiedzią wybierz, czym chcesz to przebyć: 🥾 pieszo wszystkimi ścieżkami, 🚶 pieszo bez dróg leśnych, 🚲 rower trekkingowy, 🚴 rower szosowy (tylko asfalt i utwardzone), 🚵 rower górski, 🚗 samochód albo 📏 prosto. Zmiana ikony od razu przelicza całą trasę – nie trzeba zaczynać od nowa. Czas przejazdu liczy się wg wybranego sposobu (pieszo – Twoje tempo, rower i auto – serwer tras). ✓ pokazuje dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
-<li><b>Obracanie mapy</b> – przekręć mapę dwoma palcami (samo przybliżanie jej nie obraca). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
+<li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie.</li>
+<li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). Po zaparkowaniu auta nagrywanie czeka, aż znowu ruszysz – chodzenie po sklepie nie rysuje pętli (odejdziesz dalej niż 300 m, np. do lasu – nagrywanie wraca samo). Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
-<li><b>Ustawienia</b> (trybik w panelu) – kopia zapasowa (także automatyczna na Dysk Google), nagrywanie śladu, <b>W terenie</b> (alerty głosowe, ekran nie gaśnie, rodzaj dróg, alarm przy miejscówkach, auto, plan wyjścia), <b>Wygląd</b> (tryb ciemny) i <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni.</li>
+<li><b>Ustawienia</b> (trybik w panelu) – kopia zapasowa (automatyczna w prywatnej pamięci OMM i na Dysku Google, przywracanie z listy), <b>Foldery i pliki</b>, nagrywanie śladu, <b>W terenie</b> (alerty przy prowadzeniu – co i jak ma mówić, ekran nie gaśnie, alarm przy miejscówkach, auto, plan wyjścia), <b>Wygląd</b> (motyw jasny, ciemny albo automatycznie wg zachodu słońca, podziałka mapy, dokładność GPS na przycisku, obracanie mapy) i <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni.</li>
 <li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – osobny widok aplikacji: <b>tablica</b> z dużymi przyciskami dyscyplin – <b>rower</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>marsz</b> (tempo, kroki, dzienny cel kroków), <b>trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>jeździectwo</b> (stęp, kłus, galop) i <b>rolki</b> (prędkość, okrążenia). Dotknięcie przycisku otwiera licznik na ciemnym ekranie. Z licznika „Mapa” przechodzi na mapę – tam przycisk ‹ z dystansem albo systemowe „Wstecz” wraca do licznika; ‹ w liczniku wraca na tablicę (trening trwa). „Zakończ” zapisuje trening w <b>Statystykach</b>: ogólnych i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, rekordy, lista treningów. Kalorie po podaniu wagi w Ustawieniach → Sport; ślad nagrany z licznika trafia do kategorii „Sport”.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
@@ -17023,10 +17612,12 @@ const ABOUT_AUTHOR = () => `<p id="egg" style="font-size:17px;margin:0 0 4px;use
 <li><b>Działa w terenie.</b> Punkty, ślady i pomiary działają bez zasięgu, a mapy da się pobrać wcześniej.</li>
 <li><b>Otwarty kod.</b> Każdy może sprawdzić, co aplikacja robi (GitHub: OwnMapManager/omm).</li>
 </ul>
-<p style="background:#f3f7f1;border-radius:8px;padding:10px 12px">Masz uwagę, pomysł albo znalazłeś błąd? Napisz – każda opinia pomaga ulepszać aplikację.<br><a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – uwagi')}">${APP_MAIL}</a></p>
-${APP_COFFEE ? `<p style="background:#fdf6ec;border-radius:8px;padding:10px 12px">${ico('coffee', 18)} <b>Postaw kawę</b><br>OMM jest i zostanie darmowy. Jeśli Ci się przydaje i chcesz wesprzeć jego rozwój – możesz postawić autorowi wirtualną kawę: <a href="${APP_COFFEE}" target="_blank" rel="noopener">${APP_COFFEE.replace(/^https?:\/\//, '')}</a></p>` : ''}`;
+<div class="abx"><b>Masz uwagę, pomysł albo znalazłeś błąd?</b> Napisz – każda opinia pomaga ulepszać aplikację.<br><a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – uwagi')}">${APP_MAIL}</a>
+<div class="abl">${ico('dlapk', 16)} <b>Najnowsza wersja OMM</b><br><a href="${APP_RELEASES}" target="_blank" rel="noopener">${APP_RELEASES.replace(/^https:\/\//, '')}</a></div></div>
+${APP_COFFEE ? `<div class="abx cof">${ico('coffee', 18)} <b>Postaw kawę</b><br>OMM jest i zostanie darmowy. Jeśli Ci się przydaje i chcesz wesprzeć jego rozwój – możesz postawić autorowi wirtualną kawę: <a href="${APP_COFFEE}" target="_blank" rel="noopener">${APP_COFFEE.replace(/^https?:\/\//, '')}</a></div>` : ''}
+${APP_IBAN ? `<div class="abx cof">${ico('bank', 18)} <b>Wpłata bezpośrednia na konto</b><br>Odbiorca: ${APP_AUTHOR}<br>Nr konta: <span class="iban">${APP_IBAN}</span> <a href="#" data-copy="${APP_IBAN.replace(/\s/g, '')}">kopiuj</a><br>Tytuł: Darowizna na rozwój OMM</div>` : ''}`;
 const ABOUT_INFO = () => `<p class="muted" style="margin:0 0 10px">© ${APP_YEAR} ${APP_AUTHOR} · ${APP_NAME} ${APP_VER}</p>
-<p><b>Licencja</b> (wzorowana na OsmAnd):</p>
+<p><b>Licencja</b>:</p>
 <ul>
 <li><b>Kod</b> – GNU GPL v3: wolno go czytać, kopiować, zmieniać i rozpowszechniać, a zmienione wersje muszą mieć otwarty kod. Wyjątek: wydanie aplikacji zbudowanej z tego kodu w sklepach z aplikacjami (Google Play, App Store, AppGallery, Galaxy Store) wymaga pisemnej zgody autora.</li>
 <li><b>Ikony i logo</b> – CC BY-NC-ND 4.0: wolno pokazywać z podaniem autora, bez zmian i bez użytku komercyjnego.</li>
@@ -17039,23 +17630,23 @@ const MAP_SOURCES_EN = () =>
 // wersja angielska tekstów „O OMM” (te same treści co po polsku)
 const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> You mark the places you want to remember: mushroom spots, shelters and places to sleep, springs, interesting corners. You plan routes, record tracks, measure distances and elevations. Everything is saved on your phone and works without signal too.</p>
 <ol>
-<li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are.</li>
+<li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are; <b>press and hold</b> it for <b>GPS information</b> – accuracy, fix age, speed, course and an accuracy chart of the last minutes.</li>
 <li><b>Base map</b> – the map button in the top-right corner: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (lines, polygons, circles) and <b>measurements</b> (distance, area, bearing, elevation, profile, coordinates – the result in a bubble with ✕).</li>
 <li><b>Plan a route</b> – at the top, a <b>Plan / Navigate</b> switch. <b>Navigate</b>: starts at your position, tap the destination (and any points on the way), pick how you travel and ✓ starts guidance right away. <b>Plan</b>: tap points, then pick how you want to travel in the icon row under the hint: 🥾 on foot on all paths, 🚶 on foot without forest tracks, 🚲 trekking bike, 🚴 road bike (paved only), 🚵 mountain bike, 🚗 car or 📏 straight. Changing the icon re-plans the whole route at once – no need to start over. The time follows the chosen way of travel (on foot – your pace, bike and car – the routing server). ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.</li>
-<li><b>Rotating the map</b> – twist the map with two fingers (zooming alone doesn't rotate it). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
+<li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are far away, OMM asks how you'll get to the start (by car, by bike, on foot – along roads with voice directions – or straight) and switches to guiding along the route at the start. The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – REC records the route (also with the screen off). Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track.</li>
+<li><b>GPS tracks</b> – REC records the route (also with the screen off). Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). After you park the car, recording waits until you drive again – walking around a shop draws no loops (walk more than 300 m away, e.g. into the forest, and recording resumes by itself). Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 in the bottom-left corner: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
-<li><b>Settings</b> (gear in the panel) – backup (also automatic to Google Drive), track recording, <b>In the field</b> (voice alerts, keep the screen on, road type, alarm near spots, car, trip plan), <b>Appearance</b> (dark mode) and <b>Trash</b> – deleted things wait there for 30 days.</li>
+<li><b>Settings</b> (gear in the panel) – backup (automatic in OMM's private storage and to Google Drive, restore from a list), <b>Folders and files</b>, track recording, <b>In the field</b> (guidance alerts – what and how to announce, keep the screen on, alarm near spots, car, trip plan), <b>Appearance</b> (light or dark theme or automatic by sunset, map scale bar, GPS accuracy on the button, map rotation) and <b>Trash</b> – deleted things wait there for 30 days.</li>
 <li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – a separate view of the app: a <b>board</b> with big discipline buttons – <b>bike</b> (speed, average, max, climb, gradient), <b>running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>walking</b> (pace, steps, daily step goal), <b>trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>horse riding</b> (walk, trot, canter) and <b>inline skating</b> (speed, laps). Tapping a button opens the counter on a dark screen. “Map” in the counter goes to the map – there the ‹ button with the distance or the system “Back” returns to the counter; ‹ in the counter returns to the board (the workout continues). “Finish” saves the workout in <b>Statistics</b>: overall and for each discipline – week, month, year, all time, chart, records, workout list. Calories after entering your weight in Settings → Sport; a track recorded from the counter goes to the “Sport” category.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
@@ -17071,10 +17662,12 @@ const ABOUT_AUTHOR_EN = () => `<p id="egg" style="font-size:17px;margin:0 0 4px;
 <li><b>Works in the field.</b> Points, tracks and measurements work without signal, and maps can be downloaded in advance.</li>
 <li><b>Open source.</b> Anyone can check what the app does (GitHub: OwnMapManager/omm).</li>
 </ul>
-<p style="background:#f3f7f1;border-radius:8px;padding:10px 12px">Have a remark or an idea, or found a bug? Write to me – every opinion helps make the app better.<br><a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – feedback')}">${APP_MAIL}</a></p>
-${APP_COFFEE ? `<p style="background:#fdf6ec;border-radius:8px;padding:10px 12px">${ico('coffee', 18)} <b>Buy me a coffee</b><br>OMM is and will stay free. If you find it useful and want to support its development, you can buy the author a virtual coffee: <a href="${APP_COFFEE}" target="_blank" rel="noopener">${APP_COFFEE.replace(/^https?:\/\//, '')}</a></p>` : ''}`;
+<div class="abx"><b>Have a remark or an idea, or found a bug?</b> Write to me – every opinion helps make the app better.<br><a href="mailto:${APP_MAIL}?subject=${encodeURIComponent(APP_NAME + ' ' + APP_VER + ' – feedback')}">${APP_MAIL}</a>
+<div class="abl">${ico('dlapk', 16)} <b>Latest OMM version</b><br><a href="${APP_RELEASES}" target="_blank" rel="noopener">${APP_RELEASES.replace(/^https:\/\//, '')}</a></div></div>
+${APP_COFFEE ? `<div class="abx cof">${ico('coffee', 18)} <b>Buy me a coffee</b><br>OMM is and will stay free. If you find it useful and want to support its development, you can buy the author a virtual coffee: <a href="${APP_COFFEE}" target="_blank" rel="noopener">${APP_COFFEE.replace(/^https?:\/\//, '')}</a></div>` : ''}
+${APP_IBAN ? `<div class="abx cof">${ico('bank', 18)} <b>Direct bank transfer (Poland)</b><br>Recipient: ${APP_AUTHOR}<br>Account: <span class="iban">${APP_IBAN}</span> <a href="#" data-copy="${APP_IBAN.replace(/\s/g, '')}">copy</a><br>IBAN: <span class="iban">PL${APP_IBAN.replace(/\s/g, '')}</span><br>Title: Darowizna na rozwój OMM</div>` : ''}`;
 const ABOUT_INFO_EN = () => `<p class="muted" style="margin:0 0 10px">© ${APP_YEAR} ${APP_AUTHOR} · ${APP_NAME} ${APP_VER}</p>
-<p><b>License</b> (modelled on OsmAnd):</p>
+<p><b>License</b>:</p>
 <ul>
 <li><b>Code</b> – GNU GPL v3: you may read, copy, modify and distribute it, and modified versions must be open source. Exception: publishing an app built from this code in app stores (Google Play, App Store, AppGallery, Galaxy Store) requires the author's written consent.</li>
 <li><b>Icons and logo</b> – CC BY-NC-ND 4.0: may be shown with credit to the author, unchanged and not for commercial use.</li>
@@ -19306,10 +19899,14 @@ function gameOpen() {
     last = t;
     if (!g) return;
     if (document.documentElement.classList.contains('locked')) pause(true);
-    if (!paused && !g.over) {
-      g.step(dt);
-      if (g.over) end();
-    } else if (g.over && g.idle) g.idle(dt); // po końcu dogrywają się cząsteczki i wstrząs
+    if (!paused && !g.over) g.step(dt);
+    else if (g.over && g.idle) g.idle(dt); // po końcu dogrywają się cząsteczki i wstrząs
+    // v66: koniec gry także wtedy, gdy nastąpił w obsłudze dotknięcia (saper: muchomor, wygrana) – wcześniej
+    // ekran końca się nie pokazywał i zostawało tylko zamknięcie gry
+    if (g.over && !g.ended) {
+      g.ended = true;
+      end();
+    }
     const s = g.hud ? g.hud() : g.label() + ' · ' + g.score + _t(' pkt · 🏆 ') + Math.max(gBest(g.id), g.score);
     if (s !== txt) sc.textContent = txt = s;
     // wstrząs ekranu (wybuch, utrata życia); wyłączony przy „ogranicz animacje”
@@ -19401,6 +19998,18 @@ function gameOpen() {
   menu();
   raf = requestAnimationFrame(frame);
 }
+// v66: „kopiuj” przy numerze konta w O OMM (i innych miejscach z data-copy)
+document.addEventListener('click', async e => {
+  const a = e.target && e.target.closest && e.target.closest('[data-copy]');
+  if (!a) return;
+  e.preventDefault();
+  try {
+    await navigator.clipboard.writeText(a.dataset.copy);
+    toastMsg(_t('Skopiowano'));
+  } catch (err) {
+    toastMsg(_t('Nie udało się skopiować – przytrzymaj numer i wybierz „Kopiuj”'));
+  }
+});
 function aboutDlg(tab) {
   const back = h('div', 'dback'),
     box = h('div', 'dbox about'),
@@ -19556,6 +20165,7 @@ function gpsUi() {
 }
 function gpsOff() {
   if (watching !== null) navigator.geolocation.clearWatch(watching);
+  setTimeout(gpsAccUi, 0);
   watching = null;
   first = true;
   if (me) map.removeLayer(me);
@@ -19564,7 +20174,171 @@ function gpsOff() {
   if (!mode) info.style.display = 'none';
   gpsUi();
 }
-$('gps').onclick = () => gpsStart();
+// v66: krótkie dotknięcie – jak dotąd; przytrzymanie – ekran „Informacje GPS”
+{
+  const b = $('gps');
+  let lp = null,
+    lpDone = false;
+  b.addEventListener('pointerdown', () => {
+    lpDone = false;
+    lp = setTimeout(() => {
+      lpDone = true;
+      vibe(30);
+      gpsInfoDlg();
+    }, 600);
+  });
+  ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, () => clearTimeout(lp)));
+  b.addEventListener('contextmenu', e => e.preventDefault());
+  b.onclick = () => {
+    if (lpDone) return (lpDone = false);
+    gpsStart();
+  };
+  b.append(h('span', 'gacc'));
+}
+// --- v66: dane o pozycji GPS – plakietka dokładności na przycisku (opcja) i ekran „Informacje GPS” ---
+const GPSI = {n: 0, h: [], last: null, src: null};
+function gpsiAdd(src, c, t) {
+  if (!c || !isFinite(c.latitude) || !isFinite(c.longitude)) return;
+  const prev = GPSI.last;
+  GPSI.last = {
+    t,
+    lat: c.latitude,
+    lng: c.longitude,
+    acc: c.accuracy,
+    alt: c.altitude != null && isFinite(c.altitude) ? c.altitude : null,
+    altAcc: c.altitudeAccuracy != null && isFinite(c.altitudeAccuracy) ? c.altitudeAccuracy : null,
+    spd: c.speed != null && isFinite(c.speed) ? c.speed : null,
+    hd: c.heading != null && isFinite(c.heading) ? c.heading : null,
+    dt: prev ? (t - prev.t) / 1000 : null
+  };
+  GPSI.src = src;
+  GPSI.n++;
+  if (!GPSI.sunAt || t - GPSI.sunAt > 600000) {
+    GPSI.sunAt = t;
+    try {
+      localStorage.setItem('omm-slonce-ll', JSON.stringify([+c.latitude.toFixed(1), +c.longitude.toFixed(1)])); // ~10 km – do motywu wg słońca
+    } catch (e) {}
+  }
+  if (!GPSI.t0) GPSI.t0 = t;
+  GPSI.h.push([t, c.accuracy]);
+  while (GPSI.h.length && t - GPSI.h[0][0] > 600000) GPSI.h.shift(); // ostatnie 10 min
+  gpsAccUi();
+}
+const gpsQual = a => (a == null || !isFinite(a) ? 'x' : a <= 5 ? 'b' : a <= 12 ? 'g' : a <= 30 ? 'm' : 'w'); // bardzo dobra / dobra / średnia / słaba
+function gpsAccUi() {
+  const sp = document.querySelector('#gps .gacc');
+  if (!sp) return;
+  const L0 = GPSI.last,
+    on = localStorage.getItem('omm-gps-dokl') === '1' && L0 && Date.now() - L0.t < 30000 && (watching !== null || REC);
+  sp.style.display = on ? '' : 'none';
+  if (!on) return;
+  sp.textContent = '±' + (L0.acc < 100 ? Math.max(1, Math.round(L0.acc)) : '99+');
+  sp.dataset.q = gpsQual(L0.acc);
+}
+setInterval(gpsAccUi, 5000);
+function gpsInfoDlg() {
+  // „ekran satelitów” jak w dawnych odbiornikach GPS – z danymi, które Android podaje aplikacji
+  if (watching === null && !REC) gpsStart({quiet: true});
+  const body = h('div', 'ginfo'),
+    head = h('div', 'ginh'),
+    g = h('div', 'ssumg'),
+    cv = h('canvas', 'gichart'),
+    note = h('div', 'muted'),
+    nmt = h('div', 'muted'),
+    tiles = {};
+  const tile = (k, lab) => {
+    const d = h('div', 'ssumt');
+    d.append((tiles[k] = h('b', null, '—')), h('i', null, lab));
+    g.append(d);
+  };
+  tile('acc', _t('Dokładność pozioma'));
+  tile('altAcc', _t('Dokładność pionowa'));
+  tile('alt', _t('Wysokość GPS (n.p.m.)'));
+  tile('spd', _t('Prędkość'));
+  tile('hd', _t('Kurs (kierunek ruchu)'));
+  tile('age', _t('Wiek pomiaru'));
+  tile('dt', _t('Co ile pomiar'));
+  tile('n', _t('Pomiarów w tej sesji'));
+  const ll = h('div', 'gill');
+  cv.width = 600;
+  cv.height = 150;
+  note.textContent = _t('Liczba satelitów i mapa nieba (GPS, GLONASS, Galileo, BeiDou) – w przygotowaniu: Android podaje je tylko kodowi natywnemu aplikacji, który przejdzie najpierw przegląd bezpieczeństwa.');
+  const nmtB = B(_t('Porównaj wysokość z mapą terenu (NMT GUGiK)'), async () => {
+    const L0 = GPSI.last;
+    if (!L0) return;
+    nmt.textContent = _t('Pytam GUGiK…');
+    try {
+      const hh = await hAt([L0.lat, L0.lng]);
+      if (hh == null || !isFinite(hh)) throw 0;
+      nmt.textContent =
+        _t('Teren (NMT): ') + fel(hh) + (L0.alt != null ? _t(' · GPS: ') + fel(L0.alt) + _t(' · różnica ') + (L0.alt - hh >= 0 ? '+' : '−') + fel(Math.abs(L0.alt - hh)) : '') + _t('. Wysokość z GPS bywa o kilka–kilkanaście metrów niedokładna.');
+    } catch (e) {
+      nmt.textContent = _t('Nie udało się pobrać wysokości terenu (tylko Polska, potrzebny internet).');
+    }
+  });
+  const nr = h('div', 'setop');
+  nr.append(nmtB);
+  body.append(head, ll, g, h('div', 'gicap', _t('Dokładność w ostatnich 10 minutach (mniej = lepiej)')), cv, nr, nmt, note);
+  const draw = () => {
+    const L0 = GPSI.last,
+      now = Date.now();
+    if (!L0) {
+      head.innerHTML = '<span class="gdot" data-q="x"></span>' + esc(_t('Szukam sygnału GPS…'));
+      return;
+    }
+    const age = (now - L0.t) / 1000,
+      q = age > 30 ? 'x' : gpsQual(L0.acc),
+      qn = {b: _t('bardzo dobry'), g: _t('dobry'), m: _t('średni'), w: _t('słaby'), x: _t('brak świeżej pozycji')}[q];
+    head.innerHTML = '<span class="gdot" data-q="' + q + '"></span>' + esc((age > 30 ? _t('Brak sygnału') : _t('Pozycja ustalona')) + ' · ' + _t('sygnał ') + qn) + '<small>' + esc(GPSI.src === 'rec' ? _t('źródło: usługa nagrywania w tle') : _t('źródło: lokalizacja telefonu')) + '</small>';
+    ll.textContent = L0.lat.toFixed(6) + ', ' + L0.lng.toFixed(6) + '   ' + fdms(L0.lat, 'N', 'S') + ' ' + fdms(L0.lng, 'E', 'W');
+    tiles.acc.textContent = '±' + fel(Math.max(1, L0.acc));
+    tiles.altAcc.textContent = L0.altAcc != null ? '±' + fel(L0.altAcc) : '—';
+    tiles.alt.textContent = L0.alt != null ? fel(L0.alt) : '—';
+    tiles.spd.textContent = L0.spd != null ? fkmh(L0.spd) : '—';
+    tiles.hd.textContent = L0.hd != null && (L0.spd || 0) > 0.5 ? Math.round(L0.hd) + '° ' + DIR8[Math.round(L0.hd / 45) % 8] : '—';
+    tiles.age.textContent = age < 1 ? _t('teraz') : Math.round(age) + ' s';
+    tiles.dt.textContent = L0.dt != null && L0.dt > 0 ? nf(L0.dt, 1) + ' s' : '—';
+    tiles.n.textContent = String(GPSI.n);
+    // wykres dokładności
+    const cx = cv.getContext('2d'),
+      W = cv.width,
+      H = cv.height,
+      css = getComputedStyle(document.documentElement),
+      sub = css.getPropertyValue('--sub').trim() || '#888',
+      acc2 = css.getPropertyValue('--acc').trim() || '#1a73e8';
+    cx.clearRect(0, 0, W, H);
+    const hs = GPSI.h,
+      mx = Math.max(20, ...hs.map(x => Math.min(100, x[1])));
+    cx.strokeStyle = sub;
+    cx.globalAlpha = 0.35;
+    cx.lineWidth = 1;
+    cx.font = '20px sans-serif';
+    cx.fillStyle = sub;
+    [5, 12, 30].filter(v => v < mx).forEach(v => {
+      const y = H - (v / mx) * (H - 10);
+      cx.beginPath();
+      cx.moveTo(0, y);
+      cx.lineTo(W, y);
+      cx.stroke();
+      cx.fillText(v + ' m', 4, y - 4);
+    });
+    cx.globalAlpha = 1;
+    if (hs.length > 1) {
+      cx.strokeStyle = acc2;
+      cx.lineWidth = 3;
+      cx.beginPath();
+      hs.forEach(([t, a], i) => {
+        const x = W - ((now - t) / 600000) * W,
+          y = H - (Math.min(100, a) / mx) * (H - 10);
+        i ? cx.lineTo(x, y) : cx.moveTo(x, y);
+      });
+      cx.stroke();
+    }
+  };
+  draw();
+  const iv = setInterval(draw, 1000);
+  formDlg(_t('📡 Informacje GPS'), body, [{t: _t('Zamknij'), v: null, c: 'okb'}]).then(() => clearInterval(iv));
+}
 async function gpsStart(opt = {}) {
   // opt.quiet (start aplikacji, v65): bez komunikatów o błędach; pierwsza pozycja – płynny przelot z zoomem 16,
   // chyba że w międzyczasie sam przesunąłeś albo przybliżyłeś mapę
@@ -19589,6 +20363,7 @@ async function gpsStart(opt = {}) {
   watching = navigator.geolocation.watchPosition(
     pos => {
       const ll = [pos.coords.latitude, pos.coords.longitude];
+      gpsiAdd('gps', pos.coords, pos.timestamp || Date.now());
       preBufAdd(pos);
       if (FLD_READY && !REC) alarmCheck(ll); // alarm przy miejscówkach (podczas nagrywania sprawdza go nagrywanie)
       if (!mode) info.style.display = 'none';
@@ -19822,22 +20597,25 @@ async function trkLoad() {
 }
 let trkQueue = Promise.resolve();
 function trkSave() {
-  // zapisy idą po kolei, żeby starszy nie nadpisał nowszego
-  trkQueue = trkQueue.then(async () => {
+  // zapisy idą po kolei, żeby starszy nie nadpisał nowszego; wynik: true = zapisane (v66)
+  const p = trkQueue.then(async () => {
     if (trkStore === 'idb')
       try {
         await IDB.set('slady', TRK);
-        return;
+        return true;
       } catch (e) {
         trkStore = 'ls';
       }
     try {
       localStorage.setItem('omm-slady', JSON.stringify(TRK));
+      return true;
     } catch (e) {
       tell(_t('Brak miejsca na zapis śladów. Zrób pełną kopię 💾 do pliku.'));
+      return false;
     }
   });
-  return trkQueue;
+  trkQueue = p.catch(() => false);
+  return p;
 }
 function trkChanged() {
   const p = trkSave();
@@ -20745,7 +21523,13 @@ function chartSvg(xs, ys, unit) {
     hh = H - T0 - 18;
   let y0 = Math.min(...ys),
     y1 = Math.max(...ys);
-  if (y1 - y0 < 10) {
+  const minSpan = unit === 'm' ? 50 : unit === 'ft' ? 164 : 0;
+  if (minSpan && y1 - y0 < minSpan) {
+    // v66: wysokość – oś co najmniej 50 m, żeby małe różnice nie wyglądały jak góry
+    const c = (y0 + y1) / 2;
+    y0 = c - minSpan / 2;
+    y1 = c + minSpan / 2;
+  } else if (y1 - y0 < 10) {
     y0 -= 5;
     y1 += 5;
   }
@@ -20880,7 +21664,7 @@ function trkStatsDlg(t) {
 }
 
 // --- GPX: eksport i import ---
-function trkGPX(list, name, photoPath) {
+function trkGPX(list, name, photoPath, diag) {
   wpSyncAll();
   // GPX 1.1; dane OMM (warstwa, kolor, zdjęcia) w <extensions> – inne programy je pomijają
   const esc = x =>
@@ -20957,6 +21741,36 @@ function trkGPX(list, name, photoPath) {
       s += '</trkseg>\n';
     });
     s += '</trk>\n';
+    // v66: tryb diagnostyczny – surowe pomiary GPS jako osobny ślad (inne programy pokażą go jak zwykły ślad)
+    if (diag && Array.isArray(t.dg) && t.dg.length) {
+      s +=
+        '<trk><name>' +
+        esc(t.nm + ' – ' + _t('surowe pomiary GPS')) +
+        '</name><type>omm-diagnostyka</type>\n<extensions><omm:diag_dla>' +
+        esc(t.id) +
+        '</omm:diag_dla><omm:kody>z=zapisany d=słaba dokładność p=postój k=kotwica postoju g=gęstość s=skok t=stary x=auto zaparkowane</omm:kody></extensions>\n<trkseg>\n';
+      t.dg.forEach(r => {
+        // [s od startu, szer, dł, dokładność m, prędkość m/s, kierunek °, decyzja, szer. po filtrze, dł. po filtrze]
+        s +=
+          '<trkpt lat="' +
+          r[1] +
+          '" lon="' +
+          r[2] +
+          '"><time>' +
+          new Date(t.st + r[0] * 1000).toISOString() +
+          '</time><extensions><omm:dokl>' +
+          r[3] +
+          '</omm:dokl>' +
+          (r[4] != null ? '<omm:v>' + r[4] + '</omm:v>' : '') +
+          (r[5] != null ? '<omm:kurs>' + r[5] + '</omm:kurs>' : '') +
+          '<omm:decyzja>' +
+          esc(r[6]) +
+          '</omm:decyzja>' +
+          (r[7] != null ? '<omm:filtr lat="' + r[7] + '" lon="' + r[8] + '"/>' : '') +
+          '</extensions></trkpt>\n';
+      });
+      s += '</trkseg>\n</trk>\n';
+    }
   });
   return s + '</gpx>\n';
 }
@@ -21038,7 +21852,10 @@ function gpxTracks(text) {
       ...(kid(el, 'type') && actFrom(kid(el, 'type').textContent) ? {a: actFrom(kid(el, 'type').textContent)} : {})
     });
   };
-  [...x.getElementsByTagName('trk')].forEach(t => make(t, [...t.getElementsByTagName('trkseg')], 'trkpt'));
+  [...x.getElementsByTagName('trk')].forEach(t => {
+    if (ext(t, 'diag_dla')) return; // v66: surowe pomiary z trybu diagnostycznego – nie są osobnym śladem
+    make(t, [...t.getElementsByTagName('trkseg')], 'trkpt');
+  });
   [...x.getElementsByTagName('rte')].forEach(r => make(r, [r], 'rtept'));
   // punkty (wpt) przypinamy do śladu: z OMM – po identyfikatorze, z innych programów – do najbliższego w czasie
   [...x.getElementsByTagName('wpt')].forEach(p => {
@@ -21240,8 +22057,31 @@ async function trkImport(files) {
  * dostaje nazwę bez miejsca (pole nmWait), a miejsce jest dopisywane, gdy wróci zasięg – o ile
  * nazwy nie zmieniono ręcznie (nazwa nadal równa nmAuto).
  */
-const trkNameMode = () => localStorage.getItem('omm-trk-nazwa') || 'data',
-  needPlace = m => m === 'miejsce' || m === 'oba';
+// v66: nazwa nowego śladu ze wzoru użytkownika – {nr} {data} {godz} {dyscyplina} {miejsce};
+// dawne ustawienie (data / rodzaj / miejsce / oba) to gotowe wzory
+const NAME_TPL = {
+  data: () => _t('Ślad') + ' {data} {godz}',
+  rodzaj: () => '{dyscyplina} · {data} {godz}',
+  miejsce: () => '{miejsce} · {data}',
+  oba: () => '{dyscyplina} · {miejsce}',
+  nr: () => '{dyscyplina} {nr}'
+};
+const nameTpl = m => (NAME_TPL[m] ? NAME_TPL[m]() : String(m || '')),
+  trkNameMode = () => localStorage.getItem('omm-trk-wzor') || nameTpl(localStorage.getItem('omm-trk-nazwa') || 'data'),
+  needPlace = m => /\{miejsce\}/.test(nameTpl(m));
+const trkNrAll = () => {
+  try {
+    return JSON.parse(localStorage.getItem('omm-trk-nr') || '{}') || {};
+  } catch (e) {
+    return {};
+  }
+};
+const trkNrNext = tpl => (+trkNrAll()[nameTpl(tpl)] || 0) + 1, // numeracja osobno dla każdego wzoru
+  trkNrUse = (tpl, n) => {
+    const a = trkNrAll();
+    a[nameTpl(tpl)] = Math.max(+a[nameTpl(tpl)] || 0, n);
+    localStorage.setItem('omm-trk-nr', JSON.stringify(a));
+  };
 const GEOC = new Map(); // pamięć odpowiedzi (współrzędne zaokrąglone do ~100 m)
 let geoLast = 0;
 async function placeAt(lat, lng) {
@@ -21284,20 +22124,32 @@ function dayPart(ms) {
   const hh = new Date(ms).getHours();
   return hh >= 5 && hh < 11 ? _t('rano') : hh >= 11 && hh < 17 ? _t('po południu') : hh >= 17 && hh < 22 ? _t('wieczorem') : _t('w nocy');
 }
-function trkAutoName(t, mode, place) {
-  // nazwa wg ustawienia; gdy miejsca brak – z datą (później dopisze się miejsce)
-  const day = new Date(t.st).toLocaleDateString(LOC, {weekday: 'short', day: 'numeric', month: 'numeric'}),
+function trkAutoName(t, mode, place, nr) {
+  // nazwa ze wzoru; gdy miejsca brak – bez niego (dopisze się, gdy wróci internet)
+  const d = new Date(t.st),
+    tpl = nameTpl(mode),
     act = t.a && ACTS[t.a] ? ACTS[t.a][1] : _t('Ślad'),
-    when = day + ' ' + dayPart(t.st);
-  if (mode === 'rodzaj') return act + ' · ' + when;
-  if (mode === 'miejsce') return place ? place + ' · ' + day : _t('Ślad · ') + when;
-  if (mode === 'oba') return act + ' · ' + (place || when);
-  return _t('Ślad ') + fday(t.st) + ' ' + fhm(t.st);
+    out = tpl
+      .replace(/\{nr\}/g, String(nr != null ? nr : t.nmNr != null ? t.nmNr : trkNrNext(tpl)))
+      .replace(/\{data\}/g, d.toLocaleDateString(LOC, {day: 'numeric', month: 'numeric', year: 'numeric'}))
+      .replace(/\{godz\}/g, fhm(t.st))
+      .replace(/\{dyscyplina\}/g, act)
+      .replace(/\{miejsce\}/g, place || '')
+      .replace(/\s*·\s*(·\s*)+/g, ' · ')
+      .replace(/^[\s·→-]+|[\s·→-]+$/g, '')
+      .replace(/\s{2,}/g, ' ');
+  return out || _t('Ślad') + ' ' + fday(t.st) + ' ' + fhm(t.st);
 }
 async function trkFillPlaces() {
   // dopisanie miejsca do śladów zapisanych bez internetu (tylko gdy nazwy nie zmieniono ręcznie)
   const list = TRK.items.filter(t => t.nmWait);
-  if (!list.length || !navigator.onLine) return;
+  if (!list.length) return;
+  // v66 (audyt v2): ustawienie bez miejsca w nazwie = wycofana zgoda – oczekujące zapytania kasujemy, nic nie wysyłamy
+  if (!needPlace(trkNameMode())) {
+    list.forEach(t => delete t.nmWait);
+    return trkChanged();
+  }
+  if (!navigator.onLine) return;
   let ch = false;
   for (const t of list) {
     try {
@@ -21316,17 +22168,20 @@ async function trkFillPlaces() {
 window.addEventListener('online', () => setTimeout(trkFillPlaces, 3000));
 async function trkAutoNameMany(list) {
   // „Nadaj nazwy automatycznie” dla zaznaczonych śladów
-  const v = await dlg({
-    title: _t('Nadaj nazwy automatycznie (') + list.length + ' ' + plural(list.length, _t('ślad'), _t('ślady'), _t('śladów')) + '):',
-    btns: [
-      {t: _t('Rodzaj + miejsce'), v: 'oba', c: 'okb'},
-      {t: _t('Miejsce'), v: 'miejsce'},
-      {t: _t('Rodzaj'), v: 'rodzaj'},
-      {t: _t('Data i godzina'), v: 'data'},
-      {t: _t('Anuluj'), v: null}
-    ]
-  });
+  const my = trkNameMode(),
+    v = await dlg({
+      title: _t('Nadaj nazwy automatycznie (') + list.length + ' ' + plural(list.length, _t('ślad'), _t('ślady'), _t('śladów')) + '):',
+      btns: [
+        {t: _t('Mój wzór: ') + my, v: my, c: 'okb'},
+        {t: _t('Rodzaj + miejsce'), v: 'oba'},
+        {t: _t('Miejsce'), v: 'miejsce'},
+        {t: _t('Rodzaj'), v: 'rodzaj'},
+        {t: _t('Data i godzina'), v: 'data'},
+        {t: _t('Anuluj'), v: null}
+      ]
+    });
   if (!v) return;
+  list = list.slice().sort((a, b) => a.st - b.st); // numeracja {nr} w kolejności dat
   if (needPlace(v) && !navigator.onLine) return tell(_t('Do nazw z miejscem potrzebny jest internet.'));
   let n = 0,
     bad = 0;
@@ -21340,6 +22195,10 @@ async function trkAutoNameMany(list) {
       } catch (e) {
         bad++;
       }
+    if (/\{nr\}/.test(nameTpl(v))) {
+      t.nmNr = trkNrNext(v);
+      trkNrUse(v, t.nmNr);
+    }
     t.nm = t.nmAuto = trkAutoName(t, v, pl);
     delete t.nmWait;
     t.up = Date.now();
@@ -21691,13 +22550,22 @@ async function trkSnapExpire(all) {
 }
 setTimeout(() => trkSnapExpire(false), 5000);
 async function trkReplace(T) {
-  // przy przywracaniu pełnej kopii: obecne ślady odkładamy osobno, potem wczytujemy ślady z kopii
-  try {
-    await IDB.set('slady-przed-przywroceniem', {...TRK, _at: Date.now()}); // usuwane po 30 dniach (trkSnapExpire)
-  } catch (e) {}
+  // przy przywracaniu pełnej kopii: obecne ślady odkładamy osobno, potem wczytujemy ślady z kopii.
+  // v66 (audyt v2, R02): nieudane odłożenie albo zapis = wyjątek i powrót do poprzednich śladów
+  const prev = TRK;
+  if (trkStore === 'idb')
+    try {
+      await IDB.set('slady-przed-przywroceniem', {...TRK, _at: Date.now()}); // usuwane po 30 dniach (trkSnapExpire)
+    } catch (e) {
+      throw new Error(_t('Nie udało się odłożyć obecnych śladów – przywracanie przerwane, dane są bez zmian.'));
+    }
   TRK = T;
   trkFix();
-  trkChanged();
+  if (!(await trkChanged())) {
+    TRK = prev;
+    await trkChanged();
+    throw new Error(_t('Nie udało się zapisać śladów z kopii – przywracanie przerwane, obecne ślady są bez zmian.'));
+  }
 }
 
 // --- zakładka „Ślady GPS” w panelu ---
@@ -21889,7 +22757,7 @@ function trkSheet() {
         cb,
         IB(
           'share',
-          () => (its.length ? dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name)) : tell(_t('Ta warstwa nie ma jeszcze śladów.'))),
+          () => (its.length ? dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name, null, true)) : tell(_t('Ta warstwa nie ma jeszcze śladów.'))),
           'eye',
           _t('Udostępnij / eksport warstwy (GPX)')
         ),
@@ -22130,7 +22998,7 @@ $('tsgpx').onclick = () => {
   const l = tselNeed();
   if (!l.length) return;
   const nm = l.length === 1 ? l[0].nm || _t('Ślad') : _t('Ślady OMM (') + l.length + ')';
-  dl((l.length === 1 ? trkFile(l[0]) : fileName(nm)) + '.gpx', 'application/gpx+xml', trkGPX(l, nm));
+  dl((l.length === 1 ? trkFile(l[0]) : fileName(nm)) + '.gpx', 'application/gpx+xml', trkGPX(l, nm, null, true));
 };
 $('tsdel').onclick = async () => {
   const l = tselNeed();
@@ -22193,7 +23061,60 @@ const recPrecise = () => localStorage.getItem('omm-rec-tryb') !== 'oszczedny';
 // auto-pauza: postój dłuższy niż REC_AP s = przerwa w śladzie (czas postoju nie liczy się do czasu śladu)
 const REC_AP = 120,
   recAutoOn = () => localStorage.getItem('omm-rec-ap') !== 'nie',
-  recKmMode = () => localStorage.getItem('omm-rec-km') || 'nie'; // 'nie' | 'pow' | 'glos'
+  recKmMode = () => localStorage.getItem('omm-rec-km') || 'nie'; // dawne ustawienie (do v65): 'nie' | 'pow' | 'glos'
+// v66: komunikaty w trakcie nagrywania – co ile (dystans albo czas) i w jakiej formie (do zaznaczenia)
+const recAnnInt = () => localStorage.getItem('omm-rec-int') || (recKmMode() === 'nie' ? 'nie' : '1'), // 'nie' | '0.5'…'10' (km) | 't5'…'t30' (min)
+  recAnnForm = k => {
+    const v = localStorage.getItem('omm-rec-f-' + k);
+    if (v != null) return v === '1';
+    const old = recKmMode();
+    return k === 'pow' || k === 'wib' ? old !== 'nie' || !localStorage.getItem('omm-rec-km') : k === 'glos' ? old === 'glos' : false;
+  };
+function chime() {
+  // krótki, przyjemny dźwięk (dwa tony) – bez plików, z syntezatora dźwięku przeglądarki
+  try {
+    const A = window.AudioContext || window.webkitAudioContext;
+    if (!A) return;
+    const ac = chime.ac || (chime.ac = new A());
+    if (ac.state === 'suspended') ac.resume();
+    [
+      [880, 0],
+      [1318.5, 0.16]
+    ].forEach(([f, t0]) => {
+      const o = ac.createOscillator(),
+        g = ac.createGain(),
+        t = ac.currentTime + t0;
+      o.type = 'sine';
+      o.frequency.value = f;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.35, t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+      o.connect(g).connect(ac.destination);
+      o.start(t);
+      o.stop(t + 0.5);
+    });
+  } catch (e) {}
+}
+function recAnnCheck(s) {
+  // wołane przy każdej aktualizacji panelu nagrywania (s = statystyki nagrania)
+  const iv = recAnnInt();
+  if (!REC || iv === 'nie' || REC.paused) return;
+  if (iv[0] === 't') {
+    const per = +iv.slice(1) * 60,
+      k = Math.floor((Date.now() - REC.st) / 1000 / per);
+    if (k > (REC.tk || 0)) {
+      REC.tk = k;
+      recKmSay(null, k * per, s);
+    }
+    return;
+  }
+  const U = (IMP ? 1609.344 : 1000) * +iv,
+    k = Math.floor(s.d / U);
+  if (REC.pts.length > 1 && k > (REC.km || 0)) {
+    REC.km = k;
+    recKmSay(k * +iv, null, s);
+  }
+}
 const recSlow = s => s.vmov > 0 && s.vmov * 3.6 < 12; // pieszo – średnia jako tempo (min/km)
 const recIdle = () => {
   // ile sekund od ostatniego punktu śladu (postój), gdy nagrywanie trwa
@@ -22201,35 +23122,40 @@ const recIdle = () => {
   return (Date.now() - REC.st) / 1000 - REC.pts[REC.pts.length - 1][3];
 };
 const plN = (n, a, b, c) => n + ' ' + plural(n, a, b, c);
-async function recKmSay(km) {
-  // komunikat co 1 km: powiadomienie (z wibracją), a w trybie „głos” także mowa
-  const s = trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}),
-    sec = Math.round(s.dur),
-    slow = s.vmov > 0 && s.vmov * 3.6 < 12,
-    tempo = slow ? fpace(s.vmov) : '',
+async function recKmSay(dist, tsec, s) {
+  // komunikat w trakcie nagrywania: co X km (dist – liczba km/mil) albo co X min (tsec – sekundy);
+  // forma do wyboru w Ustawieniach: powiadomienie, wibracja, krótki dźwięk, głos
+  s = s || trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st});
+  const sec = Math.round(s.dur),
+    pace = REC.a ? ['pieszo', 'trekking', 'bieg'].includes(REC.a) : recSlow(s),
+    unitW = n => (IMP ? plural(n, _t('mila'), _t('mile'), _t('mil')) : plural(n, _t('kilometr'), _t('kilometry'), _t('kilometrów'))),
+    dTxt = d => (Number.isInteger(d) ? d + ' ' + unitW(d) : String(d).replace('.', DEC) + ' ' + (IMP ? _t('mili') : _t('kilometra'))),
+    title = 'OMM · ' + (dist != null ? dTxt(dist) : fdur(tsec)),
     body =
-      fdur(sec) + (slow ? _t(' · tempo ') + tempo + ' min' + PACEU : s.vmov ? _t(' · śr. ') + fkmh(s.vmov) : '');
-  try {
-    navigator.vibrate && navigator.vibrate([300, 150, 300]);
-  } catch (e) {}
-  const LN = plug('LocalNotifications');
-  if (LN)
-    LN.schedule({notifications: [{id: 4100 + (km % 50), title: 'OMM · ' + plN(km, _t('kilometr'), _t('kilometry'), _t('kilometrów')), body, isExactNotification: false}]}).catch(() => {});
-  if (recKmMode() !== 'glos') return;
+      fkm(s.d) + ' · ' + fdur(sec) + (pace && s.vmov > 0 ? _t(' · tempo ') + fpace(s.vmov) + ' min' + PACEU : s.vmov ? _t(' · śr. ') + fkmh(s.vmov) : '');
+  if (recAnnForm('wib')) vibe([300, 150, 300]);
+  if (recAnnForm('dzw')) chime();
+  if (recAnnForm('pow')) {
+    const LN = plug('LocalNotifications');
+    if (LN) LN.schedule({notifications: [{id: 4100 + ((dist || tsec || 0) % 50), title, body, isExactNotification: false}]}).catch(() => {});
+    else toastMsg(title + ' · ' + body);
+  }
+  if (!recAnnForm('glos')) return;
   const hh = Math.floor(sec / 3600),
     m = Math.floor((sec % 3600) / 60),
-    ss = sec % 60;
+    ss = sec % 60,
+    km = s.d / (IMP ? 1609.344 : 1000);
   let txt =
-    plN(km, _t('kilometr'), _t('kilometry'), _t('kilometrów')) +
+    (dist != null ? dTxt(dist) : _t('Dystans ') + dTxt(Math.round(km * 10) / 10)) +
     _t('. Czas: ') +
     (hh ? plN(hh, _t('godzina'), _t('godziny'), _t('godzin')) + ' ' : '') +
     plN(m, _t('minuta'), _t('minuty'), _t('minut')) +
     (hh ? '' : ' ' + plN(ss, _t('sekunda'), _t('sekundy'), _t('sekund'))) +
     '.';
-  if (slow && s.vmov > 0) {
-    const ps = Math.round(1000 / s.vmov);
-    txt += _t(' Tempo: ') + plN(Math.floor(ps / 60), 'minuta', 'minuty', 'minut') + ' ' + plN(ps % 60, _t('sekunda'), _t('sekundy'), _t('sekund')) + _t(' na kilometr.');
-  } else if (s.vmov) txt += _t(' Średnio ') + (s.vmov * 3.6).toFixed(1).replace('.', DEC) + _t(' kilometra na godzinę.');
+  if (pace && s.vmov > 0) {
+    const ps = Math.round((IMP ? 1609.344 : 1000) / s.vmov);
+    txt += _t(' Tempo: ') + plN(Math.floor(ps / 60), _t('minuta'), _t('minuty'), _t('minut')) + ' ' + plN(ps % 60, _t('sekunda'), _t('sekundy'), _t('sekund')) + (IMP ? _t(' na milę.') : _t(' na kilometr.'));
+  } else if (s.vmov) txt += _t(' Średnio ') + (s.vmov * (IMP ? 2.23694 : 3.6)).toFixed(1).replace('.', DEC) + (IMP ? _t(' mili na godzinę.') : _t(' kilometra na godzinę.'));
   const TTS = plug('TextToSpeech');
   try {
     if (TTS) await TTS.speak({text: txt, lang: LOC, rate: 1, volume: 1, category: 'playback'});
@@ -22266,7 +23192,7 @@ function recSaveFail(what) {
       _t('” w folderze OMM. Zwolnij trochę miejsca w telefonie.')
   );
 }
-const recFolder = () => FOLDERS[localStorage.getItem('omm-folder') || 'docs'] || FOLDERS.docs;
+const recFolder = () => FOLDERS[localStorage.getItem('omm-folder-kopie') || 'prv'] || FOLDERS.prv; // v66: jak kopie automatyczne
 async function recFileSave() {
   // plik awaryjny GPX z bieżącym nagraniem
   const FS = plug('Filesystem');
@@ -22305,7 +23231,8 @@ function recPersist(force) {
       });
   try {
     const {pts, ...head} = REC;
-    localStorage.setItem(REC_KEY, JSON.stringify(recDbFail ? REC : {...head, npts: n, db: 1}));
+    if (head.park) head.park = {...head.park, buf: head.park.buf.slice(-300)}; // bufor postoju auta – tylko ostatnie punkty
+    localStorage.setItem(REC_KEY, JSON.stringify(recDbFail ? {...REC, ...(head.park ? {park: head.park} : {})} : {...head, npts: n, db: 1}));
   } catch (e) {
     recSaveFail(_t('brak miejsca'));
   }
@@ -22322,13 +23249,14 @@ async function recLoad(r) {
   pts = pts.slice(0, r.npts || pts.length);
   if (pts.length < (r.npts || 0)) {
     // baza niepełna – plik awaryjny
-    try {
-      const FS = plug('Filesystem'),
-        F = recFolder(),
-        f = FS && (await FS.readFile({path: F.base + '/' + REC_FILE, directory: F.dir, encoding: 'utf8'})),
-        t = f && gpxTracks(String(f.data))[0];
-      if (t && t.pts && t.pts.length > pts.length) pts = t.pts.map(q => [q[0], q[1], q[2], q[3] != null ? q[3] - (r.st - t.st) / 1000 : q[3]]);
-    } catch (e) {}
+    const FS = plug('Filesystem');
+    // bieżący folder, a dla nagrań sprzed v66 – dawny folder plików (Dokumenty/Pobrane)
+    for (const F of [recFolder(), FOLDERS[localStorage.getItem('omm-folder') || 'docs'] || FOLDERS.docs])
+      try {
+        const f = FS && (await FS.readFile({path: F.base + '/' + REC_FILE, directory: F.dir, encoding: 'utf8'})),
+          t = f && gpxTracks(String(f.data))[0];
+        if (t && t.pts && t.pts.length > pts.length) pts = t.pts.map(q => [q[0], q[1], q[2], q[3] != null ? q[3] - (r.st - t.st) / 1000 : q[3]]);
+      } catch (e) {}
   }
   delete r.npts;
   delete r.db;
@@ -22348,7 +23276,9 @@ function kfStep(t, lat, lng, accu, time, speed, bearing) {
     RV = 0.5 * 0.5, // niepewność prędkości z GPS (m/s)²
     my = 111320,
     mx = 111320 * Math.cos((lat * Math.PI) / 180),
-    hasV = speed != null && isFinite(speed) && speed >= 0,
+    // v66: kierunek z GPS jest wiarygodny dopiero przy ~2 m/s – przy wolniejszym ruchu (ruszanie, manewry na
+    // parkingu) filtr nie dostaje wektora prędkości, tylko położenie; przy „stoję” (<0,5 m/s) – zero
+    hasV = speed != null && isFinite(speed) && speed >= 0 && (speed < 0.5 || (speed >= 2 && bearing != null && isFinite(bearing))),
     vx = hasV
       ? speed > 0.3 && bearing != null && isFinite(bearing)
         ? speed * Math.sin((bearing * Math.PI) / 180)
@@ -22359,7 +23289,7 @@ function kfStep(t, lat, lng, accu, time, speed, bearing) {
         ? speed * Math.cos((bearing * Math.PI) / 180)
         : 0
       : 0;
-  if (!t.on || time - t.time > 30000) {
+  if (!t.on || time - t.time > 10000) {
     Object.assign(t, {
       on: 1,
       la0: lat,
@@ -22414,6 +23344,16 @@ function kfStep(t, lat, lng, accu, time, speed, bearing) {
     t.P[k] = [a, b, c, d];
   });
   t.time = time;
+  // v66: wynik filtra nigdy nie odchodzi od pomiaru dalej niż ~połowa jego dokładności (min. 3 m) –
+  // ślad nie „wyjeżdża” za zakręt ani nie zatacza łuków, gdy GPS dobrze widzi drogę
+  const lim = Math.max(3, Math.min(accu, 30) * 0.5),
+    dx = t.x[0] - zx,
+    dy = t.y[0] - zy,
+    dd = Math.hypot(dx, dy);
+  if (dd > lim) {
+    t.x[0] = zx + (dx * lim) / dd;
+    t.y[0] = zy + (dy * lim) / dd;
+  }
   return [t.la0 + t.y[0] / my, t.lo0 + t.x[0] / mx];
 }
 function recPoint(lat, lng, alt, accu, time, extra) {
@@ -22421,14 +23361,26 @@ function recPoint(lat, lng, alt, accu, time, extra) {
   // i tylko w ruchu (postój nie dokłada punktów), bez „skoków” i „szpilek” GPS
   if (!REC || REC.paused || !isFinite(lat) || !isFinite(lng)) return;
   const x = extra || {};
+  gpsiAdd('rec', {latitude: lat, longitude: lng, accuracy: accu, altitude: alt, speed: x.speed, heading: x.bearing, altitudeAccuracy: x.altAcc}, time);
   if (recFirst) {
     recFirst = false;
     map.setView([lat, lng], Math.max(map.getZoom(), 16));
   }
+  // v66: tryb diagnostyczny – każdy pomiar GPS z decyzją filtra trafia do osobnej listy (zapis w GPX)
+  const dg = recDiagOn() ? [Math.round((time - REC.st) / 100) / 10, +lat.toFixed(6), +lng.toFixed(6), Math.round(accu * 10) / 10, x.speed != null && isFinite(x.speed) ? Math.round(x.speed * 100) / 100 : null, x.bearing != null && isFinite(x.bearing) ? Math.round(x.bearing) : null] : null,
+    out = code => {
+      if (dg) recDiagAdd(dg, code);
+      return recUi();
+    };
+  // v66: postój auta (zaparkowane) – chodzenie bez auta nie rysuje pętli; patrz recParkPoint
+  if (REC.park) {
+    const r = recParkPoint(lat, lng, alt, accu, time, x);
+    if (r !== 'go') return out('x');
+  }
   const lim = REC.pts.length ? 25 : 20; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy; pierwszy punkt tylko dokładny
   if (accu > lim) {
     recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
-    return recUi();
+    return out('d');
   }
   // po ręcznej pauzie (REC.rs) albo na starym odcinku: filtr zaczyna od nowa
   const newSeg = !!REC.rs || (REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length);
@@ -22445,15 +23397,16 @@ function recPoint(lat, lng, alt, accu, time, extra) {
       Math.max(0, Math.round((time - REC.st) / 1000))
     ],
     last = REC.pts[REC.pts.length - 1];
-  if (last && q[3] < last[3]) return recUi(); // pomiar starszy niż ostatni punkt (np. opóźniony po pauzie)
+  if (dg) dg.push(+fl.toFixed(6), +fg.toFixed(6));
+  if (last && q[3] < last[3]) return out('t'); // pomiar starszy niż ostatni punkt (np. opóźniony po pauzie)
   if (last && !newSeg) {
     const d = hav(last, q),
       dt = q[3] - last[3];
-    if (dt < (P ? 2 : 5)) return recUi(); // gęstość zapisu: co 2 s (oszczędnie co 5 s)
+    if (dt < (P ? 2 : 5)) return out('g'); // gęstość zapisu: co 2 s (oszczędnie co 5 s)
     // postój: od ponad 20 s bez nowego punktu – zapamiętujemy „kotwicę” (ostatni punkt)
     const still = () => {
       if (!recAnc && dt >= 20) recAnc = last;
-      return recUi();
+      return out('p');
     };
     if (d < Math.max(P ? 3 : 8, accu * 0.5)) return still(); // postój – drgania pozycji w miejscu pomijamy
     // postój wg GPS (prędkość z efektu Dopplera): auto czeka na światłach / przepuszcza pieszego – bez nowych punktów.
@@ -22461,7 +23414,7 @@ function recPoint(lat, lng, alt, accu, time, extra) {
     if (hasV && x.speed < 0.5 && (d < 15 || REC.vOk)) return still();
     // postój wg filtra: szacowana prędkość poniżej ~1,5 km/h – szum GPS nie „chodzi” po mapie
     if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return still();
-    if (d / dt > 60) return recUi(); // skok pozycji (ponad 200 km/h) – błąd GPS
+    if (d / dt > 60) return out('s'); // skok pozycji (ponad 200 km/h) – błąd GPS
     const wasAnc = !!recAnc;
     if (recAnc) {
       // po postoju (sklep, dom) pozycja w budynku „pływa” po kilkadziesiąt metrów. Ruszyłeś dopiero, gdy
@@ -22470,11 +23423,11 @@ function recPoint(lat, lng, alt, accu, time, extra) {
         da = hav(recAnc, q);
       if (da < R) {
         recExit = null;
-        return recUi();
+        return out('k');
       }
       if (!(hasV && x.speed > 1.5)) {
         if (!recExit) recExit = q;
-        if (da <= hav(recAnc, recExit) + 3) return recUi();
+        if (da <= hav(recAnc, recExit) + 3) return out('k');
       }
       recAnc = recExit = null;
     }
@@ -22486,6 +23439,7 @@ function recPoint(lat, lng, alt, accu, time, extra) {
   if (REC.rs && last) (REC.pa = REC.pa || []).push([last[3], q[3]]); // ręczna pauza: linia ciągła, czas pauzy = pauza
   delete REC.rs;
   REC.pts.push(q);
+  if (dg) recDiagAdd(dg, 'z');
   fieldHook(q, x);
   // „szpilka”: punkt B odskoczył i wrócił (A → B → C → D). Usuwamy B tylko, gdy po powrocie ślad
   // znów idzie w pierwotnym kierunku (zawrócenie przy B i ponownie przy C). Prawdziwe zawrócenie
@@ -22522,13 +23476,6 @@ function recPoint(lat, lng, alt, accu, time, extra) {
       }
     }
   }
-  if (recKmMode() !== 'nie' && REC.pts.length > 1) {
-    const km = Math.floor(trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}).d / 1000);
-    if (km > (REC.km || 0)) {
-      REC.km = km;
-      recKmSay(km);
-    }
-  }
   recPersist();
   recDraw();
   recUi();
@@ -22558,7 +23505,8 @@ async function recWatchOn() {
           if (loc)
             recPoint(loc.latitude, loc.longitude, loc.altitude, loc.accuracy, loc.time || Date.now(), {
               speed: loc.speed,
-              bearing: loc.bearing
+              bearing: loc.bearing,
+              altAcc: loc.altitudeAccuracy
             });
         }
       );
@@ -22678,6 +23626,7 @@ async function recStop() {
     ...(r.a ? {a: r.a} : {}),
     ...(r.auto ? {nmAuto: r.auto} : {}),
     ...(r.wait ? {nmWait: r.wait} : {}),
+    ...(r.nr != null ? {nmNr: r.nr} : {}),
     st: REC.st,
     pts: REC.pts,
     sg: REC.sg.filter(i => i > 0 && i < REC.pts.length),
@@ -22686,6 +23635,10 @@ async function recStop() {
     cr: Date.now(),
     up: Date.now()
   };
+  if (recDiagOn() || recDgN || recDg.length) {
+    const dg = await recDiagAll(REC.id);
+    if (dg.length) t.dg = dg;
+  }
   TRK.items.push(t);
   trkSetActive(r.l);
   trkLayer(t).vis = true;
@@ -22723,10 +23676,11 @@ function recSaveDlg() {
     const ag = REC.a && ACTS[REC.a] ? REC.a : actGuess(s, {pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}); // trening w trybie Sport – rodzaj z góry
     Object.entries(ACTS).forEach(([k, [e, n]]) => asel.add(new Option(_t('Rodzaj: ') + e + ' ' + n, k, false, k === ag)));
     // automatyczna nazwa wg Ustawień; zmienia się z rodzajem i po ustaleniu miejsca, dopóki nie wpiszesz własnej
-    const nmode = trkNameMode();
+    const nmode = trkNameMode(),
+      nr = trkNrNext(nmode);
     let place = null,
       typed = false;
-    const auto = () => trkAutoName({st: REC.st, a: asel.value}, nmode, place);
+    const auto = () => trkAutoName({st: REC.st, a: asel.value}, nmode, place, nr);
     inp.value = auto();
     inp.oninput = () => (typed = true);
     asel.addEventListener('change', () => !typed && (inp.value = auto()));
@@ -22765,7 +23719,8 @@ function recSaveDlg() {
             a: asel.value,
             // nazwa automatyczna bez miejsca (brak internetu) – miejsce dopisze się później
             wait: !typed && needPlace(nmode) && !place ? nmode : null,
-            auto: !typed ? inp.value.trim().slice(0, 200) : null
+            auto: !typed ? inp.value.trim().slice(0, 200) : null,
+            nr: !typed && /\{nr\}/.test(nmode) ? (trkNrUse(nmode, nr), nr) : null
           }),
         'okb'
       )
@@ -22786,6 +23741,7 @@ function recClear() {
     IDB.keys(RECDB + id + '/')
       .then(k => k && k.length && IDB.delMany(k))
       .catch(() => {});
+    recDiagDrop(id);
     recFileDrop();
   }
   recDbN = 0;
@@ -22843,12 +23799,165 @@ function recCenter() {
     map.setView([q[0], q[1]], Math.max(map.getZoom(), 16));
   }
 }
+// --- v66: tryb diagnostyczny nagrywania (Ustawienia → Nagrywanie śladu) ---
+// Każdy pomiar GPS: [s od startu, szer, dł, dokładność, prędkość, kierunek, decyzja filtra, szer/dł po filtrze].
+// Trzymane w IndexedDB kawałkami („recdiag/<id>/<nnnnn>”), przy zapisie dołączane do śladu (t.dg) i do eksportu GPX.
+const recDiagOn = () => localStorage.getItem('omm-rec-diag') === '1';
+let recDg = [],
+  recDgN = 0;
+function recDiagAdd(r, code) {
+  if (!REC) return;
+  const row = r.slice(0, 6);
+  row.push(code);
+  if (r.length > 6) row.push(r[6], r[7]);
+  recDg.push(row);
+  if (recDg.length >= 200) recDiagFlush();
+}
+function recDiagFlush() {
+  if (!REC || !recDg.length) return;
+  const k = 'recdiag/' + REC.id + '/' + String(recDgN++).padStart(5, '0'),
+    v = recDg;
+  recDg = [];
+  IDB.set(k, v).catch(() => {});
+}
+async function recDiagAll(id) {
+  recDiagFlush();
+  const out = [];
+  try {
+    const keys = ((await IDB.keys('recdiag/' + id + '/')) || []).sort();
+    for (const k of keys) out.push(...((await IDB.get(k)) || []));
+  } catch (e) {}
+  return out;
+}
+function recDiagDrop(id) {
+  recDg = [];
+  recDgN = 0;
+  IDB.keys('recdiag/' + id + '/')
+    .then(k => k && k.length && IDB.delMany(k))
+    .catch(() => {});
+}
+
+// --- v66: auto zaparkowane podczas nagrywania (ustawienie „omm-park”: 'pauza' domyślnie albo 'pieszo') ---
+// Po wykryciu zaparkowania (carDetect) nagrywanie wstrzymuje się – chodzenie po sklepie czy w budynku nie
+// rysuje pętli. Pomiary są w tym czasie tylko zbierane w pamięci:
+//  • ruszyłeś autem (prędkość jazdy) → nagrywanie wraca, czas postoju jest pauzą, pomiary pieszo znikają,
+//  • oddaliłeś się pieszo ponad 300 m z dobrym sygnałem (np. las, wycieczka) → to wyjście, nie zakupy:
+//    nagrywanie wraca i dokleja zebrane dobre punkty marszu, więc nic nie ginie.
+const recParkMode = () => localStorage.getItem('omm-park') || 'pauza';
+function recParkStart(stopAt, stopS) {
+  if (!REC || REC.park || recParkMode() !== 'pauza') return;
+  // punkty marszu, które posłużyły do wykrycia parkowania, wracają do bufora
+  const keep = [],
+    buf = [];
+  REC.pts.forEach(q => (q[3] > stopS ? buf : keep).push(q));
+  if (keep.length < 1) return;
+  REC.pts = keep;
+  REC.sg = REC.sg.filter(i => i < keep.length);
+  REC.park = {p: stopAt, s: stopS, buf: buf.filter(q => q[4] !== 1)};
+  recAnc = recExit = null;
+  recKF.on = 0;
+  recPersist(true);
+  recDraw();
+  toastMsg(_t('🅿 Auto zaparkowane – nagrywanie czeka, aż ruszysz autem (albo odejdziesz dalej pieszo)'));
+}
+function recParkPoint(lat, lng, alt, accu, time, x) {
+  // zwraca 'go', gdy nagrywanie ma wrócić z tym pomiarem; inaczej pomiar tylko zbieramy
+  const K = REC.park,
+    sec = Math.max(0, Math.round((time - REC.st) / 1000)),
+    q = [+lat.toFixed(6), +lng.toFixed(6), alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10, sec],
+    lb = K.buf[K.buf.length - 1],
+    v = x.speed != null && isFinite(x.speed) ? x.speed : lb && sec > lb[3] ? hav(lb, q) / (sec - lb[3]) : 0;
+  recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
+  if (v > 7 && accu <= 30) {
+    // znowu jazda autem: postój = pauza, marsz po sklepie pomijamy
+    const last = REC.pts[REC.pts.length - 1];
+    (REC.pa = REC.pa || []).push([last ? last[3] : K.s, sec]);
+    delete REC.park;
+    recKF.on = 0;
+    toastMsg(_t('🚗 Jazda – nagrywanie wróciło'));
+    return 'go';
+  }
+  if (accu <= 12 && (!lb || hav(lb, q) >= 3)) K.buf.push(q);
+  if (K.buf.length > 3000) K.buf.splice(0, K.buf.length - 3000);
+  if (accu <= 12 && hav(K.p, q) > 300) {
+    // wyjście pieszo daleko od auta: wracamy i doklejamy dobre punkty marszu
+    const good = K.buf.filter(p => p[3] > K.s);
+    delete REC.park;
+    if (good.length) {
+      REC.pts.push(...good);
+      fieldHook(good[good.length - 1], x);
+    }
+    recKF.on = 0;
+    toastMsg(_t('🚶 Wyjście pieszo – nagrywanie wróciło (z drogą od auta)'));
+    recPersist(true);
+    recDraw();
+    return 'go';
+  }
+  return 'park';
+}
+
+// --- v66: jeden znacznik „ja” podczas nagrywania: strzałka kierunku na końcu śladu (zamiast kropki GPS obok) ---
+const REC_ME_SVG =
+  '<svg viewBox="0 0 40 40" width="40" height="40"><circle cx="20" cy="20" r="17" fill="currentColor" opacity=".16"/><g class="rmar"><path d="M20 4.5L30.5 31L20 25.4L9.5 31Z" fill="currentColor" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"/></g><circle class="rmdot" cx="20" cy="20" r="7.5" fill="currentColor" stroke="#fff" stroke-width="3"/></svg>';
+let recTail = null,
+  recAcc = null,
+  recHd = null;
+function recMeUpd() {
+  let nav = null;
+  try {
+    nav = NAV; // przy starcie aplikacji (odtwarzanie nagrania) NAV może być jeszcze niezadeklarowane
+  } catch (e) {}
+  const fresh = !!(REC && recPos && Date.now() - recPos.time < 20000);
+  document.documentElement.classList.toggle('recme', fresh && !nav);
+  if (acc) acc.setStyle(fresh && !nav ? {opacity: 0, fillOpacity: 0} : {opacity: 1, fillOpacity: 0.12});
+  if (!fresh || nav) {
+    [recMe, recTail, recAcc].forEach(x => x && x.remove());
+    recMe = recTail = recAcc = null;
+    return;
+  }
+  const ll = [recPos.lat, recPos.lng],
+    last = REC.pts[REC.pts.length - 1],
+    sp = recPos.speed;
+  if (sp != null && isFinite(sp) && sp >= 1 && recPos.bearing != null && isFinite(recPos.bearing)) recHd = recPos.bearing;
+  else if (sp != null && isFinite(sp) && sp < 0.5) recHd = null;
+  const hd = recHd != null ? recHd : null;
+  // dociągnięcie linii od ostatniego zapisanego punktu do znacznika
+  const tail = last && !REC.paused && !REC.park && hav(last, ll) < 200 ? [[last[0], last[1]], ll] : null;
+  if (tail) {
+    if (!recTail) recTail = L.polyline(tail, {pane: 'trkP', color: '#e53935', weight: 5, opacity: 0.85, interactive: false}).addTo(map);
+    else recTail.setLatLngs(tail);
+  } else if (recTail) {
+    recTail.remove();
+    recTail = null;
+  }
+  if (!recAcc) recAcc = L.circle(ll, {pane: 'trkP', radius: recPos.accu, color: '#e53935', weight: 1, opacity: 0.5, fillOpacity: 0.07, interactive: false}).addTo(map);
+  else recAcc.setLatLng(ll).setRadius(recPos.accu);
+  if (!recMe)
+    recMe = L.marker(ll, {
+      pane: 'trkP',
+      interactive: false,
+      keyboard: false,
+      zIndexOffset: 1000,
+      icon: L.divIcon({className: 'recme', html: REC_ME_SVG, iconSize: [40, 40], iconAnchor: [20, 20]})
+    }).addTo(map);
+  else recMe.setLatLng(ll);
+  const el = recMe.getElement && recMe.getElement();
+  if (el) {
+    el.classList.toggle('pz', !!(REC.paused || REC.park));
+    const a = el.querySelector('.rmar'),
+      d = el.querySelector('.rmdot');
+    if (a && d) {
+      a.style.display = hd != null ? '' : 'none';
+      d.style.display = hd != null ? 'none' : '';
+      if (hd != null) a.style.transform = 'rotate(' + (hd + (map._rotate ? map.getBearing() : 0)) + 'deg)';
+    }
+  }
+}
 function recDraw() {
   // nagrywany ślad, jego punkty i bieżąca pozycja na mapie
   if (recLine) recLine.remove();
-  if (recMe) recMe.remove();
-  recLine = recMe = null;
-  if (!REC) return;
+  recLine = null;
+  if (!REC) return recMeUpd();
   const ls = trkSegs({pts: REC.pts, sg: REC.sg})
     .filter(s => s.length > 1)
     .map(s => s.map(q => [q[0], q[1]]));
@@ -22858,16 +23967,7 @@ function recDraw() {
     rg ? gradLines(REC, rg, 5) : L.polyline(ls, {pane: 'trkP', color: '#e53935', weight: 5, interactive: false}),
     ...(REC.wp || []).filter(w => !wpOnMap(w)).map(w => wpMarker(w, () => wpPopup(null, w)))
   ]).addTo(map);
-  if (recPos)
-    recMe = L.circleMarker([recPos.lat, recPos.lng], {
-      pane: 'trkP',
-      radius: 8,
-      color: '#fff',
-      weight: 3,
-      fillColor: REC.paused ? '#9e9e9e' : '#e53935',
-      fillOpacity: 1,
-      interactive: false
-    }).addTo(map);
+  recMeUpd();
 }
 // miejsce i chwila (s od startu) dla zdjęcia/punktu dodawanego w trakcie nagrywania
 const recAt = () =>
@@ -22977,6 +24077,7 @@ const wpOnMap = w => !!w.ref && P.items.some(i => i.id === w.ref); // punkt wida
 var WLREC = false;
 function recUi() {
   document.body.classList.toggle('rec', !!REC);
+  recMeUpd();
   if (!!REC !== WLREC) {
     WLREC = !!REC;
     wlSync(); // ekran nie gaśnie podczas nagrywania (gdy tak ustawiono)
@@ -23003,9 +24104,12 @@ function recUi() {
     const dt = p[n - 1][3] - p[i][3];
     if (dt >= 5) v = (s.cum[n - 1] - s.cum[i]) / dt;
   }
-  $('recbar').classList.toggle('paused', !!(REC.paused || ap));
+  $('recbar').classList.toggle('paused', !!(REC.paused || ap || REC.park));
+  recAnnCheck(s);
   $('rectx').textContent = REC.paused
     ? _t('Pauza · ') + fdur(el / 1000) + ' · ' + fkm(s.d)
+    : REC.park
+      ? _t('🅿 Auto zaparkowane · ') + fdur(el / 1000) + ' · ' + fkm(s.d)
     : ap
       ? _t('Auto-pauza · ') + fdur(el / 1000) + ' · ' + fkm(s.d)
       : !n && (!recPos || recPos.accu > 50)
@@ -23255,11 +24359,14 @@ async function fotoResize(file) {
     cv.toBlob(b => (b ? res(b) : rej(new Error(_t('brak pamięci')))), 'image/jpeg', 0.85)
   );
 }
+// v66 (audyt v2, R01): jawne kopie zdjęć poza OMM tylko na życzenie (Ustawienia → Foldery i pliki)
+const fotoCopyOn = () => localStorage.getItem('omm-foto-kopia') === '1',
+  fotoGalOn = () => localStorage.getItem('omm-foto-galeria') === '1';
 async function fotoPut(blob, name) {
-  // zapis zdjęcia w aplikacji (+ kopia do podglądu w folderze OMM/zdjecia w telefonie)
+  // zapis zdjęcia w aplikacji (+ opcjonalnie kopia do podglądu w folderze OMM/zdjecia w telefonie)
   await IDB.set('foto/' + name, blob);
   const FS = plug('Filesystem');
-  if (FS)
+  if (FS && fotoCopyOn())
     try {
       const F = outFolder('', 'zdjecia');
       await FS.writeFile({
@@ -23278,9 +24385,9 @@ async function fotoAdd(file, keepOriginal) {
     name = fotoName(ex.time || file.lastModified),
     ref = await fotoPut(await fotoResize(file), name);
   const FS = plug('Filesystem');
-  if (keepOriginal && FS)
+  if (keepOriginal && FS && fotoGalOn())
     try {
-      // zdjęcie zrobione aparatem z OMM: oryginał także do galerii (Obrazy/OMM)
+      // zdjęcie zrobione aparatem z OMM: oryginał także do galerii (Obrazy/OMM) – tylko z włączoną opcją
       await FS.writeFile({
         path: 'Pictures/OMM/' + name,
         directory: 'EXTERNAL_STORAGE',
@@ -23320,18 +24427,32 @@ async function fotoForget(ref) {
 }
 // wybór zdjęć: aparat (capture) albo galeria/pliki
 function pickPhotos(camera, multi) {
-  return new Promise(res => {
-    const inp = h('input');
-    inp.type = 'file';
-    inp.accept = 'image/*';
-    if (camera) inp.setAttribute('capture', 'environment'); // atrybut – działa też tam, gdzie brak właściwości
-    if (multi) inp.multiple = true;
-    inp.onchange = () => res([...inp.files]);
-    // przy anulowaniu wyboru przeglądarka nie zgłasza zdarzenia – po powrocie do okna kończymy pustą listą
-    window.addEventListener('focus', () => setTimeout(() => !inp.files.length && res([]), 3000), {
-      once: true
+  const one = (cam, mul) =>
+    new Promise(res => {
+      const inp = h('input');
+      inp.type = 'file';
+      inp.accept = 'image/*';
+      if (cam) inp.setAttribute('capture', 'environment'); // atrybut – działa też tam, gdzie brak właściwości
+      if (mul) inp.multiple = true;
+      inp.onchange = () => res([...inp.files]);
+      // przy anulowaniu wyboru przeglądarka nie zgłasza zdarzenia – po powrocie do okna kończymy pustą listą
+      window.addEventListener('focus', () => setTimeout(() => !inp.files.length && res([]), 3000), {
+        once: true
+      });
+      inp.click();
     });
-    inp.click();
+  if (!camera) return one(false, multi);
+  // v66: domyślnie aparat; gdy zamkniesz aparat bez zdjęcia – propozycja wyboru z galerii
+  return one(true, false).then(async fs => {
+    if (fs.length) return fs;
+    const v = await dlg({
+      title: _t('Nie zrobiono zdjęcia.'),
+      btns: [
+        {t: _t('Wybierz z galerii'), v: 'gal', c: 'okb'},
+        {t: _t('Anuluj'), v: null}
+      ]
+    });
+    return v === 'gal' ? one(false, multi) : [];
   });
 }
 async function askPhotoSource(title) {
@@ -24417,21 +25538,50 @@ async function encDerive(pass, salt, iter) {
     ['encrypt', 'decrypt']
   );
 }
-const encGet = async () => {
+// v66 (audyt v2, F01): trzy stany zamiast dwóch – „wyłączone”, „włączone i gotowe”, „nie wiadomo”.
+// Znacznik ENC_FLAG mówi, że użytkownik włączył szyfrowanie; gdy jest, a klucza nie da się odczytać,
+// kopia NIE powstaje (wcześniej błąd odczytu = „wyłączone” = jawny ZIP).
+const ENC_FLAG = 'omm-szyfr-wl';
+const encWant = () => {
   try {
-    return (await IDB.get('szyfr-kopii')) || null;
+    return localStorage.getItem(ENC_FLAG) === '1';
   } catch (e) {
-    return null;
+    return true; // nie da się sprawdzić – ostrożnie zakładamy, że ochrona jest wymagana
   }
 };
+const encOkKey = E => !!(E && E.key && typeof E.key === 'object' && E.key.type === 'secret' && typeof E.salt === 'string' && E.iter >= 100000);
+async function encGet(strict) {
+  // strict = do zapisu kopii: niepewny stan → wyjątek (żaden plik nie powstanie)
+  let E = null,
+    err = null;
+  try {
+    E = (await IDB.get('szyfr-kopii')) || null;
+  } catch (e) {
+    err = e;
+  }
+  if (encOkKey(E)) {
+    if (!encWant())
+      try {
+        localStorage.setItem(ENC_FLAG, '1'); // kopie sprzed v66: klucz jest – zapamiętujemy, że ochrona jest włączona
+      } catch (e) {}
+    return E;
+  }
+  if (strict && (err || E || encWant()))
+    throw new Error(
+      _t('Nie udało się odczytać klucza szyfrowania kopii – kopia NIE została zapisana, żeby nie powstał plik bez szyfrowania. Uruchom OMM ponownie; jeśli to nie pomoże, ustaw hasło kopii jeszcze raz (Ustawienia → 🔒 Prywatność).')
+    );
+  return null;
+}
 async function encSetPassword(pass) {
   const salt = crypto.getRandomValues(new Uint8Array(16)),
     key = await encDerive(pass, salt, ENC_ITER);
   await IDB.set('szyfr-kopii', {key, salt: b64e(salt), iter: ENC_ITER, at: Date.now()});
+  localStorage.setItem(ENC_FLAG, '1');
 }
 async function encWrap(zipBlob) {
-  // pełna kopia ZIP → zaszyfrowany ZIP (gdy szyfrowanie jest włączone); inaczej bez zmian
-  const E = await encGet();
+  // pełna kopia ZIP → zaszyfrowany ZIP (gdy szyfrowanie jest włączone); świadomie wyłączone → bez zmian.
+  // Niepewny stan (błąd odczytu, brak klucza przy włączonej ochronie) → wyjątek, kopia nie powstaje.
+  const E = await encGet(true);
   if (!E) return zipBlob;
   const iv = crypto.getRandomValues(new Uint8Array(12)),
     ct = new Uint8Array(
@@ -24516,10 +25666,13 @@ async function encOff() {
   )
     return false;
   await IDB.del('szyfr-kopii');
+  localStorage.removeItem(ENC_FLAG);
   return true;
 }
+const ZIP_LAST = {brak: 0}; // ostatnia kopia: ile zdjęć z odnośników nie było w bazie
 async function zipBackup(vis) {
   wpSyncAll();
+  ZIP_LAST.brak = 0;
   // vis = tylko to, co widać na bieżącej mapie (bez śladów)
   const files = [],
     used = new Set(),
@@ -24566,13 +25719,23 @@ async function zipBackup(vis) {
       files.push({name: 'slady/' + uniq(trkFile(t)) + '.gpx', data: trkGPX([t], t.nm, '../zdjecia/')});
     });
   }
+  // v66 (audyt v2, R03): błąd odczytu zdjęcia przerywa kopię (nie udajemy pełnej kopii); zdjęcie, którego
+  // w bazie po prostu nie ma (usunięte wcześniej), zapisujemy w spisie jako brakujące i zgłaszamy
+  const brak = [];
   for (const n of used) {
-    const b = await fotoBlob(n);
+    let b;
+    try {
+      b = await IDB.get('foto/' + n);
+    } catch (e) {
+      throw new Error(_t('Nie udało się odczytać zdjęcia „') + n + _t('” – kopia NIE została zapisana. Spróbuj ponownie po uruchomieniu OMM od nowa.'));
+    }
     if (b) {
       files.push({name: 'zdjecia/' + n, data: b});
       idx.zdjecia.push(n);
-    }
+    } else brak.push(n);
   }
+  if (brak.length) idx.brakZdjec = brak;
+  ZIP_LAST.brak = brak.length;
   files.push({name: 'ustawienia.json', data: JSON.stringify(settingsObj(), null, 1)});
   files.push({name: 'omm.json', data: JSON.stringify(idx, null, 1)});
   files.push({name: 'CZYTAJ.txt', data: CZYTAJ});
@@ -24651,8 +25814,8 @@ async function zipToBackup(buf) {
 async function fotoCommit(foto, maps, trk) {
   /*
    * zapis zdjęć z kopii – dopiero po zgodzie użytkownika. Zdjęcie o tej samej nazwie, ale innej
-   * treści niż już zapisane, dostaje nową nazwę, a odwołania w przywracanych danych są przepisywane;
-   * istniejące zdjęcia nigdy nie są nadpisywane.
+   * treści niż już zapisane, dostaje nową, wolną nazwę (w limicie 120 znaków), a odwołania w przywracanych
+   * danych są przepisywane; zapis dotyczy tylko nazw sprawdzonych jako wolne.
    */
   if (!foto || !foto.length) return;
   const same = async (a, b) => {
@@ -24663,15 +25826,30 @@ async function fotoCommit(foto, maps, trk) {
     for (let i = 0; i < p.length; i++) if (p[i] !== q[i]) return false;
     return true;
   };
+  // v66 (audyt v2, F03): nowa nazwa zawsze mieści się w limicie 120 znaków i jest wolna – zarówno w bazie,
+  // jak i wśród nazw tej samej paczki (wcześniej druga kolizja mogła nadpisać istniejące zdjęcie)
   const ren = new Map(),
-    put = [];
+    put = [],
+    taken = new Set(foto.map(f => f[0])),
+    free = async n => !taken.has(n) && !(await IDB.get('foto/' + n)),
+    newName = async n => {
+      const m = n.match(/^(.*?)(\.\w{1,8})?$/),
+        ext = m[2] || '';
+      for (let k = 0; k < 50; k++) {
+        const suf = '-' + Math.random().toString(36).slice(2, 8),
+          nn = m[1].slice(0, 120 - ext.length - suf.length) + suf + ext;
+        if (/^[\w.-]{1,120}$/.test(nn) && (await free(nn))) return nn;
+      }
+      throw new Error(_t('Nie udało się nadać nazwy zdjęciu z kopii – przywracanie przerwane.'));
+    };
   for (const [n, rd] of foto) {
     const b = typeof rd === 'function' ? new Blob([await rd()], {type: 'image/jpeg'}) : rd;
     if (!(b instanceof Blob) || !/^[\w.-]{1,120}$/.test(n)) continue;
     const cur = await IDB.get('foto/' + n);
     if (!cur) put.push(['foto/' + n, b]);
     else if (!(cur instanceof Blob && (await same(cur, b)))) {
-      const nn = n.replace(/(\.[\w]+)?$/, '-' + Math.random().toString(36).slice(2, 7) + '$1');
+      const nn = await newName(n);
+      taken.add(nn);
       ren.set('omm:' + n, 'omm:' + nn);
       put.push(['foto/' + nn, b]);
     }
@@ -24744,12 +25922,27 @@ let NAV = null; // trwająca nawigacja: cel, pozycja, kierunek telefonu, element
  *  – na azymut bez celu (opt.free): linia kursu od miejsca startu, odchyłka w metrach, bez „jesteś na miejscu”.
  * Alerty głosowe (syntezator mowy telefonu): zejście ze śladu / kursu (co 30 s), powrót, dojście do celu.
  */
-const navVoice = () => localStorage.getItem('omm-nav-glos') !== 'nie';
+const navVoice = () => localStorage.getItem('omm-nav-glos') !== 'nie'; // dawne ustawienie (do v65)
+// v66: alerty prowadzenia – główny wyłącznik, rodzaje (skręty, przeliczanie, zejście z trasy, cel) i forma
+const navAlOn = () => (localStorage.getItem('omm-nav-al') || '1') === '1',
+  navAlType = k => localStorage.getItem('omm-nav-a-' + k) !== '0',
+  navAlForm = k => {
+    const v = localStorage.getItem('omm-nav-f-' + k);
+    if (v != null) return v === '1';
+    return k === 'glos' ? navVoice() : k === 'wib';
+  };
+function navAl(kind, txt, pat) {
+  // kind: 'skr' skręty · 'prz' przeliczanie trasy · 'zej' zejście z trasy / powrót · 'cel' dojście do celu
+  if (!navAlOn() || !navAlType(kind)) return;
+  if (navAlForm('wib')) vibe(pat || 120);
+  if (navAlForm('dzw')) chime();
+  if (navAlForm('glos')) say(txt, true);
+}
 const DIRW = ['północ', 'północny wschód', 'wschód', 'południowy wschód', 'południe', 'południowy zachód', 'zachód', 'północny zachód'];
 let SAYQ = Promise.resolve();
 function say(txt, force) {
   // mowa w kolejce (komunikaty nie przerywają się nawzajem)
-  if (!txt || (!force && !navVoice())) return;
+  if (!txt || (!force && !(navAlOn() && navAlForm('glos')))) return;
   SAYQ = SAYQ.then(async () => {
     try {
       const TTS = plug('TextToSpeech');
@@ -24944,7 +26137,7 @@ async function navRoute(again) {
   if (!NAV.pos) return void (NAV.wantRoute = true); // policzy się po pierwszej pozycji GPS
   NAV.rr = true;
   NAV.txt.textContent = again ? _t('Przeliczam trasę…') : _t('Wyznaczam trasę po drogach…');
-  if (again) say(_t('Przeliczam trasę.'));
+  if (again) navAl('prz', _t('Przeliczam trasę.'));
   const r = await routeAB([NAV.pos, NAV.to], {prof: NAV.prof || undefined});
   if (!NAV) return;
   NAV.rr = false;
@@ -24966,7 +26159,7 @@ async function navRoute(again) {
   const m0 = NAV.man[0];
   if (m0 && m0.typ <= 3) {
     m0.said = true;
-    say(m0.pre);
+    navAl('skr', m0.pre);
   }
   navDraw();
 }
@@ -25038,15 +26231,14 @@ function navOff(off, msg, okMsg, dirB, hd) {
     if (!NAV.offAl || now - (NAV.offT || 0) > 30000) {
       NAV.offAl = true;
       NAV.offT = now;
-      vibe([400, 150, 400, 150, 400]);
-      say(msg + '. ' + okMsg[0] + ' ' + fmSay(off) + ' ' + navSayDir(dirB, hd) + '.');
+      navAl('zej', msg + '. ' + okMsg[0] + ' ' + fmSay(off) + ' ' + navSayDir(dirB, hd) + '.', [400, 150, 400, 150, 400]);
     }
   } else {
     NAV.offN = 0;
     NAV.offS = 0;
     if (off < 25 && NAV.offAl) {
       NAV.offAl = false;
-      say(okMsg[1]);
+      navAl('zej', okMsg[1]);
     }
   }
 }
@@ -25127,7 +26319,7 @@ function navDraw() {
     if (NAV.appr == null) NAV.appr = !NAV.road && bd > 50 && hav(pos, P[0]) > 30; // daleko od trasy – najpierw do początku
     if (NAV.appr && (hav(pos, P[0]) < 30 || bd < 20)) {
       NAV.appr = false;
-      say(_t('Jesteś na trasie. Prowadzę dalej.'));
+      navAl('zej', _t('Jesteś na trasie. Prowadzę dalej.'));
     }
     if (NAV.appr) {
       j = 0;
@@ -25172,7 +26364,7 @@ function navDraw() {
           const dm = left - NAV.suf[Math.min(nx.i, P.length - 1)];
           if (dm <= 80 && !nx.said) {
             nx.said = true;
-            say((dm >= 25 ? _t('Za ') + fmSay(dm) + '. ' : '') + nx.pre);
+            navAl('skr', (dm >= 25 ? _t('Za ') + fmSay(dm) + '. ' : '') + nx.pre, 80);
           }
           NAV.nx = nx;
           NAV.dm = Math.max(0, dm);
@@ -25215,8 +26407,7 @@ function navDraw() {
   if (hav(pos, NAV.to) <= tol && (!NAV.path || (!NAV.appr && endLeft < 40))) {
     if (!NAV.arrived) {
       NAV.arrived = true;
-      vibe([200, 100, 200]);
-      say(NAV.arrive || _t('Jesteś na miejscu.'));
+      navAl('cel', NAV.arrive || _t('Jesteś na miejscu.'), [200, 100, 200]);
       if (NAV.done) {
         const fn = NAV.done;
         NAV.done = null;
@@ -25964,7 +27155,7 @@ async function trkShare(t) {
     ]
   });
   if (!v) return;
-  if (v === 'gpx') return shareOut(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm));
+  if (v === 'gpx') return shareOut(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm, null, true));
   if (v === 'film') return trkFilm(t, true);
   info.style.display = 'block';
   info.textContent = _t('Przygotowuję obraz…');
@@ -27463,15 +28654,26 @@ function parseCoords(s) {
   // ułamki dziesiętne z przecinkiem: „51,77 19,46” (sprawdzamy najpierw – przecinek nie jest tu separatorem)
   const dc = s.match(/^(-?\d{1,2},\d+)[\s;]+(-?\d{1,3},\d+)$/);
   if (dc) s = dc[1].replace(',', '.') + ' ' + dc[2].replace(',', '.');
-  let m = s.match(/^([NS])?\s*(-?\d{1,2}(?:[.,]\d+)?)\s*[°\s]?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*'?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*"?)?)?\s*([NS])?[\s,;]+([EW])?\s*(-?\d{1,3}(?:[.,]\d+)?)\s*[°\s]?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*'?\s*(?:(\d{1,2}(?:[.,]\d+)?)\s*"?)?)?\s*([EW])?$/i);
+  // v66 (audyt v2, F06): (?!\d) – liczba musi być cała („151.123” nie jest „15° 1.123'” ani „51.123”)
+  let m = s.match(/^([NS])?\s*(-?\d{1,2}(?:[.,]\d+)?)(?!\d)\s*[°\s]?\s*(?:(\d{1,2}(?:[.,]\d+)?)(?!\d)\s*'?\s*(?:(\d{1,2}(?:[.,]\d+)?)(?!\d)\s*"?)?)?\s*([NS])?[\s,;]+([EW])?\s*(-?\d{1,3}(?:[.,]\d+)?)(?!\d)\s*[°\s]?\s*(?:(\d{1,2}(?:[.,]\d+)?)(?!\d)\s*'?\s*(?:(\d{1,2}(?:[.,]\d+)?)(?!\d)\s*"?)?)?\s*([EW])?$/i);
   if (!m) {
     // ułamki dziesiętne z przecinkiem: „51,77 19,46”
     const d = s.match(/^(-?\d{1,2},\d+)\s+(-?\d{1,3},\d+)$/);
     if (!d) return null;
     m = [null, null, d[1], null, null, null, null, d[2], null, null, null];
   }
-  const num = x => (x == null ? 0 : +String(x).replace(',', '.')),
-    dms = (a, b, c) => Math.abs(num(a)) + num(b) / 60 + num(c) / 3600,
+  const num = x => (x == null ? 0 : +String(x).replace(',', '.'));
+  // minuty i sekundy 0–59,99; stopnie z ułamkiem nie mogą mieć minut; minus razem z literą półkuli = sprzeczność
+  for (const [d, mi, se, h1, h2] of [
+    [m[2], m[3], m[4], m[1], m[5]],
+    [m[7], m[8], m[9], m[6], m[10]]
+  ]) {
+    if ((mi != null && num(mi) >= 60) || (se != null && num(se) >= 60)) return null;
+    if (mi != null && /[.,]/.test(d)) return null;
+    if (se != null && /[.,]/.test(mi)) return null;
+    if (num(d) < 0 && (h1 || h2)) return null;
+  }
+  const dms = (a, b, c) => Math.abs(num(a)) + num(b) / 60 + num(c) / 3600,
     la = dms(m[2], m[3], m[4]) * (/s/i.test(m[1] || m[5] || '') || num(m[2]) < 0 ? -1 : 1),
     lo = dms(m[7], m[8], m[9]) * (/w/i.test(m[6] || m[10] || '') || num(m[7]) < 0 ? -1 : 1);
   return Math.abs(la) <= 90 && Math.abs(lo) <= 180 && (la || lo) ? [la, lo] : null;
@@ -27492,12 +28694,15 @@ function findCoords(text) {
   if (!c && (m = s.match(new RegExp('@' + F + ',' + F)))) c = ok(m[1], m[2]);
   if (!c && (m = s.match(new RegExp('geo:' + F + ',' + F, 'i')))) c = ok(m[1], m[2]);
   // 2. para liczb dziesiętnych (co najmniej 3 miejsca po przecinku, żeby nie łapać godzin czy cen)
-  if (!c && (m = s.match(/(-?\d{1,2}[.,]\d{3,})\s*[,;\s]\s*(-?\d{1,3}[.,]\d{3,})/)))
+  // v66 (audyt v2, F06): granice liczb – fragment „151.123” albo „-151.123” nie jest szerokością 51.123
+  if (!c && (m = s.match(/(?<![\d.,-])(-?\d{1,2}[.,]\d{3,})\s*[,;\s]\s*(-?\d{1,3}[.,]\d{3,})(?![\d])/)))
     c = ok(m[1].replace(',', '.'), m[2].replace(',', '.'));
   // 3. stopnie, minuty, sekundy w środku tekstu (np. 51°46'12.3"N 19°27'36.0"E – tak pisze OMM)
-  if (!c && (m = s.replace(/[′’]/g, "'").replace(/[″”]/g, '"').match(/(\d{1,2})°\s*(\d{1,2})'\s*(\d{1,2}(?:[.,]\d+)?)"\s*([NS])[\s,;]*(\d{1,3})°\s*(\d{1,2})'\s*(\d{1,2}(?:[.,]\d+)?)"\s*([EW])/i))) {
-    const d = (a, b, x) => +a + b / 60 + +String(x).replace(',', '.') / 3600;
-    c = ok(d(m[1], m[2], m[3]) * (/s/i.test(m[4]) ? -1 : 1), d(m[5], m[6], m[7]) * (/w/i.test(m[8]) ? -1 : 1));
+  if (!c && (m = s.replace(/[′’]/g, "'").replace(/[″”]/g, '"').match(/(?<!\d)(\d{1,2})°\s*(\d{1,2})'\s*(\d{1,2}(?:[.,]\d+)?)"\s*([NS])[\s,;]*(\d{1,3})°\s*(\d{1,2})'\s*(\d{1,2}(?:[.,]\d+)?)"\s*([EW])/i))) {
+    const d = (a, b, x) => +a + b / 60 + +String(x).replace(',', '.') / 3600,
+      sec = x => +String(x).replace(',', '.');
+    if (+m[2] < 60 && +m[6] < 60 && sec(m[3]) < 60 && sec(m[7]) < 60)
+      c = ok(d(m[1], m[2], m[3]) * (/s/i.test(m[4]) ? -1 : 1), d(m[5], m[6], m[7]) * (/w/i.test(m[8]) ? -1 : 1));
   }
   // 4. każda linijka osobno – inne zapisy, które rozumie wyszukiwarka
   if (!c)
@@ -27586,7 +28791,15 @@ function searchDlg() {
   };
   const web = async () => {
     const q = inp.value.trim();
-    if (!q || parseCoords(q)) return;
+    if (!q) return;
+    // v66 (audyt v2, F07): tekst ze współrzędnymi (np. wklejony SMS) obsługujemy w telefonie – Enter i przycisk
+    // pokazują pozycję, a do internetu nie wysyłamy niczego (wcześniej szła cała treść wiadomości)
+    if (parseCoords(q) || findCoords(q)) {
+      const first = res.querySelector('.trow');
+      if (first) first.click();
+      return;
+    }
+    if (q.length > 150) return toastMsg(_t('Za długi tekst do wyszukania – wpisz samą miejscowość albo adres'));
     res.prepend(h('p', 'muted', _t('Szukam w internecie…')));
     try {
       // OpenStreetMap Nominatim – zgodnie z zasadami: tylko po naciśnięciu, bez podpowiedzi przy pisaniu
@@ -27928,7 +29141,7 @@ async function autoBackup(force) {
     } else {
       const FS = plug('Filesystem'),
         data = await blob64(blob),
-        F = outFolder('application/zip', 'omm-kopia');
+        F = abFolder();
       try {
         await FS.writeFile({path: F.base + '/omm-autokopia-' + dateStamp() + '.zip', directory: F.dir, recursive: true, data});
         st.local = true;
@@ -27960,8 +29173,13 @@ async function autoBackup(force) {
     st.err = (e && e.message) || String(e);
   }
   abBusy = false;
-  if (st.local || st.drive) localStorage.setItem('omm-autokopia-stan', JSON.stringify(st));
+  if (st.local || st.drive) {
+    localStorage.setItem('omm-autokopia-stan', JSON.stringify(st));
+    localStorage.removeItem('omm-autokopia-blad');
+  } else localStorage.setItem('omm-autokopia-blad', JSON.stringify({at: st.at, err: st.err}));
+  if (ZIP_LAST.brak && (st.local || st.drive)) st.err += (st.err ? ' · ' : '') + _t('brak ') + ZIP_LAST.brak + _t(' zdjęć, których nie ma już w telefonie');
   toastMsg(st.local || st.drive ? _t('✅ Kopia zapisana') + (st.drive ? _t(' (także na Dysku)') : '') : _t('⚠ Kopia nie udała się'));
+  if (force && !(st.local || st.drive) && st.err) tell(_t('⚠ Kopia nie udała się.\n\n') + st.err);
   return st;
 }
 const dateStamp = () => {
@@ -27971,7 +29189,12 @@ const dateStamp = () => {
 };
 function abStatusText() {
   const s = abState();
-  if (!s.at) return _t('Jeszcze nie było kopii.');
+  let bad = null;
+  try {
+    bad = JSON.parse(localStorage.getItem('omm-autokopia-blad') || 'null');
+  } catch (e) {}
+  const badTxt = bad && bad.at ? '\n⚠ ' + _t('Nieudana próba ') + fday(bad.at) + ' ' + fhm(bad.at) + ': ' + bad.err : '';
+  if (!s.at) return _t('Jeszcze nie było kopii.') + badTxt;
   const d = new Date(s.at),
     today = new Date().toDateString() === d.toDateString();
   return (
@@ -27981,16 +29204,95 @@ function abStatusText() {
     ' · lokalnie ' +
     (s.local ? '✓' : '✗') +
     (localStorage.getItem('omm-dysk-uri') ? _t(' · Dysk ') + (s.drive ? '✓' : '✗') : '') +
-    (s.err ? '\n' + s.err : '')
+    (s.err ? '\n' + s.err : '') +
+    badTxt
   );
 }
-async function abRelease(uri) {
-  // „Odłącz” / zmiana miejsca: zwalnia trwałe uprawnienie do pliku (Android pamięta je osobno od OMM)
+async function abRestoreDlg() {
+  // v66: kopie automatyczne w prywatnej pamięci OMM nie są widoczne w systemowym wyborze plików –
+  // lista najnowszych kopii z bieżącego folderu kopii (i z dawnego folderu Dokumenty/Pobrane)
+  const FS = plug('Filesystem');
+  if (!FS) return;
+  const list = [];
+  const seen = new Set();
+  for (const F of [abFolder(), outFolder('application/zip', 'omm-kopia')]) {
+    if (seen.has(F.dir + F.base)) continue;
+    seen.add(F.dir + F.base);
+    try {
+      const ls = await FS.readdir({path: F.base, directory: F.dir});
+      (ls.files || []).forEach(x => {
+        const n = typeof x === 'string' ? x : x.name;
+        if (/^omm-(autokopia|kopia)-.*\.zip$/.test(n)) list.push({F, n, t: (x && x.mtime) || 0});
+      });
+    } catch (e) {}
+  }
+  if (!list.length) return tell(_t('Nie ma jeszcze kopii automatycznych w telefonie. Kopię z innego miejsca przywrócisz: panel warstw → 💾 → „Przywróć z kopii…”.'));
+  list.sort((a, b) => (b.n > a.n ? 1 : -1));
+  const pick = await dlg({
+    title: _t('Którą kopię przywrócić?'),
+    btns: [
+      ...list.slice(0, 10).map((x, i) => ({t: x.n.replace(/^omm-|\.zip$/g, '') + ' · ' + x.F.label, v: String(i)})),
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (pick == null) return;
+  const x = list[+pick];
   try {
-    const OB = plug('OmmBackup');
-    if (OB && uri) await OB.release({uri});
-  } catch (e) {}
+    const r = await FS.readFile({path: x.F.base + '/' + x.n, directory: x.F.dir}),
+      u8 = b64d(String(r.data));
+    await restoreBuf(u8.buffer);
+  } catch (e) {
+    tell(_t('Nie udało się odczytać kopii: ') + ((e && e.message) || e));
+  }
 }
+async function abRelease(uri, quiet) {
+  // „Odłącz” / zmiana miejsca: zwalnia trwałe uprawnienie do pliku (Android pamięta je osobno od OMM).
+  // v66 (audyt v2, F05): sprawdzamy wynik; nieudane cofnięcie trafia na listę do ponowienia i jest zgłaszane.
+  const OB = plug('OmmBackup');
+  if (!OB || !uri) return true;
+  let ok = false,
+    why = '';
+  try {
+    const r = await OB.release({uri});
+    ok = !!(r && r.ok === true);
+    if (!ok) why = _t('Android nadal pokazuje uprawnienie do tego pliku.');
+  } catch (e) {
+    why = (e && e.message) || String(e);
+  }
+  let pend = [];
+  try {
+    pend = JSON.parse(localStorage.getItem('omm-dysk-zwolnij') || '[]').filter(x => typeof x === 'string' && x !== uri);
+  } catch (e) {}
+  if (!ok) pend.push(uri);
+  pend.length ? localStorage.setItem('omm-dysk-zwolnij', JSON.stringify(pend.slice(-10))) : localStorage.removeItem('omm-dysk-zwolnij');
+  if (!ok && !quiet)
+    await tell(
+      _t('⚠ Nie udało się cofnąć dostępu OMM do poprzedniego pliku kopii.\n\n') +
+        why +
+        _t('\n\nOMM już z niego nie korzysta i spróbuje cofnąć dostęp ponownie przy następnym uruchomieniu. Jeśli to nie pomoże, dostęp znika po wyczyszczeniu danych OMM w ustawieniach Androida (najpierw zrób kopię).')
+    );
+  return ok;
+}
+// v66: jednorazowa informacja o nowym, prywatnym miejscu kopii automatycznych (dotychczasowe zostają na miejscu)
+setTimeout(() => {
+  if (!NATIVE || localStorage.getItem('omm-v66-kopie-info') || localStorage.getItem('omm-folder-kopie')) return;
+  localStorage.setItem('omm-v66-kopie-info', '1');
+  if (!localStorage.getItem('omm-autokopia-stan')) return; // nowa instalacja – nie ma o czym mówić
+  const old = outFolder('application/zip', 'omm-kopia').label;
+  tell(
+    _t('🔒 Zmiana w kopiach automatycznych\n\nOd tej wersji kopie automatyczne zapisują się w prywatnej pamięci OMM – nie widzą ich menedżer plików ani inne aplikacje. Dotychczasowe kopie zostały w folderze ') +
+      old +
+      _t(' – możesz je przenieść lub usunąć sam.\n\nUwaga: pamięć OMM znika przy odinstalowaniu aplikacji, więc warto mieć kopię na Dysku Google. Miejsce zmienisz w Ustawieniach → Foldery i pliki.')
+  );
+}, 7000);
+// nieudane wcześniej cofnięcia uprawnień – ponawiamy po uruchomieniu (bez komunikatu, chyba że znów się nie uda)
+setTimeout(async () => {
+  let pend = [];
+  try {
+    pend = JSON.parse(localStorage.getItem('omm-dysk-zwolnij') || '[]');
+  } catch (e) {}
+  for (const u of pend) if (typeof u === 'string' && u !== localStorage.getItem('omm-dysk-uri')) await abRelease(u, true);
+}, 8000);
 async function abPickDrive() {
   // jednorazowy wybór pliku na Dysku Google (albo w innym miejscu) w systemowym oknie „Zapisz w…”
   const OB = plug('OmmBackup');
@@ -28030,8 +29332,8 @@ if ((localStorage.getItem('omm-start') || 'gps') === 'gps') setTimeout(() => gps
 const TUT_STEPS = [
   {sel: null, t: _t('Mapa'), x: _t('Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.')},
   {sel: '#bbtn', t: _t('Podkład i mapy offline'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.')},
-  {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz.')},
-  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('REC nagrywa trasę także przy wygaszonym ekranie. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.')},
+  {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.')},
+  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('REC nagrywa trasę także przy wygaszonym ekranie. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.')},
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
@@ -28044,7 +29346,7 @@ const TUT_STEPS = [
   {sel: '#stabs .stab[data-k="plan"]', open: 'sheet', tab: 'plan', t: _t('Planowanie'), x: _t('Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
   {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport to osobny widok: tablica z dyscyplinami (rower, bieg, marsz, trekking, jeździectwo, rolki), licznik każdej z nich i statystyki – ogólne i dla każdej dyscypliny. Z mapy wracasz do licznika przyciskiem ‹ albo „Wstecz”.')},
-  {sel: '#setb', open: 'sheet', t: _t('Ustawienia'), x: _t('Kopia (także na Dysk Google), nagrywanie śladu, „W terenie” (alerty głosowe, ekran, rodzaj dróg, alarm przy miejscówkach, auto), wygląd (tryb ciemny), prywatność i kosz.')},
+  {sel: '#setb', open: 'sheet', t: _t('Ustawienia'), x: _t('Kopia (w prywatnej pamięci OMM i na Dysku Google), foldery, nagrywanie śladu (komunikaty, wzór nazwy), „W terenie” (alerty przy prowadzeniu, ekran, alarm przy miejscówkach, auto), wygląd (motyw, podziałka, dokładność GPS), prywatność i kosz.')},
   {sel: '#infob', open: 'sheet', t: _t('O aplikacji'), x: _t('O autorze i założeniach OMM, krótki przewodnik „Jak zacząć” – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.')}
 ];
 let TUT = null;
@@ -28188,11 +29490,20 @@ async function tutFirstRun() {
  */
 const LOCK_ITER = 150000;
 const lockCfg = () => {
+  // v66 (audyt v2): uszkodzone ustawienie blokady NIE oznacza „blokada wyłączona” – zwracamy {broken}
+  // (ekran blokady zostaje, PIN nie przejdzie; zostaje odcisk palca albo wyczyszczenie danych OMM)
+  let raw = null;
   try {
-    return JSON.parse(localStorage.getItem('omm-lock') || 'null');
+    raw = localStorage.getItem('omm-lock');
   } catch (e) {
-    return null;
+    return {broken: true};
   }
+  if (raw == null || raw === 'null') return null;
+  try {
+    const c = JSON.parse(raw);
+    if (c && typeof c.hash === 'string' && typeof c.salt === 'string' && c.iter >= 1000) return c;
+  } catch (e) {}
+  return {broken: true};
 };
 const lockDelay = () => +(localStorage.getItem('omm-lock-d') || 0);
 async function lockHash(pass, salt, iter) {
@@ -28202,6 +29513,7 @@ async function lockHash(pass, salt, iter) {
 async function lockCheck(pass) {
   const c = lockCfg();
   if (!c) return true;
+  if (c.broken) return false;
   const h2 = await lockHash(pass, b64d(c.salt), c.iter);
   // porównanie bez wczesnego przerwania
   let d = h2.length ^ c.hash.length;
@@ -28258,6 +29570,33 @@ const lockF = () => {
   }
 };
 const lockFSet = o => localStorage.setItem('omm-lock-f', JSON.stringify(o));
+// v66 (audyt v2, F02): jedna próba PIN-u naraz dla wszystkich ścieżek (ekran blokady, zmiana blokady);
+// licznik czytany na nowo po sprawdzeniu – równoległe kliknięcia/Enter nie „gubią” błędnych prób
+let lockBusy = false;
+async function lockAttempt(pass) {
+  if (lockBusy) return {busy: true};
+  lockBusy = true;
+  try {
+    const F0 = lockF();
+    if (Date.now() < F0.until) return {ok: false, wait: Math.ceil((F0.until - Date.now()) / 1000)};
+    const ok = await lockCheck(pass);
+    if (ok) {
+      lockFSet({n: 0, until: 0});
+      return {ok: true};
+    }
+    const F1 = lockF(),
+      F = {n: (F1.n || 0) + 1, until: 0};
+    let s = 0;
+    if (F.n >= 5) {
+      s = Math.min(3600, 30 * 2 ** (F.n - 5)); // 30 s, 1 min, 2 min, … do 1 godziny
+      F.until = Date.now() + s * 1000;
+    }
+    lockFSet(F);
+    return {ok: false, wait: s};
+  } finally {
+    lockBusy = false;
+  }
+}
 function lockShow() {
   const c = lockCfg();
   if (!c || LOCKED) return;
@@ -28275,28 +29614,31 @@ function lockShow() {
   inp.placeholder = _t('PIN lub hasło');
   if (c.num) inp.inputMode = 'numeric';
   const tryPin = async () => {
-    const F0 = lockF();
-    if (Date.now() < F0.until) {
-      msg.textContent = _t('Za dużo prób – odczekaj ') + Math.ceil((F0.until - Date.now()) / 1000) + ' s.';
-      return;
+    if (lockBusy || go.disabled) return; // sprawdzanie trwa – kolejne kliknięcia i Enter czekają
+    inp.disabled = go.disabled = true;
+    msg.textContent = _t('Sprawdzam…');
+    let r;
+    try {
+      r = await lockAttempt(inp.value);
+    } finally {
+      inp.disabled = go.disabled = false;
     }
-    if (await lockCheck(inp.value)) {
-      lockFSet({n: 0, until: 0});
+    if (r.busy) return;
+    if (r.ok) {
       if (c.m === 'bio' && localStorage.getItem('omm-lock-bioreset')) await lockBioEnroll();
       return lockHide();
     }
     inp.value = '';
-    const F = {n: F0.n + 1, until: 0};
-    if (F.n >= 5) {
-      const s = Math.min(3600, 30 * 2 ** (F.n - 5)); // 30 s, 1 min, 2 min, … do 1 godziny
-      F.until = Date.now() + s * 1000;
-      msg.textContent = _t('Za dużo prób – odczekaj ') + s + ' s.';
-    } else msg.textContent = _t('Zły PIN – spróbuj jeszcze raz.');
-    lockFSet(F);
+    msg.textContent = c.broken
+      ? _t('Ustawienia blokady w telefonie są uszkodzone – PIN nie zadziała. Użyj odcisku palca (jeśli był włączony) albo zobacz „Nie pamiętam PIN-u”.')
+      : r.wait
+        ? _t('Za dużo prób – odczekaj ') + r.wait + ' s.'
+        : _t('Zły PIN – spróbuj jeszcze raz.');
+    inp.focus();
   };
   inp.onkeydown = e => e.key === 'Enter' && tryPin();
   box.append(h('div', 'lklogo', 'OMM'), h('div', 'lktt', _t('🔒 OMM jest zablokowany')), inp, msg, go);
-  if (c.m === 'bio') {
+  if (c.m === 'bio' || c.broken) {
     const bio = async () => {
       const r = await lockBio();
       if (r === true) return lockHide();
@@ -28353,8 +29695,9 @@ async function lockVerify(why) {
   if (c.m === 'bio' && !localStorage.getItem('omm-lock-bioreset') && (await lockBio(why)) === true) return true;
   const p = await askPass(why + _t('\n\nPodaj obecny PIN lub hasło:'));
   if (p == null) return false;
-  if (await lockCheck(p)) return true;
-  tell(_t('Zły PIN – nic nie zmieniono.'));
+  const r = await lockAttempt(p);
+  if (r.ok) return true;
+  tell(r.wait ? _t('Za dużo prób – odczekaj ') + r.wait + _t(' s. Nic nie zmieniono.') : _t('Zły PIN – nic nie zmieniono.'));
   return false;
 }
 async function lockSetup() {
@@ -28470,7 +29813,7 @@ function destPt(p, brgd, d) {
 // --- P2: gdzie auto ---
 var CAR = null,
   carMk = null,
-  CARD = {drv: 0, stopAt: null, stopT: 0};
+  CARD = {drv: 0, drvT: 0, stopAt: null, stopT: 0, stopS: 0, walk: 0, far: 0};
 const CAR_KEY = 'omm-auto-miejsce'; // v59: osobny klucz – „omm-auto” to próg wykrywania jazdy autem z Ustawień
 function carLoad() {
   try {
@@ -28555,7 +29898,10 @@ function carGo() {
   navStart(CAR.p, _t('Auto'));
 }
 function carDetect(q, x) {
-  // jazda (>29 km/h), potem postój i marsz ponad 35 m od miejsca zatrzymania → tam stoi auto
+  // jazda autem, potem postój i PRAWDZIWY marsz od miejsca zatrzymania → tam stoi auto.
+  // v66: postój na światłach i ruszanie to nie marsz – trzeba co najmniej 3 pomiarów w tempie pieszym
+  // przez ≥30 s, oddalania się ponad 35 m i żadnej jazdy pomiędzy. Zapisane miejsce nie przesuwa się,
+  // dopóki nie przejedziesz znowu kawałka (≥ 1 min jazdy) i nie zaparkujesz od nowa.
   if (localStorage.getItem('omm-auto-wykr') === 'nie') return;
   const n = REC.pts.length;
   let v = x && x.speed != null && isFinite(x.speed) && x.speed >= 0 ? x.speed : null;
@@ -28566,20 +29912,40 @@ function carDetect(q, x) {
   }
   if (v == null) return;
   if (v > 8) {
+    if (!CARD.drv || q[3] - CARD.drv > 120) CARD.drvT = 0; // nowa jazda po dłuższej przerwie
+    CARD.drvT = (CARD.drvT || 0) + Math.max(0, Math.min(10, q[3] - (CARD.drv || q[3])));
     CARD.drv = q[3];
     CARD.stopAt = null;
+    CARD.walk = 0;
     return;
   }
-  if (!CARD.drv || q[3] - CARD.drv > 1800) return;
-  if (!CARD.stopAt && v < 3) {
+  if (!CARD.drv || q[3] - CARD.drv > 1800 || (CARD.drvT || 0) < 60) return; // za krótka jazda – to nie dojazd
+  if (v >= 2.6) {
+    // wolna jazda (korek, parking) – to nie marsz; zaczynamy liczyć od nowa
+    CARD.stopAt = null;
+    CARD.walk = 0;
+    return;
+  }
+  if (!CARD.stopAt) {
     const a = n > 1 ? REC.pts[n - 2] : q; // ostatni punkt jazdy – tam auto stanęło
     CARD.stopAt = [a[0], a[1]];
     CARD.stopT = q[3];
+    CARD.stopS = a[3];
+    CARD.walk = 0;
+    CARD.far = 0;
   }
-  if (CARD.stopAt && v < 3 && hav(CARD.stopAt, q) > 35 && q[3] - CARD.stopT > 20) {
+  const d = hav(CARD.stopAt, q);
+  if (v >= 0.4 && d > (CARD.far || 0)) {
+    CARD.walk = (CARD.walk || 0) + 1; // pomiar w tempie pieszym, coraz dalej od auta
+    CARD.far = d;
+  }
+  if (CARD.walk >= 3 && d > 35 && q[3] - CARD.stopT >= 30) {
     if (!CAR || hav(CAR.p, CARD.stopAt) > 30 || Date.now() - CAR.t > 6 * 3600e3) carSet(CARD.stopAt, true);
+    recParkStart(CARD.stopAt, CARD.stopS);
     CARD.drv = 0;
+    CARD.drvT = 0;
     CARD.stopAt = null;
+    CARD.walk = 0;
   }
 }
 
@@ -31242,6 +32608,11 @@ function settingsDlg() {
       if (d.open) {
         localStorage.setItem('omm-set-open', key);
         body.querySelectorAll('details.scat').forEach(x => x !== d && (x.open = false)); // jedna otwarta naraz
+        // v66: po zwinięciu innych kategorii widok przeskakiwał na dół – ustawiamy początek otwartej kategorii u góry
+        requestAnimationFrame(() => {
+          const top = s.getBoundingClientRect().top - body.getBoundingClientRect().top;
+          body.scrollTop += top - 4;
+        });
       }
     });
     d.append(s);
@@ -31275,6 +32646,23 @@ function settingsDlg() {
     r.append(...list);
     sec.append(r);
   };
+  // v66: przełącznik tak/nie (pole wyboru) zapisywany jako '1' / '0'
+  const chk = (title, key, def, note, onSet) => {
+    const g = h('div', 'sset'),
+      lb = h('label', 'chk'),
+      c = h('input');
+    c.type = 'checkbox';
+    c.checked = (localStorage.getItem(key) || (def ? '1' : '0')) === '1';
+    c.onchange = () => {
+      localStorage.setItem(key, c.checked ? '1' : '0');
+      if (onSet) onSet(c.checked);
+    };
+    lb.append(c, h('span', null, title));
+    g.append(lb);
+    if (note) g.append(h('div', 'muted', note));
+    sec.append(g);
+    return c;
+  };
   box.append(h('div', 'dt', _t('Ustawienia')));
 
   // język i jednostki – zmiana wymaga ponownego uruchomienia (napisy powstają przy starcie)
@@ -31303,6 +32691,19 @@ function settingsDlg() {
     ],
     null,
     relaunch
+  );
+  radios(
+    _t('Powierzchnia (pomiary, obszary)'),
+    'omm-pow',
+    'auto',
+    [
+      ['auto', _t('Automatycznie – m² i hektary razem')],
+      ['m2', _t('Metry kwadratowe (m²)')],
+      ['ar', _t('Ary (a)')],
+      ['ha', _t('Hektary (ha)')],
+      ['km2', _t('Kilometry kwadratowe (km²)')]
+    ],
+    _t('Przy jednostkach imperialnych zawsze akry i stopy kwadratowe.')
   );
 
   // katalog map: które podkłady i nakładki są pod ikoną mapy (oko), w jakiej kolejności (strzałki)
@@ -31379,7 +32780,7 @@ function settingsDlg() {
 
   cat('rec', 'rec', _t('Nagrywanie śladu'));
   radios(_t('Dokładność zapisu'), 'omm-rec-tryb', 'dokladny', [
-    ['dokladny', _t('Dokładne – punkt co ~2 s w ruchu (jak Geo Tracker)')],
+    ['dokladny', _t('Dokładne – punkt co ~2 s w ruchu')],
     ['oszczedny', _t('Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii')]
   ]);
   radios(
@@ -31392,29 +32793,116 @@ function settingsDlg() {
     ],
     _t('Ślad zostaje ciągłą linią. Statystyki mają dwa komplety: „w ruchu” (bez postojów) i „całkowite” (z postojami). Na pasku widać „Auto-pauza”, a po ruszeniu nagrywanie samo wraca do zwykłego trybu.')
   );
-  radios(
-    _t('Komunikat co 1 km'),
-    'omm-rec-km',
-    'nie',
+  {
+    // v66: komunikaty w trakcie nagrywania – co ile i w jakiej formie (do zaznaczenia)
+    const g = h('div', 'sset'),
+      sel = h('select', 'tsel'),
+      fr = h('div', 'fchk'),
+      U = IMP ? 'mi' : 'km';
+    g.append(h('b', null, _t('Komunikaty w trakcie nagrywania')));
     [
-      ['nie', _t('Wyłączony')],
-      ['pow', _t('Wibracja i powiadomienie (dystans, czas, tempo lub prędkość)')],
-      ['glos', _t('Jak wyżej + komunikat głosowy')]
-    ],
-    _t('Działa także przy wygaszonym ekranie. Głos czyta syntezator mowy telefonu (polski głos musi być zainstalowany).')
-  );
-  radios(
-    _t('Nazwa nowego śladu'),
-    'omm-trk-nazwa',
-    'data',
+      ['nie', _t('Wyłączone')],
+      ['0.5', _t('Co ') + '0,5 ' + U],
+      ['1', _t('Co ') + '1 ' + U],
+      ['2', _t('Co ') + '2 ' + U],
+      ['5', _t('Co ') + '5 ' + U],
+      ['10', _t('Co ') + '10 ' + U],
+      ['t5', _t('Co 5 minut')],
+      ['t10', _t('Co 10 minut')],
+      ['t15', _t('Co 15 minut')],
+      ['t30', _t('Co 30 minut')]
+    ].forEach(([v, t]) => sel.add(new Option(t, v, false, v === recAnnInt())));
+    const sync = () => (fr.style.display = sel.value === 'nie' ? 'none' : '');
+    sel.onchange = () => {
+      localStorage.setItem('omm-rec-int', sel.value);
+      sync();
+    };
     [
-      ['data', _t('Data i godzina – „Ślad pt., 9.10.2026 06:32”')],
-      ['rodzaj', _t('Rodzaj aktywności – „Rower · pt., 9.10 rano”')],
-      ['miejsce', _t('Miejsce – „Bałuty → Widzew · pt., 9.10”')],
-      ['oba', _t('Rodzaj + miejsce – „Rower · Bałuty → Widzew”')]
-    ],
-    _t('Miejsce (dzielnicę, wieś, miasto) podaje OpenStreetMap: przy zapisie śladu OMM wysyła tam współrzędne startu i mety – nic więcej. Bez internetu miejsce dopisze się, gdy wróci zasięg. Nazwę zawsze można zmienić przed zapisem; stare ślady: zaznacz na liście → Nazwy.')
-  );
+      ['pow', _t('Powiadomienie')],
+      ['wib', _t('Wibracja')],
+      ['dzw', _t('Krótki dźwięk')],
+      ['glos', _t('Komunikat głosowy')]
+    ].forEach(([k, t]) => {
+      const lb = h('label', 'chk'),
+        c = h('input');
+      c.type = 'checkbox';
+      c.checked = recAnnForm(k);
+      c.onchange = () => {
+        localStorage.setItem('omm-rec-f-' + k, c.checked ? '1' : '0');
+        if (c.checked && k === 'dzw') chime(); // próbka dźwięku
+      };
+      lb.append(c, h('span', null, t));
+      fr.append(lb);
+    });
+    sync();
+    g.append(sel, fr, h('div', 'muted', _t('Komunikat podaje dystans, czas i tempo (bieg, marsz) albo średnią prędkość. Działa także przy wygaszonym ekranie; głos czyta syntezator mowy telefonu.')));
+    sec.append(g);
+  }
+  {
+    // v66: nazwa nowego śladu ze wzoru – {nr} {data} {godz} {dyscyplina} {miejsce}
+    const g = h('div', 'sset'),
+      inp = h('input'),
+      chips = h('div', 'tplchips'),
+      pre = h('div', 'tplprev'),
+      nrRow = h('div', 'muted');
+    g.append(h('b', null, _t('Nazwa nowego śladu')));
+    inp.type = 'text';
+    inp.className = 'tplinp';
+    inp.value = trkNameMode();
+    inp.maxLength = 120;
+    const upd = () => {
+      const v = inp.value.trim() || nameTpl('data');
+      localStorage.setItem('omm-trk-wzor', v);
+      pre.textContent = _t('Przykład: ') + trkAutoName({st: Date.now(), a: 'rower'}, v, 'Bałuty', trkNrNext(v));
+      nrRow.textContent = /\{nr\}/.test(v) ? _t('Następny numer dla tego wzoru: ') + trkNrNext(v) : '';
+    };
+    inp.oninput = upd;
+    [
+      ['{nr}', _t('numer')],
+      ['{data}', _t('data')],
+      ['{godz}', _t('godzina')],
+      ['{dyscyplina}', _t('dyscyplina')],
+      ['{miejsce}', _t('miejsce')]
+    ].forEach(([tk, lab]) =>
+      chips.append(
+        B(lab, () => {
+          const a = inp.selectionStart != null ? inp.selectionStart : inp.value.length,
+            b = inp.selectionEnd != null ? inp.selectionEnd : a,
+            add = (a && !/\s$/.test(inp.value.slice(0, a)) ? ' ' : '') + tk;
+          inp.value = inp.value.slice(0, a) + add + inp.value.slice(b);
+          inp.focus();
+          inp.setSelectionRange(a + add.length, a + add.length);
+          upd();
+        }, 'chip')
+      )
+    );
+    const presets = h('div', 'tplchips');
+    [
+      ['data', _t('Data i godzina')],
+      ['rodzaj', _t('Dyscyplina + data')],
+      ['nr', _t('Dyscyplina + numer')],
+      ['oba', _t('Dyscyplina + miejsce')]
+    ].forEach(([k, lab]) =>
+      presets.append(
+        B(lab, () => {
+          inp.value = nameTpl(k);
+          upd();
+        }, 'chip ghost')
+      )
+    );
+    upd();
+    g.append(
+      inp,
+      h('div', 'muted', _t('Wstaw w miejscu kursora:')),
+      chips,
+      pre,
+      nrRow,
+      h('div', 'muted', _t('Gotowe wzory:')),
+      presets,
+      h('div', 'muted', _t('Numer liczy się osobno dla każdego wzoru. Miejsce (dzielnicę, wieś, miasto) podaje OpenStreetMap: przy zapisie śladu OMM wysyła tam współrzędne startu i mety – tylko gdy wzór zawiera {miejsce}. Bez internetu miejsce dopisze się, gdy wróci zasięg. Nazwę zawsze można zmienić przed zapisem.'))
+    );
+    sec.append(g);
+  }
   radios(
     _t('Podpowiedź „przesiadka do auta”'),
     'omm-auto',
@@ -31427,6 +32915,22 @@ function settingsDlg() {
       ['60', _t('Od 60 km/h')]
     ],
     _t('Po zakończeniu nagrania OMM sprawdza, czy przez co najmniej 10 s jechałeś szybciej niż próg – wtedy proponuje odcięcie jazdy autem, żeby statystyki wycieczki były prawidłowe.')
+  );
+  radios(
+    _t('Po zaparkowaniu auta podczas nagrywania'),
+    'omm-park',
+    'pauza',
+    [
+      ['pauza', _t('Wstrzymaj nagrywanie do ponownej jazdy (zalecane)')],
+      ['pieszo', _t('Nagrywaj dalej pieszo')]
+    ],
+    _t('Gdy OMM wykryje, że wysiadłeś z auta (jazda, postój i marsz), chodzenie po sklepie czy budynku nie narysuje pętli. Jeśli odejdziesz pieszo dalej niż 300 m (np. do lasu), nagrywanie wróci samo razem z drogą od auta.')
+  );
+  chk(
+    _t('Tryb diagnostyczny GPS'),
+    'omm-rec-diag',
+    false,
+    _t('Zapisuje dodatkowo każdy surowy pomiar GPS (dokładność, prędkość, kierunek i decyzję filtra) – pojawia się jako drugi ślad w eksporcie GPX. Przydatne, gdy ślad wygląda dziwnie i chcesz to komuś pokazać. Plik GPX jest wtedy większy.')
   );
   {
     // v65: poradnik – oszczędzanie baterii producenta potrafi przerwać nagrywanie i prowadzenie w tle
@@ -31471,7 +32975,20 @@ function settingsDlg() {
 
   cat('pliki', 'folder', _t('Foldery i pliki'));
   radios(
-    _t('Folder zapisu (kopie, eksporty)'),
+    _t('Kopie automatyczne i plik awaryjny nagrania'),
+    'omm-folder-kopie',
+    'prv',
+    [
+      ['prv', FOLDERS.prv.label + _t(' – zalecane')],
+      ['docs', FOLDERS.docs.label],
+      ['down', FOLDERS.down.label]
+    ],
+    NATIVE
+      ? _t('Pamięć OMM jest prywatna: menedżer plików, kabel USB i inne aplikacje jej nie widzą. Uwaga: znika razem z aplikacją przy odinstalowaniu – dlatego warto mieć też kopię na Dysku Google (Kopia zapasowa i dane). Kopie z pamięci OMM przywrócisz z listy w „Kopia zapasowa i dane”.')
+      : _t('Dotyczy aplikacji na Androida.')
+  );
+  radios(
+    _t('Pliki zapisywane ręcznie (eksport, kopie „Zapisz…”, wydruki, filmy)'),
     'omm-folder',
     'docs',
     [
@@ -31479,13 +32996,28 @@ function settingsDlg() {
       ['down', FOLDERS.down.label]
     ],
     NATIVE
-      ? _t('Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy, zdjecia. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.')
+      ? _t('Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.')
       : _t('Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.')
   );
   radios(_t('Wydruki i obrazy (PNG)'), 'omm-folder-png', 'same', [
     ['same', _t('Do tego samego folderu')],
     ['pics', FOLDERS.pics.label + _t(' – widoczne w galerii zdjęć')]
   ]);
+  chk(
+    _t('Kopie zdjęć w folderze OMM/zdjecia'),
+    'omm-foto-kopia',
+    false,
+    _t('Zdjęcia dodane w OMM są zawsze w pamięci aplikacji i w pełnej kopii. Ta opcja dodatkowo zapisuje ich jawne kopie w folderze plików ustawionym wyżej – widoczne dla menedżera plików i innych aplikacji.')
+  );
+  chk(
+    _t('Zdjęcia z aparatu OMM także w galerii telefonu (Obrazy/OMM)'),
+    'omm-foto-galeria',
+    false,
+    _t('Pełnej wielkości oryginał, razem z położeniem GPS zapisanym w zdjęciu. Bez tej opcji OMM trzyma tylko swoją kopię (do 2000 px).')
+  );
+  sec.append(
+    h('div', 'muted', _t('Wybór dowolnego folderu w telefonie wymaga dodatkowego kodu dla Androida – pojawi się po kolejnym przeglądzie bezpieczeństwa.'))
+  );
 
   cat('dane', 'save', _t('Kopia zapasowa i dane'));
   radios(
@@ -31499,17 +33031,17 @@ function settingsDlg() {
       ['nie', _t('Wyłączona')]
     ],
     NATIVE
-      ? _t('Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ') + outFolder('application/zip', 'omm-kopia').label + _t(' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.')
+      ? _t('Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ') + abFolder().label + _t(' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.')
       : _t('Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.')
   );
   {
-    // ostrzeżenie: kopia bez hasła jest czytelna dla każdego, kto ma dostęp do plików telefonu
-    const w = h('div', 'muted');
-    w.style.cssText = 'background:#fdecea;color:#8a1c12;border-radius:8px;padding:8px 10px;margin:-4px 0 10px';
+    // ostrzeżenie: kopia bez hasła jest czytelna dla każdego, kto ma dostęp do pliku
+    const w = h('div', 'muted swarn');
     encGet().then(E => {
       if (E) return w.remove();
-      w.textContent =
-        _t('⚠ Kopie nie są zaszyfrowane. Każdy, kto ma dostęp do plików telefonu (menedżer plików, kabel USB, aplikacje z dostępem do plików, synchronizacja folderów), może je odczytać – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Blokada OMM ich nie chroni, a pliki zostają po odinstalowaniu aplikacji. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.');
+      w.textContent = abFolder().prv
+        ? _t('⚠ Kopie nie są zaszyfrowane. W pamięci OMM nie widzi ich nikt poza aplikacją, ale kopia na Dysku Google i pliki zapisane ręcznie są czytelne dla każdego, kto ma do nich dostęp – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.')
+        : _t('⚠ Kopie nie są zaszyfrowane. Każdy, kto ma dostęp do plików telefonu (menedżer plików, kabel USB, aplikacje z dostępem do plików, synchronizacja folderów), może je odczytać – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Blokada OMM ich nie chroni, a pliki zostają po odinstalowaniu aplikacji. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.');
     });
     sec.append(w);
   }
@@ -31556,6 +33088,13 @@ function settingsDlg() {
     });
     const gr = h('div', 'setop');
     gr.append(go);
+    if (NATIVE)
+      gr.append(
+        BI('restore', _t('Przywróć z kopii automatycznej…'), () => {
+          back.remove();
+          abRestoreDlg();
+        })
+      );
     st.append(gr);
     sec.append(st);
   }
@@ -31691,16 +33230,48 @@ function settingsDlg() {
     ],
     _t('Do auta prowadzi przycisk „Do auta” w panelu nagrywania albo dotknięcie ikony auta na mapie.')
   );
-  radios(
-    _t('Alerty głosowe przy prowadzeniu'),
-    'omm-nav-glos',
-    'tak',
-    [
-      ['tak', _t('Włączone – zejście ze śladu / kursu, powrót, dojście do celu, skręty')],
-      ['nie', _t('Wyłączone – tylko wibracja i powiadomienie')]
-    ],
-    _t('Głos z syntezatora mowy telefonu. Przy zejściu ze śladu dalej niż 50 m komunikat powtarza się co 30 s, dopóki nie wrócisz.')
-  );
+  {
+    // v66: alerty prowadzenia – główny wyłącznik, rodzaje komunikatów i forma
+    const g = h('div', 'sset'),
+      main = h('label', 'chk'),
+      mc = h('input'),
+      box = h('div', 'fchk');
+    g.append(h('b', null, _t('Alerty przy prowadzeniu')));
+    mc.type = 'checkbox';
+    mc.checked = navAlOn();
+    main.append(mc, h('span', null, _t('Włączone')));
+    const sync = () => (box.style.display = mc.checked ? '' : 'none');
+    mc.onchange = () => {
+      localStorage.setItem('omm-nav-al', mc.checked ? '1' : '0');
+      sync();
+    };
+    const row = (lab, key, get) => {
+      const lb = h('label', 'chk'),
+        c = h('input');
+      c.type = 'checkbox';
+      c.checked = get();
+      c.onchange = () => {
+        localStorage.setItem(key, c.checked ? '1' : '0');
+        if (c.checked && key === 'omm-nav-f-dzw') chime();
+      };
+      lb.append(c, h('span', null, lab));
+      return lb;
+    };
+    box.append(
+      h('div', 'muted', _t('O czym mówić:')),
+      row(_t('Zapowiedzi skrętów'), 'omm-nav-a-skr', () => navAlType('skr')),
+      row(_t('„Przeliczam trasę” (samochodem i rowerem)'), 'omm-nav-a-prz', () => navAlType('prz')),
+      row(_t('Zejście z trasy i powrót (pieszo)'), 'omm-nav-a-zej', () => navAlType('zej')),
+      row(_t('Dojście do celu'), 'omm-nav-a-cel', () => navAlType('cel')),
+      h('div', 'muted', _t('Jak:')),
+      row(_t('Głos'), 'omm-nav-f-glos', () => navAlForm('glos')),
+      row(_t('Wibracja'), 'omm-nav-f-wib', () => navAlForm('wib')),
+      row(_t('Krótki dźwięk'), 'omm-nav-f-dzw', () => navAlForm('dzw'))
+    );
+    sync();
+    g.append(main, box, h('div', 'muted', _t('Głos z syntezatora mowy telefonu. Pieszo alarm zejścia z trasy pojawia się po kilku pewnych pozycjach dalej niż 50 m od trasy i powtarza się co 30 s, dopóki nie wrócisz.')));
+    sec.append(g);
+  }
   radios(
     _t('Mapa podczas prowadzenia'),
     'omm-nav-orient',
@@ -31733,13 +33304,6 @@ function settingsDlg() {
     ],
     _t('Świecący ekran zużywa więcej baterii. Szybki przełącznik 💡 jest na pasku prowadzenia i w panelu nagrywania.'),
     () => wlSync()
-  );
-  radios(
-    _t('Rodzaj dróg – trasy i prowadzenie po drogach'),
-    'omm-trasa-drogi',
-    'piesze',
-    Object.entries(RT_PROF).map(([k, x]) => [k, x.ic + ' ' + _t(x.n)]),
-    _t('Dotyczy planowania trasy „po ścieżkach”, dorysowania śladu i prowadzenia „po drogach”. Trasy liczy darmowy serwer Valhalla (FOSSGIS, dane © OpenStreetMap) – wysyłane są tylko współrzędne punktów trasy. Bez internetu – linia prosta.')
   );
   btnRow([BI('clock', _t('Plan wyjścia…'), () => planDlg())]);
   // sport (v60): dane do szacowania kalorii i liczniki dystansu
@@ -31800,6 +33364,8 @@ function settingsDlg() {
         }, 2000);
       });
       ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => rb.addEventListener(ev, () => clearTimeout(tm)));
+      rb.addEventListener('contextmenu', e => e.preventDefault()); // Android: przytrzymanie nie otwiera menu tekstu
+      rb.style.touchAction = 'none';
       r.append(rb);
       g.append(r);
     });
@@ -31824,17 +33390,28 @@ function settingsDlg() {
     [
       ['jasny', _t('Jasny')],
       ['ciemny', _t('Ciemny')],
+      ['slonce', _t('Automatycznie – ciemny od zachodu do wschodu słońca')],
       ['auto', _t('Jak w telefonie')]
     ],
-    null,
+    _t('Godziny wschodu i zachodu OMM liczy sam (bez internetu) dla miejsca, w którym ostatnio był GPS.'),
     themeApply
   );
+  chk(_t('Podziałka mapy (skala w metrach)'), 'omm-podzialka', false, null, scaleUpd);
+  chk(_t('Dokładność GPS na przycisku pozycji (np. ±5 m)'), 'omm-gps-dokl', false, _t('Kolor: zielony – dobra, pomarańczowy – średnia, czerwony – słaba. Przytrzymaj przycisk pozycji, żeby zobaczyć wszystkie dane GPS.'), gpsAccUi);
+  if (map._rotate)
+    chk(_t('Obracanie mapy dwoma palcami'), 'omm-obrot-palce', true, _t('Mapa obraca się dopiero po wyraźnym przekręceniu palców (25°). Kompas na mapie przywraca północ. Prowadzenie „kierunkiem jazdy” działa niezależnie od tej opcji.'), on => {
+      if (on) map.touchRotate.enable();
+      else {
+        map.touchRotate.disable();
+        if (!NAV) map.setBearing(0);
+      }
+    });
   radios(
     _t('Przy uruchomieniu pokaż'),
     'omm-start',
     'gps',
     [
-      ['gps', _t('Moją pozycję (GPS) – jak w Google Maps: od razu ostatni widok, po złapaniu GPS przelot na Ciebie')],
+      ['gps', _t('Moją pozycję (GPS) – od razu ostatni widok, po złapaniu GPS przelot na Ciebie')],
       ['ostatni', _t('Ostatni widok – miejsce i przybliżenie z poprzedniego razu')],
       ['domyslny', _t('Widok domyślny')]
     ],
@@ -31850,10 +33427,10 @@ function settingsDlg() {
   radios(
     _t('Mapa w trybie ciemnym'),
     'omm-mapa-noc',
-    'tak',
+    'nie',
     [
-      ['tak', _t('Przyciemniona – nie razi w nocy')],
-      ['nie', _t('Normalna')]
+      ['nie', _t('Normalna – czytelne kolory mapy')],
+      ['tak', _t('Przyciemniona – nie razi w nocy')]
     ],
     null,
     themeApply

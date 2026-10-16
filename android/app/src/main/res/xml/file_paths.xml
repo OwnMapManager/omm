@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pliki, które OMM może przekazać innej aplikacji („Udostępnij”): wyłącznie folder share/
-     w pamięci podręcznej OMM (tam JS zapisuje kopię udostępnianego pliku). Audyt v45, R08. -->
+<!-- Pliki, które OMM może przekazać innej aplikacji:
+     • share/ w pamięci podręcznej OMM – „Udostępnij” (JS zapisuje tam kopię udostępnianego pliku). Audyt v45, R08.
+     • Pictures/ w prywatnym folderze zewnętrznym OMM (Android/data/…/files/Pictures) – tylko na zdjęcie z aparatu:
+       Capacitor tworzy tam pusty plik i daje aplikacji Aparat prawo zapisu do NIEGO (v66: bez tego wpisu
+       aparat się nie otwierał, a OMM przechodził od razu do galerii). -->
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
     <cache-path name="share" path="share/" />
+    <external-files-path name="camera" path="Pictures/" />
 </paths>

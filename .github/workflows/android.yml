@@ -9,7 +9,9 @@
 #  • budowanie ma tylko prawo odczytu repozytorium; prawo zapisu (publikacja wydania) ma osobne zadanie,
 #    które nie uruchamia żadnego kodu projektu ani zależności,
 #  • zależności npm instalowane bez ich skryptów instalacyjnych (--ignore-scripts),
-#  • klucz podpisu i hasło trafiają wyłącznie do kroku Gradle (nie do całego środowiska zadania),
+#  • klucze podpisu i hasła trafiają wyłącznie do osobnego kroku podpisu (apksigner) – Gradle i zależności
+#    budują APK bez dostępu do sekretów (v66, audyt v2 R07); brak nowego klucza przerywa wydanie,
+#  • gradle-wrapper.jar sprawdzany oficjalnymi sumami, dystrybucja Gradle – oficjalną sumą SHA-256,
 #  • budowanie z kluczem i wydanie tylko z gałęzi main (także przy ręcznym uruchomieniu – audyt v48, pkt 3),
 #  • rotacja klucza (v49): podpis v2 starym kluczem (Android 7–8), podpis v3 nowym kluczem z „rodowodem”
 #    (lineage) poświadczonym starym kluczem (Android 9+) – aktualizacje działają na wszystkich telefonach.
@@ -71,83 +73,82 @@ jobs:
           npx cap sync android
           echo "ver=$(cat www/version.txt)" >> "$GITHUB_OUTPUT"
 
-      - name: Zbuduj i podpisz APK
+      - name: Sprawdź Gradle Wrapper (oficjalna suma pliku gradle-wrapper.jar)
+        uses: gradle/actions/wrapper-validation@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
+
+      - name: Zbuduj APK (bez kluczy podpisu)
+        # v66 (audyt v2, R07): Gradle i zależności budują APK bez dostępu do sekretów; podpis jest osobnym krokiem
+        working-directory: android
+        run: |
+          P=gradle/wrapper/gradle-wrapper.properties
+          # pobierana dystrybucja Gradle musi mieć oficjalną sumę SHA-256 (wrapper sprawdzi ją przed uruchomieniem)
+          if ! grep -q '^distributionSha256Sum=' "$P"; then
+            DURL=$(grep '^distributionUrl=' "$P" | cut -d= -f2- | sed 's/\\:/:/g')
+            SUM=$(curl -fsSL "$DURL.sha256" | tr -d ' \r\n')
+            echo "$SUM" | grep -Eq '^[0-9a-f]{64}$' || { echo "::error::Nie udało się pobrać oficjalnej sumy Gradle ($DURL.sha256)"; exit 1; }
+            echo "distributionSha256Sum=$SUM" >> "$P"
+            echo "Gradle: $DURL sha256 $SUM"
+          fi
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleRelease
+          ls -l app/build/outputs/apk/release/
+
+      - name: Podpisz APK
         working-directory: android
         env:
           KEY_B64: ${{ secrets.OMM_KEYSTORE_B64 }}
-          OMM_KEYSTORE_PASSWORD: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
+          OLD_PASS: ${{ secrets.OMM_KEYSTORE_PASSWORD }}
           NEW_B64: ${{ secrets.OMM_KEYSTORE_NEW_B64 }}
           NEW_PASS: ${{ secrets.OMM_KEYSTORE_NEW_PASSWORD }}
           VER: ${{ steps.ver.outputs.ver }}
         run: |
-          if [ -z "$OMM_KEYSTORE_PASSWORD" ]; then
-            echo "::error::Brak sekretu OMM_KEYSTORE_PASSWORD. Bez stałego klucza każda wersja wymagałaby odinstalowania poprzedniej (utrata danych w telefonie), więc budowanie zostaje przerwane."
-            exit 1
-          fi
-          # klucz podpisu tylko z sekretu OMM_KEYSTORE_B64 (nie ma go w repozytorium)
-          if [ -z "$KEY_B64" ]; then
-            echo "::error::Brak sekretu OMM_KEYSTORE_B64 (klucz podpisu zakodowany base64)."
-            exit 1
-          fi
-          printf '%s' "$KEY_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release.p12"
-          export OMM_KEYSTORE_FILE="$RUNNER_TEMP/omm-release.p12"
-          # diagnostyka bez ujawniania tajemnic: rozmiar i suma zaszyfrowanego pliku (ta sama co publiczny plik z historii repozytorium)
-          echo "Klucz z sekretu: $(stat -c %s "$OMM_KEYSTORE_FILE") B, sha256 $(sha256sum "$OMM_KEYSTORE_FILE" | cut -c1-16)… (oczekiwane 4306 B, 1e7acf93c3de0143…)"
-          keytool -list -storetype PKCS12 -keystore "$OMM_KEYSTORE_FILE" -storepass "$OMM_KEYSTORE_PASSWORD" >/dev/null 2>"$RUNNER_TEMP/kt.err" || { echo "::error::keytool: $(grep -v JAVA_TOOL "$RUNNER_TEMP/kt.err" | head -3 | tr '\n' ' ')"; }
-          # ten sam klucz co dotąd – inaczej aktualizacja na telefonie byłaby niemożliwa
-          FP=$(keytool -list -v -storetype PKCS12 -keystore "$OMM_KEYSTORE_FILE" -storepass "$OMM_KEYSTORE_PASSWORD" | grep -m1 'SHA256:' | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f')
-          if [ "$FP" != "0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac" ]; then
-            echo "::error::Klucz z sekretu ma inny odcisk ($FP) niż klucz OMM – sprawdź sekret OMM_KEYSTORE_B64. Plik: $(stat -c %s "$OMM_KEYSTORE_FILE") B, sha256 $(sha256sum "$OMM_KEYSTORE_FILE" | cut -c1-16)"
-            exit 1
-          fi
-          chmod +x gradlew
-          ./gradlew --no-daemon assembleRelease
-          APK=app/build/outputs/apk/release/app-release.apk
           OLDFP=0329e7be9bc9226f7033f2fc9939e784ac540ce425d10cfe0ec9e05ddedb17ac
           NEWFP=a5d63e2b35da55cd4c2ec6ce520a1a731227df05ecf8abc43523f3bdb21bc4e5
-          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
-          echo "build-tools: $BT"
-          if [ -n "$NEW_B64" ] && [ -n "$NEW_PASS" ]; then
-            # rotacja: nowy klucz tylko z sekretu OMM_KEYSTORE_NEW_B64, sprawdzany odcisk
-            printf '%s' "$NEW_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release-2.p12"
-            FP2=$(keytool -list -v -storetype PKCS12 -keystore "$RUNNER_TEMP/omm-release-2.p12" -storepass "$NEW_PASS" | grep -m1 'SHA256:' | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f')
-            if [ "$FP2" != "$NEWFP" ]; then
-              echo "::error::Nowy klucz z sekretu ma inny odcisk ($FP2) niż oczekiwany – sprawdź OMM_KEYSTORE_NEW_B64. Plik: $(stat -c %s "$RUNNER_TEMP/omm-release-2.p12") B (oczekiwane 4324 B)"
+          # v66 (audyt v2, R07): oba klucze są obowiązkowe – bez nowego klucza wydanie zostaje przerwane
+          for v in KEY_B64 OLD_PASS NEW_B64 NEW_PASS; do
+            if [ -z "${!v}" ]; then
+              echo "::error::Brak sekretu $v (OMM_KEYSTORE_B64 / OMM_KEYSTORE_PASSWORD / OMM_KEYSTORE_NEW_B64 / OMM_KEYSTORE_NEW_PASSWORD) – wydanie przerwane."
               exit 1
             fi
-            export OLD_PASS="$OMM_KEYSTORE_PASSWORD"
-            "$BT/zipalign" -f -P 16 4 "$APK" "$RUNNER_TEMP/aligned.apk"
-            "$BT/apksigner" rotate --out "$RUNNER_TEMP/lineage" \
-              --old-signer --ks "$OMM_KEYSTORE_FILE" --ks-key-alias omm --ks-pass env:OLD_PASS \
-              --new-signer --ks "$RUNNER_TEMP/omm-release-2.p12" --ks-key-alias omm2 --ks-pass env:NEW_PASS
-            "$BT/apksigner" sign --in "$RUNNER_TEMP/aligned.apk" --out "$RUNNER_TEMP/signed.apk" \
-              --ks "$OMM_KEYSTORE_FILE" --ks-key-alias omm --ks-pass env:OLD_PASS \
-              --next-signer --ks "$RUNNER_TEMP/omm-release-2.p12" --ks-key-alias omm2 --ks-pass env:NEW_PASS \
-              --lineage "$RUNNER_TEMP/lineage" --rotation-min-sdk-version 28
-            cp "$RUNNER_TEMP/signed.apk" "$APK"
-            rm -f "$RUNNER_TEMP/omm-release-2.p12" "$RUNNER_TEMP/lineage"
-          else
-            echo "::warning::Brak sekretów nowego klucza (OMM_KEYSTORE_NEW_B64 / OMM_KEYSTORE_NEW_PASSWORD) – APK podpisany tylko dotychczasowym kluczem, bez rotacji."
-          fi
-          rm -f "$RUNNER_TEMP/omm-release.p12"
+          done
+          umask 077
+          printf '%s' "$KEY_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release.p12"
+          printf '%s' "$NEW_B64" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/omm-release-2.p12"
+          trap 'rm -f "$RUNNER_TEMP/omm-release.p12" "$RUNNER_TEMP/omm-release-2.p12" "$RUNNER_TEMP/lineage"' EXIT
+          fp() { keytool -list -v -storetype PKCS12 -keystore "$1" -storepass "$2" | grep -m1 'SHA256:' | awk '{print $2}' | tr -d ':' | tr 'A-F' 'a-f'; }
+          FP=$(fp "$RUNNER_TEMP/omm-release.p12" "$OLD_PASS")
+          [ "$FP" = "$OLDFP" ] || { echo "::error::Klucz z OMM_KEYSTORE_B64 ma inny odcisk ($FP) niż klucz OMM."; exit 1; }
+          FP2=$(fp "$RUNNER_TEMP/omm-release-2.p12" "$NEW_PASS")
+          [ "$FP2" = "$NEWFP" ] || { echo "::error::Klucz z OMM_KEYSTORE_NEW_B64 ma inny odcisk ($FP2) niż oczekiwany."; exit 1; }
+          BT=$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)
+          echo "build-tools: $BT"
+          IN=app/build/outputs/apk/release/app-release-unsigned.apk
+          [ -f "$IN" ] || IN=app/build/outputs/apk/release/app-release.apk
+          APK="$RUNNER_TEMP/signed.apk"
+          "$BT/zipalign" -f -P 16 4 "$IN" "$RUNNER_TEMP/aligned.apk"
+          "$BT/apksigner" rotate --out "$RUNNER_TEMP/lineage" \
+            --old-signer --ks "$RUNNER_TEMP/omm-release.p12" --ks-key-alias omm --ks-pass env:OLD_PASS \
+            --new-signer --ks "$RUNNER_TEMP/omm-release-2.p12" --ks-key-alias omm2 --ks-pass env:NEW_PASS
+          "$BT/apksigner" sign --in "$RUNNER_TEMP/aligned.apk" --out "$APK" \
+            --ks "$RUNNER_TEMP/omm-release.p12" --ks-key-alias omm --ks-pass env:OLD_PASS \
+            --next-signer --ks "$RUNNER_TEMP/omm-release-2.p12" --ks-key-alias omm2 --ks-pass env:NEW_PASS \
+            --lineage "$RUNNER_TEMP/lineage" --rotation-min-sdk-version 28
           # kontrola podpisu gotowego pliku – tak, jak zobaczy go telefon:
-          #  Android 7–8 (API 24–27): zawsze dotychczasowy klucz; Android 9+ (API 28+): nowy klucz, gdy była rotacja
+          #  Android 7–8 (API 24–27): dotychczasowy klucz; Android 9+ (API 28+): nowy klucz z rodowodem
           sig() { "$BT/apksigner" verify --print-certs "$@" "$APK" | grep -i 'SHA-256 digest' | tr 'A-F' 'a-f'; }
           OLD_SEEN=$(sig --min-sdk-version 24 --max-sdk-version 27)
           NEW_SEEN=$(sig --min-sdk-version 28)
           echo "Android 7–8 widzi: $OLD_SEEN"
           echo "Android 9+  widzi: $NEW_SEEN"
-          echo "$OLD_SEEN" | grep -q "$OLDFP" || { echo "::error::Android 7–8: inny podpis niż dotychczasowy klucz: $(echo $OLD_SEEN | cut -c1-200)"; exit 1; }
-          if [ -n "$NEW_B64" ] && [ -n "$NEW_PASS" ]; then
-            echo "$NEW_SEEN" | grep -q "$NEWFP" || { echo "::error::Android 9+: brak nowego klucza w podpisie: $(echo $NEW_SEEN | cut -c1-200)"; exit 1; }
-            LIN=$("$BT/apksigner" lineage --in "$APK" --print-certs | grep -i 'SHA-256 digest' | tr 'A-F' 'a-f')
-            echo "Lineage: $LIN"
-            echo "$LIN" | grep -q "$OLDFP" && echo "$LIN" | grep -q "$NEWFP" || { echo "::error::Lineage bez obu kluczy: $(echo $LIN | cut -c1-200)"; exit 1; }
-          else
-            echo "$NEW_SEEN" | grep -q "$OLDFP" || { echo "::error::Android 9+: inny podpis niż dotychczasowy klucz"; exit 1; }
-          fi
+          echo "$OLD_SEEN" | grep -q "$OLDFP" || { echo "::error::Android 7–8: inny podpis niż dotychczasowy klucz"; exit 1; }
+          echo "$NEW_SEEN" | grep -q "$NEWFP" || { echo "::error::Android 9+: brak nowego klucza w podpisie"; exit 1; }
+          LIN=$("$BT/apksigner" lineage --in "$APK" --print-certs | grep -i 'SHA-256 digest' | tr 'A-F' 'a-f')
+          echo "$LIN" | grep -q "$OLDFP" && echo "$LIN" | grep -q "$NEWFP" || { echo "::error::Lineage bez obu kluczy"; exit 1; }
           cp "$APK" "$GITHUB_WORKSPACE/omm-v$VER.apk"
-          sha256sum "$GITHUB_WORKSPACE/omm-v$VER.apk" | tee "$GITHUB_WORKSPACE/omm-v$VER.apk.sha256"
+          # v66: stała nazwa – link releases/latest/download/omm.apk zawsze pobiera najnowszą wersję
+          cp "$APK" "$GITHUB_WORKSPACE/omm.apk"
+          cd "$GITHUB_WORKSPACE"
+          sha256sum "omm-v$VER.apk" | tee "omm-v$VER.apk.sha256"
 
       - name: Zachowaj plik (Actions → ten przebieg → Artifacts)
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -156,6 +157,7 @@ jobs:
           path: |
             omm-v${{ steps.ver.outputs.ver }}.apk
             omm-v${{ steps.ver.outputs.ver }}.apk.sha256
+            omm.apk
 
   wydanie:
     needs: apk
@@ -177,9 +179,11 @@ jobs:
           files: |
             omm-v${{ needs.apk.outputs.ver }}.apk
             omm-v${{ needs.apk.outputs.ver }}.apk.sha256
+            omm.apk
           make_latest: true
           body: |
             OMM – Own Map Manager, wersja v${{ needs.apk.outputs.ver }}.
             Instalacja: pobierz plik omm-v${{ needs.apk.outputs.ver }}.apk na telefonie i otwórz go.
             Aktualizacja: zainstaluj nowszy plik na starą wersję – dane zostają.
             Suma SHA-256 pliku: omm-v${{ needs.apk.outputs.ver }}.apk.sha256
+            Plik omm.apk to ten sam APK pod stałą nazwą – zawsze najnowszy: https://github.com/OwnMapManager/omm/releases/latest/download/omm.apk
