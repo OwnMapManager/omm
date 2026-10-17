@@ -4483,69 +4483,554 @@ body.zfar .cmi {
   color: var(--sub);
   font-weight: 400;
 }
-#plnrow {
-  display: none;
-  gap: 4px;
-  margin-top: 6px;
-  flex-wrap: wrap;
+/* v69: planowanie trasy – pasek u góry, panel na dole, punkty na mapie, menu punktu, podpowiedź */
+body.planon #fin,
+body.planon #info,
+body.planon #tools,
+body.planon #srchb,
+body.planon #lbtn,
+body.planon #wm {
+  display: none !important;
 }
-#info .plnmd {
+#plnui {
   display: none;
-  gap: 0;
-  margin: 0 0 6px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  overflow: hidden;
-  width: max-content;
 }
-#info .plnmd button.plt {
-  display: inline-flex;
-  align-items: center;
+body.planon #plnui {
+  display: block;
+}
+#plntop {
+  position: absolute;
+  z-index: 1001;
+  top: calc(8px + env(safe-area-inset-top, 0px));
+  left: 8px;
+  right: 56px;
+  display: flex;
   gap: 5px;
-  margin: 0;
+  align-items: center;
+}
+#plntop button {
+  width: 40px;
+  height: 40px;
+  flex: none;
   border: 0;
-  border-radius: 0;
-  padding: 5px 12px;
-  font-size: 13.5px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--bar);
+  color: var(--txt);
+  box-shadow: 0 1px 4px #0005;
+  font: 700 17px/40px system-ui, sans-serif;
+}
+#plntop button .ic {
+  display: block;
+  margin: auto;
+}
+#plntop button:disabled {
+  color: var(--line);
+}
+#plntop .plnt {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  border-radius: 20px;
+  background: var(--bar);
+  box-shadow: 0 1px 4px #0005;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
   font-weight: 600;
-  background: var(--bg);
+  color: var(--txt);
+}
+#plntop .plnt .ic {
+  color: var(--acc);
+  flex: none;
+}
+#plntop .plnt span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#plnsh {
+  position: absolute;
+  z-index: 1001;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 46vh;
+  overflow-y: auto;
+  background: var(--bar);
+  color: var(--txt);
+  border-radius: 18px 18px 0 0;
+  box-shadow: 0 -2px 10px #0003;
+  padding: 4px 12px calc(10px + var(--sa));
+  overscroll-behavior: contain;
+}
+#plnsh.open {
+  max-height: 72vh;
+}
+#plnsh .grab {
+  height: 22px;
+  margin: 0 -12px;
+  cursor: pointer;
+  position: relative;
+}
+#plnsh .grab::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 38px;
+  height: 4px;
+  margin-left: -19px;
+  border-radius: 2px;
+  background: var(--line);
+}
+.plnst {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-variant-numeric: tabular-nums;
+  min-height: 28px;
+}
+.plnst b {
+  font-size: 20px;
+}
+.plnst span {
   color: var(--sub);
+  font-size: 13px;
 }
-#info .plnmd button.plt.on {
-  background: var(--acc);
-  color: #fff;
-}
-html.dark #info .plnmd button.plt.on {
-  color: #202124;
-}
-#info #plnrow button.pli {
-  display: inline-block;
-  margin: 0;
-  padding: 4px 7px;
-  font-size: 17px;
-  line-height: 1;
-}
-#info #plnrow button.pli.on {
-  border-color: var(--acc);
-  background: var(--acc);
-  box-shadow: 0 0 0 1px var(--acc);
-}
-.pln-nm {
-  display: none;
-  margin-top: 4px;
+.plnst .plbusy {
+  margin-left: auto;
+  color: var(--acc);
   font-size: 12px;
-  font-weight: 400;
-  color: var(--sub);
 }
-#info button.plt {
-  display: none;
-  margin-left: 8px;
-  padding: 3px 8px;
+.plnst .plnempty {
+  color: var(--txt);
+  font-size: 14px;
+  font-weight: 600;
+  align-self: center;
+}
+.plnst button.plme {
+  margin-left: auto;
+  padding: 6px 12px;
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--acc);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.plnpf {
+  display: flex;
+  gap: 6px;
+  margin: 10px 0 6px;
+}
+.plnpf .plpb {
+  flex: 1;
+  height: 52px;
   border-radius: 12px;
   border: 1px solid var(--line);
   background: var(--bg);
+  color: var(--txt2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 11.5px;
+  padding: 0;
+}
+.plnpf .plpb .ic {
+  display: block;
+}
+.plnpf .plpb.on {
+  background: var(--accbg);
+  border-color: var(--acc);
+  color: var(--acc);
+  font-weight: 700;
+}
+.plnvar,
+.rndir,
+.rnhow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 2px 0 10px;
+}
+button.plvc {
+  font-size: 12.5px;
+  padding: 6px 11px;
+  border-radius: 15px;
+  border: 0;
+  background: var(--b2);
+  color: var(--txt2);
+}
+button.plvc.on {
+  background: var(--acc);
+  color: #fff;
+  font-weight: 600;
+}
+html.dark button.plvc.on {
+  color: #14202e;
+}
+.plnlist {
+  border-top: 1px solid var(--line);
+  margin: 2px 0 8px;
+}
+.plnlist .plnempty {
+  color: var(--sub);
+  font-size: 13px;
+  padding: 10px 0;
+}
+.plr {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  background: var(--bar);
+  position: relative;
+}
+.plr.drag {
+  z-index: 2;
+  box-shadow: 0 2px 10px #0004;
+  border-radius: 10px;
+}
+.plr .pln {
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 50%;
+  font: 700 11px/24px system-ui, sans-serif;
+  text-align: center;
+  color: #fff;
+  box-sizing: border-box;
+}
+.pln.s {
+  background: #2e9e6b;
+}
+.pln.e {
+  background: #d32f2f;
+}
+.pln.v {
+  background: var(--bg);
+  color: var(--acc) !important;
+  border: 2px solid var(--acc);
+  line-height: 20px !important;
+}
+.pln.sh {
+  width: 12px !important;
+  height: 12px !important;
+  margin: 0 6px;
+  background: #fff;
+  border: 3px solid var(--acc);
+}
+.plr .plt2 {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+.plr .plt2 b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.plr .plt2 i {
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--sub);
+}
+.plr .plh {
+  color: var(--sub);
+  padding: 8px 4px;
+  touch-action: none;
+  cursor: grab;
+}
+.plr button.plx {
+  border: 0;
+  background: none;
+  color: var(--sub);
+  padding: 8px 4px;
+}
+.plr .ic {
+  display: block;
+}
+.pls {
+  font-size: 11px;
+  color: var(--sub);
+  padding: 0 0 2px 34px;
+  position: relative;
+}
+.pls::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--acc);
+}
+.pls.st::before {
+  background: repeating-linear-gradient(var(--acc) 0 3px, transparent 3px 6px);
+}
+.plntools {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.plntools:empty {
+  display: none;
+}
+.plntools button {
+  flex: 1;
+  justify-content: center;
+  border-radius: 12px;
+  background: var(--b2);
+  border: 0;
   color: var(--txt);
+  padding: 9px 6px;
+}
+.plelv {
+  position: relative;
+  height: 50px;
+  margin: 0 0 10px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--b2);
+  cursor: pointer;
+}
+.plelv svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.plelv .a {
+  fill: var(--accbg);
+}
+.plelv .l {
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+.plelv span {
+  position: absolute;
+  left: 6px;
+  font-size: 10px;
+  color: var(--sub);
+}
+.plelv .hi {
+  top: 3px;
+}
+.plelv .lo {
+  bottom: 3px;
+}
+.plnact {
+  display: flex;
+  gap: 8px;
+}
+.plnact button {
+  height: 44px;
+  border-radius: 22px;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 0 16px;
+}
+.plnact button.plsv {
+  background: var(--b2);
+  border: 0;
+  color: var(--txt);
+}
+.plnact button.plgo {
+  flex: 1;
+  background: var(--acc);
+  border: 0;
+  color: #fff;
+}
+html.dark #plnsh .plnact button.plgo {
+  color: #14202e;
+}
+.plnact button:disabled {
+  opacity: 0.45;
+}
+/* punkty trasy na mapie */
+.plmk-w {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+.plmk {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 4px #0007;
+  color: #fff;
+  font: 700 12px/24px system-ui, sans-serif;
+  text-align: center;
+}
+.plmk .ic {
+  display: block;
+  margin: 5px auto 0;
+}
+.plmk.s {
+  background: #2e9e6b;
+}
+.plmk.e {
+  background: #d32f2f;
+}
+.plmk.v {
+  background: #fff;
+  color: #1a73e8;
+  border: 2.5px solid #1a73e8;
+  line-height: 23px;
+}
+.plmk.sh {
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border: 3.5px solid #1a73e8;
+}
+.plmk.sel {
+  box-shadow:
+    0 0 0 6px rgba(26, 115, 232, 0.3),
+    0 1px 4px #0007;
+}
+.plmenu {
+  position: fixed;
+  z-index: 3000;
+  width: 236px;
+  background: var(--bar);
+  color: var(--txt);
+  border-radius: 14px;
+  box-shadow: 0 3px 14px #0005;
+  padding: 6px;
+}
+.plmenu > b {
+  display: block;
+  font-size: 13px;
+  padding: 6px 8px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.plmenu > small {
+  display: block;
+  font-size: 11.5px;
+  color: var(--sub);
+  padding: 0 8px 6px;
+}
+.plmenu button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  border: 0;
+  background: none;
+  color: var(--txt);
+  text-align: left;
+  padding: 9px 8px;
+  border-radius: 9px;
+  font-size: 13.5px;
+}
+.plmenu button:active {
+  background: var(--b2);
+}
+.plmenu button.red {
+  color: #d32f2f;
+}
+html.dark .plmenu button.red {
+  color: #ff8a80;
+}
+#plnhint {
+  position: absolute;
+  z-index: 1002;
+  left: 8px;
+  right: 8px;
+  top: calc(56px + env(safe-area-inset-top, 0px));
+  background: #263238;
+  color: #fff;
+  border-radius: 14px;
+  padding: 8px 34px 8px 12px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  box-shadow: 0 2px 8px #0005;
+}
+#plnhint p {
+  margin: 3px 0;
+}
+#plnhint b {
+  color: #9fc7ff;
+}
+#plnhint .plhx {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  border: 0;
+  background: none;
+  color: #b0bec5;
+  padding: 6px;
+}
+/* okno „Prowadzenie” (trasa, linia, ślad) */
+.rnav p.muted {
+  margin: 0 0 10px;
+}
+.rnopt {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.rnopt.on {
+  border-color: var(--acc);
+  background: var(--accbg);
+}
+.rnopt .oi {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--b2);
+  color: var(--acc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rnopt .otx {
+  flex: 1;
+  min-width: 0;
+}
+.rnopt b {
+  display: block;
+  font-size: 13.5px;
+}
+.rnopt i {
+  display: block;
+  font-style: normal;
+  font-size: 11.5px;
+  color: var(--sub);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+.rnopt .okm {
   font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.rnhowl {
+  font-size: 12px;
+  color: var(--sub);
+  margin: 6px 0 4px;
 }
 #recbt {
   display: flex;
@@ -5514,6 +5999,75 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  " od startu": " from the start",
+  " od startu i ": " from the start and ",
+  " od trasy (w linii prostej).": " from the route (as the crow flies).",
+  "<b>Dotknij mapy</b> – nowy punkt na końcu trasy (obok Twojej pinezki – przyciąga się do niej).": "<b>Tap the map</b> – a new point at the end of the route (next to your pin it snaps to it).",
+  "<b>Przeciągnij linię</b> – trasa pójdzie tamtędy (powstaje punkt pośredni).": "<b>Drag the line</b> – the route goes that way (a via point is created).",
+  "<b>Przeciągnij punkt</b> – przesuwasz go. <b>Dotknij punktu</b> – menu: dalej prosto, start / cel, usuń.": "<b>Drag a point</b> to move it. <b>Tap a point</b> – menu: straight from here, start / destination, delete.",
+  "Brak pozycji GPS": "No GPS position",
+  "Brak punktów. Dotknij mapy albo „Dodaj”.": "No points. Tap the map or “Add”.",
+  "Dalej po drogach": "On roads from here",
+  "Dalej prosto (bez dróg)": "Straight from here (no roads)",
+  "Do mety": "To the finish",
+  "Do najbliższego miejsca na trasie i dalej do mety.": "To the nearest point on the route and on to the finish.",
+  "Do startu (powrót)": "To the start (back)",
+  "Dodaj": "Add",
+  "Dodaj punkt trasy": "Add a route point",
+  "Dodano punkt na trasie – przeciągnij go, by zmienić przebieg": "Point added on the route – drag it to change the way",
+  "Dojazd do trasy:": "Getting to the route:",
+  "Doprowadź na start": "Take me to the start",
+  "Dotknij mapy – kolejny punkt trasy": "Tap the map – next route point",
+  "Dotknij mapy – start trasy": "Tap the map – route start",
+  "Dotykaj mapy, by stawiać punkty; linię i punkty przeciągasz palcem, a dotknięty punkt ma menu (prosto, start / cel, usuń). Na dole: sposób przejazdu, długość, czas i profil wysokości, a po podciągnięciu – lista punktów. „Zapisz” odkłada trasę do „Planowania”, „Prowadź” – gdy nie jesteś na starcie, zapyta: doprowadzić na start, dołączyć najbliżej czy od razu do mety.": "Tap the map to place points; drag the line and points with your finger, and a tapped point has a menu (straight, start / destination, delete). At the bottom: how you travel, distance, time and the elevation profile, and when pulled up – the list of points. “Save” keeps the route in “Planning”, “Navigate” – when you are not at the start – asks: take you to the start, join at the nearest point or go straight to the finish.",
+  "Dołącz do trasy najbliżej": "Join the route at the nearest point",
+  "Edytuj trasę": "Edit route",
+  "Jak planować": "How to plan",
+  "Jesteś ": "You are ",
+  "Jesteś na starcie – prowadzenie ruszy od razu.": "You are at the start – guidance starts right away.",
+  "Jesteś na trasie – prowadzenie ruszy od tego miejsca.": "You are on the route – guidance starts from here.",
+  "Jesteś na trasie. Prowadzę dalej do mety.": "You are on the route. Guiding on to the finish.",
+  "Moja pozycja jako start": "My position as the start",
+  "Najpierw dojazd do początku, potem cała trasa.": "First getting to the beginning, then the whole route.",
+  "Najprościej: dotknij mapy – punkt trafia na koniec trasy. Punkt w środku trasy: przeciągnij linię.": "Simplest: tap the map – the point goes to the end of the route. A point in the middle of the route: drag the line.",
+  "Nazwa trasy:": "Route name:",
+  "Nie znam teraz Twojej pozycji – prowadzenie zacznie od startu trasy.": "Your position is not known right now – guidance will start from the route start.",
+  "Nowa trasa z Twojego miejsca prosto do celu.": "A new route from where you are straight to the destination.",
+  "Nowa trasa z Twojego miejsca przez pozostałe punkty.": "A new route from where you are through the remaining points.",
+  "Od razu do mety": "Straight to the finish",
+  "Odwróć": "Reverse",
+  "Panel na dole podciągnij w górę – lista punktów (kolejność, usuwanie), „Dodaj”, „Odwróć”, „Pętla”.": "Pull the bottom panel up – list of points (order, delete), “Add”, “Reverse”, “Loop”.",
+  "Początek trasy": "Route start",
+  "Ponów": "Redo",
+  "Profil wysokości – dotknij, by otworzyć duży wykres": "Elevation profile – tap to open the large chart",
+  "Prosto": "Straight",
+  "Prowadzenie: ": "Navigation: ",
+  "Przeciągnij, by zmienić kolejność": "Drag to change the order",
+  "Punkt kształtujący": "Shaping point",
+  "Punkt pośredni": "Via point",
+  "Pętla": "Loop",
+  "Start": "Start",
+  "Start z mojej pozycji": "Start from my position",
+  "Twoja pozycja": "Your position",
+  "Układam trasę…": "Planning the route…",
+  "Ustaw jako cel": "Set as destination",
+  "Ustaw jako start": "Set as start",
+  "Wybierz punkt trasy": "Choose a route point",
+  "Wyszukaj miejsce albo Twój punkt": "Search for a place or your point",
+  "Zamknij planowanie": "Close planning",
+  "Zamknąć planowanie bez zapisu?": "Close planning without saving?",
+  "Zapisano zmiany trasy „": "Saved changes to route “",
+  "Zrób z niego punkt trasy": "Make it a route point",
+  "po drogach": "on roads",
+  "prosto (bez dróg)": "straight (no roads)",
+  "prosto – brak trasy po drogach": "straight – no route on roads",
+  "trasa": "route",
+  "układam…": "planning…",
+  "z przeciągnięcia linii": "from dragging the line",
+  "Szlaki i drogi leśne": "Trails and forest tracks",
+  "Tylko utwardzone": "Paved only",
+  "Szosa": "Road",
+  "Górski": "Mountain",
   "Zakończyć prowadzenie?": "End navigation?",
   "Przeliczam trasę…": "Re-routing…",
   "Przeliczam trasę.": "Re-routing.",
@@ -7876,6 +8430,14 @@ const IC = {
   sport: '<circle cx="6" cy="16.5" r="3.5"/><circle cx="18" cy="16.5" r="3.5"/><path d="M6 16.5l4-7h5l3 7M10 9.5L8.5 6.5H6.5M15 9.5l-1.8-3H16"/>', // tryb Sport (rower)
   bulb: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/>', // ekran nie gaśnie
   roadnav: '<path d="M8 21l2.5-18M16 21L13.5 3"/><path d="M12 6v2M12 11v2M12 16v2"/>', // prowadzenie po drogach
+  straight: '<circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/><path d="M6.6 17.4l10.8-10.8" stroke-dasharray="2.6 2.6"/>', // v69: odcinek / trasa prosto (bez dróg)
+  redo: '<path d="M15.5 6.5l4 4-4 4" stroke-width="2.3"/><path d="M19.5 10.5H10a5 5 0 0 0 0 10h3" stroke-width="2.3"/>', // v69: ↷ ponów
+  fstart: '<path d="M6 21V4M6 4h11l-2.5 4L17 12H6"/>', // v69: start trasy
+  ffin: '<path d="M6 21V4M6 4h12v8H6"/><path d="M10 4v8M14 4v8M6 8h12" stroke-width="1.2"/>', // v69: cel / meta
+  swapv: '<path d="M7.5 4v16M4 16.5L7.5 20l3.5-3.5M16.5 20V4M13 7.5L16.5 4 20 7.5"/>', // v69: odwróć kierunek trasy
+  loop: '<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v4.5h-4.5"/>', // v69: pętla – powrót do startu
+  grip: '<path d="M8 7h8M8 12h8M8 17h8"/>', // v69: uchwyt – zmiana kolejności
+  join: '<path d="M4 20c4-1 6-5 8-9s4-7 8-7"/><path d="M4 9l5 2.5L6.5 16"/>', // v69: dołącz do trasy
   plan: '<circle cx="6" cy="18" r="2.2"/><path d="M8.2 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5"/><path d="M15 3.5l3 2.5-3 2.5"/>', // zaplanuj trasę
   tools: '<path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.3-.7-.7-2.3z"/>', // narzędzia
   visited: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5.5-6"/>', // odwiedzone
@@ -7925,7 +8487,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v68';
+const APP_VER = 'v69';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -13100,6 +13662,7 @@ function openItemPopup(it, latlng) {
       // v59: linia – po linii (w wybraną stronę); obszar – do najbliższego punktu na obwodzie; punkt – do punktu
       if (isPt(it)) return navStart(it.p[0], nameOf(it), null, {done: planDoneFn(it)});
       if (isArea(it)) return areaNavGo(it);
+      if (it.rt && Array.isArray(it.rt.w)) return routeNavDlg({pts: it.p, name: nameOf(it), done: planDoneFn(it), prof: it.rt.pr || null, via: planViaIdx(it.p, it.rt.w), kind: 'line'});
       lineNavAsk(it.p, nameOf(it), planDoneFn(it));
     })
   );
@@ -13112,6 +13675,7 @@ function openItemPopup(it, latlng) {
       BI('route', it.trk ? _t('Ślad: zmień') : _t('Podepnij ślad'), () => planLinkTrk(it))
     );
     if (it.trk) row.append(BI('play', _t('Pokaż ślad'), () => planShowTrk(it)));
+    if (it.t === 'line' && it.rt && Array.isArray(it.rt.w)) row.append(BI('edit', _t('Edytuj trasę'), () => (map.closePopup(), planStart(it)))); // v69: zapisana trasa wraca do planera
   }
   if (it.t !== 'pin' || (ICONS[it.i] && ICONS[it.i].col)) row.append(B(_t('Kolor'), () => show(colorSec)));
   if (it.t === 'pin' || isArea(it)) row.append(B(_t('Ikona'), () => show(iconSec)));
@@ -16207,6 +16771,7 @@ function ui() {
   ib.classList.toggle('on', ion);
   ib.style.display = isW() ? 'none' : '';
   // v59: „Zaplanuj trasę” osobno; pasek zwinięty do jednej ikony „Narzędzia” (aparat zawsze widoczny)
+  document.body.classList.toggle('planon', mode === 'plan');
   const pb = $('planb');
   pb.innerHTML = ico('plan', 22);
   pb.classList.toggle('on', mode === 'plan');
@@ -16241,10 +16806,13 @@ $('tools').addEventListener('pointerdown', () => {
   }
 });
 function clearAll() {
-  if (mode !== 'plan') PLN = null; // planowanie trasy (v58) kończy się razem z trybem
-  if ($('plnrow')) $('plnrow').style.display = 'none';
-  if ($('plnmd')) $('plnmd').style.display = 'none';
-  if ($('plnnm')) $('plnnm').style.display = 'none';
+  if (mode !== 'plan') {
+    // planowanie trasy kończy się razem z trybem (v69: panel, menu punktu i podpowiedź znikają)
+    if (PLN && PLN.menu) PLN.menu.remove();
+    PLN = null;
+    document.body.classList.remove('planon');
+    if ($('plnhint')) $('plnhint').remove();
+  }
   resClose(true);
   cur = [];
   sess = [];
@@ -16352,7 +16920,7 @@ function openMenu(g, btn) {
   place();
 }
 document.querySelectorAll('#tools button[data-g]').forEach(b => (b.onclick = () => openMenu(b.dataset.g, b)));
-$('planb').onclick = () => (mode === 'plan' ? setMode(null) : planStart());
+$('planb').onclick = () => (mode === 'plan' ? planClose() : planStart());
 $('toolsb').onclick = () => {
   toolsOpen(!$('tools').classList.contains('open'));
   ui();
@@ -17290,7 +17858,7 @@ $('cancel').onclick = () => {
   ui();
 };
 $('done').onclick = () => {
-  if (mode === 'plan') return planDone();
+  if (mode === 'plan') return planSave();
   if (mode === 'edit') {
     editDone(true);
     return;
@@ -17773,13 +18341,13 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś; <b>przytrzymany</b> otwiera <b>Informacje GPS</b> – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut.</li>
 <li><b>Podkład</b> – przycisk mapy w prawym górnym rogu: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – 📷 zdjęcie jest zawsze pod ręką, a ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu w miejscu narzędzi wysuwa się pasek wyglądu: kolor, krycie w % i grubość – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Obok, w lewo, wysuwa się pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst).</li>
-<li><b>Zaplanuj trasę</b> – u góry przełącznik <b>Planuję / Nawiguję</b>. <b>Nawiguję</b>: start w Twojej pozycji, dotykasz celu (i ewentualnie punktów po drodze), wybierasz sposób i ✓ od razu prowadzi. <b>Planuję</b>: dotykaj punktów, a potem w rzędzie ikon pod podpowiedzią wybierz, czym chcesz to przebyć: 🥾 pieszo wszystkimi ścieżkami, 🚶 pieszo bez dróg leśnych, 🚲 rower trekkingowy, 🚴 rower szosowy (tylko asfalt i utwardzone), 🚵 rower górski, 🚗 samochód albo 📏 prosto. Zmiana ikony od razu przelicza całą trasę – nie trzeba zaczynać od nowa. Czas przejazdu liczy się wg wybranego sposobu (pieszo – Twoje tempo, rower i auto – serwer tras). ✓ pokazuje dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.</li>
+<li><b>Zaplanuj trasę</b> – na dole panel: długość, czas, podejścia i profil wysokości, a pod nimi sposób przejazdu: <b>Pieszo</b> (szlaki i drogi leśne albo tylko utwardzone), <b>Rower</b> (trekking, szosa, górski), <b>Auto</b> albo <b>Prosto</b> – zmiana od razu przelicza trasę. <b>Dotknij mapy</b> – nowy punkt na końcu trasy (obok Twojej pinezki przyciąga się do niej i bierze jej nazwę). <b>Przeciągnij linię</b> – trasa pójdzie tamtędy (powstaje punkt pośredni). <b>Przeciągnij punkt</b> – przesuwasz go; <b>dotknij punktu</b> – menu: dalej prosto (bez dróg, np. przez łąkę), ustaw jako start / cel, usuń. Panel podciągnięty w górę pokazuje listę punktów: uchwyt ≡ zmienia kolejność, ✕ usuwa, a „Dodaj” (Twoja pozycja, Twój punkt, wyszukiwarka), „Odwróć” i „Pętla” (powrót do startu) są pod listą. U góry ↶ ↷ cofają i ponawiają każdą zmianę, a „?” pokazuje podpowiedź. „Start z mojej pozycji” + dotknięcie celu + „Prowadź” = od razu prowadzenie po drogach. „Zapisz” odkłada trasę do zakładki „Planowanie”; zapisana trasa ma w okienku „Edytuj trasę”.</li>
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
-<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
+<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
 <li><b>Ślady GPS</b> – przycisk nagrywania (ikona śladu z kropką, pod ◎) nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). Po zaparkowaniu auta nagrywanie czeka, aż znowu ruszysz – chodzenie po sklepie nie rysuje pętli (odejdziesz dalej niż 300 m, np. do lasu – nagrywanie wraca samo). Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON.</li>
@@ -17823,13 +18391,13 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are; <b>press and hold</b> it for <b>GPS information</b> – accuracy, fix age, speed, course and an accuracy chart of the last minutes.</li>
 <li><b>Base map</b> – the map button in the top-right corner: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – 📷 photo is always at hand, and the tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, a style strip slides out in place of the tools: colour, fill opacity in % and thickness – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). Next to it, to the left, slides out the ↶ undo · ✕ cancel · ✓ save bar. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text).</li>
-<li><b>Plan a route</b> – at the top, a <b>Plan / Navigate</b> switch. <b>Navigate</b>: starts at your position, tap the destination (and any points on the way), pick how you travel and ✓ starts guidance right away. <b>Plan</b>: tap points, then pick how you want to travel in the icon row under the hint: 🥾 on foot on all paths, 🚶 on foot without forest tracks, 🚲 trekking bike, 🚴 road bike (paved only), 🚵 mountain bike, 🚗 car or 📏 straight. Changing the icon re-plans the whole route at once – no need to start over. The time follows the chosen way of travel (on foot – your pace, bike and car – the routing server). ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.</li>
+<li><b>Plan a route</b> – the panel at the bottom shows distance, time, climb and the elevation profile, and below them how you travel: <b>On foot</b> (trails and forest tracks or paved only), <b>Bike</b> (trekking, road, mountain), <b>Car</b> or <b>Straight</b> – a change re-plans the route at once. <b>Tap the map</b> – a new point at the end of the route (next to your pin it snaps to it and takes its name). <b>Drag the line</b> – the route goes that way (a via point is created). <b>Drag a point</b> to move it; <b>tap a point</b> – menu: straight from here (no roads, e.g. across a meadow), set as start / destination, delete. Pull the panel up for the list of points: the ≡ handle changes the order, ✕ deletes, and “Add” (your position, your point, search), “Reverse” and “Loop” (back to start) are below the list. At the top ↶ ↷ undo and redo every change, and “?” shows the hint. “Start from my position” + tap the destination + “Navigate” = turn-by-turn guidance on roads right away. “Save” keeps the route in the “Planning” tab; a saved route has “Edit route” in its popup.</li>
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
-<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are far away, OMM asks how you'll get to the start (by car, by bike, on foot – along roads with voice directions – or straight) and switches to guiding along the route at the start. The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
+<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
 <li><b>GPS tracks</b> – the record button (track icon with a dot, below ◎) records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). After you park the car, recording waits until you drive again – walking around a shop draws no loops (walk more than 300 m away, e.g. into the forest, and recording resumes by itself). Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON.</li>
@@ -26659,21 +27227,10 @@ function navDraw() {
     (NAV.acc > 30 ? _t(' · słaby GPS ±') + fel(NAV.acc) : '');
 }
 async function trkNavAsk(t, rec) {
-  // prowadzenie po śladzie: powrót do startu albo dalej do mety
+  // prowadzenie po śladzie: v69 – jedno okno (kierunek: do mety / powrót do startu; jak zacząć, gdy nie jesteś na śladzie)
   const pts = t.pts.map(q => [q[0], q[1]]);
-  const v = rec
-    ? 'start'
-    : await dlg({
-        title: _t('Prowadzenie po śladzie „') + (t.nm || _t('Ślad')) + _t('”'),
-        btns: [
-          {t: _t('↩ Do startu'), v: 'start', c: 'okb'},
-          {t: _t('Do mety ⟶'), v: 'meta'},
-          {t: _t('Anuluj'), v: null}
-        ]
-      });
-  if (!v) return;
-  if (v === 'start') pathNav(pts.slice().reverse(), _t('Start śladu'), {near: !!rec});
-  else pathNav(pts, _t('Meta śladu'));
+  if (rec) return pathNav(pts.slice().reverse(), _t('Start śladu'), {near: true});
+  routeNavDlg({pts, name: t.nm || _t('Ślad'), kind: 'trk'});
 }
 async function pathNav(P, name, opt = {}) {
   // prowadzenie po trasie / śladzie / linii (v62): gdy jesteś daleko – pytanie, jak dotrzesz do startu.
@@ -26704,18 +27261,8 @@ async function pathNav(P, name, opt = {}) {
   navStart(P[0], _t('Start trasy'), null, {prof: v, road: true, arrive: _t('Jesteś na starcie trasy. Prowadzę po trasie.'), done: go});
 }
 async function lineNavAsk(pts, name, done) {
-  // prowadzenie po linii / zaplanowanej trasie: w którą stronę (v59)
-  const v = await dlg({
-    title: _t('Prowadzenie po trasie „') + (name || _t('Trasa')) + _t('”\n\nGdy jesteś daleko, OMM zapyta, jak dotrzesz do początku (samochodem, rowerem, pieszo albo prosto).'),
-    btns: [
-      {t: _t('Od początku (A→B)'), v: 'ab', c: 'okb'},
-      {t: _t('Od końca (B→A)'), v: 'ba'},
-      {t: _t('Anuluj'), v: null}
-    ]
-  });
-  if (!v) return;
-  const P = v === 'ab' ? pts.slice() : pts.slice().reverse();
-  pathNav(P, (v === 'ab' ? _t('Koniec trasy ') : _t('Początek trasy ')) + (name || ''), {done});
+  // prowadzenie po linii / zaplanowanej trasie: v69 – jedno okno z kierunkiem i sposobem startu
+  routeNavDlg({pts, name: name || _t('Trasa'), done, kind: 'line'});
 }
 async function areaNavGo(it) {
   // wielokąt / koło: do najbliższego punktu na obwodzie (nie do środka)
@@ -28277,7 +28824,7 @@ async function routeAB(pts, opt = {}) {
   RT_ERR = navigator.onLine === false ? _t('brak internetu') : _t('serwer tras nie odpowiedział');
   try {
     const q = {
-      locations: pts.map(x => ({lat: +x[0].toFixed(6), lon: +x[1].toFixed(6)})),
+      locations: pts.map((x, i) => ({lat: +x[0].toFixed(6), lon: +x[1].toFixed(6), ...(opt.types && opt.types[i] && opt.types[i] !== 'break' ? {type: opt.types[i]} : {})})),
       costing: pf.c,
       costing_options: {[pf.c]: {...pf.o, ...(opt.priv ? {ignore_access: true, ignore_closures: true} : {})}},
       directions_options: {language: LANG === 'pl' ? 'pl-PL' : 'en-US', units: 'kilometers'}
@@ -29047,7 +29594,9 @@ const norm = s =>
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '')
     .replace(/ł/g, 'l');
-function searchDlg() {
+function searchDlg(pick) {
+  // pick(ll, nazwa) – v69: wybór miejsca do planera trasy (zamiast pokazywania na mapie)
+  if (typeof pick !== 'function') pick = null;
   closePops();
   const back = h('div', 'dback srch'),
     box = h('div', 'dbox about'),
@@ -29056,7 +29605,7 @@ function searchDlg() {
     bt = h('div', 'db');
   inp.type = 'search';
   inp.placeholder = _t('Nazwa, opis, miejscowość, adres albo współrzędne');
-  box.append(h('div', 'dt', _t('Szukaj')), inp, res, bt);
+  box.append(h('div', 'dt', pick ? _t('Wybierz punkt trasy') : _t('Szukaj')), inp, res, bt);
   const fin = () => back.remove();
   const row = (ic, a, b, fn) => {
     const r = h('div', 'trow');
@@ -29076,7 +29625,7 @@ function searchDlg() {
     res.innerHTML = '';
     if (!q) return res.append(h('p', 'muted', _t('Szukam w mapach bieżącego trybu i w śladach GPS. Miejscowości i adresy – przyciskiem „Szukaj w internecie” (albo Enter).')));
     let c = parseCoords(inp.value);
-    if (c) row('🎯', c[0].toFixed(6) + ', ' + c[1].toFixed(6), _t('Współrzędne – pokaż na mapie'), () => coordGo(c, _t('Współrzędne')));
+    if (c) row('🎯', c[0].toFixed(6) + ', ' + c[1].toFixed(6), _t('Współrzędne – pokaż na mapie'), () => (pick ? pick(c, '') : coordGo(c, _t('Współrzędne'))));
     else {
       // wklejona wiadomość (SMS SOS z OMM, link z mapy…) – pozycja do pokazania i prowadzenia po azymucie
       const f = findCoords(inp.value);
@@ -29084,7 +29633,7 @@ function searchDlg() {
         c = f.c;
         const me = /moja pozycja|my position/i.test(f.nm),
           nm = f.nm && !me ? f.nm : _t('Pozycja z wiadomości');
-        row('📍', nm, c[0].toFixed(6) + ', ' + c[1].toFixed(6) + _t(' – pokaż, prowadź, zapisz'), () => coordGo(c, nm));
+        row('📍', nm, c[0].toFixed(6) + ', ' + c[1].toFixed(6) + _t(' – pokaż, prowadź, zapisz'), () => (pick ? pick(c, nm) : coordGo(c, nm)));
       }
     }
     if (c && inp.value.length > 40) return; // wklejona wiadomość – nie szukamy jej treści w mapach
@@ -29096,6 +29645,7 @@ function searchDlg() {
         if (!norm(nm).includes(q) && !norm(it.n).includes(q)) return;
         n++;
         row(it.t === 'pin' ? '📍' : it.t === 'line' ? '〰️' : it.t === 'text' ? '🔤' : '⬠', nm || _t('(bez nazwy)'), _t('mapa „') + m.name + _t('”') + (it.n && !norm(nm).includes(q) ? _t(' · w opisie') : ''), () => {
+          if (pick) return pick(itemAt(it), nm);
           if (m !== P) openMap(m.id);
           focusItem(it);
         });
@@ -29103,7 +29653,7 @@ function searchDlg() {
     );
     const ml = new Set(trkModeLayers().map(l => l.id)); // tylko ślady bieżącego trybu (tryby się nie mieszają)
     TRK.items.forEach(t => {
-      if (n >= 60 || !ml.has(t.l) || !norm(t.nm).includes(q)) return;
+      if (pick || n >= 60 || !ml.has(t.l) || !norm(t.nm).includes(q)) return;
       n++;
       row(t.a ? ACTS[t.a][0] : '〰️', t.nm || _t('Ślad'), _t('ślad · ') + fday(t.st) + ' · ' + fkm(trkStatsC(t).d), () => {
         $('sheet').style.display = 'none';
@@ -29111,7 +29661,7 @@ function searchDlg() {
       });
     });
     if (online && online.q === inp.value.trim())
-      online.list.forEach(p => row('🌐', p.name || p.display_name.split(',')[0], p.display_name, () => coordGo([+p.lat, +p.lon], p.display_name.split(',').slice(0, 2).join(','))));
+      online.list.forEach(p => row('🌐', p.name || p.display_name.split(',')[0], p.display_name, () => (pick ? pick([+p.lat, +p.lon], p.name || p.display_name.split(',')[0]) : coordGo([+p.lat, +p.lon], p.display_name.split(',').slice(0, 2).join(',')))));
     else if (!c && !n) res.append(h('div', 'empty', _t('Brak wyników w Twoich danych.')));
   };
   const web = async () => {
@@ -29662,7 +30212,7 @@ const TUT_STEPS = [
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
-  {sel: '#planb', open: 'tools', t: _t('Zaplanuj trasę'), x: _t('U góry wybierz: Planuję (dowolne punkty, zapis w „Planowaniu”) albo Nawiguję (od Twojej pozycji do celu, ✓ od razu prowadzi). W rzędzie ikon wybierz, czym to przebędziesz (pieszo, rower trekkingowy, szosowy, górski, auto albo prosto) – cała trasa od razu przelicza się na nowo.')},
+  {sel: '#planb', open: 'tools', t: _t('Zaplanuj trasę'), x: _t('Dotykaj mapy, by stawiać punkty; linię i punkty przeciągasz palcem, a dotknięty punkt ma menu (prosto, start / cel, usuń). Na dole: sposób przejazdu, długość, czas i profil wysokości, a po podciągnięciu – lista punktów. „Zapisz” odkłada trasę do „Planowania”, „Prowadź” – gdy nie jesteś na starcie, zapyta: doprowadzić na start, dołączyć najbliżej czy od razu do mety.')},
   {sel: '[data-g="draw"]', open: 'tools', t: _t('Rysowanie'), x: _t('Kropki, linie, wielokąty i okręgi – np. granica działki albo trasa, którą chcesz przejść. Kolor, krycie i grubość wybierasz na pasku, który wysuwa się w miejscu narzędzi.')},
   {sel: '[data-g="data"]', open: 'tools', t: _t('Pomiary'), x: _t('Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).')},
   {sel: '#srchb', t: _t('Szukaj'), x: _t('Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.')},
@@ -31158,49 +31708,74 @@ function toCSV(items) {
   return '﻿' + [head, ...rows].map(r => r.map(q).join(';')).join('\r\n');
 }
 
-// --- P13: planowanie trasy (po drogach albo prosto), dystans, przewyższenie z NMT, czas wg Twojego tempa ---
-// v59: osobne narzędzie na pasku, wybór rodzaju dróg (Valhalla), kontrola objazdów, zapis do zakładki „Planowanie”
-// v61: dynamicznie – najpierw punkty, potem sposób przejazdu (rząd ikon); zmiana sposobu przelicza CAŁĄ trasę
+// --- v69: planowanie trasy od nowa – panel na dole, punkty na mapie (przeciąganie punktów i linii), lista punktów,
+// odcinki „prosto”, cofnij / ponów, profil wysokości na bieżąco, zapis z punktami (edycja zapisanej trasy) ---
+/*
+ * PLN.w – punkty trasy: {ll: [szer, dł], nm: nazwa, sh: 1 – punkt kształtujący (z przeciągnięcia linii), st: 1 – odcinek ZA punktem prosto, me: 1 – Twoja pozycja}
+ * Odcinki liczone osobno (pamięć podręczna po kluczu), więc przesunięcie punktu przelicza tylko dwa sąsiednie odcinki,
+ * a cofnięcie nie pyta serwera drugi raz. Kolejne przeliczane odcinki idą jednym zapytaniem; punkty kształtujące bez zawracania.
+ */
 var PLN = null;
 const PLAN_KS = [...Object.keys(RT_PROF), 'prosto'];
+const PLAN_G = [
+  ['walk', 'sp_walk', 'Pieszo', ['piesze', 'utw']],
+  ['bike', 'sp_bike', 'Rower', ['rower', 'szosa', 'mtb']],
+  ['car', 'car', 'Auto', ['auto']],
+  ['line', 'straight', 'Prosto', ['prosto']]
+];
+const PLAN_VN = {piesze: 'Szlaki i drogi leśne', utw: 'Tylko utwardzone', rower: 'Trekking', szosa: 'Szosa', mtb: 'Górski'};
 function planProf() {
   // bieżący sposób przejazdu w planerze: klucz RT_PROF albo 'prosto'
   return localStorage.getItem('omm-plan-trasy') === 'prosto' ? 'prosto' : rtProf();
 }
-function planStart() {
+function planStart(edit) {
+  // edit – zapisana trasa z Planowania (it.rt.w) do poprawienia
   setMode('plan', true);
-  PLN = {taps: [], segs: [], tm: [], pr: planProf(), busy: 0, gen: 0, nav: false};
-  planInfo();
-  if (localStorage.getItem('omm-plan-cel') === 'nav') planSetNav(true);
-}
-async function planSetNav(on) {
-  // v62: PLANUJĘ – dowolne punkty A…B; NAWIGUJĘ – start w Twojej pozycji, dotykasz celu, ✓ = prowadzenie
-  if (!PLN) return;
-  localStorage.setItem('omm-plan-cel', on ? 'nav' : 'plan');
-  PLN.gen++;
-  PLN.busy = 0;
-  PLN.nav = on;
-  PLN.taps = [];
-  PLN.segs = [];
-  PLN.tm = [];
-  if (on) {
-    PLN.gps = true;
-    planInfo();
-    const me = await getMyPos();
-    if (!PLN || !PLN.nav) return;
-    PLN.gps = false;
-    if (!me) {
-      toastMsg(_t('Brak pozycji GPS – nawigacja od Twojego miejsca niemożliwa'));
-      return planSetNav(false);
-    }
-    PLN.taps = [[me[0], me[1]]];
+  PLN = {w: [], cache: {}, pr: planProf(), gen: 0, busy: 0, hist: [], fut: [], open: false, el: null, edit: edit || null, elv: null};
+  if (edit && edit.rt && Array.isArray(edit.rt.w)) {
+    PLN.w = edit.rt.w.filter(q => q && okLL(q.p)).map(q => ({ll: q.p.slice(), ...(q.n ? {nm: q.n} : {}), ...(q.s ? {sh: 1} : {}), ...(q.t ? {st: 1} : {})}));
+    if (edit.rt.pr && (RT_PROF[edit.rt.pr] || edit.rt.pr === 'prosto')) PLN.pr = edit.rt.pr;
+    else if (!edit.rt.pr) PLN.pr = 'prosto';
+    if (PLN.w.length > 1) map.fitBounds(L.latLngBounds(PLN.w.map(q => q.ll)), {paddingTopLeft: [30, 70], paddingBottomRight: [70, 260]});
   }
-  planInfo();
+  planUi();
+  planRoute();
+  let seen = null;
+  try {
+    seen = localStorage.getItem('omm-plan-pomoc');
+  } catch (e) {}
+  if (!seen && !TUT) planHint(true);
 }
+const planNum = i => {
+  // oznaczenie punktu: A, B, a pośrednie – numery (bez punktów kształtujących)
+  const w = PLN.w;
+  if (!i) return 'A';
+  if (i === w.length - 1) return 'B';
+  let n = 0;
+  for (let k = 1; k <= i; k++) if (!w[k].sh) n++;
+  return String(n);
+};
+const planPtName = i => {
+  const q = PLN.w[i];
+  if (q.me) return _t('Twoja pozycja');
+  if (q.nm) return q.nm;
+  return !i ? _t('Start') : i === PLN.w.length - 1 ? _t('Cel') : q.sh ? _t('Punkt kształtujący') : _t('Punkt ') + planNum(i);
+};
+const planKey = i => {
+  const a = PLN.w[i],
+    b = PLN.w[i + 1];
+  return a.ll[0].toFixed(6) + ',' + a.ll[1].toFixed(6) + '>' + b.ll[0].toFixed(6) + ',' + b.ll[1].toFixed(6) + '|' + (a.st || PLN.pr === 'prosto' ? 'st' : PLN.pr);
+};
+const planLeg = i => PLN.cache[planKey(i)] || null;
 function planPath() {
+  // cała trasa (odcinki policzone; jeszcze nieprzeliczone – prosto)
   const out = [];
-  PLN.segs.forEach((s, i) => out.push(...(i ? s.slice(1) : s)));
-  return out.length ? out : PLN.taps.slice();
+  for (let i = 0; i < PLN.w.length - 1; i++) {
+    const lg = planLeg(i),
+      p = lg ? lg.p : [PLN.w[i].ll, PLN.w[i + 1].ll];
+    out.push(...(out.length ? p.slice(1) : p));
+  }
+  return out.length ? out : PLN.w.map(q => q.ll);
 }
 function profSpeed(pr) {
   // prędkość (m/s) dla czasu przejazdu: pieszo – Twoje tempo; rower/auto – Twoje ślady albo typowa prędkość
@@ -31225,215 +31800,618 @@ function planSecs(path, pr, tm, up) {
   if (walk && up) sec += (up / 600) * 3600;
   return sec;
 }
-function planSrvTime(tm) {
-  // suma czasów odcinków z serwera; null, gdy któryś liczony bez serwera
-  return tm.length && tm.every(x => x > 0) ? tm.reduce((a, b) => a + b, 0) : null;
+function planSnap() {
+  // stan do cofania / ponawiania (odcinki zostają w pamięci podręcznej – bez ponownych zapytań)
+  return JSON.stringify({w: PLN.w, pr: PLN.pr});
 }
-function planInfo() {
+function planPush() {
+  PLN.hist.push(planSnap());
+  if (PLN.hist.length > 80) PLN.hist.shift();
+  PLN.fut = [];
+}
+function planUndo() {
+  if (!PLN || !PLN.hist.length) return;
+  PLN.fut.push(planSnap());
+  const s = JSON.parse(PLN.hist.pop());
+  PLN.w = s.w;
+  PLN.pr = s.pr;
+  planRoute();
+}
+function planRedo() {
+  if (!PLN || !PLN.fut.length) return;
+  PLN.hist.push(planSnap());
+  const s = JSON.parse(PLN.fut.pop());
+  PLN.w = s.w;
+  PLN.pr = s.pr;
+  planRoute();
+}
+function planPinNear(ll, px) {
+  // punkt upuszczony / postawiony obok Twojej pinezki – przyciąga się do niej i bierze jej nazwę
+  const at = map.latLngToContainerPoint(ll);
+  let best = null,
+    bd = px || 26;
+  const maps = [P, ...(planMap() !== P ? [planMap()] : [])];
+  maps.forEach(m =>
+    m.items.forEach(it => {
+      if (it.t !== 'pin' || !okLL(it.p[0])) return;
+      const f = m === P ? findL(it.l) : null;
+      if (f && (!f.l.vis || !f.g.vis)) return;
+      const d = map.latLngToContainerPoint(it.p[0]).distanceTo(at);
+      if (d < bd) {
+        bd = d;
+        best = it;
+      }
+    })
+  );
+  return best ? {ll: best.p[0].slice(), nm: nameOf(best) || ''} : null;
+}
+async function planTap(p) {
+  if (!PLN) return;
+  if (PLN.swallow && Date.now() < PLN.swallow) return; // właśnie przeciągano linię
+  if (PLN.menu) return planMenuClose();
+  planPush();
+  const s = planPinNear(p);
+  PLN.w.push(s ? {ll: s.ll, ...(s.nm ? {nm: s.nm} : {})} : {ll: p});
+  planRoute();
+}
+async function planMe(asStart) {
+  // Twoja pozycja jako start trasy
+  toastMsg(_t('Szukam Twojej pozycji GPS…'));
+  const me = await getMyPos();
+  if (!PLN) return;
+  if (!me) return toastMsg(_t('Brak pozycji GPS'));
+  planPush();
+  const q = {ll: [me[0], me[1]], me: 1};
+  if (asStart || !PLN.w.length) {
+    if (PLN.w.length && PLN.w[0].me) PLN.w[0] = q;
+    else PLN.w.unshift(q);
+  } else PLN.w.push(q);
+  planRoute();
+  if (PLN.w.length === 1) map.setView(q.ll, Math.max(map.getZoom(), 14));
+}
+async function planRoute() {
+  // przelicza odcinki, których nie ma w pamięci (kolejne – jednym zapytaniem), potem rysuje i liczy wysokości
+  if (!PLN) return;
+  const g = ++PLN.gen,
+    w = PLN.w,
+    pr = PLN.pr,
+    need = [];
+  for (let i = 0; i < w.length - 1; i++) {
+    const k = planKey(i);
+    if (PLN.cache[k]) continue;
+    if (w[i].st || pr === 'prosto') PLN.cache[k] = {p: [w[i].ll, w[i + 1].ll], st: 1, ok: 1, tm: 0};
+    else need.push(i);
+  }
+  planDraw();
+  if (!need.length) return planElev();
+  // łańcuchy kolejnych odcinków: [i0..i1]
+  const ch = [];
+  need.forEach(i => (ch.length && ch[ch.length - 1][1] === i - 1 ? (ch[ch.length - 1][1] = i) : ch.push([i, i])));
+  PLN.busy++;
+  planDraw();
+  let why = '';
+  await Promise.all(
+    ch.map(async ([i0, i1]) => {
+      const pts = w.slice(i0, i1 + 2),
+        keys = [];
+      for (let i = i0; i <= i1; i++) keys.push(planKey(i));
+      // punkty kształtujące – bez zawracania (break_through); gdy serwer odrzuci – zwykłe punkty
+      const types = pts.map((q, j) => (j && j < pts.length - 1 && q.sh ? 'break_through' : 'break'));
+      let r = null;
+      try {
+        r = await routeAB(
+          pts.map(q => q.ll),
+          {prof: pr, types}
+        );
+        if (!r && types.includes('break_through')) r = await routeAB(pts.map(q => q.ll), {prof: pr});
+      } catch (e) {}
+      if (r && r.legs && r.legs.length === pts.length - 1) {
+        r.legs.forEach((lg, j) => {
+          const a = pts[j].ll,
+            b = pts[j + 1].ll,
+            road = despur(r.p.slice(lg.s, lg.e + 1));
+          PLN && (PLN.cache[keys[j]] = {p: [a, ...road, b].filter((q, n, arr) => !n || hav(q, arr[n - 1]) > 0.5), road, tm: lg.time || 0, ok: 1});
+        });
+      } else {
+        // zapasowo odcinek po odcinku
+        for (let j = 0; j < pts.length - 1; j++) {
+          const s = await routeSeg(pts[j].ll, pts[j + 1].ll, {prof: pr});
+          if (!PLN) return;
+          PLN.cache[keys[j]] = s.bad ? {p: [pts[j].ll, pts[j + 1].ll], bad: 1, tm: 0} : {p: s.p, road: s.p.slice(1, -1), tm: s.time || 0, ok: 1};
+          if (s.bad) why = s.why || RT_ERR || why;
+        }
+      }
+    })
+  );
+  if (!PLN) return;
+  PLN.busy--;
+  if (why && g === PLN.gen) toastMsg(_t('Część trasy prosto – ') + why);
+  if (g !== PLN.gen) return; // w międzyczasie zmiana – liczy następne wywołanie
+  planDraw();
+  planElev();
+}
+function planDraw() {
   if (!PLN) return;
   tmp.clearLayers();
-  const p = planPath(),
-    d = p.length > 1 ? dist(p) : 0,
-    pr = PLN.pr;
-  if (p.length > 1) L.polyline(p, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: PLN.busy ? 0.45 : 0.85, dashArray: PLN.busy ? '6 8' : null}).addTo(tmp);
-  PLN.taps.forEach((q, i) => (i === 0 ? lab(q, PLN.nav ? _t('Ty') : 'A', '#2e9e6b') : i === PLN.taps.length - 1 ? lab(q, 'B', '#d32f2f') : dot(q)));
-  info.style.display = 'block';
-  info.textContent = PLN.gps
-    ? _t('Szukam Twojej pozycji GPS…')
-    : PLN.taps.length < 2
-      ? PLN.nav
-        ? _t('Dotknij celu – trasa od Twojej pozycji')
-        : PLN.taps.length
-          ? _t('Dotknij kolejnego punktu trasy')
-          : _t('Dotknij startu trasy')
-      : fm(d) + ' · ~' + feta(planSecs(p, pr, pr === 'prosto' ? null : planSrvTime(PLN.tm))) + (PLN.busy ? _t(' · układam trasę…') : '') + (PLN.nav ? _t(' · ✓ prowadź') : _t(' · ✓ zakończ'));
-  // przełącznik: Planuję / Nawiguję
-  let md = $('plnmd');
-  if (!md) {
-    md = h('div', 'plnmd');
-    md.id = 'plnmd';
-    [['plan', _t('Planuję')], ['nav', _t('Nawiguję')]].forEach(([k, t]) => {
+  const w = PLN.w;
+  PLN.hit = [];
+  for (let i = 0; i < w.length - 1; i++) {
+    const lg = planLeg(i),
+      p = lg ? lg.p : [w[i].ll, w[i + 1].ll];
+    if (lg && lg.ok && !lg.st) {
+      L.polyline(p, {pane: 'tmpP', color: '#fff', weight: 9, opacity: 0.9, interactive: false}).addTo(tmp);
+      L.polyline(p, {pane: 'tmpP', color: '#1a73e8', weight: 5.5, opacity: 0.95, interactive: false}).addTo(tmp);
+      // dociągnięcie od drogi do punktu – przerywane
+      const r = lg.road || [];
+      if (r.length && hav(w[i].ll, r[0]) > 25) L.polyline([w[i].ll, r[0]], {pane: 'tmpP', color: '#1a73e8', weight: 3, dashArray: '4 6', interactive: false}).addTo(tmp);
+      if (r.length && hav(w[i + 1].ll, r[r.length - 1]) > 25) L.polyline([r[r.length - 1], w[i + 1].ll], {pane: 'tmpP', color: '#1a73e8', weight: 3, dashArray: '4 6', interactive: false}).addTo(tmp);
+    } else
+      L.polyline(p, {
+        pane: 'tmpP',
+        color: lg && lg.bad ? '#e8710a' : '#1a73e8',
+        weight: 4.5,
+        opacity: lg ? 0.95 : 0.5,
+        dashArray: '8 7',
+        interactive: false
+      }).addTo(tmp);
+    PLN.hit.push(p);
+  }
+  w.forEach((q, i) => {
+    const last = i === w.length - 1 && i > 0,
+      cl = !i ? 's' : last ? 'e' : q.sh ? 'sh' : 'v',
+      sz = q.sh ? 18 : 28,
+      m = L.marker(q.ll, {
+        pane: 'tmpP',
+        draggable: true,
+        autoPan: true,
+        zIndexOffset: q.sh ? 0 : 500,
+        icon: L.divIcon({className: 'plmk-w', html: '<div class="plmk ' + cl + (PLN.sel === i ? ' sel' : '') + '">' + (q.sh ? '' : !i && q.me ? ico('nav', 14) : planNum(i)) + '</div>', iconSize: [sz + 16, sz + 16], iconAnchor: [(sz + 16) / 2, (sz + 16) / 2]})
+      }).addTo(tmp);
+    m.on('dragstart', () => {
+      planMenuClose();
+      planPush();
+      PLN.drag = L.polyline([], {pane: 'tmpP', color: '#1a73e8', weight: 3, dashArray: '4 6', interactive: false}).addTo(tmp);
+    });
+    m.on('drag', e => {
+      const ll = e.target.getLatLng(),
+        a = w[i - 1],
+        b = w[i + 1];
+      PLN.drag && PLN.drag.setLatLngs([...(a ? [a.ll] : []), [ll.lat, ll.lng], ...(b ? [b.ll] : [])]);
+    });
+    m.on('dragend', e => {
+      const ll = e.target.getLatLng(),
+        s = q.me ? null : planPinNear([ll.lat, ll.lng]);
+      q.ll = s ? s.ll : [ll.lat, ll.lng];
+      delete q.me;
+      if (s && s.nm) q.nm = s.nm;
+      else if (!s) delete q.nm;
+      PLN.drag = null;
+      PLN.swallow = Date.now() + 400;
+      planRoute();
+    });
+    m.on('click', e => {
+      L.DomEvent.stop(e);
+      planMenu(i, m);
+    });
+  });
+  planPanel();
+}
+// --- przeciąganie linii trasy: powstaje punkt kształtujący (działa palcem i myszą) ---
+function planLineHit(cp) {
+  // najbliższy odcinek trasy pod palcem: {i: numer odcinka, d: odległość w px}
+  if (!PLN || !PLN.hit) return null;
+  let best = null;
+  PLN.hit.forEach((p, i) => {
+    const step = Math.max(1, Math.floor(p.length / 600));
+    let prev = map.latLngToContainerPoint(p[0]);
+    for (let k = step; k < p.length; k += step) {
+      const cur = map.latLngToContainerPoint(p[Math.min(k, p.length - 1)]),
+        d = L.LineUtil.pointToSegmentDistance(cp, prev, cur);
+      if (!best || d < best.d) best = {i, d};
+      prev = cur;
+    }
+    if (p.length === 2 || step > 1) {
+      const d = L.LineUtil.pointToSegmentDistance(cp, map.latLngToContainerPoint(p[p.length - 2] || p[0]), map.latLngToContainerPoint(p[p.length - 1]));
+      if (!best || d < best.d) best = {i, d};
+    }
+  });
+  return best;
+}
+map.getContainer().addEventListener(
+  'pointerdown',
+  e => {
+    if (mode !== 'plan' || !PLN || PLN.ldrag || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (e.target.closest && e.target.closest('.leaflet-marker-icon, .leaflet-control, #plnui, .plmenu')) return;
+    const r = map.getContainer().getBoundingClientRect(),
+      cp = L.point(e.clientX - r.left, e.clientY - r.top),
+      hit = planLineHit(cp);
+    if (!hit || hit.d > (e.pointerType === 'mouse' ? 10 : 18)) return;
+    e.stopPropagation(); // mapa się nie przesuwa – ciągniemy linię
+    planMenuClose();
+    const i = hit.i,
+      ll0 = map.containerPointToLatLng(cp),
+      x0 = e.clientX,
+      y0 = e.clientY;
+    let moved = false;
+    const ghost = L.polyline([PLN.w[i].ll, [ll0.lat, ll0.lng], PLN.w[i + 1].ll], {pane: 'tmpP', color: '#1a73e8', weight: 3, dashArray: '4 6', interactive: false}).addTo(tmp),
+      knob = L.circleMarker(ll0, {pane: 'tmpP', radius: 8, color: '#1a73e8', weight: 3, fillColor: '#fff', fillOpacity: 1, interactive: false}).addTo(tmp);
+    PLN.ldrag = true;
+    const mv = ev => {
+        if (Math.hypot(ev.clientX - x0, ev.clientY - y0) > 6) moved = true;
+        const ll = map.containerPointToLatLng(L.point(ev.clientX - r.left, ev.clientY - r.top));
+        ghost.setLatLngs([PLN.w[i].ll, ll, PLN.w[i + 1].ll]);
+        knob.setLatLng(ll);
+        ev.preventDefault();
+      },
+      up = ev => {
+        window.removeEventListener('pointermove', mv, true);
+        window.removeEventListener('pointerup', up, true);
+        window.removeEventListener('pointercancel', up, true);
+        if (!PLN) return;
+        PLN.ldrag = false;
+        PLN.swallow = Date.now() + 450; // dotknięcie linii nie dodaje punktu na końcu trasy
+        const ll = knob.getLatLng(),
+          s = planPinNear([ll.lat, ll.lng]);
+        planPush();
+        PLN.w.splice(i + 1, 0, s ? {ll: s.ll, ...(s.nm ? {nm: s.nm} : {})} : {ll: [ll.lat, ll.lng], sh: 1});
+        if (PLN.w[i].st) PLN.w[i + 1].st = 1; // odcinek prosto zostaje prosto po obu stronach
+        planRoute();
+        if (!moved) toastMsg(_t('Dodano punkt na trasie – przeciągnij go, by zmienić przebieg'));
+      };
+    window.addEventListener('pointermove', mv, true);
+    window.addEventListener('pointerup', up, true);
+    window.addEventListener('pointercancel', up, true);
+  },
+  true
+);
+// --- menu punktu ---
+function planMenuClose() {
+  if (PLN && PLN.menu) {
+    PLN.menu.remove();
+    PLN.menu = null;
+    if (PLN.sel != null) {
+      PLN.sel = null;
+      planDraw();
+    }
+  }
+}
+function planMenu(i, mk) {
+  planMenuClose();
+  const w = PLN.w,
+    q = w[i],
+    path = planPath();
+  let km = 0;
+  for (let k = 0; k < i; k++) {
+    const lg = planLeg(k);
+    km += dist(lg ? lg.p : [w[k].ll, w[k + 1].ll]);
+  }
+  PLN.sel = i;
+  planDraw();
+  const box = h('div', 'plmenu'),
+    it = (ic, t, fn, c) => {
       const b = B('', e => {
         e.stopPropagation();
-        if (PLN && PLN.nav !== (k === 'nav')) planSetNav(k === 'nav');
-      }, 'plt');
-      b.dataset.k = k;
-      b.innerHTML = ico(k === 'nav' ? 'nav' : 'plan', 16) + '<span>' + esc(t) + '</span>';
-      md.append(b);
+        planMenuClose();
+        fn();
+      }, c || '');
+      b.innerHTML = ico(ic, 18) + '<span>' + esc(t) + '</span>';
+      box.append(b);
+    };
+  box.append(h('b', null, (q.sh ? '' : planNum(i) + ' · ') + planPtName(i)), h('small', null, i ? fkm(km) + _t(' od startu') : _t('Start trasy')));
+  const mod = fn => () => {
+    planPush();
+    fn();
+    planRoute();
+  };
+  if (i < w.length - 1 && PLN.pr !== 'prosto')
+    it(q.st ? 'plan' : 'straight', q.st ? _t('Dalej po drogach') : _t('Dalej prosto (bez dróg)'), mod(() => (q.st ? delete q.st : (q.st = 1))));
+  if (q.sh) it('pin', _t('Zrób z niego punkt trasy'), mod(() => delete q.sh));
+  if (i > 0) it('fstart', _t('Ustaw jako start'), mod(() => w.unshift(...w.splice(i, 1).map(x => (delete x.sh, x)))));
+  if (i < w.length - 1) it('ffin', _t('Ustaw jako cel'), mod(() => w.push(...w.splice(i, 1).map(x => (delete x.sh, delete x.st, x)))));
+  it('del', _t('Usuń punkt'), mod(() => w.splice(i, 1)), 'red');
+  document.body.append(box);
+  const pt = map.latLngToContainerPoint(q.ll),
+    rc = map.getContainer().getBoundingClientRect(),
+    bw = box.offsetWidth,
+    bh = box.offsetHeight;
+  let x = rc.left + pt.x - bw / 2,
+    y = rc.top + pt.y - bh - 22;
+  if (y < rc.top + 60) y = rc.top + pt.y + 22;
+  box.style.left = Math.max(8, Math.min(innerWidth - bw - 8, x)) + 'px';
+  box.style.top = Math.max(8, y) + 'px';
+  PLN.menu = box;
+  void path;
+}
+// --- panel na dole ---
+function planUi() {
+  let ui0 = $('plnui');
+  if (!ui0) {
+    ui0 = h('div', '');
+    ui0.id = 'plnui';
+    ui0.innerHTML =
+      '<div id="plntop"><button id="plnx"></button><div class="plnt"></div><button id="plnhelp"></button><button id="plnun"></button><button id="plnre"></button></div>' +
+      '<div id="plnsh"><div class="grab"></div><div class="plnst"></div><div class="plnpf"></div><div class="plnvar"></div><div class="plnlist"></div><div class="plntools"></div><div class="plnel"></div><div class="plnact"></div></div>';
+    document.body.append(ui0);
+    $('plnx').innerHTML = ico('x', 20);
+    $('plnx').title = _t('Zamknij planowanie');
+    $('plnx').onclick = () => planClose();
+    $('plnhelp').textContent = '?';
+    $('plnhelp').title = _t('Jak planować');
+    $('plnhelp').onclick = () => planHint(true);
+    $('plnun').innerHTML = ico('fundo', 20);
+    $('plnun').title = _t('Cofnij');
+    $('plnun').onclick = planUndo;
+    $('plnre').innerHTML = ico('redo', 20);
+    $('plnre').title = _t('Ponów');
+    $('plnre').onclick = planRedo;
+    // panel: dotknięcie uchwytu albo przesunięcie palcem w górę / w dół
+    const gr = ui0.querySelector('.grab');
+    let y0 = null;
+    gr.onclick = () => planOpen(!PLN.open);
+    $('plnsh').addEventListener('pointerdown', e => {
+      if (e.target.closest('button, .plr')) return;
+      y0 = e.clientY;
     });
-    infoEl.insertBefore(md, infoEl.firstChild);
-  }
-  md.style.display = 'flex';
-  md.querySelectorAll('button').forEach(b => b.classList.toggle('on', (b.dataset.k === 'nav') === !!PLN.nav));
-  let row = $('plnrow');
-  if (!row) {
-    // rząd ikon: sposób przejazdu; dotknięcie przelicza całą trasę
-    row = h('div', '');
-    row.id = 'plnrow';
-    PLAN_KS.forEach(k => {
-      const b = B(k === 'prosto' ? '📏' : RT_PROF[k].ic, e => {
-        e.stopPropagation();
+    $('plnsh').addEventListener('pointerup', e => {
+      if (y0 == null || !PLN) return;
+      const d = e.clientY - y0;
+      y0 = null;
+      if (d < -30) planOpen(true);
+      else if (d > 30) planOpen(false);
+    });
+    // sposób przejazdu: 4 kafle
+    const pf = ui0.querySelector('.plnpf');
+    PLAN_G.forEach(([g, ic, t, ks]) => {
+      const b = B('', () => {
+        if (!PLN) return;
+        const k = ks.includes(PLN.pr) ? PLN.pr : ks.includes(localStorage.getItem('omm-plan-' + g)) ? localStorage.getItem('omm-plan-' + g) : ks[0];
         planSetProf(k);
-      }, 'plt pli');
-      b.dataset.k = k;
-      b.title = k === 'prosto' ? _t('Prosto (bez dróg)') : _t(RT_PROF[k].n);
-      row.append(b);
+      }, 'plpb');
+      b.dataset.g = g;
+      b.innerHTML = ico(ic, 22) + '<span>' + esc(_t(t)) + '</span>';
+      pf.append(b);
     });
-    infoEl.append(row);
+    const act = ui0.querySelector('.plnact');
+    act.append(BI('save', _t('Zapisz'), () => planSave(), 'plsv'), BI('nav', _t('Prowadź'), () => planGo(), 'okb plgo'));
   }
-  row.style.display = 'flex';
-  row.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === pr));
-  const nm = $('plnnm') || (() => {
-    const x = h('div', 'pln-nm');
-    x.id = 'plnnm';
-    infoEl.append(x);
-    return x;
-  })();
-  nm.style.display = 'block';
-  nm.textContent = pr === 'prosto' ? _t('📏 Prosto – linie między punktami') : RT_PROF[pr].ic + ' ' + _t(RT_PROF[pr].n);
+  ui0.querySelector('.plnt').innerHTML = ico('plan', 18) + '<span>' + esc(PLN.edit ? nameOf(PLN.edit) || _t('Trasa') : _t('Planowanie')) + '</span>';
+  document.body.classList.add('planon');
+  planOpen(false);
+}
+function planOpen(on) {
+  if (!PLN) return;
+  PLN.open = !!on;
+  $('plnsh').classList.toggle('open', PLN.open);
+  planPanel();
+}
+function planClose() {
+  if (PLN && PLN.w.length > 1 && !PLN.saved) {
+    askYes(_t('Zamknąć planowanie bez zapisu?'), _t('Zamknij')).then(ok => ok && planExit());
+    return;
+  }
+  planExit();
+}
+function planExit() {
+  planMenuClose();
+  PLN = null;
+  mode = null;
+  clearAll();
+  ui();
 }
 function planSetProf(k) {
   if (!PLN || k === PLN.pr) return;
+  planPush();
   PLN.pr = k;
+  const g = PLAN_G.find(x => x[3].includes(k));
+  if (g) localStorage.setItem('omm-plan-' + g[0], k);
   if (k === 'prosto') localStorage.setItem('omm-plan-trasy', 'prosto');
   else {
     localStorage.setItem('omm-plan-trasy', 'sciezki');
     localStorage.setItem('omm-trasa-drogi', k);
   }
-  planReroute();
+  planRoute();
 }
-async function planReroute() {
-  // przeliczenie wszystkich odcinków: jedno zapytanie przez wszystkie punkty (zapasowo odcinek po odcinku)
-  if (!PLN) return;
-  const g = ++PLN.gen,
-    taps = PLN.taps.slice(),
-    pr = PLN.pr;
-  PLN.segs = taps.slice(1).map((q, i) => [taps[i], q]);
-  PLN.tm = PLN.segs.map(() => 0);
-  if (pr === 'prosto' || taps.length < 2) return planInfo();
-  PLN.busy++;
-  planInfo();
-  let r = null;
-  try {
-    r = await routeAB(taps, {prof: pr});
-  } catch (e) {}
-  if (!PLN || PLN.gen !== g) return;
-  if (r && r.legs && r.legs.length === taps.length - 1) {
-    r.legs.forEach((lg, i) => {
-      const sp = despur(r.p.slice(lg.s, lg.e + 1));
-      PLN.segs[i] = [taps[i], ...sp, taps[i + 1]].filter((q, j, arr) => !j || hav(q, arr[j - 1]) > 0.5);
-      PLN.tm[i] = lg.time;
+const planSrvTime = () => {
+  // suma czasów odcinków z serwera; null, gdy któryś odcinek bez serwera (prosto, błąd, jeszcze liczony)
+  if (!PLN || PLN.w.length < 2) return null;
+  const t = [];
+  for (let i = 0; i < PLN.w.length - 1; i++) {
+    const lg = planLeg(i);
+    if (!lg || !lg.ok || lg.st || !(lg.tm > 0)) return null;
+    t.push(lg.tm);
+  }
+  return t.reduce((a, b) => a + b, 0);
+};
+function planStatsTxt() {
+  const p = planPath(),
+    d = p.length > 1 ? dist(p) : 0,
+    e = PLN.elv && PLN.elv.sig === planSig() ? PLN.elv : null;
+  return {d, sec: planSecs(p, PLN.pr, PLN.pr === 'prosto' ? null : planSrvTime(), e ? e.up : 0), e};
+}
+const planSig = () => PLN.w.map((q, i) => (i < PLN.w.length - 1 ? planKey(i) : '')).join(';');
+function planPanel() {
+  if (!PLN || !$('plnui')) return;
+  const ui0 = $('plnui'),
+    w = PLN.w,
+    s = planStatsTxt();
+  $('plnun').disabled = !PLN.hist.length;
+  $('plnre').disabled = !PLN.fut.length;
+  // statystyki albo podpowiedź, co dalej
+  const st = ui0.querySelector('.plnst');
+  st.innerHTML = '';
+  if (w.length < 2) {
+    st.append(h('span', 'plnempty', w.length ? _t('Dotknij mapy – kolejny punkt trasy') : _t('Dotknij mapy – start trasy')));
+    if (!w.length || !w[0].me) {
+      const b = BI('gps', _t('Start z mojej pozycji'), () => planMe(true), 'plme');
+      st.append(b);
+    }
+  } else {
+    st.append(h('b', null, fm(s.d)), h('span', null, '~' + feta(s.sec)));
+    if (s.e) st.append(h('span', null, '↗ ' + fel(s.e.up) + ' ↘ ' + fel(s.e.dn)));
+    if (PLN.busy) st.append(h('span', 'plbusy', _t('układam…')));
+  }
+  // kafle i warianty
+  ui0.querySelectorAll('.plpb').forEach(b => b.classList.toggle('on', PLAN_G.find(x => x[0] === b.dataset.g)[3].includes(PLN.pr)));
+  const vr = ui0.querySelector('.plnvar'),
+    g = PLAN_G.find(x => x[3].includes(PLN.pr));
+  vr.innerHTML = '';
+  if (g && g[3].length > 1)
+    g[3].forEach(k => {
+      const b = B(_t(PLAN_VN[k]), () => planSetProf(k), 'plvc' + (k === PLN.pr ? ' on' : ''), _t(RT_PROF[k].n));
+      vr.append(b);
     });
-  } else {
-    let why = '';
-    for (let i = 0; i < taps.length - 1; i++) {
-      const s = await routeSeg(taps[i], taps[i + 1], {prof: pr});
-      if (!PLN || PLN.gen !== g) return;
-      PLN.segs[i] = s.p;
-      PLN.tm[i] = s.bad ? 0 : s.time || 0;
-      if (s.bad) why = s.why || why;
-      planInfo();
-    }
-    if (why) toastMsg(_t('Część trasy prosto – ') + why);
-  }
-  PLN.busy--;
-  planInfo();
-}
-async function planTap(p) {
-  if (PLN.gps) return; // nawigacja: czekam na Twoją pozycję
-  PLN.taps.push(p);
-  if (PLN.taps.length === 1) {
-    PLN.segs = [];
-    PLN.tm = [];
-  } else {
-    const a = PLN.taps[PLN.taps.length - 2],
-      i = PLN.segs.length,
-      g = PLN.gen,
-      pr = PLN.pr;
-    PLN.segs.push([a, p]);
-    PLN.tm.push(0);
-    if (pr !== 'prosto') {
-      PLN.busy++;
-      planInfo();
-      const r = await routeSeg(a, p, {prof: pr});
-      if (!PLN) return;
-      PLN.busy--;
-      if (PLN.gen !== g) return planInfo(); // w międzyczasie zmieniono sposób przejazdu – trasa liczona na nowo
-      if (PLN.segs[i] && PLN.segs[i][0] === a) {
-        PLN.segs[i] = r.p;
-        PLN.tm[i] = r.bad ? 0 : r.time || 0;
+  vr.style.display = vr.childNodes.length ? 'flex' : 'none';
+  // lista punktów (panel rozwinięty)
+  const ls = ui0.querySelector('.plnlist');
+  ls.innerHTML = '';
+  if (PLN.open) {
+    w.forEach((q, i) => {
+      const r = h('div', 'plr' + (q.sh ? ' sh' : '')),
+        n = h('span', 'pln ' + (!i ? 's' : i === w.length - 1 && i ? 'e' : q.sh ? 'sh' : 'v'), q.sh ? '' : planNum(i)),
+        t = h('span', 'plt2');
+      t.append(h('b', null, planPtName(i)), h('i', null, (!i ? _t('Start') : i === w.length - 1 ? _t('Cel') : q.sh ? _t('z przeciągnięcia linii') : _t('Punkt pośredni')) + ((!i || i === w.length - 1) && (q.nm || q.me) ? '' : ' · ' + q.ll[0].toFixed(5) + ', ' + q.ll[1].toFixed(5))));
+      const hd = h('span', 'plh');
+      hd.innerHTML = ico('grip', 18);
+      hd.title = _t('Przeciągnij, by zmienić kolejność');
+      const x = B('', () => {
+        planPush();
+        w.splice(i, 1);
+        planRoute();
+      }, 'plx', _t('Usuń punkt'));
+      x.innerHTML = ico('x', 18);
+      t.onclick = () => map.panTo(q.ll);
+      r.append(n, t, hd, x);
+      planReorder(hd, r, i);
+      ls.append(r);
+      if (i < w.length - 1) {
+        const lg = planLeg(i),
+          sg = h('div', 'pls' + (q.st || PLN.pr === 'prosto' || (lg && lg.bad) ? ' st' : ''));
+        sg.textContent = (lg ? fkm(dist(lg.p)) : '…') + ' · ' + (q.st || PLN.pr === 'prosto' ? _t('prosto (bez dróg)') : lg && lg.bad ? _t('prosto – brak trasy po drogach') : _t('po drogach'));
+        ls.append(sg);
       }
-      if (r.bad) toastMsg(_t('Odcinek prosto – ') + (r.why || _t('serwer tras nie odpowiedział')));
-    }
+    });
+    if (!w.length) ls.append(h('div', 'plnempty', _t('Brak punktów. Dotknij mapy albo „Dodaj”.')));
   }
-  planInfo();
+  // narzędzia (panel rozwinięty)
+  const tl = ui0.querySelector('.plntools');
+  tl.innerHTML = '';
+  if (PLN.open) {
+    tl.append(
+      BI('plus', _t('Dodaj'), () => planAdd()),
+      BI('swapv', _t('Odwróć'), () => {
+        if (w.length < 2) return;
+        planPush();
+        const st = w.map(q => !!q.st);
+        w.reverse();
+        w.forEach((q, j) => (j < w.length - 1 && st[w.length - 2 - j] ? (q.st = 1) : delete q.st));
+        planRoute();
+      }),
+      BI('loop', _t('Pętla'), () => {
+        if (!w.length) return;
+        planPush();
+        w.push({ll: w[0].ll.slice(), ...(w[0].nm ? {nm: w[0].nm} : {}), ...(w[0].me ? {nm: _t('Start')} : {})});
+        planRoute();
+      })
+    );
+  }
+  // profil wysokości
+  const el = ui0.querySelector('.plnel');
+  el.innerHTML = '';
+  if (s.e && s.e.hs && s.e.hs.length > 2) el.append(planElevSvg(s.e.hs));
+  el.style.display = el.childNodes.length ? 'block' : 'none';
+  ui0.querySelector('.plsv').disabled = ui0.querySelector('.plgo').disabled = w.length < 2;
 }
-function planUndo() {
-  if (!PLN || !PLN.taps.length || (PLN.nav && PLN.taps.length < 2)) return; // nawigacja: Twoja pozycja zostaje
-  PLN.taps.pop();
-  PLN.segs.pop();
-  PLN.tm.pop();
-  if (PLN.taps.length < 2) {
-    PLN.segs = [];
-    PLN.tm = [];
-  }
-  planInfo();
-}
-async function planDone() {
-  if (!PLN || PLN.taps.length < 2) {
-    if (PLN && PLN.taps.length) return (info.textContent = _t('Za mało punktów'));
-    PLN = null;
-    mode = null;
-    clearAll();
-    ui();
-    return;
-  }
-  if (PLN.busy) return toastMsg(_t('Chwila – układam trasę…'));
-  if (PLN.nav) {
-    // NAWIGUJĘ: od razu prowadzenie od Twojej pozycji (sam cel – po drogach z przeliczaniem; z punktami pośrednimi – po ułożonej trasie)
-    const pr = PLN.pr,
-      taps = PLN.taps.slice(),
-      path = planPath().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]),
-      to = taps[taps.length - 1];
-    PLN = null;
-    mode = null;
-    clearAll();
-    ui();
-    if (pr === 'prosto') return taps.length > 2 ? navStart(to, _t('Cel trasy'), taps) : navStart(to, _t('Cel trasy'));
-    return taps.length > 2 ? navStart(to, _t('Cel trasy'), path, {prof: pr}) : navStart(to, _t('Cel trasy'), null, {prof: pr, road: true});
-  }
-  const prof = PLN.pr === 'prosto' ? null : PLN.pr,
-    srv = prof ? planSrvTime(PLN.tm) : null,
-    path = planPath().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]),
-    d = dist(path),
-    walk = !prof || RT_PROF[prof].c === 'pedestrian',
-    verb = walk ? _t(' · marsz ~') : RT_PROF[prof].c === 'auto' ? _t(' · jazda ~') : _t(' · rowerem ~');
-  PLN = null;
-  mode = null;
-  clearAll();
-  ui();
-  const line = L.polyline(path, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.85}).addTo(tmp),
-    body = h('div', 'ffrm'),
-    st = h('div', 'pst', fm(d) + verb + feta(planSecs(path, prof || 'prosto', srv)));
-  body.append(
-    st,
-    h(
-      'div',
-      'muted',
-      (prof ? RT_PROF[prof].ic + ' ' + _t(RT_PROF[prof].n) + '. ' : _t('📏 Prosto. ')) +
-        (walk
-          ? _t('Czas wg Twojego tempa marszu z pieszych śladów (bez nich ~4,5 km/h); podejścia doliczane jak w regule Naismitha: +1 h na 600 m w górę.')
-          : srv
-            ? _t('Czas wg serwera tras dla wybranego sposobu przejazdu.')
-            : _t('Czas wg typowej prędkości (rower: Twoje rowerowe ślady).'))
-    )
-  );
-  // przewyższenie z NMT (tylko Polska) – w tle
-  let up = null,
-    dn = null;
-  (async () => {
+function planReorder(hd, row, i) {
+  // zmiana kolejności: przeciągnięcie uchwytu ≡ w górę albo w dół listy
+  hd.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    e.stopPropagation();
+    const y0 = e.clientY,
+      hgt = row.offsetHeight + 24;
+    row.classList.add('drag');
     try {
-      const n = Math.min(200, Math.max(2, Math.round(d / 25))),
+      hd.setPointerCapture(e.pointerId);
+    } catch (x) {}
+    const mv = ev => (row.style.transform = 'translateY(' + (ev.clientY - y0) + 'px)'),
+      up = ev => {
+        hd.removeEventListener('pointermove', mv);
+        hd.removeEventListener('pointerup', up);
+        hd.removeEventListener('pointercancel', up);
+        row.classList.remove('drag');
+        row.style.transform = '';
+        const n = Math.round((ev.clientY - y0) / hgt),
+          j = Math.max(0, Math.min(PLN.w.length - 1, i + n));
+        if (j === i) return;
+        planPush();
+        const [q] = PLN.w.splice(i, 1);
+        PLN.w.splice(j, 0, q);
+        planRoute();
+      };
+    hd.addEventListener('pointermove', mv);
+    hd.addEventListener('pointerup', up);
+    hd.addEventListener('pointercancel', up);
+  });
+}
+async function planAdd() {
+  const v = await dlg({
+    title: _t('Dodaj punkt trasy'),
+    msg: _t('Najprościej: dotknij mapy – punkt trafia na koniec trasy. Punkt w środku trasy: przeciągnij linię.'),
+    btns: [
+      {t: _t('Moja pozycja jako start'), v: 'me'},
+      {t: _t('Wyszukaj miejsce albo Twój punkt'), v: 'srch', c: 'okb'},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (!PLN || !v) return;
+  if (v === 'me') return planMe(true);
+  searchDlg((ll, nm) => {
+    if (!PLN) return;
+    planPush();
+    PLN.w.push({ll: ll.slice(), ...(nm ? {nm: String(nm).slice(0, 80)} : {})});
+    map.panTo(ll);
+    planRoute();
+  });
+}
+function planHint(on) {
+  let x = $('plnhint');
+  if (!on) return x && x.remove();
+  if (x) return;
+  x = h('div', '');
+  x.id = 'plnhint';
+  x.innerHTML =
+    '<p>' +
+    _t('<b>Dotknij mapy</b> – nowy punkt na końcu trasy (obok Twojej pinezki – przyciąga się do niej).') +
+    '</p><p>' +
+    _t('<b>Przeciągnij linię</b> – trasa pójdzie tamtędy (powstaje punkt pośredni).') +
+    '</p><p>' +
+    _t('<b>Przeciągnij punkt</b> – przesuwasz go. <b>Dotknij punktu</b> – menu: dalej prosto, start / cel, usuń.') +
+    '</p><p>' +
+    _t('Panel na dole podciągnij w górę – lista punktów (kolejność, usuwanie), „Dodaj”, „Odwróć”, „Pętla”.') +
+    '</p>';
+  const c = B('', () => {
+    x.remove();
+    try {
+      localStorage.setItem('omm-plan-pomoc', '1');
+    } catch (e) {}
+  }, 'plhx', _t('Zamknij'));
+  c.innerHTML = ico('x', 18);
+  x.append(c);
+  document.body.append(x);
+}
+// --- profil wysokości (NMT, tylko Polska) – w tle, po każdej zmianie trasy ---
+let PLN_ET = null;
+function planElev() {
+  clearTimeout(PLN_ET);
+  if (!PLN) return;
+  planPanel();
+  const sig = planSig();
+  if (PLN.w.length < 2 || (PLN.elv && PLN.elv.sig === sig)) return;
+  PLN_ET = setTimeout(async () => {
+    if (!PLN || planSig() !== sig || PLN.busy) return;
+    try {
+      const path = planPath(),
+        d = dist(path),
+        n = Math.min(160, Math.max(2, Math.round(d / 25))),
         cum = [0];
       for (let i = 1; i < path.length; i++) cum.push(cum[i - 1] + hav(path[i - 1], path[i]));
       const smp = [];
@@ -31447,68 +32425,265 @@ async function planDone() {
         smp.push([a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u]);
       }
       const hs = await hList(smp);
-      let u2 = 0,
-        d2 = 0;
+      if (!PLN || planSig() !== sig || !hs || hs.length < 2 || hs.some(x => !isFinite(x))) return;
+      let up = 0,
+        dn = 0;
       for (let i = 1; i < hs.length; i++) {
         const x = hs[i] - hs[i - 1];
-        if (x > 0) u2 += x;
-        else d2 -= x;
+        if (x > 0) up += x;
+        else dn -= x;
       }
-      up = Math.round(u2);
-      dn = Math.round(d2);
-      st.textContent = fm(d) + ' · ↗ ' + fel(up) + ' ↘ ' + fel(dn) + verb + feta(planSecs(path, prof || 'prosto', srv, up));
+      PLN.elv = {sig, up: Math.round(up), dn: Math.round(dn), hs};
+      planPanel();
     } catch (e) {}
-  })();
-  const v = await formDlg(_t('🗺 Zaplanowana trasa'), body, [
-    {t: _t('Odrzuć'), v: null},
-    {t: _t('Prowadź'), v: 'nav'},
-    {t: _t('Zapisz w Planowaniu'), v: 'save', c: 'okb'}
-  ]);
-  line.remove();
-  if (v === 'nav') return pathNav(path, _t('Koniec trasy'), {prof});
-  if (v !== 'save') return;
-  // zapis do zakładki „Planowanie”: wybór warstwy planu albo nowa warstwa
+  }, 700);
+}
+function planElevSvg(hs) {
+  const W = 320,
+    H = 50,
+    lo = Math.min(...hs),
+    hi = Math.max(...hs),
+    span = Math.max(hi - lo, IMP ? 50 / 3.2808 : 50),
+    base = lo - (span - (hi - lo)) / 2,
+    pts = hs.map((v, i) => [(i / (hs.length - 1)) * W, H - 4 - ((v - base) / span) * (H - 10)]),
+    d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(''),
+    box = h('div', 'plelv');
+  box.innerHTML =
+    '<svg viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="none"><path d="' + d + 'L' + W + ' ' + H + 'L0 ' + H + 'z" class="a"/><path d="' + d + '" class="l"/></svg><span class="hi">' + fel(hi) + '</span><span class="lo">' + fel(lo) + '</span>';
+  box.title = _t('Profil wysokości – dotknij, by otworzyć duży wykres');
+  box.onclick = () => profile(planPath());
+  return box;
+}
+// --- zapis i prowadzenie ---
+const planWOut = () => PLN.w.map(q => ({p: [+q.ll[0].toFixed(6), +q.ll[1].toFixed(6)], ...(q.nm ? {n: q.nm} : q.me ? {n: _t('Moja pozycja')} : {}), ...(q.sh ? {s: 1} : {}), ...(q.st ? {t: 1} : {})}));
+function planViaIdx(path, w) {
+  // indeksy punktów pośrednich (nie kształtujących) na ścieżce – do „od razu do mety” przez pozostałe punkty
+  const out = [];
+  let from = 0;
+  w.slice(1, -1).forEach(q => {
+    if (q.sh) return;
+    let bi = from,
+      bd = Infinity;
+    for (let k = from; k < path.length; k++) {
+      const d = hav(q.p || q.ll, path[k]);
+      if (d < bd) {
+        bd = d;
+        bi = k;
+      }
+    }
+    out.push(bi);
+    from = bi;
+  });
+  return out;
+}
+async function planSave() {
+  if (!PLN || PLN.w.length < 2) return;
+  if (PLN.busy) return toastMsg(_t('Chwila – układam trasę…'));
+  const prof = PLN.pr === 'prosto' ? null : PLN.pr,
+    path = planPath().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]),
+    s = planStatsTxt(),
+    srv = prof ? planSrvTime() : null,
+    walk = !prof || RT_PROF[prof].c === 'pedestrian',
+    verb = walk ? _t(' · marsz ~') : RT_PROF[prof].c === 'auto' ? _t(' · jazda ~') : _t(' · rowerem ~'),
+    note = fm(s.d) + (s.e ? ' · ↗ ' + fel(s.e.up) + ' ↘ ' + fel(s.e.dn) : '') + verb + feta(s.sec),
+    rt = {w: planWOut(), ...(s.e ? {up: s.e.up, dn: s.e.dn} : {}), ...(prof ? {pr: prof} : {}), ...(srv ? {tm: Math.round(srv)} : {})};
+  if (PLN.edit) {
+    // poprawiona zapisana trasa – zmiana w miejscu
+    const it = PLN.edit,
+      m = DB.maps.find(x => x.items.includes(it));
+    if (m) {
+      it.p = path;
+      it.rt = rt;
+      it.n = note;
+      it.up = Date.now();
+      save();
+      render();
+      sheetIfOpen();
+      PLN.saved = true;
+      planExit();
+      toastMsg(_t('Zapisano zmiany trasy „') + (nameOf(it) || '') + '”');
+      return;
+    }
+  }
   const pm = planMap(),
     ls = pm.groups.flatMap(g => g.layers.map(l => ({g, l})));
-  const w = await dlg({
+  const wv = await dlg({
     title: _t('Do której warstwy w Planowaniu zapisać trasę?'),
     btns: [...ls.map(x => ({t: x.l.name, v: x.l.id, c: x.l.id === pm.active ? 'okb' : ''})), {t: _t('＋ Nowa warstwa…'), v: '+'}, {t: _t('Anuluj'), v: null}]
   });
-  if (!w) return;
-  let lid = w;
-  if (w === '+') {
+  if (!wv || !PLN) return;
+  let lid = wv;
+  if (wv === '+') {
     const n = await askText(_t('Nazwa nowej warstwy w Planowaniu:'), _t('Zaplanowane trasy'));
-    if (!n || !n.trim()) return;
+    if (!n || !n.trim() || !PLN) return;
     const l = {id: uid(), name: n.trim().slice(0, 200), vis: true, op: 1, open: true};
     pm.groups[0].layers.unshift(l);
     lid = l.id;
   }
+  const w = PLN.w,
+    nm0 = w[0].nm || '',
+    nm1 = w[w.length - 1].nm || '',
+    defName = nm0 && nm1 && nm0 !== nm1 ? nm0 + ' – ' + nm1 : nm1 || _t('Trasa ') + fday(Date.now()),
+    name = await askText(_t('Nazwa trasy:'), defName.slice(0, 120));
+  if (name === null || !PLN) return;
   pm.active = lid;
   const f = pm.groups.flatMap(g => g.layers.map(l => ({g, l}))).find(x => x.l.id === lid);
   if (f) f.l.vis = f.g.vis = true;
-  const it = {
-    id: uid(),
-    t: 'line',
-    p: path,
-    l: lid,
-    c: '#1a73e8',
-    o: curOp,
-    sz: 2,
-    nm: _t('Trasa ') + fday(Date.now()),
-    n: st.textContent,
-    rt: {...(up != null ? {up, dn} : {}), ...(prof ? {pr: prof} : {}), ...(srv ? {tm: Math.round(srv)} : {})},
-    cr: Date.now(),
-    up: Date.now()
-  };
+  const it = {id: uid(), t: 'line', p: path, l: lid, c: '#1a73e8', o: curOp, sz: 2, nm: (name.trim() || defName).slice(0, 200), n: note, rt, cr: Date.now(), up: Date.now()};
   pm.items.push(it);
   save();
   render();
   sheetIfOpen();
+  PLN.saved = true;
+  planExit();
   toastAct(_t('Zapisano trasę w Planowaniu („') + (f ? f.l.name : '') + '”)', _t('Otwórz'), () => {
     TAB = 'plan';
     ctxSync();
     focusItem(it);
   });
+}
+async function planGo() {
+  if (!PLN || PLN.w.length < 2) return;
+  if (PLN.busy) return toastMsg(_t('Chwila – układam trasę…'));
+  const pr = PLN.pr,
+    w = PLN.w.map(q => ({...q})),
+    path = planPath().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]),
+    to = w[w.length - 1].ll,
+    nm = w[w.length - 1].nm || _t('Cel trasy'),
+    direct = w.length === 2 && w[0].me && pr !== 'prosto' && !w[0].st;
+  PLN.saved = true;
+  planExit();
+  // sam cel od Twojej pozycji – po drogach z poleceniami i przeliczaniem (jak dawne „Nawiguję”)
+  if (direct) return navStart(to, nm, null, {prof: pr, road: true});
+  routeNavDlg({pts: path, name: nm, prof: pr === 'prosto' ? null : pr, via: planViaIdx(path, w), kind: 'plan'});
+}
+// --- v69: „Prowadź” po trasie, linii albo śladzie – jedno okno: kierunek i jak zacząć, gdy nie jesteś na starcie ---
+async function routeNavDlg(o) {
+  // o: {pts, name, done, prof, via: indeksy punktów pośrednich, kind: 'plan' | 'line' | 'trk'}
+  const me = await Promise.race([getMyPos(), new Promise(r => setTimeout(() => r(null), 5000))]),
+    N = o.pts.length;
+  let rev = false,
+    pick = 'start',
+    how = localStorage.getItem('omm-dojazd') || 'auto';
+  const body = h('div', 'rnav'),
+    info = h('p', 'muted'),
+    dirs = h('div', 'rndir'),
+    opts = h('div', 'rnopts'),
+    howL = h('div', 'rnhowl', _t('Dojazd do trasy:')),
+    hows = h('div', 'rnhow');
+  const P = () => (rev ? o.pts.slice().reverse() : o.pts),
+    near = () => {
+      // najbliższe miejsce na trasie (indeks i odległość)
+      if (!me) return {k: 0, d: Infinity};
+      const p = P();
+      let k = 0,
+        d = Infinity;
+      for (let i = 0; i < p.length; i++) {
+        const x = hav(me, p[i]);
+        if (x < d) {
+          d = x;
+          k = i;
+        }
+      }
+      return {k, d};
+    };
+  if (o.kind !== 'plan') {
+    const lb = o.kind === 'trk' ? [_t('Do mety'), _t('Do startu (powrót)')] : [_t('Od początku (A→B)'), _t('Od końca (B→A)')];
+    lb.forEach((t, j) => {
+      const b = B(t, () => {
+        rev = !!j;
+        draw();
+      }, 'plvc');
+      b.dataset.j = j;
+      dirs.append(b);
+    });
+  }
+  ['auto', 'rower', 'piesze', 'prosto'].forEach(k => {
+    const b = B({auto: _t('Auto'), rower: _t('Rower'), piesze: _t('Pieszo'), prosto: _t('Prosto')}[k], () => {
+      how = k;
+      draw();
+    }, 'plvc');
+    b.dataset.k = k;
+    hows.append(b);
+  });
+  const opt = (k, ic, t, sub, km) => {
+    const d = h('div', 'rnopt' + (pick === k ? ' on' : ''));
+    d.innerHTML = '<span class="oi">' + ico(ic, 18) + '</span>';
+    const tx = h('span', 'otx');
+    tx.append(h('b', null, t), h('i', null, sub));
+    d.append(tx, h('span', 'okm', km));
+    d.onclick = () => {
+      pick = k;
+      draw();
+    };
+    opts.append(d);
+  };
+  let at = false;
+  const draw = () => {
+    const p = P(),
+      nr = near(),
+      dS = me ? hav(me, p[0]) : null,
+      dE = me ? hav(me, p[N - 1]) : null;
+    at = !!me && (dS < 150 || nr.d < 60);
+    dirs.querySelectorAll('button').forEach(b => b.classList.toggle('on', !!+b.dataset.j === rev));
+    opts.innerHTML = '';
+    if (!me) info.textContent = _t('Nie znam teraz Twojej pozycji – prowadzenie zacznie od startu trasy.');
+    else if (at) info.textContent = dS < 150 ? _t('Jesteś na starcie – prowadzenie ruszy od razu.') : _t('Jesteś na trasie – prowadzenie ruszy od tego miejsca.');
+    else {
+      info.textContent = _t('Jesteś ') + fkm(dS) + _t(' od startu i ') + fkm(nr.d) + _t(' od trasy (w linii prostej).');
+      opt('start', 'fstart', _t('Doprowadź na start'), _t('Najpierw dojazd do początku, potem cała trasa.'), fkm(dS));
+      opt('join', 'join', _t('Dołącz do trasy najbliżej'), _t('Do najbliższego miejsca na trasie i dalej do mety.'), fkm(nr.d));
+      opt('meta', 'ffin', _t('Od razu do mety'), o.via && o.via.length ? _t('Nowa trasa z Twojego miejsca przez pozostałe punkty.') : _t('Nowa trasa z Twojego miejsca prosto do celu.'), fkm(dE));
+    }
+    const showHow = !at && me && !(pick === 'meta' && o.prof);
+    howL.style.display = hows.style.display = showHow ? '' : 'none';
+    hows.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === how));
+  };
+  body.append(info, ...(dirs.childNodes.length ? [dirs] : []), opts, howL, hows);
+  draw();
+  if (o.kind === 'plan' && (!me || at)) {
+    const p = o.pts;
+    if (me && hav(me, p[0]) >= 150) return navStart(p[N - 1], o.name, p.slice(near().k), {done: o.done, prof: o.prof});
+    return navStart(p[N - 1], o.name, p, {done: o.done, prof: o.prof});
+  }
+  const v = await formDlg(_t('Prowadzenie: ') + (o.name || _t('trasa')), body, [
+    {t: _t('Anuluj'), v: null},
+    {t: _t('Prowadź'), v: 'go', c: 'okb'}
+  ]);
+  if (!v) return;
+  const p = P(),
+    name = o.name || (rev ? _t('Początek trasy') : _t('Koniec trasy')),
+    go = (pp = p) => navStart(pp[pp.length - 1], name, pp, {done: o.done, prof: o.prof});
+  if (!me || at) {
+    if (me && hav(me, p[0]) >= 150) {
+      const {k} = near();
+      return go(p.slice(k));
+    }
+    return go();
+  }
+  localStorage.setItem('omm-dojazd', how);
+  if (pick === 'start') {
+    if (how === 'prosto') return go();
+    return navStart(p[0], _t('Start trasy'), null, {prof: how, road: true, arrive: _t('Jesteś na starcie trasy. Prowadzę po trasie.'), done: () => go()});
+  }
+  if (pick === 'join') {
+    const {k} = near(),
+      rest = p.slice(k);
+    if (rest.length < 2) return navStart(p[N - 1], name, null, {done: o.done, prof: how === 'prosto' ? null : how, road: how !== 'prosto'});
+    if (how === 'prosto') return go(rest);
+    return navStart(p[k], _t('Trasa'), null, {prof: how, road: true, arrive: _t('Jesteś na trasie. Prowadzę dalej do mety.'), done: () => go(rest)});
+  }
+  // od razu do mety: tym samym sposobem co trasa (albo wybranym dojazdem), przez pozostałe punkty pośrednie
+  const pf = o.prof || (how !== 'prosto' ? how : null);
+  if (!pf) return navStart(p[N - 1], name, null, {done: o.done});
+  const {k} = near(),
+    via = (o.via || []).map(i => (rev ? N - 1 - i : i)).filter(i => i > k).sort((a, b) => a - b).map(i => p[i]);
+  if (via.length) {
+    toastMsg(_t('Układam trasę…'));
+    const r = await routeAB([[me[0], me[1]], ...via, p[N - 1]], {prof: pf});
+    if (r && r.p && r.p.length > 1) return navStart(p[N - 1], name, r.p, {done: o.done, prof: pf});
+  }
+  navStart(p[N - 1], name, null, {done: o.done, prof: pf, road: true});
 }
 
 // --- P7: siedliska i drzewostany z Banku Danych o Lasach (WMS; nazwy warstw z GetCapabilities) ---
@@ -33854,6 +35029,7 @@ if (plug('App'))
     if (SPLIT) return splitStop();
     if (EXT) return extStop();
     if ($('recpan').style.display === 'block') return $('rectx').click();
+    if (mode === 'plan' && PLN) return PLN.menu ? planMenuClose() : planClose(); // v69: planer pyta przed porzuceniem trasy
     if (mode) return setMode(null);
     if (sportMapBack()) return; // mapa w trybie Sport → licznik (trwa trening) albo tablica
     plug('App').minimizeApp();
