@@ -2119,29 +2119,105 @@ body.navon #compb {
 #recb {
   top: calc(152px + env(safe-area-inset-top, 0px));
   right: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  color: #8b1a1a; /* ciemnoczerwony napis REC */
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.6px;
 }
-/* dioda jak w starym magnetofonie: zgaszona – ciemnoczerwona, przy nagrywaniu świeci łagodnie (bez pulsowania) */
-#recb .led {
+#recb svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+  margin: auto;
+}
+body.rec #recb {
+  display: none;
+}
+/* v68: w czasie nagrywania przycisk REC zmienia się w kapsułę: kropka, czas, dystans/stan i okrągły „stop”.
+   Kapsuła rośnie w lewo od miejsca przycisku; pod okrągłym „stop” wisi pigułka (pauza, zdjęcie, punkt, powrót). */
+#reccap {
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  top: calc(152px + env(safe-area-inset-top, 0px));
+  right: 8px;
+  height: 40px;
+  max-width: calc(100% - 72px);
+  box-sizing: border-box;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px 0 12px;
+  background: var(--bar);
+  color: var(--txt);
+  border-radius: 20px;
+  box-shadow: 0 1px 4px #0005;
+}
+body.rec #reccap {
+  display: flex;
+}
+#reccap .rdot {
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #8d4a4a, #4a1c1c);
-  box-shadow: inset 0 0 1px #0008;
+  background: #e53935;
+  flex: none;
+  animation: recblink 1.2s infinite;
 }
-#recb.on .led {
-  background: radial-gradient(circle at 35% 35%, #ffc4bf, #ff2a1a 55%, #c40d00);
-  box-shadow:
-    0 0 4px 1px rgba(255, 30, 15, 0.6),
-    0 0 10px 3px rgba(255, 30, 15, 0.22);
+#reccap.paused .rdot {
+  background: #f2a516;
+  animation: none;
+}
+@keyframes recblink {
+  50% {
+    opacity: 0.25;
+  }
+}
+#rectx {
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  padding: 0 4px 0 0;
+  min-width: 0;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.12;
+  font-variant-numeric: tabular-nums;
+}
+#rectx b {
+  font-size: 14px;
+  font-weight: 700;
+}
+#rectx i {
+  font-style: normal;
+  font-size: 11px;
+  color: var(--sub);
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#recst {
+  width: 32px;
+  height: 32px;
+  flex: none;
+  border: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: #e53935;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px #0003;
+}
+#recst i {
+  width: 11px;
+  height: 11px;
+  border-radius: 2px;
+  background: #fff;
+}
+#reccap.paused #recst {
+  background: #f2a516;
 }
 /* pigułka pod REC w czasie nagrywania: pauza, zdjęcie, punkt */
 #recpill {
@@ -2171,55 +2247,6 @@ body.rec #recpill {
   font-size: 16px;
   padding: 0;
   flex: none;
-}
-#recbar {
-  display: none;
-  position: absolute;
-  z-index: 1000;
-  top: calc(8px + env(safe-area-inset-top, 0px));
-  left: 8px;
-  max-width: calc(100% - 64px);
-  align-items: center;
-  gap: 4px;
-  background: var(--bar);
-  border-radius: 22px;
-  padding: 3px 12px;
-  box-shadow: 0 1px 4px #0005;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-}
-body.rec #recbar {
-  display: flex;
-}
-body.rec #info {
-  top: calc(56px + env(safe-area-inset-top, 0px));
-}
-#recbar .rdot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #e53935;
-  flex: none;
-  animation: recblink 1.2s infinite;
-}
-#recbar.paused .rdot {
-  background: #9e9e9e;
-  animation: none;
-}
-@keyframes recblink {
-  50% {
-    opacity: 0.25;
-  }
-}
-#rectx {
-  border: 0;
-  background: none;
-  font: inherit;
-  padding: 6px 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
 }
 /* panel: zakładki Mapy / Ślady GPS */
 #stabs {
@@ -2294,30 +2321,19 @@ body.rec #info {
 .obj.tchk {
   background: var(--accbg);
 }
-/* mały napis REC jak na przycisku nagrywania */
+/* v68: ikona nagrywania w tekście (np. „brak śladów – nagraj …”) */
 .recbadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 3px;
-  vertical-align: -2px;
-  border-radius: 9px;
-  background: var(--bg);
-  box-shadow: 0 0 0 1px var(--line);
-  padding: 1px 6px 1px 4px;
-  color: #8b1a1a;
-  font-size: 9.5px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-  line-height: 14px;
+  display: inline-block;
+  vertical-align: -3px;
+  margin: 0 2px;
 }
-.recbadge i {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #ff2a1a;
+.recbadge .ic {
+  display: block;
 }
-#tsa .recbadge {
-  margin: 0 1px;
+/* w czasie nagrywania kropka na końcu śladu jest czerwona (zakładka „Ślady GPS”) */
+#trecb.on .ic circle:last-child {
+  fill: #e53935;
+  stroke: #e53935;
 }
 .obj .tnm,
 .obj .tdt {
@@ -3618,16 +3634,13 @@ html.locked body > *:not(#lockscr) {
   display: none;
   position: absolute;
   z-index: 1000;
-  top: calc(56px + env(safe-area-inset-top, 0px));
+  top: calc(200px + env(safe-area-inset-top, 0px)); /* v68: pod kapsułą nagrywania, obok pigułki */
   left: 8px;
   width: min(330px, calc(100% - 64px));
   background: var(--bar);
   border-radius: 14px;
   padding: 10px 10px 8px;
   box-shadow: 0 2px 8px #0004;
-}
-body.rec.recpan #info {
-  top: calc(250px + env(safe-area-inset-top, 0px));
 }
 #recgrid {
   display: grid;
@@ -3715,7 +3728,7 @@ body.rec.recpan #info {
 /* animacja śladu */
 body.animon .ib,
 body.animon #tools,
-body.animon #recbar,
+body.animon #reccap,
 body.animon #recpill,
 body.animon #recpan,
 body.animon #info,
@@ -4067,6 +4080,7 @@ html.recme .meic {
 }
 body.spliton #tools,
 body.spliton #recpill,
+body.spliton #reccap,
 body.spliton .ib,
 body.spliton #info {
   display: none !important;
@@ -4211,11 +4225,6 @@ body.spliton #info {
 #tselbar button small {
   font-size: 8.5px;
 }
-#tsa #trecb .recbadge {
-  padding: 0 5px 0 4px;
-  font-size: 8px;
-  line-height: 12px;
-}
 #sa button:active,
 #tsa button:active {
   background: #e3e6e8;
@@ -4241,9 +4250,6 @@ body.spliton #info {
 }
 #tselbar button small {
   font-size: 8.5px;
-}
-#tsa #trecb .recbadge {
-  margin: 0;
 }
 #selbar,
 #tselbar {
@@ -5449,10 +5455,10 @@ body.sboardon #sportb {
 <button class="ib" id="prnb" title="Wydruk kadru do grafiki"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="8" rx="2"/><path d="M7 14h10v6.5H7z"/></svg></button>
 <button class="ib" id="compb" title="Północ u góry" aria-label="Północ u góry"></button>
 <button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
-<button class="ib" id="recb" title="Nagrywanie śladu GPS"><i class="led"></i>REC</button>
+<button class="ib" id="recb" title="Nagrywanie śladu GPS"></button>
 <button class="ib" id="sportb" title="Licznik treningu"></button>
 <div id="recpill"><button id="rpp" title="Pauza"></button><button id="rpf" title="Zdjęcie na trasie"></button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)"></button><button id="rpb" title="Powrót do startu po nagrywanym śladzie"></button></div>
-<div id="recbar"><span class="rdot"></span><button id="rectx" title="Panel na żywo"></button></div>
+<div id="reccap"><span class="rdot"></span><button id="rectx" title="Panel na żywo"><b id="rect"></b><i id="recs"></i></button><button id="recst" title="Zakończ nagrywanie"><i></i></button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><div id="recbt"></div></div>
 <div class="pop" id="bmenu"></div>
 <div class="pop" id="xmenu"></div>
@@ -5788,7 +5794,7 @@ const EN = {
   "💡 Ekran licznika nie zgaśnie": "💡 The bike computer screen will stay on",
   "Trasy rowerowe": "Bike routes",
   "Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.": "Choose the map (OSM, aerial photos – also archival from a chosen year, satellite), overlays (parcels, trails, forest sites), and at the top “Offline maps” – download an area before you go where there is no signal.",
-  "REC nagrywa trasę także przy wygaszonym ekranie. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "REC records the route also with the screen off. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics), and after you park the car recording waits until you drive on. In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
+  "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics), and after you park the car recording waits until you drive on. In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
   "Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap successive points – the line follows roads (choose the type: forest paths, paved, bike, car) or goes straight. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
   "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DTM elevation, terrain profile and coordinates – the result appears at once in a bubble at the measured place, with “Share” (a map image with the results). Also “Walk a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
@@ -6271,7 +6277,7 @@ const EN = {
   "Aronia": "Chokeberry",
   "Aronia czarnoowocowa": "Black chokeberry (aronia)",
   "Auto-pauza przy postoju": "Auto-pause when stopped",
-  "Auto-pauza · ": "Auto-pause · ",
+  "auto-pauza": "auto-pause",
   "Automatyczna kopia": "Automatic backup",
   "Automatyczna kopia (także na Dysk Google), nagrywanie śladu, kolory śladów, foldery, prywatność i kosz.": "Automatic backup (also to Google Drive), track recording, track colors, folders, privacy and trash.",
   "Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.": "Automatic backup works in the Android app. Here “Back up now” downloads a ZIP file.",
@@ -6744,7 +6750,8 @@ const EN = {
   "Panel na żywo": "Live panel",
   "Panienka": "Blusher",
   "Pauza": "Pause",
-  "Pauza · ": "Paused · ",
+  "pauza": "paused",
+  "Zakończ nagrywanie": "Stop recording",
   "Pałka szerokolistna": "Broadleaf cattail",
   "Pałka wodna": "Cattail",
   "Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ": "Full ZIP backup (maps, tracks, photos, settings) in ",
@@ -7542,7 +7549,7 @@ const EN = {
   "🅿 Auto zaparkowane – nagrywanie czeka, aż ruszysz autem (albo odejdziesz dalej pieszo)": "🅿 Car parked – recording waits until you drive off (or walk further away)",
   "🚗 Jazda – nagrywanie wróciło": "🚗 Driving – recording resumed",
   "🚶 Wyjście pieszo – nagrywanie wróciło (z drogą od auta)": "🚶 Walking away – recording resumed (with the way from the car)",
-  "🅿 Auto zaparkowane · ": "🅿 Car parked · ",
+  "🅿 auto zaparkowane": "🅿 car parked",
   "Nie zrobiono zdjęcia.": "No photo was taken.",
   "Wybierz z galerii": "Choose from the gallery",
   "Nie udało się odczytać klucza szyfrowania kopii – kopia NIE została zapisana, żeby nie powstał plik bez szyfrowania. Uruchom OMM ponownie; jeśli to nie pomoże, ustaw hasło kopii jeszcze raz (Ustawienia → 🔒 Prywatność).": "Could not read the backup encryption key – the backup was NOT saved, so that no unencrypted file is created. Restart OMM; if that does not help, set the backup password again (Settings → 🔒 Privacy).",
@@ -7833,7 +7840,7 @@ const IC = {
   filter: '<path d="M4 5h16l-6 7.5V18l-4 2v-7.5z"/>',
   folder: '<path d="M3.5 6.5h6l2 2.5h9v10.5h-17z"/>',
   lock: '<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
-  rec: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.6" fill="currentColor"/>', // nagrywanie śladu
+  rec: '<circle cx="4.5" cy="19.5" r="1.6"/><path d="M6 18.5c3-1.5 2-6 6-7s5-3 6.2-5.3"/><circle cx="18.5" cy="5.5" r="2.9" fill="currentColor"/>', // nagrywanie śladu (v68: nagrywany ślad z kropką na końcu)
   route: '<path d="M4 19c4 0 3.5-7 8-7s4-7 8-7"/><circle cx="4" cy="19" r="1.4"/><circle cx="20" cy="5" r="1.4"/>', // ślady na mapie
   globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3.2 3.2 3.2 14.8 0 18M12 3c-3.2 3.2-3.2 14.8 0 18"/>',
   copy: '<rect x="8.5" y="8.5" width="11.5" height="11.5" rx="2"/><path d="M15.5 8.5V4H4v11.5h4.5"/>',
@@ -7918,7 +7925,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v67';
+const APP_VER = 'v68';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -17774,7 +17781,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy jesteś daleko, OMM zapyta, jak dotrzesz do startu (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto), a na starcie przełączy na prowadzenie po trasie. Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – REC nagrywa trasę (także przy wygaszonym ekranie). Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). Po zaparkowaniu auta nagrywanie czeka, aż znowu ruszysz – chodzenie po sklepie nie rysuje pętli (odejdziesz dalej niż 300 m, np. do lasu – nagrywanie wraca samo). Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk nagrywania (ikona śladu z kropką, pod ◎) nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). Po zaparkowaniu auta nagrywanie czeka, aż znowu ruszysz – chodzenie po sklepie nie rysuje pętli (odejdziesz dalej niż 300 m, np. do lasu – nagrywanie wraca samo). Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
@@ -17824,7 +17831,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are far away, OMM asks how you'll get to the start (by car, by bike, on foot – along roads with voice directions – or straight) and switches to guiding along the route at the start. The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – REC records the route (also with the screen off). Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). After you park the car, recording waits until you drive again – walking around a shop draws no loops (walk more than 300 m away, e.g. into the forest, and recording resumes by itself). Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the record button (track icon with a dot, below ◎) records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). After you park the car, recording waits until you drive again – walking around a shop draws no loops (walk more than 300 m away, e.g. into the forest, and recording resumes by itself). Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 in the bottom-left corner: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
@@ -22900,7 +22907,7 @@ function trkSheet() {
     _t(' · razem ') +
     fkm(tot) +
     (REC ? _t(' · ● trwa nagrywanie') : '');
-  $('trecb').innerHTML = REC_BADGE + '<small>' + (REC ? _t('Nagrywa') : _t('Nagraj')) + '</small>';
+  $('trecb').innerHTML = ico('rec', 22) + '<small>' + (REC ? _t('Nagrywa') : _t('Nagraj')) + '</small>';
   $('trecb').title = REC ? _t('Pokaż nagrywanie') : _t('Nagraj ślad');
   $('trecb').setAttribute('aria-label', $('trecb').title);
   $('trecb').classList.toggle('on', !!REC);
@@ -23131,7 +23138,7 @@ $('tadd').onclick = () => trkAddLayer();
 // (var – trkSheet() bywa wołane, zanim skrypt dojdzie do tego miejsca)
 var EYE_ON = ico('eye'), // oko – wspólna ikona widoczności (IC)
   EYE_OFF = ico('eyeOff'),
-  REC_BADGE = '<span class="recbadge"><i></i>REC</span>';
+  REC_BADGE = '<span class="recbadge">' + ico('rec', 15) + '</span>'; // v68: ta sama ikona co przycisk nagrywania
 var TSEL = null; // zaznaczone ślady (Set z id) albo null, gdy tryb zaznaczania wyłączony
 var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, '-' = bez rodzaju)
 // paski zaznaczania: same ikony (te same co przy pojedynczym śladzie / obiekcie), nazwa w podpowiedzi
@@ -24289,8 +24296,7 @@ function recUi() {
     WLREC = !!REC;
     wlSync(); // ekran nie gaśnie podczas nagrywania (gdy tak ustawiono)
   }
-  $('recb').classList.toggle('on', !!REC && !REC.paused);
-  $('recbar').classList.toggle('paused', !!(REC && REC.paused));
+  $('reccap').classList.toggle('paused', !!(REC && REC.paused));
   if (!REC) {
     $('recpan').style.display = 'none';
     return;
@@ -24311,17 +24317,21 @@ function recUi() {
     const dt = p[n - 1][3] - p[i][3];
     if (dt >= 5) v = (s.cum[n - 1] - s.cum[i]) / dt;
   }
-  $('recbar').classList.toggle('paused', !!(REC.paused || ap || REC.park));
+  $('reccap').classList.toggle('paused', !!(REC.paused || ap || REC.park));
   recAnnCheck(s);
-  $('rectx').textContent = REC.paused
-    ? _t('Pauza · ') + fdur(el / 1000) + ' · ' + fkm(s.d)
+  // kapsuła: u góry czas całkowity, pod nim dystans i stan (pauza, postój, auto, szukanie GPS) albo prędkość
+  const km = fkm(s.d);
+  $('rect').textContent = fdur(el / 1000);
+  $('recs').textContent = REC.paused
+    ? _t('pauza') + ' · ' + km
     : REC.park
-      ? _t('🅿 Auto zaparkowane · ') + fdur(el / 1000) + ' · ' + fkm(s.d)
-    : ap
-      ? _t('Auto-pauza · ') + fdur(el / 1000) + ' · ' + fkm(s.d)
-      : !n && (!recPos || recPos.accu > 50)
-      ? _t('Szukam GPS…') + (recPos ? ' (±' + fel(recPos.accu) + ')' : '')
-      : fdur(el / 1000) + ' · ' + fkm(s.d) + (v != null ? ' · ' + fkmh(v) : '');
+      ? _t('🅿 auto zaparkowane') + ' · ' + km
+      : ap
+        ? _t('auto-pauza') + ' · ' + km
+        : !n && (!recPos || recPos.accu > 50)
+          ? _t('Szukam GPS…') + (recPos ? ' ±' + fel(recPos.accu) : '')
+          : km + (v != null ? ' · ' + fkmh(v) : '');
+  $('rectx').title = $('rect').textContent + ' · ' + $('recs').textContent + ' – ' + _t('Panel na żywo');
   $('rpp').innerHTML = ico(REC.paused ? 'play' : 'pause');
   $('rpp').title = REC.paused ? _t('Wznów nagrywanie') : _t('Pauza');
   if ($('recpan').style.display !== 'none') {
@@ -24406,13 +24416,15 @@ function recFollow() {
 }
 sportPill(); // v62: „‹ licznik” / „‹ Sport” na mapie w trybie Sport
 $('sportb').onclick = () => sportPick();
+$('recb').innerHTML = ico('rec', 22);
 $('recb').onclick = () => {
-  // REC: start, a w trakcie nagrywania – zakończenie (z pytaniem o zapis)
+  // REC: start (w trakcie nagrywania przycisk jest kapsułą z okrągłym „stop”)
   if (!REC) recStart();
   else recStop();
 };
+$('recst').onclick = () => REC && recStop(); // zakończenie – z pytaniem o zapis
 $('rectx').onclick = () => {
-  // dotknięcie paska: panel na żywo (prędkość, wysokość, kierunek, sygnał)
+  // dotknięcie kapsuły (czas, dystans): panel na żywo (prędkość, wysokość, kierunek, sygnał)
   const p = $('recpan'),
     on = p.style.display !== 'block';
   p.style.display = on ? 'block' : 'none';
@@ -29646,7 +29658,7 @@ const TUT_STEPS = [
   {sel: null, t: _t('Mapa'), x: _t('Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.')},
   {sel: '#bbtn', t: _t('Podkład i mapy offline'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.')},
   {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.')},
-  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('REC nagrywa trasę także przy wygaszonym ekranie. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.')},
+  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.')},
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
