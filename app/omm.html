@@ -2693,6 +2693,7 @@ body.rec #recpill {
   flex: 1;
   min-height: 0;
   position: relative;
+  overflow: hidden; /* v71: schowane menu broni nie przesuwa ekranu gry */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2914,6 +2915,106 @@ body.rec #recpill {
 .gpad.snake .gk.r {
   grid-column: 4;
   grid-row: 1 / 3;
+}
+/* v71: wojna grzybów – menu broni wysuwane z prawej (siatka kafelków z zapasem, opis wybranej) */
+.wpan {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  max-height: calc(100% - 16px);
+  width: min(330px, 86%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  border-radius: 14px;
+  background: rgba(22, 14, 38, 0.94);
+  color: #fff;
+  box-shadow: 0 6px 24px #000a;
+  transform: translateX(calc(100% + 16px));
+  visibility: hidden;
+  transition:
+    transform 0.22s ease-out,
+    visibility 0s 0.22s;
+  z-index: 5;
+}
+.wpan.open {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.22s ease-out;
+}
+.wpan .whd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #ffd54f;
+}
+.wpan .wx {
+  border: 0;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 14px;
+}
+.wpan .wgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.wpan .wt {
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 2px 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-height: 64px;
+}
+.wpan .wt.on {
+  border-color: #ffd54f;
+  background: rgba(255, 213, 79, 0.18);
+}
+.wpan .wt.off {
+  opacity: 0.35;
+}
+.wpan .we {
+  font-size: 22px;
+  line-height: 1.1;
+}
+.wpan .wn {
+  font-size: 10.5px;
+  line-height: 1.15;
+  text-align: center;
+}
+.wpan .wa {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font: 700 10px system-ui, sans-serif;
+  color: #ffd54f;
+}
+.wpan .winfo {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: #e0d7f0;
+  min-height: 52px;
+}
+.wpan .winfo b {
+  display: block;
+  color: #fff;
+  font-size: 13.5px;
 }
 /* wojna grzybów: lewy kciuk – kąt, prawy – siła, środek – amunicja, na dole – strzał */
 .gpad.wojna {
@@ -5999,6 +6100,33 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą. Środkowy przycisk otwiera menu broni: szyszka, kret, rój os, purchawka zegarowa, zarodniki, kania-zapalnik, teleport, tarcza z huby i więcej. Co kilka tur spada skrzynka z zapasami.": "Angle, power and wind – can you hit the mushroom on the other hill? Aim with the buttons or drag from your mushroom like a slingshot. The middle button opens the weapon menu: pine cone, mole, wasp swarm, time puffball, spores, parasol firestarter, teleport, fungus shield and more. Every few turns a supply crate drops.",
+  " – brak w zapasie": " – none left",
+  "Broń": "Weapons",
+  "Gniazdo pęka, a osy same lecą żądlić przeciwnika.": "The nest bursts and the wasps fly off to sting the opponent.",
+  "Huba-tarcza": "Bracket-fungus shield",
+  "Kania-zapalnik": "Parasol firestarter",
+  "Kret": "Mole",
+  "Ląduje, stacza się z górki i wybucha po 3 s.": "Lands, rolls downhill and explodes after 3 s.",
+  "Odbija się od ziemi dwa razy, potem wybucha.": "Bounces off the ground twice, then explodes.",
+  "Pieczarka-teleport": "Teleport mushroom",
+  "Po upadku ryje pod ziemią w stronę lotu i wybucha pod przeciwnikiem.": "After landing it digs underground in the direction of flight and explodes under the opponent.",
+  "Przenosi Twojego grzyba tam, gdzie spadnie.": "Moves your mushroom to where it lands.",
+  "Purchawka zegarowa": "Time puffball",
+  "Rozlewa płomienie, które spływają po zboczu i parzą.": "Spills flames that run down the slope and burn.",
+  "Ryje głęboki szyb – grzyb na górce spada.": "Digs a deep shaft – a mushroom on a hill falls.",
+  "Rój os": "Wasp swarm",
+  "Szyszka": "Pine cone",
+  "Tarcza do Twojej następnej tury: obrażenia −60%. Nie kończy ruchu – możesz jeszcze strzelić.": "Shield until your next turn: damage −60%. Does not end your turn – you can still shoot.",
+  "Teleport poleciał za planszę": "The teleport flew off the board",
+  "Trująca chmura na cztery ruchy: −8 życia po każdym ruchu dla każdego w środku.": "A poison cloud for four moves: −8 health after every move for everyone inside.",
+  "Trzy purchawki naraz, wachlarzem.": "Three puffballs at once, in a fan.",
+  "W szczycie lotu rozpada się na pięć.": "Splits into five at the top of its flight.",
+  "Wielki wybuch. Jeden na rundę.": "A huge blast. One per round.",
+  "Zarodniki": "Spores",
+  "Zwykły wybuch. Bez limitu.": "A plain blast. Unlimited.",
+  "📦 Skrzynka z zapasami!": "📦 Supply crate!",
+  "🛡️ Tarcza z huby do Twojej następnej tury": "🛡️ Fungus shield until your next turn",
   "Nagrywaj dalej pieszo (zalecane)": "Keep recording on foot (recommended)",
   "Przelicz ślad z surowych pomiarów GPS": "Recalculate track from raw GPS fixes",
   "Przeliczono ślad: ": "Track recalculated: ",
@@ -8497,7 +8625,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v70';
+const APP_VER = 'v71';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -19619,13 +19747,23 @@ function warGame(opt) {
     N = W * RES,
     G = 10, // grawitacja (kratki / s²)
     VMAX = 15,
+    // v71: arsenał (menu broni wysuwane z prawej); lim = ile sztuk na start rundy (bez lim – bez limitu)
     WEAP = [
-      {k: 'puch', n: _t('Purchawka'), e: '💥', r: 1.1, dmg: 38},
-      {k: 'tri', n: _t('Potrójna'), e: '✳️', r: 0.75, dmg: 20},
-      {k: 'kop', n: _t('Kopacz'), e: '⛏️', r: 0.6, dmg: 16},
-      {k: 'much', n: _t('Muchomor'), e: '🍄', r: 1.9, dmg: 58, lim: 1},
-      {k: 'grad', n: _t('Grad'), e: '🌨️', r: 0.6, dmg: 15, lim: 2} // w szczycie lotu rozpada się na 5
+      {k: 'puch', n: _t('Purchawka'), e: '💥', r: 1.1, dmg: 38, d: _t('Zwykły wybuch. Bez limitu.')},
+      {k: 'tri', n: _t('Potrójna'), e: '✳️', r: 0.75, dmg: 20, d: _t('Trzy purchawki naraz, wachlarzem.')},
+      {k: 'kop', n: _t('Kopacz'), e: '⛏️', r: 0.6, dmg: 16, d: _t('Ryje głęboki szyb – grzyb na górce spada.')},
+      {k: 'szy', n: _t('Szyszka'), e: '🌰', r: 0.85, dmg: 30, lim: 3, d: _t('Odbija się od ziemi dwa razy, potem wybucha.')},
+      {k: 'grad', n: _t('Grad'), e: '🌨️', r: 0.6, dmg: 15, lim: 2, d: _t('W szczycie lotu rozpada się na pięć.')},
+      {k: 'kret', n: _t('Kret'), e: '🐹', r: 0.95, dmg: 32, lim: 2, d: _t('Po upadku ryje pod ziemią w stronę lotu i wybucha pod przeciwnikiem.')},
+      {k: 'osy', n: _t('Rój os'), e: '🐝', r: 0.4, dmg: 8, lim: 1, d: _t('Gniazdo pęka, a osy same lecą żądlić przeciwnika.')},
+      {k: 'zeg', n: _t('Purchawka zegarowa'), e: '⏱️', r: 1.4, dmg: 48, lim: 1, d: _t('Ląduje, stacza się z górki i wybucha po 3 s.')},
+      {k: 'zar', n: _t('Zarodniki'), e: '🌫️', r: 0.7, dmg: 10, lim: 1, d: _t('Trująca chmura na cztery ruchy: −8 życia po każdym ruchu dla każdego w środku.')},
+      {k: 'kan', n: _t('Kania-zapalnik'), e: '🔥', r: 0.5, dmg: 10, lim: 1, d: _t('Rozlewa płomienie, które spływają po zboczu i parzą.')},
+      {k: 'much', n: _t('Muchomor'), e: '🍄', r: 1.9, dmg: 58, lim: 1, d: _t('Wielki wybuch. Jeden na rundę.')},
+      {k: 'tel', n: _t('Pieczarka-teleport'), e: '🌀', r: 0, dmg: 0, lim: 1, d: _t('Przenosi Twojego grzyba tam, gdzie spadnie.')},
+      {k: 'hub', n: _t('Huba-tarcza'), e: '🛡️', r: 0, dmg: 0, lim: 1, util: 1, d: _t('Tarcza do Twojej następnej tury: obrażenia −60%. Nie kończy ruchu – możesz jeszcze strzelić.')}
     ],
+    LIMS = () => Object.fromEntries(WEAP.filter(w => w.lim).map(w => [w.k, w.lim])),
     GRADB = {k: 'gradb', n: '', e: '', r: 0.6, dmg: 15},
     MOVE = 2.2; // ruch grzyba: ile kratek na turę
   const g = {id: 'wojna', opt, title: _t('💥 Wojna grzybów'), W, H, score: 0, over: false, shake: 0};
@@ -19653,8 +19791,8 @@ function warGame(opt) {
     for (let i = c - 6; i <= c + 6; i++) if (i >= 0 && i <= N) T[i] = y;
   };
   const P = [
-    {x: 1.6 + Math.random() * 1.6, hp: 100, a: 50, pw: 62, hue: 330, ammo: {much: 1, grad: 2}, w: 0, rec: 0, mv: MOVE},
-    {x: W - 1.6 - Math.random() * 1.6, hp: 100, a: 130, pw: 62, hue: 200, ammo: {much: 1, grad: 2}, w: 0, rec: 0, mv: MOVE}
+    {x: 1.6 + Math.random() * 1.6, hp: 100, a: 50, pw: 62, hue: 330, ammo: LIMS(), w: 0, rec: 0, mv: MOVE},
+    {x: W - 1.6 - Math.random() * 1.6, hp: 100, a: 130, pw: 62, hue: 200, ammo: LIMS(), w: 0, rec: 0, mv: MOVE}
   ];
   P.forEach(p => {
     flat(p.x);
@@ -19671,7 +19809,12 @@ function warGame(opt) {
     msgT = 0,
     aiT = 0,
     aiPlan = null,
-    trail = [];
+    trail = [],
+    wasps = [], // rój os: lecą do przeciwnika
+    flames = [], // płomienie kani: spływają po zboczu
+    clouds = [], // chmury zarodników (na kilka tur)
+    crates = [], // skrzynki z zapasami (spadają co kilka tur)
+    turnN = 0;
   const newWind = () => (wind = opt.wind === false ? 0 : Math.round((Math.random() * 2 - 1) * (1 + opt.ai * 0.3) * 10) / 10);
   newWind();
   const human = () => !opt.ai || cur === 0;
@@ -19709,10 +19852,20 @@ function warGame(opt) {
     const p = P[cur],
       w = WEAP[p.w];
     if (w.lim) {
-      if (!p.ammo[w.k]) return say(w.k === 'much' ? _t('Muchomor już wykorzystany w tej rundzie') : _t('Grad już wykorzystany'));
+      if (!p.ammo[w.k]) return say(w.n + _t(' – brak w zapasie'));
       p.ammo[w.k]--;
     }
-    shots = (w.k === 'tri' ? [-5, 0, 5] : [0]).map(d => Object.assign(launch(p, p.a + d, p.pw, cur), {w, tr: []}));
+    if (w.k === 'hub') {
+      // tarcza nie kończy ruchu
+      p.shield = 1;
+      FX.burst(p.x, p.y - 0.5, 24, {v: 2, g: -0.5, c: ['#d7a86e', '#8d6e63', '#ffe0b2'], life: 800, r: 0.08});
+      gSfx('shield');
+      say(_t('🛡️ Tarcza z huby do Twojej następnej tury'));
+      p.w = 0;
+      updW();
+      return;
+    }
+    shots = (w.k === 'tri' ? [-5, 0, 5] : [0]).map(d => Object.assign(launch(p, p.a + d, p.pw, cur), {w, tr: [], b: w.k === 'szy' ? 2 : 0}));
     trail = shots.map(sh => sh.tr); // ślady lotu zostają do następnego strzału
     st = 'fly';
     hold = null;
@@ -19724,6 +19877,15 @@ function warGame(opt) {
     FX.burst(m[0], m[1], 8, {a: -r, spread: 0.5, v: 5, g: 0, c: ['#ffd54f', '#ff7043'], glow: true, life: 200, r: 0.1});
     gSfx('shot');
     gBuzz(20);
+  };
+  const hurtP = (p, n) => {
+    // obrażenia z uwzględnieniem tarczy z huby (−60%)
+    if (p.hp <= 0 || n <= 0) return 0;
+    if (p.shield) n = Math.max(1, Math.round(n * 0.4));
+    p.hp = Math.max(0, p.hp - n);
+    p.pop = {t: 0, txt: '−' + n};
+    p.hurt = 400;
+    return n;
   };
   const blast = (x, y, w) => {
     // krater: ziemia w kole znika, a to, co było nad kołem, osypuje się w dół
@@ -19741,14 +19903,16 @@ function warGame(opt) {
       const d = Math.hypot(x - p.x, y - (p.y - 0.45));
       if (p.hp > 0 && d < R + 0.45) {
         const hit = Math.round(w.dmg * (1 - Math.max(0, d - 0.45) / R));
-        if (hit > 0) {
-          p.hp = Math.max(0, p.hp - hit);
-          p.pop = {t: 0, txt: '−' + hit};
-          p.hurt = 400;
-        }
+        if (hit > 0) hurtP(p, hit);
       }
     });
     booms.push({x, y, r: R, t: 0});
+    // skrzynka w zasięgu wybuchu – rozpada się
+    crates = crates.filter(cr => {
+      if (Math.hypot(cr.x - x, cr.y - 0.3 - y) > R + 0.4) return true;
+      FX.burst(cr.x, cr.y - 0.3, 18, {v: 4, up: 2, g: 9, c: ['#a1887f', '#6d4c41', '#ffcc80'], sq: true, life: 900, r: 0.07});
+      return false;
+    });
     // ogień, iskry, grudki ziemi, dym
     FX.burst(x, y, Math.round(26 * R), {v: 6 * R, g: 2, c: ['#fff3b0', '#ffd54f', '#ff9800', '#ff5722'], glow: true, life: 600, r: 0.18});
     FX.burst(x, y, Math.round(22 * R), {a: -1.57, spread: 2.6, v: 7 * Math.sqrt(R), up: 2, g: 14, c: ['#5d3a1a', '#7b4a22', '#3e2510'], sq: true, life: 1300, r: 0.07});
@@ -19797,8 +19961,20 @@ function warGame(opt) {
       gSfx(!both && (!opt.ai || win === 0) ? 'win' : 'over');
       return;
     }
+    // chmury zarodników trują na początku każdej tury
+    clouds.forEach(cl => {
+      P.forEach(p => {
+        if (p.hp > 0 && Math.hypot(p.x - cl.x, p.y - 0.4 - cl.y) < cl.r) hurtP(p, 8);
+      });
+      cl.turns -= 0.5; // dwie tury = cztery ruchy (po dwa na gracza)
+    });
+    clouds = clouds.filter(cl => cl.turns > 0);
+    if (P.some(p => p.hp <= 0)) return nextTurn();
     cur = 1 - cur;
     P[cur].mv = MOVE;
+    P[cur].shield = 0; // tarcza działa do własnej następnej tury
+    turnN++;
+    if (turnN % 4 === 3 && crates.length < 2) crateDrop();
     newWind();
     st = 'aim';
     if (human()) say(name(cur) + _t(' – Twój ruch'));
@@ -19817,11 +19993,7 @@ function warGame(opt) {
     if (st !== 'aim' || !human()) return;
     const p = P[cur];
     if (k === 'F') return fire();
-    if (k === 'W') {
-      p.w = (p.w + 1) % WEAP.length;
-      gSfx('click');
-      return updW();
-    }
+    if (k === 'W') return wMenu(true);
     hold = k;
     g.adj = 0;
     adjust(k, 1);
@@ -19839,6 +20011,7 @@ function warGame(opt) {
     p.x = nx;
     p.y = ny;
     p.fy = ny;
+    crateTake();
     if (Math.random() < 0.35) FX.burst(p.x - dir * 0.3, p.y, 1, {v: 0.8, up: 0.6, g: 3, c: ['#8d6e63', '#a1887f'], sq: true, life: 400, r: 0.05});
   };
   const adjust = (k, n) => {
@@ -19864,18 +20037,220 @@ function warGame(opt) {
     p.a = Math.round(a);
     p.pw = Math.round(Math.max(5, Math.min(100, (len / 3.2) * 100)));
   };
-  let wBtn = null;
+  let wBtn = null,
+    wPan = null;
   const updW = () => {
     const p = P[cur],
       w = WEAP[p.w];
     if (wBtn) wBtn.textContent = w.e + ' ' + w.n + (w.lim ? ' ×' + p.ammo[w.k] : '');
   };
+  const wMenu = on => {
+    // menu broni wysuwane z prawej: siatka kafelków (ikona, nazwa, zapas), opis wybranej na dole
+    if (!wPan) return;
+    if (on && (st !== 'aim' || !human())) return;
+    wPan.classList.toggle('open', !!on);
+    if (!on) return;
+    const p = P[cur],
+      grid = wPan.querySelector('.wgrid'),
+      info = wPan.querySelector('.winfo');
+    grid.innerHTML = '';
+    const show = w => (info.innerHTML = '<b>' + w.e + ' ' + esc(w.n) + '</b>' + esc(w.d || ''));
+    WEAP.forEach((w, i) => {
+      const n = w.lim ? p.ammo[w.k] || 0 : null,
+        b = h('button', 'wt' + (i === p.w ? ' on' : '') + (n === 0 ? ' off' : ''));
+      b.type = 'button';
+      b.innerHTML = '<span class="we">' + w.e + '</span><span class="wn">' + esc(w.n) + '</span><span class="wa">' + (n == null ? '∞' : '×' + n) + '</span>';
+      b.title = w.d || w.n;
+      b.onclick = e => {
+        e.stopPropagation();
+        if (n === 0) return show(w), gSfx('bad');
+        p.w = i;
+        updW();
+        gSfx('click');
+        wMenu(false);
+      };
+      b.onpointerenter = () => show(w);
+      grid.append(b);
+    });
+    show(WEAP[p.w]);
+    gSfx('click');
+  };
   g.padInit = el => {
     wBtn = el.querySelector('.gk.w');
+    const stage = el.parentElement && el.parentElement.querySelector('.gstage');
+    if (stage) {
+      stage.querySelectorAll('.wpan').forEach(x => x.remove());
+      wPan = h('div', 'wpan');
+      wPan.innerHTML = '<div class="whd">' + esc(_t('Broń')) + '<button type="button" class="wx" aria-label="' + esc(_t('Zamknij')) + '">✕</button></div><div class="wgrid"></div><div class="winfo"></div>';
+      wPan.querySelector('.wx').onclick = e => (e.stopPropagation(), wMenu(false));
+      wPan.addEventListener('pointerdown', e => e.stopPropagation());
+      stage.append(wPan);
+    }
     updW();
+  };
+  g._W = {open: () => wMenu(true), crates: () => crates, wasps: () => wasps, flames: () => flames, clouds: () => clouds, P, set: (k, v) => (k === 'cur' ? (cur = v) : k === 'st' ? (st = v) : 0)}; // do testów
+  // --- v71: zachowanie broni po uderzeniu; zwraca true, gdy pocisk leci / działa dalej ---
+  const special = sh => {
+    const k = sh.w.k,
+      y = Math.min(sh.y, H);
+    if (k === 'szy' && sh.b > 0 && sh.y >= top(sh.x) - 0.05) {
+      // szyszka: odbicie od ziemi (od grzyba nie – wtedy wybucha)
+      sh.b--;
+      sh.y = top(sh.x) - 0.06;
+      sh.vy = -Math.abs(sh.vy) * 0.55;
+      sh.vx *= 0.7;
+      FX.burst(sh.x, sh.y, 6, {a: -1.57, spread: 2, v: 2, g: 6, c: ['#6d4c2f', '#9e8060'], sq: true, life: 400, r: 0.05});
+      gSfx('click');
+      return true;
+    }
+    if (k === 'kret' && !sh.dig) {
+      // kret: od miejsca upadku ryje pod ziemią w stronę lotu (rów na powierzchni), wybucha pod przeciwnikiem albo po 2 s
+      sh.dig = 2;
+      sh.dir = sh.vx >= 0 ? 1 : -1;
+      sh.vx = sh.vy = 0;
+      return true;
+    }
+    if (k === 'zeg' && sh.rest == null) {
+      // zegarowa: leży i stacza się, wybucha po 3 s
+      sh.rest = 3;
+      sh.vx = sh.vy = 0;
+      sh.y = top(sh.x);
+      return true;
+    }
+    if (k === 'tel') {
+      // teleport: grzyb strzelającego przenosi się w miejsce upadku
+      const p = P[sh.from],
+        o = P[1 - sh.from];
+      let nx = Math.max(0.5, Math.min(W - 0.5, sh.x));
+      if (Math.abs(nx - o.x) < 0.9) nx = o.x + (nx < o.x ? -0.95 : 0.95);
+      nx = Math.max(0.5, Math.min(W - 0.5, nx));
+      FX.burst(p.x, p.y - 0.4, 26, {v: 3, g: -1, c: ['#b388ff', '#e1bee7', '#fff'], glow: true, life: 700, r: 0.08});
+      p.x = nx;
+      p.fy = p.y = Math.min(top(nx), sh.y);
+      FX.burst(p.x, p.y - 0.4, 26, {v: 3, g: -1, c: ['#b388ff', '#e1bee7', '#fff'], glow: true, life: 700, r: 0.08});
+      gSfx('jump');
+      return false;
+    }
+    blast(sh.x, y, sh.w);
+    if (k === 'osy') {
+      // gniazdo pęka: 5 os leci do przeciwnika strzelającego
+      for (let j = 0; j < 5; j++) wasps.push({x: sh.x, y: y - 0.3, vx: (Math.random() * 2 - 1) * 2, vy: -2 - Math.random() * 2, life: 4.5, to: 1 - sh.from, ph: Math.random() * 6});
+    }
+    if (k === 'zar') clouds.push({x: sh.x, y: Math.min(y, top(sh.x)), r: 1.7, turns: 2, born: performance.now()});
+    if (k === 'kan')
+      for (let j = 0; j < 7; j++) flames.push({x: sh.x + (j - 3) * 0.12, vx: (j - 3) * 0.55 + (Math.random() - 0.5) * 0.6, life: 2.4 + Math.random() * 0.8, acc: 0});
+    return false;
+  };
+  const shotTick = (sh, s) => {
+    // pociski, które po uderzeniu działają dalej (kret ryje, zegarowa tyka); true = żyje
+    if (sh.dig) {
+      sh.dig -= s;
+      sh.x += sh.dir * 2.6 * s;
+      const c0 = col(sh.x);
+      for (let i = c0 - 2; i <= c0 + 2; i++) if (i >= 0 && i <= N) T[i] = Math.min(H - 0.15, T[i] + 0.012);
+      sh.y = top(sh.x) + 0.35;
+      if (Math.random() < 0.6) FX.burst(sh.x, top(sh.x), 1, {a: -1.57, spread: 1.5, v: 1.6, g: 6, c: ['#6d4c2f', '#9e8060'], sq: true, life: 500, r: 0.05});
+      const tg = P[1 - sh.from];
+      if (sh.dig <= 0 || sh.x < 0.2 || sh.x > W - 0.2 || (tg.hp > 0 && Math.abs(sh.x - tg.x) < 0.35)) {
+        blast(sh.x, top(sh.x) + 0.2, sh.w);
+        return false;
+      }
+      return true;
+    }
+    if (sh.rest != null) {
+      sh.rest -= s;
+      const sl = top(sh.x + 0.1) - top(sh.x - 0.1); // > 0: teren opada w prawo
+      if (Math.abs(sl) > 0.03) sh.x = Math.max(0.2, Math.min(W - 0.2, sh.x + Math.sign(sl) * Math.min(1.5, Math.abs(sl) * 8) * s));
+      sh.y = top(sh.x);
+      if (sh.rest <= 0) {
+        blast(sh.x, sh.y, sh.w);
+        return false;
+      }
+      return true;
+    }
+    return null;
+  };
+  const waspStep = (wp, s) => {
+    const tg = P[wp.to];
+    wp.life -= s;
+    wp.ph += s * 12;
+    if (tg.hp <= 0) return (wp.life = Math.min(wp.life, 0.5));
+    const dx = tg.x - wp.x,
+      dy = tg.y - 0.5 - wp.y,
+      d = Math.hypot(dx, dy) || 1;
+    wp.vx += (dx / d) * 9 * s;
+    wp.vy += (dy / d) * 9 * s;
+    const sp = Math.hypot(wp.vx, wp.vy),
+      mx = 4.2;
+    if (sp > mx) {
+      wp.vx *= mx / sp;
+      wp.vy *= mx / sp;
+    }
+    wp.x += wp.vx * s + Math.sin(wp.ph) * 0.02;
+    wp.y += wp.vy * s + Math.cos(wp.ph * 1.3) * 0.02;
+    if (d < 0.42) {
+      hurtP(tg, 6);
+      wp.life = 0;
+      FX.burst(wp.x, wp.y, 6, {v: 1.5, g: 1, c: ['#ffeb3b', '#212121'], life: 300, r: 0.05});
+      gSfx('pop');
+    }
+  };
+  const flameStep = (f, s) => {
+    f.life -= s;
+    const sl = top(f.x + 0.1) - top(f.x - 0.1);
+    f.vx = f.vx * (1 - 1.5 * s) + Math.sign(sl) * Math.min(3, Math.abs(sl) * 10) * s;
+    f.x = Math.max(0.1, Math.min(W - 0.1, f.x + f.vx * s));
+    if (Math.random() < 0.5) FX.burst(f.x, top(f.x) - 0.1, 1, {a: -1.57, spread: 0.6, v: 1.2, g: -1.5, c: ['#ffeb3b', '#ff9800', '#ff5722'], glow: true, life: 420, r: 0.07});
+    P.forEach(p => {
+      // parzy najwyżej co 0,3 s, niezależnie od liczby płomieni (ok. 10 na sekundę)
+      if (p.hp > 0 && Math.abs(p.x - f.x) < 0.45 && Math.abs(p.y - top(f.x)) < 0.6 && !(p.bt > 0)) {
+        p.bt = 0.3;
+        hurtP(p, 3);
+      }
+    });
+  };
+  const crateDrop = () => {
+    // skrzynka z zapasami: spada na spadochronie w losowym miejscu
+    let x = 1 + Math.random() * (W - 2);
+    if (P.some(p => Math.abs(p.x - x) < 1)) x = W / 2 + (Math.random() - 0.5) * 3;
+    crates.push({x, y: -0.5, land: false});
+    say(_t('📦 Skrzynka z zapasami!'));
+  };
+  const crateTake = () => {
+    // grzyb przy skrzynce ją zabiera: życie albo dodatkowa broń
+    crates = crates.filter(cr => {
+      if (!cr.land) return true;
+      const p = P.find(q => q.hp > 0 && Math.abs(q.x - cr.x) < 0.8);
+      if (!p) return true;
+      const lim = WEAP.filter(w => w.lim);
+      if (Math.random() < 0.3) {
+        p.hp = Math.min(100, p.hp + 25);
+        p.pop = {t: 0, txt: '+25'};
+      } else {
+        const w = lim[Math.floor(Math.random() * lim.length)];
+        p.ammo[w.k] = (p.ammo[w.k] || 0) + (w.k === 'szy' ? 2 : 1);
+        p.pop = {t: 0, txt: '+' + w.e};
+      }
+      FX.burst(cr.x, cr.y - 0.3, 20, {v: 3, up: 2, g: 4, c: ['#ffd54f', '#fff', '#81c784'], glow: true, life: 800, r: 0.07});
+      gSfx('bonus');
+      updW();
+      return false;
+    });
+  };
+  const crateStep = s => {
+    crates.forEach(cr => {
+      if (cr.land) return (cr.y = top(cr.x));
+      cr.y += s * 1.6;
+      if (cr.y >= top(cr.x)) {
+        cr.y = top(cr.x);
+        cr.land = true;
+        crateTake();
+      }
+    });
   };
   g.step = dt => {
     const s = dt / 1000;
+    crateStep(s);
     FX.step(dt);
     if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.035);
     if (msgT > 0) msgT -= dt;
@@ -19883,6 +20258,7 @@ function warGame(opt) {
       if (p.pop && (p.pop.t += dt) > 1200) delete p.pop;
       if (p.rec > 0) p.rec -= dt;
       if (p.hurt > 0) p.hurt -= dt;
+      if (p.bt > 0) p.bt -= s;
     });
     if (st === 'aim') {
       if (hold === 'ML' || hold === 'MR') moveStep(hold === 'ML' ? -1 : 1, dt);
@@ -19898,7 +20274,17 @@ function warGame(opt) {
         p.a += Math.sign(aiPlan.a - p.a) * Math.min(Math.abs(aiPlan.a - p.a), dt * 0.12);
         p.pw += Math.sign(aiPlan.pw - p.pw) * Math.min(Math.abs(aiPlan.pw - p.pw), dt * 0.08);
         if (Math.abs(aiPlan.a - p.a) < 0.5 && Math.abs(aiPlan.pw - p.pw) < 0.5) {
-          p.w = P[1].ammo.much && Math.random() < 0.25 ? 3 : P[1].ammo.grad && Math.random() < 0.2 ? 4 : Math.random() < 0.3 ? 1 : 0;
+          // wybór broni: tarcza przy słabym życiu (nie kończy ruchu), potem losowo z tego, co ma w zapasie
+          const has = k => (p.ammo[k] || 0) > 0,
+            idx = k => WEAP.findIndex(w => w.k === k);
+          if (p.hp < 55 && has('hub') && !p.shield) {
+            p.w = idx('hub');
+            fire();
+          }
+          const pool = [['much', 0.2], ['zeg', 0.15], ['osy', 0.15], ['kan', 0.12], ['zar', 0.12], ['kret', 0.1], ['grad', 0.15], ['szy', 0.1]].filter(([k]) => has(k));
+          let pick = null;
+          for (const [k, pr] of pool) if (!pick && Math.random() < pr) pick = k;
+          p.w = pick ? idx(pick) : Math.random() < 0.3 ? 1 : 0;
           fire();
         }
       }
@@ -19908,12 +20294,15 @@ function warGame(opt) {
       for (let k = 0; k < 4; k++) {
         const add = []; // pociski z rozpadu gradu – dochodzą po tym kroku
         shots = shots.filter(sh => {
+          const tk = shotTick(sh, s / 4);
+          if (tk !== null) return tk;
           const r = fly(sh, s / 4);
           if (k === 3) {
             sh.tr.push([sh.x, sh.y]);
             if (Math.random() < 0.7) FX.burst(sh.x, sh.y, 1, {v: 0.4, g: 0.5, c: sh.w.k === 'much' ? '#ff6e6e' : '#ffcc80', glow: true, life: 380, r: 0.09});
           }
-          if (r === 'hit') blast(sh.x, Math.min(sh.y, H), sh.w);
+          if (r === 'hit') return special(sh);
+          if (r === 'out' && sh.w.k === 'tel') say(_t('Teleport poleciał za planszę'));
           if (!r && sh.w.k === 'grad' && sh.vy > 0) {
             // grad: w szczycie lotu rozpada się na 5 mniejszych pocisków
             sh.split = true;
@@ -19926,9 +20315,14 @@ function warGame(opt) {
         });
         shots.push(...add);
       }
-      if (!shots.length) st = 'boom';
+      wasps.forEach(wp => waspStep(wp, s));
+      wasps = wasps.filter(wp => wp.life > 0);
+      if (!shots.length && !wasps.length) st = 'boom';
       return;
     }
+    flames.forEach(f => flameStep(f, s));
+    flames = flames.filter(f => f.life > 0);
+    if (flames.length) return; // ogień najpierw się dopala
     booms.forEach(b => (b.t += dt));
     booms = booms.filter(b => b.t < 700);
     if (st === 'boom' && !booms.length) st = 'fall';
@@ -19952,10 +20346,14 @@ function warGame(opt) {
           p.fy = null;
         }
       });
-      if (!moving) nextTurn();
+      if (!moving) {
+        crateTake();
+        nextTurn();
+      }
     }
   };
   g.idle = dt => {
+    if (g.over && wPan) wPan.classList.remove('open');
     FX.step(dt);
     if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.035);
   };
@@ -20193,7 +20591,17 @@ function warGame(opt) {
       c.arc(sh.x * s, sh.y * s, rr * 3, 0, 7);
       c.fill();
       if (sh.w.k === 'much') shroomDraw(c, sh.x * s, sh.y * s, rr * 1.2, 'much', t, {noShadow: true});
-      else {
+      else if (['szy', 'kret', 'osy', 'zeg', 'zar', 'kan', 'tel'].includes(sh.w.k)) {
+        c.textAlign = 'center';
+        c.textBaseline = 'middle';
+        c.font = Math.round(s * 0.42) + 'px system-ui, sans-serif';
+        c.fillText(sh.w.e, sh.x * s, sh.y * s);
+        if (sh.rest != null) {
+          c.font = '800 ' + Math.round(s * 0.34) + 'px system-ui, sans-serif';
+          c.fillStyle = '#fff';
+          c.fillText(Math.ceil(sh.rest) + '', sh.x * s, (sh.y - 0.55) * s);
+        }
+      } else {
         c.fillStyle = '#fffde7';
         c.beginPath();
         c.arc(sh.x * s, sh.y * s, rr, 0, 7);
@@ -20227,6 +20635,68 @@ function warGame(opt) {
       c.lineWidth = s * 0.08 * (1 - k) + 1;
       c.beginPath();
       c.arc(b.x * s, b.y * s, b.r * s * (0.4 + k * 1.4), 0, 7);
+      c.stroke();
+    });
+    // v71: chmury zarodników, płomienie, osy, skrzynki
+    clouds.forEach(cl => {
+      for (let k = 0; k < 7; k++) {
+        const a = k * 0.9 + t / 1500,
+          rr = cl.r * (0.45 + 0.15 * Math.sin(t / 700 + k)),
+          gx = (cl.x + Math.cos(a) * cl.r * 0.45) * s,
+          gy = (cl.y - 0.4 + Math.sin(a) * cl.r * 0.25) * s,
+          gg = c.createRadialGradient(gx, gy, 0, gx, gy, rr * s);
+        gg.addColorStop(0, 'rgba(156,204,101,' + 0.22 * Math.min(1, cl.turns) + ')');
+        gg.addColorStop(1, 'rgba(104,159,56,0)');
+        c.fillStyle = gg;
+        c.beginPath();
+        c.arc(gx, gy, rr * s, 0, 7);
+        c.fill();
+      }
+    });
+    c.textAlign = 'center';
+    c.textBaseline = 'middle';
+    flames.forEach(f => {
+      c.font = Math.round(s * (0.35 + 0.1 * Math.sin(t / 60 + f.x * 9))) + 'px system-ui, sans-serif';
+      c.fillText('🔥', f.x * s, (top(f.x) - 0.18) * s);
+    });
+    wasps.forEach(wp => {
+      c.font = Math.round(s * 0.3) + 'px system-ui, sans-serif';
+      c.fillText('🐝', wp.x * s, wp.y * s);
+    });
+    crates.forEach(cr => {
+      const x = cr.x * s,
+        y = cr.y * s;
+      if (!cr.land) {
+        c.strokeStyle = 'rgba(255,255,255,0.7)';
+        c.lineWidth = 1;
+        c.beginPath();
+        c.moveTo(x - s * 0.25, y - s * 0.5);
+        c.lineTo(x - s * 0.4, y - s * 1.1);
+        c.moveTo(x + s * 0.25, y - s * 0.5);
+        c.lineTo(x + s * 0.4, y - s * 1.1);
+        c.stroke();
+        c.fillStyle = '#ef5350';
+        c.beginPath();
+        c.ellipse(x, y - s * 1.15, s * 0.5, s * 0.25, 0, Math.PI, 0);
+        c.fill();
+      }
+      c.fillStyle = '#a1662f';
+      c.fillRect(x - s * 0.27, y - s * 0.52, s * 0.54, s * 0.52);
+      c.strokeStyle = '#5d3a1a';
+      c.lineWidth = Math.max(1, s * 0.05);
+      c.strokeRect(x - s * 0.27, y - s * 0.52, s * 0.54, s * 0.52);
+      c.beginPath();
+      c.moveTo(x - s * 0.27, y - s * 0.52);
+      c.lineTo(x + s * 0.27, y);
+      c.stroke();
+    });
+    // tarcza z huby wokół grzyba
+    P.forEach(p => {
+      if (!p.shield || p.hp <= 0) return;
+      c.strokeStyle = 'rgba(215,168,110,' + (0.55 + 0.2 * Math.sin(t / 250)) + ')';
+      c.lineWidth = s * 0.09;
+      c.beginPath();
+      c.arc(p.x * s, (p.y - 0.5) * s, s * 0.75, Math.PI * 1.05, Math.PI * 1.95);
       c.stroke();
     });
     FX.draw(c, s);
@@ -20529,7 +20999,7 @@ function gameOpen() {
     snake: {t: _t('🐍 Grzybowy wąż'), d: _t('Zbieraj grzyby, nie gryź własnego ogona i omijaj pieńki. Czasem grzyb dostaje nóżek i ucieka – złapany w biegu daje potrójne punkty.')},
     grzyby: {t: _t('🧺 Grzybobranie'), d: _t('Łap jadalne grzyby, omijaj muchomory. Złoty borowik to 100 punktów. Bonusy: tarcza, karabiny przy koszyku, laser, magnes i szerszy koszyk.')},
     saper: {t: _t('🍄 Grzybowy saper'), d: _t('Klasyk z Windowsa: pod mchem schowane są muchomory. Liczba mówi, ile ich jest dookoła pola. Dotknij – odkryj, przytrzymaj – postaw flagę. Pierwsze dotknięcie jest zawsze bezpieczne.')},
-    wojna: {t: _t('💥 Wojna grzybów'), d: _t('Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą.')}
+    wojna: {t: _t('💥 Wojna grzybów'), d: _t('Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą. Środkowy przycisk otwiera menu broni: szyszka, kret, rój os, purchawka zegarowa, zarodniki, kania-zapalnik, teleport, tarcza z huby i więcej. Co kilka tur spada skrzynka z zapasami.')}
   };
   const fdt = d => new Date(d).toLocaleDateString(LOC, {day: 'numeric', month: 'numeric', year: '2-digit'});
   const topTable = (id, hi) => {
