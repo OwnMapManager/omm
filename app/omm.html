@@ -5999,6 +5999,15 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Nagrywaj dalej pieszo (zalecane)": "Keep recording on foot (recommended)",
+  "Przelicz ślad z surowych pomiarów GPS": "Recalculate track from raw GPS fixes",
+  "Przeliczono ślad: ": "Track recalculated: ",
+  "Surowe pomiary GPS OMM zapisuje zawsze (w telefonie, do „Przelicz ślad”). Tryb diagnostyczny dokłada je do eksportu GPX jako drugi ślad – z dokładnością, prędkością, kierunkiem, wysokością i decyzją filtra. Przydatne do strojenia, gdy ślad wygląda dziwnie. Plik GPX jest wtedy większy.": "OMM always keeps raw GPS fixes (on the phone, for “Recalculate track”). Diagnostic mode adds them to the GPX export as a second track – with accuracy, speed, heading, elevation and the filter decision. Useful for tuning when a track looks odd. The GPX file is larger then.",
+  "Surowe pomiary GPS obejmują tylko część tego śladu (np. po scaleniu) – przeliczenie mogłoby go uciąć.": "The raw GPS fixes cover only part of this track (e.g. after merging) – recalculating could cut it.",
+  "W tym śladzie jest dorysowany kawałek – przeliczenie z surowych pomiarów by go usunęło.": "This track has a drawn-in piece – recalculating from raw fixes would remove it.",
+  "Wstrzymaj nagrywanie do ponownej jazdy": "Pause recording until you drive again",
+  "Za mało surowych pomiarów GPS, żeby przeliczyć ten ślad.": "Not enough raw GPS fixes to recalculate this track.",
+  "„Wstrzymaj”: chodzenie po sklepie nie narysuje pętli, ale marsz bliżej niż 300 m od auta (np. grzyby przy parkingu) może nie trafić do śladu. Miejsce auta OMM zapamiętuje w obu przypadkach.": "“Pause”: walking around a shop draws no loops, but walking closer than 300 m to the car (e.g. mushrooms by the car park) may not get into the track. OMM remembers where the car is either way.",
   " od startu": " from the start",
   " od startu i ": " from the start and ",
   " od trasy (w linii prostej).": " from the route (as the crow flies).",
@@ -6348,7 +6357,7 @@ const EN = {
   "💡 Ekran licznika nie zgaśnie": "💡 The bike computer screen will stay on",
   "Trasy rowerowe": "Bike routes",
   "Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.": "Choose the map (OSM, aerial photos – also archival from a chosen year, satellite), overlays (parcels, trails, forest sites), and at the top “Offline maps” – download an area before you go where there is no signal.",
-  "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics), and after you park the car recording waits until you drive on. In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
+  "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics). After “Stop” OMM recomputes the track from the raw GPS fixes – smoothed, without zigzags or circles. In the recording panel: “To the car”, “Trip plan” and 💡 – keep the screen on.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
   "Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap successive points – the line follows roads (choose the type: forest paths, paved, bike, car) or goes straight. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
   "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DTM elevation, terrain profile and coordinates – the result appears at once in a bubble at the measured place, with “Share” (a map image with the results). Also “Walk a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
@@ -8438,6 +8447,7 @@ const IC = {
   loop: '<path d="M20 12a8 8 0 1 1-2.3-5.7"/><path d="M20 4v4.5h-4.5"/>', // v69: pętla – powrót do startu
   grip: '<path d="M8 7h8M8 12h8M8 17h8"/>', // v69: uchwyt – zmiana kolejności
   join: '<path d="M4 20c4-1 6-5 8-9s4-7 8-7"/><path d="M4 9l5 2.5L6.5 16"/>', // v69: dołącz do trasy
+  recalc: '<path d="M3 17l2.5-3 2 2.5 2.5-4 2 3 2.5-3.5" stroke-dasharray="0" opacity=".55"/><path d="M3 11c3-4 7-4 10 0s6 3 8 0"/><path d="M17.5 4.5l1 2 2 1-2 1-1 2-1-2-2-1 2-1z" fill="currentColor" stroke="none"/>', // v70: przelicz ślad (wygładź z surowych pomiarów)
   plan: '<circle cx="6" cy="18" r="2.2"/><path d="M8.2 18H14a3 3 0 0 0 0-6h-4a3 3 0 0 1 0-6h5"/><path d="M15 3.5l3 2.5-3 2.5"/>', // zaplanuj trasę
   tools: '<path d="M14.5 6.5a4 4 0 0 0-5.3 5.3L4 17l3 3 5.2-5.2a4 4 0 0 0 5.3-5.3l-2.5 2.5-2.3-.7-.7-2.3z"/>', // narzędzia
   visited: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5.5-6"/>', // odwiedzone
@@ -8487,7 +8497,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v69';
+const APP_VER = 'v70';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -18349,7 +18359,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk nagrywania (ikona śladu z kropką, pod ◎) nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). Po zaparkowaniu auta nagrywanie czeka, aż znowu ruszysz – chodzenie po sklepie nie rysuje pętli (odejdziesz dalej niż 300 m, np. do lasu – nagrywanie wraca samo). Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk nagrywania (ikona śladu z kropką, pod ◎) nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam), „Plan wyjścia” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. „Przelicz ślad” (ikona z iskrą w okienku śladu) liczy go ponownie z surowych pomiarów. Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 w lewym dolnym rogu: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
@@ -18399,7 +18409,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the record button (track icon with a dot, below ◎) records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). After you park the car, recording waits until you drive again – walking around a shop draws no loops (walk more than 300 m away, e.g. into the forest, and recording resumes by itself). Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the record button (track icon with a dot, below ◎) records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is), “Trip plan” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. “Recalculate track” (the icon with a spark in the track popup) recomputes it from the raw fixes. After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 in the bottom-left corner: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
@@ -22085,6 +22095,7 @@ function trkPopup(t, ll) {
     ),
     IB('split', act(() => trkSplit(t)), '', _t('Podziel ślad')),
     IB('extend', act(() => trkExtend(t)), '', _t('Dorysuj brakujący kawałek (zapomniany REC, przerwa)')),
+    ...(t.rid ? [IB('recalc', act(() => trkRecalc(t)), '', _t('Przelicz ślad z surowych pomiarów GPS'))] : []),
     IB('del', act(() => trkDelete(t)), 'danger', _t('Usuń ślad'))
   );
   el.append(bt, ib);
@@ -22530,7 +22541,7 @@ function trkGPX(list, name, photoPath, diag) {
         esc(t.nm + ' – ' + _t('surowe pomiary GPS')) +
         '</name><type>omm-diagnostyka</type>\n<extensions><omm:diag_dla>' +
         esc(t.id) +
-        '</omm:diag_dla><omm:kody>z=zapisany d=słaba dokładność p=postój k=kotwica postoju g=gęstość s=skok t=stary x=auto zaparkowane</omm:kody></extensions>\n<trkseg>\n';
+        '</omm:diag_dla><omm:kody>z=zapisany w=start (czekam na 3 dokładne pomiary) d=słaba dokładność p=postój g=gęstość s=odskok t=stary x=auto zaparkowane</omm:kody></extensions>\n<trkseg>\n';
       t.dg.forEach(r => {
         // [s od startu, szer, dł, dokładność m, prędkość m/s, kierunek °, decyzja, szer. po filtrze, dł. po filtrze]
         s +=
@@ -22538,7 +22549,9 @@ function trkGPX(list, name, photoPath, diag) {
           r[1] +
           '" lon="' +
           r[2] +
-          '"><time>' +
+          '">' +
+          (r[9] != null ? '<ele>' + r[9] + '</ele>' : '') +
+          '<time>' +
           new Date(t.st + r[0] * 1000).toISOString() +
           '</time><extensions><omm:dokl>' +
           r[3] +
@@ -24046,218 +24059,425 @@ async function recLoad(r) {
   recDbN = 0;
   return r;
 }
-let recAnc = null, // kotwica postoju: ostatni punkt przed postojem (patrz recPoint)
-  recExit = null; // pierwszy pomiar poza promieniem postoju – czeka na potwierdzenie kolejnym
-const recKF = {}; // filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach)
-function kfStep(t, lat, lng, accu, time, speed, bearing) {
-  // Filtr Kalmana „stała prędkość” (osobno oś wschód i północ, w metrach).
-  // Korzysta z dwóch pomiarów GPS: położenia (dokładność ±accu m) i prędkości z efektu Dopplera
-  // (speed m/s + kierunek bearing) – ta jest bardzo dokładna, więc filtr od razu „wie”, że auto stanęło
-  // albo skręca: nie wyjeżdża za zakręt i nie robi zygzaków na postoju.
-  const SA = 1.5, // dopuszczalne przyspieszenie (m/s²) – wystarcza dla pieszego, roweru i auta
-    RV = 0.5 * 0.5, // niepewność prędkości z GPS (m/s)²
-    my = 111320,
-    mx = 111320 * Math.cos((lat * Math.PI) / 180),
-    // v66: kierunek z GPS jest wiarygodny dopiero przy ~2 m/s – przy wolniejszym ruchu (ruszanie, manewry na
-    // parkingu) filtr nie dostaje wektora prędkości, tylko położenie; przy „stoję” (<0,5 m/s) – zero
-    hasV = speed != null && isFinite(speed) && speed >= 0 && (speed < 0.5 || (speed >= 2 && bearing != null && isFinite(bearing))),
-    vx = hasV
-      ? speed > 0.3 && bearing != null && isFinite(bearing)
-        ? speed * Math.sin((bearing * Math.PI) / 180)
-        : 0
-      : 0,
-    vy = hasV
-      ? speed > 0.3 && bearing != null && isFinite(bearing)
-        ? speed * Math.cos((bearing * Math.PI) / 180)
-        : 0
-      : 0;
-  if (!t.on || time - t.time > 10000) {
-    Object.assign(t, {
-      on: 1,
-      la0: lat,
-      lo0: lng,
-      time,
-      x: [0, vx],
-      y: [0, vy],
-      P: [
-        [accu * accu, 0, 0, hasV ? RV : 25],
-        [accu * accu, 0, 0, hasV ? RV : 25]
-      ]
-    });
-    return [lat, lng];
-  }
-  const dt = Math.max(0.1, (time - t.time) / 1000),
-    R = accu * accu,
-    zx = (lng - t.lo0) * mx,
-    zy = (lat - t.la0) * my,
-    // manewr (zakręt, hamowanie): pomiar daleko od przewidywania – filtr na chwilę „luzuje”
-    inn = Math.hypot(zx - (t.x[0] + t.x[1] * dt), zy - (t.y[0] + t.y[1] * dt)),
-    q = (inn > 2.5 * accu ? Math.max(SA, 3) : SA) ** 2;
-  [
-    [t.x, zx, vx, 0],
-    [t.y, zy, vy, 1]
-  ].forEach(([s, z, zv, k]) => {
-    // s = [położenie, prędkość], P = [p00, p01, p10, p11] – macierz niepewności
-    let [a, b, c, d] = t.P[k];
-    // przewidywanie
-    s[0] += s[1] * dt;
-    a = a + dt * (b + c) + dt * dt * d + (q * dt ** 4) / 4;
-    b = b + dt * d + (q * dt ** 3) / 2;
-    c = c + dt * d + (q * dt ** 3) / 2;
-    d = d + q * dt * dt;
-    // poprawka położeniem
-    let S = a + R,
+// --- v70: nagrywanie od nowa po researchu (raport „Ślady GPS w OMM”, 17.10.2026) ---
+/*
+ * 1. Każdy pomiar GPS (do 50 m dokładności) trafia w surowej postaci do bazy telefonu („trkraw/<id>”) – ślad jest
+ *    widokiem tych danych, a nie jedyną kopią; nic nie przepada przez złą decyzję filtra.
+ * 2. Na żywo: filtr Kalmana „stała prędkość” bez obcinania; prędkość z GPS (Doppler) używana, gdy > 0,6 m/s i jest
+ *    kierunek; dopuszczalne przyspieszenie rośnie z prędkością (pieszo małe, autem duże); pomiar dalej niż 4σ od
+ *    przewidywania to odskok.
+ * 3. Ślad zaczyna się po 3 kolejnych pomiarach do 20 m (koniec kółek na starcie).
+ * 4. Po „Stop” całe nagranie liczone jest od nowa z surowych pomiarów: filtr w przód + wygładzanie
+ *    Raucha–Tunga–Striebela w tył, postoje z wygładzonej prędkości (< 0,25 m/s przez ≥ 45 s → jeden punkt),
+ *    uproszczenie Douglasa–Peuckera (3 m). Ten sam algorytm: „Przelicz ślad” w okienku śladu.
+ * 5. Nic nie jest wyrzucane z powodu auta: pauza po zaparkowaniu tylko z wyboru w Ustawieniach.
+ */
+const plen = p => {
+  // długość linii z punktów [szer, dł, …] (punkty śladu mają też wysokość i czas)
+  let d = 0;
+  for (let i = 1; i < p.length; i++) d += hav(p[i - 1], p[i]);
+  return d;
+};
+const recKF = {}; // filtr na żywo
+const KF_GATE = 16; // odskok: (odległość od przewidywania / niepewność)² > 16, czyli ponad 4σ
+const kfAcc = v => 0.2 + 0.12 * (v > 0 ? v : 0); // dopuszczalne przyspieszenie (m/s²) wg prędkości
+function kfAxis(s, P, dt, q) {
+  // przewidywanie jednej osi: s = [położenie, prędkość], P = [p00, p01, p10, p11]
+  let [a, b, c, d] = P;
+  s[0] += s[1] * dt;
+  a = a + dt * (b + c) + dt * dt * d + (q * dt ** 4) / 4;
+  b = b + dt * d + (q * dt ** 3) / 2;
+  c = c + dt * d + (q * dt ** 3) / 2;
+  d = d + q * dt * dt;
+  return [a, b, c, d];
+}
+function kfFix(s, P, z, R, zv, RV) {
+  // poprawka położeniem (z, wariancja R) i ewentualnie prędkością (zv, RV)
+  let [a, b, c, d] = P;
+  if (z != null) {
+    const S = a + R,
       k0 = a / S,
       k1 = c / S,
       e = z - s[0];
     s[0] += k0 * e;
     s[1] += k1 * e;
     [a, b, c, d] = [(1 - k0) * a, (1 - k0) * b, c - k1 * a, d - k1 * b];
-    // poprawka prędkością z GPS
-    if (hasV) {
-      S = d + RV;
-      k0 = b / S;
-      k1 = d / S;
-      e = zv - s[1];
-      s[0] += k0 * e;
-      s[1] += k1 * e;
-      [a, b, c, d] = [a - k0 * c, b - k0 * d, c - k1 * c, d - k1 * d];
-    }
-    t.P[k] = [a, b, c, d];
-  });
-  t.time = time;
-  // v66: wynik filtra nigdy nie odchodzi od pomiaru dalej niż ~połowa jego dokładności (min. 3 m) –
-  // ślad nie „wyjeżdża” za zakręt ani nie zatacza łuków, gdy GPS dobrze widzi drogę
-  const lim = Math.max(3, Math.min(accu, 30) * 0.5),
-    dx = t.x[0] - zx,
-    dy = t.y[0] - zy,
-    dd = Math.hypot(dx, dy);
-  if (dd > lim) {
-    t.x[0] = zx + (dx * lim) / dd;
-    t.y[0] = zy + (dy * lim) / dd;
   }
-  return [t.la0 + t.y[0] / my, t.lo0 + t.x[0] / mx];
+  if (zv != null) {
+    const S = d + RV,
+      k0 = b / S,
+      k1 = d / S,
+      e = zv - s[1];
+    s[0] += k0 * e;
+    s[1] += k1 * e;
+    [a, b, c, d] = [a - k0 * c, b - k0 * d, c - k1 * c, d - k1 * d];
+  }
+  return [a, b, c, d];
+}
+const kfVel = (speed, bearing) =>
+  speed != null && isFinite(speed) && speed > 0.6 && bearing != null && isFinite(bearing)
+    ? [speed * Math.sin((bearing * Math.PI) / 180), speed * Math.cos((bearing * Math.PI) / 180)]
+    : null;
+function kfStep(t, lat, lng, accu, time, speed, bearing) {
+  // filtr na żywo; zwraca [szer, dł] po filtrze (albo pomiar, gdy filtr startuje od nowa)
+  const my = 111320,
+    vel = kfVel(speed, bearing);
+  if (!t.on || time - t.time > 30000 || t.bad >= 3) {
+    const mx = 111320 * Math.cos((lat * Math.PI) / 180);
+    Object.assign(t, {on: 1, la0: lat, lo0: lng, mx, time, bad: 0, v: speed || 0, x: [0, vel ? vel[0] : 0], y: [0, vel ? vel[1] : 0], P: [[accu * accu, 0, 0, vel ? 0.25 : 4], [accu * accu, 0, 0, vel ? 0.25 : 4]]});
+    return [lat, lng];
+  }
+  const dt = Math.max(0.2, (time - t.time) / 1000),
+    qa = 0.05 + 0.12 * Math.max(speed || 0, t.v || 0), // na żywo spokojniej niż po „Stop” (tam wygładzanie w tył)
+    q = qa * qa,
+    R = accu * accu,
+    zx = (lng - t.lo0) * t.mx,
+    zy = (lat - t.la0) * my;
+  t.P[0] = kfAxis(t.x, t.P[0], dt, q);
+  t.P[1] = kfAxis(t.y, t.P[1], dt, q);
+  const m2 = (zx - t.x[0]) ** 2 / (t.P[0][0] + R) + (zy - t.y[0]) ** 2 / (t.P[1][0] + R),
+    ok = m2 < KF_GATE;
+  t.bad = ok ? 0 : (t.bad || 0) + 1; // kilka odskoków z rzędu = to jednak ruch (np. po tunelu) – filtr od nowa
+  t.P[0] = kfFix(t.x, t.P[0], ok ? zx : null, R, vel ? vel[0] : null, 0.16);
+  t.P[1] = kfFix(t.y, t.P[1], ok ? zy : null, R, vel ? vel[1] : null, 0.16);
+  t.time = time;
+  t.v = speed != null && isFinite(speed) ? speed : t.v;
+  t.ok = ok;
+  return [t.la0 + t.y[0] / my, t.lo0 + t.x[0] / t.mx];
+}
+// --- surowe pomiary: [s od startu (0,1 s), szer, dł, dokładność, prędkość, kierunek, wysokość] ---
+const RAWDB = 'trkraw/';
+let recRaw = [],
+  recRawN = 0,
+  recRawMem = [], // wszystkie surowe pomiary bieżącego nagrania (do licznika dystansu na żywo)
+  recGood = 0; // ile kolejnych dokładnych pomiarów na starcie
+function recRawAdd(r) {
+  if (!REC) return;
+  recRaw.push(r);
+  recRawMem.push(r);
+  if (recRaw.length >= 120) recRawFlush();
+}
+function recRawFlush() {
+  if (!REC || !recRaw.length) return;
+  const k = RAWDB + REC.id + '/' + Date.now().toString(36).padStart(9, '0') + String(recRawN++ % 10000).padStart(4, '0'), // klucze rosną także po wznowieniu nagrania
+    v = recRaw;
+  recRaw = [];
+  IDB.set(k, v).catch(() => {});
+}
+async function rawLoad(id) {
+  // wszystkie surowe pomiary nagrania (kawałki w kolejności)
+  const out = [];
+  try {
+    const keys = ((await IDB.keys(RAWDB + id + '/')) || []).sort();
+    for (const k of keys) out.push(...((await IDB.get(k)) || []));
+  } catch (e) {}
+  if (REC && REC.id === id) out.push(...recRaw);
+  return out.sort((a, b) => a[0] - b[0]);
+}
+function rawDrop(id) {
+  IDB.keys(RAWDB + id + '/')
+    .then(k => k && k.length && IDB.delMany(k))
+    .catch(() => {});
+}
+async function rawPrune() {
+  // surowe pomiary śladów, których już nie ma (ani w śladach, ani w koszu) – sprzątanie przy starcie
+  try {
+    const keys = (await IDB.keys(RAWDB)) || [],
+      ids = new Set(keys.map(k => k.split('/')[1])),
+      keep = new Set(TRK.items.map(t => t.rid).filter(Boolean)),
+      tr = JSON.stringify(TRASH || []);
+    if (REC) keep.add(REC.id);
+    const del = keys.filter(k => {
+      const id = k.split('/')[1];
+      return !keep.has(id) && !tr.includes('"rid":"' + id + '"');
+    });
+    if (del.length) await IDB.delMany(del);
+    void ids;
+  } catch (e) {}
+}
+// --- przeliczenie całego nagrania z surowych pomiarów (po „Stop” i „Przelicz ślad”) ---
+function trkProcess(rows, opt = {}) {
+  // rows: surowe pomiary (s, szer, dł, dokł., prędkość, kierunek, wysokość); zwraca punkty śladu [szer, dł, wys, s]
+  const F0 = rows.filter(r => r && isFinite(r[1]) && isFinite(r[2]) && r[3] <= 30);
+  // start: od pierwszych 3 kolejnych pomiarów do 20 m
+  let i0 = 0,
+    run = 0;
+  for (; i0 < F0.length; i0++) {
+    run = F0[i0][3] <= 20 ? run + 1 : 0;
+    if (run >= 3) break;
+  }
+  const F = F0.slice(Math.max(0, i0 - 2));
+  if (F.length < 3) return null;
+  const la0 = F[0][1],
+    lo0 = F[0][2],
+    MY = 111320,
+    MX = 111320 * Math.cos((la0 * Math.PI) / 180),
+    n = F.length,
+    X = [],
+    PP = [],
+    XP = [],
+    PPp = [];
+  let sx = null,
+    sy = null,
+    Px = null,
+    Py = null,
+    bad = 0;
+  for (let i = 0; i < n; i++) {
+    const r = F[i],
+      zx = (r[2] - lo0) * MX,
+      zy = (r[1] - la0) * MY,
+      R = r[3] * r[3],
+      vel = kfVel(r[4], r[5]),
+      gap = i ? r[0] - F[i - 1][0] : 0;
+    if (!i || gap > 30 || bad >= 3) {
+      // początek albo przerwa / seria odskoków – filtr od nowa (osobny kawałek do wygładzania)
+      sx = [zx, vel ? vel[0] : 0];
+      sy = [zy, vel ? vel[1] : 0];
+      Px = [R, 0, 0, vel ? 0.25 : 4];
+      Py = [R, 0, 0, vel ? 0.25 : 4];
+      bad = 0;
+      XP.push(null);
+      PPp.push(null);
+      X.push([sx.slice(), sy.slice()]);
+      PP.push([Px.slice(), Py.slice()]);
+      continue;
+    }
+    const dt = Math.max(0.2, gap),
+      qa = kfAcc(Math.max(r[4] || 0, F[i - 1][4] || 0)),
+      q = qa * qa;
+    Px = kfAxis(sx, Px, dt, q);
+    Py = kfAxis(sy, Py, dt, q);
+    XP.push([sx.slice(), sy.slice()]);
+    PPp.push([Px.slice(), Py.slice()]);
+    const m2 = (zx - sx[0]) ** 2 / (Px[0] + R) + (zy - sy[0]) ** 2 / (Py[0] + R),
+      ok = m2 < KF_GATE;
+    bad = ok ? 0 : bad + 1;
+    Px = kfFix(sx, Px, ok ? zx : null, R, vel ? vel[0] : null, 0.16);
+    Py = kfFix(sy, Py, ok ? zy : null, R, vel ? vel[1] : null, 0.16);
+    X.push([sx.slice(), sy.slice()]);
+    PP.push([Px.slice(), Py.slice()]);
+  }
+  // wygładzanie w tył (Rauch–Tung–Striebel), osobno w każdym kawałku
+  const S = X.map(a => a.map(b => b.slice()));
+  for (let i = n - 2; i >= 0; i--) {
+    if (!XP[i + 1]) continue; // granica kawałków
+    const dt = Math.max(0.2, F[i + 1][0] - F[i][0]);
+    for (let k = 0; k < 2; k++) {
+      const [A, B, C, D] = PP[i][k],
+        [pA, pB, pC, pD] = PPp[i + 1][k],
+        det = pA * pD - pB * pC;
+      if (!(Math.abs(det) > 1e-12)) continue;
+      const iA = pD / det,
+        iB = -pB / det,
+        iC = -pC / det,
+        iD = pA / det,
+        FA = A + dt * B,
+        FB = B,
+        FC = C + dt * D,
+        FD = D,
+        G = [FA * iA + FB * iC, FA * iB + FB * iD, FC * iA + FD * iC, FC * iB + FD * iD],
+        d0 = S[i + 1][k][0] - XP[i + 1][k][0],
+        d1 = S[i + 1][k][1] - XP[i + 1][k][1];
+      S[i][k][0] = X[i][k][0] + G[0] * d0 + G[1] * d1;
+      S[i][k][1] = X[i][k][1] + G[2] * d0 + G[3] * d1;
+    }
+  }
+  const pts = S.map((s, i) => ({t: F[i][0], x: s[0][0], y: s[1][0], v: Math.hypot(s[0][1], s[1][1]), a: F[i][6], cut: !XP[i]}));
+  // postoje: wygładzona prędkość < 0,25 m/s przez ≥ 45 s → jeden punkt (środek postoju)
+  const st = [];
+  for (let i = 0; i < pts.length; ) {
+    if (pts[i].v < 0.25) {
+      let j = i;
+      while (j + 1 < pts.length && pts[j + 1].v < 0.25 && !pts[j + 1].cut) j++;
+      if (pts[j].t - pts[i].t >= 45) {
+        const W = pts.slice(i, j + 1);
+        st.push({t: pts[i].t, x: W.reduce((a, p) => a + p.x, 0) / W.length, y: W.reduce((a, p) => a + p.y, 0) / W.length, a: pts[i].a, cut: pts[i].cut});
+        i = j + 1;
+        continue;
+      }
+    }
+    st.push(pts[i]);
+    i++;
+  }
+  // gęstość zapisu jak dotąd: dokładne co ≥ 2 s i ≥ 3 m, oszczędne co ≥ 5 s i ≥ 8 m
+  const dmin = opt.eco ? 8 : 3,
+    tmin = opt.eco ? 5 : 2,
+    keep = [];
+  st.forEach((p, k) => {
+    const l = keep[keep.length - 1];
+    if (!l || p.cut || k === st.length - 1 || (p.t - l.t >= tmin && Math.hypot(p.x - l.x, p.y - l.y) >= dmin)) keep.push(p);
+  });
+  // Douglas–Peucker 3 m: bez drobnych zygzaków mniejszych niż błąd GPS (kształt zostaje)
+  const tol = opt.dp != null ? opt.dp : 3,
+    mark = new Uint8Array(keep.length);
+  mark[0] = mark[keep.length - 1] = 1;
+  keep.forEach((p, k) => p.cut && (mark[k] = 1));
+  if (tol > 0) {
+    const stack = [[0, keep.length - 1]];
+    while (stack.length) {
+      const [a, b] = stack.pop();
+      if (b - a < 2) continue;
+      const A = keep[a],
+        B2 = keep[b],
+        dx = B2.x - A.x,
+        dy = B2.y - A.y,
+        L2 = dx * dx + dy * dy;
+      let md = 0,
+        mi = -1;
+      for (let k = a + 1; k < b; k++) {
+        const p = keep[k];
+        let u = L2 ? ((p.x - A.x) * dx + (p.y - A.y) * dy) / L2 : 0;
+        u = Math.max(0, Math.min(1, u));
+        const d = Math.hypot(p.x - A.x - u * dx, p.y - A.y - u * dy);
+        if (d > md) {
+          md = d;
+          mi = k;
+        }
+        if (p.cut) {
+          md = Infinity;
+          mi = k;
+          break;
+        }
+      }
+      if (md > tol) {
+        mark[mi] = 1;
+        stack.push([a, mi], [mi, b]);
+      }
+    }
+  } else mark.fill(1);
+  return keep
+    .filter((p, k) => mark[k])
+    .map(p => [+(la0 + p.y / MY).toFixed(6), +(lo0 + p.x / MX).toFixed(6), p.a == null || !isFinite(p.a) ? null : Math.round(p.a * 10) / 10, Math.max(0, Math.round(p.t))]);
+}
+function recRows() {
+  // surowe pomiary bieżącego nagrania bez czasu „auto zaparkowane” (pauza z wyboru w Ustawieniach)
+  const pk = (REC && REC.pk) || [];
+  return pk.length ? recRawMem.filter(r => !pk.some(([a, b]) => r[0] > a && r[0] < b)) : recRawMem;
+}
+let recPdAt = 0;
+function recLiveDist(sd) {
+  // dystans na żywo liczony jak po „Stop” (co 20 s), żeby licznik nie rósł od drgań GPS; między przeliczeniami + przyrost
+  if (!REC) return sd;
+  if (Date.now() - recPdAt > 20000 && recRawMem.length > 10) {
+    recPdAt = Date.now();
+    try {
+      const np = trkProcess(recRows(), {eco: !recPrecise()});
+      if (np) REC.pd = {d: plen(np), sd};
+    } catch (e) {}
+  }
+  return REC.pd ? REC.pd.d + Math.max(0, sd - REC.pd.sd) : sd;
+}
+function trkProcessOk(oldPts, newPts) {
+  // zabezpieczenie: przeliczony ślad nie może być dziwnie krótszy / dłuższy od nagranego na żywo
+  if (!newPts || newPts.length < 2) return false;
+  if (!oldPts || oldPts.length < 2) return true;
+  const a = plen(oldPts),
+    b = plen(newPts);
+  return a < 50 || (b > a * 0.5 && b < a * 1.6);
+}
+function trkProcessSg(oldPts, sg, newPts) {
+  // przerwy w linii (np. po wznowieniu nagrania) – na tych samych chwilach w nowym śladzie
+  return (sg || [])
+    .map(i => oldPts[i] && oldPts[i][3])
+    .filter(s => s != null)
+    .map(s => newPts.findIndex(q => q[3] >= s))
+    .filter((i, k, a) => i > 0 && a.indexOf(i) === k);
+}
+async function trkRecalc(t) {
+  // „Przelicz ślad”: ponownie z surowych pomiarów (np. po ulepszeniu algorytmu); z możliwością cofnięcia
+  if (t.pts.some(q => q[4] === 1)) return tell(_t('W tym śladzie jest dorysowany kawałek – przeliczenie z surowych pomiarów by go usunęło.'));
+  const rows = await rawLoad(t.rid);
+  const s0 = t.pts[0][3],
+    s1 = t.pts[t.pts.length - 1][3],
+    sh = (t.st - (t.rst || t.st)) / 1000, // ślad po podziale ma inny początek niż nagranie
+    part = rows.filter(r => r[0] - sh >= s0 - 3 && r[0] - sh <= s1 + 3).map(r => [r[0] - sh, ...r.slice(1)]),
+    np = trkProcess(part, {eco: t.eco});
+  const cov = part.length ? (part[part.length - 1][0] - part[0][0]) / Math.max(1, s1 - s0) : 0;
+  if (cov < 0.8) return tell(_t('Surowe pomiary GPS obejmują tylko część tego śladu (np. po scaleniu) – przeliczenie mogłoby go uciąć.'));
+  if (!np || np.length < 2) return tell(_t('Za mało surowych pomiarów GPS, żeby przeliczyć ten ślad.'));
+  const old = {pts: t.pts, sg: t.sg},
+    d0 = plen(t.pts),
+    d1 = plen(np);
+  t.sg = trkProcessSg(t.pts, t.sg, np);
+  t.pts = np;
+  t.up = Date.now();
+  trkChanged();
+  map.closePopup();
+  toastAct(_t('Przeliczono ślad: ') + fkm(d0) + ' → ' + fkm(d1), _t('Cofnij'), () => {
+    t.pts = old.pts;
+    t.sg = old.sg;
+    t.up = Date.now();
+    trkChanged();
+  }, 10000);
 }
 function recPoint(lat, lng, alt, accu, time, extra) {
-  // nowy pomiar GPS → punkt śladu: filtr Kalmana usuwa „zygzaki” szumu, punkt najwyżej co 2 s
-  // i tylko w ruchu (postój nie dokłada punktów), bez „skoków” i „szpilek” GPS
+  // nowy pomiar GPS: zawsze zapis surowy; na żywo – filtr i punkt śladu co ≥ 2 s w ruchu
   if (!REC || REC.paused || !isFinite(lat) || !isFinite(lng)) return;
-  const x = extra || {};
+  const x = extra || {},
+    sec = Math.round((time - REC.st) / 100) / 10;
   gpsiAdd('rec', {latitude: lat, longitude: lng, accuracy: accu, altitude: alt, speed: x.speed, heading: x.bearing, altitudeAccuracy: x.altAcc}, time);
+  if (accu <= 50)
+    recRawAdd([
+      sec,
+      +lat.toFixed(6),
+      +lng.toFixed(6),
+      Math.round(accu * 10) / 10,
+      x.speed != null && isFinite(x.speed) ? Math.round(x.speed * 100) / 100 : null,
+      x.bearing != null && isFinite(x.bearing) ? Math.round(x.bearing) : null,
+      alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10
+    ]);
   if (recFirst) {
     recFirst = false;
     map.setView([lat, lng], Math.max(map.getZoom(), 16));
   }
-  // v66: tryb diagnostyczny – każdy pomiar GPS z decyzją filtra trafia do osobnej listy (zapis w GPX)
-  const dg = recDiagOn() ? [Math.round((time - REC.st) / 100) / 10, +lat.toFixed(6), +lng.toFixed(6), Math.round(accu * 10) / 10, x.speed != null && isFinite(x.speed) ? Math.round(x.speed * 100) / 100 : null, x.bearing != null && isFinite(x.bearing) ? Math.round(x.bearing) : null] : null,
+  // tryb diagnostyczny – każdy pomiar z decyzją filtra trafia też do GPX
+  const dg = recDiagOn() ? [sec, +lat.toFixed(6), +lng.toFixed(6), Math.round(accu * 10) / 10, x.speed != null && isFinite(x.speed) ? Math.round(x.speed * 100) / 100 : null, x.bearing != null && isFinite(x.bearing) ? Math.round(x.bearing) : null] : null,
     out = code => {
-      if (dg) recDiagAdd(dg, code);
+      if (dg) recDiagAdd(dg, code, alt);
       return recUi();
     };
-  // v66: postój auta (zaparkowane) – chodzenie bez auta nie rysuje pętli; patrz recParkPoint
+  // pauza po zaparkowaniu – tylko gdy wybrana w Ustawieniach (od v70 domyślnie nagrywanie trwa dalej)
   if (REC.park) {
     const r = recParkPoint(lat, lng, alt, accu, time, x);
     if (r !== 'go') return out('x');
   }
-  const lim = REC.pts.length ? 25 : 20; // słaby sygnał (np. w budynku) – czekamy na dokładniejszy; pierwszy punkt tylko dokładny
-  if (accu > lim) {
+  // start śladu dopiero po 3 kolejnych pomiarach do 20 m; w trakcie – pomiary do 30 m
+  if (!REC.pts.length) {
+    recGood = accu <= 20 ? recGood + 1 : 0;
+    if (recGood < 3) {
+      recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
+      return out('w');
+    }
+  }
+  if (accu > 30) {
     recPos = {lat, lng, accu, alt, time, speed: x.speed, bearing: x.bearing};
     return out('d');
   }
-  // po ręcznej pauzie (REC.rs) albo na starym odcinku: filtr zaczyna od nowa
   const newSeg = !!REC.rs || (REC.sg.length && REC.sg[REC.sg.length - 1] === REC.pts.length);
-  if (newSeg || !REC.pts.length) (recKF.on = 0), (recAnc = null); // po pauzie filtr zaczyna od nowa
-  const hasV = x.speed != null && isFinite(x.speed);
-  if (hasV && x.speed > 1) REC.vOk = 1; // telefon podaje prawdziwą prędkość z GPS (nie same zera)
+  if (newSeg || !REC.pts.length) recKF.on = 0; // po pauzie filtr zaczyna od nowa
   const [fl, fg] = kfStep(recKF, lat, lng, accu, time, x.speed, x.bearing);
   recPos = {lat: fl, lng: fg, accu, alt, time, speed: x.speed, bearing: x.bearing};
-  const P = recPrecise(),
-    q = [
-      +fl.toFixed(6),
-      +fg.toFixed(6),
-      alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10,
-      Math.max(0, Math.round((time - REC.st) / 1000))
-    ],
-    last = REC.pts[REC.pts.length - 1];
   if (dg) dg.push(+fl.toFixed(6), +fg.toFixed(6));
+  if (!recKF.ok && recKF.bad) return out('s'); // odskok GPS (ponad 4σ od przewidywania)
+  const P = recPrecise(),
+    q = [+fl.toFixed(6), +fg.toFixed(6), alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10, Math.max(0, Math.round((time - REC.st) / 1000))],
+    last = REC.pts[REC.pts.length - 1];
   if (last && q[3] < last[3]) return out('t'); // pomiar starszy niż ostatni punkt (np. opóźniony po pauzie)
   if (last && !newSeg) {
     const d = hav(last, q),
       dt = q[3] - last[3];
     if (dt < (P ? 2 : 5)) return out('g'); // gęstość zapisu: co 2 s (oszczędnie co 5 s)
-    // postój: od ponad 20 s bez nowego punktu – zapamiętujemy „kotwicę” (ostatni punkt)
-    const still = () => {
-      if (!recAnc && dt >= 20) recAnc = last;
-      return out('p');
-    };
-    if (d < Math.max(P ? 3 : 8, accu * 0.5)) return still(); // postój – drgania pozycji w miejscu pomijamy
-    // postój wg GPS (prędkość z efektu Dopplera): auto czeka na światłach / przepuszcza pieszego – bez nowych punktów.
-    // Gdy telefon podaje prawdziwą prędkość, a ta mówi „stoisz”, nawet duży skok pozycji to błąd (np. w budynku).
-    if (hasV && x.speed < 0.5 && (d < 15 || REC.vOk)) return still();
-    // postój wg filtra: szacowana prędkość poniżej ~1,5 km/h – szum GPS nie „chodzi” po mapie
-    if (recKF.on && Math.hypot(recKF.x[1], recKF.y[1]) < 0.4 && d < 15) return still();
-    if (d / dt > 60) return out('s'); // skok pozycji (ponad 200 km/h) – błąd GPS
-    const wasAnc = !!recAnc;
-    if (recAnc) {
-      // po postoju (sklep, dom) pozycja w budynku „pływa” po kilkadziesiąt metrów. Ruszyłeś dopiero, gdy
-      // pomiar wyszedł poza promień postoju i kolejny oddala się dalej (albo GPS mierzy prędkość marszu).
-      const R = Math.max(20, accu * 1.5),
-        da = hav(recAnc, q);
-      if (da < R) {
-        recExit = null;
-        return out('k');
-      }
-      if (!(hasV && x.speed > 1.5)) {
-        if (!recExit) recExit = q;
-        if (da <= hav(recAnc, recExit) + 3) return out('k');
-      }
-      recAnc = recExit = null;
-    }
-    // auto-pauza: po postoju dłuższym niż 2 min ruszyliśmy – linia zostaje ciągła, a czas postoju
-    // zapisujemy jako pauzę (nie liczy się do czasu „w ruchu”). Duży skok w krótkim czasie (np. tunel
-    // bez GPS) to jazda, nie postój.
-    if (recAutoOn() && dt > REC_AP && (d < 40 || (wasAnc && d / dt < 0.5))) (REC.pa = REC.pa || []).push([last[3], q[3]]);
+    if (d < (P ? Math.max(3, accu * 0.5) : 8)) return out('p'); // w miejscu – drgania pozycji pomijamy (na żywo; po „Stop” liczy się wszystko od nowa)
+    // postój wg GPS: prędkość z Dopplera mówi „stoisz”, a przesunięcie mieści się w dokładności
+    if (x.speed != null && isFinite(x.speed) && x.speed < 0.3 && d < Math.max(8, accu)) return out('p');
+    // auto-pauza: po postoju dłuższym niż 2 min ruszyliśmy – linia zostaje ciągła, czas postoju to pauza
+    if (recAutoOn() && dt > REC_AP && d < 40) (REC.pa = REC.pa || []).push([last[3], q[3]]);
   }
   if (REC.rs && last) (REC.pa = REC.pa || []).push([last[3], q[3]]); // ręczna pauza: linia ciągła, czas pauzy = pauza
   delete REC.rs;
   REC.pts.push(q);
-  if (dg) recDiagAdd(dg, 'z');
+  if (dg) recDiagAdd(dg, 'z', alt);
   fieldHook(q, x);
-  // „szpilka”: punkt B odskoczył i wrócił (A → B → C → D). Usuwamy B tylko, gdy po powrocie ślad
-  // znów idzie w pierwotnym kierunku (zawrócenie przy B i ponownie przy C). Prawdziwe zawrócenie
-  // – np. rowerem w drugą stronę – zostaje, bo po nim ślad dalej biegnie z powrotem.
-  const n = REC.pts.length,
-    seg0 = REC.sg.length ? REC.sg[REC.sg.length - 1] : 0,
-    turn = (a, b, c) => Math.abs(((brgDeg(b, c) - brgDeg(a, b) + 540) % 360) - 180);
-  if (n - 4 >= seg0) {
-    const [A, Bp, C, D] = REC.pts.slice(n - 4);
-    if (
-      hav(A, Bp) > 5 &&
-      hav(Bp, C) > 5 &&
-      hav(C, D) > 2 &&
-      turn(A, Bp, C) > 135 &&
-      turn(Bp, C, D) > 135 &&
-      hav(A, C) < 0.5 * Math.min(hav(A, Bp), hav(Bp, C))
-    )
-      REC.pts.splice(n - 3, 1);
-  }
-  if (!recAnc) {
-    // postój, którego GPS nie rozpoznał (w budynku często bez prędkości): od minuty punkty krążą w promieniu
-    // 30 m – zamieniamy je w jeden punkt i od niego liczymy kotwicę postoju
-    const m = REC.pts.length,
-      t1 = REC.pts[m - 1][3];
-    let k = m - 1;
-    while (k > seg0 && t1 - REC.pts[k - 1][3] <= 90) k--;
-    if (m - k >= 5 && t1 - REC.pts[k][3] >= 60) {
-      const W = REC.pts.slice(k),
-        c = [0, 1].map(i => W.reduce((a, p) => a + p[i], 0) / W.length);
-      if (W.every(p => hav(p, c) <= 30)) {
-        const a = [+c[0].toFixed(6), +c[1].toFixed(6), W[0][2], W[0][3]];
-        REC.pts.splice(k, m - k, a);
-        recAnc = a;
-      }
-    }
-  }
   recPersist();
   recDraw();
   recUi();
@@ -24354,6 +24574,11 @@ async function recStart() {
   }
   REC = {id: uid(), l: TRK.active, st: Date.now(), pts: [], sg: [], pa: [], wp: [], paused: false, pz: 0};
   recFirst = true;
+  recGood = 0;
+  recRaw = [];
+  recRawMem = [];
+  recRawN = 0;
+  recPdAt = 0;
   recPersist(true);
   if (!(await recWatchOn())) return recClear();
   recUi();
@@ -24401,6 +24626,15 @@ async function recStop() {
     return;
   }
   wpSync(REC); // kopia nazwy, opisu i zdjęć punktów z mapy – zostaje w śladzie
+  // v70: ślad liczony od nowa z surowych pomiarów (wygładzanie w tył, postoje, uproszczenie); na żywo był tylko podgląd
+  recRawFlush();
+  let fin = null;
+  try {
+    if (recRawMem.length < 10) recRawMem = await rawLoad(REC.id); // po wznowieniu przerwanego nagrania
+    const rows = recRows(),
+      np = rows.length > 10 ? trkProcess(rows, {eco: !recPrecise()}) : null;
+    if (trkProcessOk(REC.pts, np)) fin = {pts: np, sg: trkProcessSg(REC.pts, REC.sg, np)};
+  } catch (e) {}
   const t = {
     id: REC.id,
     l: r.l,
@@ -24410,8 +24644,11 @@ async function recStop() {
     ...(r.wait ? {nmWait: r.wait} : {}),
     ...(r.nr != null ? {nmNr: r.nr} : {}),
     st: REC.st,
-    pts: REC.pts,
-    sg: REC.sg.filter(i => i > 0 && i < REC.pts.length),
+    pts: fin ? fin.pts : REC.pts,
+    sg: fin ? fin.sg : REC.sg.filter(i => i > 0 && i < REC.pts.length),
+    rid: REC.id, // surowe pomiary nagrania („Przelicz ślad”)
+    rst: REC.st,
+    ...(recPrecise() ? {} : {eco: 1}),
     pa: REC.pa || [],
     wp: REC.wp || [], // zdjęcia i punkty dodane w trakcie nagrywania
     cr: Date.now(),
@@ -24425,7 +24662,7 @@ async function recStop() {
   trkSetActive(r.l);
   trkLayer(t).vis = true;
   await trkSave(); // najpierw zapis śladu, dopiero potem kasujemy kopię roboczą nagrania
-  recClear();
+  recClear(true);
   trkRender();
   sheetIfOpen();
   trkFocus(t);
@@ -24516,10 +24753,11 @@ function recDropCar() {
   // nagranie usunięte bez zapisu – miejsce auta zapamiętane podczas niego też (v59)
   if (CAR && REC && CAR.trk === REC.id) carSet(null);
 }
-function recClear() {
+function recClear(keepRaw) {
   recWatchOff();
   if (REC) {
     const id = REC.id;
+    if (!keepRaw) rawDrop(id); // nagranie bez zapisu – surowe pomiary też znikają
     IDB.keys(RECDB + id + '/')
       .then(k => k && k.length && IDB.delMany(k))
       .catch(() => {});
@@ -24529,6 +24767,11 @@ function recClear() {
   recDbN = 0;
   recDbFail = false;
   recWarned = false;
+  recRaw = [];
+  recRawMem = [];
+  recRawN = 0;
+  recGood = 0;
+  recPdAt = 0;
   REC = null;
   recPos = null;
   try {
@@ -24547,6 +24790,7 @@ async function recCheck() {
   if (!r || !(Array.isArray(r.pts) || r.db)) return;
   r = await recLoad(r);
   REC = r;
+  recRawMem = await rawLoad(REC.id); // v70: surowe pomiary sprzed przerwania
   if (!REC.paused) {
     REC.paused = true;
     REC.pAt = Date.now();
@@ -24587,11 +24831,11 @@ function recCenter() {
 const recDiagOn = () => localStorage.getItem('omm-rec-diag') === '1';
 let recDg = [],
   recDgN = 0;
-function recDiagAdd(r, code) {
+function recDiagAdd(r, code, alt) {
   if (!REC) return;
   const row = r.slice(0, 6);
   row.push(code);
-  if (r.length > 6) row.push(r[6], r[7]);
+  row.push(r.length > 6 ? r[6] : null, r.length > 6 ? r[7] : null, alt == null || !isFinite(alt) ? null : Math.round(alt * 10) / 10); // v70: + wysokość
   recDg.push(row);
   if (recDg.length >= 200) recDiagFlush();
 }
@@ -24625,7 +24869,7 @@ function recDiagDrop(id) {
 //  • ruszyłeś autem (prędkość jazdy) → nagrywanie wraca, czas postoju jest pauzą, pomiary pieszo znikają,
 //  • oddaliłeś się pieszo ponad 300 m z dobrym sygnałem (np. las, wycieczka) → to wyjście, nie zakupy:
 //    nagrywanie wraca i dokleja zebrane dobre punkty marszu, więc nic nie ginie.
-const recParkMode = () => localStorage.getItem('omm-park') || 'pauza';
+const recParkMode = () => localStorage.getItem('omm-park') || 'pieszo'; // v70: domyślnie nagrywanie trwa dalej (pauza gubiła marsz przy aucie)
 function recParkStart(stopAt, stopS) {
   if (!REC || REC.park || recParkMode() !== 'pauza') return;
   // punkty marszu, które posłużyły do wykrycia parkowania, wracają do bufora
@@ -24636,7 +24880,6 @@ function recParkStart(stopAt, stopS) {
   REC.pts = keep;
   REC.sg = REC.sg.filter(i => i < keep.length);
   REC.park = {p: stopAt, s: stopS, buf: buf.filter(q => q[4] !== 1)};
-  recAnc = recExit = null;
   recKF.on = 0;
   recPersist(true);
   recDraw();
@@ -24654,6 +24897,7 @@ function recParkPoint(lat, lng, alt, accu, time, x) {
     // znowu jazda autem: postój = pauza, marsz po sklepie pomijamy
     const last = REC.pts[REC.pts.length - 1];
     (REC.pa = REC.pa || []).push([last ? last[3] : K.s, sec]);
+    (REC.pk = REC.pk || []).push([K.s, sec]); // v70: surowe pomiary z tego czasu nie wejdą do śladu po „Stop”
     delete REC.park;
     recKF.on = 0;
     toastMsg(_t('🚗 Jazda – nagrywanie wróciło'));
@@ -24886,6 +25130,7 @@ function recUi() {
     if (dt >= 5) v = (s.cum[n - 1] - s.cum[i]) / dt;
   }
   $('reccap').classList.toggle('paused', !!(REC.paused || ap || REC.park));
+  s.d = recLiveDist(s.d); // v70: dystans jak po „Stop” (bez drgań GPS)
   recAnnCheck(s);
   // kapsuła: u góry czas całkowity, pod nim dystans i stan (pauza, postój, auto, szukanie GPS) albo prędkość
   const km = fkm(s.d);
@@ -25019,7 +25264,8 @@ document.addEventListener('visibilitychange', () => {
   }
 });
 trkLoad();
-setTimeout(() => trkFillPlaces(), 15000); // miejsca w nazwach śladów zapisanych bez internetu
+setTimeout(() => trkFillPlaces(), 15000);
+setTimeout(() => rawPrune(), 25000); // v70: surowe pomiary usuniętych śladów // miejsca w nazwach śladów zapisanych bez internetu
 
 // ---------- zdjęcia: zapis w aplikacji, aparat, galeria, lokalizacja z EXIF ----------
 /*
@@ -30208,7 +30454,7 @@ const TUT_STEPS = [
   {sel: null, t: _t('Mapa'), x: _t('Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.')},
   {sel: '#bbtn', t: _t('Podkład i mapy offline'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.')},
   {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś. Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.')},
-  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite), a po zaparkowaniu auta nagrywanie czeka na dalszą jazdę. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.')},
+  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Plan wyjścia” i 💡 – ekran nie gaśnie.')},
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
@@ -34475,18 +34721,18 @@ function settingsDlg() {
   radios(
     _t('Po zaparkowaniu auta podczas nagrywania'),
     'omm-park',
-    'pauza',
+    'pieszo',
     [
-      ['pauza', _t('Wstrzymaj nagrywanie do ponownej jazdy (zalecane)')],
-      ['pieszo', _t('Nagrywaj dalej pieszo')]
+      ['pieszo', _t('Nagrywaj dalej pieszo (zalecane)')],
+      ['pauza', _t('Wstrzymaj nagrywanie do ponownej jazdy')]
     ],
-    _t('Gdy OMM wykryje, że wysiadłeś z auta (jazda, postój i marsz), chodzenie po sklepie czy budynku nie narysuje pętli. Jeśli odejdziesz pieszo dalej niż 300 m (np. do lasu), nagrywanie wróci samo razem z drogą od auta.')
+    _t('„Wstrzymaj”: chodzenie po sklepie nie narysuje pętli, ale marsz bliżej niż 300 m od auta (np. grzyby przy parkingu) może nie trafić do śladu. Miejsce auta OMM zapamiętuje w obu przypadkach.')
   );
   chk(
     _t('Tryb diagnostyczny GPS'),
     'omm-rec-diag',
     false,
-    _t('Zapisuje dodatkowo każdy surowy pomiar GPS (dokładność, prędkość, kierunek i decyzję filtra) – pojawia się jako drugi ślad w eksporcie GPX. Przydatne, gdy ślad wygląda dziwnie i chcesz to komuś pokazać. Plik GPX jest wtedy większy.')
+    _t('Surowe pomiary GPS OMM zapisuje zawsze (w telefonie, do „Przelicz ślad”). Tryb diagnostyczny dokłada je do eksportu GPX jako drugi ślad – z dokładnością, prędkością, kierunkiem, wysokością i decyzją filtra. Przydatne do strojenia, gdy ślad wygląda dziwnie. Plik GPX jest wtedy większy.')
   );
   {
     // v65: poradnik – oszczędzanie baterii producenta potrafi przerwać nagrywanie i prowadzenie w tle
