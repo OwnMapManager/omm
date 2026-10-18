@@ -1214,6 +1214,51 @@ body.navon #compb {
   font-size: 12px;
 }
 /* okna dialogowe */
+.czp {
+  /* v74: panel edycji strefy parkowania – na dole, mapa z okręgiem widoczna nad nim */
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  bottom: calc(8px + var(--sa));
+  z-index: 2900;
+  background: var(--bg);
+  color: var(--txt);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 24px #0006;
+  max-width: 460px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.czp input[type='text'] {
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 10px;
+  font-size: 16px;
+  background: var(--bg);
+  color: var(--txt);
+}
+.czp input[type='range'] {
+  width: 100%;
+}
+.czp .db {
+  margin-top: 4px;
+}
+.czr {
+  font-weight: 600;
+}
+.czrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+.czrow span {
+  flex: 1;
+}
 .dback {
   position: fixed;
   inset: 0;
@@ -6897,6 +6942,7 @@ const EN = {
   "Trasy rowerowe": "Bike routes",
   "Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.": "Choose the map (OSM, aerial photos – also archival from a chosen year, satellite), overlays (parcels, trails, forest sites), and at the top “Offline maps” – download an area before you go where there is no signal.",
   "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics). After “Stop” OMM recomputes the track from the raw GPS fixes – smoothed, without zigzags or circles. In the recording panel: “To the car”, “SMS alert” and 💡 – keep the screen on.",
+  "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → W terenie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics). After “Stop” OMM recomputes the track from the raw GPS fixes – smoothed, without zigzags or circles. In the recording panel: “To the car”, “SMS alert” and 💡 – keep the screen on. At home and at work the car need not be remembered – set parking zones in Settings → In the field.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
   "Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap successive points – the line follows roads (choose the type: forest paths, paved, bike, car) or goes straight. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
   "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DTM elevation, terrain profile and coordinates – the result appears at once in a bubble at the measured place, with “Share” (a map image with the results). Also “Walk a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
@@ -8811,6 +8857,33 @@ const EN = {
   "Zwykły – dotknij, by pogrubić": "Regular – tap for bold",
   "ile mapy prześwituje": "how much map shows through",
   "🚗 Odjechano – usunięto miejsce auta": "🚗 Driven off – car location removed",
+  "Zapominaj miejsce auta po": "Forget the car location after",
+  "Nigdy": "Never",
+  "1 dniu": "1 day",
+  "3 dniach": "3 days",
+  "7 dniach": "7 days",
+  "Stałe strefy parkowania": "Permanent parking zones",
+  "Zmień": "Change",
+  "Brak stref.": "No zones.",
+  "+ W mojej pozycji": "+ At my position",
+  "+ W miejscu auta": "+ At the car location",
+  "W strefie (np. pod domem, przy pracy) auto nie jest zapamiętywane, a miejsce zostawione gdzie indziej znika. Po trzecim parkowaniu w tym samym miejscu OMM sam zaproponuje strefę.": "In a zone (e.g. at home, at work) the car is not remembered, and a location left elsewhere is cleared. After the third parking at the same spot OMM will suggest a zone by itself.",
+  "Brak pozycji GPS – włącz lokalizację": "No GPS position – turn on location",
+  "Strefa bez nazwy": "Unnamed zone",
+  "🅿 Parkujesz tu już po raz trzeci": "🅿 This is the third time you have parked here",
+  "Jeśli to stałe miejsce (dom, praca), dodaj strefę – wtedy OMM nie będzie tu zapamiętywał auta ani pokazywał jego ikony. O to miejsce więcej nie zapytam.": "If this is a regular place (home, work), add a zone – then OMM will not remember the car or show its icon here. I will not ask about this place again.",
+  "Dodaj strefę…": "Add zone…",
+  "Nazwa, np. Dom albo Praca": "Name, e.g. Home or Work",
+  "Usunąć strefę „": "Delete zone “",
+  "🚗 Auto stoi w strefie – usunięto zapamiętane miejsce": "🚗 The car is in the zone – the saved location was removed",
+  "🅿 Zapisano strefę": "🅿 Zone saved",
+  "Środek: moja pozycja": "Centre: my position",
+  "Środek: środek ekranu": "Centre: centre of the screen",
+  "🅿 Nowa strefa parkowania": "🅿 New parking zone",
+  "🅿 Strefa parkowania": "🅿 Parking zone",
+  "W strefie OMM nie zapamiętuje miejsca auta. W mieście, gdzie parkujesz raz tu, raz kilka ulic dalej, ustaw większy promień.": "In the zone OMM does not remember the car location. In a city where you park here one day and a few streets away the next, set a larger radius.",
+  "🅿 Auto w strefie „": "🅿 Car in zone “",
+  "” – usunięto wcześniejsze miejsce auta": "” – the previous car location was removed",
   " a ": " and ",
   " nagranych od v70? Zmianę cofniesz przyciskiem „Cofnij”.": " recorded since v70? You can reverse it with “Undo”.",
   ", SMS do ": ", SMS to ",
@@ -9111,7 +9184,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v73';
+const APP_VER = 'v74';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -19062,7 +19135,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam, a usuwa, gdy odjedziesz autem albo usuniesz ślad, z którego pochodzi), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam, a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → W terenie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
@@ -19113,7 +19186,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is and forgets it when you drive off or delete the track it came from), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → In the field), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
@@ -22458,6 +22531,17 @@ function trkSegs(t) {
   if (cur.length) out.push(cur);
   return out;
 }
+function paMerge(pa) {
+  // v74: scala nachodzące odstępy pauz (auto-pauza + postój dopisany przez „Postoje”) – czas pauzy nie liczony podwójnie
+  const a = (pa || []).filter(x => Array.isArray(x) && x.length === 2).map(x => [x[0], x[1]]).sort((x, y) => x[0] - y[0]),
+    o = [];
+  for (const x of a) {
+    const l = o[o.length - 1];
+    if (l && x[0] <= l[1]) l[1] = Math.max(l[1], x[1]);
+    else o.push(x);
+  }
+  return o;
+}
 function trkStats(t) {
   // statystyki śladu; czas liczony bez pauz (przerw między odcinkami)
   const pts = t.pts,
@@ -22476,7 +22560,7 @@ function trkStats(t) {
     s0 = 0,
     pk = 0;
   // auto-pauzy: odstępy czasu [od, do] (sekundy) – linia ciągła, ale czas pauzy nie liczy się do „w ruchu”
-  const PA = (t.pa || []).filter(x => Array.isArray(x) && x.length === 2).sort((a, b) => a[0] - b[0]);
+  const PA = paMerge(t.pa);
   let pau = 0;
   for (let i = 0; i < pts.length; i++) {
     const q = pts[i];
@@ -22698,8 +22782,14 @@ function trkSpeeds(t) {
     while (a < i && (seg[a] !== seg[i] || pts[i][3] - pts[a][3] > 10)) a++;
     if (b < i) b = i;
     while (b + 1 < n && seg[b + 1] === seg[i] && pts[b + 1][3] - pts[i][3] <= 10) b++;
-    const dt = pts[b][3] - pts[a][3];
-    v[i] = dt > 0 ? (s.cum[b] - s.cum[a]) / dt : null;
+    // v74: ślad po „Stop” ma rzadkie punkty (na prostej co kilkadziesiąt sekund) – zawsze co najmniej sąsiedzi,
+    // inaczej prędkość brała się z wypełniania dziur (np. 35 km/h przy marszu obok jazdy autem)
+    let A = a,
+      B = b;
+    if (A === i && i > 0 && seg[i - 1] === seg[i]) A = i - 1;
+    if (B === i && i < n - 1 && seg[i + 1] === seg[i]) B = i + 1;
+    const dt = pts[B][3] - pts[A][3];
+    v[i] = dt > 0 ? (s.cum[B] - s.cum[A]) / dt : null;
   }
   v = fillGaps(v);
   v = v[0] == null ? null : smoothBox(v, 5);
@@ -22746,17 +22836,52 @@ function actFrom(x) {
   return x ? 'inne' : '';
 }
 function actGuess(s, t) {
-  // propozycja rodzaju aktywności: mediana prędkości w ruchu i szybsze odcinki (85. percentyl), km/h
-  const v = t && trkSpeeds(t),
-    mv = v ? v.filter(x => x > 0.55).sort((a, b) => a - b) : [];
-  if (mv.length < 10) {
+  // propozycja rodzaju aktywności: prędkości w ruchu ważone czasem (v74 – punkty po „Stop” są nierówno gęste), km/h
+  const P = t && !t.noTime && t.pts && t.pts.length > 1 ? t.pts : null,
+    sg = new Set((t && t.sg) || []),
+    mv = [];
+  let T = 0;
+  if (P)
+    for (let i = 1; i < P.length; i++) {
+      const dt = P[i][3] - P[i - 1][3];
+      if (sg.has(i) || !(dt > 0)) continue;
+      const v = hav(P[i - 1], P[i]) / dt;
+      if (v > 0.55 && dt < 600) {
+        mv.push([v, dt]);
+        T += dt;
+      }
+    }
+  if (mv.length < 10 || T < 60) {
     const x = s.vmov * 3.6;
     return !x || x < 7.5 ? 'pieszo' : x < 13 ? 'bieg' : x < 32 ? 'rower' : 'auto';
   }
-  const q = p => mv[Math.min(mv.length - 1, Math.floor(mv.length * p))] * 3.6,
+  mv.sort((a, b) => a[0] - b[0]);
+  const q = p => {
+      let acc = 0;
+      for (const [v, w] of mv) if ((acc += w) >= p * T) return v * 3.6;
+      return mv[mv.length - 1][0] * 3.6;
+    },
     med = q(0.5),
-    p85 = q(0.85);
-  if (med > 32 || p85 > 55) return 'auto';
+    p85 = q(0.85),
+    p90 = q(0.9);
+  if (med > 32 || p90 > 50) return 'auto'; // 10% czasu szybciej niż 50 km/h – auto (miasto: światła, korki)
+  // v74: krótka jazda autem po marszu (szybciej niż 30 km/h, mniej niż połowa czasu) nie robi z marszu roweru –
+  // rodzaj ustalamy z reszty, a odcięcie jazdy zaproponuje osobne pytanie
+  const fast = mv.filter(x => x[0] > 30 / 3.6).reduce((a, x) => a + x[1], 0);
+  if (fast > 60 && fast < 0.5 * T) {
+    const slow = mv.filter(x => x[0] <= 30 / 3.6),
+      ts = slow.reduce((a, x) => a + x[1], 0);
+    if (slow.length >= 10 && ts >= 60) {
+      let acc = 0,
+        md = 0;
+      for (const x of slow.sort((a, b) => a[0] - b[0])) if ((acc += x[1]) >= ts / 2) {
+        md = x[0] * 3.6;
+        break;
+      }
+      if (md < 7.5) return 'pieszo';
+      if (md < 13) return 'bieg';
+    }
+  }
   if (med > 13) return 'rower';
   if (med > 7.5) return p85 > 19 ? 'rower' : 'bieg'; // wolny rower: krótkie szybsze odcinki
   return p85 > 16 ? 'rower' : 'pieszo';
@@ -25186,7 +25311,8 @@ const plen = p => {
 };
 const recKF = {}; // filtr na żywo
 const KF_GATE = 16; // odskok: (odległość od przewidywania / niepewność)² > 16, czyli ponad 4σ
-const kfAcc = v => 0.2 + 0.12 * (v > 0 ? v : 0); // dopuszczalne przyspieszenie (m/s²) wg prędkości
+// v74: przy marszu mniejsze dopuszczalne przyspieszenie – mocniejsze wygładzanie (w aucie bez zmian)
+const kfAcc = v => 0.08 + 0.13 * (v > 0 ? v : 0); // dopuszczalne przyspieszenie (m/s²) wg prędkości
 function kfAxis(s, P, dt, q) {
   // przewidywanie jednej osi: s = [położenie, prędkość], P = [p00, p01, p10, p11]
   let [a, b, c, d] = P;
@@ -25220,6 +25346,20 @@ function kfFix(s, P, z, R, zv, RV) {
   }
   return [a, b, c, d];
 }
+// v74: niepewność prędkości z GPS osobno wzdłuż i w poprzek kierunku jazdy – kurs bywa opóźniony albo przekłamany
+// o kilka stopni (przy 40 km/h 5° to 1 m/s w bok), więc w poprzek ufamy mu mniej (σ kursu 15°), wzdłuż – jak dotąd
+const KF_VSA = 0.4,
+  KF_VTH = (15 * Math.PI) / 180;
+function kfVelR(speed, bearing) {
+  // wariancje prędkości [w osi x (wschód), w osi y (północ)]
+  const th = ((bearing || 0) * Math.PI) / 180,
+    sc = Math.max(0.3, (speed || 0) * KF_VTH),
+    a2 = KF_VSA * KF_VSA,
+    c2 = sc * sc,
+    s2 = Math.sin(th) ** 2,
+    k2 = Math.cos(th) ** 2;
+  return [a2 * s2 + c2 * k2, a2 * k2 + c2 * s2];
+}
 const kfVel = (speed, bearing) =>
   speed != null && isFinite(speed) && speed > 0.6 && bearing != null && isFinite(bearing)
     ? [speed * Math.sin((bearing * Math.PI) / 180), speed * Math.cos((bearing * Math.PI) / 180)]
@@ -25244,8 +25384,9 @@ function kfStep(t, lat, lng, accu, time, speed, bearing) {
   const m2 = (zx - t.x[0]) ** 2 / (t.P[0][0] + R) + (zy - t.y[0]) ** 2 / (t.P[1][0] + R),
     ok = m2 < KF_GATE;
   t.bad = ok ? 0 : (t.bad || 0) + 1; // kilka odskoków z rzędu = to jednak ruch (np. po tunelu) – filtr od nowa
-  t.P[0] = kfFix(t.x, t.P[0], ok ? zx : null, R, vel ? vel[0] : null, 0.16);
-  t.P[1] = kfFix(t.y, t.P[1], ok ? zy : null, R, vel ? vel[1] : null, 0.16);
+  const RV = kfVelR(speed, bearing);
+  t.P[0] = kfFix(t.x, t.P[0], ok ? zx : null, R, vel ? vel[0] : null, RV[0]);
+  t.P[1] = kfFix(t.y, t.P[1], ok ? zy : null, R, vel ? vel[1] : null, RV[1]);
   t.time = time;
   t.v = speed != null && isFinite(speed) ? speed : t.v;
   t.ok = ok;
@@ -25358,8 +25499,9 @@ function trkProcess(rows, opt = {}) {
     const m2 = (zx - sx[0]) ** 2 / (Px[0] + R) + (zy - sy[0]) ** 2 / (Py[0] + R),
       ok = m2 < KF_GATE;
     bad = ok ? 0 : bad + 1;
-    Px = kfFix(sx, Px, ok ? zx : null, R, vel ? vel[0] : null, 0.16);
-    Py = kfFix(sy, Py, ok ? zy : null, R, vel ? vel[1] : null, 0.16);
+    const RV = kfVelR(r[4], r[5]);
+    Px = kfFix(sx, Px, ok ? zx : null, R, vel ? vel[0] : null, RV[0]);
+    Py = kfFix(sy, Py, ok ? zy : null, R, vel ? vel[1] : null, RV[1]);
     X.push([sx.slice(), sy.slice()]);
     PP.push([Px.slice(), Py.slice()]);
   }
@@ -25491,7 +25633,7 @@ function trkProcessSg(oldPts, sg, newPts) {
 }
 // v73: wersja sposobu liczenia śladu po „Stop”. Gdy w nowej wersji OMM zmieni się to liczenie, podbijamy TRK_ALG –
 // wtedy OMM raz zapyta, czy przeliczyć ślady nagrane od v70 (mają surowe pomiary). Przycisk w okienku śladu zniknął.
-const TRK_ALG = 1;
+const TRK_ALG = 2; // v74: kurs GPS z niepewnością 15°, mocniejsze wygładzanie marszu
 async function trkRecalcCore(t) {
   // przeliczenie jednego śladu z surowych pomiarów; zwraca {old} albo null (nie da się)
   if (!t.rid || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby
@@ -30531,18 +30673,24 @@ function vehicleCut(t) {
   const s = trkStatsC(t),
     P = t.pts,
     v = trkSpeeds(t),
-    lim = thr / 3.6;
+    lim = (thr / 3.6) * 0.75; // v74: prędkość wygładzona – w mieście (światła) rzadko trzyma pełny próg
   if (!v) return -1;
   for (let i = 0; i < P.length; i++) {
     if (v[i] < lim) continue;
     let j = i;
     while (j < P.length - 1 && v[j + 1] >= lim * 0.8) j++; // chwilowe zwolnienie nie przerywa jazdy
-    if (P[j][3] - P[i][3] < 10) {
+    if (P[j][3] - P[i][3] < 30) {
       i = j;
       continue;
     }
     // jazda od i; przed nią musi być sensowna wolniejsza część
     if (s.cum[i] < 300) return -1;
+    // v74: przed jazdą marsz (mediana prędkości w ruchu poniżej 9 km/h) – szybki rower to nie przesiadka do auta
+    const pre = v.slice(0, i).filter(x => x > 0.55).sort((a, b) => a - b);
+    if (pre.length && pre[Math.floor(pre.length / 2)] > 2.5) {
+      i = j;
+      continue;
+    }
     // cofamy się do początku rozpędzania (szybciej niż marsz), a potem najwyżej minutę do postoju przy aucie
     let k = i;
     while (k > 1 && v[k - 1] > 2.5 && P[i][3] - P[k - 1][3] < 300) k--;
@@ -30681,7 +30829,7 @@ function stopApply(t, S, cut) {
   t.pts = out;
   t.sg = [...new Set(nsg)].filter(i => i > 0 && i < out.length);
   const tEnd = out.length ? out[out.length - 1][3] : 0;
-  t.pa = pa.filter(x => x[0] < tEnd).sort((a, b) => a[0] - b[0]);
+  t.pa = paMerge(pa.filter(x => x[0] < tEnd));
   t.up = Date.now();
 }
 async function stopAsk(t) {
@@ -31626,7 +31774,7 @@ const TUT_STEPS = [
   {sel: null, t: _t('Mapa'), x: _t('Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.')},
   {sel: '#bbtn', t: _t('Podkład i mapy offline'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.')},
   {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś; pod przyciskiem dokładność GPS (np. ±4 m – zielona dobra, czerwona słaba). Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.')},
-  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie.')},
+  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → W terenie.')},
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
@@ -32121,6 +32269,165 @@ function carLoad() {
   } catch (e) {
     CAR = null;
   }
+  carExpire(true);
+}
+// v74: „Zapominaj miejsce auta po” – 0 = nigdy, inaczej liczba dni
+const carForgetDays = () => +(localStorage.getItem('omm-auto-zapom') || 0) || 0;
+function carExpire(quiet) {
+  const d = carForgetDays();
+  if (!CAR || !d || Date.now() - CAR.t < d * 864e5) return;
+  CAR = null;
+  try {
+    localStorage.removeItem(CAR_KEY);
+  } catch (e) {}
+  if (!quiet) carDraw();
+}
+// --- v74: stałe strefy parkowania (dom, praca) – tam OMM nie zapamiętuje miejsca auta ---
+const CZ_KEY = 'omm-auto-strefy',
+  CZH_KEY = 'omm-auto-hist', // ostatnie miejsca parkowania [lat, lng, czas]
+  CZA_KEY = 'omm-auto-pyt'; // miejsca, o które już pytaliśmy [lat, lng]
+const czClamp = r => Math.max(100, Math.min(1000, Math.round((+r || 300) / 50) * 50));
+function czList() {
+  try {
+    const a = JSON.parse(localStorage.getItem(CZ_KEY) || '[]');
+    return Array.isArray(a)
+      ? a
+          .filter(z => z && Array.isArray(z.p) && okLL(z.p))
+          .slice(0, 50)
+          .map(z => ({id: String(z.id || uid()), nm: String(z.nm || '').slice(0, 40), p: [+z.p[0], +z.p[1]], r: czClamp(z.r)}))
+      : [];
+  } catch (e) {
+    return [];
+  }
+}
+function czSave(a) {
+  try {
+    localStorage.setItem(CZ_KEY, JSON.stringify(a.map(z => ({id: z.id, nm: z.nm, p: [+(+z.p[0]).toFixed(6), +(+z.p[1]).toFixed(6)], r: czClamp(z.r)}))));
+  } catch (e) {}
+}
+const czIn = p => p && czList().find(z => hav(z.p, p) <= z.r);
+const czName = z => z.nm || _t('Strefa bez nazwy');
+function czJson(k) {
+  try {
+    const a = JSON.parse(localStorage.getItem(k) || '[]');
+    return Array.isArray(a) ? a.filter(x => Array.isArray(x) && okLL(x)) : [];
+  } catch (e) {
+    return [];
+  }
+}
+function czParked(p) {
+  // historia parkowania poza strefami – po 3. razie w tym samym miejscu (≈150 m) jedno pytanie o stałą strefę
+  const H = czJson(CZH_KEY);
+  H.push([+(+p[0]).toFixed(5), +(+p[1]).toFixed(5), Date.now()]);
+  while (H.length > 40) H.shift();
+  try {
+    localStorage.setItem(CZH_KEY, JSON.stringify(H));
+  } catch (e) {}
+  const near = H.filter(x => hav(x, p) <= 150);
+  if (near.length < 3) return;
+  const A = czJson(CZA_KEY);
+  if (A.some(x => hav(x, p) <= 300)) return;
+  const c = [near.reduce((s, x) => s + x[0], 0) / near.length, near.reduce((s, x) => s + x[1], 0) / near.length];
+  A.push([+c[0].toFixed(5), +c[1].toFixed(5)]);
+  while (A.length > 40) A.shift();
+  try {
+    localStorage.setItem(CZA_KEY, JSON.stringify(A));
+  } catch (e) {}
+  setTimeout(async () => {
+    const v = await dlg({
+      title: _t('🅿 Parkujesz tu już po raz trzeci'),
+      msg: _t('Jeśli to stałe miejsce (dom, praca), dodaj strefę – wtedy OMM nie będzie tu zapamiętywał auta ani pokazywał jego ikony. O to miejsce więcej nie zapytam.'),
+      btns: [
+        {t: _t('Dodaj strefę…'), v: 'add', c: 'okb'},
+        {t: _t('Nie teraz'), v: null}
+      ]
+    });
+    if (v === 'add') czEdit({id: uid(), nm: '', p: c, r: 300}, true);
+  }, 1500);
+}
+let czEd = null;
+function czEdit(z, isNew, after) {
+  // edycja strefy na mapie: okrąg z podglądem promienia, panel na dole ekranu
+  if (czEd) czEd.close();
+  map.closePopup();
+  const cir = L.circle(z.p, {radius: z.r, color: '#11867a', weight: 2, fillColor: '#11867a', fillOpacity: 0.12, dashArray: '6 6', interactive: false}).addTo(map),
+    cen = L.circleMarker(z.p, {radius: 5, color: '#11867a', weight: 2, fillColor: '#fff', fillOpacity: 1, interactive: false}).addTo(map),
+    pn = h('div', 'czp'),
+    nm = h('input'),
+    rg = h('input'),
+    lab = h('span', 'czr'),
+    bt = h('div', 'db');
+  const fit = () => map.fitBounds(cir.getBounds(), {paddingTopLeft: [30, 30], paddingBottomRight: [30, pn.offsetHeight + 30], maxZoom: 17});
+  const upd = () => {
+    z.r = czClamp(rg.value);
+    cir.setRadius(z.r);
+    lab.textContent = fkm(z.r);
+  };
+  const mv = p => {
+    if (!p) return toastMsg(_t('Brak pozycji GPS – włącz lokalizację'));
+    z.p = [p[0], p[1]];
+    cir.setLatLng(z.p);
+    cen.setLatLng(z.p);
+    fit();
+  };
+  nm.type = 'text';
+  nm.maxLength = 40;
+  nm.placeholder = _t('Nazwa, np. Dom albo Praca');
+  nm.value = z.nm;
+  rg.type = 'range';
+  rg.min = 100;
+  rg.max = 1000;
+  rg.step = 50;
+  rg.value = z.r;
+  rg.oninput = upd;
+  rg.onchange = fit;
+  const close = () => {
+    cir.remove();
+    cen.remove();
+    pn.remove();
+    czEd = null;
+    if (after) after();
+  };
+  bt.append(
+    B(_t('Anuluj'), close),
+    ...(isNew
+      ? []
+      : [
+          B(
+            _t('Usuń'),
+            async () => {
+              if (!(await askYes(_t('Usunąć strefę „') + czName(z) + '”?', _t('Usuń'), true))) return;
+              czSave(czList().filter(x => x.id !== z.id));
+              close();
+            },
+            'danger'
+          )
+        ]),
+    B(
+      _t('Zapisz'),
+      () => {
+        z.nm = nm.value.trim().slice(0, 40);
+        const a = czList().filter(x => x.id !== z.id);
+        a.push(z);
+        czSave(a);
+        if (CAR && hav(CAR.p, z.p) <= z.r) {
+          carSet(null);
+          toastMsg(_t('🚗 Auto stoi w strefie – usunięto zapamiętane miejsce'));
+        } else toastMsg(_t('🅿 Zapisano strefę'));
+        close();
+      },
+      'okb'
+    )
+  );
+  const ctr = h('div', 'setop'),
+    rl = h('div', 'czl', _t('Promień: '));
+  rl.append(lab);
+  ctr.append(BI('gps', _t('Środek: moja pozycja'), () => mv(myPosNow())), BI('move', _t('Środek: środek ekranu'), () => mv((c => [c.lat, c.lng])(map.getCenter()))));
+  pn.append(h('b', null, isNew ? _t('🅿 Nowa strefa parkowania') : _t('🅿 Strefa parkowania')), nm, rl, rg, ctr, h('div', 'muted', _t('W strefie OMM nie zapamiętuje miejsca auta. W mieście, gdzie parkujesz raz tu, raz kilka ulic dalej, ustaw większy promień.')), bt);
+  document.body.append(pn);
+  upd();
+  setTimeout(fit, 30);
+  czEd = {close};
 }
 function carSet(p, auto) {
   CAR = p ? {p: [+(+p[0]).toFixed(6), +(+p[1]).toFixed(6)], t: Date.now(), ...(auto && REC ? {trk: REC.id} : {})} : null;
@@ -32243,7 +32550,14 @@ function carDetect(q, x) {
     CARD.far = d;
   }
   if (CARD.walk >= 3 && d > 35 && q[3] - CARD.stopT >= 30) {
-    if (!CAR || hav(CAR.p, CARD.stopAt) > 30 || Date.now() - CAR.t > 6 * 3600e3) carSet(CARD.stopAt, true);
+    const zn = czIn(CARD.stopAt);
+    if (zn) {
+      // v74: stała strefa (dom, praca) – nie zapamiętujemy; auto zostawione gdzie indziej już tam nie stoi
+      if (CAR) {
+        carSet(null);
+        toastMsg(_t('🅿 Auto w strefie „') + czName(zn) + _t('” – usunięto wcześniejsze miejsce auta'));
+      }
+    } else if (!CAR || hav(CAR.p, CARD.stopAt) > 30 || Date.now() - CAR.t > 6 * 3600e3) carSet(CARD.stopAt, true);
     else if (REC && CAR.trk !== REC.id) {
       // v72: to samo miejsce co zapamiętane wcześniej – od teraz należy do tego nagrania (zniknie razem z nim)
       CAR.trk = REC.id;
@@ -32251,6 +32565,7 @@ function carDetect(q, x) {
         localStorage.setItem(CAR_KEY, JSON.stringify(CAR));
       } catch (e) {}
     }
+    if (!zn) czParked(CARD.stopAt);
     recParkStart(CARD.stopAt, CARD.stopS);
     CARD.drv = 0;
     CARD.drvT = 0;
@@ -34621,6 +34936,7 @@ function fieldHook(q, x) {
 function fieldInit() {
   carLoad();
   carDraw();
+  setInterval(() => carExpire(), 10 * 60e3);
   imgsLoad();
   imgsShow();
   $('recbt').append(BI('car', _t('Do auta'), carGo), BI('note', _t('Powiadom SMS'), planDlg), BI('bulb', _t('Ekran'), wlToggle, 'wlb' + (wlWant() ? ' on' : '')));
@@ -36023,6 +36339,7 @@ function settingsDlg(keep, old) {
     body = h('div', 'abody'),
     bt = h('div', 'db');
   let sec = body; // bieżąca kategoria (radios dopisuje do niej)
+  let noJump = !!(keep && keep.top);
   const cat = (key, ik, title) => {
     // kategoria: rysowana ikona z zestawu IC (jak w całej aplikacji) + nazwa
     const d = h('details', 'scat'),
@@ -36033,6 +36350,7 @@ function settingsDlg(keep, old) {
       if (d.open) {
         localStorage.setItem('omm-set-open', key);
         body.querySelectorAll('details.scat').forEach(x => x !== d && (x.open = false)); // jedna otwarta naraz
+        if (noJump) return void (noJump = false); // v74: odświeżenie – zostajemy w tym samym miejscu
         // v66: po zwinięciu innych kategorii widok przeskakiwał na dół – ustawiamy początek otwartej kategorii u góry
         requestAnimationFrame(() => {
           const top = s.getBoundingClientRect().top - body.getBoundingClientRect().top;
@@ -36657,6 +36975,45 @@ function settingsDlg(keep, old) {
     ],
     _t('Do auta prowadzi przycisk „Do auta” w panelu nagrywania albo dotknięcie ikony auta na mapie.')
   );
+  radios(
+    _t('Zapominaj miejsce auta po'),
+    'omm-auto-zapom',
+    '0',
+    [
+      ['0', _t('Nigdy')],
+      ['1', _t('1 dniu')],
+      ['3', _t('3 dniach')],
+      ['7', _t('7 dniach')]
+    ],
+    null,
+    () => carExpire()
+  );
+  {
+    // v74: stałe strefy parkowania – dom, praca; promień 100–1000 m z podglądem na mapie
+    const g = h('div', 'sset'),
+      ls = h('div', 'czls'),
+      Z = czList(),
+      ed = (z, isNew) => {
+        const top = body.scrollTop;
+        back.remove();
+        czEdit(z, isNew, () => settingsDlg({top}, null));
+      };
+    g.append(h('b', null, _t('Stałe strefy parkowania')));
+    Z.forEach(z => {
+      const r = h('div', 'czrow');
+      r.append(h('span', null, czName(z)), h('small', 'muted', fkm(z.r)), BI('edit', _t('Zmień'), () => ed(z)));
+      ls.append(r);
+    });
+    if (!Z.length) ls.append(h('div', 'muted', _t('Brak stref.')));
+    const add = p => {
+      if (!p) return toastMsg(_t('Brak pozycji GPS – włącz lokalizację'));
+      ed({id: uid(), nm: '', p: [p[0], p[1]], r: 300}, true);
+    };
+    const r = h('div', 'setop');
+    r.append(B(_t('+ W mojej pozycji'), () => add(myPosNow())), ...(CAR ? [B(_t('+ W miejscu auta'), () => add(CAR.p))] : []));
+    g.append(ls, r, h('div', 'muted', _t('W strefie (np. pod domem, przy pracy) auto nie jest zapamiętywane, a miejsce zostawione gdzie indziej znika. Po trzecim parkowaniu w tym samym miejscu OMM sam zaproponuje strefę.')));
+    sec.append(g);
+  }
   {
     // v66: alerty prowadzenia – główny wyłącznik, rodzaje komunikatów i forma
     const g = h('div', 'sset'),
