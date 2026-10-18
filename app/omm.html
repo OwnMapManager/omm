@@ -188,37 +188,36 @@ html.dark a {
 }
 /* v66: podziałka mapy – mała, półprzezroczysta, na dole pośrodku */
 .omscale {
+  /* v75: podziałka dyskretna jak napis „OMM” – na samym dole po środku, bez tła, z delikatną poświatą */
   position: absolute;
   z-index: 800;
   left: 50%;
-  bottom: calc(58px + var(--sa));
+  bottom: calc(2px + var(--sa));
   transform: translateX(-50%);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-  padding: 2px 6px 4px;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.62);
+  align-items: flex-end;
+  gap: 4px;
   pointer-events: none;
-  font-size: 10.5px;
-  font-weight: 600;
-  color: #202124;
+  font:
+    600 9.5px system-ui,
+    sans-serif;
+  letter-spacing: 0.3px;
+  color: rgba(32, 33, 36, 0.62);
+  text-shadow:
+    0 0 2px #fff,
+    0 0 3px #fff;
   font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 .omscale i {
   display: block;
-  height: 5px;
-  border: 1.5px solid #202124;
+  height: 3px;
+  border: 1px solid rgba(32, 33, 36, 0.62);
   border-top: 0;
+  box-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  margin-bottom: 1px;
 }
-html.dark .omscale {
-  background: rgba(30, 34, 38, 0.6);
-  color: #eceff2;
-}
-html.dark .omscale i {
-  border-color: #eceff2;
-}
+/* w ciemnym motywie jak napis „OMM” – mapa zostaje jasna */
 .swarn {
   background: #fdecea;
   color: #8a1c12;
@@ -1258,6 +1257,17 @@ body.navon #compb {
 }
 .czrow span {
   flex: 1;
+}
+.czrow button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--txt);
+  padding: 5px 10px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .dback {
   position: fixed;
@@ -3301,25 +3311,63 @@ button.ibt .ic {
   color: var(--acc);
   font-weight: 600;
 }
-/* ustawienia: zwijane kategorie */
+/* ustawienia: zwijane kategorie (v75: ikona w kafelku, nazwa z opisem, otwarta kategoria wyróżniona) */
 details.scat {
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: 12px;
   margin-bottom: 8px;
   background: var(--bg);
+  overflow: hidden;
+  transition: box-shadow 0.15s;
+}
+details.scat[open] {
+  border-color: color-mix(in srgb, var(--acc) 45%, var(--line));
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 }
 details.scat summary {
   list-style: none;
   cursor: pointer;
-  padding: 12px 14px;
-  font-weight: 600;
-  font-size: 15px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  -webkit-tap-highlight-color: transparent;
+}
+details.scat[open] summary {
+  background: var(--accbg);
+}
+details.scat summary .sci {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accbg);
+  color: var(--acc);
+}
+details.scat[open] summary .sci {
+  background: var(--acc);
+  color: var(--bg);
+}
+details.scat summary .sct {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.25;
+}
+details.scat summary .sct small {
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--sub);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 details.scat summary .ic {
-  color: var(--sub);
   flex: none;
 }
 details.scat summary::-webkit-details-marker {
@@ -3335,7 +3383,104 @@ details.scat[open] summary::after {
   transform: rotate(180deg);
 }
 details.scat .scb {
-  padding: 0 14px 6px;
+  padding: 4px 14px 6px;
+}
+/* v75: grupy ustawień oddzielone cienką linią zamiast dużych odstępów */
+.setdlg .sset {
+  margin: 0;
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.setdlg .scb > .sset:first-child,
+.setdlg .scb > .setop:first-child {
+  border-top: 0;
+}
+.setdlg .sset b {
+  font-size: 13.5px;
+  margin-bottom: 6px;
+}
+.setdlg .sset > .muted {
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.setdlg .setop {
+  margin: 4px 0 12px;
+}
+/* przełącznik segmentowy dla krótkich wyborów */
+.sset.segs .segw {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+  background: var(--b2);
+}
+.sset.segs .segw label {
+  flex: 1 1 0;
+  position: relative;
+  justify-content: center;
+  text-align: center;
+  padding: 7px 4px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  cursor: pointer;
+  min-width: 0;
+}
+.sset.segs .segw input[type='radio'] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.sset.segs .segw label:has(input:checked) {
+  background: var(--bg);
+  color: var(--acc);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+.sset.segs .segw label:has(input:focus-visible) {
+  outline: 2px solid var(--acc);
+}
+/* pola tak/nie w ustawieniach jako przełączniki (napis z lewej, suwak z prawej) */
+.setdlg label.chk {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.setdlg label.chk input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 40px !important;
+  height: 22px;
+  border-radius: 11px;
+  background: var(--line);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin: 0;
+  flex: none;
+}
+.setdlg label.chk input[type='checkbox']::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  transition: transform 0.15s;
+}
+.setdlg label.chk input[type='checkbox']:checked {
+  background: var(--acc);
+}
+.setdlg label.chk input[type='checkbox']:checked::after {
+  transform: translateX(18px);
+}
+.setdlg label.chk input[type='checkbox']:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
 }
 /* belka ikon w opcjach warstw */
 .ctl .cbelt {
@@ -6942,7 +7087,7 @@ const EN = {
   "Trasy rowerowe": "Bike routes",
   "Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.": "Choose the map (OSM, aerial photos – also archival from a chosen year, satellite), overlays (parcels, trails, forest sites), and at the top “Offline maps” – download an area before you go where there is no signal.",
   "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics). After “Stop” OMM recomputes the track from the raw GPS fixes – smoothed, without zigzags or circles. In the recording panel: “To the car”, “SMS alert” and 💡 – keep the screen on.",
-  "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → W terenie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics). After “Stop” OMM recomputes the track from the raw GPS fixes – smoothed, without zigzags or circles. In the recording panel: “To the car”, “SMS alert” and 💡 – keep the screen on. At home and at work the car need not be remembered – set parking zones in Settings → In the field.",
+  "Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → Auto i parkowanie.": "Records the route even with the screen off. While recording, the button turns into a capsule with time and distance – tap the time to see the live panel; the round red button is stop, and when paused everything turns amber. Your position is the arrow at the end of the track. Stops are auto-paused (the line does not break; “moving” and total statistics). After “Stop” OMM recomputes the track from the raw GPS fixes – smoothed, without zigzags or circles. In the recording panel: “To the car”, “SMS alert” and 💡 – keep the screen on. At home and at work the car need not be remembered – set parking zones in Settings → Car and parking.",
   "Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.": "Tap to expand the toolbar: point, plan a route, drawing and measurements. After you pick a tool the bar collapses by itself.",
   "Dotykaj kolejnych punktów – linia ułoży się po drogach (wybierzesz rodzaj: ścieżki leśne, utwardzone, rower, auto) albo prosto. ✓ pokaże dystans, przewyższenie i czas; trasę zapiszesz w zakładce „Planowanie” albo od razu „Prowadź”.": "Tap successive points – the line follows roads (choose the type: forest paths, paved, bike, car) or goes straight. ✓ shows distance, climb and time; save the route in the “Planning” tab or “Navigate” right away.",
   "Odległość, powierzchnia, azymut, wysokość z NMT, profil terenu i współrzędne – wynik od razu w dymku przy mierzonym miejscu, z „Udostępnij” (obraz mapy z wynikami). Tu też „Idź na azymut” (z celem albo bez) i „📡 Moja pozycja” do wysłania SMS-em (SOS).": "Distance, area, bearing, DTM elevation, terrain profile and coordinates – the result appears at once in a bubble at the measured place, with “Share” (a map image with the results). Also “Walk a bearing” (with or without a target) and “📡 My position” to send by SMS (SOS).",
@@ -8857,6 +9002,19 @@ const EN = {
   "Zwykły – dotknij, by pogrubić": "Regular – tap for bold",
   "ile mapy prześwituje": "how much map shows through",
   "🚗 Odjechano – usunięto miejsce auta": "🚗 Driven off – car location removed",
+  "Motyw, podziałka, obracanie mapy": "Theme, scale bar, map rotation",
+  "Które podkłady i nakładki są w menu": "Which base maps and overlays are in the menu",
+  "Nagrywanie, komunikaty, kolor": "Recording, announcements, colour",
+  "Auto i parkowanie": "Car and parking",
+  "Miejsce auta, strefy, przesiadka": "Car location, zones, switching to car",
+  "Alerty, kierunek mapy, zoom": "Alerts, map direction, zoom",
+  "Alarm przy miejscówkach, ekran": "Spot alarm, screen",
+  "Wiadomość, gdy nie wrócisz o czasie": "A message if you are not back in time",
+  "Dyscypliny, kalorie, liczniki, głos": "Disciplines, calories, counters, voice",
+  "Kopie automatyczne, Dysk Google, stan": "Automatic backups, Google Drive, status",
+  "Gdzie zapisywać pliki i zdjęcia": "Where to save files and photos",
+  "Blokada, szyfrowanie, zdjęcia z internetu": "Lock, encryption, photos from the internet",
+  "Język, jednostki, powierzchnia": "Language, units, area",
   "Zapominaj miejsce auta po": "Forget the car location after",
   "Nigdy": "Never",
   "1 dniu": "1 day",
@@ -9184,7 +9342,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v74';
+const APP_VER = 'v75';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -12513,7 +12671,7 @@ if (map._rotate) {
 }
 // v66: dyskretna podziałka mapy (Ustawienia → Wygląd) – długość odcinka dobierana do przybliżenia (1-2-5)
 const scaleEl = h('div', 'omscale');
-scaleEl.innerHTML = '<span></span><i></i>';
+scaleEl.innerHTML = '<i></i><span></span>';
 map.getContainer().append(scaleEl);
 function scaleUpd() {
   const on = localStorage.getItem('omm-podzialka') === '1';
@@ -12525,7 +12683,7 @@ function scaleUpd() {
     b = map.containerPointToLatLng([sz.x / 2 + 50, y]),
     mpp = map.distance(a, b) / 100, // metrów na piksel
     U = IMP ? 0.3048 : 1, // stopy
-    maxM = mpp * 110;
+    maxM = mpp * 64; // v75: krótszy odcinek – podziałka ma się nie rzucać w oczy
   let unit = IMP ? 'ft' : 'm',
     f = U;
   if (IMP ? maxM > 1609.344 * 0.2 : maxM >= 1000) (unit = IMP ? 'mi' : 'km'), (f = IMP ? 1609.344 : 1000);
@@ -12533,8 +12691,8 @@ function scaleUpd() {
     p10 = Math.pow(10, Math.floor(Math.log10(mx))),
     nice = [5, 2, 1].map(k => k * p10).find(v => v <= mx) || p10,
     px = Math.round((nice * f) / mpp);
-  scaleEl.firstChild.textContent = String(nice).replace('.', DEC) + ' ' + unit;
-  scaleEl.lastChild.style.width = px + 'px';
+  scaleEl.lastChild.textContent = String(nice).replace('.', DEC) + ' ' + unit;
+  scaleEl.firstChild.style.width = px + 'px';
 }
 map.on('zoomend moveend rotate resize', scaleUpd);
 setTimeout(scaleUpd, 0);
@@ -12608,17 +12766,18 @@ const S2_YEARS = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
 // v59: ortofotomapa archiwalna – kafle pobierane przez fetch, żeby było widać, co odpowiada serwer GUGiK.
 // Usługa z wymiarem czasu bywa wybredna co do zapisu czasu i kolejności współrzędnych, więc OMM próbuje
 // kolejnych wariantów zapytania i zapamiętuje ten, który zadziałał. Gdy fetch jest zablokowany – zwykły <img>.
+// v75: usługa ma czas co miesiąc (1995-01 … 2025-11, P1M) – najpierw jedna wartość z tej siatki (grudzień wybranego roku).
+// Wariantu „bez czasu” już nie ma: zapamiętany raz, sprawiał, że wybór roku nic nie zmieniał (zawsze najnowsze zdjęcia).
 const ORTO_V = [
-  {ver: '1.3.0', t: 'range'},
   {ver: '1.3.0', t: 'end'},
   {ver: '1.1.1', t: 'end'},
-  {ver: '1.1.1', t: 'range'},
-  {ver: '1.3.0', t: 'none'}
+  {ver: '1.3.0', t: 'range'}
 ];
+localStorage.removeItem('omm-orto-wariant'); // stary zapamiętany wariant (mógł być „bez czasu”)
 const ortoTimeV = (y, t) =>
   t === 'none' ? '' : t === 'range' ? ortoTime(y) : (y >= 2025 ? '2025-11-01' : y + '-12-01') + 'T00:00:00.000Z';
 var OrtoArch = L.TileLayer.WMS.extend({
-  _vi: Math.min(ORTO_V.length - 1, Math.max(0, +localStorage.getItem('omm-orto-wariant') || 0)),
+  _vi: Math.min(ORTO_V.length - 1, Math.max(0, +localStorage.getItem('omm-orto-war2') || 0)),
   _urlV(coords, vi) {
     const v = ORTO_V[vi],
       b = this._tileCoordsToNwSe(coords),
@@ -12685,7 +12844,7 @@ var OrtoArch = L.TileLayer.WMS.extend({
             URL.revokeObjectURL(u);
             if (this._vi !== vi) {
               this._vi = vi;
-              localStorage.setItem('omm-orto-wariant', String(vi));
+              localStorage.setItem('omm-orto-war2', String(vi));
             }
             if (this._st && this._st.msg) {
               delete this._st.msg;
@@ -13151,6 +13310,7 @@ const mkNMT = () =>
   retry(
     wmsOv(GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief', 'Raster', 'image/jpeg', OVS.nmt.op, {
       ...NOREF,
+      crs: L.CRS.EPSG4326, // v75: usługa zna tylko CRS:84 / EPSG:4326 / EPSG:2180 – zapytania w EPSG:3857 kończyły się błędem
       tileSize: 512,
       updateWhenIdle: true,
       ...(NMT_SMOOTH ? {maxNativeZoom: 16} : {})
@@ -19133,14 +19293,14 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
 <li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
-<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → W terenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
+<li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam, a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → W terenie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Nagrywanie śladu), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Dotknięcie czasu otwiera panel na żywo, a pod kapsułą są pauza, zdjęcie, punkt i powrót do startu. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam, a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
-<li><b>Ustawienia</b> (trybik w panelu) – kopia zapasowa (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji, gdy doszły nowe dane; przywracanie z listy), <b>Foldery i pliki</b>, nagrywanie śladu, <b>W terenie</b> (alerty przy prowadzeniu – co i jak ma mówić, ekran nie gaśnie, alarm przy miejscówkach, auto), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b> (dane do kalorii i które dyscypliny są na tablicy), <b>Wygląd</b> (motyw jasny, ciemny albo automatycznie wg zachodu słońca, podziałka mapy, dokładność GPS na przycisku, obracanie mapy) i <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni.</li>
+<li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami.</li>
 <li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – osobny widok aplikacji: <b>tablica</b> z dużymi przyciskami dyscyplin – <b>rower</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>marsz</b> (tempo, kroki, dzienny cel kroków), <b>trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>jeździectwo</b> (stęp, kłus, galop) i <b>rolki</b> (prędkość, okrążenia). Dotknięcie przycisku otwiera licznik na ciemnym ekranie. Z licznika „Mapa” przechodzi na mapę – tam przycisk ‹ z dystansem albo systemowe „Wstecz” wraca do licznika; ‹ w liczniku wraca na tablicę (trening trwa). „Zakończ” zapisuje trening w <b>Statystykach</b>: ogólnych i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, rekordy, lista treningów. Kalorie po podaniu wagi w Ustawieniach → Sport; ślad nagrany z licznika trafia do kategorii „Sport”.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
@@ -19184,14 +19344,14 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
 <li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
-<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → In the field: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
+<li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → In the field), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → Track recording), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). Tapping the time opens the live panel; below the capsule are pause, photo, point and back to start. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
-<li><b>Settings</b> (gear in the panel) – backup (automatic in OMM's private storage and to Google Drive, also when you leave the app after adding new data; restore from a list), <b>Folders and files</b>, track recording, <b>In the field</b> (guidance alerts – what and how to announce, keep the screen on, alarm near spots, car), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b> (calorie data and which disciplines are on the board), <b>Appearance</b> (light or dark theme or automatic by sunset, map scale bar, GPS accuracy on the button, map rotation) and <b>Trash</b> – deleted things wait there for 30 days.</li>
+<li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles.</li>
 <li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – a separate view of the app: a <b>board</b> with big discipline buttons – <b>bike</b> (speed, average, max, climb, gradient), <b>running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>walking</b> (pace, steps, daily step goal), <b>trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>horse riding</b> (walk, trot, canter) and <b>inline skating</b> (speed, laps). Tapping a button opens the counter on a dark screen. “Map” in the counter goes to the map – there the ‹ button with the distance or the system “Back” returns to the counter; ‹ in the counter returns to the board (the workout continues). “Finish” saves the workout in <b>Statistics</b>: overall and for each discipline – week, month, year, all time, chart, records, workout list. Calories after entering your weight in Settings → Sport; a track recorded from the counter goes to the “Sport” category.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
@@ -26105,7 +26265,7 @@ function recCenter() {
     map.setView([q[0], q[1]], Math.max(map.getZoom(), 16));
   }
 }
-// --- v66: tryb diagnostyczny nagrywania (Ustawienia → Nagrywanie śladu) ---
+// --- v66: tryb diagnostyczny nagrywania (Ustawienia → Ślady GPS) ---
 // Każdy pomiar GPS: [s od startu, szer, dł, dokładność, prędkość, kierunek, decyzja filtra, szer/dł po filtrze].
 // Trzymane w IndexedDB kawałkami („recdiag/<id>/<nnnnn>”), przy zapisie dołączane do śladu (t.dg) i do eksportu GPX.
 const recDiagOn = () => localStorage.getItem('omm-rec-diag') === '1';
@@ -28839,7 +28999,7 @@ function nearOnSeg(p, a, b) {
 /*
  * Jak w nawigacjach samochodowych (TomTom, HERE, Google Maps, Kurviger):
  *  – mapa jedzie za Tobą; strzałka w dolnej części ekranu, więcej widać przed Tobą,
- *  – orientacja: kierunek jazdy u góry (auto, rower) albo północ (pieszo) – Ustawienia → W terenie albo przycisk kompasu,
+ *  – orientacja: kierunek jazdy u góry (auto, rower) albo północ (pieszo) – Ustawienia → Prowadzenie albo przycisk kompasu,
  *  – zoom wg prędkości (pasma z histerezą – bez skakania), ok. 15 s przed manewrem przybliżenie na skrzyżowanie,
  *    trzymane do ok. 40 m za nim, potem płynny powrót,
  *  – przesunięcie / przybliżenie palcem wstrzymuje kamerę: „Wyśrodkuj” albo samo po 10 s.
@@ -29760,23 +29920,29 @@ function drawStatsBlock(cx, t, y, W) {
 // v73: jeden znak wodny na wszystkich obrazkach i wydruku – „OMM · Own Map Manager” w prawym górnym rogu,
 // bez tła: na mapie biały napis z delikatną ciemną poświatą, na białym tle (same statystyki) – szary napis
 function drawWmark(cx, W, top, o = {}) {
+  // v75: lewy górny róg (o.right – prawy, gdy z lewej jest nagłówek); mocniejsza, ciemniejsza poświata
   const fs = o.fs || Math.max(14, Math.round(W / 38));
   cx.save();
   cx.font = '700 ' + fs + 'px system-ui, sans-serif';
-  cx.textAlign = 'right';
+  cx.textAlign = o.right ? 'right' : 'left';
   cx.textBaseline = 'top';
-  const x = W - Math.round(fs * 1.1),
+  cx.lineJoin = 'round';
+  const m = Math.round(fs * 1.1),
+    x = o.right ? W - m : m,
     y = top + Math.round(fs * 0.8),
     t = APP_NAME + ' · ' + APP_FULL;
   if (o.dark) {
-    cx.fillStyle = 'rgba(60,64,67,.55)';
+    cx.fillStyle = 'rgba(60,64,67,.7)';
     cx.fillText(t, x, y);
   } else {
-    cx.shadowColor = 'rgba(0,0,0,.55)';
-    cx.shadowBlur = Math.round(fs * 0.45);
-    cx.fillStyle = 'rgba(255,255,255,.92)';
+    cx.shadowColor = 'rgba(0,0,0,.85)';
+    cx.shadowBlur = Math.round(fs * 0.7);
+    cx.lineWidth = Math.max(2, fs * 0.22);
+    cx.strokeStyle = 'rgba(0,0,0,.45)';
+    cx.strokeText(t, x, y);
+    cx.fillStyle = 'rgba(255,255,255,.95)';
     cx.fillText(t, x, y);
-    cx.shadowBlur = Math.round(fs * 0.15);
+    cx.shadowBlur = Math.round(fs * 0.2);
     cx.fillText(t, x, y);
   }
   cx.restore();
@@ -29852,7 +30018,7 @@ async function measShare(pts, lines, o = {}) {
       cx.fillStyle = i ? '#3c4043' : '#202124';
       cx.fillText(String(ln).slice(0, 52), 62, y + 66 + i * 56);
     });
-    drawWmark(cx, W, 0); // v73: znak wodny w prawym górnym rogu, bez adresu
+    drawWmark(cx, W, 0); // v75: znak wodny w lewym górnym rogu, bez adresu
     const blob = await new Promise(res => r.cv.toBlob(res, 'image/png'));
     info.style.display = 'none';
     if (!blob) return tell(_t('Nie udało się przygotować obrazu (brak pamięci).'));
@@ -29896,7 +30062,7 @@ async function trkImage(t, kind) {
     out.height = H;
     const ox = out.getContext('2d');
     ox.drawImage(cv, 0, 0);
-    drawWmark(ox, W, 0, {dark: true});
+    drawWmark(ox, W, 0, {dark: true, right: true}); // z lewej nagłówek śladu
     void probe;
     return {cv: out, used: 'cur'};
   }
@@ -31774,7 +31940,7 @@ const TUT_STEPS = [
   {sel: null, t: _t('Mapa'), x: _t('Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.')},
   {sel: '#bbtn', t: _t('Podkład i mapy offline'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.')},
   {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś; pod przyciskiem dokładność GPS (np. ±4 m – zielona dobra, czerwona słaba). Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.')},
-  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → W terenie.')},
+  {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → Auto i parkowanie.')},
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz, albo dodaj zdjęcia z galerii – trafią na mapę tam, gdzie zostały zrobione.')},
   {sel: '#toolsb', t: _t('Narzędzia'), x: _t('Dotknij, by rozwinąć pasek narzędzi: punkt, zaplanuj trasę, rysowanie i pomiary. Po wybraniu narzędzia pasek sam się zwija.')},
   {sel: '[data-g="icons"]', open: 'tools', t: _t('Punkt na mapie'), x: _t('Wybierz grupę i ikonę (np. Grzyby → Kania), dotykaj mapy w miejscach znaleziska, ✓ kończy.')},
@@ -36340,11 +36506,11 @@ function settingsDlg(keep, old) {
     bt = h('div', 'db');
   let sec = body; // bieżąca kategoria (radios dopisuje do niej)
   let noJump = !!(keep && keep.top);
-  const cat = (key, ik, title) => {
-    // kategoria: rysowana ikona z zestawu IC (jak w całej aplikacji) + nazwa
+  const cat = (key, ik, title, sub) => {
+    // kategoria: rysowana ikona z zestawu IC (jak w całej aplikacji) w kafelku + nazwa i krótki opis zawartości (v75)
     const d = h('details', 'scat'),
       s = h('summary');
-    s.innerHTML = ico(ik, 19) + '<span>' + esc(title) + '</span>';
+    s.innerHTML = '<span class="sci">' + ico(ik, 20) + '</span><span class="sct"><span>' + esc(title) + '</span>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>';
     d.open = localStorage.getItem('omm-set-open') === key;
     d.addEventListener('toggle', () => {
       if (d.open) {
@@ -36365,9 +36531,13 @@ function settingsDlg(keep, old) {
   };
   // grupa przycisków wyboru zapisywana w localStorage pod kluczem key
   const radios = (title, key, def, opts, note, onSet) => {
-    const g = h('div', 'sset'),
+    // v75: krótkie wybory (do 4, krótkie nazwy) jako przełącznik segmentowy, dłuższe – lista
+    const seg = opts.length <= 4 && opts.every(([, t]) => String(t).length <= 13),
+      g = h('div', 'sset' + (seg ? ' segs' : '')),
+      w = seg ? h('div', 'segw') : g,
       cur = localStorage.getItem(key) || def;
     g.append(h('b', null, title));
+    if (seg) g.append(w);
     opts.forEach(([v, t]) => {
       const lb = h('label'),
         r = h('input');
@@ -36379,7 +36549,7 @@ function settingsDlg(keep, old) {
         if (onSet) onSet(v);
       };
       lb.append(r, h('span', null, t));
-      g.append(lb);
+      w.append(lb);
     });
     if (note) g.append(h('div', 'muted', note));
     sec.append(g);
@@ -36406,52 +36576,65 @@ function settingsDlg(keep, old) {
     sec.append(g);
     return c;
   };
+  box.classList.add('setdlg');
   box.append(h('div', 'dt', _t('Ustawienia')));
 
-  // język i jednostki – zmiana wymaga ponownego uruchomienia (napisy powstają przy starcie)
-  cat('lang', 'globe', _t('Język i jednostki'));
-  const relaunch = () => setTimeout(() => location.reload(), 150);
+  // v75: kolejność kategorii – od najczęściej zmienianych; każda z krótkim opisem zawartości
+  cat('look', 'moon', _t('Wygląd'), _t('Motyw, podziałka, obracanie mapy'));
   radios(
-    'Język / Language',
-    'omm-lang',
-    'auto',
+    _t('Motyw'),
+    'omm-motyw',
+    'jasny',
     [
-      ['auto', _t('Automatycznie (jak język telefonu)')],
-      ['pl', 'Polski'],
-      ['en', 'English']
+      ['jasny', _t('Jasny')],
+      ['ciemny', _t('Ciemny')],
+      ['slonce', _t('Automatycznie – ciemny od zachodu do wschodu słońca')],
+      ['auto', _t('Jak w telefonie')]
+    ],
+    _t('Godziny wschodu i zachodu OMM liczy sam (bez internetu) dla miejsca, w którym ostatnio był GPS.'),
+    themeApply
+  );
+  chk(_t('Podziałka mapy (skala w metrach)'), 'omm-podzialka', false, null, scaleUpd);
+  chk(_t('Dokładność GPS na przycisku pozycji (np. ±5 m)'), 'omm-gps-dokl', true, _t('Kolor: zielony – dobra, pomarańczowy – średnia, czerwony – słaba. Przytrzymaj przycisk pozycji, żeby zobaczyć wszystkie dane GPS.'), gpsAccUi);
+  if (map._rotate)
+    chk(_t('Obracanie mapy dwoma palcami'), 'omm-obrot-palce', true, _t('Mapa obraca się dopiero po wyraźnym przekręceniu palców (25°). Kompas na mapie przywraca północ. Prowadzenie „kierunkiem jazdy” działa niezależnie od tej opcji.'), on => {
+      if (on) map.touchRotate.enable();
+      else {
+        map.touchRotate.disable();
+        if (!NAV) map.setBearing(0);
+      }
+    });
+  radios(
+    _t('Przy uruchomieniu pokaż'),
+    'omm-start',
+    'gps',
+    [
+      ['gps', _t('Moją pozycję (GPS) – od razu ostatni widok, po złapaniu GPS przelot na Ciebie')],
+      ['ostatni', _t('Ostatni widok – miejsce i przybliżenie z poprzedniego razu')],
+      ['domyslny', _t('Widok domyślny')]
+    ],
+    _t('Widok domyślny to cała Polska albo miejsce ustawione przyciskiem poniżej. Podkład przy uruchomieniu wybierasz gwiazdką w menu mapy.')
+  );
+  btnRow([
+    BI('map', _t('Ustaw obecny widok jako domyślny'), () => {
+      const c = map.getCenter();
+      localStorage.setItem('omm-widok-dom', JSON.stringify({c: [+c.lat.toFixed(6), +c.lng.toFixed(6)], z: map.getZoom()}));
+      toastMsg(_t('Zapisano widok domyślny'));
+    })
+  ]);
+  radios(
+    _t('Mapa w trybie ciemnym'),
+    'omm-mapa-noc',
+    'nie',
+    [
+      ['nie', _t('Normalna – czytelne kolory mapy')],
+      ['tak', _t('Przyciemniona – nie razi w nocy')]
     ],
     null,
-    relaunch
-  );
-  radios(
-    _t('Jednostki'),
-    'omm-units',
-    'auto',
-    [
-      ['auto', _t('Automatycznie (USA – mile i stopy, reszta świata – km i metry)')],
-      ['met', _t('Metryczne – km, m, km/h')],
-      ['imp', _t('Imperialne – mile, stopy, mph')]
-    ],
-    null,
-    relaunch
-  );
-  radios(
-    _t('Powierzchnia (pomiary, obszary)'),
-    'omm-pow',
-    'auto',
-    [
-      ['auto', _t('Automatycznie – m² i hektary razem')],
-      ['m2', _t('Metry kwadratowe (m²)')],
-      ['ar', _t('Ary (a)')],
-      ['ha', _t('Hektary (ha)')],
-      ['km2', _t('Kilometry kwadratowe (km²)')]
-    ],
-    _t('Przy jednostkach imperialnych zawsze akry i stopy kwadratowe.')
+    themeApply
   );
 
-  // katalog map: które podkłady i nakładki są pod ikoną mapy (oko), w jakiej kolejności (strzałki)
-  // i z którym podkładem aplikacja startuje (gwiazdka) – te same ikony co przy warstwach
-  cat('mapy', 'map', _t('Mapy pod ikoną mapy'));
+  cat('mapy', 'map', _t('Mapy pod ikoną mapy'), _t('Które podkłady i nakładki są w menu'));
   sec.append(
     h('div', 'muted mnote', _t('Oko – czy mapa jest na liście pod ikoną mapy. Strzałki – kolejność na liście. Gwiazdka – podkład, z którym aplikacja startuje.'))
   );
@@ -36521,7 +36704,7 @@ function settingsDlg(keep, old) {
   };
   drawMaps();
 
-  cat('rec', 'rec', _t('Nagrywanie śladu'));
+  cat('rec', 'rec', _t('Ślady GPS'), _t('Nagrywanie, komunikaty, kolor'));
   radios(_t('Dokładność zapisu'), 'omm-rec-tryb', 'dokladny', [
     ['dokladny', _t('Dokładne – punkt co ~2 s w ruchu')],
     ['oszczedny', _t('Oszczędne – punkt co ~5 s / 8 m, mniejsze zużycie baterii')]
@@ -36646,29 +36829,6 @@ function settingsDlg(keep, old) {
     );
     sec.append(g);
   }
-  radios(
-    _t('Podpowiedź „przesiadka do auta”'),
-    'omm-auto',
-    '40',
-    [
-      ['nie', _t('Wyłączona')],
-      ['30', _t('Od 30 km/h')],
-      ['40', _t('Od 40 km/h')],
-      ['50', _t('Od 50 km/h (rower szybko zjeżdża z górki)')],
-      ['60', _t('Od 60 km/h')]
-    ],
-    _t('Po zakończeniu nagrania OMM sprawdza, czy przez co najmniej 10 s jechałeś szybciej niż próg – wtedy proponuje odcięcie jazdy autem, żeby statystyki wycieczki były prawidłowe.')
-  );
-  radios(
-    _t('Po zaparkowaniu auta podczas nagrywania'),
-    'omm-park',
-    'pieszo',
-    [
-      ['pieszo', _t('Nagrywaj dalej pieszo (zalecane)')],
-      ['pauza', _t('Wstrzymaj nagrywanie do ponownej jazdy')]
-    ],
-    _t('„Wstrzymaj”: chodzenie po sklepie nie narysuje pętli, ale marsz bliżej niż 300 m od auta (np. grzyby przy parkingu) może nie trafić do śladu. Miejsce auta OMM zapamiętuje w obu przypadkach.')
-  );
   chk(
     _t('Tryb diagnostyczny GPS'),
     'omm-rec-diag',
@@ -36702,7 +36862,6 @@ function settingsDlg(keep, old) {
     sec.append(g);
   }
 
-  cat('trk', 'route', _t('Ślady na mapie'));
   radios(
     _t('Kolor śladów (domyślny)'),
     'omm-trk-kolor',
@@ -36716,255 +36875,7 @@ function settingsDlg(keep, old) {
     () => trkRender()
   );
 
-  cat('pliki', 'folder', _t('Foldery i pliki'));
-  radios(
-    _t('Kopie automatyczne i plik awaryjny nagrania'),
-    'omm-folder-kopie',
-    'prv',
-    [
-      ['prv', FOLDERS.prv.label + _t(' – zalecane')],
-      ['docs', FOLDERS.docs.label],
-      ['down', FOLDERS.down.label]
-    ],
-    NATIVE
-      ? _t('Pamięć OMM jest prywatna: menedżer plików, kabel USB i inne aplikacje jej nie widzą. Uwaga: znika razem z aplikacją przy odinstalowaniu – dlatego warto mieć też kopię na Dysku Google (Kopia zapasowa i dane). Kopie z pamięci OMM przywrócisz z listy w „Kopia zapasowa i dane”.')
-      : _t('Dotyczy aplikacji na Androida.')
-  );
-  radios(
-    _t('Pliki zapisywane ręcznie (eksport, kopie „Zapisz…”, wydruki, filmy)'),
-    'omm-folder',
-    'docs',
-    [
-      ['docs', FOLDERS.docs.label],
-      ['down', FOLDERS.down.label]
-    ],
-    NATIVE
-      ? _t('Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.')
-      : _t('Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.')
-  );
-  radios(_t('Wydruki i obrazy (PNG)'), 'omm-folder-png', 'same', [
-    ['same', _t('Do tego samego folderu')],
-    ['pics', FOLDERS.pics.label + _t(' – widoczne w galerii zdjęć')]
-  ]);
-  chk(
-    _t('Kopie zdjęć w folderze OMM/zdjecia'),
-    'omm-foto-kopia',
-    false,
-    _t('Zdjęcia dodane w OMM są zawsze w pamięci aplikacji i w pełnej kopii. Ta opcja dodatkowo zapisuje ich jawne kopie w folderze plików ustawionym wyżej – widoczne dla menedżera plików i innych aplikacji.')
-  );
-  chk(
-    _t('Zdjęcia z aparatu OMM także w galerii telefonu (Obrazy/OMM)'),
-    'omm-foto-galeria',
-    false,
-    _t('Pełnej wielkości oryginał, razem z położeniem GPS zapisanym w zdjęciu. Bez tej opcji OMM trzyma tylko swoją kopię (do 2000 px).')
-  );
-  sec.append(
-    h('div', 'muted', _t('Wybór dowolnego folderu w telefonie wymaga dodatkowego kodu dla Androida – pojawi się po kolejnym przeglądzie bezpieczeństwa.'))
-  );
-
-  cat('dane', 'save', _t('Kopia zapasowa i dane'));
-  radios(
-    _t('Automatyczna kopia'),
-    'omm-autokopia',
-    'dzien',
-    [
-      ['zamk', _t('Przy każdym zamknięciu aplikacji')],
-      ['dzien', _t('Raz dziennie (przy zamknięciu)')],
-      ['tydz', _t('Raz w tygodniu (przy zamknięciu)')],
-      ['nie', _t('Wyłączona')]
-    ],
-    NATIVE
-      ? _t('Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ') + abFolder().label + _t(' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.')
-      : _t('Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.')
-  );
-  chk(
-    _t('Kopia także przy wyjściu z aplikacji, gdy doszły nowe dane'),
-    'omm-autokopia-zmiany',
-    true,
-    _t('Gdy od ostatniej kopii dodasz albo zmienisz punkt, ślad, zdjęcie czy mapę, OMM zapisze kopię w telefonie zaraz po wyjściu z aplikacji (ekran główny, blokada, inna aplikacja). Na Dysk Google kopia idzie dalej według harmonogramu powyżej. Gdy Android zamknie OMM zbyt szybko, zostaje poprzednia kopia, a brakująca zapisze się przy następnym wyjściu.')
-  );
-  {
-    // ostrzeżenie: kopia bez hasła jest czytelna dla każdego, kto ma dostęp do pliku
-    const w = h('div', 'muted swarn');
-    encGet().then(E => {
-      if (E) return w.remove();
-      w.textContent = abFolder().prv
-        ? _t('⚠ Kopie nie są zaszyfrowane. W pamięci OMM nie widzi ich nikt poza aplikacją, ale kopia na Dysku Google i pliki zapisane ręcznie są czytelne dla każdego, kto ma do nich dostęp – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.')
-        : _t('⚠ Kopie nie są zaszyfrowane. Każdy, kto ma dostęp do plików telefonu (menedżer plików, kabel USB, aplikacje z dostępem do plików, synchronizacja folderów), może je odczytać – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Blokada OMM ich nie chroni, a pliki zostają po odinstalowaniu aplikacji. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.');
-    });
-    sec.append(w);
-  }
-  {
-    const g = h('div', 'sset'),
-      du = localStorage.getItem('omm-dysk-uri');
-    g.append(h('b', null, _t('Dysk Google')));
-    g.append(
-      h(
-        'div',
-        'muted',
-        du
-          ? _t('Kopia nadpisuje plik „') + (localStorage.getItem('omm-dysk-nazwa') || 'OMM-kopia.zip') + _t('” w wybranym miejscu – zawsze najnowsza wersja.')
-          : _t('Nie wybrano. Wskaż raz plik na Dysku Google, a OMM będzie go sam nadpisywał najnowszą kopią (wysyła aplikacja Dysk, także po powrocie zasięgu).')
-      )
-    );
-    const r = h('div', 'setop');
-    r.append(
-      B(du ? _t('Zmień miejsce…') : _t('Wybierz miejsce na Dysku…'), () => {
-        back.remove();
-        abPickDrive();
-      }),
-      ...(du
-        ? [
-            B(_t('Odłącz'), async () => {
-              await abRelease(localStorage.getItem('omm-dysk-uri'));
-              localStorage.removeItem('omm-dysk-uri');
-              localStorage.removeItem('omm-dysk-nazwa');
-              settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
-            })
-          ]
-        : [])
-    );
-    g.append(r);
-    sec.append(g);
-    const st = h('div', 'sset');
-    st.append(h('b', null, _t('Stan')), h('div', 'muted abst', abStatusText()));
-    const go = BI('save', _t('Zrób kopię teraz'), async () => {
-      go.disabled = true;
-      await autoBackup(true);
-      st.querySelector('.abst').textContent = abStatusText();
-      go.disabled = false;
-    });
-    const gr = h('div', 'setop');
-    gr.append(go);
-    if (NATIVE)
-      gr.append(
-        BI('restore', _t('Przywróć z kopii automatycznej…'), () => {
-          back.remove();
-          abRestoreDlg();
-        })
-      );
-    st.append(gr);
-    sec.append(st);
-  }
-  sec.append(h('div', 'muted', _t('Usunięte punkty, warstwy, mapy i ślady czekają w koszu 30 dni.')));
-  btnRow([
-    BI('del', _t('Kosz (') + TRASH.length + ')', () => {
-      back.remove();
-      trashDlg();
-    })
-  ]);
-
-  cat('pryw', 'lock', _t('Prywatność'));
-  {
-    // blokada aplikacji
-    const g = h('div', 'sset'),
-      c = lockCfg(),
-      r = h('div', 'setop');
-    g.append(
-      h('b', null, _t('Blokada aplikacji')),
-      h(
-        'div',
-        'muted',
-        c
-          ? _t('Włączona: ') + (c.m === 'bio' ? _t('odcisk palca / twarz (zapasowo PIN).') : _t('PIN lub hasło.')) + _t(' Nagrywanie śladu działa dalej, gdy OMM jest zablokowany.')
-          : _t('Wyłączona. Po włączeniu OMM poprosi o PIN, hasło albo odcisk palca / twarz.')
-      ),
-      r
-    );
-    const redo = async fn => {
-      if (await fn()) {
-        settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
-      }
-    };
-    r.append(...(c ? [B(_t('Zmień…'), () => redo(lockSetup)), B(_t('Wyłącz'), () => redo(lockOff))] : [B(_t('Włącz…'), () => redo(lockSetup))]));
-    sec.append(g);
-  }
-  radios(
-    _t('Blokuj ponownie po wyjściu z aplikacji'),
-    'omm-lock-d',
-    '0',
-    [
-      ['0', _t('Od razu')],
-      ['60', 'Po 1 minucie'],
-      ['300', 'Po 5 minutach']
-    ]
-  );
-  {
-    // kopie awaryjne: same znikają po 30 dniach, można je usunąć od razu
-    const g = h('div', 'sset'),
-      n = Object.keys(localStorage).filter(k => /^mapa-(snap|uszkodzone)-\d+/.test(k)).length;
-    g.append(
-      h('b', null, _t('Kopie awaryjne')),
-      h(
-        'div',
-        'muted',
-        _t('OMM odkłada kopię danych przed aktualizacją formatu i przed przywróceniem kopii (teraz: ') +
-          n +
-          _t(' + ewentualnie poprzednie ślady). Usuwają się same po ') +
-          SNAP_DAYS +
-          _t(' dniach. Usunięte przez Ciebie punkty i ślady mogą w nich jeszcze być.')
-      )
-    );
-    const r = h('div', 'setop');
-    r.append(
-      BI('del', _t('Usuń kopie awaryjne teraz'), async () => {
-        if (!(await askYes(_t('Usunąć wszystkie kopie awaryjne?\n\nTwoje obecne mapy i ślady zostają bez zmian. Nie będzie można cofnąć ostatniego przywrócenia kopii.'), _t('Usuń'), true)))
-          return;
-        const k = snapExpire(true) + (await trkSnapExpire(true));
-        toastMsg(k ? _t('Usunięto kopie awaryjne') : _t('Nie było kopii awaryjnych'));
-        settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
-      })
-    );
-    g.append(r);
-    sec.append(g);
-  }
-  {
-    // szyfrowanie kopii hasłem (opcja)
-    const g = h('div', 'sset'),
-      st = h('div', 'muted', '…'),
-      r = h('div', 'setop');
-    g.append(h('b', null, _t('🔒 Szyfrowanie kopii hasłem')), st, r);
-    encGet().then(E => {
-      st.textContent = E
-        ? _t('Włączone (od ') + new Date(E.at).toLocaleDateString(LOC) + _t('). Kopie są nieczytelne bez hasła. Utrata hasła = kopii nie da się odczytać.')
-        : _t('Wyłączone. Kopie ZIP może odczytać każdy, kto zdobędzie plik (np. z telefonu albo z Dysku).');
-      const redo = async fn => {
-        if (await fn()) {
-          settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
-        }
-      };
-      r.append(
-        ...(E
-          ? [B(_t('Zmień hasło…'), () => redo(encSetup)), B(_t('Wyłącz'), () => redo(encOff))]
-          : [B(_t('Włącz…'), () => redo(encSetup))])
-      );
-    });
-    sec.append(g);
-  }
-  radios(
-    _t('Zdjęcia z internetu'),
-    'omm-zdj-net',
-    'pytaj',
-    [
-      ['pytaj', _t('Pytaj przed wczytaniem')],
-      ['zawsze', _t('Wczytuj zawsze')]
-    ],
-    _t('Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.')
-  );
-  // w terenie (v58): alarm przy miejscówkach, auto (v73: „Powiadom SMS” – osobna kategoria niżej)
-  cat('field', 'bell', _t('W terenie'));
-  radios(
-    _t('Alarm przy miejscówkach – odległość'),
-    'omm-alarm-r',
-    '50',
-    [
-      ['30', '30 m'],
-      ['50', '50 m'],
-      ['100', '100 m'],
-      ['200', '200 m']
-    ],
-    _t('Alarm włączasz dla wybranej warstwy: panel warstw → ⋮ przy warstwie → „Alarm przy punktach”. Działa przy włączonym GPS (kropka pozycji), a w tle – podczas nagrywania śladu.')
-  );
+  cat('car', 'car', _t('Auto i parkowanie'), _t('Miejsce auta, strefy, przesiadka'));
   radios(
     _t('Miejsce auta'),
     'omm-auto-wykr',
@@ -37014,6 +36925,31 @@ function settingsDlg(keep, old) {
     g.append(ls, r, h('div', 'muted', _t('W strefie (np. pod domem, przy pracy) auto nie jest zapamiętywane, a miejsce zostawione gdzie indziej znika. Po trzecim parkowaniu w tym samym miejscu OMM sam zaproponuje strefę.')));
     sec.append(g);
   }
+  radios(
+    _t('Podpowiedź „przesiadka do auta”'),
+    'omm-auto',
+    '40',
+    [
+      ['nie', _t('Wyłączona')],
+      ['30', _t('Od 30 km/h')],
+      ['40', _t('Od 40 km/h')],
+      ['50', _t('Od 50 km/h (rower szybko zjeżdża z górki)')],
+      ['60', _t('Od 60 km/h')]
+    ],
+    _t('Po zakończeniu nagrania OMM sprawdza, czy przez co najmniej 10 s jechałeś szybciej niż próg – wtedy proponuje odcięcie jazdy autem, żeby statystyki wycieczki były prawidłowe.')
+  );
+  radios(
+    _t('Po zaparkowaniu auta podczas nagrywania'),
+    'omm-park',
+    'pieszo',
+    [
+      ['pieszo', _t('Nagrywaj dalej pieszo (zalecane)')],
+      ['pauza', _t('Wstrzymaj nagrywanie do ponownej jazdy')]
+    ],
+    _t('„Wstrzymaj”: chodzenie po sklepie nie narysuje pętli, ale marsz bliżej niż 300 m od auta (np. grzyby przy parkingu) może nie trafić do śladu. Miejsce auta OMM zapamiętuje w obu przypadkach.')
+  );
+
+  cat('nav', 'nav', _t('Prowadzenie'), _t('Alerty, kierunek mapy, zoom'));
   {
     // v66: alerty prowadzenia – główny wyłącznik, rodzaje komunikatów i forma
     const g = h('div', 'sset'),
@@ -37077,6 +37013,21 @@ function settingsDlg(keep, old) {
       ['dalej', _t('Dalej')]
     ]
   );
+
+  cat('field', 'bell', _t('W terenie'), _t('Alarm przy miejscówkach, ekran'));
+  radios(
+    _t('Alarm przy miejscówkach – odległość'),
+    'omm-alarm-r',
+    '50',
+    [
+      ['30', '30 m'],
+      ['50', '50 m'],
+      ['100', '100 m'],
+      ['200', '200 m']
+    ],
+    _t('Alarm włączasz dla wybranej warstwy: panel warstw → ⋮ przy warstwie → „Alarm przy punktach”. Działa przy włączonym GPS (kropka pozycji), a w tle – podczas nagrywania śladu.')
+  );
+
   radios(
     _t('Nie wygaszaj ekranu'),
     'omm-ekran',
@@ -37089,8 +37040,7 @@ function settingsDlg(keep, old) {
     _t('Świecący ekran zużywa więcej baterii. Szybki przełącznik 💡 jest na pasku prowadzenia i w panelu nagrywania.'),
     () => wlSync()
   );
-  // v73: „Powiadom SMS” (dawny „Plan wyjścia”) – osobna kategoria, pola od razu w ustawieniach
-  cat('sms', 'note', _t('Powiadom SMS'));
+  cat('sms', 'note', _t('Powiadom SMS'), _t('Wiadomość, gdy nie wrócisz o czasie'));
   {
     const g = h('div', 'sset nset'),
       st = h('div', 'muted'),
@@ -37132,8 +37082,7 @@ function settingsDlg(keep, old) {
     fill();
     sec.append(g);
   }
-  // sport (v60): dane do szacowania kalorii i liczniki dystansu
-  cat('sport', 'sport', _t('Sport'));
+  cat('sport', 'sport', _t('Sport'), _t('Dyscypliny, kalorie, liczniki, głos'));
   {
     // v73: które dyscypliny są na tablicy i w jakiej kolejności
     const g = h('div', 'sset'),
@@ -37257,60 +37206,281 @@ function settingsDlg(keep, old) {
       ['nie', _t('Wyłączony')]
     ]
   );
-  // wygląd (v58): tryb ciemny
-  cat('look', 'moon', _t('Wygląd'));
+  cat('dane', 'save', _t('Kopia zapasowa i dane'), _t('Kopie automatyczne, Dysk Google, stan'));
   radios(
-    _t('Motyw'),
-    'omm-motyw',
-    'jasny',
+    _t('Automatyczna kopia'),
+    'omm-autokopia',
+    'dzien',
     [
-      ['jasny', _t('Jasny')],
-      ['ciemny', _t('Ciemny')],
-      ['slonce', _t('Automatycznie – ciemny od zachodu do wschodu słońca')],
-      ['auto', _t('Jak w telefonie')]
+      ['zamk', _t('Przy każdym zamknięciu aplikacji')],
+      ['dzien', _t('Raz dziennie (przy zamknięciu)')],
+      ['tydz', _t('Raz w tygodniu (przy zamknięciu)')],
+      ['nie', _t('Wyłączona')]
     ],
-    _t('Godziny wschodu i zachodu OMM liczy sam (bez internetu) dla miejsca, w którym ostatnio był GPS.'),
-    themeApply
+    NATIVE
+      ? _t('Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ') + abFolder().label + _t(' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.')
+      : _t('Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.')
   );
-  chk(_t('Podziałka mapy (skala w metrach)'), 'omm-podzialka', false, null, scaleUpd);
-  chk(_t('Dokładność GPS na przycisku pozycji (np. ±5 m)'), 'omm-gps-dokl', true, _t('Kolor: zielony – dobra, pomarańczowy – średnia, czerwony – słaba. Przytrzymaj przycisk pozycji, żeby zobaczyć wszystkie dane GPS.'), gpsAccUi);
-  if (map._rotate)
-    chk(_t('Obracanie mapy dwoma palcami'), 'omm-obrot-palce', true, _t('Mapa obraca się dopiero po wyraźnym przekręceniu palców (25°). Kompas na mapie przywraca północ. Prowadzenie „kierunkiem jazdy” działa niezależnie od tej opcji.'), on => {
-      if (on) map.touchRotate.enable();
-      else {
-        map.touchRotate.disable();
-        if (!NAV) map.setBearing(0);
-      }
+  chk(
+    _t('Kopia także przy wyjściu z aplikacji, gdy doszły nowe dane'),
+    'omm-autokopia-zmiany',
+    true,
+    _t('Gdy od ostatniej kopii dodasz albo zmienisz punkt, ślad, zdjęcie czy mapę, OMM zapisze kopię w telefonie zaraz po wyjściu z aplikacji (ekran główny, blokada, inna aplikacja). Na Dysk Google kopia idzie dalej według harmonogramu powyżej. Gdy Android zamknie OMM zbyt szybko, zostaje poprzednia kopia, a brakująca zapisze się przy następnym wyjściu.')
+  );
+  {
+    // ostrzeżenie: kopia bez hasła jest czytelna dla każdego, kto ma dostęp do pliku
+    const w = h('div', 'muted swarn');
+    encGet().then(E => {
+      if (E) return w.remove();
+      w.textContent = abFolder().prv
+        ? _t('⚠ Kopie nie są zaszyfrowane. W pamięci OMM nie widzi ich nikt poza aplikacją, ale kopia na Dysku Google i pliki zapisane ręcznie są czytelne dla każdego, kto ma do nich dostęp – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.')
+        : _t('⚠ Kopie nie są zaszyfrowane. Każdy, kto ma dostęp do plików telefonu (menedżer plików, kabel USB, aplikacje z dostępem do plików, synchronizacja folderów), może je odczytać – a są w nich wszystkie ślady z godzinami, punkty i zdjęcia. Blokada OMM ich nie chroni, a pliki zostają po odinstalowaniu aplikacji. Zalecane: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.');
     });
-  radios(
-    _t('Przy uruchomieniu pokaż'),
-    'omm-start',
-    'gps',
-    [
-      ['gps', _t('Moją pozycję (GPS) – od razu ostatni widok, po złapaniu GPS przelot na Ciebie')],
-      ['ostatni', _t('Ostatni widok – miejsce i przybliżenie z poprzedniego razu')],
-      ['domyslny', _t('Widok domyślny')]
-    ],
-    _t('Widok domyślny to cała Polska albo miejsce ustawione przyciskiem poniżej. Podkład przy uruchomieniu wybierasz gwiazdką w menu mapy.')
-  );
+    sec.append(w);
+  }
+  {
+    const g = h('div', 'sset'),
+      du = localStorage.getItem('omm-dysk-uri');
+    g.append(h('b', null, _t('Dysk Google')));
+    g.append(
+      h(
+        'div',
+        'muted',
+        du
+          ? _t('Kopia nadpisuje plik „') + (localStorage.getItem('omm-dysk-nazwa') || 'OMM-kopia.zip') + _t('” w wybranym miejscu – zawsze najnowsza wersja.')
+          : _t('Nie wybrano. Wskaż raz plik na Dysku Google, a OMM będzie go sam nadpisywał najnowszą kopią (wysyła aplikacja Dysk, także po powrocie zasięgu).')
+      )
+    );
+    const r = h('div', 'setop');
+    r.append(
+      B(du ? _t('Zmień miejsce…') : _t('Wybierz miejsce na Dysku…'), () => {
+        back.remove();
+        abPickDrive();
+      }),
+      ...(du
+        ? [
+            B(_t('Odłącz'), async () => {
+              await abRelease(localStorage.getItem('omm-dysk-uri'));
+              localStorage.removeItem('omm-dysk-uri');
+              localStorage.removeItem('omm-dysk-nazwa');
+              settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
+            })
+          ]
+        : [])
+    );
+    g.append(r);
+    sec.append(g);
+    const st = h('div', 'sset');
+    st.append(h('b', null, _t('Stan')), h('div', 'muted abst', abStatusText()));
+    const go = BI('save', _t('Zrób kopię teraz'), async () => {
+      go.disabled = true;
+      await autoBackup(true);
+      st.querySelector('.abst').textContent = abStatusText();
+      go.disabled = false;
+    });
+    const gr = h('div', 'setop');
+    gr.append(go);
+    if (NATIVE)
+      gr.append(
+        BI('restore', _t('Przywróć z kopii automatycznej…'), () => {
+          back.remove();
+          abRestoreDlg();
+        })
+      );
+    st.append(gr);
+    sec.append(st);
+  }
+  sec.append(h('div', 'muted', _t('Usunięte punkty, warstwy, mapy i ślady czekają w koszu 30 dni.')));
   btnRow([
-    BI('map', _t('Ustaw obecny widok jako domyślny'), () => {
-      const c = map.getCenter();
-      localStorage.setItem('omm-widok-dom', JSON.stringify({c: [+c.lat.toFixed(6), +c.lng.toFixed(6)], z: map.getZoom()}));
-      toastMsg(_t('Zapisano widok domyślny'));
+    BI('del', _t('Kosz (') + TRASH.length + ')', () => {
+      back.remove();
+      trashDlg();
     })
   ]);
+
+  cat('pliki', 'folder', _t('Foldery i pliki'), _t('Gdzie zapisywać pliki i zdjęcia'));
   radios(
-    _t('Mapa w trybie ciemnym'),
-    'omm-mapa-noc',
-    'nie',
+    _t('Kopie automatyczne i plik awaryjny nagrania'),
+    'omm-folder-kopie',
+    'prv',
     [
-      ['nie', _t('Normalna – czytelne kolory mapy')],
-      ['tak', _t('Przyciemniona – nie razi w nocy')]
+      ['prv', FOLDERS.prv.label + _t(' – zalecane')],
+      ['docs', FOLDERS.docs.label],
+      ['down', FOLDERS.down.label]
+    ],
+    NATIVE
+      ? _t('Pamięć OMM jest prywatna: menedżer plików, kabel USB i inne aplikacje jej nie widzą. Uwaga: znika razem z aplikacją przy odinstalowaniu – dlatego warto mieć też kopię na Dysku Google (Kopia zapasowa i dane). Kopie z pamięci OMM przywrócisz z listy w „Kopia zapasowa i dane”.')
+      : _t('Dotyczy aplikacji na Androida.')
+  );
+  radios(
+    _t('Pliki zapisywane ręcznie (eksport, kopie „Zapisz…”, wydruki, filmy)'),
+    'omm-folder',
+    'docs',
+    [
+      ['docs', FOLDERS.docs.label],
+      ['down', FOLDERS.down.label]
+    ],
+    NATIVE
+      ? _t('Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.')
+      : _t('Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.')
+  );
+  radios(_t('Wydruki i obrazy (PNG)'), 'omm-folder-png', 'same', [
+    ['same', _t('Do tego samego folderu')],
+    ['pics', FOLDERS.pics.label + _t(' – widoczne w galerii zdjęć')]
+  ]);
+  chk(
+    _t('Kopie zdjęć w folderze OMM/zdjecia'),
+    'omm-foto-kopia',
+    false,
+    _t('Zdjęcia dodane w OMM są zawsze w pamięci aplikacji i w pełnej kopii. Ta opcja dodatkowo zapisuje ich jawne kopie w folderze plików ustawionym wyżej – widoczne dla menedżera plików i innych aplikacji.')
+  );
+  chk(
+    _t('Zdjęcia z aparatu OMM także w galerii telefonu (Obrazy/OMM)'),
+    'omm-foto-galeria',
+    false,
+    _t('Pełnej wielkości oryginał, razem z położeniem GPS zapisanym w zdjęciu. Bez tej opcji OMM trzyma tylko swoją kopię (do 2000 px).')
+  );
+  sec.append(
+    h('div', 'muted', _t('Wybór dowolnego folderu w telefonie wymaga dodatkowego kodu dla Androida – pojawi się po kolejnym przeglądzie bezpieczeństwa.'))
+  );
+
+  cat('pryw', 'lock', _t('Prywatność'), _t('Blokada, szyfrowanie, zdjęcia z internetu'));
+  {
+    // blokada aplikacji
+    const g = h('div', 'sset'),
+      c = lockCfg(),
+      r = h('div', 'setop');
+    g.append(
+      h('b', null, _t('Blokada aplikacji')),
+      h(
+        'div',
+        'muted',
+        c
+          ? _t('Włączona: ') + (c.m === 'bio' ? _t('odcisk palca / twarz (zapasowo PIN).') : _t('PIN lub hasło.')) + _t(' Nagrywanie śladu działa dalej, gdy OMM jest zablokowany.')
+          : _t('Wyłączona. Po włączeniu OMM poprosi o PIN, hasło albo odcisk palca / twarz.')
+      ),
+      r
+    );
+    const redo = async fn => {
+      if (await fn()) {
+        settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
+      }
+    };
+    r.append(...(c ? [B(_t('Zmień…'), () => redo(lockSetup)), B(_t('Wyłącz'), () => redo(lockOff))] : [B(_t('Włącz…'), () => redo(lockSetup))]));
+    sec.append(g);
+  }
+  radios(
+    _t('Blokuj ponownie po wyjściu z aplikacji'),
+    'omm-lock-d',
+    '0',
+    [
+      ['0', _t('Od razu')],
+      ['60', 'Po 1 minucie'],
+      ['300', 'Po 5 minutach']
+    ]
+  );
+  {
+    // kopie awaryjne: same znikają po 30 dniach, można je usunąć od razu
+    const g = h('div', 'sset'),
+      n = Object.keys(localStorage).filter(k => /^mapa-(snap|uszkodzone)-\d+/.test(k)).length;
+    g.append(
+      h('b', null, _t('Kopie awaryjne')),
+      h(
+        'div',
+        'muted',
+        _t('OMM odkłada kopię danych przed aktualizacją formatu i przed przywróceniem kopii (teraz: ') +
+          n +
+          _t(' + ewentualnie poprzednie ślady). Usuwają się same po ') +
+          SNAP_DAYS +
+          _t(' dniach. Usunięte przez Ciebie punkty i ślady mogą w nich jeszcze być.')
+      )
+    );
+    const r = h('div', 'setop');
+    r.append(
+      BI('del', _t('Usuń kopie awaryjne teraz'), async () => {
+        if (!(await askYes(_t('Usunąć wszystkie kopie awaryjne?\n\nTwoje obecne mapy i ślady zostają bez zmian. Nie będzie można cofnąć ostatniego przywrócenia kopii.'), _t('Usuń'), true)))
+          return;
+        const k = snapExpire(true) + (await trkSnapExpire(true));
+        toastMsg(k ? _t('Usunięto kopie awaryjne') : _t('Nie było kopii awaryjnych'));
+        settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
+      })
+    );
+    g.append(r);
+    sec.append(g);
+  }
+  {
+    // szyfrowanie kopii hasłem (opcja)
+    const g = h('div', 'sset'),
+      st = h('div', 'muted', '…'),
+      r = h('div', 'setop');
+    g.append(h('b', null, _t('🔒 Szyfrowanie kopii hasłem')), st, r);
+    encGet().then(E => {
+      st.textContent = E
+        ? _t('Włączone (od ') + new Date(E.at).toLocaleDateString(LOC) + _t('). Kopie są nieczytelne bez hasła. Utrata hasła = kopii nie da się odczytać.')
+        : _t('Wyłączone. Kopie ZIP może odczytać każdy, kto zdobędzie plik (np. z telefonu albo z Dysku).');
+      const redo = async fn => {
+        if (await fn()) {
+          settingsDlg({top: body.scrollTop}, back); // odświeżenie – to samo miejsce
+        }
+      };
+      r.append(
+        ...(E
+          ? [B(_t('Zmień hasło…'), () => redo(encSetup)), B(_t('Wyłącz'), () => redo(encOff))]
+          : [B(_t('Włącz…'), () => redo(encSetup))])
+      );
+    });
+    sec.append(g);
+  }
+  radios(
+    _t('Zdjęcia z internetu'),
+    'omm-zdj-net',
+    'pytaj',
+    [
+      ['pytaj', _t('Pytaj przed wczytaniem')],
+      ['zawsze', _t('Wczytuj zawsze')]
+    ],
+    _t('Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.')
+  );
+  cat('lang', 'globe', _t('Język i jednostki'), _t('Język, jednostki, powierzchnia'));
+  const relaunch = () => setTimeout(() => location.reload(), 150);
+  radios(
+    'Język / Language',
+    'omm-lang',
+    'auto',
+    [
+      ['auto', _t('Automatycznie (jak język telefonu)')],
+      ['pl', 'Polski'],
+      ['en', 'English']
     ],
     null,
-    themeApply
+    relaunch
   );
+  radios(
+    _t('Jednostki'),
+    'omm-units',
+    'auto',
+    [
+      ['auto', _t('Automatycznie (USA – mile i stopy, reszta świata – km i metry)')],
+      ['met', _t('Metryczne – km, m, km/h')],
+      ['imp', _t('Imperialne – mile, stopy, mph')]
+    ],
+    null,
+    relaunch
+  );
+  radios(
+    _t('Powierzchnia (pomiary, obszary)'),
+    'omm-pow',
+    'auto',
+    [
+      ['auto', _t('Automatycznie – m² i hektary razem')],
+      ['m2', _t('Metry kwadratowe (m²)')],
+      ['ar', _t('Ary (a)')],
+      ['ha', _t('Hektary (ha)')],
+      ['km2', _t('Kilometry kwadratowe (km²)')]
+    ],
+    _t('Przy jednostkach imperialnych zawsze akry i stopy kwadratowe.')
+  );
+
   // „O aplikacji”, „Jak zacząć” i samouczek – pod przyciskiem „i” w panelu warstw (bez dublowania tutaj)
   body.append(h('div', 'muted', APP_NAME + ' ' + APP_VER + ' – ' + APP_FULL));
 
