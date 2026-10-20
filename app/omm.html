@@ -4300,6 +4300,30 @@ html.recme .meic {
   padding: 10px 12px;
   box-shadow: 0 2px 10px #0004;
 }
+.leaflet-marker-icon.tedd {
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+.tedd.pt {
+  background: #fff;
+  border: 3px solid #ef7d1a;
+  box-shadow: 0 1px 3px #0006;
+}
+.tedd.pt.ch {
+  background: #ef7d1a;
+  border-color: #fff;
+}
+.tedd.pt.fr {
+  background: #d93025;
+  border-color: #fff;
+}
+.tedd.pt.br {
+  border-color: #1b1b1b;
+}
+.tedd.mid {
+  background: rgba(239, 125, 26, 0.45);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+}
 .splitbar .stx {
   font-size: 13.5px;
   line-height: 1.45;
@@ -5556,6 +5580,79 @@ body.planctx #wm::after {
   flex-direction: column;
   align-items: center;
   gap: 2px;
+}
+.bled-ov {
+  position: fixed;
+  inset: 0;
+  z-index: 990;
+  background: rgba(0, 0, 0, 0.12);
+}
+.bled-grid {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 991;
+  pointer-events: none;
+}
+.bled-cell {
+  display: none;
+  position: fixed;
+  z-index: 995;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px dashed var(--acc);
+  background: var(--accbg);
+  pointer-events: none;
+}
+.bled-bar {
+  position: fixed;
+  z-index: 1300;
+  left: 50%;
+  top: calc(50% - 70px);
+  transform: translateX(-50%);
+  width: min(300px, calc(100% - 120px));
+  background: var(--bg);
+  color: var(--txt);
+  border-radius: 14px;
+  padding: 12px;
+  box-shadow: 0 4px 20px #0006;
+  font-size: 14px;
+}
+.bled-bar .muted {
+  font-size: 12px;
+  margin: 4px 0 8px;
+}
+.bled-bar .db {
+  flex-wrap: nowrap;
+}
+.bled-bar .db button {
+  padding: 8px 10px;
+}
+body.bledit :is(#bbtn, #srchb, #gps, #compb, #lbtn) {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+  touch-action: none;
+  transition: none;
+  animation: blwig 0.35s ease-in-out infinite alternate;
+  outline: 2px solid var(--acc);
+  outline-offset: 2px;
+}
+body.bledit .bldrag {
+  animation: none;
+  transform: scale(1.15);
+  box-shadow: 0 6px 18px #0006;
+}
+@keyframes blwig {
+  from {
+    transform: rotate(-3deg);
+  }
+  to {
+    transform: rotate(3deg);
+  }
 }
 .blpv {
   position: relative;
@@ -9228,6 +9325,35 @@ const EN = {
   "Zwykły – dotknij, by pogrubić": "Regular – tap for bold",
   "ile mapy prześwituje": "how much map shows through",
   "🚗 Odjechano – usunięto miejsce auta": "🚗 Driven off – car location removed",
+  " · oryginał (szary) zostaje bez zmian": " · the original (grey) stays unchanged",
+  " · zmienionych: ": " · changed: ",
+  " „Gotowe dorysowywanie” kończy.": " “Done drawing” finishes.",
+  "Czerwone pasy – tu rozsuwają się narzędzia i nagrywanie; przycisk stąd się odsunie.": "Red strips – the toolbar and recording expand here; a button placed here will move aside.",
+  "Domyślny": "Default",
+  "Dorysuj stąd": "Draw from here",
+  "Dotknij drugiego końca zakresu do usunięcia.": "Tap the other end of the range to delete.",
+  "Dotykaj mapy – kolejne punkty ": "Tap the map – further points ",
+  "Gotowe dorysowywanie": "Done drawing",
+  "Mapa, Szukaj, Moja pozycja, Warstwy i Kompas – przeciągasz je palcem w dowolne wolne pole siatki i zatwierdzasz. Przyciski ustępują miejsca temu, co się rozsuwa: paskowi narzędzi, nagrywaniu, paskom prowadzenia i planowania.": "Map, Search, My position, Layers and Compass – drag them with your finger to any free grid cell and confirm. The buttons make room for what expands: the toolbar, recording, the navigation and planning bars.",
+  "Podziel tutaj": "Split here",
+  "Popraw ślad – wskazówka dla OMM (oryginał zostaje)": "Correct the track – a hint for OMM (the original stays)",
+  "Popraw ślad – wskazówka dla OMM": "Correct the track – a hint for OMM",
+  "Połącz przerwę": "Join the gap",
+  "Przeciągnij kropkę – nowe miejsce. Przeciągnij małą kropkę między punktami – nowy punkt. Dotknij kropki – menu.": "Drag a dot – new place. Drag a small dot between points – new point. Tap a dot – menu.",
+  "Przeciągnij przyciski": "Drag the buttons",
+  "Przywrócono domyślny układ przycisków": "Default button layout restored",
+  "Punktów: ": "Points: ",
+  "Ustaw przyciski na ekranie": "Arrange buttons on the screen",
+  "Usunąć zapisaną poprawkę tego śladu? Oryginał zostaje.": "Delete the saved correction of this track? The original stays.",
+  "Usuń poprawkę": "Delete correction",
+  "Usuń zakres od tego…": "Delete range from here…",
+  "Zapisano poprawkę – oryginał bez zmian; poprawka trafia do pliku GPX ze śladem": "Correction saved – the original is unchanged; the correction goes into the GPX file with the track",
+  "Zapisano układ przycisków": "Button layout saved",
+  "Zapisz poprawkę": "Save correction",
+  "Zostaw w śladzie co najmniej dwa punkty.": "Leave at least two points in the track.",
+  "poprawka (wskazówka dla OMM)": "correction (a hint for OMM)",
+  "przed początkiem.": "before the start.",
+  "za końcem.": "after the end.",
   "Co zrobić z plikiem?": "What to do with the file?",
   "Kompas": "Compass",
   "Mapa (podkład)": "Map (base map)",
@@ -9590,7 +9716,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v76';
+const APP_VER = 'v77';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -14093,6 +14219,20 @@ function cleanTrk(t) {
     t.pa = Array.isArray(t.pa)
       ? t.pa.filter(x => Array.isArray(x) && x.length === 2 && x.every(v => typeof v === 'number' && isFinite(v)) && x[1] >= x[0]).slice(0, 5000)
       : [];
+  if (own(t, 'ed')) {
+    // v77: poprawka śladu – tylko liczby i poprawne współrzędne
+    const e = t.ed,
+      ok = e && Array.isArray(e.pts) && e.pts.length > 1 && e.pts.length < 200000;
+    if (!ok) delete t.ed;
+    else {
+      e.pts = e.pts
+        .filter(q => Array.isArray(q) && okLL([numOrNull(q[0]), numOrNull(q[1])]))
+        .map(q => [+q[0], +q[1], numOrNull(q[2]), +q[3] || 0, q[4] === 1 ? 1 : 0, q[5] === 1 || q[5] === 2 ? q[5] : 0]);
+      e.sg = Array.isArray(e.sg) ? e.sg.filter(k => Number.isInteger(k) && k > 0 && k < e.pts.length) : [];
+      e.at = +e.at || 0;
+      if (e.pts.length < 2) delete t.ed;
+    }
+  }
   if (own(t, 'wp')) {
     if (!Array.isArray(t.wp)) t.wp = [];
     keepIf(t.wp, w => {
@@ -19616,7 +19756,7 @@ async function profile(pts) {
 const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz w nim miejsca, które chcesz zapamiętać: grzybowe miejscówki, wiaty i noclegi, źródła, ciekawe zakątki. Planujesz trasy, nagrywasz ślady, mierzysz odległości i wysokości. Wszystko zapisuje się w telefonie i działa także bez zasięgu.</p>
 <ol>
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś; <b>przytrzymany</b> otwiera <b>Informacje GPS</b> – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut.</li>
-<li><b>Układ przycisków</b> – domyślnie w prawym górnym rogu jest tylko <b>● REC</b>, po prawej na dole: <b>podkład</b>, <b>szukaj</b> 🔍 i <b>moja pozycja</b> ◎ (z dokładnością GPS – kolor mówi, czy jest dobra), pod nimi pasek narzędzi, a w lewym dolnym rogu – panel warstw (nad nim kompas, gdy mapa jest obrócona). Ustawienia → Wygląd → <b>Układ przycisków</b>: podkład, szukaj, pozycję, warstwy i kompas możesz postawić w dowolnym rogu i w dowolnej kolejności (podgląd ekranu, „Przywróć domyślny”). Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej jadą w górę nad rosnący pasek narzędzi, u góry – zjeżdżają pod nagrywanie, pasek prowadzenia i planowania. <b>Przytrzymaj palec na mapie</b> – okno współrzędnych tego miejsca (jak „Współrzędne punktu”): kopiuj, udostępnij, prowadź, trasa tutaj, zapisz punkt.</li>
+<li><b>Układ przycisków</b> – domyślnie w prawym górnym rogu jest tylko <b>● REC</b>, po prawej na dole: <b>podkład</b>, <b>szukaj</b> 🔍 i <b>moja pozycja</b> ◎ (z dokładnością GPS – kolor mówi, czy jest dobra), pod nimi pasek narzędzi, a w lewym dolnym rogu – panel warstw (nad nim kompas, gdy mapa jest obrócona). Ustawienia → Wygląd → <b>Ustaw przyciski na ekranie</b>: na mapie pojawia się siatka pól, a podkład, szukaj, pozycję, warstwy i kompas przeciągasz palcem w dowolne wolne pole (przycisk wskakuje w najbliższe) i zatwierdzasz; „Przywróć domyślny” wraca do zwykłego układu. Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej jadą w górę nad rosnący pasek narzędzi, u góry – zjeżdżają pod nagrywanie, pasek prowadzenia i planowania. <b>Przytrzymaj palec na mapie</b> – okno współrzędnych tego miejsca (jak „Współrzędne punktu”): kopiuj, udostępnij, prowadź, trasa tutaj, zapisz punkt.</li>
 <li><b>Podkład</b> – przycisk mapy po prawej, nad szukaj i ◎: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
 <li><b>Zaplanuj trasę</b> – na dole panel: długość, czas, podejścia i profil wysokości, a pod nimi sposób przejazdu: <b>Pieszo</b> (szlaki i drogi leśne albo tylko utwardzone), <b>Rower</b> (trekking, szosa, górski), <b>Auto</b> albo <b>Prosto</b> – zmiana od razu przelicza trasę. Najprościej: w okienku punktu, śladu, kształtu albo współrzędnych <b>„Trasa tutaj”</b> – trasa z Twojej pozycji liczy się od razu. W planowaniu <b>dotknij mapy</b> – start, potem cel (obok Twojej pinezki punkt przyciąga się do niej i bierze jej nazwę); gdy trasa ma start i cel, dotykanie, przesuwanie i przybliżanie mapy niczego już nie dodaje. <b>Przytrzymaj palec</b> w dowolnym miejscu albo <b>dotknij obiektu</b> (pinezki, śladu, kształtu) – dymek: dodaj jako punkt pośredni, ustaw jako cel albo start. Nowy punkt pośredni trafia tam, gdzie najmniej wydłuża trasę. <b>Przytrzymaj linię trasy</b> i przeciągnij – trasa pójdzie tamtędy (powstaje punkt kształtujący, oznaczony literą a, b, c…, tak samo na mapie i na liście). <b>Przeciągnij punkt</b> – przesuwasz go; <b>dotknij punktu</b> – menu: dalej prosto (bez dróg, np. przez łąkę), ustaw jako start / cel, usuń. Panel podciągnięty w górę pokazuje listę punktów: <b>przytrzymaj wiersz</b> i przesuń go (albo uchwyt ≡), strzałki ↑ ↓ przestawiają o jedną pozycję, ✕ usuwa, a „Dodaj” (Twoja pozycja, Twój punkt, wyszukiwarka), „Odwróć”, „Pętla” (powrót do startu) i <b>„Ułóż kolejność”</b> (najkrótsza kolejność ponumerowanych punktów pośrednich, gdy masz kilka miejsc do odwiedzenia; start i cel zostają, punkty kształtujące wracają tam, gdzie najmniej wydłużają trasę; „Cofnij”) są pod listą. Gdy poprowadzisz niezapisaną trasę, po zakończeniu prowadzenia OMM zapyta, czy ją zapisać, wrócić do planowania, czy odrzucić. U góry ↶ ↷ cofają i ponawiają każdą zmianę, a „?” pokazuje podpowiedź. „Start z mojej pozycji” + dotknięcie celu + „Prowadź” = od razu prowadzenie po drogach. „Zapisz” odkłada trasę do zakładki „Planowanie”; zapisana trasa ma w okienku „Edytuj trasę”.</li>
@@ -19627,7 +19767,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. W okienku śladu ✎ <b>Popraw ślad</b> – wskazówka dla OMM: na kopii przeciągasz punkty, dodajesz je (małe kropki między punktami), usuwasz pojedynczo albo zakresem „od – do”, dzielisz, łączysz i dorysowujesz; na mapie zostaje oryginał, a poprawka z oznaczonymi zmianami trafia do pliku GPX ze śladem – to materiał do ulepszania liczenia śladów. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
@@ -19667,7 +19807,7 @@ const MAP_SOURCES_EN = () =>
 const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> You mark the places you want to remember: mushroom spots, shelters and places to sleep, springs, interesting corners. You plan routes, record tracks, measure distances and elevations. Everything is saved on your phone and works without signal too.</p>
 <ol>
 <li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are; <b>press and hold</b> it for <b>GPS information</b> – accuracy, fix age, speed, course and an accuracy chart of the last minutes.</li>
-<li><b>Button layout</b> – by default only <b>● REC</b> is in the top-right corner; on the right at the bottom: <b>base map</b>, <b>search</b> 🔍 and <b>my position</b> ◎ (with GPS accuracy – the colour tells whether it is good), below them the toolbar, and in the bottom-left corner – the layers panel (with the compass above it when the map is rotated). Settings → Appearance → <b>Button layout</b>: put the base map, search, position, layers and compass in any corner and any order (screen preview, “Restore default”). The buttons make room for what expands: at the bottom right they move up above the growing toolbar, at the top they move down below recording and the navigation and planning bars. <b>Press and hold the map</b> – the coordinates window for that spot (as “Point coordinates”): copy, share, navigate, route here, save point.</li>
+<li><b>Button layout</b> – by default only <b>● REC</b> is in the top-right corner; on the right at the bottom: <b>base map</b>, <b>search</b> 🔍 and <b>my position</b> ◎ (with GPS accuracy – the colour tells whether it is good), below them the toolbar, and in the bottom-left corner – the layers panel (with the compass above it when the map is rotated). Settings → Appearance → <b>Arrange buttons on the screen</b>: a grid appears on the map, you drag the base map, search, position, layers and compass with your finger to any free cell (the button snaps to the nearest one) and confirm; “Restore default” brings back the standard layout. The buttons make room for what expands: at the bottom right they move up above the growing toolbar, at the top they move down below recording and the navigation and planning bars. <b>Press and hold the map</b> – the coordinates window for that spot (as “Point coordinates”): copy, share, navigate, route here, save point.</li>
 <li><b>Base map</b> – the map button on the right, above search and ◎: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
 <li><b>Plan a route</b> – the panel at the bottom shows distance, time, climb and the elevation profile, and below them how you travel: <b>On foot</b> (trails and forest tracks or paved only), <b>Bike</b> (trekking, road, mountain), <b>Car</b> or <b>Straight</b> – a change re-plans the route at once. Easiest: <b>“Route here”</b> in the popup of a point, track, shape or coordinates – a route from your position is planned at once. While planning, <b>tap the map</b> – start, then destination (next to your pin a point snaps to it and takes its name); once the route has a start and a destination, tapping, panning and zooming the map adds nothing. <b>Press and hold</b> anywhere or <b>tap an object</b> (pin, track, shape) – a bubble: add as a via point, set as destination or start. A new via point goes where it lengthens the route the least. <b>Press and hold the route line</b> and drag – the route goes that way (a shaping point is created, labelled a, b, c… on the map and in the list). <b>Drag a point</b> to move it; <b>tap a point</b> – menu: straight from here (no roads, e.g. across a meadow), set as start / destination, delete. Pull the panel up for the list of points: <b>press and hold a row</b> and move it (or the ≡ handle), the ↑ ↓ arrows move it by one place, ✕ deletes, and “Add” (your position, your point, search), “Reverse”, “Loop” (back to start) and <b>“Optimise order”</b> (shortest order of the numbered via points when you have several places to visit; start and destination stay, shaping points return where they lengthen the route the least; “Undo”) are below the list. If you navigate an unsaved route, OMM asks after navigation ends whether to save it, go back to planning or discard it. At the top ↶ ↷ undo and redo every change, and “?” shows the hint. “Start from my position” + tap the destination + “Navigate” = turn-by-turn guidance on roads right away. “Save” keeps the route in the “Planning” tab; a saved route has “Edit route” in its popup.</li>
@@ -19678,7 +19818,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. In the track popup ✎ <b>Correct the track</b> – a hint for OMM: on a copy you drag points, add them (small dots between points), delete them one by one or as a range “from – to”, split, join and draw on; the map keeps the original, and the correction with the changes marked goes into the GPX file with the track – material for improving how tracks are computed. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
@@ -23773,6 +23913,7 @@ function trkPopup(t, ll) {
     ),
     IB('split', act(() => trkSplit(t)), '', _t('Podziel ślad')),
     IB('extend', act(() => trkExtend(t)), '', _t('Dorysuj brakujący kawałek (zapomniany REC, przerwa)')),
+    IB('edit', act(() => trkEdit(t)), t.ed ? 'on' : '', _t('Popraw ślad – wskazówka dla OMM (oryginał zostaje)')),
     IB('del', act(() => trkDelete(t)), 'danger', _t('Usuń ślad'))
   );
   el.append(bt, ib);
@@ -24278,6 +24419,30 @@ function trkGPX(list, name, photoPath, diag) {
       s += '</trkseg>\n';
     });
     s += '</trk>\n';
+    // v77: poprawka śladu (wskazówka dla OMM) – osobny ślad; zmienione punkty oznaczone omm:zmiana (1 przesunięty, 2 dodany)
+    if (diag && t.ed && Array.isArray(t.ed.pts) && t.ed.pts.length > 1) {
+      const es = new Set(t.ed.sg || []);
+      s +=
+        '<trk><name>' +
+        esc(t.nm + ' – ' + _t('poprawka (wskazówka dla OMM)')) +
+        '</name><type>omm-poprawka</type>\n<extensions><omm:poprawka_dla>' +
+        esc(t.id) +
+        '</omm:poprawka_dla></extensions>\n<trkseg>\n';
+      t.ed.pts.forEach((q, i) => {
+        if (i && es.has(i)) s += '</trkseg>\n<trkseg>\n';
+        s +=
+          '<trkpt lat="' +
+          q[0] +
+          '" lon="' +
+          q[1] +
+          '">' +
+          (q[2] != null ? '<ele>' + q[2] + '</ele>' : '') +
+          tm(t, q[3]) +
+          (q[5] ? '<extensions><omm:zmiana>' + q[5] + '</omm:zmiana></extensions>' : '') +
+          '</trkpt>\n';
+      });
+      s += '</trkseg>\n</trk>\n';
+    }
     // v66: tryb diagnostyczny – surowe pomiary GPS jako osobny ślad (inne programy pokażą go jak zwykły ślad)
     if (diag && Array.isArray(t.dg) && t.dg.length) {
       s +=
@@ -25655,7 +25820,8 @@ async function recKmSay(dist, tsec, s) {
   if (recAnnForm('dzw')) chime();
   if (recAnnForm('pow')) {
     const LN = plug('LocalNotifications');
-    if (LN) LN.schedule({notifications: [{id: 4100 + ((dist || tsec || 0) % 50), title, body, isExactNotification: false}]}).catch(() => {});
+    // v77: jedno powiadomienie z ostatnim komunikatem (nowy zastępuje poprzedni), po zakończeniu nagrywania znika
+    if (LN) LN.schedule({notifications: [{id: 4100, title, body, isExactNotification: false}]}).catch(() => {});
     else toastMsg(title + ' · ' + body);
   }
   if (!recAnnForm('glos')) return;
@@ -26528,6 +26694,9 @@ function recDropCar() {
 }
 function recClear(keepRaw) {
   recWatchOff();
+  try {
+    notifyCancel(NOTE_REC); // v77: komunikaty „co kilometr” po zakończeniu nagrywania znikają
+  } catch (e) {}
   if (REC) {
     const id = REC.id;
     if (!keepRaw) rawDrop(id); // nagranie bez zapisu – surowe pomiary też znikają
@@ -27013,49 +27182,57 @@ try {
   new ResizeObserver(setH).observe(tb);
   setH();
 } catch (e) {}
-// --- v76: własny układ przycisków: Mapa, Szukaj, Moja pozycja, Warstwy, Kompas – w dowolnym rogu ekranu ---
-// Stos w rogu ustępuje temu, co się tam rozsuwa: na dole po prawej – paskowi narzędzi, u góry – nagrywaniu,
-// prowadzeniu, planowaniu, podpowiedziom. Kolejność na liście = od góry do dołu.
-const BL_KEY = 'omm-uklad',
+// --- v77: własny układ przycisków – dowolne pole siatki (wielkość przycisku), ustawiane palcem na mapie ---
+// Miejsce = pole siatki liczone od najbliższej krawędzi poziomej (l/r) i pionowej (t/b), więc przy innym ekranie
+// albo obróceniu telefonu przycisk zostaje w tym samym miejscu względem krawędzi. Przycisk, który wpadłby na to,
+// co się rozsuwa (pasek narzędzi, nagrywanie, paski prowadzenia i planowania, podpowiedzi), odsuwa się od krawędzi.
+const BL_KEY = 'omm-uklad2',
+  BL_G = 48, // pole siatki: przycisk 40 px + odstęp
   BL_IDS = ['bbtn', 'srchb', 'gps', 'compb', 'lbtn'],
-  BL_DEF = [
-    ['bbtn', 'br'],
-    ['srchb', 'br'],
-    ['gps', 'br'],
-    ['compb', 'bl'],
-    ['lbtn', 'bl']
-  ];
+  BL_DEF = {gps: {h: 'r', v: 'b', x: 0, y: 0}, srchb: {h: 'r', v: 'b', x: 0, y: 1}, bbtn: {h: 'r', v: 'b', x: 0, y: 2}, lbtn: {h: 'l', v: 'b', x: 0, y: 0}, compb: {h: 'l', v: 'b', x: 0, y: 1}};
+localStorage.removeItem('omm-uklad'); // układ „rogi” z v76
 const blName = id => ({bbtn: _t('Mapa (podkład)'), srchb: _t('Szukaj'), gps: _t('Moja pozycja'), compb: _t('Kompas'), lbtn: _t('Warstwy')})[id];
 function blGet() {
-  let a;
+  let a = null;
   try {
     a = JSON.parse(localStorage.getItem(BL_KEY) || 'null');
   } catch (e) {}
-  if (!Array.isArray(a)) return BL_DEF.map(x => x.slice());
-  a = a.filter(x => Array.isArray(x) && BL_IDS.includes(x[0]) && ['tl', 'tr', 'bl', 'br'].includes(x[1]));
-  BL_IDS.forEach(id => !a.some(x => x[0] === id) && a.push(BL_DEF.find(x => x[0] === id).slice()));
-  return a;
+  const o = {};
+  BL_IDS.forEach(id => {
+    const c = a && a[id];
+    o[id] =
+      c && ['l', 'r'].includes(c.h) && ['t', 'b'].includes(c.v) && c.x >= 0 && c.y >= 0 && c.x < 40 && c.y < 60
+        ? {h: c.h, v: c.v, x: Math.round(c.x), y: Math.round(c.y)}
+        : {...BL_DEF[id]};
+  });
+  return o;
 }
-function blSet(a) {
-  if (a) localStorage.setItem(BL_KEY, JSON.stringify(a));
+function blSet(o) {
+  if (o) localStorage.setItem(BL_KEY, JSON.stringify(o));
   else localStorage.removeItem(BL_KEY);
   btnLayout();
 }
 const blVis = el => el && el.offsetParent !== null && getComputedStyle(el).visibility !== 'hidden';
-function blEdge(top, right) {
-  // granica zajętego miejsca w kolumnie przy krawędzi (60 px): u góry – najniższy dół, na dole – najwyższa góra
-  const W = innerWidth,
-    H = innerHeight,
-    sel = top ? '#recb, #reccap, #recpill, .navbar, #plntop, #plnhint, #info, #wm, #recpan, #sportb, #mname' : '#tools, #fin';
-  let v = top ? 0 : H;
-  document.querySelectorAll(sel).forEach(el => {
+function blObstacles() {
+  // prostokąty tego, co się rozsuwa albo stoi na stałe przy krawędziach
+  const out = [];
+  document.querySelectorAll('#tools, #fin, #recb, #reccap, #recpill, .navbar, #plntop, #plnhint, #info, #recpan, #sportb, #wm').forEach(el => {
     if (!blVis(el) || (el.id === 'recpill' && document.body.classList.contains('recfold'))) return;
     const r = el.getBoundingClientRect();
-    if (!r.height || (right ? r.right < W - 60 : r.left > 60)) return;
-    if (top ? r.top > H / 2 : r.bottom < H / 2) return;
-    v = top ? Math.max(v, r.bottom) : Math.min(v, r.top);
+    if (r.width && r.height) out.push({l: r.left - 4, t: r.top - 4, r: r.right + 4, b: r.bottom + 4});
   });
-  return v;
+  return out;
+}
+const blHit = (a, b) => !(a.r <= b.l || b.r <= a.l || a.b <= b.t || b.b <= a.t);
+function blPos(c, sz) {
+  // pole siatki → prostokąt na ekranie (px)
+  const W = innerWidth,
+    H = innerHeight,
+    w = sz || 40,
+    sa = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sa')) || 0,
+    l = c.h === 'l' ? 8 + c.x * BL_G : W - 9 - w - c.x * BL_G,
+    t = c.v === 't' ? 8 + c.y * BL_G : H - 22 - sa - w - c.y * BL_G;
+  return {l, t, r: l + w, b: t + w};
 }
 var BLT = null;
 function btnLayoutSoon() {
@@ -27063,37 +27240,37 @@ function btnLayoutSoon() {
   BLT = setTimeout(btnLayout, 30);
 }
 function btnLayout() {
+  if (document.body.classList.contains('bledit')) return; // w trybie układania przyciski stoją tam, gdzie je kładziesz
   const pl = document.body.classList.contains('planon'),
-    A = blGet(),
-    H = innerHeight;
+    A = blGet();
   BL_IDS.forEach(id => {
     const el = $(id);
     if (el) el.style.top = el.style.bottom = el.style.left = el.style.right = '';
   });
   if (pl) return; // planowanie ma własny układ (podkład i pozycja pod paskiem planera)
-  ['tl', 'tr', 'bl', 'br'].forEach(c => {
-    const top = c[0] === 't',
-      right = c[1] === 'r',
-      list = A.filter(x => x[1] === c)
-        .map(x => $(x[0]))
-        .filter(el => el && getComputedStyle(el).display !== 'none');
-    if (!list.length) return;
-    const edge = blEdge(top, right);
-    let off = top ? Math.max(edge + 10, 8) : c === 'br' ? Math.max(H - edge + 14, 22) : Math.max(H - edge + 14, 22);
-    (top ? list : list.slice().reverse()).forEach(el => {
-      const h0 = el.offsetHeight || 40;
-      el.style[right ? 'right' : 'left'] = (right ? 9 : 8) + 'px';
-      el.style[right ? 'left' : 'right'] = 'auto';
-      if (top) {
-        el.style.top = off + 'px';
-        el.style.bottom = 'auto';
-      } else {
-        el.style.bottom = off + 'px';
-        el.style.top = 'auto';
+  const obs = blObstacles(),
+    H = innerHeight;
+  // kolejność: najbliżej krawędzi pionowej najpierw – odsuwane przyciski układają się w stos
+  BL_IDS.filter(id => $(id) && getComputedStyle($(id)).display !== 'none')
+    .sort((a, b) => A[a].y - A[b].y)
+    .forEach(id => {
+      const el = $(id),
+        c = A[id],
+        w = el.offsetWidth || 40;
+      let r = blPos(c, w);
+      for (let k = 0; k < 40; k++) {
+        const o = obs.find(x => blHit(r, x));
+        if (!o) break;
+        const d = c.v === 't' ? o.b - r.t + 6 : -(r.b - o.t + 6); // odsuwamy od krawędzi, przy której stoi
+        r = {...r, t: r.t + d, b: r.b + d};
+        if (r.t < 0 || r.b > H) break;
       }
-      off += h0 + 10;
+      el.style.left = r.l + 'px';
+      el.style.right = 'auto';
+      el.style.top = r.t + 'px';
+      el.style.bottom = 'auto';
+      obs.push({l: r.l - 4, t: r.t - 4, r: r.r + 4, b: r.b + 4});
     });
-  });
 }
 try {
   new MutationObserver(() => {
@@ -27104,6 +27281,153 @@ try {
   addEventListener('resize', btnLayoutSoon);
 } catch (e) {}
 setTimeout(btnLayout, 0);
+// tryb układania: Ustawienia → Wygląd → „Ustaw przyciski na ekranie”; przeciągasz palcem, przycisk wskakuje w pole siatki
+function blEdit(back) {
+  if (document.body.classList.contains('bledit')) return;
+  map.closePopup();
+  closePops && closePops();
+  btnLayout(); // aktualne miejsca – od nich zaczynasz przestawianie
+  document.body.classList.add('bledit');
+  const start = blGet(),
+    A = blGet(),
+    ov = h('div', 'bled-ov'),
+    cv = h('canvas', 'bled-grid'),
+    bar = h('div', 'bled-bar'),
+    hl = h('div', 'bled-cell'),
+    W = innerWidth,
+    H = innerHeight,
+    dpr = devicePixelRatio || 1;
+  cv.width = W * dpr;
+  cv.height = H * dpr;
+  const draw = () => {
+    // siatka: pola od krawędzi – lewa / prawa połowa i górna / dolna połowa ekranu
+    const cx = cv.getContext('2d');
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx.clearRect(0, 0, W, H);
+    cx.strokeStyle = 'rgba(26,115,232,.2)';
+    cx.lineWidth = 1;
+    for (const hh of ['l', 'r'])
+      for (const vv of ['t', 'b'])
+        for (let x = 0; ; x++) {
+          const r0 = blPos({h: hh, v: vv, x, y: 0});
+          if ((hh === 'l' && r0.r > W / 2) || (hh === 'r' && r0.l < W / 2)) break;
+          for (let y = 0; ; y++) {
+            const r = blPos({h: hh, v: vv, x, y});
+            if ((vv === 't' && r.b > H / 2) || (vv === 'b' && r.t < H / 2)) break;
+            cx.strokeRect(r.l + 0.5, r.t + 0.5, 39, 39);
+          }
+        }
+    // to, co się rozsuwa: pasek narzędzi (w górę) i nagrywanie (w dół) – przyciski stąd będą się odsuwać
+    cx.fillStyle = 'rgba(229,57,53,.10)';
+    const tb = $('tools').getBoundingClientRect(),
+      rb = $('recb').getBoundingClientRect();
+    cx.fillRect(tb.left - 4, tb.top - 180, tb.width + 8, tb.height + 184);
+    cx.fillRect(rb.left - 4, rb.top - 4, rb.width + 8, 220);
+  };
+  draw();
+  const place = only =>
+    // przyciski zostają tam, gdzie stoją teraz na ekranie; przesuwa się tylko kładziony (albo wszystkie przy „Domyślny”)
+    BL_IDS.forEach(id => {
+      if (only && id !== only) return;
+      const el = $(id),
+        r = blPos(A[id], 40);
+      Object.assign(el.style, {left: r.l + 'px', top: r.t + 'px', right: 'auto', bottom: 'auto'});
+    });
+  const cellAt = (x, y) => {
+    const c = {h: x < W / 2 ? 'l' : 'r', v: y < H / 2 ? 't' : 'b'};
+    c.x = Math.max(0, Math.round(c.h === 'l' ? (x - 28) / BL_G : (W - 29 - x) / BL_G));
+    c.y = Math.max(0, Math.round(c.v === 't' ? (y - 28) / BL_G : (H - 42 - y) / BL_G));
+    return c;
+  };
+  const same = (a, b) => {
+    const p = blPos(a),
+      q = blPos(b);
+    return Math.abs(p.l - q.l) < 20 && Math.abs(p.t - q.t) < 20;
+  };
+  const free = (c, me) => {
+    // najbliższe wolne pole (pole zajęte przez inny przycisk – sąsiednie)
+    const busy = x => BL_IDS.some(id => id !== me && same(A[id], x));
+    if (!busy(c)) return c;
+    for (let d = 1; d < 8; d++)
+      for (let dx = -d; dx <= d; dx++)
+        for (let dy = -d; dy <= d; dy++) {
+          if (Math.max(Math.abs(dx), Math.abs(dy)) !== d) continue;
+          const n = {...c, x: c.x + dx, y: c.y + dy};
+          if (n.x >= 0 && n.y >= 0 && !busy(n)) return n;
+        }
+    return c;
+  };
+  const drags = [];
+  BL_IDS.forEach(id => {
+    const el = $(id);
+    const down = e => {
+      e.preventDefault();
+      e.stopPropagation();
+      const r0 = el.getBoundingClientRect(),
+        ox = e.clientX - r0.left,
+        oy = e.clientY - r0.top;
+      el.classList.add('bldrag');
+      el.setPointerCapture && el.setPointerCapture(e.pointerId);
+      const mv = ev => {
+          const x = ev.clientX - ox,
+            y = ev.clientY - oy;
+          Object.assign(el.style, {left: x + 'px', top: y + 'px'});
+          const c = free(cellAt(x + 20, y + 20), id),
+            r = blPos(c);
+          Object.assign(hl.style, {display: 'block', left: r.l + 'px', top: r.t + 'px'});
+        },
+        up = ev => {
+          el.removeEventListener('pointermove', mv);
+          el.removeEventListener('pointerup', up);
+          el.removeEventListener('pointercancel', up);
+          el.classList.remove('bldrag');
+          hl.style.display = 'none';
+          const r = el.getBoundingClientRect();
+          A[id] = free(cellAt(r.left + 20, r.top + 20), id);
+          vibe(15);
+          place(id);
+        };
+      el.addEventListener('pointermove', mv);
+      el.addEventListener('pointerup', up);
+      el.addEventListener('pointercancel', up);
+    };
+    const eat = e => {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+    };
+    el.addEventListener('pointerdown', down, true);
+    el.addEventListener('click', eat, true);
+    drags.push([el, down, eat]);
+  });
+  const fin = ok => {
+    drags.forEach(([el, down, eat]) => {
+      el.removeEventListener('pointerdown', down, true);
+      el.removeEventListener('click', eat, true);
+    });
+    ov.remove();
+    cv.remove();
+    bar.remove();
+    hl.remove();
+    document.body.classList.remove('bledit');
+    blSet(ok ? A : start === null ? null : start);
+    if (ok) toastMsg(_t('Zapisano układ przycisków'));
+    if (back) back();
+  };
+  bar.append(h('b', null, _t('Przeciągnij przyciski')), h('div', 'muted', _t('Czerwone pasy – tu rozsuwają się narzędzia i nagrywanie; przycisk stąd się odsunie.')));
+  const bt = h('div', 'db');
+  bt.append(
+    B(_t('Anuluj'), () => fin(false)),
+    B(_t('Domyślny'), () => {
+      BL_IDS.forEach(id => (A[id] = {...BL_DEF[id]}));
+      place();
+    }),
+    B(_t('Zatwierdź'), () => fin(true), 'okb')
+  );
+  bar.append(bt);
+  document.body.append(ov, cv, hl, bar);
+  // kompas zwykle ukryty (pokazuje się przy obróconej mapie) – w trybie układania stoi w swoim polu
+  if (getComputedStyle($('compb')).display === 'none' || !$('compb').style.left) place('compb');
+}
 $('recb').onclick = () => {
   // REC: start (w trakcie nagrywania przycisk jest kapsułą z okrągłym „stop”)
   if (!REC) recStart();
@@ -30886,7 +31210,24 @@ function extStart(t, kind, gi) {
     rb.title = _t('Układa linię wzdłuż dróg i ścieżek (wysyła współrzędne do routing.openstreetmap.de)');
   };
   bt.append(
-    BI('check', _t('Gotowe'), () => extFinish(t, kind, gi, taps, route), 'okb'),
+    BI(
+      'check',
+      _t('Gotowe'),
+      async ev => {
+        // v77: jedno zakończenie naraz – w czasie układania po ścieżkach i pobierania wysokości kolejne dotknięcia nic nie robią
+        if (EXT && EXT.busy) return;
+        const b = ev && ev.currentTarget;
+        if (EXT) EXT.busy = true;
+        if (b) b.disabled = true;
+        try {
+          await extFinish(t, kind, gi, taps, route);
+        } finally {
+          if (EXT) EXT.busy = false;
+          if (b) b.disabled = false;
+        }
+      },
+      'okb'
+    ),
     BI('back', _t('Cofnij'), () => {
       taps.pop();
       show();
@@ -30901,6 +31242,264 @@ function extStart(t, kind, gi) {
   map.fitBounds(L.latLngBounds(P.map(q => [q[0], q[1]])), {paddingTopLeft: [40, 40], paddingBottomRight: [40, 220], maxZoom: 16});
   map.on('click', EXT.click);
   show();
+}
+// ---------- v77: poprawka śladu – wskazówka dla OMM (oryginał zostaje bez zmian) ----------
+/*
+ * Na kopii punktów śladu: przeciągnij kropkę (nowe miejsce), przeciągnij półprzezroczystą kropkę między punktami
+ * (nowy punkt), dotknij kropki – usuń, usuń zakres „od – do”, podziel / połącz, dorysuj od początku albo końca.
+ * Zmienione punkty są oznaczone. Wynik: t.ed = {pts: [szer, dł, wys, s, dorys, zmiana 1=przesunięty 2=dodany], sg, at}.
+ * Na mapie i w statystykach jest dalej oryginał; poprawka trafia do eksportu GPX jako osobny ślad – materiał do
+ * dopracowania sposobu liczenia śladów.
+ */
+var TED = null;
+function trkEdit(t) {
+  if (t.noTime && t.pts.length < 2) return;
+  extStop();
+  tedStop();
+  map.closePopup();
+  closePops();
+  $('sheet').style.display = 'none';
+  const src = t.ed && Array.isArray(t.ed.pts) && t.ed.pts.length > 1 ? t.ed : {pts: t.pts, sg: t.sg || []};
+  const E = {
+    t,
+    pts: src.pts.map(q => [q[0], q[1], q[2] == null ? null : q[2], q[3], q[4] || 0, q[5] || 0]),
+    sg: new Set(src.sg || []),
+    hist: [],
+    fut: [],
+    from: null, // początek zakresu do usunięcia
+    add: null, // 'start' | 'end' – dorysowywanie dotknięciami mapy
+    g: L.layerGroup().addTo(map),
+    ui: h('div', 'splitbar tedbar'),
+    txt: h('div', 'stx')
+  };
+  TED = E;
+  document.body.classList.add('spliton');
+  const snap = () => {
+    E.hist.push(JSON.stringify({p: E.pts, s: [...E.sg]}));
+    if (E.hist.length > 80) E.hist.shift();
+    E.fut = [];
+  };
+  const restore = j => {
+    const o = JSON.parse(j);
+    E.pts = o.p;
+    E.sg = new Set(o.s);
+  };
+  E.snap = snap;
+  const shift = (i, d) => {
+    // wstawienie / usunięcie punktu przesuwa numery przerw
+    E.sg = new Set([...E.sg].map(k => (k > i ? k + d : k)).filter(k => k > 0 && k < E.pts.length));
+  };
+  const tInt = (a, b) => (a && b ? Math.round((a[3] + b[3]) / 2) : a ? a[3] : b ? b[3] : 0);
+  const dotIc = (cls, sz) => L.divIcon({className: 'tedd ' + cls, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2]});
+  const draw = () => {
+    E.g.clearLayers();
+    L.polyline(
+      t.pts.map(q => [q[0], q[1]]),
+      {pane: 'tmpP', color: '#5f6368', weight: 3, opacity: 0.55, dashArray: '4 6', interactive: false}
+    ).addTo(E.g);
+    // linia poprawki – w kawałkach (przerwy)
+    let seg = [];
+    E.pts.forEach((q, i) => {
+      if (i && E.sg.has(i)) {
+        if (seg.length > 1) L.polyline(seg, {pane: 'tmpP', color: '#ef7d1a', weight: 4, interactive: false}).addTo(E.g);
+        seg = [];
+      }
+      seg.push([q[0], q[1]]);
+    });
+    if (seg.length > 1) L.polyline(seg, {pane: 'tmpP', color: '#ef7d1a', weight: 4, interactive: false}).addTo(E.g);
+    // kropki między punktami – przeciągnięcie dodaje punkt
+    E.pts.forEach((q, i) => {
+      if (!i || E.sg.has(i)) return;
+      const a = E.pts[i - 1],
+        m = L.marker([(a[0] + q[0]) / 2, (a[1] + q[1]) / 2], {icon: dotIc('mid', 14), draggable: true, zIndexOffset: 500}).addTo(E.g);
+      m.on('dragend', ev => {
+        snap();
+        const ll = ev.target.getLatLng();
+        E.pts.splice(i, 0, [+ll.lat.toFixed(6), +ll.lng.toFixed(6), null, tInt(a, q), 0, 2]);
+        shift(i - 1, 1);
+        draw();
+      });
+    });
+    E.pts.forEach((q, i) => {
+      const cls = (q[5] ? 'ch' : '') + (E.from === i ? ' fr' : '') + (E.sg.has(i) ? ' br' : ''),
+        m = L.marker([q[0], q[1]], {icon: dotIc('pt ' + cls, 18), draggable: true, zIndexOffset: 1000}).addTo(E.g);
+      m.on('dragend', ev => {
+        snap();
+        const ll = ev.target.getLatLng();
+        q[0] = +ll.lat.toFixed(6);
+        q[1] = +ll.lng.toFixed(6);
+        q[5] = q[5] === 2 ? 2 : 1;
+        draw();
+      });
+      m.on('click', ev => {
+        L.DomEvent.stop(ev);
+        if (E.from != null) return tedRange(i);
+        tedMenu(i);
+      });
+    });
+    E.txt.innerHTML = '';
+    const ch = E.pts.filter(q => q[5]).length;
+    E.txt.append(
+      h('b', null, _t('Popraw ślad – wskazówka dla OMM')),
+      h(
+        'div',
+        null,
+        E.add
+          ? _t('Dotykaj mapy – kolejne punkty ') + (E.add === 'start' ? _t('przed początkiem.') : _t('za końcem.')) + _t(' „Gotowe dorysowywanie” kończy.')
+          : E.from != null
+            ? _t('Dotknij drugiego końca zakresu do usunięcia.')
+            : _t('Przeciągnij kropkę – nowe miejsce. Przeciągnij małą kropkę między punktami – nowy punkt. Dotknij kropki – menu.')
+      ),
+      h('div', 'muted', _t('Punktów: ') + E.pts.length + _t(' · zmienionych: ') + ch + _t(' · oryginał (szary) zostaje bez zmian'))
+    );
+    E.bU.disabled = !E.hist.length;
+    E.bR.disabled = !E.fut.length;
+    E.bA.style.display = E.add || E.from != null ? '' : 'none';
+  };
+  E.draw = draw;
+  E.bU = BI('back', _t('Cofnij'), () => {
+    if (!E.hist.length) return;
+    E.fut.push(JSON.stringify({p: E.pts, s: [...E.sg]}));
+    restore(E.hist.pop());
+    draw();
+  });
+  E.bR = BI('redo', _t('Ponów'), () => {
+    if (!E.fut.length) return;
+    E.hist.push(JSON.stringify({p: E.pts, s: [...E.sg]}));
+    restore(E.fut.pop());
+    draw();
+  });
+  E.bA = B(_t('Gotowe dorysowywanie'), () => {
+    E.add = null;
+    E.from = null;
+    draw();
+  });
+  const bt = h('div', 'sbt');
+  bt.append(
+    E.bU,
+    E.bR,
+    E.bA,
+    ...(t.ed
+      ? [
+          B(
+            _t('Usuń poprawkę'),
+            async () => {
+              if (!(await askYes(_t('Usunąć zapisaną poprawkę tego śladu? Oryginał zostaje.'), _t('Usuń'), true))) return;
+              delete t.ed;
+              tedStop();
+              trkChanged();
+            },
+            'danger'
+          )
+        ]
+      : []),
+    B(_t('Anuluj'), tedStop),
+    BI(
+      'check',
+      _t('Zapisz poprawkę'),
+      () => {
+        t.ed = {pts: E.pts.map(q => q.slice()), sg: [...E.sg].filter(k => k > 0 && k < E.pts.length), at: Date.now()};
+        tedStop();
+        trkChanged();
+        toastMsg(_t('Zapisano poprawkę – oryginał bez zmian; poprawka trafia do pliku GPX ze śladem'));
+      },
+      'okb'
+    )
+  );
+  E.ui.append(E.txt, bt);
+  document.body.append(E.ui);
+  E.click = ev => {
+    if (!E.add) return;
+    snap();
+    const ll = ev.latlng,
+      q = E.add === 'end' ? E.pts[E.pts.length - 1] : E.pts[0],
+      dt = Math.round(hav(q, [ll.lat, ll.lng]) / 1.25),
+      np = [+ll.lat.toFixed(6), +ll.lng.toFixed(6), null, E.add === 'end' ? q[3] + dt : Math.max(0, q[3] - dt), 1, 2];
+    if (E.add === 'end') E.pts.push(np);
+    else {
+      E.pts.unshift(np);
+      shift(-1, 1);
+    }
+    draw();
+  };
+  map.on('click', E.click);
+  map.fitBounds(L.latLngBounds(E.pts.map(q => [q[0], q[1]])), {paddingTopLeft: [30, 30], paddingBottomRight: [30, 200], maxZoom: 18});
+  draw();
+}
+function tedMenu(i) {
+  const E = TED;
+  if (!E) return;
+  const q = E.pts[i],
+    el = h('div', 'tpop'),
+    bt = h('div', 'tbt'),
+    go = fn => () => {
+      map.closePopup();
+      fn();
+      E.draw();
+    };
+  el.append(h('b', null, _t('Punkt ') + (i + 1) + ' / ' + E.pts.length), h('div', 'tsub', E.t.noTime ? '' : fhm(E.t.st + q[3] * 1000)));
+  bt.append(
+    BI(
+      'del',
+      _t('Usuń punkt'),
+      go(() => {
+        if (E.pts.length <= 2) return;
+        E.snap();
+        E.pts.splice(i, 1);
+        E.sg = new Set([...E.sg].map(k => (k > i ? k - 1 : k)).filter(k => k > 0 && k < E.pts.length));
+      })
+    ),
+    BI(
+      'del',
+      _t('Usuń zakres od tego…'),
+      go(() => (E.from = i))
+    ),
+    E.sg.has(i)
+      ? BI(
+          'join',
+          _t('Połącz przerwę'),
+          go(() => {
+            E.snap();
+            E.sg.delete(i);
+          })
+        )
+      : i > 0 && i < E.pts.length - 1
+        ? BI(
+            'split',
+            _t('Podziel tutaj'),
+            go(() => {
+              E.snap();
+              E.sg.add(i);
+            })
+          )
+        : h('span'),
+    ...(i === 0 || i === E.pts.length - 1 ? [BI('extend', _t('Dorysuj stąd'), go(() => (E.add = i === 0 ? 'start' : 'end')))] : [])
+  );
+  el.append(bt);
+  L.popup({autoPanPaddingTopLeft: [10, 60]}).setLatLng([q[0], q[1]]).setContent(el).openOn(map);
+}
+function tedRange(j) {
+  const E = TED,
+    a = Math.min(E.from, j),
+    b = Math.max(E.from, j);
+  E.from = null;
+  if (b - a + 1 >= E.pts.length - 1) {
+    E.draw();
+    return tell(_t('Zostaw w śladzie co najmniej dwa punkty.'));
+  }
+  E.snap();
+  E.pts.splice(a, b - a + 1);
+  E.sg = new Set([...E.sg].map(k => (k > b ? k - (b - a + 1) : k)).filter(k => k > 0 && k < E.pts.length));
+  E.draw();
+}
+function tedStop() {
+  if (!TED) return;
+  map.off('click', TED.click);
+  TED.g.remove();
+  TED.ui.remove();
+  TED = null;
+  map.closePopup();
+  document.body.classList.remove('spliton');
 }
 function extStop() {
   if (!EXT) return;
@@ -31358,7 +31957,24 @@ function stopFind(t) {
       for (let k = i; k <= j; k++) (a += P[k][0]), (b += P[k][1]);
       return [a / (j - i + 1), b / (j - i + 1)];
     },
-    raw = [];
+    raw = [],
+    seg = k => {
+      // odcinek k→k+1: [długość m, prędkość m/s, kierunek °]
+      const d = hav(P[k], P[k + 1]),
+        dt = P[k + 1][3] - P[k][3];
+      return [d, dt > 0 ? d / dt : 0, brgDeg(P[k], P[k + 1])];
+    },
+    turn = (x, y) => Math.abs(((x - y + 540) % 360) - 180),
+    moving = k => {
+      // v77: ruch kierunkowy – tempo co najmniej spacerowe i ten sam kierunek co odcinek obok (GPS w budynku skacze na boki)
+      if (k < 0 || k >= n - 1) return false;
+      const [d, v, b] = seg(k);
+      if (d < 3 || v < 0.5) return false;
+      if (d >= 15 && v >= 0.7) return true; // dłuższy odcinek w tempie marszu – na pewno ruch
+      const nx = k + 1 < n - 1 ? seg(k + 1) : null,
+        pv = k > 0 ? seg(k - 1) : null;
+      return (nx && nx[0] >= 3 && nx[1] >= 0.6 && turn(b, nx[2]) < 60) || (pv && pv[0] >= 3 && pv[1] >= 0.6 && turn(b, pv[2]) < 60);
+    };
   if (t.noTime || n < 5) return [];
   for (let i = 0; i < n; ) {
     let j = i;
@@ -31369,11 +31985,16 @@ function stopFind(t) {
       if (!ok) break;
       j++;
     }
-    if (j - i >= 3 && P[j][3] - P[i][3] >= STOP_MIN) {
+    // v77: marsz na wejściu i wyjściu (ruch w jednym kierunku) nie należy do postoju – np. dojście do budynku
+    let a = i,
+      b = j;
+    while (a < b && moving(a)) a++;
+    while (b > a && moving(b - 1)) b--;
+    if (b - a >= 3 && P[b][3] - P[a][3] >= STOP_MIN) {
       const L = raw[raw.length - 1];
       // sąsiednie postoje w tym samym miejscu (np. GPS „wyskoczył” na chwilę) – jeden postój
-      if (L && i - L[1] <= 8 && hav(cen(L[0], L[1]), cen(i, j)) <= STOP_R) L[1] = j;
-      else raw.push([i, j]);
+      if (L && a - L[1] <= 8 && hav(cen(L[0], L[1]), cen(a, b)) <= STOP_R) L[1] = b;
+      else raw.push([a, b]);
       i = j + 1;
     } else i++;
   }
@@ -31382,8 +32003,8 @@ function stopFind(t) {
   const ext = [];
   raw.forEach(([i, j]) => {
     const c = cen(i, j);
-    while (i > 0 && hav(P[i - 1], c) <= STOP_R) i--;
-    while (j < n - 1 && hav(P[j + 1], c) <= STOP_R) j++;
+    while (i > 0 && hav(P[i - 1], c) <= STOP_R && !moving(i - 1)) i--; // v77: bez marszu przed postojem
+    while (j < n - 1 && hav(P[j + 1], c) <= STOP_R && !moving(j)) j++;
     const L = ext[ext.length - 1];
     if (L && i <= L[1] + 1) L[1] = Math.max(L[1], j);
     else ext.push([i, j]);
@@ -31432,7 +32053,8 @@ function stopApply(t, S, cut) {
       out.push(P[k]);
     }
     if (sg.has(s.i) && out.length) nsg.push(out.length);
-    out.push([s.c[0], s.c[1], P[s.i][2], P[s.i][3]]);
+    // v77: ucięty koniec kończy się tam, gdzie faktycznie doszedłeś (nie w środku postoju)
+    out.push(cut && s.end ? P[s.i].slice(0, 4) : [s.c[0], s.c[1], P[s.i][2], P[s.i][3]]);
     if (!(cut && s.end)) {
       // czas postoju = pauza (linia zostaje ciągła, czas nie liczy się do „w ruchu”)
       pa.push([P[s.i][3], P[s.j][3]]);
@@ -32836,6 +33458,17 @@ const vibe = p => {
     if (navigator.vibrate) navigator.vibrate(p);
   } catch (e) {}
 };
+function notifyCancel(ids) {
+  // v77: powiadomienie, które przestało być aktualne, znika z paska
+  const LN = plug('LocalNotifications');
+  if (LN && ids.length) LN.cancel({notifications: ids.map(id => ({id}))}).catch(() => {});
+}
+const NOTE_REC = Array.from({length: 50}, (_, i) => 4100 + i),
+  NOTE_ALR = Array.from({length: 50}, (_, i) => 4300 + i);
+// po powrocie do OMM: alarmy przy miejscówkach i „zapamiętano auto” są już zobaczone – znikają z paska
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) notifyCancel([4201, ...NOTE_ALR]);
+});
 function notifyNow(id, title, body) {
   // powiadomienie systemowe (działa też przy wygaszonym ekranie, gdy trwa nagrywanie)
   const LN = plug('LocalNotifications');
@@ -32898,6 +33531,7 @@ function carExpire(quiet) {
   try {
     localStorage.removeItem(CAR_KEY);
   } catch (e) {}
+  notifyCancel([4201]);
   if (!quiet) carDraw();
 }
 // --- v74: stałe strefy parkowania (dom, praca) – tam OMM nie zapamiętuje miejsca auta ---
@@ -33048,6 +33682,7 @@ function czEdit(z, isNew, after) {
   czEd = {close};
 }
 function carSet(p, auto) {
+  if (!p) notifyCancel([4201]); // v77: auta już tam nie ma – powiadomienie znika
   CAR = p ? {p: [+(+p[0]).toFixed(6), +(+p[1]).toFixed(6)], t: Date.now(), ...(auto && REC ? {trk: REC.id} : {})} : null;
   try {
     if (CAR) localStorage.setItem(CAR_KEY, JSON.stringify(CAR));
@@ -34721,11 +35356,11 @@ function eatNextClick() {
   window.addEventListener('pointerup', up, true);
   setTimeout(off, 4000);
 }
-map.getContainer().addEventListener('contextmenu', e => !mode && e.preventDefault());
+map.getContainer().addEventListener('contextmenu', e => !mode && !TED && e.preventDefault());
 map.getContainer().addEventListener(
   'pointerdown',
   e => {
-    if (mode || PICKING || SPLIT || EXT || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    if (mode || PICKING || SPLIT || EXT || TED || (e.pointerType === 'mouse' && e.button !== 0)) return;
     if (MHOLD) return mapHoldCancel(); // drugi palec – przybliżanie albo obrót, nie przytrzymanie
     if (e.target.closest && e.target.closest('.leaflet-marker-icon, .leaflet-control, .leaflet-popup')) return;
     const r = map.getContainer().getBoundingClientRect(),
@@ -37160,67 +37795,19 @@ function settingsDlg(keep, old) {
   );
 
   {
-    // v76: układ przycisków – róg ekranu i kolejność, z podglądem
+    // v77: układ przycisków ustawiany palcem na mapie (dowolne pole siatki)
     const g = h('div', 'sset'),
-      pv = h('div', 'blpv'),
-      ls = h('div', 'blls'),
-      CN = {tl: '↖', tr: '↗', bl: '↙', br: '↘'},
-      icOf = id => {
-        const sv = $(id) && $(id).querySelector('svg');
-        return sv ? sv.outerHTML : ico(id === 'compb' ? 'compass' : 'map', 18);
-      };
-    const draw = () => {
-      const A = blGet();
-      pv.innerHTML = '';
-      ['tl', 'tr', 'bl', 'br'].forEach(c => {
-        const k = h('div', 'blc ' + c);
-        A.filter(x => x[1] === c).forEach(x => {
-          const d = h('span', 'bld');
-          d.innerHTML = icOf(x[0]);
-          k.append(d);
-        });
-        pv.append(k);
-      });
-      pv.append(h('div', 'blt'), h('div', 'blrec'));
-      ls.innerHTML = '';
-      A.forEach((x, i) => {
-        const r = h('div', 'blrow'),
-          ic = h('span', 'blic'),
-          sg = h('div', 'blseg');
-        ic.innerHTML = icOf(x[0]);
-        ['tl', 'tr', 'bl', 'br'].forEach(c => {
-          const b = B(CN[c], () => {
-            const a = blGet();
-            a[i][1] = c;
-            blSet(a);
-            draw();
-          }, x[1] === c ? 'on' : '');
-          b.title = c;
-          sg.append(b);
-        });
-        const mv = d => {
-          const a = blGet(),
-            j = i + d;
-          if (j < 0 || j >= a.length) return;
-          [a[i], a[j]] = [a[j], a[i]];
-          blSet(a);
-          draw();
-        };
-        const up = B('', () => mv(-1), 'blar'),
-          dn = B('', () => mv(1), 'blar');
-        up.innerHTML = ico('up', 16);
-        dn.innerHTML = ico('down', 16);
-        up.disabled = i === 0;
-        dn.disabled = i === A.length - 1;
-        r.append(ic, h('span', 'blnm', blName(x[0])), sg, up, dn);
-        ls.append(r);
-      });
-    };
-    draw();
-    g.append(h('b', null, _t('Układ przycisków')), pv, ls);
-    const rb = h('div', 'setop');
-    rb.append(B(_t('Przywróć domyślny'), () => (blSet(null), draw())));
-    g.append(rb, h('div', 'muted', _t('Wybierz róg ekranu dla każdego przycisku; strzałki zmieniają kolejność (od góry do dołu). Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej – paskowi narzędzi, u góry – nagrywaniu, prowadzeniu i planowaniu.')));
+      r = h('div', 'setop');
+    g.append(h('b', null, _t('Układ przycisków')));
+    r.append(
+      BI('move', _t('Ustaw przyciski na ekranie'), () => {
+        const top = body.scrollTop;
+        back.remove();
+        blEdit(() => settingsDlg({top}, null));
+      }),
+      B(_t('Przywróć domyślny'), () => (blSet(null), toastMsg(_t('Przywrócono domyślny układ przycisków'))))
+    );
+    g.append(r, h('div', 'muted', _t('Mapa, Szukaj, Moja pozycja, Warstwy i Kompas – przeciągasz je palcem w dowolne wolne pole siatki i zatwierdzasz. Przyciski ustępują miejsca temu, co się rozsuwa: paskowi narzędzi, nagrywaniu, paskom prowadzenia i planowania.')));
     sec.append(g);
   }
   {
