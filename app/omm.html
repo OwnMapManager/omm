@@ -4320,6 +4320,49 @@ html.recme .meic {
 .tedd.pt.br {
   border-color: #1b1b1b;
 }
+.tedd.pt.end {
+  background: #fff;
+  border: 4px solid #1a73e8;
+}
+.tedcut {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 50%;
+  color: #ef7d1a;
+  box-shadow: 0 1px 3px #0005;
+}
+.tedcut svg {
+  width: 14px;
+  height: 14px;
+}
+.tedbar .tedtools {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin: 8px 0 6px;
+}
+.tedbar .tedtools button {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--txt);
+  border-radius: 10px;
+  padding: 6px 4px;
+  font-size: 12.5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.tedbar .tedtools button.on {
+  background: var(--acc);
+  color: var(--bg);
+  border-color: var(--acc);
+}
+.tedbar .sbt {
+  flex-wrap: wrap;
+}
 .tedd.mid {
   background: rgba(239, 125, 26, 0.45);
   border: 2px solid rgba(255, 255, 255, 0.85);
@@ -9325,6 +9368,23 @@ const EN = {
   "Zwykły – dotknij, by pogrubić": "Regular – tap for bold",
   "ile mapy prześwituje": "how much map shows through",
   "🚗 Odjechano – usunięto miejsce auta": "🚗 Driven off – car location removed",
+  "Przesuń": "Move",
+  "Tnij": "Cut",
+  "Wytnij odcinek": "Cut out section",
+  "Dorysuj": "Draw",
+  "Połącz": "Join",
+  "Przeciągnij kropkę – nowe miejsce. Przeciągnij małą kropkę między punktami – nowy punkt.": "Drag a dot – new place. Drag a small dot between points – new point.",
+  "Dotykaj linii – każde dotknięcie to cięcie (✂). Możesz ciąć w wielu miejscach.": "Tap the line – every tap is a cut (✂). You can cut in many places.",
+  "Dotknij odcinka między cięciami – podświetli się; „Usuń odcinek” go wycina (zostaje przerwa).": "Tap a section between cuts – it is highlighted; “Delete section” cuts it out (a gap remains).",
+  "Dotknij wolnego końca (duża kropka), potem stawiaj punkty na mapie. Dotknięcie drugiego wolnego końca zamyka przerwę.": "Tap a free end (big dot), then place points on the map. Tapping the other free end closes the gap.",
+  "Dotknij przerwy albo cięcia – oba końce połączą się prostą.": "Tap a gap or a cut – both ends are joined with a straight line.",
+  "Dotknij kropki, by ją usunąć.": "Tap a dot to delete it.",
+  "Poprawka śladu (dla OMM)": "Track correction (for OMM)",
+  "Stawiaj punkty na mapie; dotknięcie drugiego wolnego końca zamyka przerwę. „Gotowe” kończy.": "Place points on the map; tapping the other free end closes the gap. “Done” finishes.",
+  " · kawałków: ": " · pieces: ",
+  " · oryginał (szary) bez zmian": " · original (grey) unchanged",
+  "Połączyć można tylko sąsiednie kawałki (koniec jednego z początkiem następnego).": "Only neighbouring pieces can be joined (the end of one with the start of the next).",
+  "Usuń odcinek": "Delete section",
   " · oryginał (szary) zostaje bez zmian": " · the original (grey) stays unchanged",
   " · zmienionych: ": " · changed: ",
   " „Gotowe dorysowywanie” kończy.": " “Done drawing” finishes.",
@@ -9716,7 +9776,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v77';
+const APP_VER = 'v78';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -19767,7 +19827,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. W okienku śladu ✎ <b>Popraw ślad</b> – wskazówka dla OMM: na kopii przeciągasz punkty, dodajesz je (małe kropki między punktami), usuwasz pojedynczo albo zakresem „od – do”, dzielisz, łączysz i dorysowujesz; na mapie zostaje oryginał, a poprawka z oznaczonymi zmianami trafia do pliku GPX ze śladem – to materiał do ulepszania liczenia śladów. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
@@ -19818,7 +19878,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. In the track popup ✎ <b>Correct the track</b> – a hint for OMM: on a copy you drag points, add them (small dots between points), delete them one by one or as a range “from – to”, split, join and draw on; the map keeps the original, and the correction with the changes marked goes into the GPX file with the track – material for improving how tracks are computed. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
@@ -23835,6 +23895,7 @@ function trkPopup(t, ll) {
   // w trybie cięcia dotknięcie śladu ustawia nożyczki (pas do otwierania okienka nie może tego przejąć)
   if (SPLIT) return SPLIT.click && SPLIT.click({containerPoint: map.latLngToContainerPoint(ll)});
   if (EXT) return EXT.click({latlng: ll}); // dorysowanie: dotknięcie śladu = kolejny punkt
+  if (TED) return; // poprawka śladu – dotknięcia obsługuje tryb poprawki
   if (mode === 'plan' && PLN) return planObjTap([ll.lat, ll.lng], t.nm || _t('Ślad')); // v72
   const s = trkStatsC(t),
     el = h('div', 'tpop');
@@ -23848,7 +23909,12 @@ function trkPopup(t, ll) {
   };
   // nazwa z ołówkiem obok
   const hd = h('div', 'tph');
-  hd.append(h('b', null, t.nm || _t('Ślad')), IB('edit', act(() => trkRename(t)), '', _t('Zmień nazwę')));
+  const nmEl = h('b', null, t.nm || _t('Ślad'));
+  tedHold(nmEl, () => {
+    map.closePopup();
+    trkEdit(t);
+  }); // v78: ukryte – przytrzymanie nazwy 5 s otwiera poprawkę śladu (wskazówka dla OMM)
+  hd.append(nmEl, IB('edit', act(() => trkRename(t)), '', _t('Zmień nazwę')));
   el.append(
     hd,
     h(
@@ -23913,7 +23979,6 @@ function trkPopup(t, ll) {
     ),
     IB('split', act(() => trkSplit(t)), '', _t('Podziel ślad')),
     IB('extend', act(() => trkExtend(t)), '', _t('Dorysuj brakujący kawałek (zapomniany REC, przerwa)')),
-    IB('edit', act(() => trkEdit(t)), t.ed ? 'on' : '', _t('Popraw ślad – wskazówka dla OMM (oryginał zostaje)')),
     IB('del', act(() => trkDelete(t)), 'danger', _t('Usuń ślad'))
   );
   el.append(bt, ib);
@@ -31252,8 +31317,30 @@ function extStart(t, kind, gi) {
  * dopracowania sposobu liczenia śladów.
  */
 var TED = null;
+function tedHold(el, fn) {
+  // przytrzymanie 5 s (bez ruszania palcem) – wibracja i wejście w poprawkę śladu
+  let tm = null,
+    x0 = 0,
+    y0 = 0;
+  const off = () => tm && (clearTimeout(tm), (tm = null));
+  el.addEventListener('pointerdown', e => {
+    x0 = e.clientX;
+    y0 = e.clientY;
+    off();
+    tm = setTimeout(() => {
+      tm = null;
+      vibe([40, 60, 40]);
+      eatNextClick();
+      fn();
+    }, 5000);
+  });
+  el.addEventListener('pointermove', e => Math.hypot(e.clientX - x0, e.clientY - y0) > 12 && off());
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(k => el.addEventListener(k, off));
+  el.addEventListener('contextmenu', e => e.preventDefault());
+  el.style.userSelect = 'none';
+}
 function trkEdit(t) {
-  if (t.noTime && t.pts.length < 2) return;
+  if (t.pts.length < 2) return;
   extStop();
   tedStop();
   map.closePopup();
@@ -31266,119 +31353,321 @@ function trkEdit(t) {
     sg: new Set(src.sg || []),
     hist: [],
     fut: [],
-    from: null, // początek zakresu do usunięcia
-    add: null, // 'start' | 'end' – dorysowywanie dotknięciami mapy
+    tool: 'move',
+    sel: null, // wybrany odcinek (do wycięcia)
+    from: null, // dorysowywanie: {i: indeks wolnego końca, end: true = koniec kawałka}
     g: L.layerGroup().addTo(map),
     ui: h('div', 'splitbar tedbar'),
-    txt: h('div', 'stx')
+    txt: h('div', 'stx'),
+    tb: h('div', 'tedtools'),
+    ex: h('div', 'sbt')
   };
   TED = E;
   document.body.classList.add('spliton');
+  const save = () => JSON.stringify({p: E.pts, s: [...E.sg]});
   const snap = () => {
-    E.hist.push(JSON.stringify({p: E.pts, s: [...E.sg]}));
-    if (E.hist.length > 80) E.hist.shift();
+    E.hist.push(save());
+    if (E.hist.length > 100) E.hist.shift();
     E.fut = [];
   };
   const restore = j => {
     const o = JSON.parse(j);
     E.pts = o.p;
     E.sg = new Set(o.s);
+    E.sel = E.from = null;
   };
-  E.snap = snap;
-  const shift = (i, d) => {
-    // wstawienie / usunięcie punktu przesuwa numery przerw
-    E.sg = new Set([...E.sg].map(k => (k > i ? k + d : k)).filter(k => k > 0 && k < E.pts.length));
+  const fixSg = () => (E.sg = new Set([...E.sg].filter(k => k > 0 && k < E.pts.length)));
+  // kawałki śladu: [od, do] (indeksy punktów), przerwy w E.sg = początek kolejnego kawałka
+  const pieces = () => {
+    const st = [0, ...[...E.sg].sort((a, b) => a - b)],
+      out = [];
+    st.forEach((a, k) => {
+      const b = (k + 1 < st.length ? st[k + 1] : E.pts.length) - 1;
+      if (b >= a) out.push([a, b]);
+    });
+    return out;
   };
-  const tInt = (a, b) => (a && b ? Math.round((a[3] + b[3]) / 2) : a ? a[3] : b ? b[3] : 0);
+  const pieceOf = i => pieces().find(([a, b]) => i >= a && i <= b);
+  const ins = (at, arr) => {
+    // wstawienie punktów przed indeksem at; przerwy dalej przesuwają się
+    E.pts.splice(at, 0, ...arr);
+    E.sg = new Set([...E.sg].map(k => (k > at ? k + arr.length : k)));
+  };
+  const del = (a, b) => {
+    // usunięcie punktów a..b; przerwy dalej cofają się, przerwa za usuniętym zostaje przerwą
+    const n = b - a + 1,
+      brk = E.sg.has(a) || E.sg.has(b + 1) || (a > 0 && b + 1 < E.pts.length);
+    E.pts.splice(a, n);
+    E.sg = new Set([...E.sg].filter(k => k < a || k > b + 1 || k === b + 1).map(k => (k > b ? k - n : k)));
+    if (brk && a > 0 && a < E.pts.length) E.sg.add(a);
+    fixSg();
+  };
+  const tMid = (a, b) => (a && b ? Math.round((a[3] + b[3]) / 2) : a ? a[3] : b ? b[3] : 0);
+  const pxd = (ll, q) => map.latLngToContainerPoint(ll).distanceTo(map.latLngToContainerPoint([q[0], q[1]]));
+  const nearSeg = cp => {
+    // najbliższy odcinek linii (w obrębie kawałka) do dotkniętego miejsca: {k, u, d}
+    let best = null;
+    pieces().forEach(([a, b]) => {
+      for (let k = a; k < b; k++) {
+        const A = map.latLngToContainerPoint([E.pts[k][0], E.pts[k][1]]),
+          B = map.latLngToContainerPoint([E.pts[k + 1][0], E.pts[k + 1][1]]),
+          dx = B.x - A.x,
+          dy = B.y - A.y,
+          L2 = dx * dx + dy * dy;
+        let u = L2 ? ((cp.x - A.x) * dx + (cp.y - A.y) * dy) / L2 : 0;
+        u = Math.max(0, Math.min(1, u));
+        const d = Math.hypot(cp.x - A.x - u * dx, cp.y - A.y - u * dy);
+        if (!best || d < best.d) best = {k, u, d};
+      }
+    });
+    return best;
+  };
+  const ends = () => {
+    // wolne końce kawałków: {i, end}
+    const out = [];
+    pieces().forEach(([a, b]) => {
+      out.push({i: a, end: false});
+      if (b !== a) out.push({i: b, end: true});
+    });
+    return out;
+  };
   const dotIc = (cls, sz) => L.divIcon({className: 'tedd ' + cls, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2]});
+  const TOOLS = [
+    ['move', 'move', _t('Przesuń')],
+    ['cut', 'split', _t('Tnij')],
+    ['cutout', 'del', _t('Wytnij odcinek')],
+    ['draw', 'extend', _t('Dorysuj')],
+    ['join', 'join', _t('Połącz')],
+    ['rm', 'x', _t('Usuń punkt')]
+  ];
+  const HELP = {
+    move: _t('Przeciągnij kropkę – nowe miejsce. Przeciągnij małą kropkę między punktami – nowy punkt.'),
+    cut: _t('Dotykaj linii – każde dotknięcie to cięcie (✂). Możesz ciąć w wielu miejscach.'),
+    cutout: _t('Dotknij odcinka między cięciami – podświetli się; „Usuń odcinek” go wycina (zostaje przerwa).'),
+    draw: _t('Dotknij wolnego końca (duża kropka), potem stawiaj punkty na mapie. Dotknięcie drugiego wolnego końca zamyka przerwę.'),
+    join: _t('Dotknij przerwy albo cięcia – oba końce połączą się prostą.'),
+    rm: _t('Dotknij kropki, by ją usunąć.')
+  };
   const draw = () => {
     E.g.clearLayers();
     L.polyline(
       t.pts.map(q => [q[0], q[1]]),
       {pane: 'tmpP', color: '#5f6368', weight: 3, opacity: 0.55, dashArray: '4 6', interactive: false}
     ).addTo(E.g);
-    // linia poprawki – w kawałkach (przerwy)
-    let seg = [];
-    E.pts.forEach((q, i) => {
-      if (i && E.sg.has(i)) {
-        if (seg.length > 1) L.polyline(seg, {pane: 'tmpP', color: '#ef7d1a', weight: 4, interactive: false}).addTo(E.g);
-        seg = [];
+    const P = pieces();
+    P.forEach(([a, b], pi) => {
+      const sel = E.sel === pi;
+      L.polyline(
+        E.pts.slice(a, b + 1).map(q => [q[0], q[1]]),
+        {pane: 'tmpP', color: sel ? '#d93025' : '#ef7d1a', weight: sel ? 7 : 4, interactive: false}
+      ).addTo(E.g);
+      // przerwa do następnego kawałka – cienka przerywana
+      if (pi + 1 < P.length) {
+        const q = E.pts[b],
+          r = E.pts[P[pi + 1][0]];
+        L.polyline([[q[0], q[1]], [r[0], r[1]]], {pane: 'tmpP', color: '#ef7d1a', weight: 2, dashArray: '2 6', interactive: false}).addTo(E.g);
+        L.marker([(q[0] + r[0]) / 2, (q[1] + r[1]) / 2], {icon: L.divIcon({className: 'tedcut', html: ico('split', 14), iconSize: [22, 22], iconAnchor: [11, 11]}), interactive: false, zIndexOffset: 2000}).addTo(E.g);
       }
-      seg.push([q[0], q[1]]);
     });
-    if (seg.length > 1) L.polyline(seg, {pane: 'tmpP', color: '#ef7d1a', weight: 4, interactive: false}).addTo(E.g);
-    // kropki między punktami – przeciągnięcie dodaje punkt
-    E.pts.forEach((q, i) => {
-      if (!i || E.sg.has(i)) return;
-      const a = E.pts[i - 1],
-        m = L.marker([(a[0] + q[0]) / 2, (a[1] + q[1]) / 2], {icon: dotIc('mid', 14), draggable: true, zIndexOffset: 500}).addTo(E.g);
-      m.on('dragend', ev => {
-        snap();
-        const ll = ev.target.getLatLng();
-        E.pts.splice(i, 0, [+ll.lat.toFixed(6), +ll.lng.toFixed(6), null, tInt(a, q), 0, 2]);
-        shift(i - 1, 1);
-        draw();
+    const mv = E.tool === 'move';
+    if (mv)
+      E.pts.forEach((q, i) => {
+        if (!i || E.sg.has(i)) return;
+        const a = E.pts[i - 1],
+          m = L.marker([(a[0] + q[0]) / 2, (a[1] + q[1]) / 2], {icon: dotIc('mid', 14), draggable: true, zIndexOffset: 500}).addTo(E.g);
+        m.on('dragend', ev => {
+          snap();
+          const ll = ev.target.getLatLng();
+          ins(i, [[+ll.lat.toFixed(6), +ll.lng.toFixed(6), null, tMid(a, q), 0, 2]]);
+          draw();
+        });
       });
-    });
+    const endSet = new Set(ends().map(x => x.i)),
+      sp = E.sel != null ? P[E.sel] : null;
     E.pts.forEach((q, i) => {
-      const cls = (q[5] ? 'ch' : '') + (E.from === i ? ' fr' : '') + (E.sg.has(i) ? ' br' : ''),
-        m = L.marker([q[0], q[1]], {icon: dotIc('pt ' + cls, 18), draggable: true, zIndexOffset: 1000}).addTo(E.g);
-      m.on('dragend', ev => {
-        snap();
-        const ll = ev.target.getLatLng();
-        q[0] = +ll.lat.toFixed(6);
-        q[1] = +ll.lng.toFixed(6);
-        q[5] = q[5] === 2 ? 2 : 1;
-        draw();
-      });
+      const isEnd = E.tool === 'draw' && endSet.has(i),
+        fr = (E.from && E.from.i === i) || (sp && i >= sp[0] && i <= sp[1]),
+        cls = (q[5] ? 'ch' : '') + (isEnd ? ' end' : '') + (fr ? ' fr' : ''),
+        sz = isEnd ? 24 : 18,
+        m = L.marker([q[0], q[1]], {icon: dotIc('pt ' + cls, sz), draggable: mv, zIndexOffset: isEnd ? 1200 : 1000}).addTo(E.g);
+      if (mv)
+        m.on('dragend', ev => {
+          snap();
+          const ll = ev.target.getLatLng();
+          q[0] = +ll.lat.toFixed(6);
+          q[1] = +ll.lng.toFixed(6);
+          q[5] = q[5] === 2 ? 2 : 1;
+          draw();
+        });
       m.on('click', ev => {
         L.DomEvent.stop(ev);
-        if (E.from != null) return tedRange(i);
-        tedMenu(i);
+        tap({latlng: ev.latlng || L.latLng(q[0], q[1]), dot: i});
       });
     });
+    if (E.from) {
+      // podgląd dorysowywania od wybranego końca
+      const q = E.pts[E.from.i];
+      L.circleMarker([q[0], q[1]], {pane: 'tmpP', radius: 16, color: '#d93025', weight: 2, fill: false, interactive: false}).addTo(E.g);
+    }
+    E.tb.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === E.tool));
     E.txt.innerHTML = '';
     const ch = E.pts.filter(q => q[5]).length;
     E.txt.append(
-      h('b', null, _t('Popraw ślad – wskazówka dla OMM')),
-      h(
-        'div',
-        null,
-        E.add
-          ? _t('Dotykaj mapy – kolejne punkty ') + (E.add === 'start' ? _t('przed początkiem.') : _t('za końcem.')) + _t(' „Gotowe dorysowywanie” kończy.')
-          : E.from != null
-            ? _t('Dotknij drugiego końca zakresu do usunięcia.')
-            : _t('Przeciągnij kropkę – nowe miejsce. Przeciągnij małą kropkę między punktami – nowy punkt. Dotknij kropki – menu.')
-      ),
-      h('div', 'muted', _t('Punktów: ') + E.pts.length + _t(' · zmienionych: ') + ch + _t(' · oryginał (szary) zostaje bez zmian'))
+      h('b', null, _t('Poprawka śladu (dla OMM)')),
+      h('div', null, E.from ? _t('Stawiaj punkty na mapie; dotknięcie drugiego wolnego końca zamyka przerwę. „Gotowe” kończy.') : HELP[E.tool]),
+      h('div', 'muted', _t('Punktów: ') + E.pts.length + _t(' · zmienionych: ') + ch + _t(' · kawałków: ') + P.length + _t(' · oryginał (szary) bez zmian'))
     );
     E.bU.disabled = !E.hist.length;
     E.bR.disabled = !E.fut.length;
-    E.bA.style.display = E.add || E.from != null ? '' : 'none';
+    E.bDel.style.display = E.sel != null ? '' : 'none';
+    E.bDone.style.display = E.from ? '' : 'none';
   };
   E.draw = draw;
+  const tap = ev => {
+    const ll = ev.latlng,
+      cp = map.latLngToContainerPoint(ll);
+    if (E.tool === 'rm' && ev.dot != null) {
+      if (E.pts.length <= 2) return;
+      snap();
+      del(ev.dot, ev.dot);
+      return draw();
+    }
+    if (E.tool === 'cut') {
+      const s0 = nearSeg(cp);
+      if (!s0 || s0.d > 28) return;
+      snap();
+      const a = E.pts[s0.k],
+        b = E.pts[s0.k + 1],
+        la = a[0] + (b[0] - a[0]) * s0.u,
+        lo = a[1] + (b[1] - a[1]) * s0.u,
+        tc = Math.round(a[3] + (b[3] - a[3]) * s0.u),
+        p1 = [+la.toFixed(6), +lo.toFixed(6), null, tc, 0, 2];
+      // cięcie: dwa punkty w tym samym miejscu – koniec jednego kawałka i początek następnego
+      ins(s0.k + 1, [p1, p1.slice()]);
+      E.sg.add(s0.k + 2);
+      vibe(15);
+      return draw();
+    }
+    if (E.tool === 'cutout') {
+      const s0 = nearSeg(cp);
+      if (!s0 || s0.d > 28) return;
+      const P = pieces();
+      E.sel = P.findIndex(([a, b]) => s0.k >= a && s0.k < b);
+      return draw();
+    }
+    if (E.tool === 'join') {
+      // najbliższa przerwa
+      const P = pieces();
+      let best = null;
+      for (let k = 1; k < P.length; k++) {
+        const q = E.pts[P[k - 1][1]],
+          r = E.pts[P[k][0]],
+          d = Math.min(pxd(ll, q), pxd(ll, r), pxd(ll, [(q[0] + r[0]) / 2, (q[1] + r[1]) / 2]));
+        if (!best || d < best.d) best = {d, i: P[k][0], a: P[k - 1][1]};
+      }
+      if (!best || best.d > 40) return;
+      snap();
+      E.sg.delete(best.i);
+      // cięcie bez przesunięcia (dwa punkty w jednym miejscu) – zostaje jeden
+      const q = E.pts[best.a],
+        r = E.pts[best.i];
+      if (q[0] === r[0] && q[1] === r[1]) del(best.i, best.i);
+      return draw();
+    }
+    if (E.tool === 'draw') {
+      const EN = ends();
+      const hit = EN.map(x => ({...x, d: pxd(ll, E.pts[x.i])}))
+        .filter(x => x.d < 30)
+        .sort((a, b) => a.d - b.d)[0];
+      if (!E.from) {
+        if (hit) E.from = {i: hit.i, end: hit.end};
+        return draw();
+      }
+      // drugi wolny koniec – zamknięcie przerwy między sąsiednimi kawałkami
+      if (hit && hit.i !== E.from.i) {
+        const P = pieces(),
+          pa = P.findIndex(([a, b]) => E.from.i >= a && E.from.i <= b),
+          pb = P.findIndex(([a, b]) => hit.i >= a && hit.i <= b);
+        if (E.from.end && !hit.end && pb === pa + 1) {
+          snap();
+          E.sg.delete(P[pb][0]);
+        } else if (!E.from.end && hit.end && pb === pa - 1) {
+          snap();
+          E.sg.delete(P[pa][0]);
+        } else toastMsg(_t('Połączyć można tylko sąsiednie kawałki (koniec jednego z początkiem następnego).'));
+        E.from = null;
+        return draw();
+      }
+      snap();
+      const q = E.pts[E.from.i],
+        dt = Math.round(hav(q, [ll.lat, ll.lng]) / 1.25),
+        np = [+ll.lat.toFixed(6), +ll.lng.toFixed(6), null, E.from.end ? q[3] + dt : Math.max(0, q[3] - dt), 1, 2];
+      if (E.from.end) {
+        // za końcem kawałka: punkt należy do tego kawałka – przerwa za nim przesuwa się
+        const at = E.from.i + 1;
+        E.pts.splice(at, 0, np);
+        E.sg = new Set([...E.sg].map(k => (k >= at ? k + 1 : k)));
+        E.from.i++;
+      } else {
+        // przed początkiem kawałka: nowy punkt staje się jego początkiem (przerwa zostaje przed nim)
+        const st = E.from.i;
+        E.pts.splice(st, 0, np);
+        E.sg = new Set([...E.sg].map(k => (k > st ? k + 1 : k)));
+      }
+      return draw();
+    }
+  };
+  E.click = tap;
+  E.tb.innerHTML = '';
+  TOOLS.forEach(([k, ik, lab]) => {
+    const b = BI(ik, lab, () => {
+      E.tool = k;
+      E.sel = null;
+      E.from = null;
+      draw();
+    });
+    b.dataset.k = k;
+    E.tb.append(b);
+  });
   E.bU = BI('back', _t('Cofnij'), () => {
     if (!E.hist.length) return;
-    E.fut.push(JSON.stringify({p: E.pts, s: [...E.sg]}));
+    E.fut.push(save());
     restore(E.hist.pop());
     draw();
   });
   E.bR = BI('redo', _t('Ponów'), () => {
     if (!E.fut.length) return;
-    E.hist.push(JSON.stringify({p: E.pts, s: [...E.sg]}));
+    E.hist.push(save());
     restore(E.fut.pop());
     draw();
   });
-  E.bA = B(_t('Gotowe dorysowywanie'), () => {
-    E.add = null;
+  E.bDel = BI(
+    'del',
+    _t('Usuń odcinek'),
+    () => {
+      const P = pieces(),
+        pc = P[E.sel];
+      E.sel = null;
+      if (!pc) return draw();
+      if (E.pts.length - (pc[1] - pc[0] + 1) < 2) {
+        draw();
+        return tell(_t('Zostaw w śladzie co najmniej dwa punkty.'));
+      }
+      snap();
+      del(pc[0], pc[1]);
+      draw();
+    },
+    'danger'
+  );
+  E.bDone = B(_t('Gotowe'), () => {
     E.from = null;
     draw();
   });
-  const bt = h('div', 'sbt');
-  bt.append(
+  E.ex.append(
     E.bU,
     E.bR,
-    E.bA,
+    E.bDel,
+    E.bDone,
     ...(t.ed
       ? [
           B(
@@ -31398,7 +31687,8 @@ function trkEdit(t) {
       'check',
       _t('Zapisz poprawkę'),
       () => {
-        t.ed = {pts: E.pts.map(q => q.slice()), sg: [...E.sg].filter(k => k > 0 && k < E.pts.length), at: Date.now()};
+        fixSg();
+        t.ed = {pts: E.pts.map(q => q.slice()), sg: [...E.sg], at: Date.now()};
         tedStop();
         trkChanged();
         toastMsg(_t('Zapisano poprawkę – oryginał bez zmian; poprawka trafia do pliku GPX ze śladem'));
@@ -31406,95 +31696,16 @@ function trkEdit(t) {
       'okb'
     )
   );
-  E.ui.append(E.txt, bt);
+  E.ui.append(E.txt, E.tb, E.ex);
   document.body.append(E.ui);
-  E.click = ev => {
-    if (!E.add) return;
-    snap();
-    const ll = ev.latlng,
-      q = E.add === 'end' ? E.pts[E.pts.length - 1] : E.pts[0],
-      dt = Math.round(hav(q, [ll.lat, ll.lng]) / 1.25),
-      np = [+ll.lat.toFixed(6), +ll.lng.toFixed(6), null, E.add === 'end' ? q[3] + dt : Math.max(0, q[3] - dt), 1, 2];
-    if (E.add === 'end') E.pts.push(np);
-    else {
-      E.pts.unshift(np);
-      shift(-1, 1);
-    }
-    draw();
-  };
-  map.on('click', E.click);
-  map.fitBounds(L.latLngBounds(E.pts.map(q => [q[0], q[1]])), {paddingTopLeft: [30, 30], paddingBottomRight: [30, 200], maxZoom: 18});
+  E.mclick = ev => tap({latlng: ev.latlng});
+  map.on('click', E.mclick);
+  map.fitBounds(L.latLngBounds(E.pts.map(q => [q[0], q[1]])), {paddingTopLeft: [30, 30], paddingBottomRight: [30, 260], maxZoom: 18});
   draw();
-}
-function tedMenu(i) {
-  const E = TED;
-  if (!E) return;
-  const q = E.pts[i],
-    el = h('div', 'tpop'),
-    bt = h('div', 'tbt'),
-    go = fn => () => {
-      map.closePopup();
-      fn();
-      E.draw();
-    };
-  el.append(h('b', null, _t('Punkt ') + (i + 1) + ' / ' + E.pts.length), h('div', 'tsub', E.t.noTime ? '' : fhm(E.t.st + q[3] * 1000)));
-  bt.append(
-    BI(
-      'del',
-      _t('Usuń punkt'),
-      go(() => {
-        if (E.pts.length <= 2) return;
-        E.snap();
-        E.pts.splice(i, 1);
-        E.sg = new Set([...E.sg].map(k => (k > i ? k - 1 : k)).filter(k => k > 0 && k < E.pts.length));
-      })
-    ),
-    BI(
-      'del',
-      _t('Usuń zakres od tego…'),
-      go(() => (E.from = i))
-    ),
-    E.sg.has(i)
-      ? BI(
-          'join',
-          _t('Połącz przerwę'),
-          go(() => {
-            E.snap();
-            E.sg.delete(i);
-          })
-        )
-      : i > 0 && i < E.pts.length - 1
-        ? BI(
-            'split',
-            _t('Podziel tutaj'),
-            go(() => {
-              E.snap();
-              E.sg.add(i);
-            })
-          )
-        : h('span'),
-    ...(i === 0 || i === E.pts.length - 1 ? [BI('extend', _t('Dorysuj stąd'), go(() => (E.add = i === 0 ? 'start' : 'end')))] : [])
-  );
-  el.append(bt);
-  L.popup({autoPanPaddingTopLeft: [10, 60]}).setLatLng([q[0], q[1]]).setContent(el).openOn(map);
-}
-function tedRange(j) {
-  const E = TED,
-    a = Math.min(E.from, j),
-    b = Math.max(E.from, j);
-  E.from = null;
-  if (b - a + 1 >= E.pts.length - 1) {
-    E.draw();
-    return tell(_t('Zostaw w śladzie co najmniej dwa punkty.'));
-  }
-  E.snap();
-  E.pts.splice(a, b - a + 1);
-  E.sg = new Set([...E.sg].map(k => (k > b ? k - (b - a + 1) : k)).filter(k => k > 0 && k < E.pts.length));
-  E.draw();
 }
 function tedStop() {
   if (!TED) return;
-  map.off('click', TED.click);
+  map.off('click', TED.mclick);
   TED.g.remove();
   TED.ui.remove();
   TED = null;
