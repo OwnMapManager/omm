@@ -4337,31 +4337,156 @@ html.recme .meic {
   width: 14px;
   height: 14px;
 }
+/* v79: kompaktowy panel poprawki śladu */
+.splitbar.tedbar {
+  padding: 6px 8px 8px;
+}
+.tedbar .tedhd {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.tedbar .tedhd b {
+  flex: 1;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tedbar .tedhd button {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--txt);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.tedbar .tedst {
+  font-size: 12px;
+  color: var(--sub);
+  margin: 0 2px 4px;
+}
+.tedbar .tedhint {
+  font-size: 12.5px;
+  margin: 0 2px 4px;
+}
 .tedbar .tedtools {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 4px;
-  margin: 8px 0 6px;
+  display: flex;
+  gap: 3px;
+  margin: 2px 0 4px;
 }
 .tedbar .tedtools button {
+  flex: 1 1 0;
+  min-width: 0;
   border: 1px solid var(--line);
   background: var(--bg);
   color: var(--txt);
   border-radius: 10px;
-  padding: 6px 4px;
-  font-size: 12.5px;
+  padding: 4px 1px 3px;
+  font-size: 9.6px;
+  letter-spacing: -0.1px;
+  line-height: 1.15;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: 1px;
 }
 .tedbar .tedtools button.on {
   background: var(--acc);
   color: var(--bg);
   border-color: var(--acc);
 }
-.tedbar .sbt {
+.tedbar .tedex {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   flex-wrap: wrap;
+}
+.tedbar .tedex .sp {
+  flex: 1;
+}
+.tedbar .tedex button.sm {
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--txt);
+  border-radius: 8px;
+  padding: 6px 9px;
+  font-size: 12.5px;
+}
+.tedbar .tedex button.sm.danger {
+  color: #d93025;
+}
+.tedbar .tedhd button:disabled {
+  opacity: 0.35;
+}
+.tedbar .tedhd button.okb {
+  background: var(--acc);
+  color: #fff;
+  border-radius: 10px;
+  width: 38px;
+  margin: 0 4px;
+}
+html.dark .tedbar .tedhd button.okb {
+  color: #0b1b33;
+}
+.tedbar .tedhd button.okb.dirty::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb300;
+  box-shadow: 0 0 0 2px var(--bar);
+}
+.tedbar .tedhd button.okb {
+  position: relative;
+}
+.tedbar .tedtools button span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.tednote {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap;
+  font: 600 11.5px system-ui, sans-serif;
+  color: #202124;
+}
+.tednote span.i {
+  display: inline-flex;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #7b1fa2;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 3px #0006;
+  flex: 0 0 auto;
+}
+.tednote span.t {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 6px;
+  padding: 1px 5px;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: 0 1px 2px #0004;
+}
+.splitbar .sbt button.on {
+  background: var(--acc);
+  color: #fff;
+  border-color: var(--acc);
 }
 .tedd.mid {
   background: rgba(239, 125, 26, 0.45);
@@ -7067,6 +7192,55 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Punkty ": "Points ",
+  " · zmienione ": " · changed ",
+  " · kawałki ": " · pieces ",
+  " · znaczniki ": " · markers ",
+  "Usuń zapisaną poprawkę": "Delete the saved correction",
+  "⚽ Piłkarzyki": "⚽ Paper soccer",
+  "Losowanie: zaczynasz Ty": "Coin toss: you start",
+  "Losowanie: zaczyna bot": "Coin toss: the bot starts",
+  "⚽ Wygrana! ": "⚽ You win! ",
+  "Przegrana – ": "You lose – ",
+  "gol!": "goal!",
+  "bot strzelił samobója": "the bot scored an own goal",
+  "bot strzelił gola": "the bot scored",
+  "samobój": "own goal",
+  "utknąłeś – nie ma ruchu": "you are stuck – no move left",
+  "bot utknął": "the bot is stuck",
+  "łatwy": "easy",
+  "trudny": "hard",
+  "⚽ Twój ruch": "⚽ Your move",
+  "🤖 Ruch bota": "🤖 Bot's move",
+  "Papierowa piłka nożna jak na kartce w kratkę. Dotknij punktu obok piłki – piłka idzie tam kreską. Nie wolno iść po narysowanej kresce ani po bandzie. Gdy piłka trafi w punkt, w którym już coś było (kreska, banda, słupek), odbija się i grasz dalej. Atakujesz bramkę u góry. Kto utknie bez ruchu, przegrywa.": "Paper soccer, like on squared paper. Tap a point next to the ball – the ball moves there with a line. You cannot move along an existing line or the edge. When the ball lands on a point that was already used (a line, the edge, a post), it bounces and you move again. You attack the goal at the top. Whoever gets stuck with no move loses.",
+  "Twoje mecze (wygrane – przegrane): ": "Your matches (won – lost): ",
+  "🤖 Bot – łatwy": "🤖 Bot – easy",
+  "🤖 Bot – średni": "🤖 Bot – medium",
+  "🤖 Bot – trudny": "🤖 Bot – hard",
+  "Dociągnij": "Snap",
+  "Najpierw zaznacz punkty na mapie.": "First mark points on the map.",
+  " · dociągnięte do ścieżek": " · snapped to paths",
+  " odc. prosto – ścieżki szły naokoło": " segm. straight – the paths went around",
+  "Wróć do prostej linii między punktami": "Back to a straight line between the points",
+  "Ułóż linię wzdłuż dróg i ścieżek (wysyła współrzędne zaznaczonych punktów do serwera tras)": "Lay the line along roads and paths (sends the coordinates of the marked points to the routing server)",
+  "Wytnij": "Cut out",
+  "Znacznik": "Marker",
+  "Dotknij kropki – punkt znika, a sąsiednie punkty łączą się linią.": "Tap a dot – the point disappears and the neighbouring points are joined by a line.",
+  "Dotknij mapy i wpisz uwagę, np. „bardzo ścięty zakręt”. Dotknięcie znacznika – zmiana opisu albo usunięcie.": "Tap the map and type a note, e.g. “corner cut badly”. Tap a marker to change its text or delete it.",
+  "Poprawka śladu – jak używać": "Track correction – how to use",
+  "Poprawiasz kopię śladu – oryginał (szara przerywana linia) zostaje bez zmian. Zapisana poprawka i znaczniki trafiają do pliku GPX (tryb diagnostyczny) jako wskazówka do ulepszenia liczenia śladów.": "You are correcting a copy of the track – the original (grey dashed line) stays unchanged. The saved correction and markers go into the GPX file (diagnostic mode) as a hint for improving track processing.",
+  "↶ ↷ – cofnij i ponów. Dyskietka – zapisz (możesz dalej poprawiać). ✕ – zamknij tryb.": "↶ ↷ – undo and redo. Floppy disk – save (you can keep correcting). ✕ – close the mode.",
+  " · znaczników: ": " · markers: ",
+  " · niezapisane": " · unsaved",
+  "Odcinek podświetlony na czerwono – „Usuń odcinek” wytnie go.": "The section highlighted in red – “Delete section” cuts it out.",
+  "Znacznik: ": "Marker: ",
+  "Zmień opis": "Change text",
+  "Opis znacznika": "Marker text",
+  "Co jest nie tak w tym miejscu? (np. „bardzo ścięty zakręt”)": "What is wrong here? (e.g. “corner cut badly”)",
+  "Zapisano": "Saved",
+  "Zapisać zmiany w poprawce?": "Save changes to the correction?",
+  "Poprawka śladu": "Track correction",
+  "Jak używać": "How to use",
   "Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą. Środkowy przycisk otwiera menu broni: szyszka, kret, rój os, purchawka zegarowa, zarodniki, kania-zapalnik, teleport, tarcza z huby i więcej. Co kilka tur spada skrzynka z zapasami.": "Angle, power and wind – can you hit the mushroom on the other hill? Aim with the buttons or drag from your mushroom like a slingshot. The middle button opens the weapon menu: pine cone, mole, wasp swarm, time puffball, spores, parasol firestarter, teleport, fungus shield and more. Every few turns a supply crate drops.",
   " – brak w zapasie": " – none left",
   "Broń": "Weapons",
@@ -9662,6 +9836,13 @@ const IC = {
     '<path d="M12 3a9 9 0 1 0 0 18c1.2 0 1.8-.8 1.8-1.7 0-1-.8-1.4-.8-2.3 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4C21 6.7 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/>',
   // panel map i warstw (v50) – jeden zestaw ikon dla całej aplikacji
   gear: '<path d="M21.1 10.4 21.1 13.6 18.7 14.1 18.2 15.3 19.5 17.3 17.3 19.5 15.3 18.2 14.1 18.7 13.6 21.1 10.4 21.1 9.9 18.7 8.7 18.2 6.7 19.5 4.5 17.3 5.8 15.3 5.3 14.1 2.9 13.6 2.9 10.4 5.3 9.9 5.8 8.7 4.5 6.7 6.7 4.5 8.7 5.8 9.9 5.3 10.4 2.9 13.6 2.9 14.1 5.3 15.3 5.8 17.3 4.5 19.5 6.7 18.2 8.7 18.7 9.9z"/><circle cx="12" cy="12" r="3.2"/>', // ustawienia
+  // v79: narzędzia poprawki śladu – ślad + symbol czynności (czerwone = usuwanie)
+  tdRm: '<path d="M2 19c3-1 6-4 10-4s7 2 10 1"/><circle cx="12" cy="15" r="2.3" fill="currentColor"/><path d="M9 3.5l6 6M15 3.5l-6 6" stroke="#d93025" stroke-width="2.2"/>',
+  tdCutout: '<path d="M2 20c1.5 0 2.5-.7 3.5-1.7M18.5 18.3c1 1 2 1.7 3.5 1.7"/><path d="M5.5 18.3c3.5-3 9.5-3 13 0" stroke-width="3" opacity=".45"/><circle cx="5.5" cy="18.3" r="1.5" fill="currentColor"/><circle cx="18.5" cy="18.3" r="1.5" fill="currentColor"/><path d="M8 5.5h8M10.5 5.5V4h3v1.5M9.3 5.5l.6 6.5h4.2l.6-6.5" stroke="#d93025"/>',
+  tdCut: '<path d="M2 20c2.5-.5 4-2 5.5-3.5M13 11c2.5-2.5 5-5 9-6"/><circle cx="7.5" cy="6.5" r="2.3"/><circle cx="16.5" cy="17.5" r="2.3"/><path d="M9.2 8.2l10.3 4.8M14.8 15.8L9.5 5.5"/>',
+  tdJoin: '<path d="M2 18c1.8 0 3-.6 4.5-1.2M22 18c-1.8 0-3-.6-4.5-1.2"/><circle cx="7.5" cy="16.5" r="1.9" fill="currentColor"/><circle cx="16.5" cy="16.5" r="1.9" fill="currentColor"/><path d="M10 16.5h4" stroke-dasharray="1.2 1.8"/><path d="M5 7.5h4.5M7.8 5.3l2.2 2.2-2.2 2.2M19 7.5h-4.5M16.2 5.3L14 7.5l2.2 2.2"/>',
+  tdDraw: '<path d="M2 20.5c2-.5 3.5-1.6 5-2.8"/><circle cx="7.8" cy="17" r="1.9" fill="currentColor"/><path d="M10 15.3c1.8-1.2 3-2.6 4-4" stroke-dasharray="1.6 2.2"/><path d="M14.6 10.6l5.6-5.6 2.2 2.2-5.6 5.6-3 .8z"/>',
+  tdNote: '<path d="M12 21.5s-6.5-5.7-6.5-10.5a6.5 6.5 0 0 1 13 0c0 4.8-6.5 10.5-6.5 10.5z"/><path d="M9.3 9.3h5.4M9.3 12.2h3.6"/>',
   info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v6"/><circle cx="12" cy="7.6" r=".6" fill="currentColor"/>', // o aplikacji
   x: '<path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>', // zamknij
   paste: '<rect x="5.5" y="4.5" width="13" height="16" rx="2"/><path d="M9 4.5V3h6v1.5M9 10h6M9 14h4"/>', // wklej ze schowka
@@ -9776,7 +9957,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v78';
+const APP_VER = 'v79';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -13241,7 +13422,7 @@ var OrtoArch = L.TileLayer.WMS.extend({
       q.BBOX = [minx, miny, maxx, maxy].join(',');
     }
     if (tm) q.TIME = tm;
-    q.EXCEPTIONS = v.ver === '1.3.0' ? 'XML' : 'application/vnd.ogc.se_xml';
+    // v79: bez parametru EXCEPTIONS – zapytanie identyczne z tym, które działa w przeglądarce
     return this._url + '?' + Object.entries(q).map(([k, x]) => k + '=' + encodeURIComponent(x)).join('&');
   },
   getTileUrl(coords) {
@@ -13745,6 +13926,7 @@ const mkNMT = () =>
     wmsOv(GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief', 'Raster', 'image/jpeg', OVS.nmt.op, {
       ...NOREF,
       crs: L.CRS.EPSG4326, // v75: usługa zna tylko CRS:84 / EPSG:4326 / EPSG:2180 – zapytania w EPSG:3857 kończyły się błędem
+      transparent: false, // v79: JPEG nie ma przezroczystości – zapytanie jak w działającym linku testowym
       tileSize: 512,
       updateWhenIdle: true,
       ...(NMT_SMOOTH ? {maxNativeZoom: 16} : {})
@@ -14290,6 +14472,13 @@ function cleanTrk(t) {
         .map(q => [+q[0], +q[1], numOrNull(q[2]), +q[3] || 0, q[4] === 1 ? 1 : 0, q[5] === 1 || q[5] === 2 ? q[5] : 0]);
       e.sg = Array.isArray(e.sg) ? e.sg.filter(k => Number.isInteger(k) && k > 0 && k < e.pts.length) : [];
       e.at = +e.at || 0;
+      if (own(e, 'nt'))
+        e.nt = Array.isArray(e.nt)
+          ? e.nt
+              .filter(n => Array.isArray(n) && okLL([numOrNull(n[0]), numOrNull(n[1])]))
+              .slice(0, 500)
+              .map(n => [+n[0], +n[1], String(n[2] == null ? '' : n[2]).slice(0, 300)])
+          : [];
       if (e.pts.length < 2) delete t.ed;
     }
   }
@@ -19066,8 +19255,7 @@ function drawIt(ctx, it, pr, k, z, op) {
 function drawDecor(ctx, z, W, H, b, attr) {
   const fs = Math.max(12, Math.round(Math.min(W, H) / 55)),
     pad = Math.round(fs * 0.5);
-  drawWmark(ctx, W, 0, {fs: Math.round(fs * 0.95)}); // v73: znak wodny jak na obrazkach z „Udostępnij”
-  const mpp = (40075016.686 * Math.cos(b.getCenter().lat * rad)) / Math.pow(2, z + 8); // metrów na piksel
+    const mpp = (40075016.686 * Math.cos(b.getCenter().lat * rad)) / Math.pow(2, z + 8); // metrów na piksel
   let m = (mpp * W) / 5;
   const p = Math.pow(10, Math.floor(Math.log10(m))),
     f = m / p;
@@ -19088,6 +19276,7 @@ function drawDecor(ctx, z, W, H, b, attr) {
   ctx.fillRect(bx + px - Math.max(2, fs * 0.12), by - pad - fs * 0.8, Math.max(2, fs * 0.12), fs * 0.8);
   ctx.textAlign = 'left';
   ctx.fillText(lb, bx, by - pad - fs * 0.95);
+  drawWmark(ctx, W, by - bh - pad, {fs: Math.round(fs * 0.9)}); // v79: nad podziałką, lewy dół
   if (attr) {
     ctx.font = Math.round(fs * 0.8) + 'px system-ui,sans-serif';
     const tw = ctx.measureText(attr).width;
@@ -22274,6 +22463,364 @@ function saperGame(opt) {
   };
   return g;
 }
+// ---------- v79: „Piłkarzyki” – papierowa piłka nożna (jak w szkole na kartce w kratkę), gracz kontra bot ----------
+/*
+ * Boisko 8 × 10 kratek, bramki szerokości 2 kratek. Piłka idzie po kratkach do jednego z 8 sąsiednich punktów;
+ * po narysowanej już kresce ani po bandzie iść nie można. Gdy piłka trafi w punkt, w którym już coś było
+ * (koniec innej kreski, banda, słupek) – odbija się i ten sam gracz rusza dalej. Gol kończy grę; kto utknie
+ * (nie ma ruchu), przegrywa. Gracz atakuje bramkę u góry, bot – u dołu. Kreski obu graczy w jednym kolorze,
+ * możliwe ruchy nie są podpowiadane (jak na kartce). Statystyki w telefonie: „omm-gra-pilka-st”.
+ */
+const PK_W = 8,
+  PK_H = 10,
+  PK_G0 = 3,
+  PK_G1 = 5; // bramka: x od 3 do 5 (2 kratki)
+const pkKey = (a, b) => (a < b ? a + ':' + b : b + ':' + a);
+const pkId = (x, y) => (y + 1) * 100 + x; // y od -1 (bramka u góry) do 11 (bramka u dołu)
+function pkStats() {
+  try {
+    const o = JSON.parse(localStorage.getItem('omm-gra-pilka-st') || '{}');
+    return o && typeof o === 'object' ? o : {};
+  } catch (e) {
+    return {};
+  }
+}
+function pkStatAdd(lv, win) {
+  const o = pkStats(),
+    k = 'l' + lv,
+    r = Array.isArray(o[k]) ? o[k] : [0, 0];
+  r[win ? 0 : 1]++;
+  o[k] = r;
+  try {
+    localStorage.setItem('omm-gra-pilka-st', JSON.stringify(o));
+  } catch (e) {}
+}
+function pkBoard() {
+  // stan: zużyte krawędzie (Set), odwiedzone punkty (Map id → liczba), piłka
+  const B = {used: new Set(), deg: new Map(), x: PK_W / 2, y: PK_H / 2};
+  const mark = (x, y) => B.deg.set(pkId(x, y), (B.deg.get(pkId(x, y)) || 0) + 1);
+  // banda (z otworami bramek) – punkty bandy są „odwiedzone”, krawędzie wzdłuż bandy zużyte
+  for (let y = 0; y <= PK_H; y++) {
+    mark(0, y);
+    mark(PK_W, y);
+    if (y < PK_H) {
+      B.used.add(pkKey(pkId(0, y), pkId(0, y + 1)));
+      B.used.add(pkKey(pkId(PK_W, y), pkId(PK_W, y + 1)));
+    }
+  }
+  for (const y of [0, PK_H])
+    for (let x = 0; x <= PK_W; x++) {
+      if (x > PK_G0 && x < PK_G1) continue; // środek bramki – zwykły punkt
+      mark(x, y);
+      if (x < PK_W && !(x >= PK_G0 && x < PK_G1)) B.used.add(pkKey(pkId(x, y), pkId(x + 1, y)));
+    }
+  return B;
+}
+function pkMoves(B, x, y) {
+  // dozwolone ruchy z (x, y): [{x, y, k}]
+  const out = [];
+  for (let dy = -1; dy <= 1; dy++)
+    for (let dx = -1; dx <= 1; dx++) {
+      if (!dx && !dy) continue;
+      const nx = x + dx,
+        ny = y + dy;
+      if (nx < 0 || nx > PK_W) continue;
+      if (ny < 0 || ny > PK_H) {
+        // do bramki: tylko z linii bramkowej w obrębie bramki i do środka bramki
+        if (ny < -1 || ny > PK_H + 1) continue;
+        if (!(x >= PK_G0 && x <= PK_G1 && nx >= PK_G0 && nx <= PK_G1)) continue;
+        if ((ny === -1 && y !== 0) || (ny === PK_H + 1 && y !== PK_H)) continue;
+      }
+      const k = pkKey(pkId(x, y), pkId(nx, ny));
+      if (!B.used.has(k)) out.push({x: nx, y: ny, k});
+    }
+  return out;
+}
+const pkGoal = y => (y < 0 ? 'top' : y > PK_H ? 'bot' : null);
+function pkDo(B, m) {
+  // wykonuje ruch; zwraca 'goalTop' / 'goalBot' / 'bounce' / 'end' (koniec tury); undo – lista zmian
+  const from = pkId(B.x, B.y),
+    to = pkId(m.x, m.y),
+    was = B.deg.get(to) || 0;
+  B.used.add(m.k);
+  B.deg.set(from, (B.deg.get(from) || 0) + 1);
+  B.deg.set(to, was + 1);
+  B.x = m.x;
+  B.y = m.y;
+  const gl = pkGoal(m.y);
+  if (gl) return gl === 'top' ? 'goalTop' : 'goalBot';
+  return was ? 'bounce' : 'end';
+}
+function pkUndo(B, m, px, py) {
+  const from = pkId(px, py),
+    to = pkId(m.x, m.y);
+  B.used.delete(m.k);
+  B.deg.set(from, B.deg.get(from) - 1);
+  B.deg.set(to, B.deg.get(to) - 1);
+  B.x = px;
+  B.y = py;
+}
+function pkSeqs(B, cap) {
+  // wszystkie pełne tury z bieżącego punktu (z odbiciami): [{path: [ruchy], res: 'goalTop'|'goalBot'|'end'|'stuck'}]
+  const out = [],
+    path = [];
+  const dfs = () => {
+    if (out.length >= cap) return;
+    const ms = pkMoves(B, B.x, B.y);
+    if (!ms.length) {
+      out.push({path: path.slice(), res: 'stuck', x: B.x, y: B.y});
+      return;
+    }
+    // losowa kolejność – przy limicie nie zawsze te same tury
+    for (let i = ms.length - 1; i > 0; i--) {
+      const j = rnd(i + 1);
+      [ms[i], ms[j]] = [ms[j], ms[i]];
+    }
+    for (const m of ms) {
+      const px = B.x,
+        py = B.y,
+        r = pkDo(B, m);
+      path.push(m);
+      if (r === 'bounce') dfs();
+      else out.push({path: path.slice(), res: r, x: B.x, y: B.y});
+      path.pop();
+      pkUndo(B, m, px, py);
+      if (out.length >= cap) return;
+    }
+  };
+  dfs();
+  return out;
+}
+function pkBotTurn(B, lv) {
+  // bot atakuje bramkę u dołu (goalBot), broni górnej
+  const S = pkSeqs(B, lv >= 3 ? 1500 : 600);
+  if (!S.length) return null;
+  const win = S.find(s => s.res === 'goalBot');
+  if (win && lv >= 1) return win.path;
+  const val = s => {
+    if (s.res === 'goalBot') return 1e6;
+    if (s.res === 'goalTop' || s.res === 'stuck') return -1e6;
+    return s.y * 10 - Math.abs(s.x - PK_W / 2) * (s.y > PK_H - 3 ? 3 : 1);
+  };
+  if (lv === 1) {
+    // łatwy: unika samobója, poza tym często przypadkowo
+    const ok = S.filter(s => val(s) > -1e5);
+    const pool = ok.length ? ok : S;
+    if (Math.random() < 0.55) return pool[rnd(pool.length)].path;
+    return pool.reduce((a, b) => (val(b) > val(a) ? b : a)).path;
+  }
+  // średni i trudny: patrzy, co może zrobić gracz po tej turze
+  const cand = S.filter(s => val(s) > -1e5)
+    .sort((a, b) => val(b) - val(a))
+    .slice(0, lv >= 3 ? 40 : 12);
+  if (!cand.length) return S[0].path;
+  let best = null,
+    bv = -Infinity;
+  for (const s of cand) {
+    const px = B.x,
+      py = B.y,
+      done = [];
+    let cx = px,
+      cy = py;
+    for (const m of s.path) {
+      done.push([m, cx, cy]);
+      pkDo(B, m);
+      cx = m.x;
+      cy = m.y;
+    }
+    let v = val(s);
+    const R = pkSeqs(B, lv >= 3 ? 400 : 150);
+    if (!R.length) v = 9e5; // gracz utknął
+    else if (R.some(r => r.res === 'goalTop')) v = -9e5; // gracz strzeli gola
+    else if (lv >= 3) {
+      // gracz wybierze turę najbardziej w górę; im mniej mu daje, tym lepiej
+      const pv = Math.min(...R.filter(r => r.res !== 'goalBot' && r.res !== 'stuck').map(r => r.y));
+      v += isFinite(pv) ? pv * 6 : 300;
+      if (R.every(r => r.res === 'goalBot' || r.res === 'stuck')) v = 8e5;
+    }
+    for (let k = done.length - 1; k >= 0; k--) pkUndo(B, done[k][0], done[k][1], done[k][2]);
+    B.x = px;
+    B.y = py;
+    if (v > bv) {
+      bv = v;
+      best = s;
+    }
+  }
+  return best.path;
+}
+function pilkaGame(opt) {
+  const lv = opt.lv || 2;
+  const g = {id: 'pilka', opt, title: _t('⚽ Piłkarzyki'), W: PK_W + 1, H: PK_H + 3, score: 0, over: false, shake: 0};
+  const FX = gFx(),
+    B = pkBoard(),
+    lines = []; // narysowane kreski [x1, y1, x2, y2, t]
+  let turn = Math.random() < 0.5 ? 'me' : 'bot',
+    moves = 0,
+    botQ = null,
+    botT = 0,
+    msg = turn === 'me' ? _t('Losowanie: zaczynasz Ty') : _t('Losowanie: zaczyna bot'),
+    msgT = 2200,
+    bad = 0;
+  const finish = (win, why) => {
+    g.over = true;
+    g.score = win ? [0, 60, 110, 170][lv] + Math.max(0, 60 - moves) : 0;
+    g.endTitle = win ? _t('⚽ Wygrana! ') + why : _t('Przegrana – ') + why;
+    pkStatAdd(lv, win);
+    if (win) FX.burst(B.x + 0.5, B.y + 1.5, 60, {v: 7, up: 3, g: 5, c: ['#69f0ae', '#ffd740', '#40c4ff', '#ff4081'], sq: true, life: 1600, r: 0.1});
+    gSfx(win ? 'win' : 'over');
+  };
+  const after = (r, who) => {
+    if (r === 'goalTop') return finish(true, who === 'me' ? _t('gol!') : _t('bot strzelił samobója'));
+    if (r === 'goalBot') return finish(false, who === 'bot' ? _t('bot strzelił gola') : _t('samobój'));
+    if (r === 'bounce') {
+      gSfx('click');
+      if (!pkMoves(B, B.x, B.y).length) return finish(who !== 'me', who === 'me' ? _t('utknąłeś – nie ma ruchu') : _t('bot utknął'));
+      return; // ten sam gracz rusza dalej
+    }
+    turn = who === 'me' ? 'bot' : 'me';
+    if (!pkMoves(B, B.x, B.y).length) return finish(turn === 'bot', turn === 'me' ? _t('utknąłeś – nie ma ruchu') : _t('bot utknął'));
+    if (turn === 'bot') botT = 650;
+  };
+  const step1 = (m, who) => {
+    const px = B.x,
+      py = B.y;
+    const r = pkDo(B, m);
+    lines.push([px, py, m.x, m.y, 0]);
+    if (who === 'me') moves++;
+    after(r, who);
+  };
+  g.tap = (x, y) => {
+    if (g.over || turn !== 'me') return;
+    // najbliższy punkt kratki (piłka chodzi po punktach)
+    const qx = Math.round(x - 0.5),
+      qy = Math.round(y - 1.5),
+      m = pkMoves(B, B.x, B.y).find(v => v.x === qx && v.y === qy);
+    if (!m || Math.hypot(x - 0.5 - qx, y - 1.5 - qy) > 0.55) {
+      bad = 260;
+      gBuzz(30);
+      return;
+    }
+    step1(m, 'me');
+  };
+  g.key = () => {};
+  g.pad = [];
+  g.step = dt => {
+    lines.forEach(l => l[4] < 1 && (l[4] = Math.min(1, l[4] + dt / 140)));
+    if (msgT > 0) msgT -= dt;
+    if (bad > 0) bad -= dt;
+    FX.step(dt);
+    if (turn !== 'bot' || g.over) return;
+    if (botT > 0) return void (botT -= dt);
+    if (!botQ || !botQ.length) botQ = (pkBotTurn(B, lv) || []).slice();
+    const m = botQ.shift();
+    if (!m) return finish(true, _t('bot utknął'));
+    step1(m, 'bot');
+    botT = 380;
+    if (turn !== 'bot') botQ = null;
+  };
+  g.idle = dt => {
+    lines.forEach(l => l[4] < 1 && (l[4] = Math.min(1, l[4] + dt / 140)));
+    FX.step(dt);
+  };
+  const LVN = ['', _t('łatwy'), _t('średni'), _t('trudny')];
+  g.hud = () => (msgT > 0 ? msg : turn === 'me' ? _t('⚽ Twój ruch') : _t('🤖 Ruch bota')) + ' · ' + LVN[lv];
+  g.label = g.hud;
+  g.draw = (c, t, s) => {
+    const BW = g.W * s,
+      BH = g.H * s,
+      P = (x, y) => [(x + 0.5) * s, (y + 1.5) * s];
+    // murawa w pasy
+    for (let k = 0; k < g.H; k++) {
+      c.fillStyle = k % 2 ? '#3f8f3a' : '#479e41';
+      c.fillRect(0, k * s, BW, s);
+    }
+    // kratka (jak na kartce, delikatnie)
+    c.strokeStyle = 'rgba(255,255,255,0.13)';
+    c.lineWidth = 1;
+    for (let x = 0; x <= PK_W; x++) {
+      const [a, b] = P(x, 0),
+        [, d] = P(x, PK_H);
+      c.beginPath();
+      c.moveTo(a, b);
+      c.lineTo(a, d);
+      c.stroke();
+    }
+    for (let y = 0; y <= PK_H; y++) {
+      const [a, b] = P(0, y),
+        [e] = P(PK_W, y);
+      c.beginPath();
+      c.moveTo(a, b);
+      c.lineTo(e, b);
+      c.stroke();
+    }
+    // banda i bramki
+    c.strokeStyle = '#f5f5f0';
+    c.lineWidth = Math.max(2, s * 0.09);
+    c.lineJoin = 'round';
+    const poly = pts => {
+      c.beginPath();
+      pts.forEach(([x, y], i) => (i ? c.lineTo(...P(x, y)) : c.moveTo(...P(x, y))));
+      c.stroke();
+    };
+    poly([[PK_G0, 0], [0, 0], [0, PK_H], [PK_G0, PK_H]]);
+    poly([[PK_G1, 0], [PK_W, 0], [PK_W, PK_H], [PK_G1, PK_H]]);
+    c.fillStyle = 'rgba(255,255,255,0.12)';
+    for (const [y0, y1, col] of [[-1, 0, '#ffd54f'], [PK_H, PK_H + 1, '#ef9a9a']]) {
+      const [a, b] = P(PK_G0, y0),
+        [e, f] = P(PK_G1, y1);
+      c.fillRect(a, b, e - a, f - b);
+      c.strokeStyle = col;
+      c.lineWidth = Math.max(2, s * 0.08);
+      c.strokeRect(a, b, e - a, f - b);
+    }
+    // środek boiska
+    c.strokeStyle = 'rgba(255,255,255,0.35)';
+    c.lineWidth = Math.max(1, s * 0.04);
+    c.beginPath();
+    c.arc(...P(PK_W / 2, PK_H / 2), s * 1.2, 0, Math.PI * 2);
+    c.stroke();
+    // kreski (wspólny kolor dla obu graczy)
+    c.strokeStyle = '#1a237e';
+    c.lineWidth = Math.max(2, s * 0.085);
+    c.lineCap = 'round';
+    lines.forEach(([x1, y1, x2, y2, k]) => {
+      const [a, b] = P(x1, y1),
+        [e, f] = P(x2, y2);
+      c.beginPath();
+      c.moveTo(a, b);
+      c.lineTo(a + (e - a) * k, b + (f - b) * k);
+      c.stroke();
+    });
+    // piłka
+    const [bx, by] = P(B.x, B.y),
+      r = s * 0.26,
+      wob = bad > 0 ? Math.sin(t / 25) * s * 0.06 : 0;
+    c.fillStyle = 'rgba(0,0,0,0.25)';
+    c.beginPath();
+    c.ellipse(bx + wob + r * 0.2, by + r * 0.7, r * 0.9, r * 0.35, 0, 0, Math.PI * 2);
+    c.fill();
+    c.fillStyle = '#fff';
+    c.strokeStyle = '#212121';
+    c.lineWidth = Math.max(1.2, s * 0.04);
+    c.beginPath();
+    c.arc(bx + wob, by, r, 0, Math.PI * 2);
+    c.fill();
+    c.stroke();
+    c.fillStyle = '#212121';
+    c.beginPath();
+    for (let k = 0; k < 5; k++) {
+      const an = -Math.PI / 2 + (k * 2 * Math.PI) / 5,
+        px = bx + wob + Math.cos(an) * r * 0.42,
+        py = by + Math.sin(an) * r * 0.42;
+      k ? c.lineTo(px, py) : c.moveTo(px, py);
+    }
+    c.closePath();
+    c.fill();
+    FX.draw(c, s);
+    gVignette(c, BW, BH);
+  };
+  return g;
+}
 function gameOpen() {
   if (GAME) return;
   const root = h('div', 'game'),
@@ -22340,6 +22887,7 @@ function gameOpen() {
     snake: {t: _t('🐍 Grzybowy wąż'), d: _t('Zbieraj grzyby, nie gryź własnego ogona i omijaj pieńki. Czasem grzyb dostaje nóżek i ucieka – złapany w biegu daje potrójne punkty.')},
     grzyby: {t: _t('🧺 Grzybobranie'), d: _t('Łap jadalne grzyby, omijaj muchomory. Złoty borowik to 100 punktów. Bonusy: tarcza, karabiny przy koszyku, laser, magnes i szerszy koszyk.')},
     saper: {t: _t('🍄 Grzybowy saper'), d: _t('Klasyk z Windowsa: pod mchem schowane są muchomory. Liczba mówi, ile ich jest dookoła pola. Dotknij – odkryj, przytrzymaj – postaw flagę. Pierwsze dotknięcie jest zawsze bezpieczne.')},
+    pilka: {t: _t('⚽ Piłkarzyki'), d: _t('Papierowa piłka nożna jak na kartce w kratkę. Dotknij punktu obok piłki – piłka idzie tam kreską. Nie wolno iść po narysowanej kresce ani po bandzie. Gdy piłka trafi w punkt, w którym już coś było (kreska, banda, słupek), odbija się i grasz dalej. Atakujesz bramkę u góry. Kto utknie bez ruchu, przegrywa.')},
     wojna: {t: _t('💥 Wojna grzybów'), d: _t('Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą. Środkowy przycisk otwiera menu broni: szyszka, kret, rój os, purchawka zegarowa, zarodniki, kania-zapalnik, teleport, tarcza z huby i więcej. Co kilka tur spada skrzynka z zapasami.')}
   };
   const fdt = d => new Date(d).toLocaleDateString(LOC, {day: 'numeric', month: 'numeric', year: '2-digit'});
@@ -22370,7 +22918,7 @@ function gameOpen() {
       b.append(h('b', null, GAMES[id].t), h('span', null, _t('Rekord: ') + gBest(id)));
       return b;
     };
-    showOv(h('div', 'gh', _t('Zjadłeś magicznego grzybka…')), h('div', 'gp', _t('Świat lekko faluje. W co odpływasz?')), card('snake'), card('grzyby'), card('wojna'), card('saper'), h('div', 'gp gsm', _t('Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy. Dźwięk włączysz głośniczkiem u góry.')));
+    showOv(h('div', 'gh', _t('Zjadłeś magicznego grzybka…')), h('div', 'gp', _t('Świat lekko faluje. W co odpływasz?')), card('snake'), card('grzyby'), card('wojna'), card('saper'), card('pilka'), h('div', 'gp gsm', _t('Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy. Dźwięk włączysz głośniczkiem u góry.')));
   };
   const warOpt = () => ({wind: localStorage.getItem('omm-gra-wiatr') !== 'nie', move: localStorage.getItem('omm-gra-ruch') !== 'nie'});
   const warOpts = () => {
@@ -22393,6 +22941,17 @@ function gameOpen() {
     d.append(mk('omm-gra-wiatr', _t('💨 Wiatr: włączony'), _t('💨 Wiatr: wyłączony')), mk('omm-gra-ruch', _t('🚶 Ruch grzybów: włączony'), _t('🚶 Ruch grzybów: wyłączony')));
     return d;
   };
+  const pkStatEl = () => {
+    // statystyki Piłkarzyków: wygrane / przegrane na każdym poziomie
+    const st = pkStats(),
+      d = h('div', 'gp gsm');
+    d.textContent =
+      _t('Twoje mecze (wygrane – przegrane): ') +
+      [1, 2, 3]
+        .map(l => ['', _t('łatwy'), _t('średni'), _t('trudny')][l] + ' ' + ((st['l' + l] || [0, 0])[0] || 0) + '–' + ((st['l' + l] || [0, 0])[1] || 0))
+        .join(' · ');
+    return d;
+  };
   const intro = id => {
     // ekran tytułowy gry: opis, tabela wyników i start
     const opts = id === 'wojna' ? warOpts() : null,
@@ -22405,6 +22964,13 @@ function gameOpen() {
             B(_t('🤖 Komputer – trudny'), () => start('wojna', {ai: 3, ...warOpt()}), 'gbig'),
             B(_t('👥 Dwóch graczy na jednym telefonie'), () => start('wojna', {ai: 0, ...warOpt()}), 'gbig')
           ]
+        : id === 'pilka'
+          ? [
+              pkStatEl(),
+              B(_t('🤖 Bot – łatwy'), () => start('pilka', {lv: 1}), 'gbig'),
+              B(_t('🤖 Bot – średni'), () => start('pilka', {lv: 2}), 'gbig'),
+              B(_t('🤖 Bot – trudny'), () => start('pilka', {lv: 3}), 'gbig')
+            ]
         : id === 'saper'
           ? [
               B(_t('🌱 Łatwy – 9 × 12, 14 muchomorów'), () => start('saper', {lv: 0}), 'gbig'),
@@ -22428,7 +22994,7 @@ function gameOpen() {
     return b;
   };
   const start = (id, opt) => {
-    g = id === 'snake' ? snakeGame() : id === 'grzyby' ? catchGame() : id === 'saper' ? saperGame(opt || {lv: 0}) : warGame(opt || {ai: 2});
+    g = id === 'snake' ? snakeGame() : id === 'grzyby' ? catchGame() : id === 'saper' ? saperGame(opt || {lv: 0}) : id === 'pilka' ? pilkaGame(opt || {lv: 2}) : warGame(opt || {ai: 2});
     ttl.textContent = g.title.split(' ')[0]; // w grze sama ikonka – miejsce na wynik
     ttl.title = g.title;
     paused = false;
@@ -24446,6 +25012,12 @@ function trkGPX(list, name, photoPath, diag) {
         (w.ref ? '<omm:ref>' + esc(w.ref) + '</omm:ref>' : '') +
         '</extensions></wpt>\n';
     });
+    // v79: znaczniki z poprawki śladu – uwagi Pawła dla OMM (punkty z opisem)
+    if (diag && t.ed && Array.isArray(t.ed.nt))
+      t.ed.nt.forEach(n => {
+        s +=
+          '<wpt lat="' + n[0] + '" lon="' + n[1] + '"><name>' + esc(n[2]) + '</name><type>omm-uwaga</type><extensions><omm:poprawka_dla>' + esc(t.id) + '</omm:poprawka_dla></extensions></wpt>\n';
+      });
     const l = trkLayer(t);
     s +=
       '<trk><name>' +
@@ -24623,6 +25195,7 @@ function gpxTracks(text) {
   };
   [...x.getElementsByTagName('trk')].forEach(t => {
     if (ext(t, 'diag_dla')) return; // v66: surowe pomiary z trybu diagnostycznego – nie są osobnym śladem
+    if (ext(t, 'poprawka_dla')) return; // v79: poprawka śladu (wskazówka dla OMM) – nie jest osobnym śladem
     make(t, [...t.getElementsByTagName('trkseg')], 'trkpt');
   });
   [...x.getElementsByTagName('rte')].forEach(r => make(r, [r], 'rtept'));
@@ -24630,7 +25203,7 @@ function gpxTracks(text) {
   [...x.getElementsByTagName('wpt')].forEach(p => {
     const la = +p.getAttribute('lat'),
       lo = +p.getAttribute('lon');
-    if (!isFinite(la) || !isFinite(lo) || !out.length) return;
+    if (!isFinite(la) || !isFinite(lo) || !out.length || ext(p, 'poprawka_dla')) return; // v79: bez znaczników z poprawki
     const sid = ext(p, 'slad'),
       ss = ext(p, 's'),
       tm = kid(p, 'time'),
@@ -26165,6 +26738,56 @@ async function rawPrune() {
     void ids;
   } catch (e) {}
 }
+// v79: pobyt w budynku. W środku GPS potrafi przez minuty „spacerować” z wiarygodną prędkością (odbicia od ścian),
+// więc ślad odpływał o kilkadziesiąt metrów. Znak rozpoznawczy: dokładność wyraźnie gorsza niż chwilę wcześniej
+// i tak zostaje. Od ok. 20 s przed pogorszeniem (sygnał słabnie z opóźnieniem) do powrotu dobrej dokładności
+// pozycja zostaje zamrożona w miejscu wejścia – postój w budynku nie dokłada metrów. Tylko przy tempie pieszym.
+function indoorFix(F) {
+  const n = F.length;
+  if (n < 20) return F;
+  const med = a => {
+    const b = a.filter(x => x != null && isFinite(x)).sort((x, y) => x - y);
+    return b.length ? b[b.length >> 1] : null;
+  };
+  const out = F.map(r => r.slice());
+  let i = 10;
+  while (i < n) {
+    const base = med(F.slice(Math.max(0, i - 20), i).map(r => r[3])) || 5;
+    if (!(F[i][3] > Math.max(7, 2 * base) && (med(F.slice(i, i + 10).map(r => r[3])) || 0) > Math.max(6, 1.6 * base))) {
+      i++;
+      continue;
+    }
+    // koniec pobytu: 4 dobre pomiary w ruchu albo koniec nagrania (dobre, ale „stojące” pomiary w budynku
+    // – dokładność 3 m przy prędkości 0 – nie kończą pobytu, tylko go nie przerywają)
+    let k = i + 1,
+      good = 0;
+    for (; k < n; k++) {
+      const ok = F[k][3] <= Math.max(5, 1.3 * base);
+      good = ok && (F[k][4] == null || F[k][4] > 0.4) ? good + 1 : ok ? good : 0;
+      if (good >= 4) break;
+    }
+    const end = Math.min(n - 1, k - good),
+      tEnd = F[end][0];
+    let a = i;
+    while (a > 0 && F[i][0] - F[a - 1][0] <= 20) a--;
+    const span = F.slice(a, end + 1),
+      vm = med(span.map(r => r[4])),
+      atEnd = k >= n,
+      dIn = hav([F[a][1], F[a][2]], [F[end][1], F[end][2]]);
+    if (tEnd - F[a][0] >= 30 && (vm == null || vm < 2.5) && (atEnd || dIn < 60)) {
+      for (let j = a + 1; j <= end; j++) {
+        out[j][1] = F[a][1];
+        out[j][2] = F[a][2];
+        out[j][3] = Math.min(F[a][3], 5);
+        out[j][4] = 0;
+        out[j][5] = null;
+      }
+      indoorFix.last = [F[a][0], tEnd];
+    }
+    i = Math.max(i + 1, k);
+  }
+  return out;
+}
 // --- przeliczenie całego nagrania z surowych pomiarów (po „Stop” i przy ponownym przeliczeniu) ---
 function trkProcess(rows, opt = {}) {
   // rows: surowe pomiary (s, szer, dł, dokł., prędkość, kierunek, wysokość); zwraca punkty śladu [szer, dł, wys, s]
@@ -26176,7 +26799,7 @@ function trkProcess(rows, opt = {}) {
     run = F0[i0][3] <= 20 ? run + 1 : 0;
     if (run >= 3) break;
   }
-  const F = F0.slice(Math.max(0, i0 - 2));
+  const F = indoorFix(F0.slice(Math.max(0, i0 - 2)));
   if (F.length < 3) return null;
   const la0 = F[0][1],
     lo0 = F[0][2],
@@ -26213,7 +26836,13 @@ function trkProcess(rows, opt = {}) {
       continue;
     }
     const dt = Math.max(0.2, gap),
-      qa = kfAcc(Math.max(r[4] || 0, F[i - 1][4] || 0)),
+      // v79: na zakręcie dopuszczalne przyspieszenie rośnie o przyspieszenie dośrodkowe (v·ω z kursu GPS) –
+      // rowerem przy skrętach na skrzyżowaniach ślad nie ścina już narożników
+      qa =
+        kfAcc(Math.max(r[4] || 0, F[i - 1][4] || 0)) +
+        (r[5] != null && F[i - 1][5] != null && (r[4] || 0) > 1 && (F[i - 1][4] || 0) > 1
+          ? (Math.min(r[4], F[i - 1][4]) * Math.abs(((r[5] - F[i - 1][5] + 540) % 360) - 180) * Math.PI) / 180 / dt
+          : 0),
       q = qa * qa;
     Px = kfAxis(sx, Px, dt, q);
     Py = kfAxis(sy, Py, dt, q);
@@ -26356,7 +26985,7 @@ function trkProcessSg(oldPts, sg, newPts) {
 }
 // v73: wersja sposobu liczenia śladu po „Stop”. Gdy w nowej wersji OMM zmieni się to liczenie, podbijamy TRK_ALG –
 // wtedy OMM raz zapyta, czy przeliczyć ślady nagrane od v70 (mają surowe pomiary). Przycisk w okienku śladu zniknął.
-const TRK_ALG = 2; // v74: kurs GPS z niepewnością 15°, mocniejsze wygładzanie marszu
+const TRK_ALG = 3; // v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
 async function trkRecalcCore(t) {
   // przeliczenie jednego śladu z surowych pomiarów; zwraca {old} albo null (nie da się)
   if (!t.rid || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby
@@ -30760,30 +31389,30 @@ function drawStatsBlock(cx, t, y, W) {
 }
 // v73: jeden znak wodny na wszystkich obrazkach i wydruku – „OMM · Own Map Manager” w prawym górnym rogu,
 // bez tła: na mapie biały napis z delikatną ciemną poświatą, na białym tle (same statystyki) – szary napis
-function drawWmark(cx, W, top, o = {}) {
-  // v75: lewy górny róg (o.right – prawy, gdy z lewej jest nagłówek); mocniejsza, ciemniejsza poświata
-  const fs = o.fs || Math.max(14, Math.round(W / 38));
+function drawWmark(cx, W, bot, o = {}) {
+  // v79: lewy DOLNY róg obszaru mapy (bot = dolna krawędź), mniejszy, miękka poświata, krycie 75%
+  // (u góry obrazu śladu jest okno z opisem – znak wodny tam przeszkadzał)
+  const fs = o.fs || Math.max(12, Math.round(W / 46));
   cx.save();
-  cx.font = '700 ' + fs + 'px system-ui, sans-serif';
-  cx.textAlign = o.right ? 'right' : 'left';
-  cx.textBaseline = 'top';
+  cx.globalAlpha = 0.75;
+  cx.font = '600 ' + fs + 'px system-ui, sans-serif';
+  cx.textAlign = 'left';
+  cx.textBaseline = 'bottom';
   cx.lineJoin = 'round';
-  const m = Math.round(fs * 1.1),
-    x = o.right ? W - m : m,
-    y = top + Math.round(fs * 0.8),
+  const m = Math.round(fs * 0.9),
+    x = m,
+    y = bot - Math.round(fs * 0.6),
     t = APP_NAME + ' · ' + APP_FULL;
   if (o.dark) {
-    cx.fillStyle = 'rgba(60,64,67,.7)';
+    cx.fillStyle = 'rgba(60,64,67,.8)';
     cx.fillText(t, x, y);
   } else {
-    cx.shadowColor = 'rgba(0,0,0,.85)';
-    cx.shadowBlur = Math.round(fs * 0.7);
-    cx.lineWidth = Math.max(2, fs * 0.22);
-    cx.strokeStyle = 'rgba(0,0,0,.45)';
+    cx.shadowColor = 'rgba(0,0,0,.7)';
+    cx.shadowBlur = Math.round(fs * 0.5);
+    cx.lineWidth = Math.max(1.5, fs * 0.16);
+    cx.strokeStyle = 'rgba(0,0,0,.3)';
     cx.strokeText(t, x, y);
-    cx.fillStyle = 'rgba(255,255,255,.95)';
-    cx.fillText(t, x, y);
-    cx.shadowBlur = Math.round(fs * 0.2);
+    cx.fillStyle = 'rgba(255,255,255,.92)';
     cx.fillText(t, x, y);
   }
   cx.restore();
@@ -30859,7 +31488,7 @@ async function measShare(pts, lines, o = {}) {
       cx.fillStyle = i ? '#3c4043' : '#202124';
       cx.fillText(String(ln).slice(0, 52), 62, y + 66 + i * 56);
     });
-    drawWmark(cx, W, 0); // v75: znak wodny w lewym górnym rogu, bez adresu
+    drawWmark(cx, W, y - 6); // v79: lewy dół mapy, nad ramką z wynikami
     const blob = await new Promise(res => r.cv.toBlob(res, 'image/png'));
     info.style.display = 'none';
     if (!blob) return tell(_t('Nie udało się przygotować obrazu (brak pamięci).'));
@@ -30884,7 +31513,7 @@ async function trkImage(t, kind) {
       62,
       206
     );
-    drawWmark(r.cx, W, 260);
+    drawWmark(r.cx, W, 1350);
     return r;
   }
   if (kind === 'st') {
@@ -30903,7 +31532,7 @@ async function trkImage(t, kind) {
     out.height = H;
     const ox = out.getContext('2d');
     ox.drawImage(cv, 0, 0);
-    drawWmark(ox, W, 0, {dark: true, right: true}); // z lewej nagłówek śladu
+    drawWmark(ox, W, H, {dark: true});
     void probe;
     return {cv: out, used: 'cur'};
   }
@@ -30927,7 +31556,7 @@ async function trkImage(t, kind) {
   out.height = H;
   const ox = out.getContext('2d');
   ox.drawImage(cv, 0, 0);
-  drawWmark(ox, W, 0);
+  drawWmark(ox, W, MH);
   return {cv: out, used: r.used};
 }
 
@@ -31246,16 +31875,35 @@ function extStart(t, kind, gi) {
     txt = h('div', 'stx'),
     bt = h('div', 'sbt'),
     taps = [];
-  let route = localStorage.getItem('omm-ext-trasa') === '1';
-  const rb = B('', () => {
-    route = !route;
-    localStorage.setItem('omm-ext-trasa', route ? '1' : '0');
+  // v79: zamiast pola „☐ Po ścieżkach” – przycisk „Dociągnij”: układa linię po ścieżkach od razu i pokazuje ją na mapie
+  // (niebieska); „Gotowe” zapisuje to, co widać. Każda zmiana punktów kasuje dociągnięcie (trzeba nacisnąć ponownie).
+  let snap = null,
+    snapBusy = false;
+  const snapLine = L.polyline([], {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.9, interactive: false}).addTo(g);
+  const rb = BI('route', _t('Dociągnij'), async () => {
+    if (snapBusy) return;
+    if (snap) {
+      snap = null;
+      return show();
+    }
+    if (!taps.length) return tell(_t('Najpierw zaznacz punkty na mapie.'));
+    snapBusy = true;
+    rb.disabled = true;
+    try {
+      const pts = [...(A ? [A] : []), ...taps, ...(Z ? [Z] : [])].map(q => [q[0], q[1]]);
+      snap = await extSnap(pts);
+    } finally {
+      snapBusy = false;
+      rb.disabled = false;
+    }
     show();
   });
   const show = () => {
     const pts = [...(A ? [A] : []), ...taps, ...(Z ? [Z] : [])].map(q => [q[0], q[1]]);
     line.setLatLngs(pts);
-    g.eachLayer(l => l !== line && g.removeLayer(l));
+    line.setStyle({opacity: snap ? 0.35 : 1});
+    snapLine.setLatLngs(snap ? snap.p : []);
+    g.eachLayer(l => l !== line && l !== snapLine && g.removeLayer(l));
     taps.forEach(q => L.circleMarker(q, {pane: 'tmpP', radius: 6, color: '#fff', weight: 2, fillColor: '#e53935', fillOpacity: 1, interactive: false}).addTo(g));
     txt.innerHTML = '';
     txt.append(
@@ -31269,10 +31917,14 @@ function extStart(t, kind, gi) {
             ? _t('Dotykaj punktów po drodze, na końcu miejsca, w którym skończyłeś.')
             : _t('Dotykaj punktów po drodze między końcem a początkiem nagranych odcinków.')
       ),
-      h('div', 'muted', _t('Zaznaczono: ') + taps.length + (pts.length > 1 ? ' · ' + fkm(dist(pts)) : ''))
+      h('div', 'muted', _t('Zaznaczono: ') + taps.length + (pts.length > 1 ? ' · ' + fkm(dist(snap ? snap.p : pts)) : '') + (snap ? _t(' · dociągnięte do ścieżek') : '')),
+      ...(snap && snap.net ? [h('div', 'muted', snap.net + _t(' odc. prosto – serwer tras nie odpowiedział'))] : []),
+      ...(snap && snap.bad ? [h('div', 'muted', snap.bad + _t(' odc. prosto – ścieżki szły naokoło'))] : [])
     );
-    rb.textContent = (route ? '☑' : '☐') + _t(' Po ścieżkach');
-    rb.title = _t('Układa linię wzdłuż dróg i ścieżek (wysyła współrzędne do routing.openstreetmap.de)');
+    const lb = rb.querySelector('span:last-child') || rb;
+    lb.textContent = snap ? _t('Prosto') : _t('Dociągnij');
+    rb.title = snap ? _t('Wróć do prostej linii między punktami') : _t('Ułóż linię wzdłuż dróg i ścieżek (wysyła współrzędne zaznaczonych punktów do serwera tras)');
+    rb.classList.toggle('on', !!snap);
   };
   bt.append(
     BI(
@@ -31285,7 +31937,7 @@ function extStart(t, kind, gi) {
         if (EXT) EXT.busy = true;
         if (b) b.disabled = true;
         try {
-          await extFinish(t, kind, gi, taps, route);
+          await extFinish(t, kind, gi, taps, snap && snap.p);
         } finally {
           if (EXT) EXT.busy = false;
           if (b) b.disabled = false;
@@ -31295,6 +31947,7 @@ function extStart(t, kind, gi) {
     ),
     BI('back', _t('Cofnij'), () => {
       taps.pop();
+      snap = null;
       show();
     }),
     rb,
@@ -31303,7 +31956,7 @@ function extStart(t, kind, gi) {
   ui.append(txt, bt);
   document.body.append(ui);
   document.body.classList.add('spliton');
-  EXT = {g, ui, click: e => (taps.push([e.latlng.lat, e.latlng.lng]), show())};
+  EXT = {g, ui, click: e => (taps.push([e.latlng.lat, e.latlng.lng]), (snap = null), show())};
   map.fitBounds(L.latLngBounds(P.map(q => [q[0], q[1]])), {paddingTopLeft: [40, 40], paddingBottomRight: [40, 220], maxZoom: 16});
   map.on('click', EXT.click);
   show();
@@ -31351,6 +32004,7 @@ function trkEdit(t) {
     t,
     pts: src.pts.map(q => [q[0], q[1], q[2] == null ? null : q[2], q[3], q[4] || 0, q[5] || 0]),
     sg: new Set(src.sg || []),
+    nt: (t.ed && Array.isArray(t.ed.nt) ? t.ed.nt : []).map(n => [n[0], n[1], String(n[2] || '')]), // v79: znaczniki z opisem
     hist: [],
     fut: [],
     tool: 'move',
@@ -31358,13 +32012,17 @@ function trkEdit(t) {
     from: null, // dorysowywanie: {i: indeks wolnego końca, end: true = koniec kawałka}
     g: L.layerGroup().addTo(map),
     ui: h('div', 'splitbar tedbar'),
-    txt: h('div', 'stx'),
+    hd: h('div', 'tedhd'),
+    st: h('div', 'tedst'),
+    hint: h('div', 'tedhint'),
     tb: h('div', 'tedtools'),
-    ex: h('div', 'sbt')
+    ex: h('div', 'tedex')
   };
   TED = E;
   document.body.classList.add('spliton');
-  const save = () => JSON.stringify({p: E.pts, s: [...E.sg]});
+  const save = () => JSON.stringify({p: E.pts, s: [...E.sg], n: E.nt});
+  E.saved = t.ed ? save() : null; // stan zapisany (do pytania przy zamykaniu)
+  const dirty = () => save() !== (E.saved || JSON.stringify({p: t.pts.map(q => [q[0], q[1], q[2] == null ? null : q[2], q[3], q[4] || 0, 0]), s: t.sg || [], n: []}));
   const snap = () => {
     E.hist.push(save());
     if (E.hist.length > 100) E.hist.shift();
@@ -31374,6 +32032,7 @@ function trkEdit(t) {
     const o = JSON.parse(j);
     E.pts = o.p;
     E.sg = new Set(o.s);
+    E.nt = o.n || [];
     E.sel = E.from = null;
   };
   const fixSg = () => (E.sg = new Set([...E.sg].filter(k => k > 0 && k < E.pts.length)));
@@ -31387,19 +32046,24 @@ function trkEdit(t) {
     });
     return out;
   };
-  const pieceOf = i => pieces().find(([a, b]) => i >= a && i <= b);
   const ins = (at, arr) => {
     // wstawienie punktów przed indeksem at; przerwy dalej przesuwają się
     E.pts.splice(at, 0, ...arr);
     E.sg = new Set([...E.sg].map(k => (k > at ? k + arr.length : k)));
   };
   const del = (a, b) => {
-    // usunięcie punktów a..b; przerwy dalej cofają się, przerwa za usuniętym zostaje przerwą
+    // usunięcie punktów a..b (odcinek); w miejscu wycięcia zostaje przerwa
     const n = b - a + 1,
       brk = E.sg.has(a) || E.sg.has(b + 1) || (a > 0 && b + 1 < E.pts.length);
     E.pts.splice(a, n);
     E.sg = new Set([...E.sg].filter(k => k < a || k > b + 1 || k === b + 1).map(k => (k > b ? k - n : k)));
     if (brk && a > 0 && a < E.pts.length) E.sg.add(a);
+    fixSg();
+  };
+  const delPt = i => {
+    // v79: usunięcie jednego punktu – sąsiednie punkty łączą się linią (bez przerwy)
+    E.pts.splice(i, 1);
+    E.sg = new Set([...E.sg].map(k => (k > i ? k - 1 : k)));
     fixSg();
   };
   const tMid = (a, b) => (a && b ? Math.round((a[3] + b[3]) / 2) : a ? a[3] : b ? b[3] : 0);
@@ -31410,9 +32074,9 @@ function trkEdit(t) {
     pieces().forEach(([a, b]) => {
       for (let k = a; k < b; k++) {
         const A = map.latLngToContainerPoint([E.pts[k][0], E.pts[k][1]]),
-          B = map.latLngToContainerPoint([E.pts[k + 1][0], E.pts[k + 1][1]]),
-          dx = B.x - A.x,
-          dy = B.y - A.y,
+          B2 = map.latLngToContainerPoint([E.pts[k + 1][0], E.pts[k + 1][1]]),
+          dx = B2.x - A.x,
+          dy = B2.y - A.y,
           L2 = dx * dx + dy * dy;
         let u = L2 ? ((cp.x - A.x) * dx + (cp.y - A.y) * dy) / L2 : 0;
         u = Math.max(0, Math.min(1, u));
@@ -31434,11 +32098,12 @@ function trkEdit(t) {
   const dotIc = (cls, sz) => L.divIcon({className: 'tedd ' + cls, iconSize: [sz, sz], iconAnchor: [sz / 2, sz / 2]});
   const TOOLS = [
     ['move', 'move', _t('Przesuń')],
-    ['cut', 'split', _t('Tnij')],
-    ['cutout', 'del', _t('Wytnij odcinek')],
-    ['draw', 'extend', _t('Dorysuj')],
-    ['join', 'join', _t('Połącz')],
-    ['rm', 'x', _t('Usuń punkt')]
+    ['cut', 'tdCut', _t('Tnij')],
+    ['cutout', 'tdCutout', _t('Wytnij')],
+    ['draw', 'tdDraw', _t('Dorysuj')],
+    ['join', 'tdJoin', _t('Połącz')],
+    ['rm', 'tdRm', _t('Usuń')],
+    ['note', 'tdNote', _t('Znacznik')]
   ];
   const HELP = {
     move: _t('Przeciągnij kropkę – nowe miejsce. Przeciągnij małą kropkę między punktami – nowy punkt.'),
@@ -31446,8 +32111,36 @@ function trkEdit(t) {
     cutout: _t('Dotknij odcinka między cięciami – podświetli się; „Usuń odcinek” go wycina (zostaje przerwa).'),
     draw: _t('Dotknij wolnego końca (duża kropka), potem stawiaj punkty na mapie. Dotknięcie drugiego wolnego końca zamyka przerwę.'),
     join: _t('Dotknij przerwy albo cięcia – oba końce połączą się prostą.'),
-    rm: _t('Dotknij kropki, by ją usunąć.')
+    rm: _t('Dotknij kropki – punkt znika, a sąsiednie punkty łączą się linią.'),
+    note: _t('Dotknij mapy i wpisz uwagę, np. „bardzo ścięty zakręt”. Dotknięcie znacznika – zmiana opisu albo usunięcie.')
   };
+  const helpAll = () =>
+    dlg({
+      ...(t.ed
+        ? {
+            extra: [
+              {
+                t: _t('Usuń zapisaną poprawkę'),
+                fn: async () => {
+                  document.querySelectorAll('.dback').forEach(x => x.remove());
+                  if (!(await askYes(_t('Usunąć zapisaną poprawkę tego śladu? Oryginał zostaje.'), _t('Usuń'), true))) return;
+                  delete t.ed;
+                  tedStop();
+                  trkChanged();
+                }
+              }
+            ]
+          }
+        : {}),
+      title: _t('Poprawka śladu – jak używać'),
+      msg:
+        _t('Poprawiasz kopię śladu – oryginał (szara przerywana linia) zostaje bez zmian. Zapisana poprawka i znaczniki trafiają do pliku GPX (tryb diagnostyczny) jako wskazówka do ulepszenia liczenia śladów.') +
+        '\n\n' +
+        TOOLS.map(([k, , n]) => '• ' + (k === 'rm' ? _t('Usuń punkt') : n) + ' – ' + HELP[k]).join('\n') +
+        '\n\n' +
+        _t('↶ ↷ – cofnij i ponów. Dyskietka – zapisz (możesz dalej poprawiać). ✕ – zamknij tryb.'),
+      cancel: null
+    });
   const draw = () => {
     E.g.clearLayers();
     L.polyline(
@@ -31469,7 +32162,8 @@ function trkEdit(t) {
         L.marker([(q[0] + r[0]) / 2, (q[1] + r[1]) / 2], {icon: L.divIcon({className: 'tedcut', html: ico('split', 14), iconSize: [22, 22], iconAnchor: [11, 11]}), interactive: false, zIndexOffset: 2000}).addTo(E.g);
       }
     });
-    const mv = E.tool === 'move';
+    const mv = E.tool === 'move',
+      nt = E.tool === 'note';
     if (mv)
       E.pts.forEach((q, i) => {
         if (!i || E.sg.has(i)) return;
@@ -31484,25 +32178,38 @@ function trkEdit(t) {
       });
     const endSet = new Set(ends().map(x => x.i)),
       sp = E.sel != null ? P[E.sel] : null;
-    E.pts.forEach((q, i) => {
-      const isEnd = E.tool === 'draw' && endSet.has(i),
-        fr = (E.from && E.from.i === i) || (sp && i >= sp[0] && i <= sp[1]),
-        cls = (q[5] ? 'ch' : '') + (isEnd ? ' end' : '') + (fr ? ' fr' : ''),
-        sz = isEnd ? 24 : 18,
-        m = L.marker([q[0], q[1]], {icon: dotIc('pt ' + cls, sz), draggable: mv, zIndexOffset: isEnd ? 1200 : 1000}).addTo(E.g);
-      if (mv)
-        m.on('dragend', ev => {
-          snap();
-          const ll = ev.target.getLatLng();
-          q[0] = +ll.lat.toFixed(6);
-          q[1] = +ll.lng.toFixed(6);
-          q[5] = q[5] === 2 ? 2 : 1;
-          draw();
+    if (!nt)
+      E.pts.forEach((q, i) => {
+        const isEnd = E.tool === 'draw' && endSet.has(i),
+          fr = (E.from && E.from.i === i) || (sp && i >= sp[0] && i <= sp[1]),
+          cls = (q[5] ? 'ch' : '') + (isEnd ? ' end' : '') + (fr ? ' fr' : ''),
+          sz = isEnd ? 24 : 18,
+          m = L.marker([q[0], q[1]], {icon: dotIc('pt ' + cls, sz), draggable: mv, zIndexOffset: isEnd ? 1200 : 1000}).addTo(E.g);
+        if (mv)
+          m.on('dragend', ev => {
+            snap();
+            const ll = ev.target.getLatLng();
+            q[0] = +ll.lat.toFixed(6);
+            q[1] = +ll.lng.toFixed(6);
+            q[5] = q[5] === 2 ? 2 : 1;
+            draw();
+          });
+        m.on('click', ev => {
+          L.DomEvent.stop(ev);
+          tap({latlng: ev.latlng || L.latLng(q[0], q[1]), dot: i});
         });
-      m.on('click', ev => {
-        L.DomEvent.stop(ev);
-        tap({latlng: ev.latlng || L.latLng(q[0], q[1]), dot: i});
       });
+    // znaczniki z opisem (zawsze widoczne; dotykalne w narzędziu „Znacznik”)
+    E.nt.forEach((n, k) => {
+      const ic = L.divIcon({className: 'tednote', html: '<span class="i">' + ico('tdNote', 16) + '</span><span class="t"></span>', iconSize: null, iconAnchor: [13, 13]}),
+        m = L.marker([n[0], n[1]], {icon: ic, interactive: nt, zIndexOffset: 3000}).addTo(E.g),
+        el = m.getElement && m.getElement();
+      if (el) el.querySelector('.t').textContent = n[2];
+      if (nt)
+        m.on('click', ev => {
+          L.DomEvent.stop(ev);
+          tap({latlng: L.latLng(n[0], n[1]), note: k});
+        });
     });
     if (E.from) {
       // podgląd dorysowywania od wybranego końca
@@ -31510,26 +32217,55 @@ function trkEdit(t) {
       L.circleMarker([q[0], q[1]], {pane: 'tmpP', radius: 16, color: '#d93025', weight: 2, fill: false, interactive: false}).addTo(E.g);
     }
     E.tb.querySelectorAll('button').forEach(b => b.classList.toggle('on', b.dataset.k === E.tool));
-    E.txt.innerHTML = '';
     const ch = E.pts.filter(q => q[5]).length;
-    E.txt.append(
-      h('b', null, _t('Poprawka śladu (dla OMM)')),
-      h('div', null, E.from ? _t('Stawiaj punkty na mapie; dotknięcie drugiego wolnego końca zamyka przerwę. „Gotowe” kończy.') : HELP[E.tool]),
-      h('div', 'muted', _t('Punktów: ') + E.pts.length + _t(' · zmienionych: ') + ch + _t(' · kawałków: ') + P.length + _t(' · oryginał (szary) bez zmian'))
-    );
+    E.st.textContent = _t('Punkty ') + E.pts.length + _t(' · zmienione ') + ch + _t(' · kawałki ') + P.length + (E.nt.length ? _t(' · znaczniki ') + E.nt.length : '');
+    E.bS.classList.toggle('dirty', dirty()); // kropka na dyskietce = niezapisane zmiany
+    // krótka podpowiedź tylko wtedy, gdy trwa czynność wieloetapowa (pełna instrukcja – pod ⓘ)
+    E.hint.textContent = E.from ? _t('Stawiaj punkty na mapie; dotknięcie drugiego wolnego końca zamyka przerwę. „Gotowe” kończy.') : E.sel != null ? _t('Odcinek podświetlony na czerwono – „Usuń odcinek” wytnie go.') : '';
+    E.hint.style.display = E.hint.textContent ? '' : 'none';
     E.bU.disabled = !E.hist.length;
     E.bR.disabled = !E.fut.length;
     E.bDel.style.display = E.sel != null ? '' : 'none';
     E.bDone.style.display = E.from ? '' : 'none';
+    E.ex.style.display = E.sel != null || E.from ? '' : 'none';
   };
   E.draw = draw;
-  const tap = ev => {
+  const tap = async ev => {
     const ll = ev.latlng,
       cp = map.latLngToContainerPoint(ll);
+    if (E.tool === 'note') {
+      if (ev.note != null) {
+        const n = E.nt[ev.note],
+          v = await dlg({
+            title: _t('Znacznik: ') + n[2],
+            btns: [
+              {t: _t('Anuluj'), v: null},
+              {t: _t('Usuń'), v: 'del', c: 'danger'},
+              {t: _t('Zmień opis'), v: 'ed', c: 'okb'}
+            ]
+          });
+        if (v === 'del') {
+          snap();
+          E.nt.splice(ev.note, 1);
+        } else if (v === 'ed') {
+          const tx = await askText(_t('Opis znacznika'), n[2]);
+          if (tx != null && tx.trim()) {
+            snap();
+            n[2] = tx.trim().slice(0, 300);
+          }
+        }
+        return draw();
+      }
+      const tx = await askText(_t('Co jest nie tak w tym miejscu? (np. „bardzo ścięty zakręt”)'), '');
+      if (tx == null || !tx.trim()) return;
+      snap();
+      E.nt.push([+ll.lat.toFixed(6), +ll.lng.toFixed(6), tx.trim().slice(0, 300)]);
+      return draw();
+    }
     if (E.tool === 'rm' && ev.dot != null) {
       if (E.pts.length <= 2) return;
       snap();
-      del(ev.dot, ev.dot);
+      delPt(ev.dot);
       return draw();
     }
     if (E.tool === 'cut') {
@@ -31571,7 +32307,7 @@ function trkEdit(t) {
       // cięcie bez przesunięcia (dwa punkty w jednym miejscu) – zostaje jeden
       const q = E.pts[best.a],
         r = E.pts[best.i];
-      if (q[0] === r[0] && q[1] === r[1]) del(best.i, best.i);
+      if (q[0] === r[0] && q[1] === r[1]) delPt(best.i);
       return draw();
     }
     if (E.tool === 'draw') {
@@ -31618,7 +32354,61 @@ function trkEdit(t) {
     }
   };
   E.click = tap;
-  E.tb.innerHTML = '';
+  const doSave = () => {
+    fixSg();
+    t.ed = {pts: E.pts.map(q => q.slice()), sg: [...E.sg], ...(E.nt.length ? {nt: E.nt.map(n => n.slice())} : {}), at: Date.now()};
+    E.saved = save();
+    trkChanged();
+    toastMsg(_t('Zapisano'));
+    draw();
+  };
+  const close = async () => {
+    if (dirty()) {
+      const v = await dlg({
+        title: _t('Zapisać zmiany w poprawce?'),
+        btns: [
+          {t: _t('Wróć'), v: null},
+          {t: _t('Odrzuć'), v: 'no', c: 'danger'},
+          {t: _t('Zapisz'), v: 'yes', c: 'okb'}
+        ]
+      });
+      if (!v) return;
+      if (v === 'yes') doSave();
+    }
+    tedStop();
+  };
+  // nagłówek: tytuł, cofnij, ponów, zapisz, podkład mapy, instrukcja, zamknij
+  E.bU = IB(
+    'back',
+    () => {
+      if (!E.hist.length) return;
+      E.fut.push(save());
+      restore(E.hist.pop());
+      draw();
+    },
+    'tdb',
+    _t('Cofnij')
+  );
+  E.bR = IB(
+    'redo',
+    () => {
+      if (!E.fut.length) return;
+      E.hist.push(save());
+      restore(E.fut.pop());
+      draw();
+    },
+    'tdb',
+    _t('Ponów')
+  );
+  E.hd.append(
+    h('b', null, _t('Poprawka śladu')),
+    E.bU,
+    E.bR,
+    (E.bS = IB('save', () => doSave(), 'tdb okb', _t('Zapisz poprawkę'))),
+    IB('layer', () => $('bbtn').onclick(), 'tdb', _t('Podkład mapy')),
+    IB('info', helpAll, 'tdb', _t('Jak używać')),
+    IB('x', close, 'tdb', _t('Zamknij'))
+  );
   TOOLS.forEach(([k, ik, lab]) => {
     const b = BI(ik, lab, () => {
       E.tool = k;
@@ -31627,22 +32417,10 @@ function trkEdit(t) {
       draw();
     });
     b.dataset.k = k;
+    b.title = HELP[k];
     E.tb.append(b);
   });
-  E.bU = BI('back', _t('Cofnij'), () => {
-    if (!E.hist.length) return;
-    E.fut.push(save());
-    restore(E.hist.pop());
-    draw();
-  });
-  E.bR = BI('redo', _t('Ponów'), () => {
-    if (!E.fut.length) return;
-    E.hist.push(save());
-    restore(E.fut.pop());
-    draw();
-  });
-  E.bDel = BI(
-    'del',
+  E.bDel = B(
     _t('Usuń odcinek'),
     () => {
       const P = pieces(),
@@ -31657,50 +32435,22 @@ function trkEdit(t) {
       del(pc[0], pc[1]);
       draw();
     },
-    'danger'
+    'sm danger'
   );
-  E.bDone = B(_t('Gotowe'), () => {
-    E.from = null;
-    draw();
-  });
-  E.ex.append(
-    E.bU,
-    E.bR,
-    E.bDel,
-    E.bDone,
-    ...(t.ed
-      ? [
-          B(
-            _t('Usuń poprawkę'),
-            async () => {
-              if (!(await askYes(_t('Usunąć zapisaną poprawkę tego śladu? Oryginał zostaje.'), _t('Usuń'), true))) return;
-              delete t.ed;
-              tedStop();
-              trkChanged();
-            },
-            'danger'
-          )
-        ]
-      : []),
-    B(_t('Anuluj'), tedStop),
-    BI(
-      'check',
-      _t('Zapisz poprawkę'),
-      () => {
-        fixSg();
-        t.ed = {pts: E.pts.map(q => q.slice()), sg: [...E.sg], at: Date.now()};
-        tedStop();
-        trkChanged();
-        toastMsg(_t('Zapisano poprawkę – oryginał bez zmian; poprawka trafia do pliku GPX ze śladem'));
-      },
-      'okb'
-    )
+  E.bDone = B(
+    _t('Gotowe'),
+    () => {
+      E.from = null;
+      draw();
+    },
+    'sm'
   );
-  E.ui.append(E.txt, E.tb, E.ex);
+  E.ex.append(E.bDel, E.bDone);
+  E.ui.append(E.hd, E.st, E.tb, E.hint, E.ex);
   document.body.append(E.ui);
   E.mclick = ev => tap({latlng: ev.latlng});
   map.on('click', E.mclick);
-  map.fitBounds(L.latLngBounds(E.pts.map(q => [q[0], q[1]])), {paddingTopLeft: [30, 30], paddingBottomRight: [30, 260], maxZoom: 18});
+  map.fitBounds(L.latLngBounds(E.pts.map(q => [q[0], q[1]])), {paddingTopLeft: [30, 30], paddingBottomRight: [30, 230], maxZoom: 18});
   draw();
 }
 function tedStop() {
@@ -31729,9 +32479,10 @@ function extStop() {
 const RT_PROF = {
   piesze: {ic: '🥾', n: 'Pieszo – wszystkie ścieżki i drogi leśne', c: 'pedestrian', o: {use_tracks: 1, max_hiking_difficulty: 6}, osrm: 'foot'},
   utw: {ic: '🚶', n: 'Pieszo – bez dróg leśnych i polnych', c: 'pedestrian', o: {use_tracks: 0, max_hiking_difficulty: 1}, osrm: 'foot'},
-  rower: {ic: '🚲', n: 'Rower – trekking', c: 'bicycle', o: {bicycle_type: 'Hybrid', avoid_bad_surfaces: 0.5}, osrm: 'bike'},
-  szosa: {ic: '🚴', n: 'Rower szosowy – tylko asfalt i utwardzone', c: 'bicycle', o: {bicycle_type: 'Road', avoid_bad_surfaces: 1}, osrm: 'bike'},
-  mtb: {ic: '🚵', n: 'Rower – górski, leśne drogi', c: 'bicycle', o: {bicycle_type: 'Mountain', avoid_bad_surfaces: 0}, osrm: 'bike'},
+  // v79: trzy rowery wyraźnie różne – ruchliwe ulice (use_roads), podjazdy (use_hills), nawierzchnia, drogi gruntowe
+  rower: {ic: '🚲', n: 'Rower – trekking', c: 'bicycle', o: {bicycle_type: 'Hybrid', cycling_speed: 18, use_roads: 0.25, use_hills: 0.35, avoid_bad_surfaces: 0.35, use_living_streets: 0.6}, osrm: 'bike'},
+  szosa: {ic: '🚴', n: 'Rower szosowy – tylko asfalt i utwardzone', c: 'bicycle', o: {bicycle_type: 'Road', cycling_speed: 25, use_roads: 0.65, use_hills: 0.5, avoid_bad_surfaces: 1, use_living_streets: 0.3}, osrm: 'bike'},
+  mtb: {ic: '🚵', n: 'Rower – górski, leśne drogi', c: 'bicycle', o: {bicycle_type: 'Mountain', cycling_speed: 16, use_roads: 0.05, use_hills: 0.8, avoid_bad_surfaces: 0, use_living_streets: 0.7}, osrm: 'bike'},
   auto: {ic: '🚗', n: 'Samochód', c: 'auto', o: {}, osrm: 'car'}
 };
 const rtProf = () => (RT_PROF[localStorage.getItem('omm-trasa-drogi')] ? localStorage.getItem('omm-trasa-drogi') : 'piesze');
@@ -31769,6 +32520,25 @@ function despur(p) {
   }
   return st;
 }
+function deloop(p, at, maxLen = 3000, lo = 0, hi = p.length - 1) {
+  // v79: pętla przy punkcie pośrednim – trasa dochodzi w pobliże punktu, objeżdża kwartał i wraca w to samo miejsce
+  // (serwer chciał „dotknąć” konkretnej jezdni). Szuka pary punktów przed i za indeksem at, które leżą < 15 m od siebie,
+  // a trasa między nimi ma 80 m – maxLen; wycina ją. Zwraca {p, at} (nowy indeks punktu pośredniego) albo null.
+  const cum = [0];
+  for (let i = 1; i < p.length; i++) cum.push(cum[i - 1] + hav(p[i - 1], p[i]));
+  let best = null;
+  for (let a = at; a >= lo && cum[at] - cum[a] <= maxLen; a--)
+    for (let b = hi; b > at; b--) {
+      const L2 = cum[b] - cum[a];
+      if (L2 > maxLen || L2 < 80) continue;
+      if (hav(p[a], p[b]) < 15 && (!best || L2 > best.L)) {
+        best = {a, b, L: L2};
+        break;
+      }
+    }
+  if (!best) return null;
+  return {p: [...p.slice(0, best.a + 1), ...p.slice(best.b)], at: best.a};
+}
 async function rtFetch(url, ms = 15000) {
   const ac = new AbortController(),
     tm = setTimeout(() => ac.abort(), ms);
@@ -31786,7 +32556,14 @@ async function routeAB(pts, opt = {}) {
   RT_ERR = navigator.onLine === false ? _t('brak internetu') : _t('serwer tras nie odpowiedział');
   try {
     const q = {
-      locations: pts.map((x, i) => ({lat: +x[0].toFixed(6), lon: +x[1].toFixed(6), ...(opt.types && opt.types[i] && opt.types[i] !== 'break' ? {type: opt.types[i]} : {})})),
+      // v79: punkty pośrednie z promieniem – serwer bierze pod uwagę wszystkie drogi w pobliżu (np. obie jezdnie),
+      // a nie tylko najbliższą krawędź; bez tego rower robił kółka, żeby „dotknąć” jezdni w przeciwnym kierunku
+      locations: pts.map((x, i) => ({
+        lat: +x[0].toFixed(6),
+        lon: +x[1].toFixed(6),
+        ...(opt.types && opt.types[i] && opt.types[i] !== 'break' ? {type: opt.types[i]} : {}),
+        ...(i && i < pts.length - 1 ? {radius: opt.types && opt.types[i] === 'break_through' ? 35 : 20} : {})
+      })),
       costing: pf.c,
       costing_options: {[pf.c]: {...pf.o, ...(opt.priv ? {ignore_access: true, ignore_closures: true} : {})}},
       directions_options: {language: LANG === 'pl' ? 'pl-PL' : 'en-US', units: 'kilometers'}
@@ -31879,30 +32656,31 @@ function densify(path) {
   }
   return out;
 }
-async function extFinish(t, kind, gi, taps, route) {
-  if (!taps.length) return tell(kind === 'start' ? _t('Dotknij mapy w miejscu, z którego wyszedłeś.') : _t('Zaznacz na mapie choć jeden punkt.'));
-  const P = t.pts,
-    A = kind === 'end' ? P[P.length - 1] : kind === 'gap' ? P[gi - 1] : null,
-    Z = kind === 'start' ? P[0] : kind === 'gap' ? P[gi] : null;
-  let path = [...(A ? [A] : []), ...taps, ...(Z ? [Z] : [])].map(q => [q[0], q[1]]);
-  if (route) {
-    // v59: każdy odcinek po drogach (także prywatnych – byłeś tam), z kontrolą objazdów; potem podgląd
-    info.style.display = 'block';
-    info.textContent = _t('Układam linię po ścieżkach…');
-    const out = [path[0]];
-    let net = 0,
-      bad = 0;
+async function extSnap(path) {
+  // v59/v79: każdy odcinek po drogach (także prywatnych – byłeś tam), z kontrolą objazdów
+  info.style.display = 'block';
+  info.textContent = _t('Układam linię po ścieżkach…');
+  const out = [path[0]];
+  let net = 0,
+    bad = 0;
+  try {
     for (let i = 1; i < path.length; i++) {
       const r = await routeSeg(path[i - 1], path[i], {priv: true, strict: true});
       if (r.bad === 'net') net++;
       else if (r.bad) bad++;
       out.push(...r.p.slice(1));
     }
+  } finally {
     info.style.display = 'none';
-    const v = await extPreview(out, net, bad);
-    if (v === 'back') return;
-    if (v === 'ok') path = out;
   }
+  return {p: out, net, bad};
+}
+async function extFinish(t, kind, gi, taps, snapP) {
+  if (!taps.length) return tell(kind === 'start' ? _t('Dotknij mapy w miejscu, z którego wyszedłeś.') : _t('Zaznacz na mapie choć jeden punkt.'));
+  const P = t.pts,
+    A = kind === 'end' ? P[P.length - 1] : kind === 'gap' ? P[gi - 1] : null,
+    Z = kind === 'start' ? P[0] : kind === 'gap' ? P[gi] : null;
+  let path = snapP && snapP.length > 1 ? snapP.map(q => [q[0], q[1]]) : [...(A ? [A] : []), ...taps, ...(Z ? [Z] : [])].map(q => [q[0], q[1]]);
   // nowe punkty: bez punktu łączenia ze śladem (on już istnieje)
   const np = densify(path);
   if (A) np.shift(); // punkt łączenia ze śladem już w nim jest
@@ -31995,34 +32773,6 @@ async function extFinish(t, kind, gi, taps, route) {
     t.up = Date.now();
     await trkChanged();
     toastMsg(_t('Cofnięto dorysowanie'));
-  });
-}
-function extPreview(path, net, bad) {
-  // podgląd ułożonej linii przed zapisem: Zatwierdź / Prosto / Wróć do zaznaczania
-  return new Promise(res => {
-    if (!EXT) return res('ok');
-    const pv = L.polyline(path, {pane: 'tmpP', color: '#1a73e8', weight: 5, opacity: 0.9, interactive: false}).addTo(EXT.g),
-      ui = EXT.ui,
-      old = [...ui.childNodes],
-      txt = h('div', 'stx'),
-      bt = h('div', 'sbt'),
-      end = v => {
-        pv.remove();
-        ui.innerHTML = '';
-        ui.append(...old);
-        map.on('click', EXT.click);
-        res(v);
-      };
-    map.off('click', EXT.click);
-    txt.append(
-      h('b', null, _t('Podgląd: ') + fkm(dist(path))),
-      h('div', null, _t('Niebieska linia – tak zostanie dorysowany ślad.')),
-      ...(net ? [h('div', 'muted', net + _t(' odc. prosto – serwer tras nie odpowiedział'))] : []),
-      ...(bad ? [h('div', 'muted', bad + _t(' odc. poprowadziłem prosto – ścieżki szły naokoło'))] : [])
-    );
-    bt.append(BI('check', _t('Zatwierdź'), () => end('ok'), 'okb'), B(_t('📏 Prosto'), () => end('straight')), BI('back', _t('Wróć'), () => end('back')));
-    ui.innerHTML = '';
-    ui.append(txt, bt);
   });
 }
 // ---------- scalanie śladów (np. kawałek z innej aplikacji + nagranie z OMM) ----------
@@ -35373,6 +36123,22 @@ async function planRoute() {
         if (!r && types.includes('break_through')) r = await routeAB(pts.map(q => q.ll), {prof: pr});
       } catch (e) {}
       if (r && r.legs && r.legs.length === pts.length - 1) {
+        // v79: bez kółek wokół punktów pośrednich (granica odcinków)
+        let P2 = r.p;
+        const bd = [0, ...r.legs.map(lg => lg.e)];
+        for (let j = 1; j < bd.length - 1; j++) {
+          const d = deloop(P2, bd[j], 3000, bd[j - 1], bd[j + 1]);
+          if (!d) continue;
+          const cut = P2.length - d.p.length;
+          P2 = d.p;
+          bd[j] = d.at;
+          for (let k = j + 1; k < bd.length; k++) bd[k] -= cut;
+        }
+        r.p = P2;
+        r.legs.forEach((lg, j) => {
+          lg.s = bd[j];
+          lg.e = bd[j + 1];
+        });
         r.legs.forEach((lg, j) => {
           const a = pts[j].ll,
             b = pts[j + 1].ll,
