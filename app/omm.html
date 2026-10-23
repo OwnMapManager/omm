@@ -2971,6 +2971,35 @@ body.rec #recpill {
   grid-column: 4;
   grid-row: 1 / 3;
 }
+/* v81: nowe gry – przyciski */
+.gpad.tron {
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 66px;
+}
+.gpad.scig {
+  grid-template-columns: 1fr 118px 1fr;
+  grid-template-rows: 70px;
+}
+.gpad.scig .gk.b {
+  font-weight: 700;
+  font-size: 14px;
+}
+.gpad.wedr {
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 54px;
+  gap: 5px;
+  padding: 8px 6px 14px;
+}
+.gpad.wedr .gk {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px;
+  line-height: 1.15;
+}
+.gpad.wedr .gk.on {
+  background: rgba(255, 215, 64, 0.38);
+  border-color: #ffe57f;
+}
 /* v71: wojna grzybów – menu broni wysuwane z prawej (siatka kafelków z zapasem, opis wybranej) */
 .wpan {
   position: absolute;
@@ -4336,6 +4365,19 @@ html.recme .meic {
 .tedcut svg {
   width: 14px;
   height: 14px;
+}
+/* v81: Diagnostyka */
+.diagl {
+  font: 11px/1.4 ui-monospace, Menlo, monospace;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 46vh;
+  overflow: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  margin: 8px 0 0;
 }
 /* v79: kompaktowy panel poprawki śladu */
 .splitbar.tedbar {
@@ -7192,6 +7234,67 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Brak zapisanych błędów.": "No errors recorded.",
+  "OMM sam zapisuje błędy map, serwerów i aplikacji. „Wyślij raport” przekazuje je jako tekst (np. mailem do autora) – bez przepisywania. Nic nie jest wysyłane samo.": "OMM records map, server and app errors by itself. “Send report” shares them as text (e.g. by e-mail to the author) – no retyping. Nothing is sent automatically.",
+  "Diagnostyka": "Diagnostics",
+  "🔍 Test map i serwerów": "🔍 Test maps and servers",
+  "Wyczyść": "Clear",
+  "↗ Wyślij raport": "↗ Send report",
+  "Wyczyszczono dziennik": "Log cleared",
+  "Test: ": "Test: ",
+  "Wynik testu:\n\n": "Test result:\n\n",
+  "\n\nWynik jest w dzienniku – „Wyślij raport” przekaże go autorowi.": "\n\nThe result is in the log – “Send report” passes it to the author.",
+  " – dotknij: szczegóły": " – tap for details",
+  "GOL!": "GOAL!",
+  "⚡ Świetlne motory": "⚡ Light bikes",
+  "⚡ Wygrana! Zostałeś sam na planszy": "⚡ You win! Last one standing",
+  "Rozbity motor – ": "Bike crashed – ",
+  "pokonani przeciwnicy: ": "opponents beaten: ",
+  "spróbuj jeszcze raz": "try again",
+  "Skręć w lewo": "Turn left",
+  "Skręć w prawo": "Turn right",
+  "Start za ": "Start in ",
+  " przeciwn. · ⏱ ": " opponents · ⏱ ",
+  "🏁 Ścigacze kanionu": "🏁 Canyon racers",
+  "🔥 Dopalacz": "🔥 Boost",
+  "🏆 Zwycięstwo!": "🏆 Victory!",
+  "Meta – miejsce ": "Finish – place ",
+  " · czas ": " · time ",
+  " · najlepsze okrążenie ": " · best lap ",
+  ". miejsce · ": " place · ",
+  "START!": "GO!",
+  "🍄 Grzybki wędrowniczki": "🍄 Wandering mushrooms",
+  "Stoper": "Blocker",
+  "Parasol": "Umbrella",
+  "Tunel": "Tunnel",
+  "Schodki": "Stairs",
+  "Nie ma już tej umiejętności": "No more of this skill",
+  "🏡 Poziom zaliczony! ": "🏡 Level complete! ",
+  "Za mało grzybków w domu – ": "Not enough mushrooms home – ",
+  "uratowane ": "saved ",
+  " (potrzeba ": " (needed ",
+  "🍄 w domu ": "🍄 home ",
+  "poziom ": "level ",
+  "Twój motor zostawia świetlny ślad. Nie uderz w żaden ślad ani w ścianę – i spraw, żeby to przeciwnicy się rozbili. Skręcasz przyciskami na dole albo przesuwając palcem.": "Your bike leaves a light trail. Don't hit any trail or the wall – make the opponents crash instead. Turn with the buttons below or by swiping.",
+  "Wyścig ścigaczy przez kanion: 3 okrążenia, 5 przeciwników. Ścigacz sam przyspiesza – sterujesz przyciskami albo trzymając palec na ekranie. Dopalacz ładuje się sam. Omijaj skały i nie zjeżdżaj z toru.": "A pod race through a canyon: 3 laps, 5 opponents. The racer accelerates by itself – steer with the buttons or by holding a finger on the screen. The boost recharges by itself. Avoid rocks and stay on the track.",
+  "Grzybki wychodzą z wejścia i idą przed siebie. Doprowadź ich wystarczająco dużo do dziupli: wybierz umiejętność na dole i dotknij grzybka. Stoper zawraca innych, Parasol pozwala bezpiecznie spadać, Kopacz kopie w dół, Tunel drąży w bok, Schodki budują kładkę w górę. Kamieni nie da się kopać, zielona trucizna zabija.": "Mushrooms come out of the entrance and walk straight ahead. Guide enough of them to the hollow: pick a skill below and tap a mushroom. Blocker turns others back, Umbrella lets them fall safely, Digger digs down, Tunnel bores sideways, Stairs build a bridge upwards. Stone can't be dug, green poison kills.",
+  "🤖🤖🤖 Ty kontra 3 boty": "🤖🤖🤖 You vs 3 bots",
+  "⚔ Pojedynek – łatwy": "⚔ Duel – easy",
+  "⚔ Pojedynek – średni": "⚔ Duel – medium",
+  "⚔ Pojedynek – trudny": "⚔ Duel – hard",
+  "Poziom ": "Level ",
+  "Nowe ślady trafiają teraz same do warstwy swojego rodzaju (Samochód, Rower, Pieszo…).": "New tracks now go automatically to the layer of their type (Car, Bike, Walking…).",
+  "Przenieść tak samo ": "Move the same way the ",
+  ", które już masz? Brakujące warstwy powstaną same. Zmianę cofniesz przyciskiem „Cofnij”.": " you already have? Missing layers will be created. You can undo with “Undo”.",
+  "Przeniesiono ślady: ": "Tracks moved: ",
+  " (nowa)": " (new)",
+  "Przeprowadź rower: ": "Walk your bike: ",
+  "Przeprowadź rower. ": "Walk your bike. ",
+  "Rowerem byłby duży objazd (ścieżka przerwana na jezdni) – ten kawałek trasa prowadzi pieszo: przeprowadź rower przez przejście.": "By bike this would be a big detour (the cycle path is interrupted at the road) – this bit goes on foot: walk your bike across the crossing.",
+  "Błędy map i serwerów – wyślij jednym przyciskiem": "Map and server errors – send with one button",
+  "Zapisanych zdarzeń: ": "Recorded events: ",
+  ". Ostatnie: ": ". Last: ",
+  "Otwórz Diagnostykę": "Open Diagnostics",
   "Bez zgody na „lokalizację w multimediach” zdjęcia nie mają miejsca zrobienia – zgodę włączysz w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia.": "Without the “media location” permission the photos have no location – turn it on in Android Settings → Apps → OMM → Permissions.",
   ".\nJeśli w aparacie lokalizacja jest włączona, a mimo to jej brakuje – sprawdź w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia, czy jest zgoda na lokalizację w multimediach.": ".\nIf location is on in the camera but still missing – check in Android Settings → Apps → OMM → Permissions that media location access is allowed.",
   "\n\nZa pierwszym razem Android zapyta o dostęp do lokalizacji w multimediach – bez niej zdjęcia trafią do OMM bez miejsca zrobienia.": "\n\nThe first time, Android will ask for access to media location – without it the photos come into OMM without their location.",
@@ -9961,7 +10064,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v80';
+const APP_VER = 'v81';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -13357,6 +13460,246 @@ const closePops = except =>
     if (i !== except) $(i).style.display = 'none';
   });
 
+// ---------- v81: autodiagnostyka – OMM sam zapisuje błędy (mapy, serwery, aplikacja), żeby nie trzeba było ich przepisywać ----------
+/*
+ * Dziennik w localStorage „omm-diag” (ostatnie 300 wpisów): {t: czas, k: rodzaj, m: komunikat, d: szczegóły}.
+ * Zbiera: błędy JavaScript, nieobsłużone obietnice, kafle map, które się nie wczytały (z próbą odczytu
+ * odpowiedzi serwera: kod HTTP, typ, początek treści), błędy serwerów tras i prowadzenia.
+ * Ustawienia → Diagnostyka: podgląd, test map i serwerów, „Wyślij raport” (zwykły tekst przez Udostępnij).
+ * Nic nie jest wysyłane samo – raport idzie tylko wtedy, gdy użytkownik go udostępni.
+ */
+var DIAG_MEM = null,
+  DIAG_PROBE = {},
+  DIAG_H = undefined;
+function diagAll() {
+  if (DIAG_MEM) return DIAG_MEM;
+  try {
+    const a = JSON.parse(localStorage.getItem('omm-diag') || '[]');
+    DIAG_MEM = Array.isArray(a) ? a.slice(-300) : [];
+  } catch (e) {
+    DIAG_MEM = [];
+  }
+  return DIAG_MEM;
+}
+var DIAG_SAVE_T = null;
+function diag(k, m, d) {
+  try {
+    const a = diagAll(),
+      e = {t: Date.now(), k: String(k).slice(0, 20), m: String(m == null ? '' : m).slice(0, 300), ...(d ? {d: String(d).slice(0, 1200)} : {})},
+      last = a[a.length - 1];
+    // ten sam błąd w kółko (np. każdy kafel) – licznik zamiast nowych wpisów
+    if (last && last.k === e.k && last.m === e.m && e.t - last.t < 120000) {
+      last.n = (last.n || 1) + 1;
+      last.t2 = e.t;
+    } else a.push(e);
+    if (a.length > 300) a.splice(0, a.length - 300);
+    clearTimeout(DIAG_SAVE_T);
+    DIAG_SAVE_T = setTimeout(() => {
+      try {
+        localStorage.setItem('omm-diag', JSON.stringify(DIAG_MEM));
+      } catch (er) {}
+    }, 400);
+  } catch (er) {}
+}
+window.addEventListener('error', e => diag('js', (e && e.message) || 'błąd', e && e.filename ? String(e.filename).split('/').pop() + ':' + e.lineno + ':' + e.colno : ''));
+window.addEventListener('unhandledrejection', e => {
+  const r = e && e.reason;
+  diag('js', 'Promise: ' + ((r && (r.message || r.code)) || String(r)), r && r.stack ? String(r.stack).slice(0, 600) : '');
+});
+// natywny HTTP (CapacitorHttp) – omija ograniczenia WebView (CORS, nagłówki); null w przeglądarce
+function diagHttp() {
+  if (DIAG_H !== undefined) return DIAG_H;
+  try {
+    DIAG_H = window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform() && Capacitor.isPluginAvailable('CapacitorHttp') ? Capacitor.registerPlugin('CapacitorHttp') : null;
+  } catch (e) {
+    DIAG_H = null;
+  }
+  return DIAG_H;
+}
+const B64TXT = s => {
+  try {
+    return atob(String(s || '').slice(0, 4000)).replace(/[^\x09\x0a\x0d\x20-\x7e -ſ]/g, '');
+  } catch (e) {
+    return String(s || '').slice(0, 400);
+  }
+};
+async function diagProbe(url, ms = 20000) {
+  // co dokładnie odpowiada serwer na ten adres: {ok, how, status, type, ms, txt}
+  const t0 = Date.now(),
+    H = diagHttp();
+  if (H) {
+    try {
+      const r = await Promise.race([
+        H.get({url, responseType: 'blob', headers: {Accept: 'image/*,*/*'}}),
+        new Promise((_, rej) => setTimeout(() => rej(new Error('przekroczony czas ' + ms / 1000 + ' s')), ms))
+      ]);
+      const hd = r.headers || {},
+        ct = String(hd['Content-Type'] || hd['content-type'] || ''),
+        img = /^image\//i.test(ct);
+      return {ok: r.status === 200 && img, how: 'natywnie', status: r.status, type: ct, ms: Date.now() - t0, txt: img ? '' : B64TXT(r.data).replace(/\s+/g, ' ').slice(0, 400)};
+    } catch (e) {
+      return {ok: false, how: 'natywnie', status: 0, type: '', ms: Date.now() - t0, txt: String((e && e.message) || e)};
+    }
+  }
+  try {
+    const r = await fetch(url, {referrerPolicy: 'no-referrer'});
+    const ct = r.headers.get('content-type') || '',
+      img = /^image\//i.test(ct);
+    return {ok: r.ok && img, how: 'fetch', status: r.status, type: ct, ms: Date.now() - t0, txt: img ? '' : (await r.text()).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, 400)};
+  } catch (e) {
+    return {ok: false, how: 'fetch', status: 0, type: '', ms: Date.now() - t0, txt: String((e && e.message) || e) + ' (przeglądarka nie pozwala odczytać odpowiedzi – CORS albo brak sieci)'};
+  }
+}
+function diagImg(url, ms = 20000) {
+  // czy WebView wczytuje ten adres jako obrazek (tak jak kafle mapy)
+  return new Promise(res => {
+    const im = new Image(),
+      t0 = Date.now(),
+      tm = setTimeout(() => ((im.src = ''), res({ok: false, ms, why: 'przekroczony czas'})), ms);
+    im.referrerPolicy = 'no-referrer';
+    im.onload = () => (clearTimeout(tm), res({ok: true, ms: Date.now() - t0, w: im.naturalWidth}));
+    im.onerror = () => (clearTimeout(tm), res({ok: false, ms: Date.now() - t0, why: 'onerror'}));
+    im.src = url;
+  });
+}
+const diagLayerName = l => {
+  try {
+    for (const [k, v] of Object.entries(BASES)) if (v === l) return k;
+    for (const [k, v] of Object.entries(OV)) if (v.l === l) return v.n || k;
+  } catch (e) {}
+  return (l && l._url && String(l._url).split('?')[0].slice(0, 80)) || 'warstwa';
+};
+async function diagTile(l, url) {
+  // kafel się nie wczytał: zapis + (najwyżej 3 razy na warstwę) sprawdzenie, co odpowiada serwer
+  const nm = diagLayerName(l),
+    p = (DIAG_PROBE[nm] = DIAG_PROBE[nm] || {n: 0, t: 0});
+  if (p.n >= 3 || Date.now() - p.t < 30000) return diag('mapa', 'Kafel nie wczytał się: ' + nm);
+  p.n++;
+  p.t = Date.now();
+  const r = await diagProbe(url);
+  diag('mapa', 'Kafel nie wczytał się: ' + nm, (r.ok ? 'serwer zwraca obrazek (problem po stronie wyświetlania) · ' : '') + r.how + ' HTTP ' + r.status + ' · ' + (r.type || '?') + ' · ' + r.ms + ' ms' + (r.txt ? ' · ' + r.txt : '') + '\n' + url);
+}
+// kafle przez natywny HTTP: obrazek jako data: URL (CSP pozwala), błąd serwera trafia do dziennika
+function natTile(url, img, done, nm) {
+  const H = diagHttp();
+  if (!H) return false;
+  H.get({url, responseType: 'blob', headers: {Accept: 'image/*'}})
+    .then(r => {
+      const hd = r.headers || {},
+        ct = String(hd['Content-Type'] || hd['content-type'] || '');
+      if (r.status === 200 && /^image\//i.test(ct) && r.data) {
+        img.onload = () => done(null, img);
+        img.onerror = e => (diag('mapa', 'Obrazek kafla uszkodzony: ' + nm, url), done(e, img));
+        img.src = 'data:' + ct.split(';')[0] + ';base64,' + r.data;
+      } else {
+        diag('mapa', 'Serwer nie dał kafla: ' + nm, 'HTTP ' + r.status + ' · ' + ct + ' · ' + B64TXT(r.data).replace(/\s+/g, ' ').slice(0, 300) + '\n' + url);
+        done(new Error('HTTP ' + r.status), img);
+      }
+    })
+    .catch(e => {
+      diag('mapa', 'Brak połączenia z serwerem kafli: ' + nm, String((e && e.message) || e) + '\n' + url);
+      done(e, img);
+    });
+  return true;
+}
+function diagReport() {
+  const a = diagAll(),
+    fd = t => new Date(t).toLocaleString('pl-PL', {day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'});
+  let s =
+    'OMM ' + APP_VER + ' – raport diagnostyczny ' + fd(Date.now()) + '\n' +
+    navigator.userAgent + '\n' +
+    'ekran ' + screen.width + '×' + screen.height + ' @' + (window.devicePixelRatio || 1) + ' · online: ' + navigator.onLine + ' · język: ' + LANG + '\n' +
+    'podkład: ' + (typeof curKey !== 'undefined' ? curKey : '?') + ' · nakładki: ' + (typeof OVS !== 'undefined' ? Object.keys(OVS).filter(k => OVS[k].on).join(', ') || '—' : '?') + '\n\n';
+  a.slice()
+    .reverse()
+    .slice(0, 150)
+    .forEach(e => {
+      s += fd(e.t) + (e.n ? ' (×' + e.n + ', ostatnio ' + fd(e.t2) + ')' : '') + ' [' + e.k + '] ' + e.m + (e.d ? '\n    ' + e.d.replace(/\n/g, '\n    ') : '') + '\n';
+    });
+  return s;
+}
+async function diagTest(out) {
+  // test map i serwerów: każdy adres jako obrazek (jak w mapie) i odczyt odpowiedzi
+  const c = map.getCenter(),
+    la = c.lat,
+    lo = c.lng,
+    d = 0.004,
+    bb13 = [la - d, lo - d, la + d, lo + d].map(x => x.toFixed(5)).join(','),
+    yr = typeof ortoYear === 'function' ? ortoYear() : 2015,
+    z = 15,
+    tx = Math.floor(((lo + 180) / 360) * 2 ** z),
+    ty = Math.floor(((1 - Math.log(Math.tan((la * Math.PI) / 180) + 1 / Math.cos((la * Math.PI) / 180)) / Math.PI) / 2) * 2 ** z);
+  const T = [
+    ['OpenStreetMap', 'https://tile.openstreetmap.org/' + z + '/' + tx + '/' + ty + '.png'],
+    ['Ortofoto Geoportal (WMTS)', GEO + '/wss/service/PZGIK/ORTO/WMTS/StandardResolution?service=WMTS&request=GetTile&version=1.0.0&layer=ORTOFOTOMAPA&style=default&format=image/jpeg&tilematrixset=EPSG:3857&tilematrix=EPSG:3857:' + z + '&tilerow=' + ty + '&tilecol=' + tx],
+    ['NMT – cieniowanie (WMS)', GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=512&HEIGHT=512'],
+    ['Ortofoto archiwalne ' + yr + ' (WMS)', GEO + '/wss/service/PZGIK/ORTO/WMS/StandardResolutionTime?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=256&HEIGHT=256&TIME=' + (yr >= 2025 ? '2025-11-01' : yr + '-12-01') + 'T00:00:00.000Z']
+  ];
+  for (const [nm, url] of T) {
+    out(nm + ' …');
+    const [im, pr] = await Promise.all([diagImg(url), diagProbe(url)]);
+    const line = (im.ok ? '✓ ' : '✗ ') + nm + ': obrazek ' + (im.ok ? 'OK ' + im.ms + ' ms' : 'BŁĄD (' + im.why + ', ' + im.ms + ' ms)') + ' · ' + pr.how + ' HTTP ' + pr.status + ' ' + (pr.type || '') + (pr.txt ? ' · ' + pr.txt.slice(0, 160) : '');
+    diag('test', line, url);
+    out(line);
+  }
+  // serwer tras
+  out('Serwer tras …');
+  const t0 = Date.now();
+  let rt = '';
+  try {
+    const r = await rtFetch('https://valhalla1.openstreetmap.de/status', 15000);
+    rt = '✓ Serwer tras (Valhalla): ' + (r && r.version ? 'wersja ' + r.version : 'odpowiada') + ' · ' + (Date.now() - t0) + ' ms';
+  } catch (e) {
+    rt = '✗ Serwer tras (Valhalla): ' + ((e && e.message) || e);
+  }
+  diag('test', rt);
+  out(rt);
+}
+async function diagDlg() {
+  const body = h('div'),
+    list = h('pre', 'diagl'),
+    res = h('div', 'diagres');
+  const fill = () => {
+    const a = diagAll();
+    list.textContent = a.length ? diagReport().split('\n\n').slice(1).join('\n\n').slice(0, 6000) : _t('Brak zapisanych błędów.');
+  };
+  fill();
+  body.append(
+    h('div', 'muted', _t('OMM sam zapisuje błędy map, serwerów i aplikacji. „Wyślij raport” przekazuje je jako tekst (np. mailem do autora) – bez przepisywania. Nic nie jest wysyłane samo.')),
+    res,
+    list
+  );
+  const v = await formDlg(_t('Diagnostyka'), body, [
+    {t: _t('🔍 Test map i serwerów'), v: 'test'},
+    {t: _t('Wyczyść'), v: 'clr'},
+    {t: _t('↗ Wyślij raport'), v: 'send', c: 'okb'},
+    {t: _t('Zamknij'), v: null}
+  ]);
+  if (v === 'send') return shareTextOut(diagReport(), 'OMM-diagnostyka-' + APP_VER);
+  if (v === 'clr') {
+    DIAG_MEM = [];
+    try {
+      localStorage.removeItem('omm-diag');
+    } catch (e) {}
+    toastMsg(_t('Wyczyszczono dziennik'));
+    return diagDlg();
+  }
+  if (v === 'test') {
+    info.style.display = 'block';
+    const lines = [];
+    try {
+      await diagTest(t => {
+        if (/…$/.test(t)) info.textContent = _t('Test: ') + t;
+        else lines.push(t);
+      });
+    } finally {
+      info.style.display = 'none';
+    }
+    await tell(_t('Wynik testu:\n\n') + lines.join('\n\n') + _t('\n\nWynik jest w dzienniku – „Wyślij raport” przekaże go autorowi.'));
+    return diagDlg();
+  }
+}
+
 // ---------- podkłady ----------
 const geo = l =>
   `${GEO}/wss/service/PZGIK/${l}/WMTS/StandardResolution?service=WMTS&request=GetTile&version=1.0.0&layer=ORTOFOTOMAPA&style=default&format=image/jpeg&tilematrixset=EPSG:3857&tilematrix=EPSG:3857:{z}&tilerow={y}&tilecol={x}`;
@@ -13452,6 +13795,42 @@ var OrtoArch = L.TileLayer.WMS.extend({
         img.referrerPolicy = 'no-referrer';
         img.src = url;
       };
+    // v81: w aplikacji kafle pobierane natywnie (CapacitorHttp) – WebView ich nie wczytywał; treść błędu serwera do Diagnostyki
+    const NH = diagHttp();
+    if (NH) {
+      img._nat = 1;
+      NH.get({url, responseType: 'blob', headers: {Accept: 'image/*'}})
+        .then(r => {
+          const hd = r.headers || {},
+            ct = String(hd['Content-Type'] || hd['content-type'] || '');
+          if (r.status === 200 && /^image\//i.test(ct) && r.data) {
+            if (this._vi !== vi) {
+              this._vi = vi;
+              localStorage.setItem('omm-orto-war2', String(vi));
+            }
+            if (this._st && this._st.msg) {
+              delete this._st.msg;
+              refreshStat();
+            }
+            img.onload = () => done(null, img);
+            img.onerror = e => done(e, img);
+            img.src = 'data:' + ct.split(';')[0] + ';base64,' + r.data;
+            return;
+          }
+          const t = B64TXT(r.data),
+            m = t.match(/<(?:ServiceException|ows:ExceptionText)[^>]*>([\s\S]*?)<\//i),
+            msg = (m ? m[1] : t.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ').trim().slice(0, 160) || 'HTTP ' + r.status;
+          if (vi + 1 < ORTO_V.length && tries < ORTO_V.length) return this._ortoLoad(img, coords, done, vi + 1, tries + 1);
+          diag('mapa', 'Ortofoto archiwalne – serwer nie dał kafla', 'HTTP ' + r.status + ' · ' + ct + ' · ' + msg + '\n' + url);
+          this._fail(msg);
+          done(new Error(msg), img);
+        })
+        .catch(e => {
+          diag('mapa', 'Ortofoto archiwalne – brak połączenia', String((e && e.message) || e) + '\n' + url);
+          done(e, img);
+        });
+      return;
+    }
     if (this._noFetch) return plain();
     fetch(url, {referrerPolicy: 'no-referrer'})
       .then(async r => {
@@ -13501,7 +13880,7 @@ function retry(l, max = 3) {
   l.on('tileerror', e => {
     const t = e.tile;
     t._r = (t._r || 0) + 1;
-    if (t._r > max) return;
+    if (t._r > max || !t.src || t._nat) return; // v81: kafle natywne ponawia natTile (tu nie ma adresu)
     const src = t.src.replace(/([?&])_r=\d+/, '').replace(/[?&]$/, '');
     setTimeout(() => {
       if (t.parentNode) t.src = src + (src.includes('?') ? '&' : '?') + '_r=' + t._r;
@@ -13925,9 +14304,43 @@ function shelPopup(e, ll) {
   box.addEventListener('click', ev => ev.stopPropagation());
   L.popup({minWidth: 220, maxWidth: 280}).setLatLng(ll).setContent(box).openOn(map);
 }
+// v81: WMS pobierany natywnie (CapacitorHttp) – cieniowanie NMT w WebView nie wczytywało się, choć ten sam adres
+// działał w przeglądarce; natywnie omijamy ograniczenia WebView, a błąd serwera trafia do Diagnostyki
+var NatWMS = L.TileLayer.WMS.extend({
+  options: {natName: 'WMS'}, // w domyślnych – żeby nie trafiło do zapytania WMS
+  createTile(coords, done) {
+    const img = document.createElement('img'),
+      url = this.getTileUrl(coords);
+    img.alt = '';
+    img.setAttribute('role', 'presentation');
+    img._url = url;
+    if (natTile(url, img, (e, t) => (e && this._natRetry(url, img, done, 1)) || (!e && done(null, t)), this.options.natName || 'WMS')) {
+      img._nat = 1;
+      return img;
+    }
+    img.onload = () => done(null, img);
+    img.onerror = e => done(e, img);
+    img.referrerPolicy = 'no-referrer';
+    img.src = url;
+    return img;
+  },
+  _natRetry(url, img, done, n) {
+    if (n > 2) return done(new Error('kafel'), img), true;
+    setTimeout(() => natTile(url, img, (e, t) => (e ? this._natRetry(url, img, done, n + 1) : done(null, t)), this.options.natName || 'WMS'), 800 * n);
+    return true;
+  }
+});
 const mkNMT = () =>
   retry(
-    wmsOv(GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief', 'Raster', 'image/jpeg', OVS.nmt.op, {
+    new NatWMS(GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief', {
+      layers: 'Raster',
+      styles: '',
+      format: 'image/jpeg',
+      version: '1.3.0',
+      maxZoom: 21,
+      opacity: OVS.nmt.op,
+      attribution: '© GUGiK',
+      natName: 'NMT – cieniowanie',
       ...NOREF,
       crs: L.CRS.EPSG4326, // v75: usługa zna tylko CRS:84 / EPSG:4326 / EPSG:2180 – zapytania w EPSG:3857 kończyły się błędem
       transparent: false, // v79: JPEG nie ma przezroczystości – zapytanie jak w działającym linku testowym
@@ -14025,8 +14438,10 @@ function track(l) {
   l.on('tileerror', e => {
     l._st.err++;
     try {
-      l._st.host = new URL(e.tile.src).host;
+      l._st.host = new URL(e.tile.src || e.tile._url).host;
     } catch (_) {}
+    // v81: autodiagnostyka – co odpowiada serwer (kafle natywne zapisują błąd same)
+    if (e.tile && !e.tile._nat && e.tile.src && /^https?:/.test(e.tile.src)) diagTile(l, e.tile.src);
   });
   l.on('load', refreshStat);
 }
@@ -14039,7 +14454,7 @@ const statTxt = l => {
       : s.ok
         ? _t('✓ wczytano ') + s.ok + (s.err ? _t(' · błędy ') + s.err : '')
         : s.err
-          ? _t('✗ błąd: ') + s.host
+          ? _t('✗ błąd: ') + s.host + _t(' – dotknij: szczegóły')
           : _t('… ładowanie');
 };
 function refreshStat() {
@@ -14049,6 +14464,14 @@ function refreshStat() {
 }
 function withStat(b, l) {
   const el = h('span', 'st');
+  // v81: dotknięcie komunikatu o błędzie otwiera Diagnostykę (z treścią odpowiedzi serwera)
+  el.addEventListener('click', ev => {
+    if (!/^✗/.test(el.textContent)) return;
+    ev.stopPropagation();
+    ev.preventDefault();
+    closePops();
+    diagDlg();
+  });
   b.append(el);
   STAT.push({el, l});
   el.textContent = statTxt(l);
@@ -17303,7 +17726,36 @@ const whenTxt = t => {
 };
 let TAB = 'mapy', // zakładka panelu: 'mapy' albo 'slady' (ślady GPS – kod w sekcji „ślady GPS”)
   tsel = null; // warstwa śladów z rozwiniętymi opcjami
+// v81: po wykonaniu akcji na zaznaczonych obiektach (przeniesienie, ikona, nazwy, usunięcie…) tryb zaznaczania się kończy
+var SEL_ARM = null,
+  TSEL_ARM = null;
+const selSig = () => {
+  // stan wszystkich obiektów mapy (niezależny od tego, co zaznaczone): liczba, ostatnia zmiana, ikony i warstwy
+  let up = 0,
+    h2 = 0;
+  for (const i of P.items) {
+    if (i.up > up) up = i.up;
+    h2 = (h2 * 31 + String(i.l).length + String(i.i || '').length + String(i.nm || '').length) | 0;
+  }
+  return P.items.length + ':' + up + ':' + h2;
+};
+const tselSig = () => {
+  let up = 0,
+    hid = 0,
+    h2 = 0;
+  for (const t of TRK.items) {
+    if (t.up > up) up = t.up;
+    if (t.vis === false) hid++;
+    h2 = (h2 * 31 + String(t.l).length * 7 + String(t.a || '').length + String(t.nm || '').length) | 0;
+  }
+  return TRK.items.length + ':' + up + ':' + hid + ':' + h2;
+};
 function sheet() {
+  if (selMode && SEL_ARM != null && selSig() !== SEL_ARM) {
+    selMode = false;
+    SEL.clear();
+  }
+  if (!selMode) SEL_ARM = null;
   $('xmenu').style.display = 'none';
   ctxSync();
   if (TAB === 'slady') return trkSheet();
@@ -17979,6 +18431,8 @@ $('seldel').onclick = async () => {
   SEL.clear();
   sv();
 };
+// v81: każda akcja z paska zaznaczania „uzbraja” wyjście z trybu – gdy coś się zmieni, sheet() kończy zaznaczanie
+['selmv', 'selnm', 'selic', 'seldel'].forEach(id => $(id).addEventListener('click', () => (SEL_ARM = selSig()), true));
 // tryb prywatny / praca – osobne listy map
 function updMode() {
   const ib = document.querySelector('[data-g="icons"]');
@@ -20513,764 +20967,7 @@ function shroomDraw(c, x, y, r, k, t, o) {
     }
   }
 }
-function snakeGame() {
-  // „Grzybowy wąż”: zbieraj grzyby; co 5 grzybów nowa faza – szybciej i nowy pieniek na drodze.
-  // Czasem grzyb podskakuje, wyrastają mu nóżki i ucieka przed wężem (złapany w biegu – potrójne punkty).
-  const N = 15,
-    D = {L: [-1, 0], R: [1, 0], U: [0, -1], D: [0, 1]};
-  const g = {id: 'snake', title: _t('🐍 Grzybowy wąż'), W: N, H: N, score: 0, over: false, eaten: 0, acc: 0, speed: 190, fx: [], rocks: [], pops: [], shake: 0};
-  const P = gFx();
-  g.body = [
-    [7, 7],
-    [6, 7],
-    [5, 7],
-    [4, 7]
-  ];
-  g.prev = g.body.map(p => p.slice());
-  g.dir = D.R;
-  g.q = [];
-  const on = (p, a) => a.some(b => b[0] === p[0] && b[1] === p[1]);
-  const tdist = (a, b) => {
-    // odległość na planszy „zawiniętej” (krawędzie to przejścia)
-    const dx = Math.abs(a[0] - b[0]),
-      dy = Math.abs(a[1] - b[1]);
-    return Math.min(dx, N - dx) + Math.min(dy, N - dy);
-  };
-  const free = p => !on(p, g.body) && !on(p, g.rocks);
-  const place = () => {
-    let p,
-      k = 0;
-    do p = [rnd(N), rnd(N)];
-    while ((!free(p) || tdist(p, g.body[0]) < 3) && ++k < 500);
-    const r = Math.random();
-    g.food = {
-      p,
-      fp: p.slice(), // poprzednie pole (płynny bieg)
-      mt: 1,
-      k: r < 0.08 && g.eaten >= 3 ? 'zloty' : ['bor', 'kur', 'pod'][rnd(3)],
-      born: 0,
-      // ucieczka: najpierw chwilę stoi, potem podskakuje i biegnie
-      run: g.eaten >= 2 && Math.random() < 0.3 ? {st: 'wait', t: 1200 + Math.random() * 2500} : null
-    };
-  };
-  const addRock = () => {
-    let p,
-      k = 0;
-    do p = [rnd(N), rnd(N)];
-    while ((!free(p) || tdist(p, g.body[0]) < 4 || (g.food && on(p, [g.food.p]))) && ++k < 500);
-    if (k < 500) g.rocks.push(p);
-  };
-  place();
-  g.key = k => {
-    const d = D[k];
-    if (!d) return;
-    const l = g.q.length ? g.q[g.q.length - 1] : g.dir;
-    if ((d[0] === -l[0] && d[1] === -l[1]) || d === l || g.q.length > 2) return; // bez zawracania w miejscu
-    g.q.push(d);
-  };
-  g.swipe = (dx, dy) => {
-    if (Math.max(Math.abs(dx), Math.abs(dy)) < 16) return;
-    g.key(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 'R' : 'L') : dy > 0 ? 'D' : 'U');
-  };
-  const die = () => {
-    g.over = true;
-    g.shake = 14;
-    const hd = g.body[0];
-    P.burst(hd[0] + 0.5, hd[1] + 0.5, 40, {v: 6, g: 4, c: ['#ff3d7f', '#ffd54f', '#7cf'], glow: true, life: 900});
-    gSfx('over');
-    gBuzz([60, 40, 120]);
-  };
-  const eat = () => {
-    const f = g.food,
-      running = f.run && f.run.st === 'run',
-      base = (f.k === 'zloty' ? 50 : 10) * (1 + Math.floor(g.eaten / 5)),
-      pts = base * (running ? 3 : 1);
-    g.eaten++;
-    g.score += pts;
-    g.speed = Math.max(85, 190 - g.eaten * 4);
-    g.fx.push({x: f.p[0], y: f.p[1], t: 0});
-    g.pops.push({x: f.p[0] + 0.5, y: f.p[1], t: 0, txt: (running ? _t('Złapany! ') : '') + '+' + pts});
-    const col = {bor: '#c98a4a', kur: '#ffcf4a', pod: '#8a5a35', zloty: '#fff07a'}[f.k];
-    P.burst(f.p[0] + 0.5, f.p[1] + 0.5, f.k === 'zloty' || running ? 34 : 18, {v: 4, g: 2, c: [col, '#fff', '#f8f'], glow: true, life: 650});
-    gSfx(f.k === 'zloty' || running ? 'gold' : 'eat');
-    gBuzz(15);
-    if (g.eaten % 5 === 0 && g.rocks.length < 8) addRock();
-  };
-  const tick = () => {
-    if (g.q.length) g.dir = g.q.shift();
-    const hd = g.body[0],
-      n = [(hd[0] + g.dir[0] + N) % N, (hd[1] + g.dir[1] + N) % N], // krawędzie to przejścia na drugą stronę
-      grow = n[0] === g.food.p[0] && n[1] === g.food.p[1];
-    if (on(n, grow ? g.body : g.body.slice(0, -1)) || on(n, g.rocks)) return die();
-    g.prev = g.body.map(p => p.slice());
-    g.body.unshift(n);
-    if (!grow) return g.body.pop();
-    g.prev.push(g.prev[g.prev.length - 1].slice());
-    eat();
-    if (g.body.length >= N * N - g.rocks.length) return (g.over = true);
-    place();
-  };
-  const foodStep = dt => {
-    const f = g.food;
-    f.born += dt;
-    if (f.mt < 1) f.mt = Math.min(1, f.mt + dt / (g.speed * 1.1));
-    const r = f.run;
-    if (!r) return;
-    r.t -= dt;
-    if (r.st === 'wait' && r.t <= 0) {
-      r.st = 'jump';
-      r.t = 450;
-      gSfx('jump');
-      g.pops.push({x: f.p[0] + 0.5, y: f.p[1] - 0.2, t: 0, txt: '!'});
-    } else if (r.st === 'jump' && r.t <= 0) {
-      r.st = 'run';
-      r.t = 6500;
-      r.mv = 0;
-    } else if (r.st === 'run') {
-      r.mv -= dt;
-      if (r.mv <= 0 && f.mt >= 1) {
-        r.mv = g.speed * 1.35;
-        // ucieka na sąsiednie pole najdalej od głowy węża (czasem „głupi” krok)
-        const hd = g.body[0],
-          opts = Object.values(D)
-            .map(d => [(f.p[0] + d[0] + N) % N, (f.p[1] + d[1] + N) % N])
-            .filter(free);
-        if (opts.length) {
-          opts.sort((a, b) => tdist(b, hd) - tdist(a, hd));
-          const nx = Math.random() < 0.15 ? opts[rnd(opts.length)] : opts[0];
-          if (tdist(nx, hd) >= tdist(f.p, hd) || Math.random() < 0.5) {
-            f.fp = f.p;
-            f.p = nx;
-            f.mt = 0;
-            if (Math.random() < 0.3) P.burst(f.fp[0] + 0.5, f.fp[1] + 0.9, 3, {v: 1, g: -0.5, c: 'rgba(255,255,255,0.6)', life: 400, r: 0.06});
-          }
-        }
-      }
-      if (r.t <= 0) {
-        r.st = 'tired'; // zmęczony – siada i dyszy
-        g.pops.push({x: f.p[0] + 0.5, y: f.p[1] - 0.2, t: 0, txt: '💦'});
-      }
-    }
-  };
-  g.step = dt => {
-    g.acc += dt;
-    g.fx.forEach(f => (f.t += dt));
-    g.fx = g.fx.filter(f => f.t < 600);
-    g.pops.forEach(p => (p.t += dt));
-    g.pops = g.pops.filter(p => p.t < 900);
-    P.step(dt);
-    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
-    foodStep(dt);
-    while (g.acc >= g.speed && !g.over) {
-      g.acc -= g.speed;
-      tick();
-    }
-  };
-  g.idle = dt => {
-    P.step(dt);
-    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
-  };
-  g.label = () => _t('Faza ') + (1 + Math.floor(g.eaten / 5));
-  // lewy kciuk: góra / dół, prawy kciuk: lewo / prawo
-  g.pad = [
-    ['U', 'up', 'u', 0, _t('W górę')],
-    ['D', 'up', 'd', 0, _t('W dół')],
-    ['L', 'up', 'l', 0, _t('W lewo')],
-    ['R', 'up', 'r', 0, _t('W prawo')]
-  ];
-  g.draw = (c, t, s) => {
-    const W = N * s,
-      trip = 1 + g.eaten * 0.08,
-      hu = (t / 25) * trip,
-      f = Math.min(1, g.acc / g.speed);
-    gameBg(c, W, W, t, trip, {noForest: true});
-    // plansza: delikatna szachownica z mchu
-    for (let y = 0; y < N; y++)
-      for (let x = 0; x < N; x++) {
-        c.fillStyle = (x + y) % 2 ? 'rgba(120,255,170,0.045)' : 'rgba(255,255,255,0.02)';
-        c.fillRect(x * s, y * s, s, s);
-      }
-    // pieńki (przeszkody)
-    g.rocks.forEach(([x, y]) => {
-      const cx = x * s + s / 2,
-        cy = y * s + s / 2;
-      c.fillStyle = 'rgba(0,0,0,0.3)';
-      c.beginPath();
-      c.ellipse(cx, cy + s * 0.32, s * 0.42, s * 0.12, 0, 0, 7);
-      c.fill();
-      const bg = c.createLinearGradient(cx - s * 0.36, 0, cx + s * 0.36, 0);
-      bg.addColorStop(0, '#5b3a1e');
-      bg.addColorStop(0.5, '#8a5a2e');
-      bg.addColorStop(1, '#4a2e16');
-      c.fillStyle = bg;
-      c.fillRect(cx - s * 0.36, cy - s * 0.15, s * 0.72, s * 0.45);
-      c.fillStyle = '#c8955a';
-      c.beginPath();
-      c.ellipse(cx, cy - s * 0.15, s * 0.36, s * 0.14, 0, 0, 7);
-      c.fill();
-      c.strokeStyle = 'rgba(90,50,20,0.7)';
-      c.lineWidth = 1;
-      c.beginPath();
-      c.ellipse(cx, cy - s * 0.15, s * 0.2, s * 0.07, 0, 0, 7);
-      c.stroke();
-      c.fillStyle = '#3c7d2b';
-      c.beginPath();
-      c.arc(cx + s * 0.25, cy + s * 0.1, s * 0.09, 0, 7);
-      c.fill();
-    });
-    // grzyb (może biegać)
-    const fd = g.food,
-      fe = fd.mt < 1 ? fd.mt * fd.mt * (3 - 2 * fd.mt) : 1,
-      wrapJump = Math.abs(fd.p[0] - fd.fp[0]) > 1 || Math.abs(fd.p[1] - fd.fp[1]) > 1,
-      fxp = (wrapJump ? fd.p[0] : fd.fp[0] + (fd.p[0] - fd.fp[0]) * fe) * s + s / 2,
-      r = fd.run,
-      jumpY = r && r.st === 'jump' ? -Math.sin((1 - r.t / 450) * Math.PI) * s * 0.9 : 0,
-      hop = r && r.st === 'run' ? -Math.abs(Math.sin(t / 70)) * s * 0.12 : 0,
-      fyp = (wrapJump ? fd.p[1] : fd.fp[1] + (fd.p[1] - fd.fp[1]) * fe) * s + s / 2 + jumpY + hop,
-      grow = Math.min(1, fd.born / 250),
-      halo = c.createRadialGradient(fxp, fyp, 0, fxp, fyp, s * 1.2);
-    halo.addColorStop(0, 'hsla(' + ((hu + 60) % 360) + ',100%,70%,0.45)');
-    halo.addColorStop(1, 'hsla(' + ((hu + 60) % 360) + ',100%,70%,0)');
-    c.fillStyle = halo;
-    c.beginPath();
-    c.arc(fxp, fyp, s * 1.2, 0, 7);
-    c.fill();
-    if (r && (r.st === 'run' || r.st === 'jump' || r.st === 'tired')) {
-      // nóżki
-      c.strokeStyle = '#f2e6cc';
-      c.lineWidth = Math.max(1.5, s * 0.08);
-      c.lineCap = 'round';
-      const ph = r.st === 'run' ? Math.sin(t / 55) : 0;
-      [-1, 1].forEach(e => {
-        c.beginPath();
-        c.moveTo(fxp + e * s * 0.1, fyp + s * 0.3);
-        c.lineTo(fxp + e * s * 0.16 + ph * e * s * 0.14, fyp + s * 0.5);
-        c.stroke();
-      });
-    }
-    shroomDraw(c, fxp, fyp - s * 0.05, s * 0.36 * grow * (1 + 0.05 * Math.sin(t / 180)), fd.k, t, {noShadow: !!jumpY});
-    if (r && r.st !== 'wait') {
-      // oczka (przestraszone w biegu)
-      [-1, 1].forEach(e => {
-        c.fillStyle = '#fff';
-        c.beginPath();
-        c.arc(fxp + e * s * 0.1, fyp + s * 0.08, s * 0.07, 0, 7);
-        c.fill();
-        c.fillStyle = '#111';
-        c.beginPath();
-        c.arc(fxp + e * s * 0.1, fyp + s * 0.09, s * (r.st === 'tired' ? 0.02 : 0.035), 0, 7);
-        c.fill();
-      });
-    }
-    // wąż – płynny ruch między krokami: cień, gruba „rura” z tęczowym połyskiem i obwódką
-    const pts = g.body.map((p, i) => {
-      const q = g.prev[i] || p,
-        jump = Math.abs(p[0] - q[0]) > 1 || Math.abs(p[1] - q[1]) > 1;
-      return jump ? [p[0], p[1], 1] : [q[0] + (p[0] - q[0]) * f, q[1] + (p[1] - q[1]) * f, 0];
-    });
-    c.lineCap = c.lineJoin = 'round';
-    const seg = (fn, w, off) => {
-      for (let i = pts.length - 1; i > 0; i--) {
-        const a = pts[i],
-          b = pts[i - 1];
-        if (Math.abs(a[0] - b[0]) > 1.5 || Math.abs(a[1] - b[1]) > 1.5) continue; // przejście przez krawędź
-        fn(i);
-        c.lineWidth = w(i);
-        c.beginPath();
-        c.moveTo(a[0] * s + s / 2 + off, a[1] * s + s / 2 + off);
-        c.lineTo(b[0] * s + s / 2 + off, b[1] * s + s / 2 + off);
-        c.stroke();
-      }
-    };
-    const wid = i => s * (0.8 - (0.3 * i) / pts.length);
-    seg(() => (c.strokeStyle = 'rgba(0,0,0,0.3)'), wid, s * 0.12);
-    seg(() => (c.strokeStyle = 'rgba(20,0,40,0.85)'), i => wid(i) + 3, 0);
-    seg(i => (c.strokeStyle = 'hsl(' + ((hu + i * 22) % 360) + ',85%,' + (i % 2 ? 52 : 58) + '%)'), wid, 0);
-    // połysk – jedna ciągła linia
-    c.strokeStyle = 'rgba(255,255,255,0.3)';
-    c.lineWidth = s * 0.14;
-    c.beginPath();
-    pts.forEach((a, i) => {
-      const b = pts[i - 1],
-        o = -s * 0.12;
-      if (!b || Math.abs(a[0] - b[0]) > 1.5 || Math.abs(a[1] - b[1]) > 1.5) c.moveTo(a[0] * s + s / 2 + o, a[1] * s + s / 2 + o);
-      else c.lineTo(a[0] * s + s / 2 + o, a[1] * s + s / 2 + o);
-    });
-    c.stroke();
-    const hx = pts[0][0] * s + s / 2,
-      hy = pts[0][1] * s + s / 2,
-      dx = g.dir[0],
-      dy = g.dir[1],
-      hg = c.createRadialGradient(hx - s * 0.15, hy - s * 0.15, s * 0.05, hx, hy, s * 0.5);
-    hg.addColorStop(0, 'hsl(' + (hu % 360) + ',95%,75%)');
-    hg.addColorStop(1, 'hsl(' + (hu % 360) + ',90%,45%)');
-    c.fillStyle = 'rgba(20,0,40,0.85)';
-    c.beginPath();
-    c.arc(hx, hy, s * 0.48 + 1.5, 0, 7);
-    c.fill();
-    c.fillStyle = hg;
-    c.beginPath();
-    c.arc(hx, hy, s * 0.48, 0, 7);
-    c.fill();
-    if (Math.sin(t / 300) > 0.6) {
-      // język
-      c.strokeStyle = '#ff3d7f';
-      c.lineWidth = Math.max(1.5, s * 0.07);
-      c.beginPath();
-      c.moveTo(hx + dx * s * 0.42, hy + dy * s * 0.42);
-      c.lineTo(hx + dx * s * 0.7, hy + dy * s * 0.7);
-      c.stroke();
-    }
-    // oczy patrzą na grzyba
-    const gx = fxp - hx,
-      gy = fyp - hy,
-      gl = Math.hypot(gx, gy) || 1;
-    [-1, 1].forEach(e => {
-      const ex = hx + dx * s * 0.12 + (dy ? e * s * 0.2 : 0),
-        ey = hy + dy * s * 0.12 + (dx ? e * s * 0.2 : 0);
-      c.fillStyle = '#fff';
-      c.beginPath();
-      c.arc(ex, ey, s * 0.14, 0, 7);
-      c.fill();
-      c.fillStyle = '#1a0033';
-      c.beginPath();
-      c.arc(ex + (gx / gl) * s * 0.06, ey + (gy / gl) * s * 0.06, s * 0.07, 0, 7);
-      c.fill();
-    });
-    // kręgi po zjedzeniu grzybka
-    g.fx.forEach(e => {
-      const k = e.t / 600;
-      c.strokeStyle = 'hsla(' + ((hu + 120) % 360) + ',100%,70%,' + (1 - k) + ')';
-      c.lineWidth = 3;
-      c.beginPath();
-      c.arc(e.x * s + s / 2, e.y * s + s / 2, s * (0.5 + k * 2.2), 0, 7);
-      c.stroke();
-    });
-    P.draw(c, s);
-    gPops(c, g.pops, s, 900);
-    gVignette(c, W, W);
-  };
-  return g;
-}
-// napisy „+20”, „!” unoszące się do góry
-function gPops(c, pops, s, life) {
-  c.textAlign = 'center';
-  c.textBaseline = 'middle';
-  pops.forEach(p => {
-    const k = p.t / life;
-    c.font = '800 ' + Math.round(s * (0.55 + 0.15 * Math.min(1, p.t / 120))) + 'px system-ui, sans-serif';
-    c.lineWidth = 3;
-    c.strokeStyle = 'rgba(30,0,50,' + (1 - k) * 0.8 + ')';
-    c.fillStyle = 'rgba(255,255,255,' + (1 - k) + ')';
-    const y = (p.y - (p.t / 500) * 1.1) * s;
-    c.strokeText(p.txt, p.x * s, y);
-    c.fillText(p.txt, p.x * s, y);
-  });
-}
-// małe ikonki bonusów rysowane na płótnie (cx, cy – środek, r – promień)
-function gBonusIco(c, k, cx, cy, r) {
-  c.save();
-  c.translate(cx, cy);
-  c.fillStyle = '#fff';
-  c.strokeStyle = '#fff';
-  c.lineWidth = Math.max(1.5, r * 0.16);
-  c.lineCap = c.lineJoin = 'round';
-  c.beginPath();
-  if (k === 'tar') {
-    // tarcza
-    c.moveTo(0, -r * 0.7);
-    c.lineTo(r * 0.6, -r * 0.45);
-    c.quadraticCurveTo(r * 0.55, r * 0.35, 0, r * 0.75);
-    c.quadraticCurveTo(-r * 0.55, r * 0.35, -r * 0.6, -r * 0.45);
-    c.closePath();
-    c.fill();
-  } else if (k === 'kar') {
-    // dwa karabiny
-    [-1, 1].forEach(e => {
-      c.fillRect(e * r * 0.38 - r * 0.12, -r * 0.7, r * 0.24, r * 1.0);
-      c.fillRect(e * r * 0.38 - r * 0.22, r * 0.2, r * 0.44, r * 0.4);
-    });
-  } else if (k === 'las') {
-    // promień lasera
-    c.moveTo(0, r * 0.7);
-    c.lineTo(0, -r * 0.75);
-    c.stroke();
-    c.beginPath();
-    c.arc(0, r * 0.55, r * 0.25, 0, 7);
-    c.fill();
-    c.beginPath();
-    c.moveTo(-r * 0.45, -r * 0.35);
-    c.lineTo(-r * 0.18, -r * 0.2);
-    c.moveTo(r * 0.45, -r * 0.35);
-    c.lineTo(r * 0.18, -r * 0.2);
-    c.stroke();
-  } else if (k === 'mag') {
-    // magnes (podkowa)
-    c.lineWidth = r * 0.32;
-    c.lineCap = 'butt';
-    c.arc(0, -r * 0.05, r * 0.45, Math.PI, 0, true);
-    c.stroke();
-    c.fillRect(-r * 0.61, -r * 0.05, r * 0.32, r * 0.55);
-    c.fillRect(r * 0.29, -r * 0.05, r * 0.32, r * 0.55);
-  } else if (k === 'szer') {
-    // szerszy koszyk: strzałki w boki
-    c.moveTo(-r * 0.75, 0);
-    c.lineTo(r * 0.75, 0);
-    c.moveTo(-r * 0.45, -r * 0.3);
-    c.lineTo(-r * 0.75, 0);
-    c.lineTo(-r * 0.45, r * 0.3);
-    c.moveTo(r * 0.45, -r * 0.3);
-    c.lineTo(r * 0.75, 0);
-    c.lineTo(r * 0.45, r * 0.3);
-    c.stroke();
-  }
-  c.restore();
-}
-function catchGame() {
-  // „Grzybobranie”: łap jadalne grzyby do koszyka, omijaj muchomory; tęczowy grzybek = odlot (podwójne punkty, wolniej),
-  // złoty borowik = 100 pkt. Bonusy: tarcza, karabiny maszynowe po bokach koszyka, laser, magnes, szerszy koszyk.
-  const W = 9,
-    H = 14,
-    KINDS = [
-      ['bor', 20, 3],
-      ['kur', 10, 5],
-      ['pod', 15, 4],
-      ['much', 0, 3],
-      ['magic', 0, 0.35],
-      ['zloty', 100, 0.25]
-    ],
-    BON = {
-      tar: {d: 10000, c: '#4fc3f7', n: _t('Tarcza')},
-      kar: {d: 9000, c: '#ff8a65', n: _t('Karabiny')},
-      las: {d: 7000, c: '#ff4081', n: _t('Laser')},
-      mag: {d: 8000, c: '#b388ff', n: _t('Magnes')},
-      szer: {d: 10000, c: '#81c784', n: _t('Szeroki koszyk')}
-    };
-  const g = {id: 'grzyby', title: _t('🧺 Grzybobranie'), W, H, score: 0, over: false, lives: 3, combo: 0, x: W / 2, hold: 0, items: [], pops: [], bul: [], next: 600, nextB: 9000, time: 0, trip: 0, bon: {}, shake: 0, flash: 0, gunT: 0, gunN: 0, lasT: 0};
-  const P = gFx();
-  const pick = () => {
-    const tot = KINDS.reduce((a, k) => a + k[2], 0);
-    let r = Math.random() * tot;
-    for (const k of KINDS) if ((r -= k[2]) < 0) return k;
-    return KINDS[0];
-  };
-  const half = () => (g.bon.szer ? 1.6 : 1.05), // połowa szerokości „łapania”
-    ky = () => H - 1.1; // wysokość koszyka (górna krawędź)
-  g.key = () => {};
-  g.holdKey = (k, on) => {
-    if (k === 'L') g.hold = on ? -1 : g.hold === -1 ? 0 : g.hold;
-    if (k === 'R') g.hold = on ? 1 : g.hold === 1 ? 0 : g.hold;
-  };
-  g.drag = cx => (g.x = Math.max(0.8, Math.min(W - 0.8, cx)));
-  const colOf = k => ({bor: '#c98a4a', kur: '#ffcf4a', pod: '#8a5a35', much: '#ff4a3d', zloty: '#fff07a'})[k] || '#fff';
-  const score = (it, how) => {
-    // złapany jadalny grzyb (do koszyka albo ściągnięty laserem / zestrzelony)
-    g.combo = Math.min(5, g.combo + 1);
-    const p = it.pts * g.combo * (g.trip ? 2 : 1);
-    g.score += p;
-    g.pops.push({x: it.x, y: ky() - 0.9 - 0.7 * g.pops.filter(q => q.t < 300).length, t: 0, txt: '+' + p});
-    P.burst(it.x, ky() - 0.2, it.k === 'zloty' ? 30 : 12, {v: 3.5, up: 2, g: 5, c: [colOf(it.k), '#fff', '#f8f'], glow: true, life: 650});
-    gSfx(it.k === 'zloty' ? 'gold' : how === 'gun' ? 'pop' : 'eat');
-    if (it.k === 'zloty') gBuzz(25);
-  };
-  const poison = (it, why) => {
-    // muchomor: przy tarczy / zestrzelony / spalony laserem – nic się nie dzieje, w koszyku – utrata życia
-    P.burst(it.x, it.y, 22, {v: 4, g: 3, c: ['#ff4a3d', '#fff', '#a30d12'], glow: why !== 'hit', life: 700});
-    if (why === 'hit') {
-      g.lives--;
-      g.combo = 0;
-      g.shake = 12;
-      g.flash = 300;
-      g.pops.push({x: it.x, y: ky() - 1, t: 0, txt: '💀'});
-      gSfx('bad');
-      gBuzz([50, 30, 80]);
-      if (!g.lives) g.over = true;
-    } else {
-      g.score += 5;
-      g.pops.push({x: it.x, y: it.y, t: 0, txt: why === 'shield' ? '🛡' : '+5'});
-      gSfx(why === 'shield' ? 'shield' : 'pop');
-    }
-  };
-  g.step = dt => {
-    g.time += dt;
-    P.step(dt);
-    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
-    if (g.flash > 0) g.flash -= dt;
-    if (g.trip > 0) g.trip = Math.max(0, g.trip - dt);
-    Object.keys(g.bon).forEach(k => (g.bon[k] -= dt) <= 0 && delete g.bon[k]);
-    g.x = Math.max(0.8, Math.min(W - 0.8, g.x + g.hold * dt * 0.007));
-    const lvl = Math.min(1, g.time / 120000),
-      slow = g.trip ? 0.6 : 1;
-    if ((g.next -= dt) <= 0) {
-      const k = pick();
-      g.items.push({k: k[0], pts: k[1], x: 0.6 + Math.random() * (W - 1.2), y: -0.6, v: (0.0028 + Math.random() * 0.0015 + lvl * 0.004) * (k[0] === 'magic' || k[0] === 'zloty' ? 0.85 : 1), sw: Math.random() * 6});
-      g.next = 900 - lvl * 520 + Math.random() * 300;
-    }
-    if ((g.nextB -= dt) <= 0) {
-      // bonus: bańka z ikoną
-      const ks = Object.keys(BON);
-      g.items.push({k: 'b', b: ks[rnd(ks.length)], pts: 0, x: 0.8 + Math.random() * (W - 1.6), y: -0.6, v: 0.0026, sw: Math.random() * 6});
-      g.nextB = 12000 + Math.random() * 7000;
-    }
-    // karabiny: seria z obu stron koszyka
-    if (g.bon.kar && (g.gunT -= dt) <= 0) {
-      g.gunT = 120;
-      [-1, 1].forEach(e => g.bul.push({x: g.x + e * (half() + 0.32), y: ky() - 0.2, e}));
-      if (g.gunN++ % 2 === 0) gSfx('gun');
-      P.burst(g.x - half() - 0.32, ky() - 0.35, 2, {a: -1.57, spread: 0.6, v: 3, g: 0, c: '#ffd54f', glow: true, life: 120, r: 0.07});
-      P.burst(g.x + half() + 0.32, ky() - 0.35, 2, {a: -1.57, spread: 0.6, v: 3, g: 0, c: '#ffd54f', glow: true, life: 120, r: 0.07});
-    }
-    g.bul.forEach(b => (b.y -= dt * 0.022));
-    g.bul = g.bul.filter(b => b.y > -1);
-    if (g.bon.las && (g.lasT -= dt) <= 0) {
-      g.lasT = 260;
-      gSfx('laser');
-    }
-    g.items.forEach(it => {
-      if (it.home) {
-        // zestrzelony / ściągnięty grzyb leci do koszyka
-        const dx = g.x - it.x,
-          dy = ky() - 0.3 - it.y,
-          d = Math.hypot(dx, dy) || 1,
-          v = dt * 0.018;
-        it.x += (dx / d) * Math.min(d, v);
-        it.y += (dy / d) * Math.min(d, v);
-        if (d < 0.35) it.done = 'score';
-        return;
-      }
-      it.y += it.v * dt * slow;
-      if (g.bon.mag && it.k !== 'b') {
-        // magnes przyciąga jadalne, odpycha muchomory
-        const dx = g.x - it.x;
-        it.x += Math.sign(dx) * Math.min(Math.abs(dx), dt * (it.k === 'much' ? -0.0015 : 0.0035));
-        it.x = Math.max(0.4, Math.min(W - 0.4, it.x));
-      }
-      if (g.bon.las && it.k !== 'b' && Math.abs(it.x - g.x) < 0.45 && it.y < ky() - 0.5) {
-        if (it.k === 'much') it.done = 'burn';
-        else if (it.k !== 'magic') it.home = true;
-      }
-      if (g.bon.kar && it.k !== 'b')
-        for (const b of g.bul)
-          if (!b.hit && Math.abs(b.x - it.x) < 0.42 && Math.abs(b.y - it.y) < 0.5) {
-            b.hit = true;
-            if (it.k === 'much') it.done = 'shot';
-            else if (it.k !== 'magic') it.home = 'gun';
-            break;
-          }
-    });
-    g.bul = g.bul.filter(b => !b.hit);
-    g.items = g.items.filter(it => {
-      if (it.done === 'score') return score(it, it.home), false;
-      if (it.done === 'burn' || it.done === 'shot') return poison(it, it.done), false;
-      if (it.home) return true;
-      if (it.y > ky() - 0.5 && it.y < ky() + 0.4 && Math.abs(it.x - g.x) < half()) {
-        // złapany
-        if (it.k === 'much') poison(it, g.bon.tar ? 'shield' : 'hit');
-        else if (it.k === 'magic') {
-          g.trip = 8000;
-          g.pops.push({x: it.x, y: ky() - 1, t: 0, txt: _t('odlot!')});
-          P.burst(it.x, ky() - 0.3, 40, {v: 5, g: 1, c: ['#f0f', '#0ff', '#ff0', '#0f0'], glow: true, life: 900});
-          gSfx('bonus');
-        } else if (it.k === 'b') {
-          g.bon[it.b] = BON[it.b].d;
-          g.pops.push({x: it.x, y: ky() - 1, t: 0, txt: BON[it.b].n + '!'});
-          P.burst(it.x, ky() - 0.3, 26, {v: 4, g: 1, c: [BON[it.b].c, '#fff'], glow: true, life: 700});
-          gSfx('bonus');
-          gBuzz(20);
-        } else score(it);
-        return false;
-      }
-      if (it.y > H + 0.5) {
-        if (it.pts) g.combo = 0; // przepuszczony jadalny grzyb zeruje serię
-        return false;
-      }
-      return true;
-    });
-    g.pops.forEach(p => (p.t += dt));
-    g.pops = g.pops.filter(p => p.t < 900);
-  };
-  g.idle = dt => {
-    P.step(dt);
-    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
-  };
-  g.label = () => (g.lives > 0 ? '❤️'.repeat(g.lives) : '💀') + (g.combo > 1 ? _t(' · seria ×') + g.combo : '');
-  // lewy kciuk – w lewo, prawy kciuk – w prawo (albo przeciągnij koszyk palcem)
-  g.pad = [
-    ['L', 'up', 'l', 0, _t('W lewo')],
-    ['R', 'up', 'r', 0, _t('W prawo')]
-  ];
-  g.draw = (c, t, s) => {
-    const BW = W * s,
-      BH = H * s,
-      trip = g.trip ? 3 : 1;
-    gameBg(c, BW, BH, t, trip);
-    // trawa
-    const gg = c.createLinearGradient(0, BH - s * 0.5, 0, BH);
-    gg.addColorStop(0, '#1d4d1f');
-    gg.addColorStop(1, '#0b220c');
-    c.fillStyle = gg;
-    c.fillRect(0, BH - s * 0.45, BW, s * 0.45);
-    c.fillStyle = '#2f7a2c';
-    for (let i = 0; i < 40; i++) {
-      const x = (i / 40) * BW + ((i * 7) % 5),
-        hh = s * (0.2 + ((i * 13) % 7) / 25);
-      c.beginPath();
-      c.moveTo(x - 2, BH - s * 0.4);
-      c.lineTo(x + Math.sin(t / 600 + i) * 2, BH - s * 0.4 - hh);
-      c.lineTo(x + 2, BH - s * 0.4);
-      c.fill();
-    }
-    // laser (pod grzybami)
-    const kx = g.x * s,
-      kyy = ky() * s;
-    if (g.bon.las) {
-      const fl = 0.75 + 0.25 * Math.sin(t / 30);
-      c.save();
-      c.globalCompositeOperation = 'lighter';
-      const lg = c.createLinearGradient(kx - s * 0.5, 0, kx + s * 0.5, 0);
-      lg.addColorStop(0, 'rgba(255,0,120,0)');
-      lg.addColorStop(0.5, 'rgba(255,40,140,' + 0.55 * fl + ')');
-      lg.addColorStop(1, 'rgba(255,0,120,0)');
-      c.fillStyle = lg;
-      c.fillRect(kx - s * 0.5, 0, s, kyy);
-      c.fillStyle = 'rgba(255,230,245,' + 0.9 * fl + ')';
-      c.fillRect(kx - s * 0.05, 0, s * 0.1, kyy);
-      c.restore();
-      if (Math.random() < 0.3) P.burst(g.x, Math.random() * ky(), 1, {v: 0.5, g: 0, c: '#ff80c0', glow: true, life: 300, r: 0.06});
-    }
-    g.items.forEach(it => {
-      const x = (it.x + (it.home ? 0 : Math.sin(t / 400 + it.sw) * 0.08)) * s,
-        y = it.y * s;
-      if (it.k === 'b') {
-        const b = BON[it.b],
-          r = s * 0.48,
-          pulse = 1 + 0.06 * Math.sin(t / 150);
-        const bg = c.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r * 1.6);
-        bg.addColorStop(0, b.c);
-        bg.addColorStop(0.6, b.c + '99');
-        bg.addColorStop(1, b.c + '00');
-        c.fillStyle = bg;
-        c.beginPath();
-        c.arc(x, y, r * 1.6 * pulse, 0, 7);
-        c.fill();
-        c.strokeStyle = 'rgba(255,255,255,0.85)';
-        c.lineWidth = 2;
-        c.beginPath();
-        c.arc(x, y, r * pulse, 0, 7);
-        c.stroke();
-        gBonusIco(c, it.b, x, y, r * 0.75);
-      } else shroomDraw(c, x, y, s * 0.45 * (it.home ? 0.8 : 1), it.k, t, {noShadow: true});
-    });
-    // pociski karabinów
-    c.fillStyle = '#ffe082';
-    g.bul.forEach(b => {
-      c.fillRect(b.x * s - 1.5, b.y * s - s * 0.25, 3, s * 0.3);
-    });
-    // koszyk: wiklina z cieniowaniem, ucho, (karabiny po bokach)
-    const hw = half();
-    c.fillStyle = 'rgba(0,0,0,0.35)';
-    c.beginPath();
-    c.ellipse(kx, kyy + s * 0.85, s * hw * 0.85, s * 0.12, 0, 0, 7);
-    c.fill();
-    c.strokeStyle = '#d8a865';
-    c.lineWidth = s * 0.13;
-    c.beginPath();
-    c.ellipse(kx, kyy - s * 0.05, s * Math.min(0.62, hw * 0.6), s * 0.58, 0, Math.PI, 0);
-    c.stroke();
-    const bgr = c.createLinearGradient(0, kyy, 0, kyy + s * 0.8);
-    bgr.addColorStop(0, '#c48a45');
-    bgr.addColorStop(1, '#7a4b1c');
-    c.fillStyle = bgr;
-    c.beginPath();
-    c.moveTo(kx - s * (hw - 0.1), kyy);
-    c.lineTo(kx + s * (hw - 0.1), kyy);
-    c.lineTo(kx + s * (hw - 0.35), kyy + s * 0.78);
-    c.lineTo(kx - s * (hw - 0.35), kyy + s * 0.78);
-    c.closePath();
-    c.fill();
-    c.save();
-    c.clip();
-    c.strokeStyle = 'rgba(70,40,10,0.5)';
-    c.lineWidth = 1.5;
-    for (let i = 1; i < 4; i++) {
-      c.beginPath();
-      c.moveTo(kx - s * hw, kyy + i * s * 0.2);
-      c.lineTo(kx + s * hw, kyy + i * s * 0.2);
-      c.stroke();
-    }
-    for (let i = -6; i <= 6; i++) {
-      c.beginPath();
-      c.moveTo(kx + i * s * 0.18, kyy);
-      c.lineTo(kx + i * s * 0.15, kyy + s * 0.8);
-      c.stroke();
-    }
-    c.restore();
-    c.fillStyle = '#e2b77a';
-    c.fillRect(kx - s * (hw - 0.05), kyy - s * 0.06, s * (hw - 0.05) * 2, s * 0.12);
-    if (g.bon.kar)
-      [-1, 1].forEach(e => {
-        const gx = kx + e * s * (hw + 0.32),
-          mg = c.createLinearGradient(gx - s * 0.12, 0, gx + s * 0.12, 0);
-        mg.addColorStop(0, '#455a64');
-        mg.addColorStop(0.5, '#b0bec5');
-        mg.addColorStop(1, '#37474f');
-        c.fillStyle = mg;
-        c.fillRect(gx - s * 0.1, kyy - s * 0.55, s * 0.2, s * 0.75);
-        c.fillStyle = '#263238';
-        c.fillRect(gx - s * 0.18, kyy + s * 0.05, s * 0.36, s * 0.35);
-        c.fillRect(gx - e * s * 0.3, kyy + s * 0.15, e * s * 0.15, s * 0.12);
-      });
-    if (g.bon.tar) {
-      // bańka tarczy
-      const r = s * (hw + 0.55),
-        sg = c.createRadialGradient(kx, kyy + s * 0.2, r * 0.6, kx, kyy + s * 0.2, r);
-      sg.addColorStop(0, 'rgba(79,195,247,0)');
-      sg.addColorStop(1, 'rgba(79,195,247,' + (0.35 + 0.15 * Math.sin(t / 120)) + ')');
-      c.fillStyle = sg;
-      c.beginPath();
-      c.arc(kx, kyy + s * 0.2, r, Math.PI, 0);
-      c.fill();
-      c.strokeStyle = 'rgba(180,240,255,0.8)';
-      c.lineWidth = 2;
-      c.beginPath();
-      c.arc(kx, kyy + s * 0.2, r, Math.PI, 0);
-      c.stroke();
-    }
-    P.draw(c, s);
-    gPops(c, g.pops, s, 900);
-    // aktywne bonusy: ikonka z kółkiem czasu
-    let bx = s * 0.55;
-    Object.keys(g.bon).forEach(k => {
-      const b = BON[k],
-        fr = Math.max(0, g.bon[k] / b.d),
-        by = s * 0.6;
-      c.fillStyle = 'rgba(0,0,0,0.45)';
-      c.beginPath();
-      c.arc(bx, by, s * 0.38, 0, 7);
-      c.fill();
-      c.strokeStyle = b.c;
-      c.lineWidth = 3;
-      c.beginPath();
-      c.arc(bx, by, s * 0.38, -Math.PI / 2, -Math.PI / 2 + fr * Math.PI * 2);
-      c.stroke();
-      gBonusIco(c, k, bx, by, s * 0.24);
-      bx += s * 0.9;
-    });
-    if (g.trip) {
-      c.fillStyle = 'hsla(' + ((t / 8) % 360) + ',100%,75%,0.95)';
-      c.font = '800 ' + Math.round(s * 0.5) + 'px system-ui, sans-serif';
-      c.textAlign = 'right';
-      c.fillText(_t('🌈 odlot ×2 · ') + Math.ceil(g.trip / 1000) + ' s', BW - s * 0.3, s * 0.62);
-      c.textAlign = 'center';
-    }
-    if (g.flash > 0) {
-      c.fillStyle = 'rgba(255,0,40,' + (g.flash / 300) * 0.25 + ')';
-      c.fillRect(0, 0, BW, BH);
-    }
-    gVignette(c, BW, BH);
-  };
-  return g;
-}
+// v81: „Grzybowy wąż” i „Grzybobranie” usunięte (Paweł 23.10)
 function warGame(opt) {
   // „Wojna grzybów” (w stylu Scorched Earth): dwa grzyby-działa na pagórkach strzelają purchawkami.
   // Tor lotu: kąt, siła i wiatr. Wybuch wyrywa krater, ziemia nad nim się osypuje, a grzyb bez gruntu spada.
@@ -22664,13 +22361,25 @@ function pilkaGame(opt) {
     botT = 0,
     msg = turn === 'me' ? _t('Losowanie: zaczynasz Ty') : _t('Losowanie: zaczyna bot'),
     msgT = 2200,
-    bad = 0;
+    bad = 0,
+    ball = {x: B.x, y: B.y, fx: B.x, fy: B.y, k: 1}, // v81: piłka toczy się płynnie po kresce
+    goalFx = null, // {t, win, top} – napis GOL!, falująca siatka
+    spin = 0;
   const finish = (win, why) => {
     g.over = true;
     g.score = win ? [0, 60, 110, 170][lv] + Math.max(0, 60 - moves) : 0;
     g.endTitle = win ? _t('⚽ Wygrana! ') + why : _t('Przegrana – ') + why;
     pkStatAdd(lv, win);
-    if (win) FX.burst(B.x + 0.5, B.y + 1.5, 60, {v: 7, up: 3, g: 5, c: ['#69f0ae', '#ffd740', '#40c4ff', '#ff4081'], sq: true, life: 1600, r: 0.1});
+    const gl = B.y < 0 || B.y > PK_H;
+    if (gl) {
+      goalFx = {t: 0, win, top: B.y < 0};
+      g.shake = 12;
+      gBuzz(win ? [40, 30, 40, 30, 120] : [120, 60, 200]);
+    }
+    if (win) {
+      FX.burst(B.x + 0.5, B.y + 1.5, 70, {v: 7, up: 3, g: 5, c: ['#69f0ae', '#ffd740', '#40c4ff', '#ff4081', '#fff'], sq: true, life: 1800, r: 0.1});
+      setTimeout(() => FX.burst(PK_W / 2 + 0.5, PK_H / 2 + 1.5, 50, {v: 8, up: 4, g: 5, c: ['#ffd740', '#fff', '#69f0ae'], sq: true, life: 1600, r: 0.09}), 350);
+    } else FX.burst(B.x + 0.5, B.y + 1.5, 40, {v: 5, g: 3, c: ['#ff5252', '#ffab91', '#fff'], glow: true, life: 1100});
     gSfx(win ? 'win' : 'over');
   };
   const after = (r, who) => {
@@ -22678,6 +22387,9 @@ function pilkaGame(opt) {
     if (r === 'goalBot') return finish(false, who === 'bot' ? _t('bot strzelił gola') : _t('samobój'));
     if (r === 'bounce') {
       gSfx('click');
+      // odbicie: iskry w punkcie odbicia + lekkie drgnięcie
+      FX.burst(B.x + 0.5, B.y + 1.5, 14, {v: 3.2, g: 0, c: ['#fff59d', '#ffffff', '#ffd54f'], glow: true, life: 420, r: 0.07});
+      g.shake = Math.max(g.shake, 2.5);
       if (!pkMoves(B, B.x, B.y).length) return finish(who !== 'me', who === 'me' ? _t('utknąłeś – nie ma ruchu') : _t('bot utknął'));
       return; // ten sam gracz rusza dalej
     }
@@ -22690,6 +22402,10 @@ function pilkaGame(opt) {
       py = B.y;
     const r = pkDo(B, m);
     lines.push([px, py, m.x, m.y, 0]);
+    Object.assign(ball, {fx: px, fy: py, x: m.x, y: m.y, k: 0});
+    spin += (m.x - px || 1) * 1.3;
+    // kopnięcie: grudki trawy spod piłki
+    FX.burst(px + 0.5, py + 1.5, 7, {v: 2.2, up: 1.2, g: 6, c: ['#2e7d32', '#66bb6a', '#a5d6a7'], sq: true, life: 380, r: 0.05});
     if (who === 'me') moves++;
     after(r, who);
   };
@@ -22710,6 +22426,8 @@ function pilkaGame(opt) {
   g.pad = [];
   g.step = dt => {
     lines.forEach(l => l[4] < 1 && (l[4] = Math.min(1, l[4] + dt / 140)));
+    if (ball.k < 1) ball.k = Math.min(1, ball.k + dt / 140);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
     if (msgT > 0) msgT -= dt;
     if (bad > 0) bad -= dt;
     FX.step(dt);
@@ -22724,6 +22442,9 @@ function pilkaGame(opt) {
   };
   g.idle = dt => {
     lines.forEach(l => l[4] < 1 && (l[4] = Math.min(1, l[4] + dt / 140)));
+    if (ball.k < 1) ball.k = Math.min(1, ball.k + dt / 140);
+    if (goalFx) goalFx.t += dt;
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
     FX.step(dt);
   };
   const LVN = ['', _t('łatwy'), _t('średni'), _t('trudny')];
@@ -22769,10 +22490,30 @@ function pilkaGame(opt) {
     poly([[PK_G0, 0], [0, 0], [0, PK_H], [PK_G0, PK_H]]);
     poly([[PK_G1, 0], [PK_W, 0], [PK_W, PK_H], [PK_G1, PK_H]]);
     c.fillStyle = 'rgba(255,255,255,0.12)';
-    for (const [y0, y1, col] of [[-1, 0, '#ffd54f'], [PK_H, PK_H + 1, '#ef9a9a']]) {
+    for (const [y0, y1, col, top] of [[-1, 0, '#ffd54f', true], [PK_H, PK_H + 1, '#ef9a9a', false]]) {
       const [a, b] = P(PK_G0, y0),
         [e, f] = P(PK_G1, y1);
       c.fillRect(a, b, e - a, f - b);
+      // siatka bramki (po golu faluje)
+      const wv = goalFx && goalFx.top === top ? Math.max(0, 1 - goalFx.t / 1400) * s * 0.18 : 0;
+      c.save();
+      c.strokeStyle = 'rgba(255,255,255,0.28)';
+      c.lineWidth = 1;
+      for (let k = 1; k < 8; k++) {
+        const xx = a + ((e - a) * k) / 8;
+        c.beginPath();
+        c.moveTo(xx + Math.sin(t / 60 + k) * wv, b);
+        c.lineTo(xx - Math.sin(t / 60 + k) * wv, f);
+        c.stroke();
+      }
+      for (let k = 1; k < 4; k++) {
+        const yy = b + ((f - b) * k) / 4;
+        c.beginPath();
+        c.moveTo(a, yy + Math.cos(t / 55 + k) * wv);
+        c.lineTo(e, yy - Math.cos(t / 55 + k) * wv);
+        c.stroke();
+      }
+      c.restore();
       c.strokeStyle = col;
       c.lineWidth = Math.max(2, s * 0.08);
       c.strokeRect(a, b, e - a, f - b);
@@ -22795,8 +22536,9 @@ function pilkaGame(opt) {
       c.lineTo(a + (e - a) * k, b + (f - b) * k);
       c.stroke();
     });
-    // piłka
-    const [bx, by] = P(B.x, B.y),
+    // piłka (płynnie po kresce, z obrotem)
+    const ek = 1 - Math.pow(1 - ball.k, 3),
+      [bx, by] = P(ball.fx + (ball.x - ball.fx) * ek, ball.fy + (ball.y - ball.fy) * ek),
       r = s * 0.26,
       wob = bad > 0 ? Math.sin(t / 25) * s * 0.06 : 0;
     c.fillStyle = 'rgba(0,0,0,0.25)';
@@ -22813,7 +22555,7 @@ function pilkaGame(opt) {
     c.fillStyle = '#212121';
     c.beginPath();
     for (let k = 0; k < 5; k++) {
-      const an = -Math.PI / 2 + (k * 2 * Math.PI) / 5,
+      const an = -Math.PI / 2 + (k * 2 * Math.PI) / 5 + spin * ek,
         px = bx + wob + Math.cos(an) * r * 0.42,
         py = by + Math.sin(an) * r * 0.42;
       k ? c.lineTo(px, py) : c.moveTo(px, py);
@@ -22821,10 +22563,1043 @@ function pilkaGame(opt) {
     c.closePath();
     c.fill();
     FX.draw(c, s);
+    // GOL! – duży napis po bramce
+    if (goalFx && goalFx.t < 2200) {
+      const k = goalFx.t / 2200,
+        sc = 0.6 + Math.min(1, goalFx.t / 260) * 0.6 - k * 0.1;
+      c.save();
+      c.globalAlpha = Math.min(1, (1 - k) * 2.2);
+      c.translate(BW / 2, BH / 2);
+      c.rotate(Math.sin(goalFx.t / 90) * 0.04);
+      c.scale(sc, sc);
+      c.font = '900 ' + Math.round(s * 2.4) + 'px system-ui, sans-serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.lineWidth = s * 0.25;
+      c.strokeStyle = goalFx.win ? '#1b5e20' : '#7f0000';
+      c.strokeText(_t('GOL!'), 0, 0);
+      c.fillStyle = goalFx.win ? '#ffeb3b' : '#ff8a80';
+      c.fillText(_t('GOL!'), 0, 0);
+      c.restore();
+    }
     gVignette(c, BW, BH);
   };
   return g;
 }
+// ---------- v81: „Świetlne motory” – pojedynek na świetlnych motocyklach (ty kontra boty) ----------
+/*
+ * Plansza 30 × 42 pól. Każdy motor zostawia za sobą świetlny ślad; uderzenie w ślad albo w ścianę = koniec jazdy.
+ * Sterowanie: przyciski „w lewo / w prawo” (skręt względem kierunku jazdy) albo przesunięcie palcem (kierunek).
+ * Tryby: „Ty kontra 3 boty” i „Pojedynek 1 na 1” (bot łatwy / średni / trudny). Bot ocenia ruchy po tym,
+ * ile wolnego miejsca mu zostaje (wypełnianie od punktu), trudny dodatkowo stara się odcinać drogę graczowi.
+ */
+function tronGame(opt) {
+  const W = 30,
+    H = 42,
+    duel = opt.mode === 'duel',
+    lv = opt.lv || 2;
+  const g = {id: 'tron', opt, title: _t('⚡ Świetlne motory'), W, H, score: 0, over: false, shake: 0};
+  const FX = gFx(),
+    grid = new Int8Array(W * H), // 0 – wolne, >0 – ślad gracza nr (1…)
+    DIRS = [
+      [0, -1],
+      [1, 0],
+      [0, 1],
+      [-1, 0]
+    ],
+    COL = ['#00e5ff', '#ff9100', '#ff4081', '#b2ff59'];
+  // ustawienie startowe: nikt nie jedzie wprost na drugiego
+  const P = [{x: duel ? 9 : Math.floor(W / 2), y: H - 6, d: 0, alive: true, me: true, trail: [], c: COL[0]}];
+  if (duel) P.push({x: W - 10, y: 5, d: 2, alive: true, trail: [], c: COL[1], lv});
+  else
+    [
+      [5, 5, 2],
+      [W - 6, 5, 2],
+      [W - 6, H - 10, 3]
+    ].forEach(([x, y, d], i) => P.push({x, y, d, alive: true, trail: [], c: COL[i + 1], lv: 1 + (i % 3)}));
+  P.forEach((p, i) => {
+    grid[p.y * W + p.x] = i + 1;
+    p.trail.push([p.x, p.y]);
+  });
+  let acc = 0,
+    time = 0,
+    q = [],
+    start = 1600,
+    kills = 0;
+  const speed = duel ? [0, 105, 88, 74][lv] : 92; // ms na pole
+  const free = (x, y) => x >= 0 && y >= 0 && x < W && y < H && !grid[y * W + x];
+  const flood = (sx, sy, lim) => {
+    // ile wolnych pól da się osiągnąć z (sx, sy)
+    if (!free(sx, sy)) return 0;
+    const seen = new Uint8Array(W * H),
+      st = [sy * W + sx];
+    seen[st[0]] = 1;
+    let n = 0;
+    while (st.length && n < lim) {
+      const k = st.pop(),
+        x = k % W,
+        y = (k / W) | 0;
+      n++;
+      for (const [dx, dy] of DIRS) {
+        const nx = x + dx,
+          ny = y + dy,
+          nk = ny * W + nx;
+        if (free(nx, ny) && !seen[nk]) {
+          seen[nk] = 1;
+          st.push(nk);
+        }
+      }
+    }
+    return n;
+  };
+  const botTurn = (b, bi) => {
+    const me = P[0],
+      opts = [b.d, (b.d + 1) % 4, (b.d + 3) % 4].map(d => {
+        const nx = b.x + DIRS[d][0],
+          ny = b.y + DIRS[d][1];
+        if (!free(nx, ny)) return {d, v: -1e9};
+        if (b.lv === 1 && Math.random() < 0.25) return {d, v: Math.random() * 100};
+        grid[ny * W + nx] = bi + 1;
+        let v = flood(nx, ny, 700);
+        if (b.lv >= 3 && me.alive) {
+          // trudny: mniej miejsca dla gracza = lepiej (odcinanie), bliżej gracza – lekko lepiej
+          const mx = me.x + DIRS[me.d][0],
+            my = me.y + DIRS[me.d][1];
+          v -= flood(mx, my, 700) * 0.55;
+          v -= (Math.abs(nx - me.x) + Math.abs(ny - me.y)) * 0.4;
+        }
+        grid[ny * W + nx] = 0;
+        // jazda prosto trochę lepsza (mniej zygzaków)
+        return {d, v: v + (d === b.d ? 1.5 : 0) + Math.random() * (b.lv === 1 ? 6 : 0.5)};
+      });
+    opts.sort((a, b2) => b2.v - a.v);
+    b.d = opts[0].d;
+  };
+  const crash = (p, i) => {
+    p.alive = false;
+    FX.burst(p.x + 0.5, p.y + 0.5, 46, {v: 9, g: 0, c: [p.c, '#ffffff', p.c], glow: true, life: 900, r: 0.18});
+    g.shake = p.me ? 16 : 7;
+    gSfx(p.me ? 'over' : 'gold');
+    if (p.me) gBuzz([80, 40, 160]);
+    else {
+      kills++;
+      gBuzz(30);
+    }
+    void i;
+  };
+  const tick = () => {
+    // kolejny krok: skręt gracza z kolejki, boty myślą, wszyscy ruszają jednocześnie
+    const me = P[0];
+    if (q.length) me.d = q.shift();
+    P.forEach((p, i) => p.alive && !p.me && botTurn(p, i));
+    const nxt = P.map(p => (p.alive ? [p.x + DIRS[p.d][0], p.y + DIRS[p.d][1]] : null));
+    P.forEach((p, i) => {
+      if (!p.alive) return;
+      const [nx, ny] = nxt[i],
+        head = nxt.some((o, j) => j !== i && o && P[j].alive && o[0] === nx && o[1] === ny); // zderzenie czołowe
+      if (!free(nx, ny) || head) return crash(p, i);
+    });
+    P.forEach((p, i) => {
+      if (!p.alive) return;
+      const [nx, ny] = nxt[i];
+      p.x = nx;
+      p.y = ny;
+      grid[ny * W + nx] = i + 1;
+      p.trail.push([nx, ny]);
+    });
+    const alive = P.filter(p => p.alive);
+    if (!me.alive || alive.length === 1) {
+      g.over = true;
+      const win = me.alive;
+      g.score = win ? (duel ? [0, 80, 140, 220][lv] : 150) + Math.round(time / 1000) * 2 + kills * 30 : kills * 30 + Math.round(time / 2000);
+      g.endTitle = win ? _t('⚡ Wygrana! Zostałeś sam na planszy') : _t('Rozbity motor – ') + (kills ? _t('pokonani przeciwnicy: ') + kills : _t('spróbuj jeszcze raz'));
+      if (win) FX.burst(me.x + 0.5, me.y + 0.5, 60, {v: 7, up: 2, g: 3, c: ['#00e5ff', '#ffffff', '#b2ff59'], glow: true, life: 1500});
+      gSfx(win ? 'win' : 'over');
+    }
+  };
+  const turnTo = d => {
+    const last = q.length ? q[q.length - 1] : P[0].d;
+    if (d === last || (d + 2) % 4 === last || q.length > 2) return;
+    q.push(d);
+  };
+  g.key = k => {
+    if (k === 'L' || k === 'R') {
+      // na klawiaturze strzałki = kierunek; przyciski na ekranie = skręt względem jazdy (patrz holdKey)
+      turnTo(k === 'L' ? 3 : 1);
+    } else if (k === 'U') turnTo(0);
+    else if (k === 'D') turnTo(2);
+  };
+  g.holdKey = (k, on) => {
+    if (!on) return;
+    const last = q.length ? q[q.length - 1] : P[0].d;
+    if (k === 'TL') turnTo((last + 3) % 4);
+    else if (k === 'TR') turnTo((last + 1) % 4);
+    else g.key(k);
+  };
+  g.swipe = (dx, dy) => {
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) return;
+    turnTo(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 1 : 3) : dy > 0 ? 2 : 0);
+  };
+  g.pad = [
+    ['TL', 'back', 'l', 0, _t('Skręć w lewo')],
+    ['TR', 'redo', 'r', 0, _t('Skręć w prawo')]
+  ];
+  g.padClass = 'tron';
+  g.step = dt => {
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+    if (start > 0) return void (start -= dt);
+    time += dt;
+    acc += dt;
+    while (acc >= speed && !g.over) {
+      acc -= speed;
+      tick();
+    }
+  };
+  g.idle = dt => {
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+  };
+  g.hud = () => (start > 0 ? _t('Start za ') + Math.ceil(start / 500) : '⚡ ' + P.filter(p => p.alive && !p.me).length + _t(' przeciwn. · ⏱ ') + Math.floor(time / 1000) + ' s');
+  g.label = g.hud;
+  g.draw = (c, t, s) => {
+    const BW = W * s,
+      BH = H * s;
+    c.fillStyle = '#05070f';
+    c.fillRect(0, 0, BW, BH);
+    // neonowa siatka
+    c.strokeStyle = 'rgba(0,229,255,0.07)';
+    c.lineWidth = 1;
+    for (let x = 0; x <= W; x += 2) {
+      c.beginPath();
+      c.moveTo(x * s, 0);
+      c.lineTo(x * s, BH);
+      c.stroke();
+    }
+    for (let y = 0; y <= H; y += 2) {
+      c.beginPath();
+      c.moveTo(0, y * s);
+      c.lineTo(BW, y * s);
+      c.stroke();
+    }
+    c.strokeStyle = 'rgba(0,229,255,0.45)';
+    c.lineWidth = 2;
+    c.strokeRect(1, 1, BW - 2, BH - 2);
+    // ślady – poświata i jasny środek
+    const pk = Math.min(1, acc / speed);
+    P.forEach(p => {
+      if (p.trail.length < 1) return;
+      const pts = p.trail.map(([x, y]) => [(x + 0.5) * s, (y + 0.5) * s]);
+      if (p.alive && !g.over) pts.push([(p.x + 0.5 + DIRS[p.d][0] * pk * 0.6) * s, (p.y + 0.5 + DIRS[p.d][1] * pk * 0.6) * s]);
+      c.save();
+      c.globalAlpha = p.alive ? 1 : 0.35;
+      c.lineJoin = c.lineCap = 'round';
+      c.strokeStyle = p.c;
+      c.shadowColor = p.c;
+      c.shadowBlur = s * 0.9;
+      c.lineWidth = s * 0.45;
+      c.beginPath();
+      pts.forEach(([x, y], i) => (i ? c.lineTo(x, y) : c.moveTo(x, y)));
+      c.stroke();
+      c.shadowBlur = 0;
+      c.strokeStyle = '#ffffff';
+      c.globalAlpha *= 0.7;
+      c.lineWidth = s * 0.14;
+      c.stroke();
+      c.restore();
+      if (p.alive) {
+        const [hx, hy] = pts[pts.length - 1];
+        c.save();
+        c.translate(hx, hy);
+        c.rotate((p.d * Math.PI) / 2);
+        c.fillStyle = p.c;
+        c.shadowColor = p.c;
+        c.shadowBlur = s;
+        c.beginPath();
+        c.moveTo(0, -s * 0.75);
+        c.lineTo(s * 0.42, s * 0.45);
+        c.lineTo(-s * 0.42, s * 0.45);
+        c.closePath();
+        c.fill();
+        c.restore();
+      }
+    });
+    FX.draw(c, s);
+    if (start > 0) {
+      c.save();
+      c.fillStyle = '#ffffff';
+      c.font = '900 ' + Math.round(s * 5) + 'px system-ui, sans-serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.shadowColor = '#00e5ff';
+      c.shadowBlur = s * 2;
+      c.fillText(String(Math.ceil(start / 500)), BW / 2, BH / 2);
+      c.restore();
+    }
+  };
+  return g;
+}
+
+// ---------- v81: „Ścigacze kanionu” – wyścig ścigaczy w pseudo-3D (droga w perspektywie zza pojazdu) ----------
+/*
+ * Tor złożony z odcinków z zakrętami i wzniesieniami, rzutowany w perspektywie (jak klasyczne wyścigi
+ * z automatów). Ścigacz sam przyspiesza; przyciski w lewo / w prawo (albo palec na ekranie) – sterowanie,
+ * środkowy przycisk – dopalacz (pasek się ładuje). Zjazd z toru i skały spowalniają, uderzenie w ścianę kanionu
+ * mocno hamuje. 5 przeciwników komputerowych, 3 okrążenia; wynik zależy od miejsca i czasu.
+ */
+function scigGame(opt) {
+  const W = 18,
+    H = 30;
+  const g = {id: 'scig', opt, title: _t('🏁 Ścigacze kanionu'), W, H, score: 0, over: false, shake: 0};
+  const FX = gFx(),
+    SEG = 200, // długość odcinka (jednostki świata)
+    RW = 2000, // połowa szerokości toru
+    LAPS = 3,
+    DRAW = 140, // ile odcinków widać
+    CAMH = 1000,
+    CAMD = 0.84, // odległość kamery od ekranu
+    MAXV = SEG * 60; // maks. prędkość (na s)
+  const segs = [];
+  const ease = (a, b, k) => a + (b - a) * (-Math.cos(k * Math.PI) / 2 + 0.5);
+  const addRoad = (enter, hold, leave, curve, hill) => {
+    const y0 = segs.length ? segs[segs.length - 1].y2 : 0,
+      tot = enter + hold + leave;
+    for (let i = 0; i < tot; i++) {
+      const k = i < enter ? ease(0, 1, i / enter) : i < enter + hold ? 1 : ease(1, 0, (i - enter - hold) / leave),
+        y1 = segs.length ? segs[segs.length - 1].y2 : y0,
+        yk = ease(0, hill, (i + 1) / tot);
+      segs.push({i: segs.length, curve: curve * k, y1, y2: y0 + yk, spr: []});
+    }
+  };
+  // tor: prosta, łuki, wzgórza, szykany
+  addRoad(20, 30, 20, 0, 0);
+  addRoad(30, 40, 30, 3, 1500);
+  addRoad(20, 30, 20, 0, -1500);
+  addRoad(25, 25, 25, -4, 0);
+  addRoad(20, 20, 20, 2, 2500);
+  addRoad(15, 15, 15, -5, -2500);
+  addRoad(30, 60, 30, 0, 0);
+  addRoad(25, 30, 25, 4.5, 1000);
+  addRoad(25, 30, 25, -2.5, -1000);
+  addRoad(20, 30, 20, 0, 0);
+  const N = segs.length,
+    TL = N * SEG;
+  // skały na torze i przy nim (stałe miejsca)
+  for (let i = 60; i < N - 20; i += 9 + ((i * 7) % 13)) {
+    const side = ((i * 13) % 7) - 3;
+    segs[i].spr.push({x: side * 0.32, k: 'rock', w: 0.5});
+  }
+  // przeciwnicy
+  const CC = ['#ef5350', '#ab47bc', '#ffa726', '#26c6da', '#9ccc65'];
+  const cars = CC.map((c, i) => ({z: (i + 1) * SEG * 6, x: ((i % 3) - 1) * 0.5, v: MAXV * (0.62 + i * 0.045), c, lap: 0, fin: 0}));
+  const me = {z: 0, x: 0, v: 0, lap: 0, boost: 1, bon: 0, hit: 0, tilt: 0};
+  let L = 0,
+    R = 0,
+    drag = null,
+    time = 0,
+    start = 2400,
+    lapT = 0,
+    best = 0,
+    place = 6,
+    msg = '',
+    msgT = 0;
+  const segAt = z => segs[Math.floor(((z % TL) + TL) % TL / SEG) % N];
+  const pct = (z, seg) => (((z % TL) + TL) % TL - seg.i * SEG) / SEG;
+  g.key = () => {};
+  g.holdKey = (k, on) => {
+    if (k === 'L') L = on ? 1 : 0;
+    else if (k === 'R') R = on ? 1 : 0;
+    else if (k === 'F' && on && me.boost > 0.25 && !me.bon) {
+      me.bon = 1;
+      gSfx('gold');
+    }
+  };
+  g.drag = x => (drag = x); // palec na planszy – ścigacz jedzie w jego stronę
+  g.aim = (x, y, ph) => {
+    if (ph === 'up') drag = null;
+  };
+  g.pad = [
+    ['L', 'back', 'l', 0, _t('W lewo')],
+    ['F', null, 'b', 0, _t('🔥 Dopalacz')],
+    ['R', 'redo', 'r', 0, _t('W prawo')]
+  ];
+  g.padClass = 'scig';
+  const ranks = () => {
+    const mine = me.lap * TL + me.z;
+    return 1 + cars.filter(c => c.lap * TL + c.z > mine).length;
+  };
+  g.step = dt => {
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+    if (msgT > 0) msgT -= dt;
+    const s = Math.min(0.05, dt / 1000);
+    if (start > 0) {
+      start -= dt;
+      if (start <= 0) gSfx('click');
+      return;
+    }
+    time += dt;
+    lapT += dt;
+    const seg = segAt(me.z),
+      off = Math.abs(me.x) > 1.05;
+    // prędkość: przyspieszanie, opór poza torem, dopalacz
+    let top = MAXV * (me.bon ? 1.35 : 1);
+    if (off) top *= 0.45;
+    me.v += (me.v < top ? (MAXV / 2.6) * (me.bon ? 1.8 : 1) : -MAXV) * s;
+    if (me.v > top) me.v = Math.max(top, me.v - MAXV * 1.2 * s);
+    if (me.bon) {
+      me.boost -= s * 0.45;
+      if (me.boost <= 0) (me.boost = 0), (me.bon = 0);
+      if (Math.random() < 0.6) FX.burst(W / 2 + (Math.random() - 0.5) * 2, H - 3.2, 2, {v: 3, a: Math.PI / 2, spread: 0.6, g: 0, c: ['#ffab40', '#ffee58', '#ff5722'], glow: true, life: 300, r: 0.2});
+    } else me.boost = Math.min(1, me.boost + s * 0.07);
+    // sterowanie (z siłą odśrodkową na zakrętach)
+    const sp = me.v / MAXV;
+    let st = R - L;
+    if (drag != null) st = Math.max(-1, Math.min(1, (drag - W / 2) / 3));
+    me.x += st * s * 2.4 * Math.max(0.3, sp);
+    me.x -= seg.curve * sp * s * 0.62;
+    me.tilt += (st - me.tilt) * Math.min(1, s * 8);
+    // ściany kanionu
+    if (Math.abs(me.x) > 2.2) {
+      me.x = Math.sign(me.x) * 2.2;
+      me.v *= 0.5;
+      g.shake = 8;
+      gBuzz(40);
+      FX.burst(W / 2 + Math.sign(me.x) * 4, H - 4, 18, {v: 5, g: 6, c: ['#ffcc80', '#8d6e63', '#fff'], life: 500, r: 0.1});
+    }
+    if (off && sp > 0.3 && Math.random() < 0.4) FX.burst(W / 2 + (Math.random() - 0.5) * 3, H - 2.5, 2, {v: 2, up: 1, g: 4, c: ['#d7a86e', '#a1887f'], life: 400, r: 0.12});
+    // skały i przeciwnicy – zderzenia
+    if (me.hit > 0) me.hit -= dt;
+    seg.spr.forEach(r => {
+      if (me.hit <= 0 && Math.abs(me.x - r.x) < r.w * 0.8) {
+        me.v *= 0.35;
+        me.hit = 600;
+        g.shake = 10;
+        gSfx('over');
+        gBuzz([30, 20, 60]);
+        FX.burst(W / 2, H - 4, 26, {v: 6, g: 6, c: ['#bcaaa4', '#6d4c41', '#fff'], life: 600, r: 0.12});
+      }
+    });
+    cars.forEach(c => {
+      // bot: jedzie swoją prędkością, omija skały i trzyma tor
+      const cs = segAt(c.z);
+      c.z += c.v * s;
+      if (c.z >= TL) {
+        c.z -= TL;
+        c.lap++;
+      }
+      const rock = cs.spr.find(r => Math.abs(c.x - r.x) < 0.6);
+      if (rock) c.x += (c.x > rock.x ? 1 : -1) * s * 1.5;
+      c.x = Math.max(-0.85, Math.min(0.85, c.x + Math.sin(time / 1300 + c.v) * s * 0.15));
+      const dz = (((c.z - me.z) % TL) + TL) % TL;
+      if (me.hit <= 0 && dz < SEG * 0.9 && Math.abs(c.x - me.x) < 0.45 && me.v > c.v) {
+        me.v = c.v * 0.8;
+        me.hit = 500;
+        g.shake = 7;
+        gBuzz(35);
+        gSfx('click');
+      }
+    });
+    me.z += me.v * s;
+    if (me.z >= TL) {
+      me.z -= TL;
+      me.lap++;
+      best = best ? Math.min(best, lapT) : lapT;
+      lapT = 0;
+      if (me.lap >= LAPS) {
+        g.over = true;
+        place = ranks();
+        g.score = Math.max(10, [0, 600, 450, 350, 260, 180, 120][place] + Math.max(0, 300 - Math.round(time / 1000)) * 2);
+        g.endTitle = (place === 1 ? _t('🏆 Zwycięstwo!') : _t('Meta – miejsce ') + place) + _t(' · czas ') + fsec(Math.round(time / 1000)) + _t(' · najlepsze okrążenie ') + fsec(Math.round(best / 1000));
+        FX.burst(W / 2, H / 2, 70, {v: 8, up: 4, g: 5, c: ['#ffd740', '#ffffff', '#69f0ae', '#ff4081'], sq: true, life: 1800, r: 0.12});
+        gSfx(place === 1 ? 'win' : 'over');
+      } else {
+        msg = _t('Okrążenie ') + (me.lap + 1) + '/' + LAPS;
+        msgT = 1600;
+        gSfx('gold');
+      }
+    }
+    place = ranks();
+  };
+  g.idle = dt => {
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+  };
+  g.hud = () => (start > 0 ? _t('Start za ') + Math.ceil(start / 800) : '🏁 ' + Math.min(LAPS, me.lap + 1) + '/' + LAPS + ' · ' + place + _t('. miejsce · ') + Math.round((me.v / MAXV) * 600) + ' km/h');
+  g.label = g.hud;
+  const fsec = n => Math.floor(n / 60) + ':' + String(n % 60).padStart(2, '0');
+  const poly = (c, x1, y1, w1, x2, y2, w2, col) => {
+    c.fillStyle = col;
+    c.beginPath();
+    c.moveTo(x1 - w1, y1);
+    c.lineTo(x2 - w2, y2);
+    c.lineTo(x2 + w2, y2);
+    c.lineTo(x1 + w1, y1);
+    c.closePath();
+    c.fill();
+  };
+  const pod = (c, x, y, sc, col, tilt) => {
+    // ścigacz: dwa silniki na wysięgnikach + kabina, z poświatą dysz
+    c.save();
+    c.translate(x, y);
+    c.rotate(tilt * 0.12);
+    c.scale(sc, sc);
+    c.fillStyle = 'rgba(0,0,0,0.3)';
+    c.beginPath();
+    c.ellipse(0, 18, 46, 7, 0, 0, 7);
+    c.fill();
+    for (const sx of [-26, 26]) {
+      c.fillStyle = '#cfd8dc';
+      c.beginPath();
+      c.roundRect ? c.roundRect(sx - 8, -30, 16, 40, 6) : c.rect(sx - 8, -30, 16, 40);
+      c.fill();
+      c.fillStyle = col;
+      c.fillRect(sx - 8, -6, 16, 6);
+      c.fillStyle = 'rgba(255,170,64,0.9)';
+      c.shadowColor = '#ff9100';
+      c.shadowBlur = 14;
+      c.beginPath();
+      c.arc(sx, 12, 5, 0, 7);
+      c.fill();
+      c.shadowBlur = 0;
+    }
+    c.strokeStyle = '#90caf9';
+    c.lineWidth = 2;
+    c.beginPath();
+    c.moveTo(-18, -10);
+    c.lineTo(0, 4);
+    c.lineTo(18, -10);
+    c.stroke();
+    c.fillStyle = col;
+    c.beginPath();
+    c.moveTo(0, -6);
+    c.lineTo(10, 8);
+    c.lineTo(0, 14);
+    c.lineTo(-10, 8);
+    c.closePath();
+    c.fill();
+    c.fillStyle = '#263238';
+    c.beginPath();
+    c.ellipse(0, 6, 4.5, 3.5, 0, 0, 7);
+    c.fill();
+    c.restore();
+  };
+  g.draw = (c, t, s) => {
+    const BW = W * s,
+      BH = H * s,
+      HZ = BH * 0.42;
+    // niebo i słońce nad kanionem
+    const sky = c.createLinearGradient(0, 0, 0, HZ);
+    sky.addColorStop(0, '#ff7043');
+    sky.addColorStop(0.6, '#ffb74d');
+    sky.addColorStop(1, '#ffe0b2');
+    c.fillStyle = sky;
+    c.fillRect(0, 0, BW, HZ + 2);
+    c.fillStyle = 'rgba(255,255,255,0.75)';
+    c.beginPath();
+    c.arc(BW * 0.7, HZ * 0.45, s * 1.6, 0, 7);
+    c.fill();
+    // dalekie mesy
+    const bs = segAt(me.z),
+      par = (me.z / TL) * BW * 2 + bs.curve * 20;
+    c.fillStyle = '#b5563a';
+    c.beginPath();
+    c.moveTo(0, HZ + 2);
+    for (let x = 0; x <= BW + 10; x += 10) {
+      const k = ((x + par) % (BW * 2)) / (BW * 2);
+      c.lineTo(x, HZ - s * (1.2 + 1.1 * Math.abs(Math.sin(k * 9)) + 0.6 * Math.abs(Math.sin(k * 23))));
+    }
+    c.lineTo(BW, HZ + 2);
+    c.fill();
+    c.fillStyle = '#d9a066';
+    c.fillRect(0, HZ, BW, BH - HZ);
+    // droga w perspektywie
+    const base = segAt(me.z),
+      bp = pct(me.z, base),
+      camY = CAMH + base.y1 + (base.y2 - base.y1) * bp;
+    let dx = -base.curve * bp,
+      xx = 0,
+      maxy = BH;
+    const proj = [];
+    for (let n = 0; n < DRAW; n++) {
+      const sg = segs[(base.i + n) % N],
+        loop = base.i + n >= N ? TL : 0,
+        z1 = sg.i * SEG + loop - me.z,
+        z2 = z1 + SEG,
+        cx = me.x * RW;
+      const p1 = {x: xx - cx, y: sg.y1 - camY, z: z1},
+        p2 = {x: xx + dx - cx, y: sg.y2 - camY, z: z2};
+      xx += dx;
+      dx += sg.curve;
+      if (p1.z <= CAMD * 10) continue;
+      const sc1 = (CAMD * BW) / p1.z,
+        sc2 = (CAMD * BW) / p2.z,
+        X1 = BW / 2 + sc1 * p1.x,
+        Y1 = HZ - sc1 * p1.y * 0.5,
+        W1 = sc1 * RW,
+        X2 = BW / 2 + sc2 * p2.x,
+        Y2 = HZ - sc2 * p2.y * 0.5,
+        W2 = sc2 * RW;
+      proj.push({sg, n, X1, Y1, W1, sc1, clip: maxy});
+      if (Y2 >= maxy || Y1 <= Y2) continue;
+      const dark = Math.floor(sg.i / 3) % 2;
+      // ściany kanionu po bokach
+      poly(c, X1, Y1, W1 * 2.6, X2, Y2, W2 * 2.6, dark ? '#a0522d' : '#b0623a');
+      poly(c, X1, Y1, W1 * 1.25, X2, Y2, W2 * 1.25, dark ? '#c9925c' : '#d4a06a');
+      poly(c, X1, Y1, W1 * 1.08, X2, Y2, W2 * 1.08, dark ? '#e0e0e0' : '#e53935');
+      poly(c, X1, Y1, W1, X2, Y2, W2, dark ? '#8d8d8d' : '#999999');
+      if (dark) poly(c, X1, Y1, W1 * 0.03, X2, Y2, W2 * 0.03, '#fafafa');
+      if (sg.i === 0) poly(c, X1, Y1, W1, X2, Y2, W2, Math.floor(t / 300) % 2 ? '#fff' : '#212121'); // meta
+      maxy = Y2;
+    }
+    // skały i przeciwnicy (od najdalszych)
+    for (let k = proj.length - 1; k >= 0; k--) {
+      const pr = proj[k];
+      pr.sg.spr.forEach(r => {
+        const x = pr.X1 + pr.sc1 * r.x * RW,
+          sz = pr.sc1 * RW * 0.32;
+        if (pr.Y1 > pr.clip + 2) return;
+        c.fillStyle = '#6d4c41';
+        c.beginPath();
+        c.moveTo(x - sz, pr.Y1);
+        c.lineTo(x - sz * 0.6, pr.Y1 - sz * 0.9);
+        c.lineTo(x + sz * 0.2, pr.Y1 - sz * 1.2);
+        c.lineTo(x + sz, pr.Y1 - sz * 0.5);
+        c.lineTo(x + sz * 0.9, pr.Y1);
+        c.closePath();
+        c.fill();
+        c.fillStyle = 'rgba(255,255,255,0.18)';
+        c.fillRect(x - sz * 0.5, pr.Y1 - sz * 0.9, sz * 0.5, sz * 0.25);
+      });
+      cars.forEach(car => {
+        const cz = (((car.z - me.z) % TL) + TL) % TL;
+        if (Math.floor(cz / SEG) !== pr.n || cz < SEG * 0.5) return;
+        const x = pr.X1 + pr.sc1 * car.x * RW,
+          sc = (pr.sc1 * RW) / 260;
+        if (pr.Y1 <= pr.clip + 2) pod(c, x, pr.Y1 - 10 * sc, sc, car.c, 0);
+      });
+    }
+    // gracz
+    const bob = Math.sin(t / 90) * (me.v > 10 ? 1.5 : 0.5);
+    pod(c, BW / 2, BH - s * 3.6 + bob, s / 22, '#1e88e5', me.tilt);
+    FX.draw(c, s);
+    // pasek dopalacza i prędkościomierz
+    c.fillStyle = 'rgba(0,0,0,0.35)';
+    c.fillRect(s * 0.6, BH - s * 1.2, BW * 0.3, s * 0.45);
+    c.fillStyle = me.bon ? '#ff9100' : '#ffcc80';
+    c.fillRect(s * 0.6, BH - s * 1.2, BW * 0.3 * me.boost, s * 0.45);
+    if (start > 0 || msgT > 0) {
+      c.save();
+      c.font = '900 ' + Math.round(s * (start > 0 ? 3.6 : 1.6)) + 'px system-ui, sans-serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.lineWidth = s * 0.25;
+      c.strokeStyle = '#3e2723';
+      const tx = start > 0 ? (start > 800 ? String(Math.ceil((start - 800) / 800)) : _t('START!')) : msg;
+      c.strokeText(tx, BW / 2, BH * 0.3);
+      c.fillStyle = '#fff59d';
+      c.fillText(tx, BW / 2, BH * 0.3);
+      c.restore();
+    }
+  };
+  return g;
+}
+
+// ---------- v81: „Grzybki wędrowniczki” – prowadź wędrujące grzybki do domu (w stylu klasycznej gry logicznej) ----------
+/*
+ * Z kapelusza-wejścia wychodzą grzybki i idą przed siebie: spadają z krawędzi, zawracają przy ścianach, giną
+ * w kałużach trucizny i przy zbyt wysokim upadku. Dajesz im umiejętności: wybierz ją przyciskiem na dole,
+ * potem dotknij grzybka. Stoper – zatrzymuje się i zawraca innych; Parasol – bezpieczne spadanie; Kopacz – kopie
+ * w dół; Tunel – drąży poziomo; Schodki – buduje kładkę w górę. Ziemię da się kopać, kamieni nie.
+ * Cel: doprowadzić do wyjścia (dziupli) wymaganą liczbę grzybków. 4 poziomy.
+ */
+const WD_LV = [
+  {n: 10, need: 7, sk: {stop: 2, para: 3, dig: 2, tun: 2, bld: 2}, t: 180},
+  {n: 12, need: 8, sk: {stop: 2, para: 2, dig: 3, tun: 3, bld: 3}, t: 200},
+  {n: 15, need: 10, sk: {stop: 3, para: 3, dig: 2, tun: 2, bld: 4}, t: 220},
+  {n: 20, need: 15, sk: {stop: 2, para: 4, dig: 3, tun: 3, bld: 4}, t: 260}
+];
+function wedrGame(opt) {
+  const lv = Math.max(0, Math.min(WD_LV.length - 1, (opt.lv || 1) - 1)),
+    LV = WD_LV[lv],
+    W = 40,
+    H = 36,
+    R = 4, // pikseli terenu na pole
+    TW = W * R,
+    TH = H * R;
+  const g = {id: 'wedr', opt, title: _t('🍄 Grzybki wędrowniczki'), W, H, score: 0, over: false, shake: 0};
+  const FX = gFx(),
+    T = new Uint8Array(TW * TH); // 0 – powietrze, 1 – ziemia, 2 – kamień, 3 – kładka, 4 – trucizna
+  const at = (x, y) => (x < 0 || x >= TW || y >= TH ? 2 : y < 0 ? 0 : T[y * TW + x]);
+  const set = (x, y, v) => x >= 0 && x < TW && y >= 0 && y < TH && (T[y * TW + x] = v);
+  const solid = (x, y) => {
+    const v = at(x, y);
+    return v === 1 || v === 2 || v === 3;
+  };
+  // poziomy zaprojektowane na 160 × 112 – rozciągnięte w pionie do wysokości planszy (telefon trzymany pionowo)
+  const KY = TH / 112;
+  const rect = (x0, y0, w, h, v) => {
+    const ya = Math.round(y0 * KY),
+      yb = Math.round((y0 + h) * KY);
+    for (let y = ya; y < yb; y++) for (let x = x0; x < x0 + w; x++) set(x, y, v);
+  };
+  // poziomy (w pikselach terenu 160 × 112)
+  let ent, ext;
+  if (lv === 0) {
+    rect(0, 40, 70, 8, 1);
+    rect(90, 70, 70, 42, 1);
+    rect(60, 100, 40, 12, 4);
+    rect(20, 104, 40, 8, 1);
+    ent = [15, 22];
+    ext = [145, 62];
+  } else if (lv === 1) {
+    rect(0, 36, 60, 10, 1);
+    rect(56, 20, 6, 60, 2);
+    rect(0, 80, 160, 32, 1);
+    rect(100, 50, 8, 30, 1);
+    rect(108, 76, 52, 4, 1);
+    ent = [15, 18];
+    ext = [140, 72];
+  } else if (lv === 2) {
+    rect(0, 30, 50, 8, 1);
+    rect(0, 106, 160, 6, 4);
+    rect(60, 60, 40, 8, 1);
+    rect(110, 46, 50, 8, 1);
+    rect(30, 90, 30, 6, 2);
+    ent = [12, 12];
+    ext = [148, 38];
+  } else {
+    rect(0, 28, 40, 6, 1);
+    rect(0, 60, 120, 14, 1);
+    rect(40, 34, 6, 26, 2);
+    rect(120, 40, 6, 72, 1);
+    rect(0, 100, 160, 12, 1);
+    rect(60, 96, 30, 4, 4);
+    rect(126, 72, 34, 6, 2);
+    ent = [10, 10];
+    ext = [146, 92];
+  }
+  ent = [ent[0], Math.round(ent[1] * KY)];
+  ext = [ext[0], Math.round(ext[1] * KY)];
+  // dziupla stoi na ziemi pod wskazanym miejscem
+  while (ext[1] < TH - 1 && !solid(ext[0], ext[1] + 1)) ext[1]++;
+  const left = {...LV.sk},
+    M = [];
+  let out = 0,
+    saved = 0,
+    dead = 0,
+    time = 0,
+    sel = 'stop',
+    rel = 1200,
+    btns = {},
+    nuke = 0;
+  g._M = M; // (podgląd w testach)
+  const SKN = {stop: _t('Stoper'), para: _t('Parasol'), dig: _t('Kopacz'), tun: _t('Tunel'), bld: _t('Schodki')};
+  const mk = () => ({x: ent[0], y: ent[1], dir: 1, st: 'fall', fallY: ent[1], sk: null, para: false, t: 0, n: 0, alive: true});
+  const kill = (m, why) => {
+    m.alive = false;
+    dead++;
+    FX.burst(m.x / R, m.y / R - 0.5, 16, {v: 3, g: 4, c: why === 'tr' ? ['#76ff03', '#ccff90', '#fff'] : ['#ff7043', '#fff', '#ffd54f'], glow: why === 'tr', life: 600, r: 0.07});
+    gSfx('over');
+  };
+  const stepM = m => {
+    // jeden krok grzybka (co 40 ms)
+    if (!m.alive) return;
+    m.t++;
+    if (m.st === 'fall') {
+      if (!solid(m.x, m.y + 1)) {
+        m.y += m.para ? (m.t % 3 ? 0 : 1) : 2;
+        if (m.y >= TH) return kill(m, 'fall');
+        if (at(m.x, m.y) === 4) return kill(m, 'tr');
+        return;
+      }
+      const h = m.y - m.fallY;
+      if (h > 52 * KY && !m.para) return kill(m, 'fall');
+      m.st = m.sk === 'stop' ? 'stop' : 'walk';
+      return;
+    }
+    if (m.st === 'stop') return;
+    if (at(m.x, m.y) === 4 || at(m.x, m.y + 1) === 4) return kill(m, 'tr');
+    if (!solid(m.x, m.y + 1) && m.st !== 'bld') {
+      m.st = 'fall';
+      m.fallY = m.y;
+      return;
+    }
+    // wyjście
+    if (Math.abs(m.x - ext[0]) < 4 && Math.abs(m.y - ext[1]) < 5) {
+      m.alive = false;
+      m.home = true;
+      saved++;
+      FX.burst(ext[0] / R, ext[1] / R - 1, 14, {v: 2.5, up: 2, g: 1, c: ['#ffd740', '#fff59d', '#b9f6ca'], glow: true, life: 700, r: 0.08});
+      gSfx('gold');
+      return;
+    }
+    if (m.st === 'dig') {
+      if (m.t % 4) return;
+      let any = false;
+      for (let dx = -3; dx <= 3; dx++) if (at(m.x + dx, m.y + 1) === 1 || at(m.x + dx, m.y + 1) === 3) (set(m.x + dx, m.y + 1, 0), (any = true));
+      if (at(m.x, m.y + 1) === 2 || !any) {
+        m.st = 'walk';
+        m.sk = null;
+        return;
+      }
+      m.y++;
+      if (m.t % 8 === 0) FX.burst(m.x / R, m.y / R, 2, {v: 1.5, up: 1, g: 4, c: ['#8d6e63', '#a1887f'], life: 300, r: 0.05, sq: true});
+      return;
+    }
+    if (m.st === 'tun') {
+      if (m.t % 3) return;
+      let any = false;
+      for (let dy = -8; dy <= 0; dy++)
+        for (let dx = 1; dx <= 3; dx++) {
+          const v = at(m.x + dx * m.dir, m.y + dy);
+          if (v === 1 || v === 3) (set(m.x + dx * m.dir, m.y + dy, 0), (any = true));
+        }
+      const front = [...Array(9)].some((_, k) => solid(m.x + 4 * m.dir, m.y - k)) || [...Array(9)].some((_, k) => solid(m.x + 8 * m.dir, m.y - k));
+      if (solid(m.x + 2 * m.dir, m.y - 3) && at(m.x + 2 * m.dir, m.y - 3) === 2) {
+        m.st = 'walk';
+        m.sk = null;
+        m.dir = -m.dir;
+        return;
+      }
+      m.x += m.dir;
+      if (!any && !front) {
+        m.st = 'walk';
+        m.sk = null;
+      }
+      return;
+    }
+    if (m.st === 'bld') {
+      if (m.t % 6) return;
+      if (m.n >= 16) {
+        m.st = 'walk';
+        m.sk = null;
+        return;
+      }
+      for (let dx = 0; dx < 6; dx++) if (!solid(m.x + dx * m.dir, m.y)) set(m.x + dx * m.dir, m.y, 3);
+      if (solid(m.x + m.dir * 2, m.y - 2) || solid(m.x + m.dir * 2, m.y - 8)) {
+        m.st = 'walk';
+        m.sk = null;
+        m.dir = -m.dir;
+        return;
+      }
+      m.x += 2 * m.dir;
+      m.y -= 1;
+      m.n++;
+      return;
+    }
+    // marsz: krok 1 px, wejście na stopień do 3 px, ściana / stoper → zawróć
+    if (m.t % 2) return;
+    const nx = m.x + m.dir;
+    const blocker = M.some(o => o !== m && o.alive && o.st === 'stop' && Math.abs(o.x - nx) < 3 && Math.abs(o.y - m.y) < 8);
+    if (blocker || nx <= 0 || nx >= TW - 1) {
+      m.dir = -m.dir;
+      return;
+    }
+    let up = 0;
+    while (up <= 4 && solid(nx, m.y - up)) up++;
+    if (up > 3 || solid(nx, m.y - 8)) {
+      m.dir = -m.dir;
+      return;
+    }
+    m.x = nx;
+    m.y -= up;
+  };
+  const give = (m, k) => {
+    if (!left[k]) return toastMsg(_t('Nie ma już tej umiejętności'));
+    if (k === 'para') {
+      if (m.para) return;
+      m.para = true;
+    } else if (k === 'stop') {
+      if (m.st !== 'walk') return;
+      m.st = 'stop';
+      m.sk = 'stop';
+    } else {
+      if (m.st !== 'walk') return;
+      m.st = k;
+      m.sk = k;
+      m.n = 0;
+    }
+    left[k]--;
+    gSfx('click');
+    gBuzz(15);
+    FX.burst(m.x / R, m.y / R - 1, 8, {v: 2, g: 0, c: ['#ffffff', '#b3e5fc'], glow: true, life: 350, r: 0.06});
+  };
+  g.tap = (x, y) => {
+    const px = x * R,
+      py = y * R;
+    let best = null,
+      bd = 1e9;
+    M.forEach(m => {
+      if (!m.alive) return;
+      const d = Math.hypot(m.x - px, m.y - 4 - py);
+      if (d < bd) (bd = d), (best = m);
+    });
+    if (best && bd < 14) give(best, sel);
+  };
+  g.key = () => {};
+  g.holdKey = (k, on) => {
+    if (!on) return;
+    if (SKN[k]) {
+      sel = k;
+      Object.entries(btns).forEach(([kk, b]) => b.classList.toggle('on', kk === k));
+      gSfx('click');
+    }
+  };
+  g.pad = Object.keys(SKN).map(k => [k, null, 's-' + k, 0, SKN[k]]);
+  g.padClass = 'wedr';
+  g.padInit = el => {
+    el.querySelectorAll('.gk').forEach((b, i) => (btns[Object.keys(SKN)[i]] = b));
+    btns.stop.classList.add('on');
+  };
+  const padTxt = () => Object.entries(btns).forEach(([k, b]) => (b.textContent = SKN[k] + ' ' + left[k]));
+  let acc = 0;
+  g.step = dt => {
+    FX.step(dt);
+    if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
+    time += dt;
+    rel -= dt;
+    if (rel <= 0 && out < LV.n) {
+      M.push(mk());
+      out++;
+      rel = 1700;
+    }
+    acc += dt;
+    while (acc >= 40) {
+      acc -= 40;
+      M.forEach(stepM);
+    }
+    if (!(nuke++ % 10)) padTxt();
+    const alive = M.filter(m => m.alive).length;
+    const tl = LV.t - time / 1000;
+    if ((out >= LV.n && !alive) || tl <= 0 || (alive && M.every(m => !m.alive || m.st === 'stop') && out >= LV.n)) {
+      g.over = true;
+      const ok = saved >= LV.need;
+      g.score = ok ? saved * 100 + Math.max(0, Math.round(tl)) * 3 + (lv + 1) * 150 : saved * 20;
+      g.endTitle = (ok ? _t('🏡 Poziom zaliczony! ') : _t('Za mało grzybków w domu – ')) + _t('uratowane ') + saved + '/' + LV.n + _t(' (potrzeba ') + LV.need + ')';
+      if (ok) {
+        try {
+          localStorage.setItem('omm-gra-wedr-lv', String(Math.max(+localStorage.getItem('omm-gra-wedr-lv') || 1, lv + 2)));
+        } catch (e) {}
+        FX.burst(W / 2, H / 2, 60, {v: 7, up: 3, g: 5, c: ['#ffd740', '#fff', '#69f0ae', '#ff4081'], sq: true, life: 1600, r: 0.1});
+      }
+      gSfx(ok ? 'win' : 'over');
+    }
+  };
+  g.idle = dt => FX.step(dt);
+  g.hud = () => _t('🍄 w domu ') + saved + '/' + LV.need + ' · ' + _t('poziom ') + (lv + 1) + ' · ⏱ ' + Math.max(0, Math.ceil(LV.t - time / 1000)) + ' s';
+  g.label = g.hud;
+  // teren rysowany do bufora (zmienia się tylko przy kopaniu / budowie)
+  const buf = document.createElement('canvas');
+  buf.width = TW;
+  buf.height = TH;
+  const bc = buf.getContext('2d'),
+    img = bc.createImageData(TW, TH);
+  const COLS = [null, [121, 85, 61], [120, 124, 130], [255, 204, 128], [118, 255, 3]];
+  const paint = () => {
+    const d = img.data;
+    for (let i = 0; i < TW * TH; i++) {
+      const v = T[i],
+        o = i * 4;
+      if (!v) {
+        d[o + 3] = 0;
+        continue;
+      }
+      const c0 = COLS[v],
+        y = (i / TW) | 0,
+        topEdge = v === 1 && y > 0 && !T[i - TW],
+        n = ((i * 2654435761) >>> 28) - 8;
+      d[o] = topEdge ? 76 : c0[0] + n;
+      d[o + 1] = topEdge ? 175 : c0[1] + n;
+      d[o + 2] = topEdge ? 80 : c0[2] + n;
+      d[o + 3] = v === 4 ? 200 : 255;
+    }
+    bc.putImageData(img, 0, 0);
+  };
+  let lastPaint = -1;
+  g.draw = (c, t, s) => {
+    const BW = W * s,
+      BH = H * s,
+      k = s / R;
+    gameBg(c, BW, BH, t, 1);
+    if (t - lastPaint > 120) {
+      paint();
+      lastPaint = t;
+    }
+    c.imageSmoothingEnabled = false;
+    c.drawImage(buf, 0, 0, BW, BH);
+    c.imageSmoothingEnabled = true;
+    // wejście (kapelusz) i wyjście (dziupla z ciepłym światłem)
+    const ex = ext[0] * k,
+      ey = ext[1] * k;
+    c.fillStyle = '#5d4037';
+    c.beginPath();
+    c.roundRect ? c.roundRect(ex - s * 1.4, ey - s * 2.6, s * 2.8, s * 2.6, s * 0.8) : c.rect(ex - s * 1.4, ey - s * 2.6, s * 2.8, s * 2.6);
+    c.fill();
+    c.fillStyle = 'rgba(255,213,79,' + (0.6 + 0.3 * Math.sin(t / 300)) + ')';
+    c.beginPath();
+    c.ellipse(ex, ey - s * 1.1, s * 0.7, s * 1, 0, 0, 7);
+    c.fill();
+    shroomDraw(c, ent[0] * k, ent[1] * k - s * 0.2, s * 1.1, 'much', t, {noShadow: true});
+    // grzybki
+    M.forEach(m => {
+      if (!m.alive) return;
+      const x = m.x * k,
+        y = m.y * k,
+        sz = s * 0.55,
+        wob = m.st === 'walk' ? Math.sin(m.t * 0.6) * sz * 0.15 : 0;
+      if (m.para && m.st === 'fall') {
+        c.fillStyle = '#e91e63';
+        c.beginPath();
+        c.arc(x, y - sz * 3.6, sz * 1.5, Math.PI, 0);
+        c.fill();
+        c.strokeStyle = '#fff';
+        c.lineWidth = 1;
+        c.beginPath();
+        c.moveTo(x - sz * 1.4, y - sz * 3.6);
+        c.lineTo(x, y - sz * 1.6);
+        c.lineTo(x + sz * 1.4, y - sz * 3.6);
+        c.stroke();
+      }
+      // nóżki
+      c.strokeStyle = '#fff3e0';
+      c.lineWidth = Math.max(1, sz * 0.25);
+      c.beginPath();
+      c.moveTo(x - sz * 0.3, y - sz * 0.6);
+      c.lineTo(x - sz * 0.4 + wob, y);
+      c.moveTo(x + sz * 0.3, y - sz * 0.6);
+      c.lineTo(x + sz * 0.4 - wob, y);
+      c.stroke();
+      // trzon i kapelusz
+      c.fillStyle = '#fffde7';
+      c.fillRect(x - sz * 0.45, y - sz * 1.5, sz * 0.9, sz);
+      c.fillStyle = m.st === 'stop' ? '#ff7043' : m.sk ? '#42a5f5' : '#c62828';
+      c.beginPath();
+      c.ellipse(x, y - sz * 1.55, sz * 1.05, sz * 0.75, 0, Math.PI, 0);
+      c.fill();
+      c.fillStyle = '#fff';
+      c.beginPath();
+      c.arc(x - sz * 0.35, y - sz * 1.85, sz * 0.15, 0, 7);
+      c.arc(x + sz * 0.3, y - sz * 1.95, sz * 0.12, 0, 7);
+      c.fill();
+      // oczko w stronę marszu
+      c.fillStyle = '#212121';
+      c.fillRect(x + m.dir * sz * 0.15 - 1, y - sz * 1.25, 2, 2);
+      if (m.st === 'stop') {
+        c.strokeStyle = '#ff7043';
+        c.lineWidth = 2;
+        c.beginPath();
+        c.moveTo(x - sz * 1.3, y - sz);
+        c.lineTo(x + sz * 1.3, y - sz);
+        c.stroke();
+      }
+    });
+    FX.draw(c, s);
+    gVignette(c, BW, BH);
+  };
+  return g;
+}
+
 function gameOpen() {
   if (GAME) return;
   const root = h('div', 'game'),
@@ -22888,8 +23663,9 @@ function gameOpen() {
     if (els.length) ov.classList.add('gin');
   };
   const GAMES = {
-    snake: {t: _t('🐍 Grzybowy wąż'), d: _t('Zbieraj grzyby, nie gryź własnego ogona i omijaj pieńki. Czasem grzyb dostaje nóżek i ucieka – złapany w biegu daje potrójne punkty.')},
-    grzyby: {t: _t('🧺 Grzybobranie'), d: _t('Łap jadalne grzyby, omijaj muchomory. Złoty borowik to 100 punktów. Bonusy: tarcza, karabiny przy koszyku, laser, magnes i szerszy koszyk.')},
+    tron: {t: _t('⚡ Świetlne motory'), d: _t('Twój motor zostawia świetlny ślad. Nie uderz w żaden ślad ani w ścianę – i spraw, żeby to przeciwnicy się rozbili. Skręcasz przyciskami na dole albo przesuwając palcem.')},
+    scig: {t: _t('🏁 Ścigacze kanionu'), d: _t('Wyścig ścigaczy przez kanion: 3 okrążenia, 5 przeciwników. Ścigacz sam przyspiesza – sterujesz przyciskami albo trzymając palec na ekranie. Dopalacz ładuje się sam. Omijaj skały i nie zjeżdżaj z toru.')},
+    wedr: {t: _t('🍄 Grzybki wędrowniczki'), d: _t('Grzybki wychodzą z wejścia i idą przed siebie. Doprowadź ich wystarczająco dużo do dziupli: wybierz umiejętność na dole i dotknij grzybka. Stoper zawraca innych, Parasol pozwala bezpiecznie spadać, Kopacz kopie w dół, Tunel drąży w bok, Schodki budują kładkę w górę. Kamieni nie da się kopać, zielona trucizna zabija.')},
     saper: {t: _t('🍄 Grzybowy saper'), d: _t('Klasyk z Windowsa: pod mchem schowane są muchomory. Liczba mówi, ile ich jest dookoła pola. Dotknij – odkryj, przytrzymaj – postaw flagę. Pierwsze dotknięcie jest zawsze bezpieczne.')},
     pilka: {t: _t('⚽ Piłkarzyki'), d: _t('Papierowa piłka nożna jak na kartce w kratkę. Dotknij punktu obok piłki – piłka idzie tam kreską. Nie wolno iść po narysowanej kresce ani po bandzie. Gdy piłka trafi w punkt, w którym już coś było (kreska, banda, słupek), odbija się i grasz dalej. Atakujesz bramkę u góry. Kto utknie bez ruchu, przegrywa.')},
     wojna: {t: _t('💥 Wojna grzybów'), d: _t('Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą. Środkowy przycisk otwiera menu broni: szyszka, kret, rój os, purchawka zegarowa, zarodniki, kania-zapalnik, teleport, tarcza z huby i więcej. Co kilka tur spada skrzynka z zapasami.')}
@@ -22922,7 +23698,7 @@ function gameOpen() {
       b.append(h('b', null, GAMES[id].t), h('span', null, _t('Rekord: ') + gBest(id)));
       return b;
     };
-    showOv(h('div', 'gh', _t('Zjadłeś magicznego grzybka…')), h('div', 'gp', _t('Świat lekko faluje. W co odpływasz?')), card('snake'), card('grzyby'), card('wojna'), card('saper'), card('pilka'), h('div', 'gp gsm', _t('Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy. Dźwięk włączysz głośniczkiem u góry.')));
+    showOv(h('div', 'gh', _t('Zjadłeś magicznego grzybka…')), h('div', 'gp', _t('Świat lekko faluje. W co odpływasz?')), card('pilka'), card('wedr'), card('tron'), card('scig'), card('wojna'), card('saper'), h('div', 'gp gsm', _t('Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy. Dźwięk włączysz głośniczkiem u góry.')));
   };
   const warOpt = () => ({wind: localStorage.getItem('omm-gra-wiatr') !== 'nie', move: localStorage.getItem('omm-gra-ruch') !== 'nie'});
   const warOpts = () => {
@@ -22968,6 +23744,20 @@ function gameOpen() {
             B(_t('🤖 Komputer – trudny'), () => start('wojna', {ai: 3, ...warOpt()}), 'gbig'),
             B(_t('👥 Dwóch graczy na jednym telefonie'), () => start('wojna', {ai: 0, ...warOpt()}), 'gbig')
           ]
+        : id === 'tron'
+          ? [
+              B(_t('🤖🤖🤖 Ty kontra 3 boty'), () => start('tron', {mode: 'multi'}), 'gbig'),
+              B(_t('⚔ Pojedynek – łatwy'), () => start('tron', {mode: 'duel', lv: 1}), 'gbig'),
+              B(_t('⚔ Pojedynek – średni'), () => start('tron', {mode: 'duel', lv: 2}), 'gbig'),
+              B(_t('⚔ Pojedynek – trudny'), () => start('tron', {mode: 'duel', lv: 3}), 'gbig')
+            ]
+        : id === 'wedr'
+          ? WD_LV.map((L0, i) => {
+              const un = i + 1 <= (+localStorage.getItem('omm-gra-wedr-lv') || 1),
+                b = B((un ? '' : '🔒 ') + _t('Poziom ') + (i + 1) + ' · ' + L0.need + '/' + L0.n, () => un && start('wedr', {lv: i + 1}), 'gbig');
+              if (!un) b.disabled = true;
+              return b;
+            })
         : id === 'pilka'
           ? [
               pkStatEl(),
@@ -22998,7 +23788,7 @@ function gameOpen() {
     return b;
   };
   const start = (id, opt) => {
-    g = id === 'snake' ? snakeGame() : id === 'grzyby' ? catchGame() : id === 'saper' ? saperGame(opt || {lv: 0}) : id === 'pilka' ? pilkaGame(opt || {lv: 2}) : warGame(opt || {ai: 2});
+    g = id === 'saper' ? saperGame(opt || {lv: 0}) : id === 'pilka' ? pilkaGame(opt || {lv: 2}) : id === 'tron' ? tronGame(opt || {mode: 'multi'}) : id === 'scig' ? scigGame(opt || {}) : id === 'wedr' ? wedrGame(opt || {lv: 1}) : warGame(opt || {ai: 2});
     ttl.textContent = g.title.split(' ')[0]; // w grze sama ikonka – miejsce na wynik
     ttl.title = g.title;
     paused = false;
@@ -26018,6 +26808,8 @@ $('trkb').onclick = () => {
   trkCatMenu();
 };
 function trkSheet() {
+  if (TSEL && TSEL_ARM != null && tselSig() !== TSEL_ARM) TSEL = null; // v81: akcja wykonana – koniec zaznaczania
+  if (!TSEL) TSEL_ARM = null;
   tabsUi();
   const cat = trkCur(),
     catIds = new Set(trkLayersOf(cat).map(l => l.id)),
@@ -26352,6 +27144,13 @@ $('tsdel').onclick = async () => {
   TSEL.clear();
   await trkChanged();
 };
+// v81: akcje na zaznaczonych śladach kończą zaznaczanie, gdy coś zmieniły (GPX – zawsze po zapisie)
+['tsmv', 'tsvis', 'tshid', 'tsact', 'tsnm', 'tsmrg', 'tsdel'].forEach(id => $(id).addEventListener('click', () => (TSEL_ARM = tselSig()), true));
+$('tsgpx').addEventListener('click', () => {
+  if (!tselItems().length) return;
+  TSEL = null;
+  setTimeout(trkSheet, 0);
+});
 $('timp').onclick = () => $('tfile').click();
 $('tsumb').onclick = () => trkSummaryDlg();
 $('tsact').onclick = () => {
@@ -27045,6 +27844,61 @@ async function trkAlgAsk() {
   }, 12000);
 }
 setTimeout(() => trkAlgAsk(), 20000);
+// ---------- v81: ślady w warstwach swojego rodzaju (Samochód, Rower, Pieszo…) ----------
+// Warstwa rodzaju = warstwa w tej samej kategorii z oznaczeniem act (albo o tej samej nazwie); tworzona, gdy jej brak.
+const ACT_COL = {pieszo: '#2e7d32', trekking: '#6d4c41', bieg: '#d81b60', rower: '#1e88e5', rolki: '#8e24aa', konno: '#a1887f', auto: '#e53935', inne: '#607d8b'};
+function trkActLayer(a, catId, create) {
+  if (!ACTS[a] || !catId) return null;
+  const nm = ACTS[a][1];
+  let l =
+    TRK.layers.find(x => x.cat === catId && x.act === a) ||
+    TRK.layers.find(x => x.cat === catId && String(x.name || '').trim().toLowerCase() === nm.toLowerCase());
+  if (!l && create) {
+    l = {id: uid(), name: nm, vis: true, c: ACT_COL[a] || PAL[TRK.layers.length % 8], open: true, cat: catId, act: a};
+    TRK.layers.push(l);
+  }
+  return l || null;
+}
+async function trkActAsk() {
+  // jednorazowo: istniejące ślady z rodzajem, które leżą w innej warstwie → do warstw swojego rodzaju
+  if (REC) return;
+  try {
+    if (localStorage.getItem('omm-act-warstwy')) return;
+  } catch (e) {
+    return;
+  }
+  const lay = id => TRK.layers.find(x => x.id === id),
+    list = TRK.items.filter(t => {
+      const l = lay(t.l);
+      if (!t.a || !ACTS[t.a] || t.a === 'inne' || !l) return false;
+      const al = trkActLayer(t.a, l.cat, false);
+      return !al || al.id !== t.l;
+    });
+  localStorage.setItem('omm-act-warstwy', '1');
+  if (!list.length) return;
+  const ok = await askYes(
+    _t('Nowe ślady trafiają teraz same do warstwy swojego rodzaju (Samochód, Rower, Pieszo…).') + '\n\n' + _t('Przenieść tak samo ') + list.length + ' ' + plural(list.length, _t('ślad'), _t('ślady'), _t('śladów')) + _t(', które już masz? Brakujące warstwy powstaną same. Zmianę cofniesz przyciskiem „Cofnij”.'),
+    _t('Przenieś')
+  );
+  if (!ok) return;
+  const old = list.map(t => [t, t.l]),
+    nl = TRK.layers.length;
+  list.forEach(t => {
+    const al = trkActLayer(t.a, lay(t.l).cat, true);
+    if (al) {
+      t.l = al.id;
+      t.up = Date.now();
+    }
+  });
+  const added = TRK.layers.slice(nl);
+  trkChanged();
+  toastAct(_t('Przeniesiono ślady: ') + list.length, _t('Cofnij'), () => {
+    old.forEach(([t, l]) => ((t.l = l), (t.up = Date.now())));
+    TRK.layers = TRK.layers.filter(x => !added.includes(x) || TRK.items.some(t => t.l === x.id));
+    trkChanged();
+  }, 12000);
+}
+setTimeout(() => trkActAsk(), 26000);
 function recPoint(lat, lng, alt, accu, time, extra) {
   // nowy pomiar GPS: zawsze zapis surowy; na żywo – filtr i punkt śladu co ≥ 2 s w ruchu
   if (!REC || REC.paused || !isFinite(lat) || !isFinite(lng)) return;
@@ -27349,12 +28203,25 @@ function recSaveDlg() {
         .catch(() => {});
     box.append(h('div', 'aguess', _t('Wygląda na: ') + ACTS[ag][0] + ' ' + ACTS[ag][1].toLowerCase() + _t(' – zmień poniżej, jeśli to nie to.')));
     sel.className = 'tsel';
-    trkModeLayers().forEach(l =>
-      sel.add(new Option(_t('Warstwa: ') + trkLayerLabel(l), l.id, false, l.id === (REC.l || TRK.active)))
-    );
-    sel.add(new Option(_t('＋ Nowa warstwa…'), '+'));
+    // v81: domyślnie warstwa rodzaju aktywności (Samochód, Rower…) w kategorii nagrania; zmienia się z rodzajem,
+    // dopóki nie wybierzesz warstwy ręcznie. Brakująca warstwa rodzaju jest na liście jako „(nowa)”.
+    const recCat = (TRK.layers.find(x => x.id === (REC.l || TRK.active)) || {}).cat || trkCur().id;
+    let layTouched = false;
+    const fillSel = () => {
+      const a = asel.value,
+        al = trkActLayer(a, recCat, false),
+        want = layTouched ? sel.value : al ? al.id : ACTS[a] && a !== 'inne' ? '@act' : REC.l || TRK.active;
+      sel.innerHTML = '';
+      if (!al && ACTS[a] && a !== 'inne') sel.add(new Option(_t('Warstwa: ') + ACTS[a][1] + _t(' (nowa)'), '@act'));
+      trkModeLayers().forEach(l => sel.add(new Option(_t('Warstwa: ') + trkLayerLabel(l), l.id)));
+      sel.add(new Option(_t('＋ Nowa warstwa…'), '+'));
+      sel.value = [...sel.options].some(o => o.value === want) ? want : REC.l || TRK.active;
+    };
+    fillSel();
+    asel.addEventListener('change', () => !layTouched && fillSel());
     sel.onchange = async () => {
-      if (sel.value !== '+') return;
+      if (sel.value !== '+') return void (layTouched = true);
+      layTouched = true;
       const l = await trkAddLayer();
       sel.innerHTML = '';
       trkModeLayers().forEach(x =>
@@ -27371,7 +28238,7 @@ function recSaveDlg() {
         () =>
           fin({
             nm: inp.value.trim().slice(0, 200) || _t('Ślad'),
-            l: sel.value === '+' ? TRK.active : sel.value,
+            l: sel.value === '+' ? TRK.active : sel.value === '@act' ? (trkActLayer(asel.value, recCat, true) || {id: TRK.active}).id : sel.value,
             a: asel.value,
             // nazwa automatyczna bez miejsca (brak internetu) – miejsce dopisze się później
             wait: !typed && needPlace(nmode) && !place ? nmode : null,
@@ -32583,56 +33450,97 @@ async function rtFetch(url, ms = 15000) {
     tm = setTimeout(() => ac.abort(), ms);
   try {
     const r = await fetch(url, {referrerPolicy: 'no-referrer', signal: ac.signal});
+    if (!r.ok) diag('trasy', 'Serwer tras: HTTP ' + r.status, url.split('?')[0]);
     return await r.json();
+  } catch (e) {
+    diag('trasy', 'Serwer tras nie odpowiedział: ' + ((e && e.name === 'AbortError' ? 'przekroczony czas ' + ms / 1000 + ' s' : e && e.message) || e), url.split('?')[0]);
+    throw e;
   } finally {
     clearTimeout(tm);
   }
 }
+async function rtValhalla(pts, c, o, opt) {
+  // jedno zapytanie do Valhalli; zwraca {legs: [{p, man, time, len}], len, time} albo null (RT_ERR – powód)
+  const q = {
+    // v79: punkty pośrednie z promieniem – serwer bierze pod uwagę wszystkie drogi w pobliżu (np. obie jezdnie),
+    // a nie tylko najbliższą krawędź; bez tego rower robił kółka, żeby „dotknąć” jezdni w przeciwnym kierunku
+    locations: pts.map((x, i) => ({
+      lat: +x[0].toFixed(6),
+      lon: +x[1].toFixed(6),
+      ...(opt.types && opt.types[i] && opt.types[i] !== 'break' ? {type: opt.types[i]} : {}),
+      ...(i && i < pts.length - 1 ? {radius: opt.types && opt.types[i] === 'break_through' ? 35 : 20} : {})
+    })),
+    costing: c,
+    costing_options: {[c]: {...o, ...(opt.priv ? {ignore_access: true, ignore_closures: true} : {})}},
+    directions_options: {language: LANG === 'pl' ? 'pl-PL' : 'en-US', units: 'kilometers'}
+  };
+  const j = await rtFetch('https://valhalla1.openstreetmap.de/route?json=' + encodeURIComponent(JSON.stringify(q)));
+  if (j && j.error) {
+    RT_ERR = _t('serwer tras: ') + String(j.error).slice(0, 120); // np. brak drogi w pobliżu punktu
+    diag('trasy', 'Valhalla: ' + String(j.error).slice(0, 200), c + ' · ' + pts.length + ' pkt');
+  }
+  const legs = j && j.trip && j.trip.legs;
+  if (!Array.isArray(legs) || !legs.length) return null;
+  const out = legs.map(lg => ({
+    p: polyDec(String(lg.shape || '')),
+    time: +(lg.summary && lg.summary.time) || 0,
+    len: (+(lg.summary && lg.summary.length) || 0) * 1000,
+    man: (lg.maneuvers || []).map(m => ({
+      i: m.begin_shape_index | 0,
+      txt: String(m.instruction || ''),
+      pre: String(m.verbal_pre_transition_instruction || m.instruction || ''),
+      typ: m.type | 0,
+      st: Array.isArray(m.street_names) && m.street_names.length ? String(m.street_names[0]).slice(0, 80) : '',
+      rx: m.roundabout_exit_count | 0
+    }))
+  }));
+  if (out.some(lg => lg.p.length < 2 || !lg.p.every(okLL))) return null;
+  return {legs: out, len: (+j.trip.summary.length || 0) * 1000, time: +j.trip.summary.time || 0};
+}
 async function routeAB(pts, opt = {}) {
   // trasa przez punkty pts ([szer, dł]); opt.prof – rodzaj dróg, opt.priv – także drogi prywatne / zamknięte
-  // zwraca {p: punkty, man: polecenia [{i, txt, pre, typ}], len: m, time: s, src} albo null
+  // zwraca {p: punkty, man: polecenia [{i, txt, pre, typ}], legs, len: m, time: s, src, walk} albo null
   const pf = RT_PROF[opt.prof || rtProf()];
   RT_ERR = navigator.onLine === false ? _t('brak internetu') : _t('serwer tras nie odpowiedział');
   try {
-    const q = {
-      // v79: punkty pośrednie z promieniem – serwer bierze pod uwagę wszystkie drogi w pobliżu (np. obie jezdnie),
-      // a nie tylko najbliższą krawędź; bez tego rower robił kółka, żeby „dotknąć” jezdni w przeciwnym kierunku
-      locations: pts.map((x, i) => ({
-        lat: +x[0].toFixed(6),
-        lon: +x[1].toFixed(6),
-        ...(opt.types && opt.types[i] && opt.types[i] !== 'break' ? {type: opt.types[i]} : {}),
-        ...(i && i < pts.length - 1 ? {radius: opt.types && opt.types[i] === 'break_through' ? 35 : 20} : {})
-      })),
-      costing: pf.c,
-      costing_options: {[pf.c]: {...pf.o, ...(opt.priv ? {ignore_access: true, ignore_closures: true} : {})}},
-      directions_options: {language: LANG === 'pl' ? 'pl-PL' : 'en-US', units: 'kilometers'}
-    };
-    const j = await rtFetch('https://valhalla1.openstreetmap.de/route?json=' + encodeURIComponent(JSON.stringify(q)));
-    if (j && j.error) RT_ERR = _t('serwer tras: ') + String(j.error).slice(0, 120); // np. brak drogi w pobliżu punktu
-    const legs = j && j.trip && j.trip.legs;
-    if (Array.isArray(legs) && legs.length) {
+    const v = await rtValhalla(pts, pf.c, pf.o, opt);
+    if (v) {
+      // v81: rower – ścieżka rowerowa „przerwana” na jezdni (jest tylko przejście dla pieszych) zmuszała serwer do
+      // objazdów i pętli. Liczymy też trasę pieszą; odcinek, na którym rower jedzie wyraźnie naokoło,
+      // bierzemy pieszy („przeprowadź rower”). Czas takiego odcinka – z tempa roweru na tej trasie.
+      let walk = 0;
+      if (pf.c === 'bicycle' && !opt.noWalk) {
+        let w = null;
+        try {
+          w = await rtValhalla(pts, 'pedestrian', {use_tracks: 0.5, walkway_factor: 1, max_hiking_difficulty: 2}, opt);
+        } catch (e) {}
+        if (w && w.legs.length === v.legs.length)
+          v.legs.forEach((lg, i) => {
+            const pl = w.legs[i];
+            if (lg.len > pl.len * 1.3 && lg.len - pl.len > 200) {
+              const spd = lg.time > 0 ? lg.len / lg.time : 4;
+              v.legs[i] = {...pl, time: pl.len / spd, walk: 1, man: pl.man.map(m => ({...m, txt: m.txt, pre: m.pre}))};
+              walk++;
+              diag('trasy', 'Rower: odcinek ' + (i + 1) + ' pieszo (' + Math.round(lg.len) + ' m rowerem → ' + Math.round(pl.len) + ' m)', '');
+            }
+          });
+      }
       const p = [],
         man = [],
         lgs = [];
-      legs.forEach(lg => {
-        const sh = polyDec(String(lg.shape || '')),
-          off = p.length ? p.length - 1 : 0;
-        p.push(...(p.length ? sh.slice(1) : sh));
-        lgs.push({s: off, e: p.length - 1, time: +(lg.summary && lg.summary.time) || 0});
-        (lg.maneuvers || []).forEach(m =>
-          man.push({
-            i: off + (m.begin_shape_index | 0),
-            txt: String(m.instruction || ''),
-            pre: String(m.verbal_pre_transition_instruction || m.instruction || ''),
-            typ: m.type | 0,
-            st: Array.isArray(m.street_names) && m.street_names.length ? String(m.street_names[0]).slice(0, 80) : '',
-            rx: m.roundabout_exit_count | 0
-          })
-        );
+      v.legs.forEach(lg => {
+        const off = p.length ? p.length - 1 : 0;
+        p.push(...(p.length ? lg.p.slice(1) : lg.p));
+        lgs.push({s: off, e: p.length - 1, time: lg.time, ...(lg.walk ? {walk: 1} : {})});
+        lg.man.forEach((m, k) => {
+          // na odcinku pieszym przy rowerze: między odcinkami tylko polecenie „przeprowadź rower” na początku
+          if (lg.walk && k === 0) man.push({...m, i: off + m.i, txt: _t('Przeprowadź rower: ') + m.txt, pre: _t('Przeprowadź rower. ') + m.pre});
+          else man.push({...m, i: off + m.i});
+        });
       });
-      const ok = p.filter(okLL);
-      if (ok.length === p.length && ok.length > 1) return {p: ok, man, legs: lgs, len: (+j.trip.summary.length || 0) * 1000, time: +j.trip.summary.time || 0, src: 'valhalla'};
-      if (ok.length > 1) return {p: ok, man, len: (+j.trip.summary.length || 0) * 1000, time: +j.trip.summary.time || 0, src: 'valhalla'};
+      const len = v.legs.reduce((a, lg) => a + lg.len, 0),
+        time = v.legs.reduce((a, lg) => a + lg.time, 0);
+      return {p, man, legs: lgs, len, time, src: 'valhalla', walk};
     }
   } catch (e) {}
   // zapasowo OSRM (bez wyboru nawierzchni i bez poleceń)
@@ -36160,6 +37068,7 @@ async function planRoute() {
           {prof: pr, types}
         );
         if (!r && types.includes('break_through')) r = await routeAB(pts.map(q => q.ll), {prof: pr});
+        if (r && r.walk) toastMsg(_t('Rowerem byłby duży objazd (ścieżka przerwana na jezdni) – ten kawałek trasa prowadzi pieszo: przeprowadź rower przez przejście.'));
       } catch (e) {}
       if (r && r.legs && r.legs.length === pts.length - 1) {
         // v79: bez kółek wokół punktów pośrednich (granica odcinków)
@@ -39664,6 +40573,12 @@ function settingsDlg(keep, old) {
     ],
     _t('Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.')
   );
+  cat('diag', 'bulb', _t('Diagnostyka'), _t('Błędy map i serwerów – wyślij jednym przyciskiem'));
+  {
+    const n = diagAll().length;
+    sec.append(h('div', 'muted', n ? _t('Zapisanych zdarzeń: ') + n + _t('. Ostatnie: ') + diagAll()[n - 1].m : _t('Brak zapisanych błędów.')));
+    btnRow([B(_t('Otwórz Diagnostykę'), () => (fin(), diagDlg()), 'okb')]);
+  }
   cat('lang', 'globe', _t('Język i jednostki'), _t('Język, jednostki, powierzchnia'));
   const relaunch = () => setTimeout(() => location.reload(), 150);
   radios(
