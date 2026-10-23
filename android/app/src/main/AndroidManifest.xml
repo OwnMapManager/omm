@@ -66,6 +66,9 @@
     <!-- zapis kopii i eksportów w folderze Dokumenty/OMM – potrzebne tylko na Androidzie 10 i starszym -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <!-- v79: odczyt MIEJSCA ZROBIENIA zdjęć wybranych przez użytkownika (Android 10+ wycina GPS bez tego uprawnienia);
+         nie daje dostępu do galerii – tylko do lokalizacji w zdjęciach wskazanych w oknie wyboru -->
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <!-- niepotrzebne uprawnienia z wtyczki powiadomień: dokładne alarmy i start po włączeniu telefonu -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" tools:node="remove" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" tools:node="remove" />

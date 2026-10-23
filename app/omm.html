@@ -7192,6 +7192,10 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Bez zgody na „lokalizację w multimediach” zdjęcia nie mają miejsca zrobienia – zgodę włączysz w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia.": "Without the “media location” permission the photos have no location – turn it on in Android Settings → Apps → OMM → Permissions.",
+  ".\nJeśli w aparacie lokalizacja jest włączona, a mimo to jej brakuje – sprawdź w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia, czy jest zgoda na lokalizację w multimediach.": ".\nIf location is on in the camera but still missing – check in Android Settings → Apps → OMM → Permissions that media location access is allowed.",
+  "\n\nZa pierwszym razem Android zapyta o dostęp do lokalizacji w multimediach – bez niej zdjęcia trafią do OMM bez miejsca zrobienia.": "\n\nThe first time, Android will ask for access to media location – without it the photos come into OMM without their location.",
+  "🖼 Wybierz zdjęcia": "🖼 Choose photos",
   "Punkty ": "Points ",
   " · zmienione ": " · changed ",
   " · kawałki ": " · pieces ",
@@ -9957,7 +9961,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v79';
+const APP_VER = 'v80';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -28318,6 +28322,7 @@ async function fotoAdd(file, keepOriginal) {
   const buf = await file.arrayBuffer(),
     ex = exifInfo(buf),
     name = fotoName(ex.time || file.lastModified),
+    _ll = !ex.ll && file._ll && (ex.ll = file._ll), // v79: lokalizacja odczytana natywnie (np. HEIC)
     ref = await fotoPut(await fotoResize(file), name);
   const FS = plug('Filesystem');
   if (keepOriginal && FS && fotoGalOn())
@@ -28360,6 +28365,34 @@ async function fotoForget(ref) {
       } catch (e) {}
     }
 }
+// v79: Android od wersji 10 wycina GPS ze zdjęć wybranych zwykłym <input type=file>. Wtyczka OmmPhotos pokazuje
+// systemowe okno wyboru zdjęć i (za zgodą „lokalizacja w multimediach”) kopiuje ORYGINAŁ z miejscem zrobienia.
+// Zwraca listę File (z polem _ll, gdy Android podał współrzędne) albo null, gdy wtyczki nie ma (przeglądarka).
+async function nativePhotos(multi) {
+  const OP = plug('OmmPhotos');
+  if (!OP) return null;
+  let r;
+  try {
+    r = await OP.pick({multi: !!multi});
+  } catch (e) {
+    return null;
+  }
+  const out = [];
+  for (const f of (r && r.files) || []) {
+    try {
+      const b = await (await fetch(Capacitor.convertFileSrc('file://' + f.path))).blob(),
+        file = new File([b], String(f.name || 'zdjecie.jpg').slice(0, 120), {type: f.mime || b.type || 'image/jpeg', lastModified: Date.now()});
+      const la = +f.lat,
+        lo = +f.lng;
+      if (f.lat != null && isFinite(la) && isFinite(lo) && Math.abs(la) <= 90 && Math.abs(lo) <= 180) file._ll = [+la.toFixed(6), +lo.toFixed(6)];
+      out.push(file);
+    } catch (e) {}
+  }
+  OP.cleanup().catch(() => {}); // kopie w pamięci podręcznej już niepotrzebne (zdjęcia są w pamięci OMM)
+  if (r && r.location === false && out.length)
+    toastMsg(_t('Bez zgody na „lokalizację w multimediach” zdjęcia nie mają miejsca zrobienia – zgodę włączysz w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia.'));
+  return out;
+}
 // wybór zdjęć: aparat (capture) albo galeria/pliki
 function pickPhotos(camera, multi) {
   const one = (cam, mul) =>
@@ -28376,7 +28409,9 @@ function pickPhotos(camera, multi) {
       });
       inp.click();
     });
-  if (!camera) return one(false, multi);
+  // v79: galeria przez okno OMM (OmmPhotos) – zdjęcia razem z miejscem zrobienia; w przeglądarce jak dawniej
+  const gal = async mul => (await nativePhotos(mul)) || one(false, mul);
+  if (!camera) return gal(multi);
   // v66: domyślnie aparat; gdy zamkniesz aparat bez zdjęcia – propozycja wyboru z galerii
   return one(true, false).then(async fs => {
     if (fs.length) return fs;
@@ -28387,7 +28422,7 @@ function pickPhotos(camera, multi) {
         {t: _t('Anuluj'), v: null}
       ]
     });
-    return v === 'gal' ? one(false, multi) : [];
+    return v === 'gal' ? gal(multi) : [];
   });
 }
 async function askPhotoSource(title) {
@@ -28542,7 +28577,7 @@ async function fotoImport(files) {
     info.textContent = _t('Import zdjęć ') + (i + 1) + '/' + files.length + '…';
     try {
       const ex = exifInfo(await f.slice(0, 256 * 1024).arrayBuffer());
-      let ll = ex.ll;
+      let ll = ex.ll || f._ll; // v79: także lokalizacja odczytana natywnie
       if (!ll && ex.time) {
         ll = trkAtTime(ex.time);
         if (ll) fromTrk.push(f.name);
@@ -28593,7 +28628,7 @@ async function fotoImport(files) {
       (noLoc.length
         ? _t('\n\nBez lokalizacji (pominięte): ') +
           noLoc.length +
-          _t('.\nJeśli w aparacie lokalizacja jest włączona, a mimo to jej brakuje, Android mógł ją usunąć przy wyborze z galerii – wybierz zdjęcia przez aplikację „Pliki” (folder DCIM/Camera).')
+          _t('.\nJeśli w aparacie lokalizacja jest włączona, a mimo to jej brakuje – sprawdź w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia, czy jest zgoda na lokalizację w multimediach.')
         : '') +
       (bad.length ? _t('\n\nNie udało się wczytać: ') + bad.join(', ') : '')
   );
@@ -31012,29 +31047,33 @@ function fotoHere() {
   });
 }
 async function fotoImportPick() {
+  const nat = !!plug('OmmPhotos');
   const v = await dlg({
     title:
       _t('Import zdjęć z lokalizacją\nKażde zdjęcie z zapisanym miejscem zrobienia stanie się punktem 📷 na mapie „') +
       P.name +
-      _t('”.\n\nWybierz zdjęcia przez aplikację „Pliki” (np. folder DCIM/Camera) – wtedy Android nie usuwa z nich lokalizacji.'),
+      '”.' +
+      (nat
+        ? _t('\n\nZa pierwszym razem Android zapyta o dostęp do lokalizacji w multimediach – bez niej zdjęcia trafią do OMM bez miejsca zrobienia.')
+        : ''),
     btns: [
-      {t: _t('📁 Wybierz w „Plikach”'), v: 'f', c: 'okb'},
-      {t: _t('🖼 Z galerii'), v: 'g'},
+      {t: _t('🖼 Wybierz zdjęcia'), v: 'g', c: 'okb'},
       {t: _t('Anuluj'), v: null}
     ]
   });
   if (!v) return;
+  const take = files => {
+    const fs = files.filter(f => /^image\//.test(f.type) || /\.(jpe?g|heic|png|webp)$/i.test(f.name));
+    if (fs.length) fotoImport(fs);
+    else if (files.length) tell(_t('Wybrane pliki nie są zdjęciami.'));
+  };
+  const nf = await nativePhotos(true);
+  if (nf) return take(nf);
   const inp = h('input');
   inp.type = 'file';
   inp.multiple = true;
-  if (v === 'g') inp.accept = 'image/*'; // galeria (Android może usunąć lokalizację)
-  inp.onchange = () => {
-    const fs = [...inp.files].filter(
-      f => /^image\//.test(f.type) || /\.(jpe?g|heic|png|webp)$/i.test(f.name)
-    );
-    if (fs.length) fotoImport(fs);
-    else if (inp.files.length) tell(_t('Wybrane pliki nie są zdjęciami.'));
-  };
+  inp.accept = 'image/*';
+  inp.onchange = () => take([...inp.files]);
   inp.click();
 }
 
