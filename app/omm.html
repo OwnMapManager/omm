@@ -2922,6 +2922,36 @@ body.rec #recpill {
   justify-content: stretch;
   padding: 8px 12px 14px;
 }
+.fthm div {
+  /* v86: miniatura zdjęcia na mapie – ramka z ostrzem (czubek = miejsce zrobienia zdjęcia) */
+  box-sizing: border-box;
+  width: 46px;
+  height: 46px;
+  padding: 3px;
+  background: #fbf8f1;
+  border-radius: 7px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+  position: relative;
+}
+.fthm div::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  margin-left: -7px;
+  border: 7px solid transparent;
+  border-bottom: 0;
+  border-top: 8px solid #fbf8f1;
+  filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.25));
+}
+.fthm img {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
 .gpad.saper,
 .gpad.pkun {
   grid-template-columns: 1fr;
@@ -10156,7 +10186,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v85';
+const APP_VER = 'v86';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -12931,16 +12961,22 @@ const NOWY_STYL = (() => {
       p('M26 2.4L27.2 6L30.8 7.2L27.2 8.4L26 12L24.8 8.4L21.2 7.2L24.8 6Z', PAL.must)
   ];
   // aparat fotograficzny – punkt ze zdjęciem (np. z importu zdjęć z lokalizacją)
+  // v86: kształt jak ikona „Punkt” (kropla), w główce dotychczasowy aparat prawie na całą szerokość (wybór Pawła 24.10)
   NEW['o:foto'] = [
     _t('Zdjęcie'),
-    p(
-      'M5 10.4H10L12.2 7H19.8L22 10.4H27Q29 10.4 29 12.4V25Q29 27 27 27H5Q3 27 3 25V12.4Q3 10.4 5 10.4Z',
-      PAL.greyD
-    ) +
-      c(16, 18.4, 6, PAL.white) +
-      c(16, 18.4, 3.8, PAL.blueD) +
+    p('M16 29.6C16 29.6 7 19.6 7 12.6A9 9 0 0 1 25 12.6C25 19.6 16 29.6 16 29.6Z', PAL.terra) +
+      s(
+        'M16 3.6A9 9 0 0 1 25 12.6C25 19.6 16 29.6 16 29.6C18 25 21.4 19 21.4 12.6C21.4 8.4 19.4 5 16 3.6Z',
+        PAL.terraD,
+        0.5
+      ) +
+      '<g transform="translate(16 12.5) scale(0.56) translate(-16 -17)">' +
+      p('M5 10.4H10L12.2 7H19.8L22 10.4H27Q29 10.4 29 12.4V25Q29 27 27 27H5Q3 27 3 25V12.4Q3 10.4 5 10.4Z', PAL.greyD, ' stroke-width="2.4"') +
+      '<circle cx="16" cy="18.4" r="6" fill="' + PAL.white + '" stroke="' + K + '" stroke-width="2.2"/>' +
+      '<circle cx="16" cy="18.4" r="3.8" fill="' + PAL.blueD + '" stroke="' + K + '" stroke-width="2"/>' +
       e(14.8, 17.2, 1.3, 0.9, '#fff', false) +
-      p('M23.2 12.6H26.2V14.6H23.2Z', PAL.must)
+      p('M23.2 12.6H26.2V14.6H23.2Z', PAL.must, ' stroke-width="1.8"') +
+      '</g>'
   ];
   NEW['o:parking'] = [
     'Parking',
@@ -13184,7 +13220,7 @@ function pinDivIcon(it, px) {
     u = iconUrl(it.i || '📍', it.c),
     z = px || (d && d.col ? PIN_SZ[szOf(it)] : 38),
     // punkt zaczepienia: czubek igły pinezki / ostrze znacznika 📍 / środek pozostałych ikon
-    a = d && d.col ? [z * 0.355, z * 0.868] : (it.i || '📍') === '📍' ? [z / 2, z * 0.86] : [z / 2, z / 2];
+    a = d && d.col ? [z * 0.355, z * 0.868] : ['📍', 'o:foto'].includes(it.i || '📍') ? [z / 2, z * 0.86] : [z / 2, z / 2];
   const ra = it.t === 'pin' && RATED(it) && it.ra ? it.ra : 0;
   if (u) {
     if (!it.n && !ra) return L.icon({iconUrl: u, iconSize: [z, z], iconAnchor: a, className: 'pimg'});
@@ -13210,6 +13246,95 @@ function pinDivIcon(it, px) {
     });
   }
   return pinDivIconOld(it);
+}
+// ---------- v86: punkty ze zdjęciem (ikona 📷 z importu) – miniatura przy zbliżeniu, dotknięcie = podgląd ----------
+// Od zoomu FOTO_Z zamiast ikony mała miniatura zdjęcia w ramce z ostrzem (czubek = miejsce zdjęcia).
+// Dotknięcie otwiera zdjęcie na pełnym ekranie; przytrzymanie ok. 1,5 s – zwykłe okienko punktu (edycja).
+const FOTO_Z = 17,
+  FTH = new Map(), // zdjęcie → Promise<mała miniatura (data: URL)>
+  FTHV = new Map(); // zdjęcie → gotowa miniatura
+let FOTO_MK = []; // [{m: znacznik, it}] – odświeżane przy rysowaniu mapy
+const isFotoPin = it => it.t === 'pin' && it.i === 'o:foto' && Array.isArray(it.ph) && it.ph.length > 0;
+function fotoThumb(u) {
+  if (FTH.has(u)) return FTH.get(u);
+  const pr = fotoUrl(u)
+    .then(
+      src =>
+        src &&
+        new Promise(res => {
+          const im = new Image();
+          im.onload = () => {
+            try {
+              const S = 112,
+                c = document.createElement('canvas'),
+                k = Math.max(S / im.naturalWidth, S / im.naturalHeight),
+                w = im.naturalWidth * k,
+                hh = im.naturalHeight * k;
+              c.width = c.height = S;
+              c.getContext('2d').drawImage(im, (S - w) / 2, (S - hh) / 2, w, hh);
+              res(c.toDataURL('image/jpeg', 0.82));
+            } catch (e) {
+              res(src); // zdjęcie z internetu (bez zgody na odczyt) – pokazujemy samo
+            }
+          };
+          im.onerror = () => res(null);
+          im.src = src;
+        })
+    )
+    .catch(() => null)
+    .then(x => (x && FTHV.set(u, x), x));
+  FTH.set(u, pr);
+  return pr;
+}
+const fotoThumbIcon = url =>
+  L.divIcon({className: 'fthm', html: '<div><img src="' + url + '" alt="" draggable="false"></div>', iconSize: [46, 54], iconAnchor: [23, 54]});
+function fotoMkSet(o) {
+  // właściwa ikona dla bieżącego zoomu + przytrzymanie
+  const {m, it} = o,
+    want = map.getZoom() >= FOTO_Z,
+    u = it.ph[0],
+    url = want && (FTHV.get(u) || FTHV.get(u + ''));
+  if (want && !url) fotoThumb(u).then(x => x && FOTO_MK.includes(o) && map.getZoom() >= FOTO_Z && fotoMkSet(o));
+  const k = url ? 'th' : 'ic';
+  if (m._fk !== k) {
+    m._fk = k;
+    m.setIcon(url ? fotoThumbIcon(url) : pinDivIcon(it));
+  }
+  fotoHold(m, it);
+}
+function fotoHold(m, it) {
+  const el = m.getElement && m.getElement();
+  if (!el || el._fh) return;
+  el._fh = 1;
+  let t = 0,
+    x0 = 0,
+    y0 = 0;
+  const stop = () => (clearTimeout(t), (t = 0));
+  el.addEventListener('pointerdown', e => {
+    if (mode) return;
+    x0 = e.clientX;
+    y0 = e.clientY;
+    stop();
+    t = setTimeout(() => {
+      t = 0;
+      m._lp = Date.now();
+      gBuzz(40); // sygnał: można puścić
+    }, 1500);
+  });
+  el.addEventListener('pointermove', e => Math.hypot(e.clientX - x0, e.clientY - y0) > 10 && stop());
+  // okienko dopiero po puszczeniu palca – inaczej zamknęłoby je „kliknięcie” mapy
+  const up = () => {
+    stop();
+    if (m._lp && Date.now() - m._lp < 4000 && !m._lpOpen) {
+      m._lpOpen = 1;
+      setTimeout(() => ((m._lpOpen = 0), (m._lp = 0), openItemPopup(it, m.getLatLng())), 80);
+    }
+  };
+  ['pointerup', 'pointercancel'].forEach(ev => el.addEventListener(ev, up));
+  el.addEventListener('pointerleave', stop);
+}
+function fotoMkAll() {
+  FOTO_MK.forEach(fotoMkSet);
 }
 function pinDivIconOld(it) {
   const d = ICONS[it.i],
@@ -13694,6 +13819,37 @@ function natTile(url, img, done, nm) {
     });
   return true;
 }
+// v85.1: obrazek z dwóch dróg – przeglądarka (WebView) i natywnie (CapacitorHttp). Natywny Android potrafi odrzucić
+// certyfikat serwera (np. GUGiK bez certyfikatu pośredniego: „Trust anchor for certification path not found”),
+// a WebView dociąga brakujący sam – więc gdy jedna droga zawiedzie, próbujemy drugiej. Wynik: Promise<img | null>.
+const IMG_WAY = {}; // nazwa warstwy → droga, która ostatnio zadziałała ('web' | 'nat')
+function imgTwoWay(url, nm, first = 'web', ms = 25000) {
+  const web = () =>
+      new Promise(res => {
+        const img = new Image(),
+          tm = setTimeout(() => ((img.onload = img.onerror = null), (img.src = ''), res(null)), ms);
+        img.referrerPolicy = 'no-referrer';
+        img.onload = () => (clearTimeout(tm), res(img));
+        img.onerror = () => (clearTimeout(tm), res(null));
+        img.src = url;
+      }),
+    nat = () =>
+      new Promise(res => {
+        const img = new Image();
+        if (!natTile(url, img, e => res(e ? null : img), nm)) res(null);
+      }),
+    order = (IMG_WAY[nm] || first) === 'nat' ? [['nat', nat], ['web', web]] : [['web', web], ['nat', nat]];
+  return order[0][1]().then(im => {
+    if (im) return (IMG_WAY[nm] = order[0][0]), im;
+    return order[1][1]().then(im2 => {
+      if (im2) {
+        if (IMG_WAY[nm] !== order[1][0]) diag('mapa', nm + ': działa droga „' + (order[1][0] === 'web' ? 'przeglądarka' : 'natywnie') + '”', url);
+        IMG_WAY[nm] = order[1][0];
+      }
+      return im2;
+    });
+  });
+}
 function diagReport() {
   const a = diagAll(),
     fd = t => new Date(t).toLocaleString('pl-PL', {day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'});
@@ -13894,7 +14050,7 @@ var OrtoArch = L.TileLayer.WMS.extend({
       };
     // v81: w aplikacji kafle pobierane natywnie (CapacitorHttp) – WebView ich nie wczytywał; treść błędu serwera do Diagnostyki
     const NH = diagHttp();
-    if (NH) {
+    if (NH && !this._natBad) {
       img._nat = 1;
       NH.get({url, responseType: 'blob', headers: {Accept: 'image/*'}})
         .then(r => {
@@ -13923,8 +14079,11 @@ var OrtoArch = L.TileLayer.WMS.extend({
           done(new Error(msg), img);
         })
         .catch(e => {
-          diag('mapa', 'Ortofoto archiwalne – brak połączenia', String((e && e.message) || e) + '\n' + url);
-          done(e, img);
+          // v85.1: natywnie nie da się połączyć (np. certyfikat) – ten sam kafel przez przeglądarkę
+          diag('mapa', 'Ortofoto archiwalne – natywnie brak połączenia, próba przez przeglądarkę', String((e && e.message) || e) + '\n' + url);
+          img._nat = 0;
+          this._natBad = true; // kolejne kafle od razu przez przeglądarkę
+          plain();
         });
       return;
     }
@@ -14446,15 +14605,11 @@ function nmtTileGet(url, n = 0) {
     NMT_C.set(url, p);
     return p;
   }
-  const p = new Promise(res => {
-    const img = new Image(),
-      fin = e => (e ? (NMT_C.delete(url), n < 1 ? setTimeout(() => nmtTileGet(url, n + 1).then(res), 900) : res(null)) : res(img));
-    if (!natTile(url, img, e => fin(e), 'NMT – cieniowanie (WMTS)')) {
-      img.referrerPolicy = 'no-referrer';
-      img.onload = () => fin();
-      img.onerror = () => fin(1);
-      img.src = url;
-    }
+  // v85.1: najpierw przeglądarka (gotowe kafle przychodzą szybko), natywnie jako zapas
+  const p = imgTwoWay(url, 'NMT – cieniowanie (WMTS)', 'web', 15000).then(im => {
+    if (im) return im;
+    NMT_C.delete(url);
+    return n < 1 ? new Promise(r => setTimeout(() => nmtTileGet(url, n + 1).then(r), 900)) : null;
   });
   NMT_C.set(url, p);
   while (NMT_C.size > 160) NMT_C.delete(NMT_C.keys().next().value);
@@ -14555,18 +14710,9 @@ var NmtLayer = L.GridLayer.extend({
     const nw = this._map.unproject(L.point(coords.x * ts.x, coords.y * ts.y), coords.z),
       se = this._map.unproject(L.point((coords.x + 1) * ts.x, (coords.y + 1) * ts.y), coords.z),
       url = GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + [se.lat, nw.lng, nw.lat, se.lng].map(x => x.toFixed(6)).join(',') + '&WIDTH=' + ts.x + '&HEIGHT=' + ts.y;
-    return new Promise(res => {
-      const img = new Image(),
-        fin = e => {
-          if (!e) cv.getContext('2d').drawImage(img, 0, 0, ts.x, ts.y);
-          res(!e);
-        };
-      if (!natTile(url, img, e => fin(e), 'NMT – cieniowanie (WMS)')) {
-        img.referrerPolicy = 'no-referrer';
-        img.onload = () => fin();
-        img.onerror = () => fin(1);
-        img.src = url;
-      }
+    return imgTwoWay(url, 'NMT – cieniowanie (WMS)', 'nat', 30000).then(im => {
+      if (im) cv.getContext('2d').drawImage(im, 0, 0, ts.x, ts.y);
+      return !!im;
     });
   }
 });
@@ -15469,6 +15615,7 @@ const fwv = it => (it.fw === 'n' ? 400 : 700); // grubość czcionki napisów i 
 const txtOn = c => (['#fdd835', '#ffffff', '#fb8c00'].includes(String(c).toLowerCase()) ? '#202124' : '#fff');
 const allL = () => P.groups.flatMap(g => g.layers.map(l => ({g, l})));
 const findL = id => allL().find(x => x.l.id === id);
+map.on('zoomend', () => setTimeout(fotoMkAll, 0)); // v86: miniatury zdjęć przy zbliżeniu
 const grp = L.layerGroup().addTo(map),
   tmp = L.layerGroup().addTo(map);
 // ---------- geometria na kuli: odległość, azymut, powierzchnia ----------
@@ -15980,6 +16127,7 @@ function render() {
   });
   grp.clearLayers();
   LAY = {};
+  FOTO_MK = [];
   const HS = hidSet();
   updChip(HS);
   P.items.forEach(it => {
@@ -16003,6 +16151,11 @@ function render() {
         }
         if (mode) return;
         L.DomEvent.stop(ev);
+        if (isFotoPin(it)) {
+          // v86: dotknięcie = zdjęcie na pełnym ekranie; po przytrzymaniu okienko już się otworzyło
+          if (l && l._lp && Date.now() - l._lp < 4000) return void (l._lp = 0);
+          return photoView(it, 0, () => save());
+        }
         openItemPopup(it, ev.latlng);
       };
       let l;
@@ -16065,6 +16218,12 @@ function render() {
           .addTo(grp);
       l.addTo(grp);
       LAY[it.id] = l;
+      if (isFotoPin(it)) {
+        const o = {m: l, it};
+        FOTO_MK.push(o);
+        l.on('contextmenu', e => L.DomEvent.stop(e)); // przytrzymanie obsługuje fotoHold (nie współrzędne mapy)
+        fotoMkSet(o);
+      }
       const aic = isArea(it) && icOfItem(it);
       if (aic)
         L.marker(it.t === 'circle' ? l.getLatLng() : l.getCenter(), {pane, icon: pinDivIcon({i: it.i}, 30)})
@@ -20789,7 +20948,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
 <li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
-<li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego.</li>
+<li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
 <li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami.</li>
@@ -20840,7 +20999,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
 <li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
-<li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it.</li>
+<li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles.</li>
