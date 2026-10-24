@@ -4358,6 +4358,88 @@ html.recme .meic {
   width: 14px;
   height: 14px;
 }
+#tmore .tspin {
+  display: none !important;
+}
+/* v84: listy bez wcięć; w wierszu nazwa, oko i ⋮ (Mapy, Ślady GPS, grupy, warstwy, obiekty) */
+#list .lr {
+  padding: 2px 2px 2px 0;
+}
+#list .gh {
+  padding: 2px 2px 2px 0;
+}
+#list .obj {
+  padding: 5px 2px 5px 12px;
+  gap: 10px;
+}
+#list .tag,
+#list .l .tag,
+#list .g .tag,
+#list .empty,
+#list .selall {
+  padding-left: 12px;
+}
+#list .ctl {
+  padding-left: 12px;
+}
+#list .lr .eye,
+#list .gh .eye,
+#list .obj .eye {
+  width: 34px;
+  height: 34px;
+  padding: 7px;
+  border: 0;
+  background: none;
+  flex: none;
+  color: var(--txt2);
+}
+#list .lr .eye svg,
+#list .gh .eye svg,
+#list .obj .eye svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+#list .obj .more,
+#list .lr .more,
+#list .gh .more {
+  width: 30px;
+  height: 34px;
+  flex: none;
+}
+.rmenu {
+  position: fixed;
+  z-index: 3000;
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 6px 24px #0005;
+  padding: 4px 0;
+  min-width: 200px;
+  max-width: calc(100vw - 12px);
+}
+.rmenu button span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rmenu button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  border: 0;
+  background: none;
+  padding: 10px 16px;
+  font-size: 14.5px;
+  color: var(--txt);
+  text-align: left;
+}
+.rmenu button:active {
+  background: var(--b2);
+}
+.rmenu button.danger {
+  color: #d93025;
+}
 /* v81: Diagnostyka */
 .diagl {
   font: 11px/1.4 ui-monospace, Menlo, monospace;
@@ -7226,6 +7308,13 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Udostępnij / eksport": "Share / export",
+  "Ukryj ustawienia warstwy": "Hide layer settings",
+  "Ustawienia warstwy…": "Layer settings…",
+  "Ukryty – pokaż na mapie": "Hidden – show on map",
+  "Widoczny – ukryj na mapie": "Visible – hide on map",
+  "Opcje obiektu": "Object options",
+  "Opcje śladu": "Track options",
   "Ominięta bramka!": "Gate missed!",
   " · bramki ": " · gates ",
   "Trzymaj palec na ekranie – ścigacz leci w tę stronę": "Hold a finger on the screen – the racer flies that way",
@@ -10060,7 +10149,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v83';
+const APP_VER = 'v84';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -15750,7 +15839,7 @@ function render() {
   P.items.forEach(it => {
     try {
       const f = findL(it.l);
-      if (!f || !okItem(it) || HS.has(catOf(it))) return;
+      if (!f || !okItem(it) || (HS.has(catOf(it)) || it.off)) return;
       if (P.plan && it.v && P.vhide) return; // odwiedzone ukryte okiem w sekcji „Odwiedzone”
       const pane = 'p' + it.l,
         c = P.plan && it.v ? '#9e9e9e' : it.c,
@@ -16798,7 +16887,7 @@ function fullBackup(vis, only) {
   if (vis)
     P.items.forEach(it => {
       const f = lookL(P, it.l);
-      if (okItem(it) && f && f.g.vis && f.l.vis && !HS.has(catOf(it))) used.add(it.l);
+      if (okItem(it) && f && f.g.vis && f.l.vis && !(HS.has(catOf(it)) || it.off)) used.add(it.l);
     });
   const okLy = (g, l) => !vis || used.has(l.id),
     okG = g => !vis || g.layers.some(l => used.has(l.id));
@@ -16845,7 +16934,7 @@ function fullBackup(vis, only) {
         if (!okItem(it)) return false;
         if (!vis) return true;
         const f = lookL(m, it.l);
-        return f && f.g.vis && f.l.vis && !HS.has(catOf(it));
+        return f && f.g.vis && f.l.vis && !(HS.has(catOf(it)) || it.off);
       })
       .forEach(it => feats.push(toFeature(it, m, AN)));
   });
@@ -17722,6 +17811,39 @@ const whenTxt = t => {
 };
 let TAB = 'mapy', // zakładka panelu: 'mapy' albo 'slady' (ślady GPS – kod w sekcji „ślady GPS”)
   tsel = null; // warstwa śladów z rozwiniętymi opcjami
+// v84: „⋮” przy warstwie / śladzie / obiekcie – rozwijane menu z funkcjami (w wierszu zostają tylko nazwa, oko i ⋮)
+function rowMenu(btn, items) {
+  if (btn && btn.currentTarget) {
+    // wywołanie z obsługi kliknięcia: zdarzenie → przycisk; kliknięcie nie trafia do wiersza (np. fokus na mapie)
+    btn.stopPropagation();
+    btn = btn.currentTarget;
+  }
+  document.querySelectorAll('.rmenu').forEach(x => x.remove());
+  const m = h('div', 'rmenu'),
+    close = () => {
+      m.remove();
+      document.removeEventListener('pointerdown', out, true);
+    },
+    out = e => !m.contains(e.target) && e.target !== btn && close();
+  items.filter(Boolean).forEach(([ik, t, fn, cls]) => {
+    const b = h('button', cls || '');
+    b.innerHTML = ico(ik, 18) + '<span></span>';
+    b.lastChild.textContent = t;
+    b.onclick = e => {
+      e.stopPropagation();
+      close();
+      fn(btn);
+    };
+    m.append(b);
+  });
+  document.body.append(m);
+  const r = btn.getBoundingClientRect(),
+    mh = m.offsetHeight,
+    mw = m.offsetWidth;
+  m.style.left = Math.max(6, Math.min(innerWidth - mw - 6, r.right - mw)) + 'px';
+  m.style.top = (r.bottom + mh + 6 < innerHeight ? r.bottom + 2 : Math.max(6, r.top - mh - 2)) + 'px';
+  setTimeout(() => document.addEventListener('pointerdown', out, true), 0);
+}
 // v81: po wykonaniu akcji na zaznaczonych obiektach (przeniesienie, ikona, nazwy, usunięcie…) tryb zaznaczania się kończy
 var SEL_ARM = null,
   TSEL_ARM = null;
@@ -17816,30 +17938,22 @@ function sheet() {
           sv();
         }, _t('Rozwiń / zwiń grupę')),
         gn,
+        cb,
         IB(
           'more',
-          () => {
-            selG = selG === g.id ? null : g.id;
-            sheet();
-          },
+          b =>
+            rowMenu(b, [
+              ['edit', _t('Zmień nazwę'), () => ren(g, _t('Nazwa grupy:'))],
+              ['plus', _t('Dodaj warstwę'), () => addLayerTo(g)],
+              gi > 0 && ['up', _t('Wyżej'), () => mv(P.groups, gi, -1)],
+              gi < P.groups.length - 1 && ['down', _t('Niżej'), () => mv(P.groups, gi, 1)],
+              ['del', _t('Usuń grupę'), () => delG(g), 'danger']
+            ]),
           'more',
           _t('Opcje grupy')
         )
       );
       box.append(r);
-      {
-        const ga = h('div', 'tact lact');
-        ga.append(IB('edit', () => ren(g, _t('Nazwa grupy:')), 'eye', _t('Zmień nazwę')), cb, IB('del', () => delG(g), 'eye danger', _t('Usuń grupę')));
-        box.append(ga);
-      }
-      if (selG === g.id) {
-        const c = h('div', 'ctl');
-        c.append(
-          belt(IB('up', () => mv(P.groups, gi, -1), '', _t('Wyżej')), IB('down', () => mv(P.groups, gi, 1), '', _t('Niżej'))),
-          BI('plus', _t('Warstwa'), () => addLayerTo(g))
-        );
-        box.append(c);
-      }
     }
     if (!many || g.open)
       g.layers.forEach((l, li) => {
@@ -17865,24 +17979,23 @@ function sheet() {
             'nm'
           ),
           h('span', 'cnt', String(its.length)),
+          cb,
           IB(
             'more',
-            () => {
-              lsel = lsel === l.id ? null : l.id;
-              sheet();
-            },
+            b =>
+              rowMenu(b, [
+                ['edit', _t('Zmień nazwę'), () => ren(l, _t('Nazwa warstwy:'))],
+                ['share', _t('Udostępnij / eksport'), bb => xmenu(bb, l)],
+                ['gear', lsel === l.id ? _t('Ukryj ustawienia warstwy') : _t('Ustawienia warstwy…'), () => ((lsel = lsel === l.id ? null : l.id), sheet())],
+                li > 0 && ['up', _t('Wyżej'), () => mv(g.layers, li, -1)],
+                li < g.layers.length - 1 && ['down', _t('Niżej'), () => mv(g.layers, li, 1)],
+                ['del', _t('Usuń warstwę'), () => delL(g, l), 'danger']
+              ]),
             'more',
             _t('Opcje warstwy')
           )
         );
         w.append(r);
-        {
-          // belka pod nazwą warstwy – tak samo w Mapach i Śladach GPS: zmień nazwę · oko · udostępnij · usuń
-          const la = h('div', 'tact lact'),
-            xb = IB('share', () => xmenu(xb, l), 'eye', _t('Udostępnij / eksport warstwy (GPX, KML, GeoJSON, CSV)'));
-          la.append(IB('edit', () => ren(l, _t('Nazwa warstwy:')), 'eye', _t('Zmień nazwę')), cb, xb, IB('del', () => delL(g, l), 'eye danger', _t('Usuń warstwę')));
-          w.append(la);
-        }
         if (act) w.append(h('div', 'tag', _t('aktywna – tu trafiają nowe obiekty')));
         if (lsel === l.id) {
           const c = h('div', 'ctl'),
@@ -17900,9 +18013,8 @@ function sheet() {
             if (pn) pn.style.opacity = l.op;
           };
           rg.onchange = save;
-          // „⋮” – pozostałe opcje (nazwa, oko, udostępnij i usuń są na belce pod nazwą)
+          // ustawienia warstwy (z menu „⋮”)
           c.append(
-            belt(IB('up', () => mv(g.layers, li, -1), '', _t('Wyżej')), IB('down', () => mv(g.layers, li, 1), '', _t('Niżej'))),
             h('span', null, _t('Krycie')),
             rg,
             pc
@@ -17994,6 +18106,45 @@ function sheet() {
             if (RATED(it) && it.ra) o.append(h('span', 'cm ra', '★' + it.ra));
             if (it.ph && it.ph.length) o.append(h('span', 'cm', '📷'));
             if (it.n) o.append(h('span', 'cm', '💬'));
+            if (it.off) o.classList.add('hid');
+            if (!selMode) {
+              // v84: oko (pokaż / ukryj obiekt na mapie) i „⋮” w tym samym wierszu
+              const ey = B(
+                '',
+                e => {
+                  e.stopPropagation();
+                  if (it.off) delete it.off;
+                  else it.off = true;
+                  it.up = Date.now();
+                  sv();
+                },
+                'eye',
+                it.off ? _t('Ukryty – pokaż na mapie') : _t('Widoczny – ukryj na mapie')
+              );
+              ey.innerHTML = it.off ? EYE_OFF : EYE_ON;
+              const mb = IB(
+                'more',
+                b =>
+                  rowMenu(b, [
+                    ['pin', _t('Pokaż na mapie'), () => focusItem(it)],
+                    ['layer', _t('Przenieś do innej warstwy'), () => massMove([it])],
+                    [
+                      'del',
+                      _t('Usuń'),
+                      async () => {
+                        if (!(await askYes(_t('Usunąć „') + (nameOf(it) || _t('Obiekt')) + _t('”?\n\nTrafi do kosza na 30 dni.'), _t('Usuń'), true))) return;
+                        trashPut('obj', nameOf(it) || _t('Obiekt'), {items: [it]}, {m: P.id, mn: P.name});
+                        P.items = P.items.filter(x => x !== it);
+                        sv();
+                      },
+                      'danger'
+                    ]
+                  ]),
+                'more',
+                _t('Opcje obiektu')
+              );
+              o.append(ey, mb);
+            }
             w.append(o);
           });
         }
@@ -19002,12 +19153,16 @@ function tsBuild() {
   const w = $('tshort'),
     ph = w.querySelector('[data-g="photo"]');
   [...w.querySelectorAll('.tsc')].forEach(b => b.remove());
-  ph.style.display = 'none';
-  tsList().forEach(k => {
-    if (k === 'photo') {
-      ph.style.display = '';
-      return w.append(ph); // kolejność jak na liście
-    }
+  // v84: przypięte skróty nie powtarzają się w rozwiniętym pasku; aparat nieprzypięty – na początku rozwiniętego paska
+  const L0 = tsList(),
+    tm = $('tmore');
+  ph.style.display = '';
+  if (!L0.includes('photo')) tm.prepend(ph);
+  const ib = tm.querySelector('[data-g="icons"]');
+  if (ib) ib.classList.toggle('tspin', L0.includes('icons'));
+  $('planb').classList.toggle('tspin', L0.includes('plan'));
+  L0.forEach(k => {
+    if (k === 'photo') return w.append(ph); // kolejność jak na liście
     const b = h('button', 'tsc');
     b.dataset.k = k;
     b.title = tsName(k);
@@ -19797,7 +19952,7 @@ async function doPrint(b, z) {
     if (!g.vis || !l.vis) continue;
     const HS = hidSet();
     P.items.forEach(it => {
-      if (it.l === l.id && okItem(it) && !HS.has(catOf(it)))
+      if (it.l === l.id && okItem(it) && !(HS.has(catOf(it)) || it.off))
         try {
           drawIt(ctx, it, pr, k, z, l.op);
         } catch (e) {}
@@ -26503,13 +26658,31 @@ function trkSheet() {
       sw,
       B(l.name, () => (trkSetActive(l.id), trkChanged()), 'nm'),
       h('span', 'cnt', String(its.length)),
-      IB('more', () => ((tsel = tsel === l.id ? null : l.id), trkSheet()), 'more', _t('Opcje warstwy'))
+      cb,
+      IB(
+        'more',
+        b => {
+          const lys = TRK.layers.filter(x => x.cat === cat.id),
+            k = lys.indexOf(l);
+          rowMenu(b, [
+            ['edit', _t('Zmień nazwę'), () => la.querySelector('[data-a="ren"]').click()],
+            ['color', _t('Kolor warstwy'), () => la.querySelector('[data-a="col"]').click()],
+            ['share', _t('Udostępnij / eksport'), () => la.querySelector('[data-a="sh"]').click()],
+            k > 0 && ['up', _t('Wyżej'), () => trkMoveLayer(l, -1)],
+            k < lys.length - 1 && ['down', _t('Niżej'), () => trkMoveLayer(l, 1)],
+            ['del', _t('Usuń warstwę'), () => la.querySelector('[data-a="del"]').click(), 'danger']
+          ]);
+        },
+        'more',
+        _t('Opcje warstwy')
+      )
     );
     w.append(r);
     if (act) w.append(h('div', 'tag', _t('aktywna – tu zapisują się nowe ślady')));
+    // v84: funkcje warstwy w menu „⋮” (ukryte przyciski – ta sama logika co wcześniej na belce)
+    const la = h('div', 'tact lact');
+    la.style.display = 'none';
     {
-      // belka pod nazwą warstwy – tak samo jak w Mapach: zmień nazwę · oko · udostępnij · usuń
-      const la = h('div', 'tact lact');
       la.append(
         IB(
           'edit',
@@ -26523,12 +26696,23 @@ function trkSheet() {
           'eye',
           _t('Zmień nazwę')
         ),
-        cb,
         IB(
           'share',
           () => (its.length ? dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name, null, true)) : tell(_t('Ta warstwa nie ma jeszcze śladów.'))),
           'eye',
           _t('Udostępnij / eksport warstwy (GPX)')
+        ),
+        IB(
+          'color',
+          async () => {
+            const k = await pickColor(_t('Kolor warstwy śladów'), l.c);
+            if (k) {
+              l.c = k;
+              trkChanged();
+            }
+          },
+          'eye',
+          _t('Kolor warstwy')
         ),
         IB(
           'del',
@@ -26557,30 +26741,8 @@ function trkSheet() {
           _t('Usuń warstwę')
         )
       );
-      w.insertBefore(la, w.lastChild.classList.contains('tag') ? w.lastChild : null);
-    }
-    if (tsel === l.id) {
-      const c = h('div', 'ctl');
-      // „⋮” – pozostałe opcje (nazwa, oko, udostępnij i usuń są na belce pod nazwą)
-      c.append(
-        belt(
-          IB(
-            'color',
-            async () => {
-              const k = await pickColor(_t('Kolor warstwy śladów'), l.c);
-              if (k) {
-                l.c = k;
-                trkChanged();
-              }
-            },
-            '',
-            _t('Kolor warstwy')
-          ),
-          IB('up', () => trkMoveLayer(l, -1), '', _t('Wyżej')),
-          IB('down', () => trkMoveLayer(l, 1), '', _t('Niżej'))
-        )
-      );
-      w.append(c);
+      [...la.children].forEach((b, i) => (b.dataset.a = ['ren', 'sh', 'col', 'del'][i]));
+      w.append(la);
     }
     if (l.open) {
       if (!its.length) {
@@ -26662,15 +26824,21 @@ function trkSheet() {
         };
         if (TSEL) o.append(eye);
         else {
-          // małe ikony pod nazwą – nazwa i opis mają całą szerokość wiersza
-          const ac = h('span', 'tact');
-          ac.append(
-            IB('edit', stop(() => trkRename(t)), 'eye', _t('Zmień nazwę')),
-            eye,
-            IB('share', stop(() => trkShare(t)), 'eye', _t('Zapisz albo udostępnij')),
-            IB('del', stop(() => trkDelete(t)), 'eye danger', _t('Usuń ślad'))
+          // v84: oko i „⋮” w wierszu ze śladem (bez rzędu ikon pod nazwą)
+          const mb = IB(
+            'more',
+            b =>
+              rowMenu(b, [
+                ['nav', _t('Pokaż na mapie'), () => trkFocus(t)],
+                ['edit', _t('Zmień nazwę'), () => trkRename(t)],
+                ['color', _t('Kolor śladu'), () => trkColorDlg(t)],
+                ['share', _t('Zapisz albo udostępnij'), () => trkShare(t)],
+                ['del', _t('Usuń ślad'), () => trkDelete(t), 'danger']
+              ]),
+            'more',
+            _t('Opcje śladu')
           );
-          nm.append(ac);
+          o.append(eye, mb);
         }
         w.append(o);
       });
@@ -35852,7 +36020,7 @@ const HeatLayer = L.Layer.extend({
       HS = hidSet();
     x.clearRect(0, 0, s.x, s.y);
     P.items.forEach(it => {
-      if (!isPt(it) || HS.has(catOf(it))) return;
+      if (!isPt(it) || (HS.has(catOf(it)) || it.off)) return;
       const f = findL(it.l);
       if (!f || !f.g.vis || !f.l.vis) return;
       const q = m.latLngToContainerPoint(it.p[0]);
