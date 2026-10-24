@@ -2922,7 +2922,8 @@ body.rec #recpill {
   justify-content: stretch;
   padding: 8px 12px 14px;
 }
-.gpad.saper {
+.gpad.saper,
+.gpad.pkun {
   grid-template-columns: 1fr;
   grid-template-rows: 56px;
 }
@@ -7315,6 +7316,12 @@ const EN = {
   "Widoczny – ukryj na mapie": "Visible – hide on map",
   "Opcje obiektu": "Object options",
   "Opcje śladu": "Track options",
+  "↶ Ruch cofnięty": "↶ Move undone",
+  "Cofnij ruch": "Undo move",
+  "↶ Cofanie ruchu: włączone": "↶ Undo moves: on",
+  "↶ Cofanie ruchu: wyłączone": "↶ Undo moves: off",
+  "Liczę i zapisuję ślad…": "Processing and saving the track…",
+  "Zapis śladu: ": "Track saved in ",
   "Ominięta bramka!": "Gate missed!",
   " · bramki ": " · gates ",
   "Trzymaj palec na ekranie – ścigacz leci w tę stronę": "Hold a finger on the screen – the racer flies that way",
@@ -10149,7 +10156,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v84';
+const APP_VER = 'v85';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -13717,7 +13724,12 @@ async function diagTest(out) {
   const T = [
     ['OpenStreetMap', 'https://tile.openstreetmap.org/' + z + '/' + tx + '/' + ty + '.png'],
     ['Ortofoto Geoportal (WMTS)', GEO + '/wss/service/PZGIK/ORTO/WMTS/StandardResolution?service=WMTS&request=GetTile&version=1.0.0&layer=ORTOFOTOMAPA&style=default&format=image/jpeg&tilematrixset=EPSG:3857&tilematrix=EPSG:3857:' + z + '&tilerow=' + ty + '&tilecol=' + tx],
-    ['NMT – cieniowanie (WMS)', GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=512&HEIGHT=512'],
+    ['NMT – cieniowanie (WMTS, gotowe kafle)', (() => {
+      const [E, N] = puwg92(la, lo),
+        tm = 512 * NMT_SC[9] * 0.00028;
+      return nmtUrl(9, Math.floor((NMT_N0 - N) / tm), Math.floor((E - NMT_E0) / tm));
+    })()],
+    ['NMT – cieniowanie (WMS, zapas)', GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=512&HEIGHT=512'],
     ['Ortofoto archiwalne ' + yr + ' (WMS)', GEO + '/wss/service/PZGIK/ORTO/WMS/StandardResolutionTime?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=256&HEIGHT=256&TIME=' + (yr >= 2025 ? '2025-11-01' : yr + '-12-01') + 'T00:00:00.000Z']
   ];
   for (const [nm, url] of T) {
@@ -14389,51 +14401,185 @@ function shelPopup(e, ll) {
   box.addEventListener('click', ev => ev.stopPropagation());
   L.popup({minWidth: 220, maxWidth: 280}).setLatLng(ll).setContent(box).openOn(map);
 }
-// v81: WMS pobierany natywnie (CapacitorHttp) – cieniowanie NMT w WebView nie wczytywało się, choć ten sam adres
-// działał w przeglądarce; natywnie omijamy ograniczenia WebView, a błąd serwera trafia do Diagnostyki
-var NatWMS = L.TileLayer.WMS.extend({
-  options: {natName: 'WMS'}, // w domyślnych – żeby nie trafiło do zapytania WMS
-  createTile(coords, done) {
-    const img = document.createElement('img'),
-      url = this.getTileUrl(coords);
-    img.alt = '';
-    img.setAttribute('role', 'presentation');
-    img._url = url;
-    if (natTile(url, img, (e, t) => (e && this._natRetry(url, img, done, 1)) || (!e && done(null, t)), this.options.natName || 'WMS')) {
-      img._nat = 1;
-      return img;
+// ---------- v85: cieniowanie NMT z gotowych kafli WMTS (układ PUWG 1992 / EPSG:2180) ----------
+/*
+ * Usługa WMS rysuje cieniowanie na żywo i na telefonie nie mieściła się w 20 s na kafel. Ta sama usługa jako WMTS
+ * daje gotowe kafle 512 px – ale tylko w polskim układzie 1992 (EPSG:2180), a mapa OMM jest w EPSG:3857.
+ * Każdy kafel mapy jest więc składany z 1–4 kafli 1992 i przerysowywany siatką trójkątów (odwzorowanie liczone
+ * wzorami poprzecznego Merkatora – bez bibliotek, błąd poniżej milimetra). Pobrane kafle 1992 są pamiętane.
+ * Gdy WMTS nie odpowie, ten kafel bierzemy po staremu z WMS. Parametry z GetCapabilities usługi (24.10.2026).
+ */
+function puwg92(lat, lng) {
+  // WGS84 → PUWG 1992: [E (y), N (x)] w metrach (GRS80, południk 19°, k0 = 0,9993)
+  const a = 6378137,
+    f = 1 / 298.257222101,
+    e2 = f * (2 - f),
+    ep2 = e2 / (1 - e2),
+    e4 = e2 * e2,
+    e6 = e4 * e2,
+    r = Math.PI / 180,
+    p = lat * r,
+    sn = Math.sin(p),
+    cs = Math.cos(p),
+    tn = Math.tan(p),
+    N = a / Math.sqrt(1 - e2 * sn * sn),
+    T = tn * tn,
+    C = ep2 * cs * cs,
+    A = cs * (lng - 19) * r,
+    A2 = A * A,
+    M = a * ((1 - e2 / 4 - (3 * e4) / 64 - (5 * e6) / 256) * p - ((3 * e2) / 8 + (3 * e4) / 32 + (45 * e6) / 1024) * Math.sin(2 * p) + ((15 * e4) / 256 + (45 * e6) / 1024) * Math.sin(4 * p) - ((35 * e6) / 3072) * Math.sin(6 * p)),
+    x = 0.9993 * (M + N * tn * (A2 / 2 + ((5 - T + 9 * C + 4 * C * C) * A2 * A2) / 24 + ((61 - 58 * T + T * T + 600 * C - 330 * ep2) * A2 * A2 * A2) / 720)),
+    y = 0.9993 * N * (A + ((1 - T + C) * A * A2) / 6 + ((5 - 18 * T + T * T + 72 * C - 58 * ep2) * A * A2 * A2) / 120);
+  return [500000 + y, x - 5300000];
+}
+const NMT_WMTS = GEO + '/wss/service/PZGIK/NMT/GRID1/WMTS/ShadedRelief?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=Cieniowanie&STYLE=default&FORMAT=image/jpeg&TILEMATRIXSET=EPSG:2180&TILEMATRIX=EPSG:2180:',
+  NMT_SC = [7559538.928571429, 3779769.4642857146, 1889884.7321428573, 944942.3660714286, 472471.1830357143, 236235.59151785716, 94494.23660714286, 47247.11830357143, 23623.559151785714, 9449.423660714287, 4724.711830357143, 1889.8847321428573, 944.9423660714286],
+  NMT_MW = [1, 2, 3, 6, 12, 23, 57, 114, 228, 569, 1137, 2843, 5685], // liczba kolumn (i podobnie wierszy) na poziomie
+  NMT_E0 = 100000, // lewy górny róg siatki: N 850000, E 100000
+  NMT_N0 = 850000,
+  NMT_C = new Map(); // adres kafla 1992 → Promise<img | null> (najnowsze na końcu)
+const nmtUrl = (z, r, c) => NMT_WMTS + z + '&TILEROW=' + r + '&TILECOL=' + c;
+function nmtTileGet(url, n = 0) {
+  if (NMT_C.has(url)) {
+    const p = NMT_C.get(url);
+    NMT_C.delete(url);
+    NMT_C.set(url, p);
+    return p;
+  }
+  const p = new Promise(res => {
+    const img = new Image(),
+      fin = e => (e ? (NMT_C.delete(url), n < 1 ? setTimeout(() => nmtTileGet(url, n + 1).then(res), 900) : res(null)) : res(img));
+    if (!natTile(url, img, e => fin(e), 'NMT – cieniowanie (WMTS)')) {
+      img.referrerPolicy = 'no-referrer';
+      img.onload = () => fin();
+      img.onerror = () => fin(1);
+      img.src = url;
     }
-    img.onload = () => done(null, img);
-    img.onerror = e => done(e, img);
-    img.referrerPolicy = 'no-referrer';
-    img.src = url;
-    return img;
+  });
+  NMT_C.set(url, p);
+  while (NMT_C.size > 160) NMT_C.delete(NMT_C.keys().next().value);
+  return p;
+}
+function nmtTri(cx, im, s, d) {
+  // trójkąt s (piksele mozaiki) → d (piksele kafla); lekko powiększony, żeby nie było szwów
+  const gx = (d[0][0] + d[1][0] + d[2][0]) / 3,
+    gy = (d[0][1] + d[1][1] + d[2][1]) / 3;
+  cx.save();
+  cx.beginPath();
+  d.forEach(([x, y], k) => {
+    const L2 = Math.hypot(x - gx, y - gy) || 1,
+      X = x + ((x - gx) / L2) * 0.7,
+      Y = y + ((y - gy) / L2) * 0.7;
+    k ? cx.lineTo(X, Y) : cx.moveTo(X, Y);
+  });
+  cx.closePath();
+  cx.clip();
+  const [[x0, y0], [x1, y1], [x2, y2]] = s,
+    [[u0, v0], [u1, v1], [u2, v2]] = d,
+    den = (x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0);
+  if (den) {
+    const a = ((u1 - u0) * (y2 - y0) - (u2 - u0) * (y1 - y0)) / den,
+      c = ((u2 - u0) * (x1 - x0) - (u1 - u0) * (x2 - x0)) / den,
+      b = ((v1 - v0) * (y2 - y0) - (v2 - v0) * (y1 - y0)) / den,
+      dd = ((v2 - v0) * (x1 - x0) - (v1 - v0) * (x2 - x0)) / den;
+    cx.setTransform(a, b, c, dd, u0 - a * x0 - c * y0, v0 - b * x0 - dd * y0);
+    cx.drawImage(im, 0, 0);
+  }
+  cx.restore();
+}
+var NmtLayer = L.GridLayer.extend({
+  createTile(coords, done) {
+    const ts = this.getTileSize(),
+      cv = document.createElement('canvas');
+    cv.width = ts.x;
+    cv.height = ts.y;
+    this._fill(coords, cv, ts)
+      .then(ok => done(ok ? null : new Error('NMT'), cv))
+      .catch(e => done(e, cv));
+    return cv;
   },
-  _natRetry(url, img, done, n) {
-    if (n > 2) return done(new Error('kafel'), img), true;
-    setTimeout(() => natTile(url, img, (e, t) => (e ? this._natRetry(url, img, done, n + 1) : done(null, t)), this.options.natName || 'WMS'), 800 * n);
+  async _fill(coords, cv, ts) {
+    const G = 4,
+      P = [];
+    for (let i = 0; i <= G; i++)
+      for (let j = 0; j <= G; j++) {
+        const px = (j * ts.x) / G,
+          py = (i * ts.y) / G,
+          ll = this._map.unproject(L.point(coords.x * ts.x + px, coords.y * ts.y + py), coords.z);
+        P.push({px, py, e: puwg92(ll.lat, ll.lng)});
+      }
+    // rozdzielczość kafla mapy w metrach na piksel → poziom 1992 o podobnej (lub trochę lepszej) szczegółowości
+    const want = Math.hypot(P[G].e[0] - P[0].e[0], P[G].e[1] - P[0].e[1]) / ts.x;
+    let lv = NMT_SC.length - 1;
+    for (let k = 0; k < NMT_SC.length; k++)
+      if (NMT_SC[k] * 0.00028 <= want * 1.3) {
+        lv = k;
+        break;
+      }
+    const res = NMT_SC[lv] * 0.00028,
+      tm = 512 * res,
+      Es = P.map(q => q.e[0]),
+      Ns = P.map(q => q.e[1]),
+      c0 = Math.max(0, Math.floor((Math.min(...Es) - NMT_E0) / tm)),
+      c1 = Math.min(NMT_MW[lv] - 1, Math.floor((Math.max(...Es) - NMT_E0) / tm)),
+      r0 = Math.max(0, Math.floor((NMT_N0 - Math.max(...Ns)) / tm)),
+      r1 = Math.min(NMT_MW[lv] - 1, Math.floor((NMT_N0 - Math.min(...Ns)) / tm));
+    if (c1 < c0 || r1 < r0 || (c1 - c0 + 1) * (r1 - r0 + 1) > 9) return true; // poza Polską – pusto
+    const jobs = [];
+    for (let r = r0; r <= r1; r++) for (let c = c0; c <= c1; c++) jobs.push(nmtTileGet(nmtUrl(lv, r, c)).then(im => [r, c, im]));
+    const got = await Promise.all(jobs);
+    if (!got.some(g => g[2])) return this._wms(coords, cv, ts);
+    const mo = document.createElement('canvas');
+    mo.width = (c1 - c0 + 1) * 512;
+    mo.height = (r1 - r0 + 1) * 512;
+    const mx = mo.getContext('2d');
+    got.forEach(([r, c, im]) => im && mx.drawImage(im, (c - c0) * 512, (r - r0) * 512, 512, 512));
+    const cx = cv.getContext('2d'),
+      oE = NMT_E0 + c0 * tm,
+      oN = NMT_N0 - r0 * tm,
+      S = P.map(q => [(q.e[0] - oE) / res, (oN - q.e[1]) / res]),
+      D = P.map(q => [q.px, q.py]);
+    for (let i = 0; i < G; i++)
+      for (let j = 0; j < G; j++) {
+        const a = i * (G + 1) + j,
+          b = a + 1,
+          c = a + G + 1,
+          d = c + 1;
+        nmtTri(cx, mo, [S[a], S[b], S[d]], [D[a], D[b], D[d]]);
+        nmtTri(cx, mo, [S[a], S[d], S[c]], [D[a], D[d], D[c]]);
+      }
     return true;
+  },
+  _wms(coords, cv, ts) {
+    // zapas: ten kafel z usługi WMS (wolnej, ale innej niż WMTS)
+    const nw = this._map.unproject(L.point(coords.x * ts.x, coords.y * ts.y), coords.z),
+      se = this._map.unproject(L.point((coords.x + 1) * ts.x, (coords.y + 1) * ts.y), coords.z),
+      url = GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + [se.lat, nw.lng, nw.lat, se.lng].map(x => x.toFixed(6)).join(',') + '&WIDTH=' + ts.x + '&HEIGHT=' + ts.y;
+    return new Promise(res => {
+      const img = new Image(),
+        fin = e => {
+          if (!e) cv.getContext('2d').drawImage(img, 0, 0, ts.x, ts.y);
+          res(!e);
+        };
+      if (!natTile(url, img, e => fin(e), 'NMT – cieniowanie (WMS)')) {
+        img.referrerPolicy = 'no-referrer';
+        img.onload = () => fin();
+        img.onerror = () => fin(1);
+        img.src = url;
+      }
+    });
   }
 });
 const mkNMT = () =>
-  retry(
-    new NatWMS(GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief', {
-      layers: 'Raster',
-      styles: '',
-      format: 'image/jpeg',
-      version: '1.3.0',
-      maxZoom: 21,
-      opacity: OVS.nmt.op,
-      attribution: '© GUGiK',
-      natName: 'NMT – cieniowanie',
-      ...NOREF,
-      crs: L.CRS.EPSG4326, // v75: usługa zna tylko CRS:84 / EPSG:4326 / EPSG:2180 – zapytania w EPSG:3857 kończyły się błędem
-      transparent: false, // v79: JPEG nie ma przezroczystości – zapytanie jak w działającym linku testowym
-      tileSize: 512,
-      updateWhenIdle: true,
-      ...(NMT_SMOOTH ? {maxNativeZoom: 16} : {})
-    })
-  );
+  new NmtLayer({
+    maxZoom: 21,
+    opacity: OVS.nmt.op,
+    attribution: '© GUGiK',
+    bounds: L.latLngBounds([48.8, 13.8], [55.0, 24.4]),
+    updateWhenIdle: true,
+    keepBuffer: 1,
+    ...(NMT_SMOOTH ? {maxNativeZoom: 16} : {})
+  });
 const OV = {
   nmt: {n: _t('NMT – cieniowanie (LiDAR 1 m)'), l: mkNMT()},
   dz: {n: _t('Działki i numery (EGiB)'), l: wmsOv(KIEG, 'dzialki,numery_dzialek', 'image/png', OVS.dz.op)},
@@ -14515,7 +14661,7 @@ function toggleSmooth() {
 }
 let STAT = [];
 function track(l) {
-  if (!(l instanceof L.TileLayer) || l._st) return;
+  if (!(l instanceof L.GridLayer) || l._st) return; // v85: także cieniowanie NMT (składane z kafli 1992)
   l._st = {ok: 0, err: 0, host: ''};
   l.on('tileload', () => {
     l._st.ok++;
@@ -18106,22 +18252,38 @@ function sheet() {
             if (RATED(it) && it.ra) o.append(h('span', 'cm ra', '★' + it.ra));
             if (it.ph && it.ph.length) o.append(h('span', 'cm', '📷'));
             if (it.n) o.append(h('span', 'cm', '💬'));
-            if (it.off) o.classList.add('hid');
+            // v85: w ukrytej warstwie (albo grupie) obiekt jest niewidoczny, więc oko też pokazuje „ukryty”
+            const effOff = it.off || !l.vis || !g.vis;
+            if (effOff) o.classList.add('hid');
             if (!selMode) {
               // v84: oko (pokaż / ukryj obiekt na mapie) i „⋮” w tym samym wierszu
               const ey = B(
                 '',
                 e => {
                   e.stopPropagation();
-                  if (it.off) delete it.off;
-                  else it.off = true;
-                  it.up = Date.now();
+                  const now = Date.now();
+                  if (!effOff) it.off = true;
+                  else {
+                    delete it.off;
+                    if (!l.vis || !g.vis) {
+                      // v85: włączenie obiektu w ukrytej warstwie włącza warstwę (i grupę), ale pokazuje tylko ten obiekt
+                      l.vis = true;
+                      g.vis = true;
+                      P.items.forEach(x => {
+                        if (x !== it && x.l === l.id && !x.off) {
+                          x.off = true;
+                          x.up = now;
+                        }
+                      });
+                    }
+                  }
+                  it.up = now;
                   sv();
                 },
                 'eye',
-                it.off ? _t('Ukryty – pokaż na mapie') : _t('Widoczny – ukryj na mapie')
+                effOff ? _t('Ukryty – pokaż na mapie') : _t('Widoczny – ukryj na mapie')
               );
-              ey.innerHTML = it.off ? EYE_OFF : EYE_ON;
+              ey.innerHTML = effOff ? EYE_OFF : EYE_ON;
               const mb = IB(
                 'more',
                 b =>
@@ -20621,7 +20783,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
-<li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. Oko pokazuje i ukrywa warstwę, strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
+<li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. W każdym wierszu (grupa, warstwa, obiekt, ślad) jest <b>oko</b> – pokazuje i ukrywa – oraz <b>⋮</b> z pozostałymi funkcjami (zmiana nazwy, udostępnianie, kolejność, usuwanie, ustawienia warstwy). Włączenie oka obiektu w ukrytej warstwie włącza warstwę i pokazuje tylko ten obiekt. Strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
@@ -20672,7 +20834,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
-<li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. The eye shows and hides a layer, the arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
+<li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. Every row (group, layer, object, track) has an <b>eye</b> – show and hide – and <b>⋮</b> with the other functions (rename, share, order, delete, layer settings). Turning on the eye of an object in a hidden layer turns the layer on and shows only that object. The arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
@@ -22513,9 +22675,10 @@ function pilkaGame(opt) {
     msg = turn === 'me' ? _t('Losowanie: zaczynasz Ty') : _t('Losowanie: zaczyna bot'),
     msgT = 2200,
     bad = 0,
-    ball = {x: B.x, y: B.y, fx: B.x, fy: B.y, k: 1}, // v81: piłka toczy się płynnie po kresce
+    ball = {x: B.x, y: B.y}, // v85: bez animacji ruchu – piłka od razu w nowym punkcie
     goalFx = null, // {t, win, top} – napis GOL!, falująca siatka
-    spin = 0;
+    hist = []; // v85: cofanie ruchu (opcja „omm-gra-pilka-cof”) – stan sprzed każdego Twojego ruchu
+  const undoOn = localStorage.getItem('omm-gra-pilka-cof') === 'tak';
   const finish = (win, why) => {
     g.over = true;
     g.score = win ? [0, 60, 110, 170][lv] + Math.max(0, 60 - moves) : 0;
@@ -22538,9 +22701,6 @@ function pilkaGame(opt) {
     if (r === 'goalBot') return finish(false, who === 'bot' ? _t('bot strzelił gola') : _t('samobój'));
     if (r === 'bounce') {
       gSfx('click');
-      // odbicie: iskry w punkcie odbicia + lekkie drgnięcie
-      FX.burst(B.x + 0.5, B.y + 1.5, 14, {v: 3.2, g: 0, c: ['#fff59d', '#ffffff', '#ffd54f'], glow: true, life: 420, r: 0.07});
-      g.shake = Math.max(g.shake, 2.5);
       if (!pkMoves(B, B.x, B.y).length) return finish(who !== 'me', who === 'me' ? _t('utknąłeś – nie ma ruchu') : _t('bot utknął'));
       return; // ten sam gracz rusza dalej
     }
@@ -22551,12 +22711,10 @@ function pilkaGame(opt) {
   const step1 = (m, who) => {
     const px = B.x,
       py = B.y;
+    if (who === 'me' && undoOn) hist.push({used: new Set(B.used), deg: new Map(B.deg), x: px, y: py, n: lines.length, moves});
     const r = pkDo(B, m);
-    lines.push([px, py, m.x, m.y, 0]);
-    Object.assign(ball, {fx: px, fy: py, x: m.x, y: m.y, k: 0});
-    spin += (m.x - px || 1) * 1.3;
-    // kopnięcie: grudki trawy spod piłki
-    FX.burst(px + 0.5, py + 1.5, 7, {v: 2.2, up: 1.2, g: 6, c: ['#2e7d32', '#66bb6a', '#a5d6a7'], sq: true, life: 380, r: 0.05});
+    lines.push([px, py, m.x, m.y]);
+    Object.assign(ball, {x: m.x, y: m.y});
     if (who === 'me') moves++;
     after(r, who);
   };
@@ -22573,11 +22731,26 @@ function pilkaGame(opt) {
     }
     step1(m, 'me');
   };
-  g.key = () => {};
-  g.pad = [];
+  const undo = () => {
+    // cofa do stanu sprzed Twojego ostatniego ruchu (razem z odpowiedzią bota)
+    if (g.over || turn !== 'me' || !hist.length) return void gBuzz(30);
+    const st = hist.pop();
+    B.used = st.used;
+    B.deg = st.deg;
+    B.x = st.x;
+    B.y = st.y;
+    lines.length = st.n;
+    moves = st.moves;
+    Object.assign(ball, {x: B.x, y: B.y});
+    botQ = null;
+    msg = _t('↶ Ruch cofnięty');
+    msgT = 1200;
+    gSfx('click');
+  };
+  g.key = k => k === 'U' && undo();
+  g.pad = undoOn ? [['U', 'fundo', 'u', 0, _t('Cofnij ruch')]] : [];
+  g.padClass = undoOn ? 'pkun' : '';
   g.step = dt => {
-    lines.forEach(l => l[4] < 1 && (l[4] = Math.min(1, l[4] + dt / 140)));
-    if (ball.k < 1) ball.k = Math.min(1, ball.k + dt / 140);
     if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
     if (msgT > 0) msgT -= dt;
     if (bad > 0) bad -= dt;
@@ -22592,8 +22765,6 @@ function pilkaGame(opt) {
     if (turn !== 'bot') botQ = null;
   };
   g.idle = dt => {
-    lines.forEach(l => l[4] < 1 && (l[4] = Math.min(1, l[4] + dt / 140)));
-    if (ball.k < 1) ball.k = Math.min(1, ball.k + dt / 140);
     if (goalFx) goalFx.t += dt;
     if (g.shake > 0) g.shake = Math.max(0, g.shake - dt * 0.03);
     FX.step(dt);
@@ -22679,17 +22850,14 @@ function pilkaGame(opt) {
     c.strokeStyle = '#1a237e';
     c.lineWidth = Math.max(2, s * 0.085);
     c.lineCap = 'round';
-    lines.forEach(([x1, y1, x2, y2, k]) => {
-      const [a, b] = P(x1, y1),
-        [e, f] = P(x2, y2);
+    lines.forEach(([x1, y1, x2, y2]) => {
       c.beginPath();
-      c.moveTo(a, b);
-      c.lineTo(a + (e - a) * k, b + (f - b) * k);
+      c.moveTo(...P(x1, y1));
+      c.lineTo(...P(x2, y2));
       c.stroke();
     });
-    // piłka (płynnie po kresce, z obrotem)
-    const ek = 1 - Math.pow(1 - ball.k, 3),
-      [bx, by] = P(ball.fx + (ball.x - ball.fx) * ek, ball.fy + (ball.y - ball.fy) * ek),
+    // piłka
+    const [bx, by] = P(ball.x, ball.y),
       r = s * 0.26,
       wob = bad > 0 ? Math.sin(t / 25) * s * 0.06 : 0;
     c.fillStyle = 'rgba(0,0,0,0.25)';
@@ -22706,7 +22874,7 @@ function pilkaGame(opt) {
     c.fillStyle = '#212121';
     c.beginPath();
     for (let k = 0; k < 5; k++) {
-      const an = -Math.PI / 2 + (k * 2 * Math.PI) / 5 + spin * ek,
+      const an = -Math.PI / 2 + (k * 2 * Math.PI) / 5,
         px = bx + wob + Math.cos(an) * r * 0.42,
         py = by + Math.sin(an) * r * 0.42;
       k ? c.lineTo(px, py) : c.moveTo(px, py);
@@ -23507,6 +23675,24 @@ function gameOpen() {
     d.append(mk('omm-gra-wiatr', _t('💨 Wiatr: włączony'), _t('💨 Wiatr: wyłączony')), mk('omm-gra-ruch', _t('🚶 Ruch grzybów: włączony'), _t('🚶 Ruch grzybów: wyłączony')));
     return d;
   };
+  const pkOpts = () => {
+    // v85: przełącznik cofania ruchu w Piłkarzykach (domyślnie wyłączone – jak na kartce)
+    const d = h('div', 'gopts'),
+      k = 'omm-gra-pilka-cof',
+      b = B('', () => {
+        localStorage.setItem(k, localStorage.getItem(k) === 'tak' ? 'nie' : 'tak');
+        upd();
+        gSfx('click');
+      }, 'gopt'),
+      upd = () => {
+        const v = localStorage.getItem(k) === 'tak';
+        b.textContent = v ? _t('↶ Cofanie ruchu: włączone') : _t('↶ Cofanie ruchu: wyłączone');
+        b.classList.toggle('on', v);
+      };
+    upd();
+    d.append(b);
+    return d;
+  };
   const pkStatEl = () => {
     // statystyki Piłkarzyków: wygrane / przegrane na każdym poziomie
     const st = pkStats(),
@@ -23547,6 +23733,7 @@ function gameOpen() {
         : id === 'pilka'
           ? [
               pkStatEl(),
+              pkOpts(),
               B(_t('🤖 Bot – łatwy'), () => start('pilka', {lv: 1}), 'gbig'),
               B(_t('🤖 Bot – średni'), () => start('pilka', {lv: 2}), 'gbig'),
               B(_t('🤖 Bot – trudny'), () => start('pilka', {lv: 3}), 'gbig')
@@ -24315,6 +24502,7 @@ async function trkLoad() {
     } catch (e) {}
   if (d && Array.isArray(d.layers)) TRK = d;
   trkFix();
+  trkDgMove();
   trkReady = true;
   trkRender();
   if (TAB === 'slady') sheetIfOpen();
@@ -25661,14 +25849,15 @@ function trkGPX(list, name, photoPath, diag) {
       s += '</trkseg>\n</trk>\n';
     }
     // v66: tryb diagnostyczny – surowe pomiary GPS jako osobny ślad (inne programy pokażą go jak zwykły ślad)
-    if (diag && Array.isArray(t.dg) && t.dg.length) {
+    const dg = t.dg || DGC.get(t.id); // v85: surowe pomiary trzymane osobno (trkdg/<id>), wczytywane przed eksportem
+    if (diag && Array.isArray(dg) && dg.length) {
       s +=
         '<trk><name>' +
         esc(t.nm + ' – ' + _t('surowe pomiary GPS')) +
         '</name><type>omm-diagnostyka</type>\n<extensions><omm:diag_dla>' +
         esc(t.id) +
         '</omm:diag_dla><omm:kody>z=zapisany w=start (czekam na 3 dokładne pomiary) d=słaba dokładność p=postój g=gęstość s=odskok t=stary x=auto zaparkowane</omm:kody></extensions>\n<trkseg>\n';
-      t.dg.forEach(r => {
+      dg.forEach(r => {
         // [s od startu, szer, dł, dokładność m, prędkość m/s, kierunek °, decyzja, szer. po filtrze, dł. po filtrze]
         s +=
           '<trkpt lat="' +
@@ -26488,6 +26677,34 @@ async function trkReplace(T) {
     await trkChanged();
     throw new Error(_t('Nie udało się zapisać śladów z kopii – przywracanie przerwane, obecne ślady są bez zmian.'));
   }
+  trkDgMove();
+}
+// v85: surowe pomiary diagnostyczne śladów (t.dg) trzymane osobno w IndexedDB („trkdg/<id>”), a nie w głównym
+// zapisie śladów – zapis po każdej zmianie (np. po nagraniu) nie przepisuje już setek tysięcy pomiarów naraz.
+const DGDB = 'trkdg/',
+  DGC = new Map(); // wczytane na chwilę (eksport GPX), poza TRK
+async function trkDgMove() {
+  if (trkStore !== 'idb') return;
+  let n = 0;
+  for (const t of TRK.items)
+    if (Array.isArray(t.dg)) {
+      try {
+        if (t.dg.length) await IDB.set(DGDB + t.id, t.dg);
+      } catch (e) {
+        return; // brak miejsca / błąd – zostaje po staremu
+      }
+      delete t.dg;
+      n++;
+    }
+  if (n) trkSave();
+}
+async function trkDgLoad(list) {
+  for (const t of list)
+    if (!t.dg && !DGC.has(t.id))
+      try {
+        const d = await IDB.get(DGDB + t.id);
+        if (d) DGC.set(t.id, d);
+      } catch (e) {}
 }
 
 // --- zakładka „Ślady GPS” w panelu ---
@@ -26698,7 +26915,7 @@ function trkSheet() {
         ),
         IB(
           'share',
-          () => (its.length ? dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name, null, true)) : tell(_t('Ta warstwa nie ma jeszcze śladów.'))),
+          async () => (its.length ? (await trkDgLoad(its), dl(fileName(l.name) + '.gpx', 'application/gpx+xml', trkGPX(its, l.name, null, true))) : tell(_t('Ta warstwa nie ma jeszcze śladów.'))),
           'eye',
           _t('Udostępnij / eksport warstwy (GPX)')
         ),
@@ -26765,7 +26982,8 @@ function trkSheet() {
       its.forEach(t => {
         const s = trkStatsC(t),
           sel = TSEL && TSEL.has(t.id),
-          o = h('div', 'obj' + (t.vis === false ? ' hid' : '') + (sel ? ' tchk' : '')),
+          tOff = t.vis === false || !l.vis || cat.vis === false, // v85: w ukrytej warstwie / kategorii ślad też „ukryty”
+          o = h('div', 'obj' + (tOff ? ' hid' : '') + (sel ? ' tchk' : '')),
           ic = h('span', 'oi'),
           nm = h('span', 'on');
         // nazwa, a pod nią data, dystans i czas
@@ -26810,14 +27028,22 @@ function trkSheet() {
           '',
           e => {
             e.stopPropagation();
-            if (t.vis === false) delete t.vis;
-            else t.vis = false;
+            if (!tOff) t.vis = false;
+            else {
+              delete t.vis;
+              if (!l.vis || cat.vis === false) {
+                // v85: włączenie śladu w ukrytej warstwie włącza warstwę (i kategorię), ale pokazuje tylko ten ślad
+                l.vis = true;
+                cat.vis = true;
+                TRK.items.forEach(x => x !== t && x.l === l.id && (x.vis = false));
+              }
+            }
             trkChanged();
           },
           'eye',
-          t.vis === false ? _t('Ślad ukryty – pokaż') : _t('Ślad widoczny – ukryj')
+          tOff ? _t('Ślad ukryty – pokaż') : _t('Ślad widoczny – ukryj')
         );
-        eye.innerHTML = t.vis === false ? EYE_OFF : EYE_ON;
+        eye.innerHTML = tOff ? EYE_OFF : EYE_ON;
         const stop = fn => e => {
           e.stopPropagation();
           fn();
@@ -26926,10 +27152,11 @@ const tselVis = on => {
 };
 $('tsvis').onclick = () => tselVis(true);
 $('tshid').onclick = () => tselVis(false);
-$('tsgpx').onclick = () => {
+$('tsgpx').onclick = async () => {
   // wszystkie zaznaczone ślady w jednym pliku GPX
   const l = tselNeed();
   if (!l.length) return;
+  await trkDgLoad(l);
   const nm = l.length === 1 ? l[0].nm || _t('Ślad') : _t('Ślady OMM (') + l.length + ')';
   dl((l.length === 1 ? trkFile(l[0]) : fileName(nm)) + '.gpx', 'application/gpx+xml', trkGPX(l, nm, null, true));
 };
@@ -27338,6 +27565,14 @@ async function rawPrune() {
     });
     if (del.length) await IDB.delMany(del);
     void ids;
+    // v85: surowe pomiary diagnostyczne usuniętych śladów
+    const dk = (await IDB.keys(DGDB)) || [],
+      live = new Set(TRK.items.map(t => t.id)),
+      dd = dk.filter(k => {
+        const id = k.slice(DGDB.length);
+        return !live.has(id) && !tr.includes('"id":"' + id + '"') && !(REC && REC.id === id);
+      });
+    if (dd.length) await IDB.delMany(dd);
   } catch (e) {}
 }
 // v79: pobyt w budynku. W środku GPS potrafi przez minuty „spacerować” z wiarygodną prędkością (odbicia od ścian),
@@ -27354,19 +27589,31 @@ function indoorFix(F) {
   const out = F.map(r => r.slice());
   let i = 10;
   while (i < n) {
-    const base = med(F.slice(Math.max(0, i - 20), i).map(r => r[3])) || 5;
+    // v85: dokładność „na zewnątrz” – także z dobrych pomiarów ostatnich 5 min (zaraz po innym budynku,
+    // np. drugim sklepie, ostatnie 20 pomiarów są jeszcze ze środka i próg byłby za wysoki)
+    const base = Math.min(med(F.slice(Math.max(0, i - 20), i).map(r => r[3])) || 5, med(F.slice(Math.max(0, i - 150), i).filter(r => r[3] <= 6 && F[i][0] - r[0] < 300).map(r => r[3])) || 5);
     if (!(F[i][3] > Math.max(7, 2 * base) && (med(F.slice(i, i + 10).map(r => r[3])) || 0) > Math.max(6, 1.6 * base))) {
       i++;
       continue;
     }
     // koniec pobytu: 4 dobre pomiary w ruchu albo koniec nagrania (dobre, ale „stojące” pomiary w budynku
     // – dokładność 3 m przy prędkości 0 – nie kończą pobytu, tylko go nie przerywają)
+    // v85: „w ruchu” = marsz w jednym kierunku (w sklepie GPS potrafi dawać dobrą dokładność, ale kurs skacze)
+    const strF = k => F[k][4] == null || (F[k][4] > 0.6 && (F[k][5] == null || F[k - 1][5] == null || Math.abs(((F[k][5] - F[k - 1][5] + 540) % 360) - 180) < 45)),
+      conf = k => {
+        // v85: wyjście potwierdzone, gdy potem dokładność się nie psuje albo jest wyraźny ruch (jazda, marsz prosto)
+        const nx = F.slice(k + 1, k + 11);
+        if (nx.length < 3 || (med(nx.map(r => r[3])) || 0) <= Math.max(6, 1.6 * base) || (med(nx.map(r => r[4])) || 0) >= 2.5) return true;
+        let c = 0;
+        for (let q = k + 1; q < k + 1 + nx.length; q++) c += strF(q) ? 1 : 0;
+        return c >= 0.7 * nx.length;
+      };
     let k = i + 1,
       good = 0;
     for (; k < n; k++) {
       const ok = F[k][3] <= Math.max(5, 1.3 * base);
-      good = ok && (F[k][4] == null || F[k][4] > 0.4) ? good + 1 : ok ? good : 0;
-      if (good >= 4) break;
+      good = ok && strF(k) ? good + 1 : ok ? good : 0;
+      if (good >= 4 && conf(k)) break;
     }
     const end = Math.min(n - 1, k - good),
       tEnd = F[end][0];
@@ -27376,7 +27623,9 @@ function indoorFix(F) {
       vm = med(span.map(r => r[4])),
       atEnd = k >= n,
       dIn = hav([F[a][1], F[a][2]], [F[end][1], F[end][2]]);
-    if (tEnd - F[a][0] >= 30 && (vm == null || vm < 2.5) && (atEnd || dIn < 60)) {
+    // v85: także dłuższy pobyt, po którym GPS „wychodzi” dalej od wejścia (np. drugi sklep): przesunięcie
+    // wejście → wyjście tak małe w stosunku do czasu, że to nie był marsz w inne miejsce
+    if (tEnd - F[a][0] >= 30 && (vm == null || vm < 2.5) && (atEnd || dIn < 60 || (dIn < 150 && tEnd - F[a][0] >= 120 && dIn / (tEnd - F[a][0]) < 0.3))) {
       for (let j = a + 1; j <= end; j++) {
         out[j][1] = F[a][1];
         out[j][2] = F[a][2];
@@ -27488,13 +27737,36 @@ function trkProcess(rows, opt = {}) {
   // postoje: wygładzona prędkość < 0,25 m/s przez ≥ 45 s → jeden punkt (środek postoju)
   const st = [];
   for (let i = 0; i < pts.length; ) {
+    if (pts[i].cut && st.length && i < pts.length - 1) {
+      // v85: po przerwie w pomiarach (np. postój na światłach – telefon nie zapisuje stania) pierwsze metry
+      // „dryfu” obok miejsca zatrzymania pomijamy, żeby nie było zygzaka
+      const L = st[st.length - 1];
+      if (pts[i].t - L.t > 30 && Math.hypot(pts[i].x - L.x, pts[i].y - L.y) < 15) {
+        let j = i + 1;
+        while (j < pts.length - 1 && !pts[j].cut && Math.hypot(pts[j].x - L.x, pts[j].y - L.y) < 15) j++;
+        // tylko gdy to „cofka” w bok / do tyłu względem dalszej drogi (dojazd w tę samą stronę zostaje)
+        const ax = pts[i].x - L.x,
+          ay = pts[i].y - L.y,
+          bx = pts[j].x - L.x,
+          by = pts[j].y - L.y;
+        if (ax * bx + ay * by < 0.2 * Math.hypot(ax, ay) * Math.hypot(bx, by)) {
+          pts[j].cut = true;
+          i = j;
+          continue;
+        }
+      }
+    }
     if (pts[i].v < 0.25) {
       let j = i;
       while (j + 1 < pts.length && pts[j + 1].v < 0.25 && !pts[j + 1].cut) j++;
       if (pts[j].t - pts[i].t >= 45) {
         const W = pts.slice(i, j + 1);
-        st.push({t: pts[i].t, x: W.reduce((a, p) => a + p.x, 0) / W.length, y: W.reduce((a, p) => a + p.y, 0) / W.length, a: pts[i].a, cut: pts[i].cut});
+        const sp = {t: pts[i].t, x: W.reduce((a, p) => a + p.x, 0) / W.length, y: W.reduce((a, p) => a + p.y, 0) / W.length, a: pts[i].a, cut: pts[i].cut, stop: true};
+        st.push(sp);
         i = j + 1;
+        // v85: ruszanie po postoju – pierwsze metry (GPS „dryfował” na postoju) pomijamy, linia rusza z miejsca postoju
+        // (bez zygzaka, np. po czerwonym świetle)
+        while (i < pts.length - 1 && !pts[i].cut && Math.hypot(pts[i].x - sp.x, pts[i].y - sp.y) < 12) i++;
         continue;
       }
     }
@@ -27513,7 +27785,8 @@ function trkProcess(rows, opt = {}) {
   const tol = opt.dp != null ? opt.dp : 3,
     mark = new Uint8Array(keep.length);
   mark[0] = mark[keep.length - 1] = 1;
-  keep.forEach((p, k) => p.cut && (mark[k] = 1));
+  // v85: miejsce postoju i dojazdu (prędkość spada z jazdy do zera, np. wjazd w bramę) zostaje – po nim tnie się koniec
+  keep.forEach((p, k) => (p.cut || p.stop || (k > 0 && p.v < 1.5 && keep[k - 1].v >= 3)) && (mark[k] = 1));
   if (tol > 0) {
     const stack = [[0, keep.length - 1]];
     while (stack.length) {
@@ -27560,12 +27833,14 @@ let recPdAt = 0;
 function recLiveDist(sd) {
   // dystans na żywo liczony jak po „Stop” (co 20 s), żeby licznik nie rósł od drgań GPS; między przeliczeniami + przyrost
   if (!REC) return sd;
-  if (Date.now() - recPdAt > 20000 && recRawMem.length > 10) {
-    recPdAt = Date.now();
+  if (Date.now() > recPdAt && recRawMem.length > 10) {
+    const t0 = Date.now();
     try {
       const np = trkProcess(recRows(), {eco: !recPrecise()});
       if (np) REC.pd = {d: plen(np), sd};
     } catch (e) {}
+    // v85: przy długim nagraniu (wiele godzin) przeliczenie trwa dłużej – rzadziej, żeby nie obciążać telefonu
+    recPdAt = Date.now() + Math.max(20000, (Date.now() - t0) * 40);
   }
   return REC.pd ? REC.pd.d + Math.max(0, sd - REC.pd.sd) : sd;
 }
@@ -27587,7 +27862,7 @@ function trkProcessSg(oldPts, sg, newPts) {
 }
 // v73: wersja sposobu liczenia śladu po „Stop”. Gdy w nowej wersji OMM zmieni się to liczenie, podbijamy TRK_ALG –
 // wtedy OMM raz zapyta, czy przeliczyć ślady nagrane od v70 (mają surowe pomiary). Przycisk w okienku śladu zniknął.
-const TRK_ALG = 3; // v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
+const TRK_ALG = 4; // v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
 async function trkRecalcCore(t) {
   // przeliczenie jednego śladu z surowych pomiarów; zwraca {old} albo null (nie da się)
   if (!t.rid || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby
@@ -27915,13 +28190,22 @@ async function recStop() {
     return;
   }
   wpSync(REC); // kopia nazwy, opisu i zdjęć punktów z mapy – zostaje w śladzie
+  // v85: komunikat od razu (długie nagranie liczy się chwilę) i pomiar czasu kroków do Diagnostyki
+  toastMsg(_t('Liczę i zapisuję ślad…'));
+  await new Promise(r => setTimeout(r, 40));
+  const tm0 = Date.now(),
+    tms = {};
   // v70: ślad liczony od nowa z surowych pomiarów (wygładzanie w tył, postoje, uproszczenie); na żywo był tylko podgląd
   recRawFlush();
-  let fin = null;
+  let fin = null,
+    nRows = 0;
   try {
     if (recRawMem.length < 10) recRawMem = await rawLoad(REC.id); // po wznowieniu przerwanego nagrania
+    tms.wczytanie = Date.now() - tm0;
     const rows = recRows(),
       np = rows.length > 10 ? trkProcess(rows, {eco: !recPrecise()}) : null;
+    nRows = rows.length;
+    tms.liczenie = Date.now() - tm0 - tms.wczytanie;
     if (trkProcessOk(REC.pts, np)) fin = {pts: np, sg: trkProcessSg(REC.pts, REC.sg, np)};
   } catch (e) {}
   const t = {
@@ -27946,12 +28230,21 @@ async function recStop() {
   };
   if (recDiagOn() || recDgN || recDg.length) {
     const dg = await recDiagAll(REC.id);
-    if (dg.length) t.dg = dg;
+    if (dg.length)
+      try {
+        if (trkStore !== 'idb') throw 0;
+        await IDB.set(DGDB + t.id, dg); // v85: osobno, nie w głównym zapisie śladów
+      } catch (e) {
+        t.dg = dg;
+      }
   }
   TRK.items.push(t);
   trkSetActive(r.l);
   trkLayer(t).vis = true;
+  const tm1 = Date.now();
   await trkSave(); // najpierw zapis śladu, dopiero potem kasujemy kopię roboczą nagrania
+  tms.zapis = Date.now() - tm1;
+  diag('slad', _t('Zapis śladu: ') + (Date.now() - tm0) + ' ms', JSON.stringify({pomiary: nRows, punkty: t.pts.length, ...tms}));
   recClear(true);
   trkRender();
   sheetIfOpen();
@@ -31791,7 +32084,7 @@ async function trkShare(t) {
     ]
   });
   if (!v) return;
-  if (v === 'gpx') return outAsk(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm, null, true));
+  if (v === 'gpx') return await trkDgLoad([t]), outAsk(trkFile(t) + '.gpx', 'application/gpx+xml', trkGPX([t], t.nm, null, true));
   if (v === 'film') return trkFilm(t, true);
   info.style.display = 'block';
   info.textContent = _t('Przygotowuję obraz…');
@@ -33676,6 +33969,8 @@ function stopFind(t) {
       // v77: ruch kierunkowy – tempo co najmniej spacerowe i ten sam kierunek co odcinek obok (GPS w budynku skacze na boki)
       if (k < 0 || k >= n - 1) return false;
       const [d, v, b] = seg(k);
+      // v85: dojazd – ostatni odcinek tuż po jeździe (auto, rower) to jeszcze ruch, nie postój (wjazd w bramę)
+      if (d >= 5 && k > 0 && seg(k - 1)[1] >= 3) return true;
       if (d < 3 || v < 0.5) return false;
       if (d >= 15 && v >= 0.7) return true; // dłuższy odcinek w tempie marszu – na pewno ruch
       const nx = k + 1 < n - 1 ? seg(k + 1) : null,
@@ -33697,7 +33992,8 @@ function stopFind(t) {
       b = j;
     while (a < b && moving(a)) a++;
     while (b > a && moving(b - 1)) b--;
-    if (b - a >= 3 && P[b][3] - P[a][3] >= STOP_MIN) {
+    // v85: postój bywa już jednym punktem (od 1 odcinka); na samym końcu śladu wystarczy półtorej minuty stania
+    if (b - a >= 1 && P[b][3] - P[a][3] >= (b === n - 1 ? 90 : STOP_MIN)) {
       const L = raw[raw.length - 1];
       // sąsiednie postoje w tym samym miejscu (np. GPS „wyskoczył” na chwilę) – jeden postój
       if (L && a - L[1] <= 8 && hav(cen(L[0], L[1]), cen(a, b)) <= STOP_R) L[1] = b;
