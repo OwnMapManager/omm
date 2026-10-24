@@ -2699,6 +2699,7 @@ body.rec #recpill {
   color: #fff;
   background: #12002a;
   overflow: hidden;
+  overflow: clip; /* v87: tło gry jest szersze od ekranu – „hidden” dawało się przewinąć (plansza uciekała w lewo) */
   padding-bottom: var(--sa);
   touch-action: none;
   user-select: none;
@@ -3008,13 +3009,17 @@ body.rec #recpill {
   grid-template-rows: 66px;
 }
 .gpad.wedr {
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr)); /* v87: napisy nie rozpychają paska poza ekran */
   grid-template-rows: 54px;
   gap: 5px;
   padding: 8px 6px 14px;
 }
-.gpad.wedr .gk {
-  font-size: 11.5px;
+.gpad.wedr .gk,
+.gpad.wedr button.gk {
+  min-width: 0;
+  overflow: hidden;
+  white-space: normal;
+  font-size: 12px;
   font-weight: 600;
   padding: 2px;
   line-height: 1.15;
@@ -7346,6 +7351,7 @@ const EN = {
   "Widoczny – ukryj na mapie": "Visible – hide on map",
   "Opcje obiektu": "Object options",
   "Opcje śladu": "Track options",
+  "Wybierz „Tunel” na dole i dotknij grzybka": "Pick “Tunnel” below and tap a mushroom",
   "↶ Ruch cofnięty": "↶ Move undone",
   "Cofnij ruch": "Undo move",
   "↶ Cofanie ruchu: włączone": "↶ Undo moves: on",
@@ -10186,7 +10192,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v86';
+const APP_VER = 'v87';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -12961,21 +12967,16 @@ const NOWY_STYL = (() => {
       p('M26 2.4L27.2 6L30.8 7.2L27.2 8.4L26 12L24.8 8.4L21.2 7.2L24.8 6Z', PAL.must)
   ];
   // aparat fotograficzny – punkt ze zdjęciem (np. z importu zdjęć z lokalizacją)
-  // v86: kształt jak ikona „Punkt” (kropla), w główce dotychczasowy aparat prawie na całą szerokość (wybór Pawła 24.10)
+  // v87: dymek (zaokrąglony kwadrat z ostrzem u dołu) w kolorze granatowym, w środku jasny aparat – wybór Pawła (I4)
   NEW['o:foto'] = [
     _t('Zdjęcie'),
-    p('M16 29.6C16 29.6 7 19.6 7 12.6A9 9 0 0 1 25 12.6C25 19.6 16 29.6 16 29.6Z', PAL.terra) +
-      s(
-        'M16 3.6A9 9 0 0 1 25 12.6C25 19.6 16 29.6 16 29.6C18 25 21.4 19 21.4 12.6C21.4 8.4 19.4 5 16 3.6Z',
-        PAL.terraD,
-        0.5
-      ) +
-      '<g transform="translate(16 12.5) scale(0.56) translate(-16 -17)">' +
-      p('M5 10.4H10L12.2 7H19.8L22 10.4H27Q29 10.4 29 12.4V25Q29 27 27 27H5Q3 27 3 25V12.4Q3 10.4 5 10.4Z', PAL.greyD, ' stroke-width="2.4"') +
-      '<circle cx="16" cy="18.4" r="6" fill="' + PAL.white + '" stroke="' + K + '" stroke-width="2.2"/>' +
-      '<circle cx="16" cy="18.4" r="3.8" fill="' + PAL.blueD + '" stroke="' + K + '" stroke-width="2"/>' +
+    p('M7 3H25Q29 3 29 7V19Q29 23 25 23H20L16 29.5L12 23H7Q3 23 3 19V7Q3 3 7 3Z', '#2f4d66') +
+      '<g transform="translate(16 13.2) scale(0.8) translate(-16 -17)">' +
+      p('M5 10.4H10L12.2 7H19.8L22 10.4H27Q29 10.4 29 12.4V25Q29 27 27 27H5Q3 27 3 25V12.4Q3 10.4 5 10.4Z', PAL.cream, ' stroke-width="1.9"') +
+      '<circle cx="16" cy="18.4" r="6" fill="' + PAL.white + '" stroke="' + K + '" stroke-width="1.6"/>' +
+      '<circle cx="16" cy="18.4" r="3.8" fill="' + PAL.blue + '" stroke="' + K + '" stroke-width="1.5"/>' +
       e(14.8, 17.2, 1.3, 0.9, '#fff', false) +
-      p('M23.2 12.6H26.2V14.6H23.2Z', PAL.must, ' stroke-width="1.8"') +
+      p('M23.2 12.6H26.2V14.6H23.2Z', PAL.must, ' stroke-width="1.25"') +
       '</g>'
   ];
   NEW['o:parking'] = [
@@ -13220,7 +13221,7 @@ function pinDivIcon(it, px) {
     u = iconUrl(it.i || '📍', it.c),
     z = px || (d && d.col ? PIN_SZ[szOf(it)] : 38),
     // punkt zaczepienia: czubek igły pinezki / ostrze znacznika 📍 / środek pozostałych ikon
-    a = d && d.col ? [z * 0.355, z * 0.868] : ['📍', 'o:foto'].includes(it.i || '📍') ? [z / 2, z * 0.86] : [z / 2, z / 2];
+    a = d && d.col ? [z * 0.355, z * 0.868] : (it.i || '📍') === '📍' ? [z / 2, z * 0.86] : it.i === 'o:foto' ? [z / 2, z * 0.92] : [z / 2, z / 2];
   const ra = it.t === 'pin' && RATED(it) && it.ra ? it.ra : 0;
   if (u) {
     if (!it.n && !ra) return L.icon({iconUrl: u, iconSize: [z, z], iconAnchor: a, className: 'pimg'});
@@ -18117,6 +18118,42 @@ const whenTxt = t => {
 let TAB = 'mapy', // zakładka panelu: 'mapy' albo 'slady' (ślady GPS – kod w sekcji „ślady GPS”)
   tsel = null; // warstwa śladów z rozwiniętymi opcjami
 // v84: „⋮” przy warstwie / śladzie / obiekcie – rozwijane menu z funkcjami (w wierszu zostają tylko nazwa, oko i ⋮)
+// v87: przytrzymanie wiersza listy (ok. 0,5 s) – włącza zaznaczanie i od razu zaznacza tę rzecz (jak w Androidzie)
+function rowHold(el, fn) {
+  let t = 0,
+    x0 = 0,
+    y0 = 0;
+  const stop = () => (clearTimeout(t), (t = 0));
+  el.addEventListener('pointerdown', e => {
+    if (e.target.closest && e.target.closest('input,select,.eye,.more,.ex,.tswb')) return; // nazwa (przycisk) – można przytrzymać
+    x0 = e.clientX;
+    y0 = e.clientY;
+    stop();
+    t = setTimeout(() => {
+      t = 0;
+      el._held = Date.now();
+      try {
+        navigator.vibrate && navigator.vibrate(30);
+      } catch (_) {}
+      fn();
+    }, 550);
+  });
+  el.addEventListener('pointermove', e => Math.hypot(e.clientX - x0, e.clientY - y0) > 10 && stop());
+  ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev => el.addEventListener(ev, stop));
+  el.addEventListener('contextmenu', e => e.preventDefault());
+  // kliknięcie po przytrzymaniu nie otwiera obiektu
+  el.addEventListener(
+    'click',
+    e => {
+      if (el._held && Date.now() - el._held < 900) {
+        el._held = 0;
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    },
+    true
+  );
+}
 function rowMenu(btn, items) {
   if (btn && btn.currentTarget) {
     // wywołanie z obsługi kliknięcia: zdarzenie → przycisk; kliknięcie nie trafia do wiersza (np. fokus na mapie)
@@ -18258,6 +18295,16 @@ function sheet() {
           _t('Opcje grupy')
         )
       );
+      if (!selMode)
+        rowHold(r, () => {
+          const ids = new Set(g.layers.map(x => x.id));
+          selMode = true;
+          SEL.clear();
+          P.items.forEach(i => ids.has(i.l) && SEL.add(i.id));
+          g.open = true;
+          g.layers.forEach(x => P.items.some(i => i.l === x.id) && (x.open = true));
+          sheet();
+        });
       box.append(r);
     }
     if (!many || g.open)
@@ -18300,6 +18347,14 @@ function sheet() {
             _t('Opcje warstwy')
           )
         );
+        if (!selMode)
+          rowHold(r, () => {
+            selMode = true;
+            SEL.clear();
+            P.items.forEach(i => i.l === l.id && SEL.add(i.id));
+            l.open = true;
+            sheet();
+          });
         w.append(r);
         if (act) w.append(h('div', 'tag', _t('aktywna – tu trafiają nowe obiekty')));
         if (lsel === l.id) {
@@ -18406,7 +18461,15 @@ function sheet() {
                 if (e.target !== ch) ch.checked = SEL.has(it.id);
                 updSel();
               };
-            } else o.onclick = () => focusItem(it);
+            } else {
+              o.onclick = () => focusItem(it);
+              rowHold(o, () => {
+                selMode = true;
+                SEL.clear();
+                SEL.add(it.id);
+                sheet();
+              });
+            }
             o.append(ic, nm);
             if (RATED(it) && it.ra) o.append(h('span', 'cm ra', '★' + it.ra));
             if (it.ph && it.ph.length) o.append(h('span', 'cm', '📷'));
@@ -20942,7 +21005,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
-<li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. W każdym wierszu (grupa, warstwa, obiekt, ślad) jest <b>oko</b> – pokazuje i ukrywa – oraz <b>⋮</b> z pozostałymi funkcjami (zmiana nazwy, udostępnianie, kolejność, usuwanie, ustawienia warstwy). Włączenie oka obiektu w ukrytej warstwie włącza warstwę i pokazuje tylko ten obiekt. Strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
+<li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. W każdym wierszu (grupa, warstwa, obiekt, ślad) jest <b>oko</b> – pokazuje i ukrywa – oraz <b>⋮</b> z pozostałymi funkcjami (zmiana nazwy, udostępnianie, kolejność, usuwanie, ustawienia warstwy). Włączenie oka obiektu w ukrytej warstwie włącza warstwę i pokazuje tylko ten obiekt. Przytrzymanie wiersza włącza zaznaczanie i od razu zaznacza tę rzecz (warstwa – wszystkie jej obiekty). Strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
@@ -20993,7 +21056,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
-<li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. Every row (group, layer, object, track) has an <b>eye</b> – show and hide – and <b>⋮</b> with the other functions (rename, share, order, delete, layer settings). Turning on the eye of an object in a hidden layer turns the layer on and shows only that object. The arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
+<li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. Every row (group, layer, object, track) has an <b>eye</b> – show and hide – and <b>⋮</b> with the other functions (rename, share, order, delete, layer settings). Turning on the eye of an object in a hidden layer turns the layer on and shows only that object. A long press on a row starts selecting and selects that item right away (a layer – all its objects). The arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
@@ -23325,10 +23388,11 @@ function tronGame(opt) {
  * w kałużach trucizny i przy zbyt wysokim upadku. Dajesz im umiejętności: wybierz ją przyciskiem na dole,
  * potem dotknij grzybka. Stoper – zatrzymuje się i zawraca innych; Parasol – bezpieczne spadanie; Kopacz – kopie
  * w dół; Tunel – drąży poziomo; Schodki – buduje kładkę w górę. Ziemię da się kopać, kamieni nie.
- * Cel: doprowadzić do wyjścia (dziupli) wymaganą liczbę grzybków. 4 poziomy.
+ * Cel: doprowadzić do wyjścia (dziupli) wymaganą liczbę grzybków. 5 poziomów (v87: pierwszy na rozgrzewkę).
  */
 const WD_LV = [
-  {n: 10, need: 7, sk: {stop: 2, para: 3, dig: 2, tun: 2, bld: 2}, t: 180},
+  {n: 10, need: 6, sk: {stop: 2, para: 2, dig: 2, tun: 3, bld: 2}, t: 240}, // v87: łatwy start – jedna ściana do przebicia tunelem
+  {n: 10, need: 6, sk: {stop: 2, para: 3, dig: 2, tun: 2, bld: 4}, t: 220},
   {n: 12, need: 8, sk: {stop: 2, para: 2, dig: 3, tun: 3, bld: 3}, t: 200},
   {n: 15, need: 10, sk: {stop: 3, para: 3, dig: 2, tun: 2, bld: 4}, t: 220},
   {n: 20, need: 15, sk: {stop: 2, para: 4, dig: 3, tun: 3, bld: 4}, t: 260}
@@ -23360,13 +23424,19 @@ function wedrGame(opt) {
   // poziomy (w pikselach terenu 160 × 112)
   let ent, ext;
   if (lv === 0) {
+    // v87: poziom na rozgrzewkę – grzybki spadają na płaską ziemię, drogę do domu zagradza ziemna ściana (Tunel)
+    rect(0, 64, 160, 48, 1);
+    rect(84, 30, 10, 34, 1);
+    ent = [18, 30];
+    ext = [140, 56];
+  } else if (lv === 1) {
     rect(0, 40, 70, 8, 1);
     rect(90, 70, 70, 42, 1);
     rect(60, 100, 40, 12, 4);
     rect(20, 104, 40, 8, 1);
     ent = [15, 22];
     ext = [145, 62];
-  } else if (lv === 1) {
+  } else if (lv === 2) {
     rect(0, 36, 60, 10, 1);
     rect(56, 20, 6, 60, 2);
     rect(0, 80, 160, 32, 1);
@@ -23374,7 +23444,7 @@ function wedrGame(opt) {
     rect(108, 76, 52, 4, 1);
     ent = [15, 18];
     ext = [140, 72];
-  } else if (lv === 2) {
+  } else if (lv === 3) {
     rect(0, 30, 50, 8, 1);
     rect(0, 106, 160, 6, 4);
     rect(60, 60, 40, 8, 1);
@@ -23476,11 +23546,25 @@ function wedrGame(opt) {
         m.dir = -m.dir;
         return;
       }
-      m.x += m.dir;
+      if (any) m.n++;
       if (!any && !front) {
+        if (!m.n) {
+          // v87: tunel dany przed ścianą – grzybek idzie dalej i zacznie drążyć, gdy do niej dojdzie
+          let up = 0;
+          while (up <= 4 && solid(m.x + m.dir, m.y - up)) up++;
+          if (up > 3 || m.x + m.dir <= 0 || m.x + m.dir >= TW - 1) {
+            m.dir = -m.dir;
+            return;
+          }
+          m.x += m.dir;
+          m.y -= up;
+          return;
+        }
         m.st = 'walk';
         m.sk = null;
+        return;
       }
+      m.x += m.dir;
       return;
     }
     if (m.st === 'bld') {
@@ -23549,7 +23633,7 @@ function wedrGame(opt) {
       const d = Math.hypot(m.x - px, m.y - 4 - py);
       if (d < bd) (bd = d), (best = m);
     });
-    if (best && bd < 14) give(best, sel);
+    if (best && bd < 20) give(best, sel); // v87: łatwiej trafić palcem
   };
   g.key = () => {};
   g.holdKey = (k, on) => {
@@ -23660,7 +23744,7 @@ function wedrGame(opt) {
       if (!m.alive) return;
       const x = m.x * k,
         y = m.y * k,
-        sz = s * 0.55,
+        sz = s * 0.95, // v87: większe grzybki (wysokość ok. 2 pól – tyle, ile zajmują w terenie)
         wob = m.st === 'walk' ? Math.sin(m.t * 0.6) * sz * 0.15 : 0;
       if (m.para && m.st === 'fall') {
         c.fillStyle = '#e91e63';
@@ -23698,7 +23782,7 @@ function wedrGame(opt) {
       c.fill();
       // oczko w stronę marszu
       c.fillStyle = '#212121';
-      c.fillRect(x + m.dir * sz * 0.15 - 1, y - sz * 1.25, 2, 2);
+      c.fillRect(x + m.dir * sz * 0.15 - sz * 0.1, y - sz * 1.25, sz * 0.2, sz * 0.2);
       if (m.st === 'stop') {
         c.strokeStyle = '#ff7043';
         c.lineWidth = 2;
@@ -23709,6 +23793,19 @@ function wedrGame(opt) {
       }
     });
     FX.draw(c, s);
+    if (lv === 0 && !saved && left.tun === LV.sk.tun) {
+      // v87: podpowiedź na rozgrzewce, dopóki nikt nie dostał tunelu
+      c.save();
+      c.font = '700 ' + Math.round(s * 1.25) + 'px system-ui, sans-serif';
+      c.textAlign = 'center';
+      c.fillStyle = 'rgba(0,0,0,0.45)';
+      const tx = _t('Wybierz „Tunel” na dole i dotknij grzybka'),
+        tw = c.measureText(tx).width;
+      c.fillRect(BW / 2 - tw / 2 - s * 0.6, s * 0.6, tw + s * 1.2, s * 1.9);
+      c.fillStyle = '#fff8e1';
+      c.fillText(tx, BW / 2, s * 1.95);
+      c.restore();
+    }
     gVignette(c, BW, BH);
   };
   return g;
@@ -26978,11 +27075,17 @@ function trkSheet() {
     catItems = TRK.items.filter(t => catIds.has(t.l));
   updMode();
   $('mtitle').textContent = cat.name;
+  // v87: filtr rodzaju, którego już nie ma (np. usunięte wszystkie ślady autem), wraca do „Wszystkie”
+  const kinds0 = new Set(catItems.map(t => t.a || ''));
+  if (TFILT && !(TFILT === '-' ? kinds0.has('') : kinds0.has(TFILT))) TFILT = '';
+  const fOk = t => !TFILT || (TFILT === '-' ? !t.a : t.a === TFILT),
+    nF = TFILT ? catItems.filter(fOk).length : catItems.length;
   const el = $('list'),
     top = el.scrollTop,
     tot = catItems.reduce((a, t) => a + trkStatsC(t).d, 0),
     nl = catIds.size;
   $('msub').textContent =
+    (TFILT ? nF + _t(' z ') : '') +
     catItems.length +
     ' ' +
     plural(catItems.length, _t('ślad'), _t('ślady'), _t('śladów')) +
@@ -27015,6 +27118,22 @@ function trkSheet() {
     if (kinds.includes('')) fr.append(B(_t('bez rodzaju'), () => ((TFILT = TFILT === '-' ? '' : '-'), trkSheet()), TFILT === '-' ? 'on' : ''));
     el.append(fr);
   }
+  if (TSEL && nF) {
+    // v87: w trybie zaznaczania – zaznacz naraz wszystkie ślady widoczne po filtrze (np. wszystkie autem w kategorii)
+    const vis = catItems.filter(fOk),
+      all = vis.every(t => TSEL.has(t.id)),
+      sa = h('div', 'selall');
+    sa.append(
+      B(
+        (all ? _t('Odznacz wszystkie') : _t('Zaznacz wszystkie')) + (TFILT ? ' ' + (TFILT === '-' ? _t('bez rodzaju') : ACTS[TFILT][0]) : '') + ' (' + vis.length + ')',
+        () => {
+          vis.forEach(t => (all ? TSEL.delete(t.id) : TSEL.add(t.id)));
+          trkSheet();
+        }
+      )
+    );
+    el.append(sa);
+  }
   TRK.layers.forEach((l, li) => {
     if (l.cat !== cat.id) return; // tylko warstwy otwartej kategorii (wybór strzałką przy zakładce)
     const its = TRK.items
@@ -27033,7 +27152,7 @@ function trkSheet() {
       exBtn(l.open, () => ((l.open = !l.open), trkChanged()), _t('Lista śladów')),
       sw,
       B(l.name, () => (trkSetActive(l.id), trkChanged()), 'nm'),
-      h('span', 'cnt', String(its.length)),
+      h('span', 'cnt', TFILT ? its.length + '/' + TRK.items.filter(t => t.l === l.id).length : String(its.length)),
       cb,
       IB(
         'more',
@@ -27053,6 +27172,12 @@ function trkSheet() {
         _t('Opcje warstwy')
       )
     );
+    if (!TSEL)
+      rowHold(r, () => {
+        TSEL = new Set(its.map(t => t.id));
+        l.open = true;
+        trkSheet();
+      });
     w.append(r);
     if (act) w.append(h('div', 'tag', _t('aktywna – tu zapisują się nowe ślady')));
     // v84: funkcje warstwy w menu „⋮” (ukryte przyciski – ta sama logika co wcześniej na belce)
@@ -27180,7 +27305,13 @@ function trkSheet() {
             else TSEL.add(t.id);
             trkSheet();
           };
-        } else o.onclick = () => trkFocus(t);
+        } else {
+          o.onclick = () => trkFocus(t);
+          rowHold(o, () => {
+            TSEL = new Set([t.id]);
+            trkSheet();
+          });
+        }
         o.append(ic, nm);
         // oko: pokaż / ukryj ślad (warstwa i kategoria mają własne oko)
         const eye = B(
