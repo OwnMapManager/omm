@@ -7351,6 +7351,26 @@ const EN = {
   "Widoczny – ukryj na mapie": "Visible – hide on map",
   "Opcje obiektu": "Object options",
   "Opcje śladu": "Track options",
+  "Dopasuj do ścieżek": "Match to paths",
+  "Cofnij dopasowanie do ścieżek": "Undo path matching",
+  "Dopasowanie do ścieżek potrzebuje internetu.": "Path matching needs internet.",
+  "Dopasować ślad do dróg i ścieżek z mapy OSM?\n\nŚlad zostanie jednorazowo wysłany do serwera tras (ten sam, z którego korzysta planowanie). Dopasowane będą tylko odcinki leżące blisko ścieżek – gdzie chodziłeś bez ścieżek, ślad zostanie bez zmian. Oryginał można przywrócić.": "Match the track to roads and paths from the OSM map?\n\nThe track will be sent once to the routing server (the same one used for planning). Only sections lying close to paths are matched – where you walked off paths, the track stays unchanged. The original can be restored.",
+  "Dopasuj": "Match",
+  "Dopasowuję ślad do ścieżek…": "Matching the track to paths…",
+  "Nie udało się dopasować śladu: ": "Could not match the track: ",
+  "W pobliżu śladu nie ma ścieżek z mapy, do których dałoby się go dopasować – zostaje bez zmian.": "There are no map paths near the track to match it to – it stays unchanged.",
+  "” przed dopasowaniem do ścieżek": "” before path matching",
+  " (przed dopasowaniem)": " (before matching)",
+  "Dopasowano do ścieżek ": "Matched to paths: ",
+  "% śladu (reszta bez zmian)": "% of the track (the rest unchanged)",
+  "Przywrócono ślad sprzed dopasowania": "Restored the track from before matching",
+  "Miniatury zdjęć na mapie": "Photo thumbnails on the map",
+  "Wcześnie – już przy widoku kilku ulic / wsi": "Early – already when a few streets / a village are in view",
+  "Przy średnim zbliżeniu": "At medium zoom",
+  "Przy dużym zbliżeniu (domyślnie)": "At high zoom (default)",
+  "Dopiero przy bardzo dużym zbliżeniu": "Only at very high zoom",
+  "Nigdy – zawsze ikona": "Never – always the icon",
+  "Punkty zdjęć z importu: od tego przybliżenia zamiast ikony widać małe zdjęcie.": "Imported photo points: from this zoom a small photo is shown instead of the icon.",
   "Wybierz „Tunel” na dole i dotknij grzybka": "Pick “Tunnel” below and tap a mushroom",
   "↶ Ruch cofnięty": "↶ Move undone",
   "Cofnij ruch": "Undo move",
@@ -10064,6 +10084,7 @@ const IC = {
   note: '<path d="M4 5h16v11H9l-5 4z"/>',
   save: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/>', // jak „Kopia” w panelu map
   up: '<path d="M12 19V5M6 11l6-6 6 6"/>',
+  snap: '<path d="M3 20c4-2 6-7 9-9s5-5 9-7"/><path d="M3 14c2-1 3-4 5-4.5" stroke-dasharray="1.8 2.2"/><path d="M12.5 6.5l1.5 3.5M16 4.5l1 3" />', // v88: dopasuj do ścieżek
   extend: '<path d="M3 18c3-1 4-5 7-6" stroke-dasharray="2.2 2.6"/><path d="M10 12c3-1 4-6 8-7"/><path d="M16 15h6M19 12v6"/>', // dorysuj brakujący kawałek śladu
   merge: '<path d="M5 4v5c0 3 3 4 7 6M19 4v5c0 3-3 4-7 6v5"/><path d="M9.5 18l2.5 2.5 2.5-2.5"/>', // scal ślady
   down: '<path d="M12 5v14M6 13l6 6 6-6"/>',
@@ -10192,7 +10213,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v87';
+const APP_VER = 'v88';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -13251,7 +13272,11 @@ function pinDivIcon(it, px) {
 // ---------- v86: punkty ze zdjęciem (ikona 📷 z importu) – miniatura przy zbliżeniu, dotknięcie = podgląd ----------
 // Od zoomu FOTO_Z zamiast ikony mała miniatura zdjęcia w ramce z ostrzem (czubek = miejsce zdjęcia).
 // Dotknięcie otwiera zdjęcie na pełnym ekranie; przytrzymanie ok. 1,5 s – zwykłe okienko punktu (edycja).
-const FOTO_Z = 17,
+const fotoZ = () => {
+    // v88: od jakiego przybliżenia miniatury (Ustawienia → Wygląd)
+    const v = localStorage.getItem('omm-foto-zoom') || '17';
+    return v === 'nie' ? 99 : +v || 17;
+  },
   FTH = new Map(), // zdjęcie → Promise<mała miniatura (data: URL)>
   FTHV = new Map(); // zdjęcie → gotowa miniatura
 let FOTO_MK = []; // [{m: znacznik, it}] – odświeżane przy rysowaniu mapy
@@ -13292,10 +13317,10 @@ const fotoThumbIcon = url =>
 function fotoMkSet(o) {
   // właściwa ikona dla bieżącego zoomu + przytrzymanie
   const {m, it} = o,
-    want = map.getZoom() >= FOTO_Z,
+    want = map.getZoom() >= fotoZ(),
     u = it.ph[0],
     url = want && (FTHV.get(u) || FTHV.get(u + ''));
-  if (want && !url) fotoThumb(u).then(x => x && FOTO_MK.includes(o) && map.getZoom() >= FOTO_Z && fotoMkSet(o));
+  if (want && !url) fotoThumb(u).then(x => x && FOTO_MK.includes(o) && map.getZoom() >= fotoZ() && fotoMkSet(o));
   const k = url ? 'th' : 'ic';
   if (m._fk !== k) {
     m._fk = k;
@@ -21010,7 +21035,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
 <li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
-<li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
+<li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, <b>Dopasuj do ścieżek</b> (w okienku śladu: ślad jest jednorazowo wysyłany do serwera tras i dosuwany do dróg i ścieżek z mapy tylko tam, gdzie leży blisko nich – po lesie bez ścieżek zostaje bez zmian; można cofnąć), import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
@@ -21061,7 +21086,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
 <li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
-<li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
+<li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, <b>Match to paths</b> (in the track window: the track is sent once to the routing server and moved onto map roads and paths only where it lies close to them – off-path sections stay unchanged; can be undone), import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
@@ -25569,6 +25594,7 @@ function trkPopup(t, ll) {
     ),
     IB('split', act(() => trkSplit(t)), '', _t('Podziel ślad')),
     IB('extend', act(() => trkExtend(t)), '', _t('Dorysuj brakujący kawałek (zapomniany REC, przerwa)')),
+    t.mm ? IB('fundo', act(() => trkMatchUndo(t)), 'on', _t('Cofnij dopasowanie do ścieżek')) : IB('snap', act(() => trkMatch(t)), '', _t('Dopasuj do ścieżek')),
     IB('del', act(() => trkDelete(t)), 'danger', _t('Usuń ślad'))
   );
   el.append(bt, ib);
@@ -27727,7 +27753,9 @@ const plen = p => {
 const recKF = {}; // filtr na żywo
 const KF_GATE = 16; // odskok: (odległość od przewidywania / niepewność)² > 16, czyli ponad 4σ
 // v74: przy marszu mniejsze dopuszczalne przyspieszenie – mocniejsze wygładzanie (w aucie bez zmian)
-const kfAcc = v => 0.08 + 0.13 * (v > 0 ? v : 0); // dopuszczalne przyspieszenie (m/s²) wg prędkości
+// v88: przy marszu (do 2,5 m/s) dużo mniejsze dopuszczalne przyspieszenie – mocniejsze wygładzanie zygzaków
+// (położenie z telefonu „pływa” o kilka metrów, a człowiek nie zmienia kierunku co 2 s); rower i auto bez zmian
+const kfAcc = v => (v > 0 && v < 2.5 ? 0.03 + 0.03 * v : 0.08 + 0.13 * (v > 0 ? v : 0)); // dopuszczalne przyspieszenie (m/s²)
 function kfAxis(s, P, dt, q) {
   // przewidywanie jednej osi: s = [położenie, prędkość], P = [p00, p01, p10, p11]
   let [a, b, c, d] = P;
@@ -27981,7 +28009,7 @@ function trkProcess(rows, opt = {}) {
       // rowerem przy skrętach na skrzyżowaniach ślad nie ścina już narożników
       qa =
         kfAcc(Math.max(r[4] || 0, F[i - 1][4] || 0)) +
-        (r[5] != null && F[i - 1][5] != null && (r[4] || 0) > 1 && (F[i - 1][4] || 0) > 1
+        (r[5] != null && F[i - 1][5] != null && (r[4] || 0) > 2.5 && (F[i - 1][4] || 0) > 2.5
           ? (Math.min(r[4], F[i - 1][4]) * Math.abs(((r[5] - F[i - 1][5] + 540) % 360) - 180) * Math.PI) / 180 / dt
           : 0),
       q = qa * qa;
@@ -28027,13 +28055,17 @@ function trkProcess(rows, opt = {}) {
   // postoje: wygładzona prędkość < 0,25 m/s przez ≥ 45 s → jeden punkt (środek postoju)
   const st = [];
   for (let i = 0; i < pts.length; ) {
-    if (pts[i].cut && st.length && i < pts.length - 1) {
+    // v88: także krótka przerwa (> 10 s) przy marszu – telefon zapisuje punkt dopiero po 3 m ruchu, więc gdy stoisz,
+    // zostają tylko „skoki” dryfu wyglądające jak krok w przód i w tył
+    const gapW = !pts[i].cut && i > 0 && pts[i].t - pts[i - 1].t > 10 && pts[i].v < 2.5;
+    if ((pts[i].cut || gapW) && st.length && i < pts.length - 1) {
       // v85: po przerwie w pomiarach (np. postój na światłach – telefon nie zapisuje stania) pierwsze metry
       // „dryfu” obok miejsca zatrzymania pomijamy, żeby nie było zygzaka
-      const L = st[st.length - 1];
-      if (pts[i].t - L.t > 30 && Math.hypot(pts[i].x - L.x, pts[i].y - L.y) < 15) {
+      const L = st[st.length - 1],
+        rr = gapW ? 8 : 15;
+      if (pts[i].t - L.t > (gapW ? 10 : 30) && Math.hypot(pts[i].x - L.x, pts[i].y - L.y) < rr) {
         let j = i + 1;
-        while (j < pts.length - 1 && !pts[j].cut && Math.hypot(pts[j].x - L.x, pts[j].y - L.y) < 15) j++;
+        while (j < pts.length - 1 && !pts[j].cut && Math.hypot(pts[j].x - L.x, pts[j].y - L.y) < rr) j++;
         // tylko gdy to „cofka” w bok / do tyłu względem dalszej drogi (dojazd w tę samą stronę zostaje)
         const ax = pts[i].x - L.x,
           ay = pts[i].y - L.y,
@@ -28152,10 +28184,10 @@ function trkProcessSg(oldPts, sg, newPts) {
 }
 // v73: wersja sposobu liczenia śladu po „Stop”. Gdy w nowej wersji OMM zmieni się to liczenie, podbijamy TRK_ALG –
 // wtedy OMM raz zapyta, czy przeliczyć ślady nagrane od v70 (mają surowe pomiary). Przycisk w okienku śladu zniknął.
-const TRK_ALG = 4; // v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
+const TRK_ALG = 5; // v88: marsz – mocniejsze wygładzanie, postoje z krótkich przerw w zapisie; v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
 async function trkRecalcCore(t) {
   // przeliczenie jednego śladu z surowych pomiarów; zwraca {old} albo null (nie da się)
-  if (!t.rid || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby
+  if (!t.rid || t.mm || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby; dopasowany do ścieżek zostaje
   const rows = await rawLoad(t.rid);
   const s0 = t.pts[0][3],
     s1 = t.pts[t.pts.length - 1][3],
@@ -33840,6 +33872,186 @@ async function rtFetch(url, ms = 15000) {
   } finally {
     clearTimeout(tm);
   }
+}
+// ---------- v88: „Dopasuj do ścieżek” – inteligentne dopasowanie śladu do dróg i ścieżek OSM ----------
+/*
+ * Na żądanie (przycisk w okienku śladu) ślad jest wysyłany do serwera tras (Valhalla FOSSGIS, ten sam co planowanie)
+ * – trace_attributes, dopasowanie punkt po punkcie (map_snap), promień szukania 25 m. Bierzemy TYLKO odcinki,
+ * gdzie dopasowany punkt leży nie dalej niż 18 m od pomiaru i takich punktów jest co najmniej 5 z rzędu (~40 m).
+ * Gdzie chodziłeś bez ścieżek (las, łąka) albo najbliższa ścieżka jest daleko – zostaje oryginał. Oryginał śladu
+ * jest zapamiętany (t.mm.o), więc dopasowanie można cofnąć. Nic nie jest wysyłane samo.
+ */
+async function rtPost(path, body, ms = 40000) {
+  const url = 'https://valhalla1.openstreetmap.de/' + path,
+    ac = new AbortController(),
+    tm = setTimeout(() => ac.abort(), ms);
+  try {
+    // zwykły tekst – bez zapytania wstępnego CORS (serwer i tak czyta JSON)
+    const r = await fetch(url, {method: 'POST', body: JSON.stringify(body), headers: {'Content-Type': 'text/plain;charset=UTF-8'}, referrerPolicy: 'no-referrer', signal: ac.signal});
+    if (!r.ok && r.status !== 400) diag('trasy', 'Serwer tras: HTTP ' + r.status, path);
+    return await r.json();
+  } catch (e) {
+    const H = diagHttp(); // zapas: natywnie
+    if (H)
+      try {
+        const r = await H.post({url, headers: {'Content-Type': 'application/json'}, data: body, readTimeout: ms, connectTimeout: 15000});
+        return typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
+      } catch (e2) {
+        diag('trasy', 'Dopasowanie do ścieżek – brak odpowiedzi', String((e2 && e2.message) || e2));
+        throw e2;
+      }
+    diag('trasy', 'Dopasowanie do ścieżek – brak odpowiedzi', String((e && e.message) || e));
+    throw e;
+  } finally {
+    clearTimeout(tm);
+  }
+}
+function trkResample(P, sg, step = 8) {
+  // gęste punkty co ok. 8 m (wysokość i czas liczone pomiędzy); przerwy w linii (sg) zostają przerwami
+  const brk = new Set(sg || []),
+    out = [],
+    segs = [];
+  let cur = [];
+  P.forEach((q, i) => {
+    if (i && brk.has(i)) {
+      segs.push(cur);
+      cur = [];
+    }
+    if (!cur.length) {
+      cur.push(q.slice(0, 4));
+      return;
+    }
+    const a = cur[cur.length - 1],
+      d = hav(a, q),
+      n = Math.floor(d / step);
+    for (let k = 1; k <= n; k++) {
+      const f = (k * step) / d;
+      if (f >= 0.999) break;
+      cur.push([a[0] + (q[0] - a[0]) * f, a[1] + (q[1] - a[1]) * f, a[2] != null && q[2] != null ? a[2] + (q[2] - a[2]) * f : q[2], a[3] != null && q[3] != null ? a[3] + (q[3] - a[3]) * f : q[3]]);
+    }
+    cur.push(q.slice(0, 4));
+  });
+  if (cur.length) segs.push(cur);
+  segs.forEach(s => out.push(s));
+  return out;
+}
+async function trkMatch(t) {
+  if (!t || !t.pts || t.pts.length < 3) return;
+  if (!navigator.onLine) return tell(_t('Dopasowanie do ścieżek potrzebuje internetu.'));
+  const cost = t.a === 'auto' ? 'auto' : t.a === 'rower' ? 'bicycle' : 'pedestrian';
+  const ok = await askYes(
+    _t('Dopasować ślad do dróg i ścieżek z mapy OSM?\n\nŚlad zostanie jednorazowo wysłany do serwera tras (ten sam, z którego korzysta planowanie). Dopasowane będą tylko odcinki leżące blisko ścieżek – gdzie chodziłeś bez ścieżek, ślad zostanie bez zmian. Oryginał można przywrócić.'),
+    _t('Dopasuj')
+  );
+  if (!ok) return;
+  toastMsg(_t('Dopasowuję ślad do ścieżek…'));
+  const segs = trkResample(t.pts, t.sg, cost === 'auto' ? 15 : 8),
+    outSegs = [];
+  let nAll = 0,
+    nOk = 0;
+  try {
+    for (const sgm of segs) {
+      if (sgm.length < 3) {
+        outSegs.push(sgm);
+        continue;
+      }
+      const res = [];
+      for (let o = 0; o < sgm.length; o += 1500) {
+        const part = sgm.slice(Math.max(0, o - 1), o + 1500),
+          j = await rtPost('trace_attributes', {
+            shape: part.map(q => ({lat: +q[0].toFixed(6), lon: +q[1].toFixed(6)})),
+            costing: cost,
+            shape_match: 'map_snap',
+            trace_options: {search_radius: 25, gps_accuracy: cost === 'pedestrian' ? 8 : 6, turn_penalty_factor: 100},
+            filters: {attributes: ['matched.point', 'matched.type', 'matched.distance_from_trace_point'], action: 'include'}
+          });
+        if (j && j.error) throw new Error(String(j.error).slice(0, 160));
+        const mp = (j && j.matched_points) || [];
+        // dobre = dopasowane blisko pomiaru; potem tylko serie co najmniej 5 dobrych z rzędu
+        const good = part.map((q, i) => {
+          const m = mp[i];
+          return !!(m && m.type === 'matched' && isFinite(m.lat) && isFinite(m.lon) && (m.distance_from_trace_point == null ? hav(q, [m.lat, m.lon]) : m.distance_from_trace_point) <= 18);
+        });
+        for (let i = 0; i < good.length; ) {
+          if (!good[i]) {
+            i++;
+            continue;
+          }
+          let k = i;
+          while (k < good.length && good[k]) k++;
+          if (k - i < 5) for (let q = i; q < k; q++) good[q] = false;
+          i = k;
+        }
+        part.forEach((q, i) => {
+          if (o > 0 && i === 0) return; // punkt nakładki z poprzedniej części
+          nAll++;
+          if (good[i]) {
+            nOk++;
+            res.push([+mp[i].lat.toFixed(6), +mp[i].lon.toFixed(6), q[2], q[3]]);
+          } else res.push(q);
+        });
+      }
+      outSegs.push(res);
+    }
+  } catch (e) {
+    return tell(_t('Nie udało się dopasować śladu: ') + String((e && e.message) || e));
+  }
+  if (!nOk) return tell(_t('W pobliżu śladu nie ma ścieżek z mapy, do których dałoby się go dopasować – zostaje bez zmian.'));
+  // uproszczenie (1,5 m) – kształt ścieżek zostaje, znikają zbędne punkty co 8 m
+  const flat = [],
+    nsg = [];
+  outSegs.forEach(sgm => {
+    if (flat.length) nsg.push(flat.length);
+    const keep = dpSimple(sgm, 1.5);
+    keep.forEach(q => flat.push(q));
+  });
+  trashPut('slad', _t('Ślad „') + (t.nm || _t('Ślad')) + _t('” przed dopasowaniem do ścieżek'), {items: [{...clone(t), id: uid(), nm: (t.nm || _t('Ślad')) + _t(' (przed dopasowaniem)')}]});
+  t.mm = {o: {pts: t.pts, sg: t.sg || []}, at: Date.now(), f: Math.round((nOk / nAll) * 100)};
+  t.pts = flat;
+  t.sg = nsg;
+  t.up = Date.now();
+  await trkChanged();
+  toastMsg(_t('Dopasowano do ścieżek ') + t.mm.f + _t('% śladu (reszta bez zmian)'));
+}
+function trkMatchUndo(t) {
+  if (!t || !t.mm || !t.mm.o) return;
+  t.pts = t.mm.o.pts;
+  t.sg = t.mm.o.sg;
+  delete t.mm;
+  t.up = Date.now();
+  trkChanged();
+  toastMsg(_t('Przywrócono ślad sprzed dopasowania'));
+}
+function dpSimple(P, tol) {
+  // Douglas–Peucker na [szer, dł, …] w metrach
+  if (P.length < 3) return P.slice();
+  const la0 = P[0][0],
+    mx = 111320 * Math.cos((la0 * Math.PI) / 180),
+    X = P.map(q => [(q[1] - P[0][1]) * mx, (q[0] - la0) * 111320]),
+    mk = new Uint8Array(P.length),
+    st = [[0, P.length - 1]];
+  mk[0] = mk[P.length - 1] = 1;
+  while (st.length) {
+    const [a, b] = st.pop();
+    if (b - a < 2) continue;
+    const [ax, ay] = X[a],
+      dx = X[b][0] - ax,
+      dy = X[b][1] - ay,
+      L2 = dx * dx + dy * dy;
+    let md = 0,
+      mi = -1;
+    for (let k = a + 1; k < b; k++) {
+      let u = L2 ? ((X[k][0] - ax) * dx + (X[k][1] - ay) * dy) / L2 : 0;
+      u = Math.max(0, Math.min(1, u));
+      const d = Math.hypot(X[k][0] - ax - u * dx, X[k][1] - ay - u * dy);
+      if (d > md) (md = d), (mi = k);
+    }
+    if (md > tol) {
+      mk[mi] = 1;
+      st.push([a, mi], [mi, b]);
+    }
+  }
+  return P.filter((_, i) => mk[i]);
 }
 async function rtValhalla(pts, c, o, opt) {
   // jedno zapytanie do Valhalli; zwraca {legs: [{p, man, time, len}], len, time} albo null (RT_ERR – powód)
@@ -40102,6 +40314,20 @@ function settingsDlg(keep, old) {
     ],
     null,
     themeApply
+  );
+  radios(
+    _t('Miniatury zdjęć na mapie'),
+    'omm-foto-zoom',
+    '17',
+    [
+      ['15', _t('Wcześnie – już przy widoku kilku ulic / wsi')],
+      ['16', _t('Przy średnim zbliżeniu')],
+      ['17', _t('Przy dużym zbliżeniu (domyślnie)')],
+      ['18', _t('Dopiero przy bardzo dużym zbliżeniu')],
+      ['nie', _t('Nigdy – zawsze ikona')]
+    ],
+    _t('Punkty zdjęć z importu: od tego przybliżenia zamiast ikony widać małe zdjęcie.'),
+    () => fotoMkAll()
   );
 
   {
