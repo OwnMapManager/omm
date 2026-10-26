@@ -522,6 +522,130 @@ body.navon #compb {
 #tselbar #tsdel {
   color: #d93025;
 }
+/* v89: wycieczka – nagłówek w panelu mapy */
+.trip {
+  margin: 8px 8px 10px;
+  padding: 10px 10px 8px;
+  border: 1px solid var(--line);
+  border-left: 4px solid #2f4d66;
+  border-radius: 10px;
+  background: var(--bg);
+}
+.trh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--txt);
+}
+.trh > span {
+  flex: 1;
+  font-size: 14px;
+}
+.trh .ic {
+  color: #2f4d66;
+  flex: none;
+}
+html.dark .trh .ic,
+html.dark .trip {
+  border-left-color: #7fa6c4;
+}
+html.dark .trh .ic {
+  color: #7fa6c4;
+}
+.trd {
+  margin: 4px 0 6px 26px;
+  font-size: 13.5px;
+  color: var(--txt2);
+  white-space: pre-wrap;
+  max-height: 6.5em;
+  overflow: hidden;
+  cursor: pointer;
+}
+.trt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0 2px 26px;
+}
+.trt .nm {
+  flex: 1;
+  text-align: left;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  padding: 6px 0;
+}
+.trt .nm small {
+  color: var(--sub);
+}
+.trsw {
+  width: 16px;
+  height: 4px;
+  border-radius: 2px;
+  flex: none;
+}
+.trb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+.trpick {
+  max-height: 52vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.trrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 4px;
+  border-radius: 8px;
+  font-weight: 400 !important;
+  margin: 0 !important;
+}
+.trrow.in {
+  background: var(--accbg);
+}
+.dbox .trrow input {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin: 0;
+  padding: 0;
+}
+.trrow > span:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.trrow b {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trrow small {
+  color: var(--sub);
+}
+.trrow .oi svg {
+  width: 20px;
+  height: 20px;
+}
+.lkon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--sub);
+}
 .obj input {
   width: 18px;
   height: 18px;
@@ -2944,6 +3068,70 @@ body.rec #recpill {
   border-bottom: 0;
   border-top: 8px solid #fbf8f1;
   filter: drop-shadow(0 2px 1px rgba(0, 0, 0, 0.25));
+}
+.fcnt {
+  /* v89: liczba zdjęć w jednym miejscu */
+  position: absolute;
+  right: -7px;
+  top: -7px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background: #e53935;
+  color: #fff;
+  font: 700 12px/20px system-ui, sans-serif;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+.fstk {
+  position: relative;
+}
+.fpulse {
+  animation: fpulse 0.65s ease-in-out 4;
+}
+@keyframes fpulse {
+  50% {
+    transform-origin: 50% 100%;
+    filter: drop-shadow(0 0 10px #ffd54f) brightness(1.2);
+  }
+}
+.fstk img {
+  display: block;
+}
+/* v89: galeria zdjęć mapy – pasek miniatur pod zdjęciem */
+.phv .phcap {
+  color: #fff;
+  font-size: 13px;
+  margin-bottom: 6px;
+  text-align: center;
+  padding: 0 12px;
+  opacity: 0.9;
+}
+.phv .phstrip {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  max-width: 100%;
+  padding: 8px 10px 2px;
+  scrollbar-width: none;
+}
+.phv .phstrip img {
+  width: 54px;
+  height: 54px;
+  flex: none;
+  object-fit: cover;
+  border-radius: 6px;
+  opacity: 0.55;
+  border: 2px solid transparent;
+  max-height: none;
+}
+.phv .phstrip img.on {
+  opacity: 1;
+  border-color: #ffd54f;
+}
+.phv.gal > img {
+  max-height: calc(100% - 150px);
 }
 .fthm img {
   width: 40px;
@@ -7318,7 +7506,7 @@ body.rec .navbar {
   <div id="sa"><button id="addl"></button><button id="addg" style="display:none">＋ Grupa</button><button id="impb"></button><button id="fotb"></button><button id="projb"></button><button id="selb"></button><button id="fltb"></button></div>
   <div id="tsa"><button id="trecb"></button><button id="tadd"></button><button id="timp"></button><button id="tsumb"></button><button id="tselb"></button></div>
   <div id="list"></div>
-  <div id="selbar"><span id="selc"></span><button id="selmv"></button><button id="selic"></button><button id="selnm"></button><button id="seldel"></button><button id="selx"></button></div>
+  <div id="selbar"><span id="selc"></span><button id="selmv"></button><button id="selic"></button><button id="selnm"></button><button id="sellk"></button><button id="seldel"></button><button id="selx"></button></div>
   <div id="tselbar"><span id="tselc"></span><button id="tsmv"></button><button id="tsvis"></button><button id="tshid"></button><button id="tsact"></button><button id="tsnm"></button><button id="tsmrg"></button><button id="tsgpx"></button><button id="tsdel"></button><button id="tsx"></button></div>
 </div>
 <input type="file" id="file" multiple hidden>
@@ -7344,6 +7532,67 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Pod strzałką przy nazwie mapy: Twoje mapy i „Nowa wycieczka” – daty, opis, ślady, zdjęcia i punkty z innych map, a z tego animowana relacja do zapisania jako film.": "Under the arrow next to the map name: your maps and “New trip” – dates, description, tracks, photos and points from other maps, and from all that an animated story you can save as a video.",
+  "Pokaż też na mapie…": "Also show on map…",
+  "Też na: ": "Also on: ",
+  "Pokaż miejsce": "Show place",
+  "Okienko punktu (opis, edycja)": "Point window (description, edit)",
+  "+ Nowa warstwa": "+ New layer",
+  "Nie ma innej mapy. Utwórz mapę albo wycieczkę w menu map (▾ przy nazwie mapy).": "There is no other map. Create a map or a trip in the map menu (▾ next to the map name).",
+  " (wycieczka)": " (trip)",
+  "To nie kopia: obiekt zostaje tu i pojawi się też na wybranej mapie. Zmiana w jednym miejscu (miejsce, opis, zdjęcia) będzie widoczna wszędzie.": "Not a copy: the object stays here and also appears on the chosen map. A change in one place (location, description, photos) shows everywhere.",
+  "Pokaż też na mapie": "Also show on map",
+  "Pokaż też na mapie (": "Also show on map (",
+  "Pokazane też na mapie „": "Also shown on map “",
+  "To już jest na mapie „": "This is already on map “",
+  "Ten obiekt jest też na: ": "This object is also on: ",
+  "Część obiektów jest też na: ": "Some objects are also on: ",
+  "Tylko z tej mapy": "Only from this map",
+  "Wszędzie": "Everywhere",
+  "Wycieczka": "Trip",
+  "Kilka słów o wycieczce – pojawią się na początku relacji": "A few words about the trip – shown at the start of the story",
+  "Data": "Date",
+  "Do (gdy kilka dni)": "To (if several days)",
+  "Nowa wycieczka": "New trip",
+  "Utwórz": "Create",
+  "W dniach tej wycieczki masz nagrane ślady: ": "You recorded tracks on the days of this trip: ",
+  ".\n\nDodać je do wycieczki? (odnośnik – ślad zostaje w Śladach GPS)": ".\n\nAdd them to the trip? (a link – the track stays in GPS tracks)",
+  "Nie masz jeszcze nagranych ani wczytanych śladów (Ślady GPS).": "You have no recorded or imported tracks yet (GPS tracks).",
+  "Ślady wycieczki": "Trip tracks",
+  "Na innych mapach nie ma jeszcze obiektów.": "There are no objects on other maps yet.",
+  "Wszystko z tej mapy już jest na wycieczce.": "Everything from this map is already on the trip.",
+  "Wybrane obiekty zostają na swojej mapie i pojawią się też na wycieczce (odnośnik, nie kopia). Wyróżnione – z dni wycieczki.": "Chosen objects stay on their map and also appear on the trip (a link, not a copy). Highlighted – from the trip days.",
+  "Dodaj z innej mapy": "Add from another map",
+  "Zaznacz z dni wycieczki": "Pick from trip days",
+  "Nic nie zaznaczono.": "Nothing selected.",
+  "Dodano do wycieczki: ": "Added to the trip: ",
+  "+ Nowa wycieczka": "+ New trip",
+  "Dodaj ślad do wycieczki": "Add track to trip",
+  "Ślad jest na wycieczce „": "The track is on trip “",
+  "Nazwa, daty i opis wycieczki": "Trip name, dates and description",
+  "Dodaj opis wycieczki…": "Add a trip description…",
+  "Usuń z wycieczki": "Remove from trip",
+  "Ślad zostaje w Śladach GPS – zniknął tylko z wycieczki.": "The track stays in GPS tracks – it was only removed from the trip.",
+  "Relacja": "Story",
+  "Dodaj…": "Add…",
+  "Ślady z „Śladów GPS”": "Tracks from “GPS tracks”",
+  "Zdjęcia z telefonu": "Photos from the phone",
+  "Punkty i zdjęcia z innej mapy": "Points and photos from another map",
+  "Na tej wycieczce nie ma jeszcze zdjęć.": "There are no photos on this trip yet.",
+  "Dni": "Days",
+  "Do relacji potrzebny jest ślad wycieczki albo co najmniej dwa zdjęcia / punkty z datą.\n\nDodaj ślad (Dodaj… → Ślady) albo zdjęcia z telefonu.": "The story needs a trip track or at least two dated photos / points.\n\nAdd a track (Add… → Tracks) or photos from the phone.",
+  "wycieczka": "trip",
+  "Do wycieczki…": "To trip…",
+  "Dodaj ślad do wycieczki (odnośnik – ślad zostaje tutaj)": "Add track to a trip (a link – the track stays here)",
+  "Pokaż też na innej mapie (odnośnik)": "Also show on another map (link)",
+  "Też na…": "Also on…",
+  " ma zapisane miejsce daleko od Twojego śladu nagranego w chwili zrobienia zdjęcia (średnio ": " have a saved location far from your track recorded when the photo was taken (on average ",
+  ").\n\nAparat telefonu często zapisuje stare albo niedokładne miejsce. Ustawić te zdjęcia według śladu?": ").\n\nThe phone camera often saves an old or inaccurate location. Place these photos by the track?",
+  "Według śladu": "By the track",
+  "Zostaw z aparatu": "Keep camera location",
+  " już było na tej mapie – pominięte (bez dubli).": " were already on this map – skipped (no duplicates).",
+  "Dzień ": "Day ",
+  "Godzina": "Time",
   "Udostępnij / eksport": "Share / export",
   "Ukryj ustawienia warstwy": "Hide layer settings",
   "Ustawienia warstwy…": "Layer settings…",
@@ -7351,6 +7600,9 @@ const EN = {
   "Widoczny – ukryj na mapie": "Visible – hide on map",
   "Opcje obiektu": "Object options",
   "Opcje śladu": "Track options",
+  "Bardzo wcześnie – przy widoku całej okolicy (kilka km)": "Very early – when the whole area is in view (a few km)",
+  "Przy widoku gminy / kilku wsi": "When a district / a few villages are in view",
+  "Przy widoku jednej wsi / dzielnicy": "When one village / neighbourhood is in view",
   "Dopasuj do ścieżek": "Match to paths",
   "Cofnij dopasowanie do ścieżek": "Undo path matching",
   "Dopasowanie do ścieżek potrzebuje internetu.": "Path matching needs internet.",
@@ -10084,7 +10336,9 @@ const IC = {
   note: '<path d="M4 5h16v11H9l-5 4z"/>',
   save: '<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/>', // jak „Kopia” w panelu map
   up: '<path d="M12 19V5M6 11l6-6 6 6"/>',
-  snap: '<path d="M3 20c4-2 6-7 9-9s5-5 9-7"/><path d="M3 14c2-1 3-4 5-4.5" stroke-dasharray="1.8 2.2"/><path d="M12.5 6.5l1.5 3.5M16 4.5l1 3" />', // v88: dopasuj do ścieżek
+  link: '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1.1 1.1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1.1-1.1"/>', // v89: pokaż też na innej mapie (odnośnik)
+  trip: '<path d="M12 21.5V3"/><path d="M12 4.5h6.5l2.2 2.3-2.2 2.3H12"/><path d="M12 11.5H5.5l-2.2 2.3 2.2 2.3H12"/><path d="M9 21.5h6"/>', // v89: wycieczka (drogowskaz)
+  snap: '<path d="M7 3.5v6a5 5 0 0 0 10 0v-6"/><path d="M7 3.5h3.2v6a1.8 1.8 0 0 0 3.6 0v-6H17" /><path d="M7 6.2h3.2M13.8 6.2H17" stroke-width="3"/><path d="M3 21c3-2.5 6-3 9-3s6 .5 9 3" stroke-dasharray="2 2.3"/><path d="M12 15.5v2" />', // v89: magnes przyciąga ślad do ścieżki
   extend: '<path d="M3 18c3-1 4-5 7-6" stroke-dasharray="2.2 2.6"/><path d="M10 12c3-1 4-6 8-7"/><path d="M16 15h6M19 12v6"/>', // dorysuj brakujący kawałek śladu
   merge: '<path d="M5 4v5c0 3 3 4 7 6M19 4v5c0 3-3 4-7 6v5"/><path d="M9.5 18l2.5 2.5 2.5-2.5"/>', // scal ślady
   down: '<path d="M12 5v14M6 13l6 6 6-6"/>',
@@ -10213,7 +10467,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v88';
+const APP_VER = 'v89';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -13312,8 +13566,14 @@ function fotoThumb(u) {
   FTH.set(u, pr);
   return pr;
 }
-const fotoThumbIcon = url =>
-  L.divIcon({className: 'fthm', html: '<div><img src="' + url + '" alt="" draggable="false"></div>', iconSize: [46, 54], iconAnchor: [23, 54]});
+const fotoThumbIcon = (url, n) =>
+  L.divIcon({className: 'fthm', html: '<div><img src="' + url + '" alt="" draggable="false">' + (n > 1 ? '<b class="fcnt">' + n + '</b>' : '') + '</div>', iconSize: [46, 54], iconAnchor: [23, 54]});
+const fotoStackIcon = (it, n) => {
+  // ikona zdjęcia z liczbą zdjęć w tym miejscu
+  const z = 38,
+    u = iconUrl('o:foto');
+  return L.divIcon({className: 'fstk', html: '<img src="' + u + '" width="' + z + '" height="' + z + '" alt="" draggable="false"><b class="fcnt">' + n + '</b>', iconSize: [z, z], iconAnchor: [z / 2, z * 0.92]});
+};
 function fotoMkSet(o) {
   // właściwa ikona dla bieżącego zoomu + przytrzymanie
   const {m, it} = o,
@@ -13321,10 +13581,11 @@ function fotoMkSet(o) {
     u = it.ph[0],
     url = want && (FTHV.get(u) || FTHV.get(u + ''));
   if (want && !url) fotoThumb(u).then(x => x && FOTO_MK.includes(o) && map.getZoom() >= fotoZ() && fotoMkSet(o));
-  const k = url ? 'th' : 'ic';
+  const n = o.n || 1,
+    k = (url ? 'th' : 'ic') + n;
   if (m._fk !== k) {
     m._fk = k;
-    m.setIcon(url ? fotoThumbIcon(url) : pinDivIcon(it));
+    m.setIcon(url ? fotoThumbIcon(url, n) : n > 1 ? fotoStackIcon(it, n) : pinDivIcon(it));
   }
   fotoHold(m, it);
 }
@@ -13359,7 +13620,36 @@ function fotoHold(m, it) {
   ['pointerup', 'pointercancel'].forEach(ev => el.addEventListener(ev, up));
   el.addEventListener('pointerleave', stop);
 }
+let FOTO_HID = []; // v89: zdjęcia schowane pod stosem (kilka zdjęć w jednym miejscu)
+function fotoRestore() {
+  FOTO_HID.forEach(o => grp.hasLayer(o.m) || grp.addLayer(o.m));
+  FOTO_HID = [];
+  FOTO_MK.forEach(o => ((o.n = 1), (o.st = null)));
+}
 function fotoMkAll() {
+  // v89: zdjęcia leżące (prawie) w tym samym miejscu – jedna ikona z liczbą, dotknięcie = galeria wszystkich
+  if (map.getZoom() >= 15) {
+    const on = FOTO_MK.filter(o => grp.hasLayer(o.m)),
+      used = new Set();
+    on.forEach(o => {
+      if (used.has(o)) return;
+      const p = map.latLngToLayerPoint(o.m.getLatLng()),
+        st = [o];
+      on.forEach(q => {
+        if (q === o || used.has(q)) return;
+        const pq = map.latLngToLayerPoint(q.m.getLatLng());
+        if (Math.hypot(p.x - pq.x, p.y - pq.y) < 18) st.push(q);
+      });
+      if (st.length < 2) return;
+      st.forEach(q => used.add(q));
+      o.n = st.length;
+      o.st = st.map(q => q.it);
+      st.slice(1).forEach(q => {
+        grp.removeLayer(q.m);
+        FOTO_HID.push(q);
+      });
+    });
+  }
   FOTO_MK.forEach(fotoMkSet);
 }
 function pinDivIconOld(it) {
@@ -15150,6 +15440,7 @@ function cleanItem(it) {
   if (!okId(it.id)) it.id = uid();
   delete it.vis; // v52 miało ukrywanie pojedynczych obiektów – wycofane; ukryte wtedy obiekty wracają na mapę
   if (own(it, 'l') && !okId(it.l)) it.l = null;
+  if (own(it, 'lk') && !okId(it.lk)) delete it.lk; // v89: odnośnik (ten sam obiekt na kilku mapach)
   if (own(it, 'c')) {
     const c = safeColor(it.c);
     if (c) it.c = c;
@@ -15239,6 +15530,19 @@ function cleanMap(m) {
     m.active = remap.get(String(m.active)) || (okId(m.active) ? m.active : null);
   if (own(m, 'hide'))
     m.hide = Array.isArray(m.hide) ? m.hide.filter(x => typeof x === 'string').map(x => x.slice(0, 64)) : [];
+  if (own(m, 'trip')) {
+    // v89: wycieczka – daty RRRR-MM-DD, opis, odnośniki do śladów
+    const t = m.trip,
+      dd = x => (typeof x === 'string' && /^\d{4}-\d\d-\d\d$/.test(x) ? x : '');
+    if (!t || typeof t !== 'object' || Array.isArray(t)) delete m.trip;
+    else
+      m.trip = {
+        d: dd(t.d),
+        d2: dd(t.d2),
+        ds: typeof t.ds === 'string' ? t.ds.slice(0, 5000) : '',
+        trk: Array.isArray(t.trk) ? [...new Set(t.trk.filter(okId))].slice(0, 500) : []
+      };
+  }
   cleanTimes(m);
   return m;
 }
@@ -15544,6 +15848,9 @@ function pickMap() {
 pickMap();
 let saveWarned = false;
 function save() {
+  try {
+    lkSync(); // v89: zmiany obiektu przechodzą na jego odnośniki na innych mapach
+  } catch (e) {}
   // przy braku miejsca najpierw usuwamy najstarsze kopie awaryjne, dopiero potem ostrzegamy
   if (!DB.v) DB.v = SCHEMA;
   cleanDB(DB);
@@ -15641,7 +15948,6 @@ const fwv = it => (it.fw === 'n' ? 400 : 700); // grubość czcionki napisów i 
 const txtOn = c => (['#fdd835', '#ffffff', '#fb8c00'].includes(String(c).toLowerCase()) ? '#202124' : '#fff');
 const allL = () => P.groups.flatMap(g => g.layers.map(l => ({g, l})));
 const findL = id => allL().find(x => x.l.id === id);
-map.on('zoomend', () => setTimeout(fotoMkAll, 0)); // v86: miniatury zdjęć przy zbliżeniu
 const grp = L.layerGroup().addTo(map),
   tmp = L.layerGroup().addTo(map);
 // ---------- geometria na kuli: odległość, azymut, powierzchnia ----------
@@ -15821,7 +16127,7 @@ function openItemPopup(it, latlng) {
       im.alt = _t('zdjęcie ') + (k + 1);
       im.onclick = e => {
         e.stopPropagation();
-        photoView(it, k);
+        P.items.includes(it) ? mapGallery(it, k) : photoView(it, k); // v89: zdjęcia mapy – galeria całej mapy
       };
       im.onerror = () => {
         im.replaceWith(h('span', 'phx', _t('📷 brak podglądu')));
@@ -16079,6 +16385,7 @@ function openItemPopup(it, latlng) {
       _t('Dodaj zdjęcie')
     ),
     IB('move', () => startEdit(it), '', _t('Przesuń (chwyć i przeciągnij)')),
+    IB('link', () => (map.closePopup(), lkShowOn([it])), lkElse(it).length ? 'on' : '', _t('Pokaż też na mapie…')),
     IB(
       'del',
       async () => {
@@ -16088,6 +16395,16 @@ function openItemPopup(it, latlng) {
       _t('Usuń')
     )
   );
+  {
+    // v89: obiekt pokazany też na innych mapach (odnośnik)
+    const lc = lkElse(it);
+    if (lc.length) {
+      const d = h('div', 'lkon');
+      d.innerHTML = ico('link', 14);
+      d.append(h('span', null, _t('Też na: ') + [...new Set(lc.map(c => c.m.name))].join(', ')));
+      body.append(d);
+    }
+  }
   box.append(hd, sub, body, row, ib, sec);
   box.addEventListener('click', e => e.stopPropagation()); // kliknięcia w menu obiektu nie mogą zamykać okna
   pop.setLatLng(latlng).setContent(box).openOn(map);
@@ -16180,7 +16497,7 @@ function render() {
         if (isFotoPin(it)) {
           // v86: dotknięcie = zdjęcie na pełnym ekranie; po przytrzymaniu okienko już się otworzyło
           if (l && l._lp && Date.now() - l._lp < 4000) return void (l._lp = 0);
-          return photoView(it, 0, () => save());
+          return mapGallery(it, 0); // v89: galeria wszystkich zdjęć mapy
         }
         openItemPopup(it, ev.latlng);
       };
@@ -16585,7 +16902,9 @@ const itemAt = it =>
       ? it.p[Math.floor((it.p.length - 1) / 2)]
       : (b => [b.getCenter().lat, b.getCenter().lng])(L.latLngBounds(it.p));
 async function itemDelete(it) {
-  if (!(await askYes(_t('Usunąć ten obiekt') + (it.n ? _t(' razem z komentarzem') : '') + _t('?\n\nTrafi do kosza na 30 dni.'), _t('Usuń'), true))) return false;
+  const how = await lkDelAsk([it], _t('Usunąć ten obiekt') + (it.n ? _t(' razem z komentarzem') : '') + _t('?\n\nTrafi do kosza na 30 dni.'));
+  if (!how) return false;
+  if (how === 'all') lkDelAll([it]);
   trashPut('obj', nameOf(it) || _t('Obiekt'), {items: [it]}, {m: P.id, mn: P.name});
   P.items = P.items.filter(x => x.id !== it.id);
   save();
@@ -16694,6 +17013,100 @@ async function fileText(f) {
   return new TextDecoder().decode(u8);
 }
 // podgląd zdjęć na pełnym ekranie
+// v89: galeria wszystkich zdjęć bieżącej mapy (według czasu zrobienia) – przełączanie, „Pokaż miejsce”
+function mapPhotos() {
+  const out = [];
+  P.items.forEach(it => (it.ph || []).forEach((u, k) => out.push({it, k, u, t: it.cr || 0})));
+  return out.sort((a, b) => a.t - b.t);
+}
+function mapGallery(it0, k0) {
+  const L0 = mapPhotos();
+  if (!L0.length) return;
+  let i = Math.max(0, L0.findIndex(x => x.it === it0 && x.k === (k0 || 0)));
+  const back = h('div', 'phv gal'),
+    img = h('img'),
+    cap = h('div', 'phcap'),
+    strip = h('div', 'phstrip'),
+    bar = h('div', 'phb'),
+    cnt = h('span');
+  const fin = () => back.remove();
+  const AN = autoNameMap();
+  const thumbs = L0.map((x, j) => {
+    const t = fotoImg(x.u);
+    t.onclick = e => {
+      e.stopPropagation();
+      i = j;
+      show();
+    };
+    strip.append(t);
+    return t;
+  });
+  const show = () => {
+    const x = L0[i];
+    img.removeAttribute('src');
+    if (!isLocalPh(x.u) && !phAllowed(x.u)) netAsk(img, x.u);
+    else fotoUrl(x.u).then(u => L0[i] === x && u && (img.src = u));
+    cnt.textContent = i + 1 + ' / ' + L0.length;
+    cap.textContent = (x.it.nm || AN[x.it.id] || _t('Zdjęcie')) + (x.t ? ' · ' + new Date(x.t).toLocaleString(LOC, {day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'}) : '');
+    thumbs.forEach((t, j) => t.classList.toggle('on', j === i));
+    const th = thumbs[i];
+    if (th && th.scrollIntoView) th.scrollIntoView({block: 'nearest', inline: 'center'});
+  };
+  const go = d => {
+    i = (i + d + L0.length) % L0.length;
+    show();
+  };
+  bar.append(
+    B('‹', e => (e.stopPropagation(), go(-1))),
+    cnt,
+    B('›', e => (e.stopPropagation(), go(1))),
+    BI(
+      'pin',
+      _t('Pokaż miejsce'),
+      e => {
+        e.stopPropagation();
+        const x = L0[i];
+        fin();
+        map.closePopup();
+        if (x.it.p && x.it.p[0]) map.setView(x.it.p[0], Math.max(map.getZoom(), 17));
+        const m = LAY[x.it.id];
+        if (m && m.getElement && m.getElement()) {
+          const el = m.getElement();
+          el.classList.add('fpulse');
+          setTimeout(() => el.classList.remove('fpulse'), 2600);
+        }
+      }
+    ),
+    IB(
+      'edit',
+      e => {
+        e.stopPropagation();
+        const x = L0[i];
+        fin();
+        openItemPopup(x.it, L.latLng(x.it.p[0][0], x.it.p[0][1]));
+      },
+      '',
+      _t('Okienko punktu (opis, edycja)')
+    ),
+    IB('x', fin, '', _t('Zamknij'))
+  );
+  // przesunięcie palcem w bok – następne / poprzednie zdjęcie
+  let sx = null;
+  img.addEventListener('touchstart', e => (sx = e.touches[0].clientX), {passive: true});
+  img.addEventListener('touchend', e => {
+    if (sx == null) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    sx = null;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  });
+  img.referrerPolicy = 'no-referrer';
+  img.onclick = e => e.stopPropagation();
+  strip.onclick = e => e.stopPropagation();
+  back.onclick = fin;
+  back.append(cap, img, strip, bar);
+  document.body.append(back);
+  show();
+}
 function photoView(it, k, onChange) {
   // podgląd zdjęć na pełnym ekranie; onChange – zapis zmian dla obiektów spoza map (np. punkt śladu)
   const back = h('div', 'phv'),
@@ -17187,6 +17600,7 @@ function toFeature(it, m, AN) {
   if (it.ra) pr.ocena = it.ra;
   if (it.ph && it.ph.length) pr.zdjecia = it.ph;
   if (it.fv && Object.keys(it.fv).length) pr.pola = it.fv;
+  if (it.lk) pr.odnosnik = it.lk; // v89: ten sam obiekt na kilku mapach
   let g;
   if (it.sz != null) pr.rozmiar = it.sz;
   if (it.t === 'num') pr.numer = it.no;
@@ -17238,6 +17652,7 @@ function fullBackup(vis, only) {
       active: m.active,
       cr: m.cr,
       ...(m.w ? {w: true} : {}),
+      ...(m.trip ? {wycieczka: m.trip} : {}),
       ...(!vis && Array.isArray(m.hide) && m.hide.length ? {ukryte_kategorie: m.hide} : {}),
       groups: m.groups.filter(okG).map(g => ({
         id: g.id,
@@ -17356,6 +17771,7 @@ function buildMap(mm, feats) {
       if (x.n) it.n = String(x.n);
       if (pr.nazwa) it.nm = String(pr.nazwa).slice(0, 200);
       if (pr.pola && typeof pr.pola === 'object' && !Array.isArray(pr.pola)) it.fv = {...pr.pola}; // oczyszcza cleanItem
+      if (pr.odnosnik && k === 0) it.lk = String(pr.odnosnik);
       if (x.t === 'pin' && (t === 'dot' || t === 'num' || t === 'text')) {
         it.t = t;
         delete it.i;
@@ -17379,6 +17795,7 @@ function buildMap(mm, feats) {
     name: mm.name || _t('Przywrócona mapa'),
     cr: mm.cr || Date.now(),
     ...(mm.w ? {w: true} : {}),
+    ...(mm.wycieczka && typeof mm.wycieczka === 'object' ? {trip: mm.wycieczka} : {}),
     ...(Array.isArray(mm.ukryte_kategorie) && mm.ukryte_kategorie.length
       ? {hide: mm.ukryte_kategorie.map(String)}
       : {}),
@@ -18279,6 +18696,7 @@ function sheet() {
       _t(' · ostatnia zmiana: ') +
       whenTxt(up);
   }
+  if (P.trip) tripCard(el); // v89: wycieczka – daty, opis, ślady, relacja
   P.groups.forEach((g, gi) => {
     const box = h('div', 'g');
     if (many) {
@@ -18537,11 +18955,14 @@ function sheet() {
                   rowMenu(b, [
                     ['pin', _t('Pokaż na mapie'), () => focusItem(it)],
                     ['layer', _t('Przenieś do innej warstwy'), () => massMove([it])],
+                    ['link', _t('Pokaż też na mapie…'), () => lkShowOn([it])],
                     [
                       'del',
                       _t('Usuń'),
                       async () => {
-                        if (!(await askYes(_t('Usunąć „') + (nameOf(it) || _t('Obiekt')) + _t('”?\n\nTrafi do kosza na 30 dni.'), _t('Usuń'), true))) return;
+                        const how = await lkDelAsk([it], _t('Usunąć „') + (nameOf(it) || _t('Obiekt')) + _t('”?\n\nTrafi do kosza na 30 dni.'));
+                        if (!how) return;
+                        if (how === 'all') lkDelAll([it]);
                         trashPut('obj', nameOf(it) || _t('Obiekt'), {items: [it]}, {m: P.id, mn: P.name});
                         P.items = P.items.filter(x => x !== it);
                         sv();
@@ -18563,6 +18984,504 @@ function sheet() {
   });
   if (P.plan) planVisitedSec(el, AN);
   el.scrollTop = top;
+}
+// ---------- v89: odnośniki (ten sam obiekt na kilku mapach) i wycieczki ----------
+/*
+ * Odnośnik: obiekt „pokazany też” na innej mapie to jego kopia ze wspólnym polem lk. Każda zmiana (położenie, nazwa,
+ * opis, zdjęcia, ikona…) przy zapisie przechodzi na wszystkie kopie (wygrywa najnowsza – it.up), więc działa to jak
+ * jeden obiekt na wielu mapach, a reszta OMM (rysowanie, filtry, kopie zapasowe) widzi zwykłe obiekty. Warstwa
+ * i oko są osobne na każdej mapie. Usuwanie pyta: tylko z tej mapy / wszędzie. Zdjęcia są wspólne – pamięć zdjęć
+ * liczy odwołania ze wszystkich map (fotoUsed), więc usunięcie z jednej mapy niczego nie kasuje.
+ * Wycieczka (m.trip = {d, d2, ds, trk}): mapa z datą, opisem i odnośnikami do śladów z „Śladów GPS” (bez kopii);
+ * z niej animowana relacja (ten sam silnik co animacja śladu: tripTrack buduje jeden „ślad” z całej wycieczki).
+ */
+const LK_SKIP = new Set(['id', 'l', 'off', 'v', 'lk']);
+function lkCopies(it) {
+  const out = [];
+  if (it && it.lk) DB.maps.forEach(m => m.items.forEach(x => x !== it && x.lk === it.lk && out.push({m, it: x})));
+  return out;
+}
+const lkElse = it => lkCopies(it).filter(c => c.m !== P);
+function lkSync() {
+  // najnowsza wersja obiektu przechodzi na jego kopie na innych mapach
+  if (!P || !P.items.some(i => i.lk)) return;
+  const by = new Map();
+  DB.maps.forEach(m =>
+    m.items.forEach(x => {
+      if (!x.lk) return;
+      if (!by.has(x.lk)) by.set(x.lk, []);
+      by.get(x.lk).push(x);
+    })
+  );
+  by.forEach(list => {
+    if (list.length < 2) return;
+    const top = list.reduce((a, b) => ((b.up || 0) > (a.up || 0) ? b : a));
+    list.forEach(x => {
+      if (x === top || (x.up || 0) === (top.up || 0)) return;
+      Object.keys(x).forEach(k => !LK_SKIP.has(k) && !(k in top) && delete x[k]);
+      Object.keys(top).forEach(k => {
+        if (!LK_SKIP.has(k)) x[k] = top[k] && typeof top[k] === 'object' ? JSON.parse(JSON.stringify(top[k])) : top[k];
+      });
+    });
+  });
+}
+function lkCopyTo(list, dst, lid) {
+  // obiekty z bieżącej (albo innej) mapy pokazane też na mapie dst, w warstwie lid; zwraca liczbę nowych
+  let n = 0;
+  list.forEach(it => {
+    if (!it.lk) it.lk = uid();
+    if (dst.items.some(x => x.lk === it.lk)) return; // już tam jest
+    const c = JSON.parse(JSON.stringify(it));
+    c.id = uid();
+    c.l = lid;
+    delete c.off;
+    delete c.v;
+    dst.items.push(c);
+    n++;
+  });
+  return n;
+}
+function layerSel(m, def) {
+  // lista warstw mapy (+ nowa warstwa) do okien wyboru
+  const s = h('select');
+  m.groups.forEach(g => g.layers.forEach(l => s.add(new Option((m.groups.length > 1 ? g.name + ' › ' : '') + l.name, l.id, false, l.id === (def || m.active)))));
+  s.add(new Option(_t('+ Nowa warstwa'), '+', false, !s.options.length));
+  return s;
+}
+function layerPick(m, v, name) {
+  // wybrana warstwa albo nowa (na początku pierwszej grupy)
+  if (v !== '+' && lookL(m, v)) return v;
+  const l = {id: uid(), name: (name || _t('Warstwa')).slice(0, 200), vis: true, op: 1, open: false};
+  if (!m.groups.length) m.groups.push({id: uid(), name: _t('Grupa 1'), open: true, vis: true, layers: []});
+  m.groups[0].layers.unshift(l);
+  if (!m.active) m.active = l.id;
+  return l.id;
+}
+async function lkShowOn(list) {
+  // „Pokaż też na mapie…” – odnośnik, nie kopia: zmiany widać wszędzie
+  list = list.filter(Boolean);
+  if (!list.length) return;
+  const maps = modeMaps().filter(m => m !== P);
+  if (!maps.length) return tell(_t('Nie ma innej mapy. Utwórz mapę albo wycieczkę w menu map (▾ przy nazwie mapy).'));
+  const last = localStorage.getItem('omm-lk-map'),
+    body = h('div', 'ffrm'),
+    ms = h('select');
+  maps.forEach(m => ms.add(new Option(m.name + (m.trip ? _t(' (wycieczka)') : ''), m.id, false, m.id === last)));
+  let ls = layerSel(maps.find(m => m.id === ms.value));
+  ms.onchange = () => {
+    const n = layerSel(maps.find(m => m.id === ms.value));
+    ls.replaceWith(n);
+    ls = n;
+  };
+  body.append(
+    h('div', 'muted', _t('To nie kopia: obiekt zostaje tu i pojawi się też na wybranej mapie. Zmiana w jednym miejscu (miejsce, opis, zdjęcia) będzie widoczna wszędzie.')),
+    h('label', null, _t('Mapa')),
+    ms,
+    h('label', null, _t('Warstwa')),
+    ls
+  );
+  const v = await formDlg(
+    list.length === 1 ? _t('Pokaż też na mapie') : _t('Pokaż też na mapie (') + list.length + ')',
+    body,
+    [
+      {t: _t('Anuluj'), v: null},
+      {t: _t('Pokaż'), v: 1, c: 'okb'}
+    ]
+  );
+  if (!v) return;
+  const dst = maps.find(m => m.id === ms.value);
+  localStorage.setItem('omm-lk-map', dst.id);
+  const n = lkCopyTo(list, dst, layerPick(dst, ls.value, P.name));
+  save();
+  render();
+  sheetIfOpen();
+  toastMsg(n ? _t('Pokazane też na mapie „') + dst.name + '”: ' + n : _t('To już jest na mapie „') + dst.name + '”');
+}
+async function lkDelAsk(list, q) {
+  // usuwanie obiektów, które są też na innych mapach: null = anuluj, 'here' = tylko z tej mapy, 'all' = wszędzie
+  const nm = [...new Set(list.flatMap(it => lkElse(it).map(c => c.m.name)))];
+  if (!nm.length) return (await askYes(q, _t('Usuń'), true)) ? 'here' : null;
+  return await dlg({
+    title: q + '\n\n' + (list.length === 1 ? _t('Ten obiekt jest też na: ') : _t('Część obiektów jest też na: ')) + nm.slice(0, 5).join(', ') + (nm.length > 5 ? '…' : ''),
+    btns: [
+      {t: _t('Anuluj'), v: null},
+      {t: _t('Tylko z tej mapy'), v: 'here', c: 'okb'},
+      {t: _t('Wszędzie'), v: 'all', c: 'danger'}
+    ]
+  });
+}
+function lkDelAll(list) {
+  // usuń także kopie z innych map (do kosza, osobno dla każdej mapy)
+  list.forEach(it =>
+    lkElse(it).forEach(({m, it: x}) => {
+      trashPut('obj', it.nm || nameOf(it) || _t('Obiekt'), {items: [x]}, {m: m.id, mn: m.name});
+      m.items = m.items.filter(y => y !== x);
+    })
+  );
+}
+// --- wycieczki ---
+const dYmd = ms => {
+  const d = new Date(ms);
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+};
+const dOf = s => new Date(s + 'T12:00:00').getTime();
+function tripDates(m) {
+  const t = m && m.trip;
+  if (!t || !t.d) return '';
+  const o = {day: 'numeric', month: 'long', year: 'numeric'},
+    a = new Date(dOf(t.d)),
+    b = t.d2 && t.d2 !== t.d ? new Date(dOf(t.d2)) : null;
+  if (!b) return a.toLocaleDateString(LOC, o);
+  // ten sam miesiąc: „25–26 października 2026”
+  if (a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth()) return a.getDate() + '–' + b.toLocaleDateString(LOC, o);
+  return a.toLocaleDateString(LOC, {day: 'numeric', month: 'long'}) + ' – ' + b.toLocaleDateString(LOC, o);
+}
+const trkMine = () => {
+  // ślady bieżącego trybu (Prywatny / Praca)
+  const cs = new Set(trkCats().map(c => c.id));
+  return TRK.items.filter(t => {
+    const l = trkLayer(t);
+    return l && cs.has(l.cat);
+  });
+};
+const tripTrks = m =>
+  ((m && m.trip && m.trip.trk) || [])
+    .map(id => TRK.items.find(t => t.id === id))
+    .filter(Boolean)
+    .sort((a, b) => a.st - b.st);
+function tripInRange(m, ms) {
+  // czy chwila mieści się w dniach wycieczki
+  const t = m.trip;
+  if (!t || !t.d) return false;
+  const a = dOf(t.d) - 12 * 3600e3,
+    b = dOf(t.d2 && t.d2 >= t.d ? t.d2 : t.d) + 12 * 3600e3;
+  return ms >= a && ms < b;
+}
+async function tripForm(m) {
+  // nazwa, daty i opis wycieczki (nowej albo istniejącej)
+  const t = (m && m.trip) || {},
+    body = h('div', 'ffrm'),
+    nm = h('input'),
+    d1 = h('input'),
+    d2 = h('input'),
+    ds = h('textarea');
+  nm.value = m ? m.name : _t('Wycieczka');
+  d1.type = d2.type = 'date';
+  d1.value = t.d || dYmd(Date.now());
+  d2.value = t.d2 || '';
+  ds.rows = 4;
+  ds.value = t.ds || '';
+  ds.placeholder = _t('Kilka słów o wycieczce – pojawią się na początku relacji');
+  body.append(h('label', null, _t('Nazwa')), nm, h('label', null, _t('Data')), d1, h('label', null, _t('Do (gdy kilka dni)')), d2, h('label', null, _t('Opis')), ds);
+  const v = await formDlg(m ? _t('Wycieczka') : _t('Nowa wycieczka'), body, [
+    {t: _t('Anuluj'), v: null},
+    {t: m ? _t('Zapisz') : _t('Utwórz'), v: 1, c: 'okb'}
+  ]);
+  if (!v) return null;
+  const a = /^\d{4}-\d\d-\d\d$/.test(d1.value) ? d1.value : dYmd(Date.now()),
+    b = /^\d{4}-\d\d-\d\d$/.test(d2.value) && d2.value > a ? d2.value : '';
+  return {name: (nm.value.trim() || _t('Wycieczka')).slice(0, 200), d: a, d2: b, ds: ds.value.trim().slice(0, 5000)};
+}
+async function tripNew() {
+  const f = await tripForm(null);
+  if (!f) return;
+  const m = freshMap(f.name);
+  if (isW()) m.w = true;
+  m.groups[0].layers[0].name = _t('Wycieczka');
+  m.trip = {d: f.d, d2: f.d2, ds: f.ds, trk: []};
+  DB.maps.push(m);
+  openMap(m.id);
+  // ślady nagrane w dniach wycieczki – od razu propozycja
+  const sug = trkMine().filter(t => tripInRange(m, t.st));
+  if (sug.length && (await askYes(_t('W dniach tej wycieczki masz nagrane ślady: ') + sug.length + _t('.\n\nDodać je do wycieczki? (odnośnik – ślad zostaje w Śladach GPS)'), _t('Dodaj')))) {
+    m.trip.trk = sug.map(t => t.id);
+    save();
+    trkRender();
+    sheet();
+    tripFit(m);
+  }
+}
+async function tripEdit(m) {
+  const f = await tripForm(m);
+  if (!f) return;
+  m.name = f.name;
+  Object.assign(m.trip, {d: f.d, d2: f.d2, ds: f.ds});
+  m.up = Date.now();
+  sv();
+}
+function tripFit(m) {
+  const b = L.latLngBounds([]);
+  tripTrks(m).forEach(t => t.pts.forEach(q => b.extend([q[0], q[1]])));
+  m.items.forEach(it => !it.off && it.p.forEach(q => b.extend(q)));
+  if (b.isValid()) map.fitBounds(b, {maxZoom: 17, padding: [30, 30]});
+}
+async function tripPickTrk(m) {
+  // ślady wycieczki: lista śladów (najpierw z dni wycieczki) z polami wyboru
+  const all = trkMine().sort((a, b) => (tripInRange(m, b.st) - tripInRange(m, a.st)) || b.st - a.st),
+    cur = new Set(m.trip.trk || []);
+  if (!all.length) return tell(_t('Nie masz jeszcze nagranych ani wczytanych śladów (Ślady GPS).'));
+  const body = h('div', 'trpick'),
+    chk = new Map();
+  all.slice(0, 300).forEach(t => {
+    const r = h('label', 'trrow' + (tripInRange(m, t.st) ? ' in' : '')),
+      c = h('input');
+    c.type = 'checkbox';
+    c.checked = cur.has(t.id);
+    chk.set(t, c);
+    const tx = h('span');
+    tx.append(h('b', null, t.nm || _t('Ślad')), h('small', null, fday(t.st) + ' · ' + fkm(trkStatsC(t).d)));
+    r.append(c, tx);
+    body.append(r);
+  });
+  const v = await formDlg(_t('Ślady wycieczki'), body, [
+    {t: _t('Anuluj'), v: null},
+    {t: _t('Gotowe'), v: 1, c: 'okb'}
+  ]);
+  if (!v) return;
+  m.trip.trk = all.filter(t => chk.get(t) && chk.get(t).checked).map(t => t.id).concat([...cur].filter(id => !all.slice(0, 300).some(t => t.id === id)));
+  m.up = Date.now();
+  save();
+  trkRender();
+  sheet();
+  tripFit(m);
+}
+async function tripPickItems(m) {
+  // punkty i zdjęcia z innej mapy → odnośniki na wycieczce
+  const maps = modeMaps().filter(x => x !== m && x.items.length);
+  if (!maps.length) return tell(_t('Na innych mapach nie ma jeszcze obiektów.'));
+  const body = h('div', 'ffrm'),
+    ms = h('select'),
+    box = h('div', 'trpick'),
+    chk = new Map();
+  maps.forEach(x => ms.add(new Option(x.name + ' (' + x.items.length + ')', x.id)));
+  const fill = () => {
+    box.innerHTML = '';
+    chk.clear();
+    const src = maps.find(x => x.id === ms.value),
+      AN = autoNamesOf(src),
+      its = src.items
+        .filter(it => !m.items.some(x => it.lk && x.lk === it.lk))
+        // najpierw z dni wycieczki, potem najnowsze
+        .sort((a, b) => (tripInRange(m, b.cr || 0) - tripInRange(m, a.cr || 0)) || (b.cr || 0) - (a.cr || 0));
+    if (!its.length) box.append(h('div', 'muted', _t('Wszystko z tej mapy już jest na wycieczce.')));
+    its.slice(0, 400).forEach(it => {
+      const r = h('label', 'trrow' + (tripInRange(m, it.cr || 0) ? ' in' : '')),
+        c = h('input'),
+        ic = h('span', 'oi'),
+        tx = h('span');
+      c.type = 'checkbox';
+      chk.set(it, c);
+      ic.innerHTML = glyph(it);
+      tx.append(h('b', null, it.nm || AN[it.id] || _t('Obiekt')), h('small', null, (it.cr ? fday(it.cr) : '') + (it.ph && it.ph.length ? ' · ' + _t('zdjęcie') : '')));
+      r.append(c, ic, tx);
+      box.append(r);
+    });
+  };
+  ms.onchange = fill;
+  fill();
+  body.append(h('div', 'muted', _t('Wybrane obiekty zostają na swojej mapie i pojawią się też na wycieczce (odnośnik, nie kopia). Wyróżnione – z dni wycieczki.')), ms, box);
+  const v = await formDlg(_t('Dodaj z innej mapy'), body, [
+    {t: _t('Anuluj'), v: null},
+    {t: _t('Zaznacz z dni wycieczki'), v: 'day'},
+    {t: _t('Dodaj'), v: 1, c: 'okb'}
+  ]);
+  if (!v) return;
+  let list = [...chk].filter(([, c]) => c.checked).map(([it]) => it);
+  if (v === 'day') list = [...chk.keys()].filter(it => tripInRange(m, it.cr || 0));
+  if (!list.length) return tell(_t('Nic nie zaznaczono.'));
+  const n = lkCopyTo(list, m, layerPick(m, m.active, _t('Wycieczka')));
+  save();
+  render();
+  sheet();
+  toastMsg(_t('Dodano do wycieczki: ') + n);
+}
+async function tripAddTrk(t) {
+  // z okienka śladu: dodaj ślad do wycieczki (albo nowej wycieczki)
+  const trips = modeMaps().filter(m => m.trip);
+  let m = null;
+  if (trips.length) {
+    const body = h('div', 'ffrm'),
+      s = h('select');
+    trips.forEach(x => s.add(new Option(x.name + (x.trip.d ? ' · ' + tripDates(x) : ''), x.id, false, x === P)));
+    s.add(new Option(_t('+ Nowa wycieczka'), '+'));
+    body.append(s);
+    const v = await formDlg(_t('Dodaj ślad do wycieczki'), body, [
+      {t: _t('Anuluj'), v: null},
+      {t: _t('Dodaj'), v: 1, c: 'okb'}
+    ]);
+    if (!v) return;
+    m = trips.find(x => x.id === s.value) || null;
+  }
+  if (!m) {
+    const f = await tripForm(null);
+    if (!f) return;
+    m = freshMap(f.name);
+    if (isW()) m.w = true;
+    m.groups[0].layers[0].name = _t('Wycieczka');
+    m.trip = {d: f.d, d2: f.d2, ds: f.ds, trk: []};
+    DB.maps.push(m);
+  }
+  if (!m.trip.trk.includes(t.id)) m.trip.trk.push(t.id);
+  m.up = Date.now();
+  map.closePopup();
+  TAB = 'mapy';
+  openMap(m.id);
+  trkRender();
+  tripFit(m);
+  toastMsg(_t('Ślad jest na wycieczce „') + m.name + '”');
+}
+function tripCard(el) {
+  // nagłówek wycieczki w panelu mapy: daty, opis, ślady, relacja
+  const m = P,
+    T = m.trip,
+    ts = tripTrks(m),
+    d = ts.reduce((a, t) => a + trkStatsC(t).d, 0),
+    nPh = m.items.filter(it => it.ph && it.ph.length).length,
+    c = h('div', 'trip'),
+    hd = h('div', 'trh');
+  hd.innerHTML = ico('trip', 18);
+  hd.append(h('span', null, tripDates(m) + (d ? ' · ' + fkm(d) : '') + (nPh ? ' · ' + plN(nPh, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) : '')));
+  hd.append(IB('edit', () => tripEdit(m), '', _t('Nazwa, daty i opis wycieczki')));
+  const ds = h('div', 'trd' + (T.ds ? '' : ' muted'), T.ds || _t('Dodaj opis wycieczki…'));
+  ds.onclick = () => tripEdit(m);
+  c.append(hd, ds);
+  ts.forEach(t => {
+    const r = h('div', 'trt'),
+      sw = h('span', 'trsw');
+    sw.style.background = trkColor(t);
+    const nm = B('', () => {
+      $('sheet').style.display = 'none';
+      trkFocus(t);
+    }, 'nm');
+    nm.append(h('span', null, t.nm || _t('Ślad')), h('small', null, ' ' + fday(t.st) + ' · ' + fkm(trkStatsC(t).d)));
+    r.append(
+      sw,
+      nm,
+      IB(
+        'more',
+        b =>
+          rowMenu(b, [
+            ['pin', _t('Pokaż na mapie'), () => (($('sheet').style.display = 'none'), trkFocus(t))],
+            [
+              'x',
+              _t('Usuń z wycieczki'),
+              () => {
+                T.trk = T.trk.filter(id => id !== t.id);
+                m.up = Date.now();
+                save();
+                trkRender();
+                sheet();
+                toastMsg(_t('Ślad zostaje w Śladach GPS – zniknął tylko z wycieczki.'));
+              }
+            ]
+          ]),
+        'more',
+        _t('Opcje śladu')
+      )
+    );
+    c.append(r);
+  });
+  const bt = h('div', 'trb');
+  bt.append(
+    BI('play', _t('Relacja'), () => tripFilm(m), 'okb'),
+    BI(
+      'plus',
+      _t('Dodaj…'),
+      b =>
+        rowMenu(b, [
+          ['route', _t('Ślady z „Śladów GPS”'), () => tripPickTrk(m)],
+          ['photo', _t('Zdjęcia z telefonu'), () => fotoImportPick()],
+          ['link', _t('Punkty i zdjęcia z innej mapy'), () => tripPickItems(m)]
+        ])
+    ),
+    BI('gallery', _t('Zdjęcia'), () => {
+      const ph = mapPhotos();
+      if (!ph.length) return tell(_t('Na tej wycieczce nie ma jeszcze zdjęć.'));
+      mapGallery(ph[0].it, ph[0].k);
+    })
+  );
+  c.append(bt);
+  el.append(c);
+}
+// --- relacja z wycieczki: jeden „ślad” z całej wycieczki + przystanki przy zdjęciach i punktach, plansze dni ---
+function tripTrack(m) {
+  const ts = tripTrks(m).filter(t => !t.noTime && t.pts.length > 1),
+    its = m.items.filter(it => !it.off && okItem(it) && it.t === 'pin' && ((it.ph && it.ph.length) || it.n || it.nm)),
+    pts = [],
+    sg = [];
+  let st;
+  if (ts.length) {
+    st = ts[0].st;
+    ts.forEach(t => {
+      const off = (t.st - st) / 1000,
+        S = new Set(t.sg || []);
+      if (pts.length) sg.push(pts.length);
+      t.pts.forEach((q, i) => {
+        if (i && S.has(i)) sg.push(pts.length);
+        pts.push([q[0], q[1], q[2] == null ? null : q[2], off + q[3]]);
+      });
+    });
+  } else {
+    // wycieczka bez śladu: trasa z miejsc zdjęć i punktów w kolejności czasu
+    const pl = its.filter(it => it.cr).sort((a, b) => a.cr - b.cr);
+    if (pl.length < 2) return null;
+    st = pl[0].cr;
+    pl.forEach((it, i) => pts.push([it.p[0][0], it.p[0][1], null, Math.max((it.cr - st) / 1000, i ? pts[i - 1][3] + 1 : 0)]));
+  }
+  const acts = [...new Set(ts.map(t => t.a))],
+    T = {id: 'trip-' + m.id, nm: m.name, st, pts, sg, up: Date.now(), c: ts.length ? trkColor(ts[0]) : '#2f4d66', wp: []};
+  if (acts.length === 1 && acts[0]) T.a = acts[0];
+  const s = trkStatsC(T),
+    D = s.d || 1,
+    abs = i => st + pts[i][3] * 1000,
+    stops = [];
+  its.forEach(it => {
+    // miejsce w relacji: chwila zrobienia na śladzie (do 15 min), inaczej najbliższy punkt trasy (do 1 km)
+    let k = -1,
+      best = Infinity;
+    if (it.cr && ts.length)
+      pts.forEach((q, i) => {
+        const dt = Math.abs(abs(i) - it.cr);
+        if (dt < best) (best = dt), (k = i);
+      });
+    if (!(best <= 15 * 60e3)) {
+      best = Infinity;
+      pts.forEach((q, i) => {
+        const dd = hav(q, it.p[0]);
+        if (dd < best) (best = dd), (k = i);
+      });
+      if (best > 1000) return;
+    }
+    stops.push({w: it, at: s.cum[k] / D, o: 1, tm: it.cr || abs(k)});
+  });
+  // plansze kolejnych dni
+  let day = dYmd(abs(0)),
+    nd = 1;
+  for (let i = 1; i < pts.length; i++) {
+    const dd = dYmd(abs(i));
+    if (dd !== day) {
+      day = dd;
+      nd++;
+      stops.push({w: {day: nd, dt: abs(i)}, at: s.cum[i] / D, o: 0, tm: abs(i)});
+    }
+  }
+  stops.sort((a, b) => a.at - b.at || a.o - b.o || a.tm - b.tm);
+  const nPh = its.filter(it => it.ph && it.ph.length).length,
+    n = (x, kk) => x.toFixed(kk).replace('.', DEC),
+    tiles = [];
+  if (ts.length) tiles.push(fkm(s.d).split(' ').concat(_t('Dystans')), [fdur(s.mov), '', _t('Czas w ruchu')]);
+  if (ts.length && s.vmov) tiles.push([n(spd(s.vmov), 1), UL, _t('Śr. prędkość w ruchu')]);
+  if (s.emin != null) tiles.push([String(Math.round(elv(s.up))), UE, _t('Podejście')]);
+  if (nPh) tiles.push([String(nPh), '', _t('Zdjęcia')]);
+  if (its.length - nPh) tiles.push([String(its.length - nPh), '', _t('Punkty')]);
+  if (nd > 1) tiles.push([String(nd), '', _t('Dni')]);
+  T.trip = {plan: {s, D, stops, trip: true}, dates: tripDates(m), ds: m.trip.ds || '', tiles, days: nd, hasTrk: ts.length > 0};
+  return T;
+}
+function tripFilm(m) {
+  const T = tripTrack(m);
+  if (!T) return tell(_t('Do relacji potrzebny jest ślad wycieczki albo co najmniej dwa zdjęcia / punkty z datą.\n\nDodaj ślad (Dodaj… → Ślady) albo zdjęcia z telefonu.'));
+  trkAnim(T);
 }
 // ---------- zakładka „Planowanie” (v59) ----------
 /*
@@ -18856,7 +19775,7 @@ $('mapb').onclick = () => {
   modeMaps().forEach(mm =>
     m.append(
       B(
-        (mm.id === P.id ? '● ' : '○ ') + mm.name + '  (' + mm.items.length + ')',
+        (mm.id === P.id ? '● ' : '○ ') + mm.name + (mm.trip ? ' · ' + _t('wycieczka') : '') + '  (' + mm.items.length + ')',
         () => {
           m.style.display = 'none';
           if (mm.id !== P.id) openMap(mm.id);
@@ -18870,6 +19789,12 @@ $('mapb').onclick = () => {
     BI('edit', _t('Zmień nazwę tej mapy'), () => {
       m.style.display = 'none';
       ren(P, _t('Nazwa mapy:'));
+    })
+  );
+  m.append(
+    BI('trip', _t('Nowa wycieczka'), () => {
+      m.style.display = 'none';
+      tripNew();
     })
   );
   m.append(
@@ -18972,6 +19897,11 @@ $('selnm').onclick = () => {
   if (!l.length) return tell(_t('Najpierw zaznacz obiekty na liście.'));
   massUnify(l);
 };
+$('sellk').onclick = () => {
+  const l = selItems();
+  if (!l.length) return tell(_t('Najpierw zaznacz obiekty na liście.'));
+  lkShowOn(l);
+};
 $('fltb').onclick = () => filterDlg();
 $('selic').onclick = () => {
   const l = selItems();
@@ -18981,14 +19911,16 @@ $('selic').onclick = () => {
 $('seldel').onclick = async () => {
   const l = selItems();
   if (!l.length) return tell(_t('Najpierw zaznacz obiekty na liście.'));
-  if (!(await askYes(_t('Usunąć ') + l.length + _t(' zaznaczonych obiektów?\n\nTrafią do kosza na 30 dni.'), _t('Usuń'), true))) return;
+  const how = await lkDelAsk(l, _t('Usunąć ') + l.length + _t(' zaznaczonych obiektów?\n\nTrafią do kosza na 30 dni.'));
+  if (!how) return;
+  if (how === 'all') lkDelAll(l);
   trashPut('obj', l.length === 1 ? nameOf(l[0]) || _t('Obiekt') : l.length + _t(' obiektów'), {items: l}, {m: P.id, mn: P.name});
   P.items = P.items.filter(i => !SEL.has(i.id));
   SEL.clear();
   sv();
 };
 // v81: każda akcja z paska zaznaczania „uzbraja” wyjście z trybu – gdy coś się zmieni, sheet() kończy zaznaczanie
-['selmv', 'selnm', 'selic', 'seldel'].forEach(id => $(id).addEventListener('click', () => (SEL_ARM = selSig()), true));
+['selmv', 'selnm', 'selic', 'sellk', 'seldel'].forEach(id => $(id).addEventListener('click', () => (SEL_ARM = selSig()), true));
 // tryb prywatny / praca – osobne listy map
 function updMode() {
   const ib = document.querySelector('[data-g="icons"]');
@@ -21034,9 +21966,10 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Mapa jedzie za Tobą: strzałka jest w dolnej części ekranu, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. Przy trasie po drogach u góry jest panel manewru (duża strzałka, odległość, polecenie); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo „Wyśrodkuj”. Na pasku prowadzenia: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), <b>po drogach</b> (trasa od miejsca, w którym jesteś, polecenia skrętów głosem) i 💡 <b>ekran nie gaśnie</b>. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). Na pasku: czas do celu, odległość i godzina przyjazdu („na miejscu 16:42”). Samochodem i rowerem po zjechaniu z trasy OMM mówi „Przeliczam trasę” i prowadzi nową; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”.</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. W marszu proste odcinki drogi prostuje (GPS pieszo „pływa” po kilka metrów na boki), a narożniki ustawia na przecięciu prostych. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, <b>Dopasuj do ścieżek</b> (w okienku śladu: ślad jest jednorazowo wysyłany do serwera tras i dosuwany do dróg i ścieżek z mapy tylko tam, gdzie leży blisko nich – po lesie bez ścieżek zostaje bez zmian; można cofnąć), import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
+<li><b>Wycieczki</b> – menu map (▾ przy nazwie) → <b>Nowa wycieczka</b>: nazwa, daty i opis. Na wycieczce są ślady z „Śladów GPS” (odnośnik – ślad zostaje na swoim miejscu; „Do wycieczki…” w okienku śladu), zdjęcia z telefonu (położone według śladu, gdy aparat zapisał złe miejsce) oraz punkty i zdjęcia z innych map. <b>Relacja</b> odtwarza animowaną opowieść: plansza tytułowa, rysująca się trasa, zdjęcia na cały ekran z powolnym najazdem i podpisem, plansze „Dzień 2” i podsumowanie – zapiszesz ją jako film jak animację śladu. <b>Pokaż też na mapie…</b> (⋮ przy obiekcie, okienko punktu albo pasek zaznaczania) daje ten sam obiekt na innej mapie: to nie kopia, więc zmiany widać wszędzie; usuwanie pyta „tylko z tej mapy / wszędzie”. Dotknięcie dowolnego zdjęcia otwiera galerię wszystkich zdjęć mapy („Pokaż miejsce” prowadzi tam, gdzie je zrobiono).</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
 <li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami.</li>
@@ -21085,9 +22018,10 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). The map follows you: your arrow sits in the lower part of the screen, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. With a road route a manoeuvre panel is shown at the top (big arrow, distance, instruction); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap “Re-centre”. On the navigation bar: <b>whole route</b>, <b>compass</b> (direction of travel / north up), <b>along roads</b> (a route from where you are, spoken turn instructions) and 💡 <b>keep the screen on</b>. Settings → Navigation: map orientation and zoom (closer / normal / farther). The bar shows the time to the destination, the distance and the arrival time. By car and bike, when you leave the route OMM says “Re-routing” and guides you along a new one; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”.</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. When walking it straightens straight stretches of the way (GPS on foot drifts a few metres sideways) and puts corners where the lines meet. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, <b>Match to paths</b> (in the track window: the track is sent once to the routing server and moved onto map roads and paths only where it lies close to them – off-path sections stay unchanged; can be undone), import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
+<li><b>Trips</b> – map menu (▾ next to the name) → <b>New trip</b>: name, dates and description. A trip shows tracks from “GPS tracks” (a link – the track stays where it was; “To trip…” in the track window), photos from the phone (placed by the track when the camera saved a wrong location) and points or photos from other maps. <b>Story</b> plays an animated account: title card, the route drawing itself, full-screen photos with a slow zoom and captions, “Day 2” cards and a summary – it can be saved as a video like the track animation. <b>Also show on map…</b> (⋮ of an object, the point window or the selection bar) puts the same object on another map: not a copy, so changes show everywhere; deleting asks “only from this map / everywhere”. Tapping any photo opens the gallery of all photos of the map (“Show place” goes to where it was taken).</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles.</li>
@@ -24956,6 +25890,7 @@ function trkRefCheck() {
   const ids = new Set(P.items.map(i => i.id)),
     k = [
       P.id,
+      ...((P.trip && P.trip.trk) || []),
       ...TRK.items.flatMap(t => (t.wp || []).filter(w => w.ref && ids.has(w.ref)).map(w => w.ref))
     ].join(',');
   if (k !== trkRefKey) trkRender();
@@ -24966,13 +25901,15 @@ function trkRender() {
   const ids = new Set(P.items.map(i => i.id));
   trkRefKey = [
     P.id,
+    ...((P.trip && P.trip.trk) || []),
     ...TRK.items.flatMap(t => (t.wp || []).filter(w => w.ref && ids.has(w.ref)).map(w => w.ref))
   ].join(',');
   trkGrp.clearLayers();
   const cv = new Set(trkCats().filter(c => c.vis !== false).map(c => c.id)); // widoczne kategorie bieżącego trybu
   TRK.items.forEach(t => {
-    const l = trkLayer(t);
-    if (!l || !l.vis || t.vis === false || !cv.has(l.cat)) return;
+    const l = trkLayer(t),
+      inTrip = P && P.trip && (P.trip.trk || []).includes(t.id); // v89: ślady wycieczki widać na jej mapie zawsze
+    if (!l || (!inTrip && (!l.vis || t.vis === false || !cv.has(l.cat)))) return;
     const c = trkColor(t),
       ls = trkSegs(t)
         .filter(s => s.length > 1)
@@ -25577,7 +26514,8 @@ function trkPopup(t, ll) {
     BI('stats', _t('Statystyki'), act(() => trkStatsDlg(t))),
     BI('nav', _t('Prowadź'), act(() => trkNavAsk(t)), '', _t('Prowadź po śladzie')),
     B((t.a ? ACTS[t.a][0] : '🏷') + ' ' + (t.a ? ACTS[t.a][1] : _t('Rodzaj')), act(() => trkSetAct([t])), '', _t('Rodzaj aktywności')),
-    ...((t.wp || []).length ? [BI('pin', _t('Punkty na mapę…'), act(() => trkWpToMap(t)))] : [])
+    ...((t.wp || []).length ? [BI('pin', _t('Punkty na mapę…'), act(() => trkWpToMap(t)))] : []),
+    BI('trip', _t('Do wycieczki…'), act(() => tripAddTrk(t)), '', _t('Dodaj ślad do wycieczki (odnośnik – ślad zostaje tutaj)'))
   );
   // belka ikon: udostępnij · ukryj · podziel · dorysuj · usuń
   const ib = h('div', 'tib');
@@ -27416,6 +28354,7 @@ var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, 
   ['selmv', 'layer', _t('Przenieś do innej warstwy'), _t('Przenieś')],
   ['selic', 'pin', _t('Zmień ikonę'), _t('Ikona')],
   ['selnm', 'edit', _t('Ujednolić nazwy (nazwa = rodzaj ikony)'), _t('Nazwy')],
+  ['sellk', 'link', _t('Pokaż też na innej mapie (odnośnik)'), _t('Też na…')],
   ['seldel', 'del', _t('Usuń'), _t('Usuń')],
   ['selx', 'check', _t('Gotowe – zakończ zaznaczanie'), _t('Gotowe')]
 ].forEach(([id, k, t, s]) => {
@@ -28095,6 +29034,8 @@ function trkProcess(rows, opt = {}) {
     st.push(pts[i]);
     i++;
   }
+  // v89: marsz – proste odcinki drogi prostujemy (linie dopasowane do pomiarów, narożniki na przecięciach)
+  if (opt.plf !== false) trkStraight(st);
   // gęstość zapisu jak dotąd: dokładne co ≥ 2 s i ≥ 3 m, oszczędne co ≥ 5 s i ≥ 8 m
   const dmin = opt.eco ? 8 : 3,
     tmin = opt.eco ? 5 : 2,
@@ -28146,6 +29087,104 @@ function trkProcess(rows, opt = {}) {
     .filter((p, k) => mark[k])
     .map(p => [+(la0 + p.y / MY).toFixed(6), +(lo0 + p.x / MX).toFixed(6), p.a == null || !isFinite(p.a) ? null : Math.round(p.a * 10) / 10, Math.max(0, Math.round(p.t))]);
 }
+// v89: prostowanie marszu. GPS w marszu „pływa” ±5–7 m na boki, a chodniki i ścieżki to zwykle odcinki prostych.
+// Fragment marszu (bez postojów i przerw) dzielimy rekurencyjnie na kawałki ≥ 40 m, które mieszczą się w pasie ±7 m
+// wokół prostej; punkty rzutujemy na prostą, a styk dwóch prostych ustawiamy na ich przecięciu (narożnik), jeśli jest blisko.
+// Kawałki, które nie dają się ująć prostą (łuki krótsze niż 2×40 m, kręte ścieżki), zostają bez zmian.
+const PLF_T = 7,
+  PLF_MIN = 40;
+function plfFit(P, a, b) {
+  let mx = 0,
+    my = 0;
+  const n = b - a + 1;
+  for (let k = a; k <= b; k++) (mx += P[k].x), (my += P[k].y);
+  mx /= n;
+  my /= n;
+  let sxx = 0,
+    syy = 0,
+    sxy = 0;
+  for (let k = a; k <= b; k++) {
+    const dx = P[k].x - mx,
+      dy = P[k].y - my;
+    sxx += dx * dx;
+    syy += dy * dy;
+    sxy += dx * dy;
+  }
+  const th = 0.5 * Math.atan2(2 * sxy, sxx - syy),
+    L = {mx, my, dx: Math.cos(th), dy: Math.sin(th), md: 0, mi: a};
+  for (let k = a; k <= b; k++) {
+    const r = Math.abs(-(P[k].x - mx) * L.dy + (P[k].y - my) * L.dx);
+    if (r > L.md) (L.md = r), (L.mi = k);
+  }
+  return L;
+}
+function plfRun(P) {
+  const n = P.length,
+    cum = new Float64Array(n);
+  for (let k = 1; k < n; k++) cum[k] = cum[k - 1] + Math.hypot(P[k].x - P[k - 1].x, P[k].y - P[k - 1].y);
+  if (cum[n - 1] < 2 * PLF_MIN) return;
+  const S = []; // [a, b, linia | null]
+  const seg = (a, b) => {
+    if (b - a < 3) return S.push([a, b, null]);
+    const L = plfFit(P, a, b);
+    if (L.md <= PLF_T && cum[b] - cum[a] >= PLF_MIN) return S.push([a, b, L]);
+    if (cum[b] - cum[a] < 2 * PLF_MIN) return S.push([a, b, null]);
+    // podział w punkcie najdalszym od prostej, ale tak, żeby obie części miały ≥ 40 m
+    let k = L.mi;
+    while (k < b && cum[k] - cum[a] < PLF_MIN) k++;
+    while (k > a && cum[b] - cum[k] < PLF_MIN) k--;
+    if (k <= a + 1 || k >= b - 1) return S.push([a, b, null]);
+    seg(a, k);
+    seg(k, b);
+  };
+  seg(0, n - 1);
+  const pr = (L, p) => {
+    const t = (p.x - L.mx) * L.dx + (p.y - L.my) * L.dy;
+    return [L.mx + t * L.dx, L.my + t * L.dy];
+  };
+  const Q = P.map(p => [p.x, p.y]);
+  S.forEach(([a, b, L]) => {
+    if (L) for (let k = a; k <= b; k++) Q[k] = pr(L, P[k]);
+  });
+  // styki prostych: przecięcie (narożnik), gdy leży blisko pomiaru; inaczej środek rzutów
+  for (let i = 0; i < S.length - 1; i++) {
+    const L1 = S[i][2],
+      L2 = S[i + 1][2],
+      j = S[i][1],
+      p = P[j];
+    if (!L1 || !L2) {
+      if (L1 || L2) Q[j] = [p.x, p.y]; // styk z fragmentem krętym zostaje w miejscu pomiaru
+      continue;
+    }
+    const den = L1.dx * L2.dy - L1.dy * L2.dx;
+    if (Math.abs(den) > 0.17) {
+      const t = ((L2.mx - L1.mx) * L2.dy - (L2.my - L1.my) * L2.dx) / den,
+        q = [L1.mx + t * L1.dx, L1.my + t * L1.dy];
+      if (Math.hypot(q[0] - p.x, q[1] - p.y) < 2 * PLF_T) {
+        Q[j] = q;
+        continue;
+      }
+    }
+    const u = pr(L1, p),
+      w = pr(L2, p);
+    Q[j] = [(u[0] + w[0]) / 2, (u[1] + w[1]) / 2];
+  }
+  P.forEach((p, k) => ((p.x = Q[k][0]), (p.y = Q[k][1])));
+}
+function trkStraight(st) {
+  // fragmenty marszu: kolejne punkty bez przerwy w pomiarach i bez postoju, prędkość < 2,5 m/s
+  let i = 0;
+  while (i < st.length) {
+    if (st[i].stop || st[i].v >= 2.5) {
+      i++;
+      continue;
+    }
+    let j = i;
+    while (j + 1 < st.length && !st[j + 1].cut && !st[j + 1].stop && st[j + 1].v < 2.5) j++;
+    if (j - i >= 6) plfRun(st.slice(i, j + 1));
+    i = j + 1;
+  }
+}
 function recRows() {
   // surowe pomiary bieżącego nagrania bez czasu „auto zaparkowane” (pauza z wyboru w Ustawieniach)
   const pk = (REC && REC.pk) || [];
@@ -28184,7 +29223,7 @@ function trkProcessSg(oldPts, sg, newPts) {
 }
 // v73: wersja sposobu liczenia śladu po „Stop”. Gdy w nowej wersji OMM zmieni się to liczenie, podbijamy TRK_ALG –
 // wtedy OMM raz zapyta, czy przeliczyć ślady nagrane od v70 (mają surowe pomiary). Przycisk w okienku śladu zniknął.
-const TRK_ALG = 5; // v88: marsz – mocniejsze wygładzanie, postoje z krótkich przerw w zapisie; v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
+const TRK_ALG = 6; // v89: marsz – proste odcinki prostowane (linie i narożniki); v88: marsz – mocniejsze wygładzanie, postoje z krótkich przerw w zapisie; v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
 async function trkRecalcCore(t) {
   // przeliczenie jednego śladu z surowych pomiarów; zwraca {old} albo null (nie da się)
   if (!t.rid || t.mm || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby; dopasowany do ścieżek zostaje
@@ -29851,7 +30890,9 @@ async function fotoImport(files) {
   const added = [],
     fromTrk = [],
     noLoc = [],
-    bad = [];
+    bad = [],
+    far = [], // v89: [punkt, położenie na śladzie] – aparat zapisał miejsce daleko od nagranego śladu
+    dup = [];
   for (let i = 0; i < files.length; i++) {
     const f = files[i];
     info.style.display = 'block';
@@ -29867,6 +30908,12 @@ async function fotoImport(files) {
         noLoc.push(f.name);
         continue;
       }
+      // v89: to samo zdjęcie (ta sama chwila i miejsce) już jest na tej mapie – bez dubla
+      if (ex.time && P.items.some(x => x.i === 'o:foto' && x.cr === ex.time && x.p && x.p[0] && hav(x.p[0], ll) < 2)) {
+        dup.push(f.name);
+        continue;
+      }
+      const tl = ex.time && !fromTrk.includes(f.name) ? trkAtTime(ex.time) : null;
       const ref = await fotoPut(await fotoResize(f), fotoName(ex.time || f.lastModified));
       const it = {
         id: uid(),
@@ -29882,11 +30929,32 @@ async function fotoImport(files) {
       };
       P.items.push(it);
       added.push(it);
+      if (tl && hav(tl, ll) > 40) far.push([it, tl, hav(tl, ll)]);
     } catch (e) {
       bad.push(f.name + ' (' + e.message + ')');
     }
   }
   info.style.display = 'none';
+  if (far.length) {
+    // v89: aparat telefonu potrafi zapisać stare albo niedokładne miejsce – w chwili zdjęcia nagrywałeś ślad
+    const avg = Math.round(far.reduce((a, x) => a + x[2], 0) / far.length),
+      v = await dlg({
+        title:
+          plN(far.length, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) +
+          _t(' ma zapisane miejsce daleko od Twojego śladu nagranego w chwili zrobienia zdjęcia (średnio ') +
+          fm(avg) +
+          _t(').\n\nAparat telefonu często zapisuje stare albo niedokładne miejsce. Ustawić te zdjęcia według śladu?'),
+        btns: [
+          {t: _t('Według śladu'), v: 'trk', c: 'okb'},
+          {t: _t('Zostaw z aparatu'), v: null}
+        ]
+      });
+    if (v === 'trk')
+      far.forEach(([it, tl]) => {
+        it.pc = it.p[0]; // miejsce z aparatu – na wszelki wypadek
+        it.p = [tl];
+      });
+  }
   unhideCat('o:foto');
   const fl = findL(lid);
   if (fl) fl.l.vis = fl.g.vis = true;
@@ -29906,6 +30974,7 @@ async function fotoImport(files) {
           fromTrk.length +
           _t(' bez lokalizacji umieszczono na nagranym śladzie według godziny zrobienia.')
         : '') +
+      (dup.length ? '\n\n' + dup.length + _t(' już było na tej mapie – pominięte (bez dubli).') : '') +
       (noLoc.length
         ? _t('\n\nBez lokalizacji (pominięte): ') +
           noLoc.length +
@@ -29927,7 +30996,8 @@ async function fotoImport(files) {
 const ANIM_SEC = 20, // czas rysowania całego śladu przy prędkości 1× (s)
   ANIM_PHOTO = 2800, // jak długo widać zdjęcie (ms, przy 1×)
   ANIM_IN = 2800, // wstęp: cała trasa + tytuł, potem zbliżenie na start (ms)
-  ANIM_OUT = 4800; // zakończenie: oddalenie + podsumowanie (ms)
+  ANIM_OUT = 4800, // zakończenie: oddalenie + podsumowanie (ms)
+  ANIM_TRIPIN = 1800; // v89: relacja z wycieczki – dłuższa plansza tytułowa (opis)
 const FILM_FMT = {pion: [9, 16, _t('Pion 9:16')], kwadrat: [1, 1, _t('Kwadrat 1:1')], poziom: [16, 9, _t('Poziom 16:9')]},
   ANIM_SPEEDS = [0.5, 1, 2, 4];
 const filmSize = (fmt, q) => {
@@ -29938,6 +31008,7 @@ const filmSize = (fmt, q) => {
 const easeIO = x => (x <= 0 ? 0 : x >= 1 ? 1 : x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
 const animPref = (k, d) => localStorage.getItem('omm-anim-' + k) || d;
 function animPlan(t) {
+  if (t.trip) return t.trip.plan; // v89: relacja z wycieczki – plan gotowy (tripTrack)
   wpSyncAll();
   // kolejne położenia wzdłuż dystansu i chwile, w których pokazujemy zdjęcia/opisy
   const s = trkStatsC(t),
@@ -29973,17 +31044,19 @@ function animAt(t, s, frac) {
 }
 function animTimeline(plan, speed) {
   // oś czasu (ms): wstęp → rysowanie (z przerwami na zdjęcia) → zakończenie
-  const Dd = (ANIM_SEC * 1000) / speed,
-    Ph = ANIM_PHOTO / Math.sqrt(speed),
-    segs = [{k: 'in', t0: 0, d: ANIM_IN}];
-  let tt = ANIM_IN,
+  const Dd = (ANIM_SEC * 1000 * (plan.trip ? 1.5 : 1)) / speed,
+    Ph = (ANIM_PHOTO * (plan.trip ? 1.45 : 1)) / Math.sqrt(speed),
+    IN = ANIM_IN + (plan.trip ? ANIM_TRIPIN : 0), // v89: relacja – dłużej plansza tytułowa z opisem
+    segs = [{k: 'in', t0: 0, d: IN}];
+  let tt = IN,
     f0 = 0;
   plan.stops.forEach(st => {
     if (st.at > f0) segs.push({k: 'draw', t0: tt, d: (st.at - f0) * Dd, f0, f1: st.at});
     tt += Math.max(0, st.at - f0) * Dd;
     f0 = Math.max(f0, st.at);
-    segs.push({k: 'photo', t0: tt, d: Ph, f0, w: st.w});
-    tt += Ph;
+    const d = st.w.day ? 2200 / Math.sqrt(speed) : Ph; // v89: plansza „Dzień N”
+    segs.push({k: 'photo', t0: tt, d, f0, w: st.w});
+    tt += d;
   });
   if (f0 < 1) segs.push({k: 'draw', t0: tt, d: (1 - f0) * Dd, f0, f1: 1});
   tt += (1 - f0) * Dd;
@@ -30012,6 +31085,8 @@ async function filmEngine(t, W, H, prog) {
     k = Math.min(W, H) / 720, // skala napisów i grubości linii
     hasE = s.emin != null,
     TOP = Math.round(132 * k),
+    TR = t.trip || null, // v89: relacja z wycieczki
+    TIN = TR ? ANIM_TRIPIN : 0,
     BOT = Math.round((hasE ? 176 : 104) * k),
     mode = trkModeOf(t),
     grd = mode !== 'jedn' ? trkGrad(t, mode) : null,
@@ -30120,7 +31195,7 @@ async function filmEngine(t, W, H, prog) {
   function frame(st) {
     // kamera wg fazy
     let cam;
-    if (st.k === 'in') cam = st.ms < 1600 ? camO : mixCam(camO, followAt(0), (st.ms - 1600) / 1200);
+    if (st.k === 'in') cam = st.ms < 1600 + TIN ? camO : mixCam(camO, followAt(0), (st.ms - 1600 - TIN) / 1200);
     else if (st.k === 'out') cam = mixCam(followAt(1), camO, st.ms / 1400);
     else cam = followAt(st.frac);
     const v = clampCam(cam),
@@ -30227,7 +31302,7 @@ async function filmEngine(t, W, H, prog) {
     cx.fillText((t.nm || _t('Ślad')).slice(0, Math.floor(W / (17 * k))), 36 * k, 60 * k);
     cx.font = F('400', 21);
     cx.fillStyle = '#5f6368';
-    cx.fillText((t.a ? ACTS[t.a][0] + ' ' + ACTS[t.a][1] + ' · ' : '') + fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)), 36 * k, 94 * k);
+    cx.fillText(TR ? TR.dates || fday(t.st) : (t.a ? ACTS[t.a][0] + ' ' + ACTS[t.a][1] + ' · ' : '') + fday(t.st) + (t.noTime ? '' : ', ' + fhm(t.st)), 36 * k, 94 * k);
     cx.textAlign = 'right';
     cx.font = F('600', 15);
     cx.fillStyle = '#8a7a6a';
@@ -30241,9 +31316,17 @@ async function filmEngine(t, W, H, prog) {
     cx.fillStyle = 'rgba(255,255,255,.95)';
     rr(16 * k, y0b, W - 32 * k, BOT - 22 * k, 20 * k);
     cx.fill();
-    const cells = [
-        [_t('Dystans'), fkm(dd)],
-        [_t('Czas'), t.noTime ? '—' : fdur(fin ? s.dur : a.sec)],
+    const now = t.st + (fin ? t.pts[n - 1][3] : a.sec) * 1000,
+      dayN = Math.round((new Date(now).setHours(12, 0, 0, 0) - new Date(t.st).setHours(12, 0, 0, 0)) / 864e5) + 1,
+      cells = [
+        ...(TR && !TR.hasTrk ? [] : [[_t('Dystans'), fkm(dd)]]),
+        TR
+          ? fin
+            ? TR.hasTrk
+              ? [_t('Czas w ruchu'), fdur(s.mov)]
+              : [_t('Dni'), String(TR.days)]
+            : [TR.days > 1 ? _t('Dzień ') + dayN : _t('Godzina'), fhm(now)]
+          : [_t('Czas'), t.noTime ? '—' : fdur(fin ? s.dur : a.sec)],
         [fin ? _t('Śr. w ruchu') : _t('Prędkość'), vNow ? fkmh(vNow) : '—'],
         ...(hasE ? [[fin ? _t('↗ Podejście') : _t('Wysokość'), fin ? fel(s.up) : eNow != null ? fel(eNow) : '—']] : [])
       ],
@@ -30293,8 +31376,10 @@ async function filmEngine(t, W, H, prog) {
         cx.stroke();
       }
     }
+    // --- v89: relacja – zdjęcie na cały ekran z powolnym najazdem, plansza „Dzień N”
+    if (st.k === 'photo' && TR) tripFrame(st);
     // --- zdjęcie z trasy: płynne pojawienie się i lekkie przybliżenie
-    if (st.k === 'photo') {
+    else if (st.k === 'photo') {
       const al = Math.min(1, st.u * 7, (1 - st.u) * 7),
         im = imgs.get(st.w),
         sc = 0.94 + 0.08 * easeIO(st.u);
@@ -30336,7 +31421,8 @@ async function filmEngine(t, W, H, prog) {
       cx.restore();
     }
     // --- plansza tytułowa (wstęp)
-    if (st.k === 'in' && st.ms < 2100) {
+    if (st.k === 'in' && TR && st.ms < 2100 + TIN) tripTitle(st);
+    else if (st.k === 'in' && st.ms < 2100) {
       const al = Math.min(1, st.ms / 300, (2100 - st.ms) / 400);
       cx.save();
       cx.globalAlpha = Math.max(0, al);
@@ -30361,7 +31447,7 @@ async function filmEngine(t, W, H, prog) {
     // --- podsumowanie (koniec): kafelki statystyk
     if (st.k === 'out' && st.ms > 1400) {
       const al = Math.min(1, (st.ms - 1400) / 450),
-        tl = tiles.slice(0, 8),
+        tl = (TR ? TR.tiles : tiles).slice(0, 8),
         cols = W > H ? 4 : 2,
         rows = Math.ceil(tl.length / cols),
         th = 92 * k,
@@ -30388,6 +31474,133 @@ async function filmEngine(t, W, H, prog) {
       cx.restore();
     }
     cx.textAlign = 'start';
+  }
+  const wrap = (txt, maxW, lines) => {
+    // tekst w kilku liniach (ostatnia z „…”, gdy się nie mieści)
+    const out = [];
+    let cur = '';
+    for (const wd of String(txt || '').replace(/\s+/g, ' ').trim().split(' ')) {
+      const nx = cur ? cur + ' ' + wd : wd;
+      if (cx.measureText(nx).width <= maxW || !cur) cur = nx;
+      else {
+        out.push(cur);
+        cur = wd;
+        if (out.length === lines) break;
+      }
+    }
+    if (out.length < lines && cur) out.push(cur);
+    else if (out.length === lines && cur) {
+      let l = out[lines - 1];
+      while (l.length > 1 && cx.measureText(l + '…').width > maxW) l = l.slice(0, -1);
+      out[lines - 1] = l + '…';
+    }
+    return out;
+  };
+  function tripTitle(st) {
+    // plansza tytułowa relacji: nazwa, daty, opis, liczby
+    const al = Math.max(0, Math.min(1, st.ms / 300, (2100 + TIN - st.ms) / 400)),
+      bw = W - 100 * k,
+      x0 = 50 * k;
+    cx.save();
+    cx.globalAlpha = al;
+    cx.font = F('400', 22);
+    const dl = TR.ds ? wrap(TR.ds, bw - 60 * k, 4) : [],
+      bh = (178 + dl.length * 31 + (dl.length ? 14 : 0)) * k,
+      by = TOP + Math.max(10 * k, (areaH - bh) / 2);
+    cx.fillStyle = 'rgba(255,255,255,.96)';
+    rr(x0, by, bw, bh, 24 * k);
+    cx.fill();
+    cx.textAlign = 'center';
+    cx.fillStyle = '#202124';
+    cx.font = F('700', 38);
+    cx.fillText(wrap(t.nm || _t('Wycieczka'), bw - 40 * k, 1)[0] || '', W / 2, by + 64 * k);
+    cx.font = F('500', 22);
+    cx.fillStyle = '#5f6368';
+    cx.fillText(TR.dates || fday(t.st), W / 2, by + 102 * k);
+    cx.font = F('400', 22);
+    cx.fillStyle = '#3c4043';
+    dl.forEach((l, i) => cx.fillText(l, W / 2, by + (144 + i * 31) * k));
+    const sm = [TR.hasTrk ? fkm(s.d) : '', ...TR.tiles.filter(x => x[2] === _t('Zdjęcia') || x[2] === _t('Dni')).map(x => x[0] + ' ' + x[2].toLowerCase())].filter(Boolean);
+    cx.font = F('700', 26);
+    cx.fillStyle = '#2f4d66';
+    cx.fillText(sm.join('  ·  '), W / 2, by + bh - 28 * k);
+    cx.restore();
+  }
+  function tripFrame(st) {
+    const w = st.w,
+      al = Math.max(0, Math.min(1, st.u * 8, (1 - st.u) * 8));
+    cx.save();
+    cx.globalAlpha = al;
+    if (w.day) {
+      // plansza kolejnego dnia na przyciemnionej mapie
+      cx.fillStyle = 'rgba(20,24,28,.55)';
+      cx.fillRect(0, 0, W, H);
+      const bw = Math.min(W - 100 * k, 520 * k),
+        bh = 170 * k,
+        by = (H - bh) / 2;
+      cx.fillStyle = 'rgba(255,255,255,.97)';
+      rr((W - bw) / 2, by, bw, bh, 26 * k);
+      cx.fill();
+      cx.textAlign = 'center';
+      cx.fillStyle = '#2f4d66';
+      cx.font = F('800', 54);
+      cx.fillText(_t('Dzień ') + w.day, W / 2, by + 86 * k);
+      cx.fillStyle = '#5f6368';
+      cx.font = F('500', 24);
+      cx.fillText(new Date(w.dt).toLocaleDateString(LOC, {weekday: 'long', day: 'numeric', month: 'long'}), W / 2, by + 132 * k);
+      cx.restore();
+      return;
+    }
+    const im = imgs.get(w),
+      txt = w.nm || '',
+      note = w.n ? String(w.n).split('\n')[0] : '';
+    cx.fillStyle = '#111';
+    cx.fillRect(0, 0, W, H);
+    if (im) {
+      const cov = Math.max(W / im.width, H / im.height),
+        con = Math.min(W / im.width, H / im.height),
+        ar = im.width / im.height / (W / H),
+        full = ar > 0.6 && ar < 1.65, // podobne proporcje – cały kadr; inaczej całe zdjęcie na rozmytym tle
+        seed = [...String(w.id || '')].reduce((a, ch) => a + ch.charCodeAt(0), 0),
+        dx = (seed % 3) - 1,
+        dy = (Math.floor(seed / 3) % 3) - 1,
+        z = 1.02 + 0.1 * st.u; // powolny najazd (Ken Burns)
+      if (!full) {
+        cx.save();
+        cx.filter = 'blur(' + Math.round(18 * k) + 'px) brightness(.55)';
+        cx.drawImage(im, (W - im.width * cov * 1.1) / 2, (H - im.height * cov * 1.1) / 2, im.width * cov * 1.1, im.height * cov * 1.1);
+        cx.restore();
+      }
+      const b = (full ? cov : con) * z,
+        iw = im.width * b,
+        ih = im.height * b,
+        px = (W - iw) / 2 + dx * (st.u - 0.5) * W * 0.05,
+        py = (H - ih) / 2 + dy * (st.u - 0.5) * H * 0.035;
+      cx.drawImage(im, px, py, iw, ih);
+    }
+    // podpis na dole: nazwa, opis, data i godzina
+    if (txt || note || w.cr) {
+      const gh = H * 0.34,
+        g = cx.createLinearGradient(0, H - gh, 0, H);
+      g.addColorStop(0, 'rgba(0,0,0,0)');
+      g.addColorStop(1, 'rgba(0,0,0,.78)');
+      cx.fillStyle = g;
+      cx.fillRect(0, H - gh, W, gh);
+      cx.textAlign = 'left';
+      let y = H - 40 * k;
+      cx.fillStyle = 'rgba(255,255,255,.75)';
+      cx.font = F('500', 18);
+      if (w.cr) cx.fillText(new Date(w.cr).toLocaleDateString(LOC, {day: 'numeric', month: 'long'}) + ', ' + fhm(w.cr), 40 * k, y), (y -= 36 * k);
+      cx.fillStyle = '#fff';
+      cx.font = F('400', 23);
+      const nl = note ? wrap(note, W - 80 * k, 2) : [];
+      for (let i = nl.length - 1; i >= 0; i--) cx.fillText(nl[i], 40 * k, y), (y -= 31 * k);
+      if (txt) {
+        cx.font = F('700', 32);
+        cx.fillText(wrap(txt, W - 80 * k, 1)[0] || '', 40 * k, y - 4 * k);
+      }
+    }
+    cx.restore();
   }
   return {cv, W, H, plan, used, frame};
 }
@@ -35529,6 +36742,7 @@ const TUT_STEPS = [
   {sel: '#srchb', t: _t('Szukaj'), x: _t('Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.')},
   {sel: null, t: _t('Prowadzenie'), x: _t('„Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Mapa jedzie za Tobą i sama dobiera zoom do prędkości, przed skrętem przybliża skrzyżowanie; samochodem i rowerem kierunek jazdy jest u góry. Na pasku: cała trasa, kompas (kierunek / północ), po drogach i 💡 ekran. Przesunięcie mapy palcem – „Wyśrodkuj” wraca.')},
   {sel: '#lbtn', t: _t('Mapy, warstwy i ślady'), x: _t('Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.')},
+  {sel: '#mapb', open: 'sheet', t: _t('Wycieczka'), x: _t('Pod strzałką przy nazwie mapy: Twoje mapy i „Nowa wycieczka” – daty, opis, ślady, zdjęcia i punkty z innych map, a z tego animowana relacja do zapisania jako film.')},
   {sel: '#stabs .stab[data-k="plan"]', open: 'sheet', tab: 'plan', t: _t('Planowanie'), x: _t('Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
   {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport to osobny widok: tablica z dyscyplinami (rower, bieg, marsz, trekking, jeździectwo, rolki), licznik każdej z nich i statystyki – ogólne i dla każdej dyscypliny. Z mapy wracasz do licznika przyciskiem ‹ albo „Wstecz”.')},
@@ -36662,6 +37876,12 @@ function cluOn() {
   return localStorage.getItem('omm-grupuj') !== 'nie';
 }
 function clusterUpd() {
+  // v89: zdjęcia schowane w stosie wracają przed grupowaniem, a po nim – miniatury i stosy zdjęć w jednym miejscu
+  fotoRestore();
+  clusterUpd0();
+  fotoMkAll();
+}
+function clusterUpd0() {
   // v62.1 (punkt 57): grupy wg odległości na ekranie (nie siatki kwadratów) – od 2 punktów; grupa = ta sama ikona
   // co punkty (przeważająca, gdy różne) z poświatą i plakietką z liczbą; dymki komentarzy chowane przy dużym oddaleniu
   document.body.classList.toggle('zfar', map.getZoom() < 12);
@@ -40320,6 +41540,9 @@ function settingsDlg(keep, old) {
     'omm-foto-zoom',
     '17',
     [
+      ['12', _t('Bardzo wcześnie – przy widoku całej okolicy (kilka km)')],
+      ['13', _t('Przy widoku gminy / kilku wsi')],
+      ['14', _t('Przy widoku jednej wsi / dzielnicy')],
       ['15', _t('Wcześnie – już przy widoku kilku ulic / wsi')],
       ['16', _t('Przy średnim zbliżeniu')],
       ['17', _t('Przy dużym zbliżeniu (domyślnie)')],
