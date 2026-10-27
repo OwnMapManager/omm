@@ -81,13 +81,18 @@ jobs:
         working-directory: android
         run: |
           P=gradle/wrapper/gradle-wrapper.properties
-          # pobierana dystrybucja Gradle musi mieć oficjalną sumę SHA-256 (wrapper sprawdzi ją przed uruchomieniem)
-          if ! grep -q '^distributionSha256Sum=' "$P"; then
-            DURL=$(grep '^distributionUrl=' "$P" | cut -d= -f2- | sed 's/\\:/:/g')
-            SUM=$(curl -fsSL "$DURL.sha256" | tr -d ' \r\n')
-            echo "$SUM" | grep -Eq '^[0-9a-f]{64}$' || { echo "::error::Nie udało się pobrać oficjalnej sumy Gradle ($DURL.sha256)"; exit 1; }
-            echo "distributionSha256Sum=$SUM" >> "$P"
-            echo "Gradle: $DURL sha256 $SUM"
+          # v94 (audyt v2, R07): suma SHA-256 dystrybucji Gradle PRZYPIĘTA w repozytorium (gradle-wrapper.properties);
+          # wrapper sprawdza ją przed uruchomieniem. Dodatkowo porównujemy ją z oficjalną sumą z services.gradle.org –
+          # niezgodność przerywa wydanie (podmiana dystrybucji albo pomyłka przy podbijaniu wersji Gradle).
+          DURL=$(grep '^distributionUrl=' "$P" | cut -d= -f2- | sed 's/\\:/:/g')
+          PIN=$(grep '^distributionSha256Sum=' "$P" | cut -d= -f2 | tr -d ' \r\n')
+          echo "$PIN" | grep -Eq '^[0-9a-f]{64}$' || { echo "::error::Brak przypiętej sumy distributionSha256Sum w $P"; exit 1; }
+          SUM=$(curl -fsSL "$DURL.sha256" | tr -d ' \r\n' || true)
+          if echo "$SUM" | grep -Eq '^[0-9a-f]{64}$'; then
+            [ "$SUM" = "$PIN" ] || { echo "::error::Przypięta suma Gradle ($PIN) różni się od oficjalnej ($SUM) dla $DURL"; exit 1; }
+            echo "Gradle: $DURL sha256 $PIN (zgodna z oficjalną)"
+          else
+            echo "::warning::Nie udało się pobrać oficjalnej sumy do porównania – używam przypiętej $PIN"
           fi
           chmod +x gradlew
           ./gradlew --no-daemon assembleRelease

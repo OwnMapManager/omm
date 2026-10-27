@@ -37,6 +37,11 @@
             android:exported="false"
             tools:replace="android:exported" />
 
+        <!-- v94: przyciski „Zakończ” i „Punkt” w powiadomieniu nagrywania (tylko dla OMM – exported=false) -->
+        <receiver
+            android:name=".OmmRecActionReceiver"
+            android:exported="false" />
+
         <!-- powiadomienia OMM (co 1 km) są natychmiastowe – bez przywracania po restarcie telefonu (audyt v48, pkt 10) -->
         <receiver
             android:name="com.capacitorjs.plugins.localnotifications.LocalNotificationRestoreReceiver"

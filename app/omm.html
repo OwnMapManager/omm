@@ -369,7 +369,40 @@ button {
 #gps .gacc[data-q='w'] {
   background: #c62828;
 }
+/* v94: skład kopii (Ustawienia → Kopia zapasowa i dane) */
+.kopcz {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 4px 0;
+  font-size: 13.5px;
+}
+.kopcz th {
+  font-weight: 600;
+  color: var(--sub);
+  font-size: 12px;
+  text-align: center;
+  padding: 2px 4px;
+}
+.kopcz td {
+  padding: 5px 4px;
+  border-top: 1px solid var(--line);
+}
+.kopcz td + td {
+  text-align: center;
+  width: 64px;
+}
 /* v66: ekran „Informacje GPS” */
+.gisky {
+  display: block;
+  width: min(100%, 300px);
+  margin: 4px auto;
+}
+.gisum {
+  font-size: 12.5px;
+  color: var(--sub);
+  text-align: center;
+  margin-bottom: 6px;
+}
 .ginh {
   display: flex;
   align-items: center;
@@ -7827,6 +7860,55 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  // v94
+  " Obecne ślady zostaną zastąpione (odłożone jako kopia awaryjna).": " Current tracks will be replaced (kept as an emergency backup).",
+  " zdjęć": " photos",
+  ".\n\nObecne mapy zostają bez zmian.": ".\n\nCurrent maps stay unchanged.",
+  "Bez OMM: python3 ODSZYFRUJ.py <ten plik> (potrzebne hasło) – powstanie zwykły ZIP z mapami, śladami i zdjęciami.\r\n": "Without OMM: python3 ODSZYFRUJ.py <this file> (password needed) – creates a plain ZIP with maps, tracks and photos.\r\n",
+  "Bez hasła odczyt nie jest możliwy – nikt nie ma „furtki”.\r\n": "Without the password it cannot be read – nobody has a backdoor.\r\n",
+  "Bez szyfrowania (czytelne dla każdego): ": "Not encrypted (readable by anyone): ",
+  "Co jest w kopii": "What goes into the backup",
+  "Czekam na dane o satelitach…": "Waiting for satellite data…",
+  "Części jawne są w pliku kopii jak dotąd (GeoJSON, GPX, JPG), szyfrowane – w folderze enc/ (każdy plik osobno). Dotyczy kopii w telefonie, na Dysku Google i zapisywanych ręcznie. W zaszyfrowanej kopii jest też ODSZYFRUJ.py – odczyt bez OMM (z hasłem).": "Plain parts are in the backup file as before (GeoJSON, GPX, JPG), encrypted ones in the enc/ folder (each file separately). Applies to backups on the phone, on Google Drive and saved manually. An encrypted backup also contains ODSZYFRUJ.py – reading without OMM (with the password).",
+  "Dociąganie dziur auta: ": "Filling car gaps: ",
+  "Dociągnięto dziury auta: ": "Car gaps filled: ",
+  "Dowolny folder (v94): Android pyta o dostęp tylko do wybranego folderu – OMM nie widzi reszty telefonu. Pliki trafiają do podfolderów kopie / eksport / wydruki / filmy; zapis jest bezpieczny (najpierw plik tymczasowy, potem zmiana nazwy).": "Any folder (v94): Android asks for access only to the chosen folder – OMM does not see the rest of the phone. Files go to the subfolders kopie / eksport / wydruki / filmy; saving is safe (a temporary file first, then a rename).",
+  "Dowolny folder (wybierz…)": "Any folder (choose…)",
+  "Folder": "Folder",
+  "Kopia ZIP (części wybrane niżej) w ": "ZIP backup (parts chosen below) in ",
+  "Kopia bez map nie odtworzy Twoich map na nowym telefonie. Przy przywracaniu takiej kopii obecne mapy zostają bez zmian.": "A backup without maps will not restore your maps on a new phone. When restoring such a backup, current maps stay unchanged.",
+  "Kopia bez map": "Backup without maps",
+  "Kopia bez zdjęć jest mniejsza, ale na nowym telefonie zdjęć nie będzie – zostaną tylko odnośniki.": "A backup without photos is smaller, but on a new phone the photos will be missing – only references remain.",
+  "Kopia nie zawiera danych do przywrócenia.": "The backup contains no data to restore.",
+  "Mapa nieba niedostępna: ": "Sky view unavailable: ",
+  "Mapa nieba z satelitami działa w aplikacji na Androida.": "The sky view with satellites works in the Android app.",
+  "Mapa nieba – kolor: system, pełna kropka: użyty do pozycji, wielkość: siła sygnału": "Sky view – colour: system, solid dot: used for the fix, size: signal strength",
+  "Mapy i obiekty (punkty, linie, warstwy, opisy)": "Maps and objects (points, lines, layers, descriptions)",
+  "Nie udało się wybrać folderu: ": "Could not choose the folder: ",
+  "Nie udało się zapisać w wybranym folderze: ": "Could not save in the chosen folder: ",
+  "OMM – Own Map Manager · kopia zapasowa z SZYFROWANIEM\r\n\r\n": "OMM – Own Map Manager · ENCRYPTED backup\r\n\r\n",
+  "Przywracanie: OMM → Kopia → Przywróć z kopii… → podaj hasło.\r\n": "Restore: OMM → Backup → Restore from backup… → enter the password.\r\n",
+  "Satelity: użyte do pozycji ": "Satellites: used for the fix ",
+  "Szyfrowanie wybierzesz po ustawieniu hasła kopii: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.": "You can choose encryption after setting a backup password: 🔒 Privacy → “Backup password encryption”.",
+  "Ustawienia OMM i dziennik Sportu": "OMM settings and Sport log",
+  "Uszkodzony spis zaszyfrowanej kopii.": "Damaged index of the encrypted backup.",
+  "Uszkodzony zaszyfrowany plik w kopii: ": "Damaged encrypted file in the backup: ",
+  "Wybrany folder: ": "Chosen folder: ",
+  "Zaszyfrowane części są w folderze enc/ (AES-256-GCM, klucz z hasła: PBKDF2-SHA-256, każdy plik osobno).\r\n": "Encrypted parts are in the enc/ folder (AES-256-GCM, key from the password: PBKDF2-SHA-256, each file separately).\r\n",
+  "Zdjęcia z telefonu mają zapisane miejsce i godzinę zrobienia. Bez szyfrowania każdy, kto zdobędzie plik kopii, zobaczy, gdzie byłeś.": "Phone photos store the place and time they were taken. Without encryption anyone who gets the backup file will see where you have been.",
+  "szyfruj": "encrypt",
+  "ustawienia": "settings",
+  "w kopii": "in backup",
+  "Ślad ma za mało punktów – nagrywanie trwa dalej.": "The track has too few points – recording continues.",
+  "Ślady GPS (z godzinami)": "GPS tracks (with times)",
+  "Ślady mają miejsca i godziny. Bez szyfrowania każdy, kto zdobędzie plik kopii, zobaczy, gdzie i kiedy byłeś.": "Tracks contain places and times. Without encryption anyone who gets the backup file will see where and when you have been.",
+  "📁 Pliki będą zapisywane w folderze: ": "📁 Files will be saved in the folder: ",
+  "📁 Wybierz dowolny folder…": "📁 Choose any folder…",
+  "📁 Zmień wybrany folder…": "📁 Change the chosen folder…",
+  "📍 Dodano punkt": "📍 Point added",
+  "🚗 Przerwy w GPS dociągnięto po drogach: ": "🚗 GPS gaps filled along roads: ",
+  "🚗 Przerwę w GPS dociągnięto po drodze": "🚗 GPS gap filled along the road",
+  "Papierowa piłka nożna jak na kartce w kratkę. Dotknij punktu obok piłki – piłka idzie tam kreską. Nie wolno iść po narysowanej kresce ani po bandzie. Gdy piłka trafi w punkt, w którym już coś było (kreska, banda, słupek), odbija się i grasz dalej. Atakujesz bramkę u góry. Kto utknie bez ruchu, przegrywa. Bot szalony w każdym meczu ma inny humor – ikonka przy jego bramce: 🧱 buduje mur, 😈 zastawia pułapkę, 🤪 szaleje, 🎯 gra na serio.": "Paper soccer, like on squared paper. Tap a point next to the ball – the ball moves there with a line. You cannot move along an existing line or the edge. When the ball lands on a point that was already used (a line, the edge, a post), it bounces and you move again. You attack the goal at the top. Whoever gets stuck with no move loses. The crazy bot has a different mood in every match – icon by its goal: 🧱 building a wall, 😈 setting a trap, 🤪 going wild, 🎯 playing for real.",
   // v93
   " zaliczony. Prowadzę dalej.": " reached. Continuing.",
   " · do punktu ": " · to point ",
@@ -10859,7 +10941,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v93';
+const APP_VER = 'v94';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -17229,11 +17311,61 @@ const blob64 = b =>
     r.onerror = rej;
     r.readAsDataURL(b);
   });
+// v94 (86): dowolny folder wybrany przez użytkownika (systemowe okno wyboru folderu; dostęp tylko do niego)
+const safFolder = () => {
+  try {
+    const o = JSON.parse(localStorage.getItem('omm-folder-saf') || 'null');
+    return o && o.uri ? o : null;
+  } catch (e) {
+    return null;
+  }
+};
+async function safPick() {
+  const OB = plug('OmmBackup');
+  if (!OB) return false;
+  try {
+    const old = safFolder(),
+      r = await OB.pickDir();
+    if (old && old.uri !== r.uri) OB.dirRelease({uri: old.uri}).catch(() => {});
+    localStorage.setItem('omm-folder-saf', JSON.stringify({uri: r.uri, name: r.name || _t('Folder')}));
+    localStorage.setItem('omm-folder', 'saf');
+    toastMsg(_t('📁 Pliki będą zapisywane w folderze: ') + (r.name || ''));
+    return true;
+  } catch (e) {
+    if (!(e && /CANCELLED/.test(e.code || e.message || ''))) tell(_t('Nie udało się wybrać folderu: ') + ((e && e.message) || e));
+    return false;
+  }
+}
 async function saveNative(name, mime, data) {
   const FS = plug('Filesystem');
   if (!FS) return tell(_t('Nie można zapisać pliku: brak wtyczki Filesystem.'));
   // tekst zapisujemy jako UTF-8, obrazki jako base64
   const opt = data instanceof Blob ? {data: await blob64(data)} : {data, encoding: 'utf8'};
+  const sf = localStorage.getItem('omm-folder') === 'saf' && safFolder(),
+    OB = plug('OmmBackup');
+  if (sf && OB && !(/^image\//.test(mime) && localStorage.getItem('omm-folder-png') === 'pics')) {
+    // v94: zapis do wybranego folderu (atomowo: plik .part → zmiana nazwy), bez nadpisywania istniejących
+    let saved = null,
+      err = '';
+    try {
+      const c = await FS.writeFile({path: 'out/' + name, directory: 'CACHE', recursive: true, ...opt}),
+        sub = outFolder(mime, name).base.split('/').pop(),
+        r = await OB.dirWrite({uri: sf.uri, src: c.uri, name, sub, mime});
+      saved = r.path;
+      FS.deleteFile({path: 'out/' + name, directory: 'CACHE'}).catch(() => {});
+    } catch (e) {
+      err = (e && e.message) || String(e);
+    }
+    const v = await dlg({
+      title: saved ? _t('✅ Zapisano plik w telefonie:\n') + saved : _t('Nie udało się zapisać w wybranym folderze: ') + err,
+      btns: [
+        {t: _t('Udostępnij…'), v: 'share'},
+        {t: 'OK', v: 'ok', c: 'okb'}
+      ]
+    });
+    if (v === 'share') shareNative(name, opt);
+    return;
+  }
   // nie nadpisujemy istniejących plików: „nazwa.kml”, „nazwa (2).kml”, „nazwa (3).kml”…
   const dot = name.lastIndexOf('.'),
     stem = dot > 0 ? name.slice(0, dot) : name,
@@ -18462,6 +18594,34 @@ async function restoreBuf(buf) {
       };
       created = j.created;
     } else throw new Error(_t('To nie jest plik kopii z tej aplikacji.'));
+    if (j.omm && j.omm.bezMap) {
+      // v94 (214): kopia bez map – przywracamy tylko to, co w niej jest (ślady, zdjęcia, ustawienia); mapy zostają
+      const foto0 = (ZIP_INT.get(j) || {}).foto || [],
+        when0 = created ? (LANG === 'pl' ? ' z ' : ' from ') + new Date(created).toLocaleString(LOC, {dateStyle: 'short', timeStyle: 'short'}) : '';
+      if (!tr && !settings && !foto0.length) throw new Error(_t('Kopia nie zawiera danych do przywrócenia.'));
+      if (
+        !(await askYes(
+          _t('Kopia bez map') +
+            when0 +
+            ': ' +
+            [tr ? tr.items.length + ' ' + plural(tr.items.length, _t('ślad'), _t('ślady'), _t('śladów')) + ' GPS' : '', foto0.length ? foto0.length + _t(' zdjęć') : '', settings ? _t('ustawienia') : ''].filter(Boolean).join(', ') +
+            _t('.\n\nObecne mapy zostają bez zmian.') +
+            (tr ? _t(' Obecne ślady zostaną zastąpione (odłożone jako kopia awaryjna).') : ''),
+          _t('Przywróć'),
+          !!tr
+        ))
+      )
+        return;
+      await fotoCommit(foto0, [], tr);
+      if (tr) {
+        snapshot('przed-przywroceniem');
+        await trkReplace(tr);
+      }
+      if (settings) applySettings(settings);
+      render();
+      sheet();
+      return void toastMsg(_t('✅ Kopia przywrócona'));
+    }
     // każda wersja kopii przechodzi przez tę samą walidację (identyfikatory, kolory, teksty, zdjęcia)
     r = Object.assign(r, cleanDB({maps: r.maps, cur: r.cur, curW: r.curW}));
     if (!r.maps.length) throw new Error(_t('Kopia nie zawiera żadnej poprawnej mapy.'));
@@ -22157,7 +22317,7 @@ async function profile(pts) {
 // ---------- O aplikacji: krótki przewodnik dla początkujących, autor i licencja ----------
 const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zaznaczasz w nim miejsca, które chcesz zapamiętać: grzybowe miejscówki, wiaty i noclegi, źródła, ciekawe zakątki. Planujesz trasy, nagrywasz ślady, mierzysz odległości i wysokości. Wszystko zapisuje się w telefonie i działa także bez zasięgu.</p>
 <ol>
-<li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś; <b>przytrzymany</b> otwiera <b>Informacje GPS</b> – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut.</li>
+<li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. Przycisk ◎ pokazuje, gdzie jesteś; <b>przytrzymany</b> otwiera <b>Informacje GPS</b> – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut. W Informacjach GPS (Android) jest też <b>mapa nieba</b>: satelity GPS, GLONASS, Galileo, BeiDou – kolor to system, pełna kropka – użyty do pozycji, wielkość – siła sygnału.</li>
 <li><b>Układ przycisków</b> – domyślnie w prawym górnym rogu jest tylko <b>● REC</b>, po prawej na dole: <b>podkład</b>, <b>szukaj</b> 🔍 i <b>moja pozycja</b> ◎ (z dokładnością GPS – kolor mówi, czy jest dobra), pod nimi pasek narzędzi, a w lewym dolnym rogu – panel warstw (nad nim kompas, gdy mapa jest obrócona). Ustawienia → Wygląd → <b>Ustaw przyciski na ekranie</b>: na mapie pojawia się siatka pól, a podkład, szukaj, pozycję, warstwy i kompas przeciągasz palcem w dowolne wolne pole (przycisk wskakuje w najbliższe) i zatwierdzasz; „Przywróć domyślny” wraca do zwykłego układu. Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej jadą w górę nad rosnący pasek narzędzi, u góry – zjeżdżają pod nagrywanie, pasek prowadzenia i planowania. <b>Przytrzymaj palec na mapie</b> – okno współrzędnych tego miejsca (jak „Współrzędne punktu”): kopiuj, udostępnij, prowadź, trasa tutaj, zapisz punkt.</li>
 <li><b>Podkład</b> – przycisk mapy po prawej, nad szukaj i ◎: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
@@ -22169,14 +22329,14 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Prowadzenie</b> – „Prowadź” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Gdy wjedziesz na trasę w dowolnym miejscu (np. po pomylonej drodze), prowadzenie rusza od tego miejsca – pominięty kawałek i punkty pośrednie uznaje za minięte i nie każe wracać. Mapa jedzie za Tobą: pomarańczowa strzałka (kierunek ruchu z GPS, kompas tylko na postoju) jest w dolnej części ekranu, przebyty kawałek trasy robi się szary, inne rysunki i ślady są przygaszone, samochodem i rowerem kierunek jazdy jest u góry (pieszo – północ), a zoom dopasowuje się do prędkości. U góry kafelek następnego manewru – wyraźna strzałka (skręt, lekko, ostro, rondo z numerem zjazdu, zawróć) i odległość do niego na bieżąco (przy zaplanowanej trasie, linii i śladzie manewry OMM liczy z kształtu trasy, też z poleceniem głosowym); ok. 15 s przed skrętem mapa przybliża skrzyżowanie i trzyma je, aż je miniesz. Przesunięcie mapy palcem wstrzymuje to na 10 s – albo ikona „Wyśrodkuj”. Na dole wąska belka: odległość do celu i godzina na miejscu (dotknięcie – cała trasa), obok małe przyciski: <b>cała trasa</b>, <b>kompas</b> (kierunek jazdy / północ u góry), 💡 <b>ekran nie gaśnie</b>, <b>po drogach</b> (przy prowadzeniu do punktu) i ✕; ostrzeżenia (od trasy, dojazd, słaby GPS) pojawiają się nad belką. Ustawienia → Prowadzenie: orientacja mapy i zoom (bliżej / normalnie / dalej). <b>Punkty obowiązkowe</b> zaplanowanej trasy: po ominięciu OMM pyta „Wrócić?” (Wróć / Pomiń; bez odpowiedzi po 10 s wraca), zwykłe punkty pośrednie pomija bez pytania. Samochodem i rowerem po zjechaniu z trasy po drogach OMM mówi „Przeliczam trasę” i prowadzi nową, a po zjechaniu z zaplanowanej trasy pokazuje dojazd do najbliższego miejsca trasy przed Tobą; pieszo i po śladzie po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień, bez fałszywych alarmów po powrocie do aplikacji). Prowadzenie i głos działają też przy zablokowanym telefonie i w innej aplikacji (w telefonie widać wtedy powiadomienie „OMM prowadzi do celu”). ✕ pyta, czy zakończyć; po dojściu – „Jesteś na miejscu”, a po ok. 10 s prowadzenie kończy się samo (nagrywanie śladu trwa dalej).</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
-<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. W marszu proste odcinki drogi prostuje (GPS pieszo „pływa” po kilka metrów na boki), a narożniki ustawia na przecięciu prostych. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją.</li>
+<li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. W marszu proste odcinki drogi prostuje (GPS pieszo „pływa” po kilka metrów na boki), a narożniki ustawia na przecięciu prostych. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją. W powiadomieniu nagrywania na pasku telefonu widać dystans i czas oraz przyciski <b>Zakończ</b> (zapis od razu, bez okna – nazwa wg wzoru, rodzaj rozpoznany, warstwa rodzaju), <b>Zdjęcie</b> i <b>Punkt</b> (w bieżącym miejscu, bez otwierania OMM). Przerwy w GPS podczas jazdy autem (ślad szedł prosto przez budynki) OMM po „Stop” sam dociąga po drogach, gdy jest internet – kawałek jest przerywany, „Cofnij dopasowanie” go zdejmuje.</li>
 <li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, <b>Dopasuj do ścieżek</b> (w okienku śladu: ślad jest jednorazowo wysyłany do serwera tras i dosuwany do dróg i ścieżek z mapy tylko tam, gdzie leży blisko nich – po lesie bez ścieżek zostaje bez zmian; można cofnąć; Ustawienia → Ślady GPS → <b>Dociągaj ślady do ścieżek automatycznie</b> robi to samo po każdym „Stop”, domyślnie wyłączone; w trybie diagnostycznym ślad sprzed dopasowania jest w eksporcie GPX), import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
 <li><b>Ślady jako wycieczki</b> – w okienku śladu <b>Dodaj…</b>: zdjęcia z telefonu (położone według śladu w chwili zrobienia – aparat często zapisuje złe miejsce), punkty i zdjęcia z dowolnej mapy (odnośnik – zmiana na mapie widać w śladzie) albo opis. Na liście śladów widać liczbę zdjęć 📷 i punktów 📍. Na mapie zdjęcia śladu wyglądają jak zdjęcia na mapie: granatowy dymek z aparatem, od ustawionego przybliżenia miniatura, kilka w jednym miejscu – jedna ikona z liczbą; dotknięcie – galeria zdjęć śladu („Pokaż miejsce”), przytrzymanie – okienko punktu. Wycieczkę na kilka dni robisz z kilku śladów: zaznacz je i „Scal” – przerwy zostają, a w animacji pojawią się plansze „Dzień 2”. <b>Animacja</b> w okienku śladu: plansza tytułowa z opisem, trasa rysująca się za strzałką, przy punkcie strzałka staje i pokazuje się dymek z opisem, zdjęcie wyrasta ze znacznika na cały ekran i wraca. Koło zębate w odtwarzaczu: podkład mapy oraz przy każdym elemencie oko (pokazywać czy nie) i czas ◀ liczba ▶ co 0,5 s (przytrzymanie przewija, można wpisać) – tytuł i opis, przejazd trasy (10 s – 3 min), zdjęcia, punkty, plansze dni, liczniki na dole, statystyki na końcu; wyłączone zdjęcia i punkty zostają na mapie, ale animacja się przy nich nie zatrzymuje. Ustawienia zapamiętane, tak samo w filmie. <b>Pokaż też na mapie…</b> (⋮ przy obiekcie, okienko punktu albo pasek zaznaczania) daje ten sam obiekt na innej mapie: to nie kopia, zmiany widać wszędzie; usuwanie pyta „tylko z tej mapy / wszędzie”. Dotknięcie dowolnego zdjęcia otwiera galerię wszystkich zdjęć mapy („Pokaż miejsce”).</li>
 <li><b>Import</b> – zdjęcia, KML/KMZ, GPX, GeoJSON i CSV wczytujesz przez jedno okno: wybierasz <b>Mapa</b> (mapa albo „+ Nowa mapa”, warstwa albo „+ Nowa warstwa”, przy wielu warstwach w pliku „Zachowaj warstwy z pliku”) albo <b>Ślad</b> (zdjęcia kładą się na śladzie wg godziny zrobienia – te, które nie pasują, można na końcu dodać do mapy; plik GPX z nagraniem trafia do wybranej warstwy Śladów GPS, a jego punkty do śladu albo na mapę). Ostatni wybór jest zapamiętany.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
-<li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami.</li>
+<li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami. W <b>Kopia zapasowa i dane</b> tabelka „Co jest w kopii”: mapy, ślady, zdjęcia, ustawienia – każda część osobno w kopii lub nie i szyfrowana lub nie (np. zdjęcia jawnie, mapy zaszyfrowane); w zaszyfrowanej kopii jest ODSZYFRUJ.py do odczytu bez OMM (z hasłem). W <b>Foldery i pliki</b> możesz wskazać dowolny folder w telefonie na pliki zapisywane ręcznie.</li>
 <li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – osobny widok aplikacji: <b>tablica</b> z dużymi przyciskami dyscyplin – <b>rower</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>marsz</b> (tempo, kroki, dzienny cel kroków), <b>trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>jeździectwo</b> (stęp, kłus, galop) i <b>rolki</b> (prędkość, okrążenia). Dotknięcie przycisku otwiera licznik na ciemnym ekranie. Z licznika „Mapa” przechodzi na mapę – tam przycisk ‹ z dystansem albo systemowe „Wstecz” wraca do licznika; ‹ w liczniku wraca na tablicę (trening trwa). „Zakończ” zapisuje trening w <b>Statystykach</b>: ogólnych i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, rekordy, lista treningów. Kalorie po podaniu wagi w Ustawieniach → Sport; ślad nagrany z licznika trafia do kategorii „Sport”.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
@@ -22210,7 +22370,7 @@ const MAP_SOURCES_EN = () =>
 // wersja angielska tekstów „O OMM” (te same treści co po polsku)
 const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> You mark the places you want to remember: mushroom spots, shelters and places to sleep, springs, interesting corners. You plan routes, record tracks, measure distances and elevations. Everything is saved on your phone and works without signal too.</p>
 <ol>
-<li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are; <b>press and hold</b> it for <b>GPS information</b> – accuracy, fix age, speed, course and an accuracy chart of the last minutes.</li>
+<li><b>Map</b> – move it with your finger, zoom with two fingers. The ◎ button shows where you are; <b>press and hold</b> it for <b>GPS information</b> – accuracy, fix age, speed, course and an accuracy chart of the last minutes. GPS information (Android) also has a <b>sky view</b>: GPS, GLONASS, Galileo, BeiDou satellites – colour is the system, a solid dot is used for the fix, size is signal strength.</li>
 <li><b>Button layout</b> – by default only <b>● REC</b> is in the top-right corner; on the right at the bottom: <b>base map</b>, <b>search</b> 🔍 and <b>my position</b> ◎ (with GPS accuracy – the colour tells whether it is good), below them the toolbar, and in the bottom-left corner – the layers panel (with the compass above it when the map is rotated). Settings → Appearance → <b>Arrange buttons on the screen</b>: a grid appears on the map, you drag the base map, search, position, layers and compass with your finger to any free cell (the button snaps to the nearest one) and confirm; “Restore default” brings back the standard layout. The buttons make room for what expands: at the bottom right they move up above the growing toolbar, at the top they move down below recording and the navigation and planning bars. <b>Press and hold the map</b> – the coordinates window for that spot (as “Point coordinates”): copy, share, navigate, route here, save point.</li>
 <li><b>Base map</b> – the map button on the right, above search and ◎: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
 <li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
@@ -22222,14 +22382,14 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). When you get onto the route anywhere (e.g. after taking a wrong road), navigation continues from there – the skipped part and via points count as passed and it does not send you back. The map follows you: the orange arrow (direction of travel from GPS, compass only when standing) sits in the lower part of the screen, the part of the route already covered turns grey, other drawings and tracks are dimmed, by car and bike the direction of travel is up (on foot – north), and zoom follows your speed. At the top a tile shows the next manoeuvre – a clear arrow (turn, bear, sharp, roundabout with exit number, U-turn) and the live distance to it (for a planned route, line or track OMM works out the manoeuvres from the route shape, with spoken instructions too); about 15 s before a turn the map zooms in on the junction and holds until you pass it. Moving the map with a finger pauses this for 10 s – or tap the “Re-centre” icon. At the bottom a slim bar: distance to the destination and arrival time (tap – whole route), next to it small buttons: <b>whole route</b>, <b>compass</b> (direction of travel / north up), 💡 <b>keep the screen on</b>, <b>along roads</b> (when navigating to a point) and ✕; warnings (off route, way back, weak GPS) appear above the bar. Settings → Navigation: map orientation and zoom (closer / normal / farther). <b>Required points</b> of a planned route: if you skip one, OMM asks “Go back?” (Go back / Skip; with no answer it goes back after 10 s); regular via points are skipped without asking. By car and bike, when you leave a road route OMM says “Re-routing” and guides you along a new one, and when you leave a planned route it shows the way to the nearest point of the route ahead of you; on foot and along a track, a longer deviation makes the phone vibrate and say where the track is (no notifications, no false alarms after returning to the app). Navigation and voice work with the phone locked and in other apps too (a “OMM is navigating” notification is shown then). ✕ asks before ending. When you leave the track the phone vibrates and says where the track is; on arrival – “You have arrived”, and after about 10 s navigation ends by itself (track recording continues).</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
-<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. When walking it straightens straight stretches of the way (GPS on foot drifts a few metres sideways) and puts corners where the lines meet. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering.</li>
+<li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. When walking it straightens straight stretches of the way (GPS on foot drifts a few metres sideways) and puts corners where the lines meet. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering. The recording notification in the phone status bar shows distance and time plus <b>Finish</b> (saves at once, no window – name from the template, detected activity, activity layer), <b>Photo</b> and <b>Point</b> (at the current place, without opening OMM) buttons. GPS gaps while driving (the track went straight through buildings) are filled along roads after “Stop” when online – the piece is dashed, “Undo path matching” removes it.</li>
 <li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, <b>Match to paths</b> (in the track window: the track is sent once to the routing server and moved onto map roads and paths only where it lies close to them – off-path sections stay unchanged; can be undone; Settings → GPS tracks → <b>Snap tracks to paths automatically</b> does the same after every “Stop”, off by default; in diagnostic mode the track before matching is included in the GPX export), import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
 <li><b>Tracks as trips</b> – in the track window <b>Add…</b>: photos from the phone (placed by the track at the moment they were taken – the camera often saves a wrong location), points and photos from any map (a link – a change on the map shows in the track) or a description. The track list shows the number of photos 📷 and points 📍. On the map, track photos look like map photos: a navy bubble with a camera, a thumbnail from the chosen zoom, several in one place – one icon with a number; tap – gallery of the track's photos (“Show place”), hold – the point window. A trip of several days is made from several tracks: select them and “Merge” – the gaps stay and the animation shows “Day 2” cards. <b>Animation</b> in the track window: title card with the description, the route drawing itself behind the arrow, at a point the arrow stops and a bubble with its description appears, a photo grows from its marker to full screen and back. The gear in the player: the base map and for each element an eye (show or not) and a time ◀ number ▶ in 0.5 s steps (hold to scroll, can be typed) – title and description, route (10 s – 3 min), photos, points, day cards, counters at the bottom, statistics at the end; hidden photos and points stay on the map but the animation does not stop at them. Settings are remembered, the same in the video. <b>Also show on map…</b> (⋮ of an object, the point window or the selection bar) puts the same object on another map: not a copy, changes show everywhere; deleting asks “only from this map / everywhere”. Tapping any photo opens the gallery of all photos of the map (“Show place”).</li>
 <li><b>Import</b> – photos, KML/KMZ, GPX, GeoJSON and CSV go through one window: choose <b>Map</b> (a map or “+ New map”, a layer or “+ New layer”, with several layers in the file “Keep layers from the file”) or <b>Track</b> (photos are placed on the track by the time they were taken – those that do not fit can be added to a map at the end; a GPX file with a recording goes to the chosen GPS tracks layer, and its points to the track or onto the map). The last choice is remembered.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
-<li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles.</li>
+<li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles. In <b>Backup and data</b> the table “What goes into the backup”: maps, tracks, photos, settings – each part in the backup or not and encrypted or not (e.g. photos plain, maps encrypted); an encrypted backup includes ODSZYFRUJ.py for reading without OMM (with the password). In <b>Folders and files</b> you can choose any folder on the phone for manually saved files.</li>
 <li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – a separate view of the app: a <b>board</b> with big discipline buttons – <b>bike</b> (speed, average, max, climb, gradient), <b>running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>walking</b> (pace, steps, daily step goal), <b>trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>horse riding</b> (walk, trot, canter) and <b>inline skating</b> (speed, laps). Tapping a button opens the counter on a dark screen. “Map” in the counter goes to the map – there the ‹ button with the distance or the system “Back” returns to the counter; ‹ in the counter returns to the board (the workout continues). “Finish” saves the workout in <b>Statistics</b>: overall and for each discipline – week, month, year, all time, chart, records, workout list. Calories after entering your weight in Settings → Sport; a track recorded from the counter goes to the “Sport” category.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
@@ -23991,7 +24151,7 @@ function pkSeqs(B, cap) {
   dfs();
   return out;
 }
-// v93: bot „Szalony” (poziom 4) – co kilka tur zmienia humor. Każdy humor liczy tak głęboko jak bot trudny
+// v93: bot „Szalony” (poziom 4) – humor losowany na cały mecz (v94; w v93 zmieniał się co kilka tur). Każdy humor liczy tak głęboko jak bot trudny
 // (cała tura + wszystkie odpowiedzi gracza, pewny gol, unikanie gola dla gracza i samobója), różni się tylko celem:
 //  Mur – barykaduje własną bramkę (jak najwięcej zużytych krawędzi pod nią, piłka trzymana z dala od niej),
 //  Pułapka – odbiera graczowi ruchy (najmniej tur do wyboru, ślepy zaułek = wygrana),
@@ -24144,10 +24304,22 @@ function pilkaGame(opt) {
     goalFx = null, // {t, win, top} – napis GOL!, falująca siatka
     hist = []; // v85: cofanie ruchu (opcja „omm-gra-pilka-cof”) – stan sprzed każdego Twojego ruchu
   const undoOn = localStorage.getItem('omm-gra-pilka-cof') === 'tak';
-  // v93: humor bota „Szalony” – losowany na start i co 2–4 tury bota
+  // v94: humor bota „Szalony” – jeden na cały mecz, losowany na początku (każdy mecz inny niż poprzedni)
   const MK = Object.keys(PK_MOODS);
-  let mood = lv === 4 ? MK[rnd(3)] : null,
-    moodN = 2 + rnd(3);
+  let mood = null;
+  if (lv === 4) {
+    let last = '';
+    try {
+      last = localStorage.getItem('omm-gra-pilka-humor') || '';
+    } catch (e) {}
+    const pool = MK.filter(k => k !== last);
+    mood = pool[rnd(pool.length)];
+    try {
+      localStorage.setItem('omm-gra-pilka-humor', mood);
+    } catch (e) {}
+    msg += ' · ' + PK_MOODS[mood].e + ' ' + _t('Bot ') + PK_MOODS[mood].n;
+    msgT = 3200;
+  }
   const finish = (win, why) => {
     g.over = true;
     g.score = win ? [0, 60, 110, 170, 190][lv] + Math.max(0, 60 - moves) : 0;
@@ -24226,16 +24398,7 @@ function pilkaGame(opt) {
     FX.step(dt);
     if (turn !== 'bot' || g.over) return;
     if (botT > 0) return void (botT -= dt);
-    if (!botQ || !botQ.length) {
-      if (lv === 4 && --moodN < 0) {
-        const nm = MK.filter(k => k !== mood);
-        mood = nm[rnd(nm.length)];
-        moodN = 1 + rnd(3);
-        msg = PK_MOODS[mood].e + ' ' + _t('Bot ') + PK_MOODS[mood].n;
-        msgT = 1600;
-      }
-      botQ = (pkBotTurn(B, lv, mood) || []).slice();
-    }
+    if (!botQ || !botQ.length) botQ = (pkBotTurn(B, lv, mood) || []).slice();
     const m = botQ.shift();
     if (!m) return finish(true, _t('bot utknął'));
     step1(m, 'bot');
@@ -25142,7 +25305,7 @@ function gameOpen() {
     tron: {t: _t('⚡ Świetlne motory'), d: _t('Twój motor zostawia świetlny ślad. Nie uderz w żaden ślad ani w ścianę – i spraw, żeby to przeciwnicy się rozbili. Dotknij lewej połowy ekranu – skręt w lewo, prawej – w prawo.')},
     wedr: {t: _t('🍄 Grzybki wędrowniczki'), d: _t('Grzybki wychodzą z wejścia i idą przed siebie. Doprowadź ich wystarczająco dużo do dziupli: wybierz umiejętność na dole i dotknij grzybka. Stoper zawraca innych, Parasol pozwala bezpiecznie spadać, Kopacz kopie w dół, Tunel drąży w bok, Schodki budują kładkę w górę. Kamieni nie da się kopać, zielona trucizna zabija.')},
     saper: {t: _t('🍄 Grzybowy saper'), d: _t('Klasyk z Windowsa: pod mchem schowane są muchomory. Liczba mówi, ile ich jest dookoła pola. Dotknij – odkryj, przytrzymaj – postaw flagę. Pierwsze dotknięcie jest zawsze bezpieczne.')},
-    pilka: {t: _t('⚽ Piłkarzyki'), d: _t('Papierowa piłka nożna jak na kartce w kratkę. Dotknij punktu obok piłki – piłka idzie tam kreską. Nie wolno iść po narysowanej kresce ani po bandzie. Gdy piłka trafi w punkt, w którym już coś było (kreska, banda, słupek), odbija się i grasz dalej. Atakujesz bramkę u góry. Kto utknie bez ruchu, przegrywa. Bot szalony co kilka tur zmienia humor – ikonka przy jego bramce: 🧱 buduje mur, 😈 zastawia pułapkę, 🤪 szaleje, 🎯 gra na serio.')},
+    pilka: {t: _t('⚽ Piłkarzyki'), d: _t('Papierowa piłka nożna jak na kartce w kratkę. Dotknij punktu obok piłki – piłka idzie tam kreską. Nie wolno iść po narysowanej kresce ani po bandzie. Gdy piłka trafi w punkt, w którym już coś było (kreska, banda, słupek), odbija się i grasz dalej. Atakujesz bramkę u góry. Kto utknie bez ruchu, przegrywa. Bot szalony w każdym meczu ma inny humor – ikonka przy jego bramce: 🧱 buduje mur, 😈 zastawia pułapkę, 🤪 szaleje, 🎯 gra na serio.')},
     wojna: {t: _t('💥 Wojna grzybów'), d: _t('Kąt, siła i wiatr – trafisz grzyba na drugim pagórku? Celuj przyciskami albo ciągnij palcem od swojego grzyba jak procą. Środkowy przycisk otwiera menu broni: szyszka, kret, rój os, purchawka zegarowa, zarodniki, kania-zapalnik, teleport, tarcza z huby i więcej. Co kilka tur spada skrzynka z zapasami.')}
   };
   const fdt = d => new Date(d).toLocaleDateString(LOC, {day: 'numeric', month: 'numeric', year: '2-digit'});
@@ -25702,7 +25865,79 @@ function gpsInfoDlg() {
   const ll = h('div', 'gill');
   cv.width = 600;
   cv.height = 150;
-  note.textContent = _t('Liczba satelitów i mapa nieba (GPS, GLONASS, Galileo, BeiDou) – w przygotowaniu: Android podaje je tylko kodowi natywnemu aplikacji, który przejdzie najpierw przegląd bezpieczeństwa.');
+  // v94 (118): mapa nieba – satelity z GnssStatus (wtyczka OmmGnss), tylko gdy ten ekran jest otwarty
+  const GN = plug('OmmGnss'),
+    sky = h('canvas', 'gisky'),
+    skyT = h('div', 'gisum');
+  sky.width = sky.height = 520;
+  let gnL = null;
+  note.textContent = GN ? '' : _t('Mapa nieba z satelitami działa w aplikacji na Androida.');
+  const SATC = {1: ['GPS', '#1a73e8'], 3: ['GLONASS', '#d32f2f'], 6: ['Galileo', '#2e9e6b'], 5: ['BeiDou', '#f26a1b'], 4: ['QZSS', '#8e44ad'], 7: ['IRNSS', '#7a6a2c'], 2: ['SBAS', '#5f6368']};
+  const skyDraw = d => {
+    const cx = sky.getContext('2d'),
+      W = sky.width,
+      C = W / 2,
+      R = C - 34,
+      css = getComputedStyle(document.documentElement),
+      sub = css.getPropertyValue('--sub').trim() || '#888',
+      txt = css.getPropertyValue('--txt').trim() || '#222';
+    cx.clearRect(0, 0, W, W);
+    cx.strokeStyle = sub;
+    cx.globalAlpha = 0.45;
+    cx.lineWidth = 1.5;
+    [0, 30, 60].forEach(el => {
+      cx.beginPath();
+      cx.arc(C, C, (R * (90 - el)) / 90, 0, 2 * Math.PI);
+      cx.stroke();
+    });
+    cx.beginPath();
+    cx.moveTo(C - R, C);
+    cx.lineTo(C + R, C);
+    cx.moveTo(C, C - R);
+    cx.lineTo(C, C + R);
+    cx.stroke();
+    cx.globalAlpha = 1;
+    cx.fillStyle = txt;
+    cx.font = 'bold 24px sans-serif';
+    cx.textAlign = 'center';
+    cx.textBaseline = 'middle';
+    [['N', 0], ['E', 90], ['S', 180], ['W', 270]].forEach(([t, a]) => cx.fillText(t, C + Math.sin((a * Math.PI) / 180) * (R + 18), C - Math.cos((a * Math.PI) / 180) * (R + 18)));
+    const by = {};
+    (d.sats || []).forEach(x => {
+      const k = SATC[x.c] ? x.c : 2,
+        b = (by[k] = by[k] || [0, 0]);
+      b[1]++;
+      if (x.u) b[0]++;
+      if (!(x.el >= 0)) return;
+      const r = (R * (90 - x.el)) / 90,
+        a = (x.az * Math.PI) / 180,
+        px = C + Math.sin(a) * r,
+        py = C - Math.cos(a) * r,
+        rad = 7 + Math.max(0, Math.min(45, x.cn || 0)) / 5; // większa kropka = mocniejszy sygnał
+      cx.beginPath();
+      cx.arc(px, py, rad, 0, 2 * Math.PI);
+      cx.fillStyle = SATC[k][1];
+      cx.globalAlpha = x.u ? 1 : 0.35; // użyte do pozycji – pełne, widoczne tylko – blade
+      cx.fill();
+      cx.globalAlpha = 1;
+      cx.fillStyle = txt;
+      cx.font = '17px sans-serif';
+      cx.fillText(String(x.id), px, py - rad - 9);
+    });
+    skyT.textContent =
+      _t('Satelity: użyte do pozycji ') + (d.used || 0) + _t(' z ') + (d.sats || []).length + ' · ' +
+      Object.keys(by).map(k => SATC[k][0] + ' ' + by[k][0] + '/' + by[k][1]).join(' · ');
+  };
+  if (GN)
+    (async () => {
+      try {
+        gnL = await GN.addListener('gnss', skyDraw);
+        await GN.start();
+        skyT.textContent = _t('Czekam na dane o satelitach…');
+      } catch (e) {
+        skyT.textContent = _t('Mapa nieba niedostępna: ') + ((e && e.message) || e);
+      }
+    })();
   const nmtB = B(_t('Porównaj wysokość z mapą terenu (NMT GUGiK)'), async () => {
     const L0 = GPSI.last;
     if (!L0) return;
@@ -25718,7 +25953,7 @@ function gpsInfoDlg() {
   });
   const nr = h('div', 'setop');
   nr.append(nmtB);
-  body.append(head, ll, g, h('div', 'gicap', _t('Dokładność w ostatnich 10 minutach (mniej = lepiej)')), cv, nr, nmt, note);
+  body.append(head, ll, g, ...(GN ? [h('div', 'gicap', _t('Mapa nieba – kolor: system, pełna kropka: użyty do pozycji, wielkość: siła sygnału')), sky, skyT] : []), h('div', 'gicap', _t('Dokładność w ostatnich 10 minutach (mniej = lepiej)')), cv, nr, nmt, note);
   const draw = () => {
     const L0 = GPSI.last,
       now = Date.now();
@@ -25777,7 +26012,11 @@ function gpsInfoDlg() {
   };
   draw();
   const iv = setInterval(draw, 1000);
-  formDlg(_t('📡 Informacje GPS'), body, [{t: _t('Zamknij'), v: null, c: 'okb'}]).then(() => clearInterval(iv));
+  formDlg(_t('📡 Informacje GPS'), body, [{t: _t('Zamknij'), v: null, c: 'okb'}]).then(() => {
+    clearInterval(iv);
+    if (GN) GN.stop().catch(() => {});
+    if (gnL && gnL.remove) gnL.remove();
+  });
 }
 async function gpsStart(opt = {}) {
   // opt.quiet (start aplikacji, v65): bez komunikatów o błędach; pierwsza pozycja – płynny przelot z zoomem 16,
@@ -26931,7 +27170,7 @@ function trkPopup(t, ll) {
     ),
     IB('split', act(() => trkSplit(t)), '', _t('Podziel ślad')),
     IB('extend', act(() => trkExtend(t)), '', _t('Dorysuj brakujący kawałek (zapomniany REC, przerwa)')),
-    t.mm ? IB('fundo', act(() => trkMatchUndo(t)), 'on', _t('Cofnij dopasowanie do ścieżek')) : IB('snap', act(() => trkMatch(t)), '', _t('Dopasuj do ścieżek')),
+    t.mm && !(t.mm.g && !t.mm.f) ? IB('fundo', act(() => trkMatchUndo(t)), 'on', _t('Cofnij dopasowanie do ścieżek')) : IB('snap', act(() => trkMatch(t)), '', _t('Dopasuj do ścieżek')), // v94: po samym dociągnięciu dziur auta dalej można dopasować
     IB('del', act(() => trkDelete(t)), 'danger', _t('Usuń ślad'))
   );
   el.append(bt, ib);
@@ -29928,6 +30167,7 @@ async function recWatchOn() {
             });
         }
       );
+      setTimeout(() => recNotifUpd(true), 800); // v94: dystans, czas i przyciski w powiadomieniu
       return true;
     } catch (e) {
       tell(_t('Nie udało się włączyć GPS: ') + ((e && e.message) || e));
@@ -30015,10 +30255,16 @@ function recPause(on) {
   recPersist(true);
   recUi();
 }
-async function recStop() {
-  if (!REC) return;
+async function recStop(quick) {
+  // quick (v94): „Zakończ” w powiadomieniu – zapis od razu, bez okien (nazwa wg wzoru, rodzaj rozpoznany, warstwa rodzaju)
+  if (!REC || recStop.busy) return;
   const was = REC.paused;
   recPause(true);
+  if (quick && REC.pts.length < 2) {
+    toastMsg(_t('Ślad ma za mało punktów – nagrywanie trwa dalej.'));
+    if (!was) recPause(false);
+    return;
+  }
   if (REC.pts.length < 2) {
     const v = await dlg({
       title: _t('Ślad ma za mało punktów – GPS nie ustalił jeszcze pozycji albo stoisz w miejscu.'),
@@ -30031,8 +30277,14 @@ async function recStop() {
     else if (!was) recPause(false);
     return;
   }
-  const r = await recSaveDlg();
-  if (r !== 'go' && r !== 'x') carOnStop();
+  recStop.busy = true;
+  let r;
+  try {
+    r = await recSaveDlg(quick);
+  } finally {
+    recStop.busy = false;
+  }
+  if (r !== 'go' && r !== 'x') (recNotifUpd.stopping = true), carOnStop();
   if (r === 'go') {
     if (!was) recPause(false);
     return;
@@ -30104,14 +30356,32 @@ async function recStop() {
   trkFocus(t);
   // postoje z „pływającym” GPS, potem zapomniane nagrywanie w aucie – propozycje poprawek
   setTimeout(async () => {
-    await stopAsk(t);
-    await vehicleAsk(t);
+    if (!r.quick) {
+      // zapis z powiadomienia – bez dopytywania (postoje, odcięcie jazdy autem); można to zrobić później w okienku śladu
+      await stopAsk(t);
+      await vehicleAsk(t);
+    }
     // v92: automatyczne dociąganie do ścieżek (gdy włączone w Ustawieniach) – także obie części po odcięciu jazdy autem
-    for (const x of (TRK.items || []).filter(x => x.rid === t.rid && !x.mm)) await trkMatchAuto(x);
+    for (const x of (TRK.items || []).filter(x => x.rid === t.rid)) {
+      if (!x.mm) await trkMatchAuto(x);
+      await trkGapFill(x); // v94: dziury w jeździe autem – zawsze
+    }
   }, 900);
 }
-function recSaveDlg() {
+function recSaveDlg(quick) {
   // zakończenie nagrania: nazwa + warstwa śladów
+  if (quick) {
+    // v94: bez okna – to samo, co okno proponuje domyślnie
+    const s = trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}),
+      a = REC.a && ACTS[REC.a] ? REC.a : actGuess(s, {pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}),
+      nmode = trkNameMode(),
+      nr = trkNrNext(nmode),
+      nm = trkAutoName({st: REC.st, a}, nmode, null, nr),
+      recCat = (TRK.layers.find(x => x.id === (REC.l || TRK.active)) || {}).cat || trkCur().id,
+      l = ACTS[a] && a !== 'inne' ? (trkActLayer(a, recCat, true) || {id: REC.l || TRK.active}).id : REC.l || TRK.active;
+    if (/\{nr\}/.test(nmode)) trkNrUse(nmode, nr);
+    return Promise.resolve({nm: (nm || _t('Ślad')).slice(0, 200), l, a, wait: needPlace(nmode) ? nmode : null, auto: nm, nr: /\{nr\}/.test(nmode) ? nr : null, quick: 1});
+  }
   return new Promise(res => {
     const s = trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}),
       back = h('div', 'dback'),
@@ -30204,8 +30474,54 @@ function recDropCar() {
   // nagranie usunięte bez zapisu – miejsce auta zapamiętane podczas niego też (v59)
   if (CAR && REC && CAR.trk === REC.id) carSet(null);
 }
+// ---------- v94: powiadomienie nagrywania – dystans, czas i przyciski Zakończ / Zdjęcie / Punkt (OmmRecNotif) ----------
+var recNfT = 0, // var: wołane też z kodu wyżej w skrypcie
+  recNfTx = '';
+function recNotifUpd(force) {
+  const N = plug('OmmRecNotif');
+  if (!N || !REC || recNotifUpd.stopping) return;
+  const now = Date.now();
+  if (!force && now - recNfT < 10000) return; // co ok. 10 s (też w tle – wołane przy każdym punkcie)
+  recNfT = now;
+  let d = 0;
+  try {
+    d = recLiveDist(trkStats({pts: REC.pts, sg: REC.sg, pa: REC.pa, st: REC.st}).d);
+  } catch (e) {}
+  const tx = (REC.paused ? _t('pauza') + ' · ' : '') + fkm(d) + ' · ' + fdur(Math.round((now - REC.st) / 1000));
+  if (tx === recNfTx && !force) return;
+  recNfTx = tx;
+  N.update({title: _t('OMM nagrywa ślad'), text: tx, stop: _t('Zakończ'), foto: _t('Zdjęcie'), pkt: _t('Punkt')}).catch(() => {});
+}
+async function recNotifAction(a) {
+  // przycisk w powiadomieniu nagrywania
+  if (!REC) return;
+  if (a === 'stop') return recStop(true);
+  if (a === 'foto') return recFoto();
+  if (a === 'pkt') {
+    // punkt w bieżącym miejscu – od razu, bez okienek (nazwę i opis można dopisać później w okienku punktu)
+    const at = recAt();
+    if (!at) return;
+    recWpAdd({id: uid(), p: at, s: recSec(), i: pinIcon, nm: _t('Punkt ') + fhm(Date.now())});
+    gBuzz(60);
+    recNfT = 0;
+    const N = plug('OmmRecNotif');
+    if (N)
+      N.update({title: _t('📍 Dodano punkt'), text: recNfTx, stop: _t('Zakończ'), foto: _t('Zdjęcie'), pkt: _t('Punkt')}).catch(() => {});
+    setTimeout(() => recNotifUpd(true), 3000);
+  }
+}
+try {
+  const N = plug('OmmRecNotif');
+  if (N) N.addListener('recAction', e => e && recNotifAction(e.a));
+} catch (e) {}
 function recClear(keepRaw) {
   recWatchOff();
+  recNotifUpd.stopping = false;
+  recNfTx = '';
+  try {
+    const N = plug('OmmRecNotif');
+    if (N) setTimeout(() => !REC && N.clear().catch(() => {}), 1500); // nieaktualne powiadomienie po zakończeniu
+  } catch (e) {}
   try {
     notifyCancel(NOTE_REC); // v77: komunikaty „co kilometr” po zakończeniu nagrywania znikają
   } catch (e) {}
@@ -30599,6 +30915,7 @@ function recUi() {
           ? _t('Szukam GPS…') + (recPos ? ' ±' + fel(recPos.accu) : '')
           : km + (v != null ? ' · ' + fkmh(v) : '');
   $('rectx').title = $('rect').textContent + ' · ' + $('recs').textContent + ' – ' + _t('Panel na żywo');
+  recNotifUpd();
   $('rpp').innerHTML = ico(REC.paused ? 'play' : 'pause');
   $('rpp').title = REC.paused ? _t('Wznów nagrywanie') : _t('Pauza');
   if ($('recpan').style.display !== 'none') {
@@ -33084,10 +33401,178 @@ async function encOff() {
   localStorage.removeItem(ENC_FLAG);
   return true;
 }
+// ---------- v94 (pkt 75 i 214): skład kopii i szyfrowanie po kawałku ----------
+/*
+ * Użytkownik wybiera (Ustawienia → Kopia zapasowa i dane), które części trafiają do kopii i które z nich są
+ * szyfrowane: mapy i obiekty, ślady GPS, zdjęcia, ustawienia (z dziennikiem Sportu). Kopia mieszana: części jawne
+ * leżą w ZIP-ie jak dotąd (GeoJSON, GPX, JPG), szyfrowane – w folderze enc/:
+ *  • każdy plik osobno: AES-256-GCM, własny losowy IV (12 B, na początku pliku), znacznik kolejności jako dane
+ *    uwierzytelniane (AAD „omm-v2:<nr>”) – zamiana albo podmiana plików = odmowa odczytu,
+ *  • zaszyfrowany spis enc/spis.bin (AAD „omm-v2:spis”): nazwa, numer, SHA-256 i rozmiar każdego pliku,
+ *  • omm.json (spis kopii z nazwami map i warstw) jest zawsze szyfrowany, gdy cokolwiek jest szyfrowane,
+ *  • klucz jak w v1: PBKDF2-SHA-256 z hasła (parametry jawne w szyfr.json, v: 2).
+ * Odczyt plik po pliku – duża kopia ze zdjęciami nie musi mieścić się w pamięci naraz (audyt v2, F04).
+ * Stary format (v1: jeden dane.bin) jest dalej odczytywany. W kopii jest też ODSZYFRUJ.py – odszyfrowanie bez OMM.
+ */
+const KOPIA_CZ = [
+  ['mapy', _t('Mapy i obiekty (punkty, linie, warstwy, opisy)')],
+  ['slady', _t('Ślady GPS (z godzinami)')],
+  ['zdjecia', _t('Zdjęcia')],
+  ['ustawienia', _t('Ustawienia OMM i dziennik Sportu')]
+];
+function kopiaCfg() {
+  let o = {};
+  try {
+    o = JSON.parse(localStorage.getItem('omm-kopia-cz') || '{}') || {};
+  } catch (e) {}
+  const r = {};
+  KOPIA_CZ.forEach(([k]) => {
+    const x = o[k] || {};
+    r[k] = {in: x.in !== false, enc: x.enc !== false};
+  });
+  return r;
+}
+const kopiaCat = n => (/^mapy\//.test(n) ? 'mapy' : /^slady\//.test(n) ? 'slady' : /^zdjecia\//.test(n) ? 'zdjecia' : n === 'ustawienia.json' ? 'ustawienia' : n === 'omm.json' ? 'spis' : null);
+const ODSZYFRUJ_PY = `#!/usr/bin/env python3
+# OMM – Own Map Manager: odszyfrowanie kopii zapasowej BEZ aplikacji OMM.
+# Wymaga: Python 3.8+ i pakietu „cryptography”:  pip install cryptography
+# Użycie: python3 ODSZYFRUJ.py kopia.zip   → powstaje kopia-odszyfrowana.zip (zwykły ZIP:
+#         mapy w GeoJSON, ślady w GPX, zdjęcia, ustawienia – czytelne w innych programach).
+# Szyfr: AES-256-GCM, klucz z hasła PBKDF2-SHA-256 (sól i liczba iteracji w szyfr.json).
+import sys, json, zipfile, hashlib, getpass, base64
+try:
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.exceptions import InvalidTag
+except ImportError:
+    sys.exit("Brak pakietu cryptography – zainstaluj: pip install cryptography")
+src = sys.argv[1] if len(sys.argv) > 1 else input("Plik kopii (ZIP): ").strip()
+z = zipfile.ZipFile(src)
+h = json.loads(z.read("szyfr.json"))
+pw = getpass.getpass("Hasło kopii: ").encode("utf-8")
+key = AESGCM(hashlib.pbkdf2_hmac("sha256", pw, base64.b64decode(h["salt"]), int(h["iter"]), 32))
+out = src.rsplit(".", 1)[0] + "-odszyfrowana.zip"
+try:
+    if h.get("v") == 1:
+        data = key.decrypt(base64.b64decode(h["iv"]), z.read("dane.bin"), None)
+        open(out, "wb").write(data)  # v1: w środku cały zwykły ZIP kopii
+    else:
+        b = z.read(h["spis"])
+        spis = json.loads(key.decrypt(b[:12], b[12:], b"omm-v2:spis"))
+        with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as o:
+            for n in z.namelist():
+                if not n.startswith("enc/") and n not in ("szyfr.json", "ODSZYFRUJ.py"):
+                    o.writestr(n, z.read(n))  # części jawne
+            for e in spis:
+                b = z.read(e["n"])
+                d = key.decrypt(b[:12], b[12:], ("omm-v2:" + str(e["k"])).encode())
+                if hashlib.sha256(d).hexdigest() != e["sha"]:
+                    sys.exit("Uszkodzony plik w kopii: " + e["name"])
+                o.writestr(e["name"], d)
+except InvalidTag:
+    sys.exit("Złe hasło albo uszkodzona kopia.")
+print("Gotowe:", out)
+`;
+const hex = u8 => [...u8].map(b => b.toString(16).padStart(2, '0')).join('');
+const encAad = k => new TextEncoder().encode('omm-v2:' + k);
+async function encWrap2(files, cfg) {
+  // files: [{name, data}] pełnej kopii → ZIP (jawny albo mieszany z enc/); niepewny stan klucza → wyjątek
+  const E = await encGet(true),
+    toU8 = async d => (typeof d === 'string' ? new TextEncoder().encode(d) : d instanceof Blob ? new Uint8Array(await d.arrayBuffer()) : d),
+    encCat = c => c === 'spis' || (cfg[c] && cfg[c].enc);
+  const anyEnc = !!E && KOPIA_CZ.some(([k]) => cfg[k].in && cfg[k].enc);
+  if (!anyEnc) return zipMake(files);
+  const out = [],
+    spis = [];
+  let k = 0;
+  for (const f of files) {
+    const c = kopiaCat(f.name);
+    if (!c || !encCat(c)) {
+      out.push(f);
+      continue;
+    }
+    k++;
+    const iv = crypto.getRandomValues(new Uint8Array(12)),
+      pt = await toU8(f.data),
+      ct = new Uint8Array(await crypto.subtle.encrypt({name: 'AES-GCM', iv, additionalData: encAad(k)}, E.key, pt)),
+      b = new Uint8Array(12 + ct.length),
+      n = 'enc/' + String(k).padStart(5, '0') + '.bin';
+    b.set(iv);
+    b.set(ct, 12);
+    out.push({name: n, data: b});
+    spis.push({n, k, name: f.name, sha: hex(new Uint8Array(await crypto.subtle.digest('SHA-256', pt))), size: pt.length});
+  }
+  const iv = crypto.getRandomValues(new Uint8Array(12)),
+    ct = new Uint8Array(await crypto.subtle.encrypt({name: 'AES-GCM', iv, additionalData: encAad('spis')}, E.key, new TextEncoder().encode(JSON.stringify(spis)))),
+    b = new Uint8Array(12 + ct.length);
+  b.set(iv);
+  b.set(ct, 12);
+  out.push({name: 'enc/spis.bin', data: b});
+  out.push({name: 'szyfr.json', data: JSON.stringify({format: 'omm-szyfr', v: 2, alg: 'AES-256-GCM', kdf: 'PBKDF2-SHA-256', iter: E.iter, salt: E.salt, spis: 'enc/spis.bin'})});
+  out.push({name: 'ODSZYFRUJ.py', data: ODSZYFRUJ_PY});
+  const jawne = KOPIA_CZ.filter(([q]) => cfg[q].in && !cfg[q].enc).map(([, t]) => t);
+  out.push({
+    name: 'CZYTAJ.txt',
+    data:
+      _t('OMM – Own Map Manager · kopia zapasowa z SZYFROWANIEM\r\n\r\n') +
+      _t('Zaszyfrowane części są w folderze enc/ (AES-256-GCM, klucz z hasła: PBKDF2-SHA-256, każdy plik osobno).\r\n') +
+      (jawne.length ? _t('Bez szyfrowania (czytelne dla każdego): ') + jawne.join(', ') + '\r\n' : '') +
+      _t('Przywracanie: OMM → Kopia → Przywróć z kopii… → podaj hasło.\r\n') +
+      _t('Bez OMM: python3 ODSZYFRUJ.py <ten plik> (potrzebne hasło) – powstanie zwykły ZIP z mapami, śladami i zdjęciami.\r\n') +
+      _t('Bez hasła odczyt nie jest możliwy – nikt nie ma „furtki”.\r\n')
+  });
+  return zipMake(out.filter(f => f.name !== 'CZYTAJ.txt' || out.indexOf(f) === out.length - 1));
+}
+async function encOpen2(z0, h) {
+  // kopia v2 → wirtualny ZIP (has / read / names): części jawne + odszyfrowane plik po pliku
+  if (h.alg !== 'AES-256-GCM' || !(h.iter >= 100000 && h.iter <= 5000000) || typeof h.spis !== 'string' || !z0.has(h.spis))
+    throw new Error(_t('Nieznany sposób szyfrowania kopii (nowsza wersja OMM?).'));
+  const sb = await z0.read(h.spis),
+    salt = b64d(h.salt),
+    open = async key => {
+      try {
+        return JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({name: 'AES-GCM', iv: sb.slice(0, 12), additionalData: encAad('spis')}, key, sb.slice(12))));
+      } catch (e) {
+        return null;
+      }
+    };
+  let key = null,
+    spis = null;
+  const E = await encGet();
+  if (E && E.salt === h.salt && (spis = await open(E.key))) key = E.key;
+  for (let n = 0; !key && n < 5; n++) {
+    const pass = await askPass(_t('Ta kopia jest zaszyfrowana. Podaj hasło kopii:') + (n ? _t('\n\n❌ Złe hasło – spróbuj jeszcze raz.') : ''));
+    if (pass == null) throw new Error(_t('Anulowano – kopia nie została przywrócona.'));
+    const k = await encDerive(pass, salt, h.iter);
+    if ((spis = await open(k))) key = k;
+  }
+  if (!key) throw new Error(_t('Złe hasło – kopia nie została przywrócona.'));
+  if (!Array.isArray(spis)) throw new Error(_t('Uszkodzony spis zaszyfrowanej kopii.'));
+  const map = new Map(spis.filter(e => e && typeof e.name === 'string' && typeof e.n === 'string').map(e => [e.name, e])),
+    plain = z0.names().filter(n => !/^enc\//.test(n) && n !== 'szyfr.json' && n !== 'ODSZYFRUJ.py' && !map.has(n));
+  return {
+    has: n => map.has(n) || plain.includes(n),
+    names: () => [...plain, ...map.keys()],
+    read: async n => {
+      const e = map.get(n);
+      if (!e) return z0.read(n);
+      const b = await z0.read(e.n);
+      let pt;
+      try {
+        pt = new Uint8Array(await crypto.subtle.decrypt({name: 'AES-GCM', iv: b.slice(0, 12), additionalData: encAad(e.k)}, key, b.slice(12)));
+      } catch (er) {
+        throw new Error(_t('Uszkodzony zaszyfrowany plik w kopii: ') + n);
+      }
+      if (hex(new Uint8Array(await crypto.subtle.digest('SHA-256', pt))) !== e.sha) throw new Error(_t('Uszkodzony zaszyfrowany plik w kopii: ') + n);
+      return pt;
+    }
+  };
+}
 const ZIP_LAST = {brak: 0}; // ostatnia kopia: ile zdjęć z odnośników nie było w bazie
 async function zipBackup(vis) {
   wpSyncAll();
   ZIP_LAST.brak = 0;
+  const KC = kopiaCfg(); // v94 (214): które części w kopii i które szyfrowane
+  if (vis) KC.mapy.in = true; // „tylko widoczne” to zawsze mapa
   // vis = tylko to, co widać na bieżącej mapie (bez śladów)
   const files = [],
     used = new Set(),
@@ -33109,9 +33594,11 @@ async function zipBackup(vis) {
     curW: vis ? P.id : DB.curW,
     mapy: [],
     slady: null,
-    zdjecia: []
+    zdjecia: [],
+    czesci: KOPIA_CZ.map(([k]) => k).filter(k => KC[k].in)
   };
-  (vis ? [P] : DB.maps).forEach(m => {
+  if (!KC.mapy.in) idx.bezMap = true;
+  (KC.mapy.in ? (vis ? [P] : DB.maps) : []).forEach(m => {
     const fn = 'mapy/' + uniq(safeName(m.name)) + '.geojson',
       j = JSON.parse(fullBackup(vis, m));
     j.features.forEach(f => {
@@ -33126,7 +33613,7 @@ async function zipBackup(vis) {
     files.push({name: fn, data: JSON.stringify(j, null, 1)});
     idx.mapy.push({plik: fn, id: m.id, name: m.name, ...(m.w ? {w: true} : {})});
   });
-  if (!vis) {
+  if (!vis && KC.slady.in) {
     idx.slady = trkMetaOut();
     names.clear();
     TRK.items.forEach(t => {
@@ -33137,6 +33624,7 @@ async function zipBackup(vis) {
   // v66 (audyt v2, R03): błąd odczytu zdjęcia przerywa kopię (nie udajemy pełnej kopii); zdjęcie, którego
   // w bazie po prostu nie ma (usunięte wcześniej), zapisujemy w spisie jako brakujące i zgłaszamy
   const brak = [];
+  if (!KC.zdjecia.in) used.clear(); // zdjęcia poza kopią – odnośniki zostają (na tym telefonie zdjęcia są)
   for (const n of used) {
     let b;
     try {
@@ -33151,17 +33639,27 @@ async function zipBackup(vis) {
   }
   if (brak.length) idx.brakZdjec = brak;
   ZIP_LAST.brak = brak.length;
-  files.push({name: 'ustawienia.json', data: JSON.stringify(settingsObj(), null, 1)});
+  if (KC.ustawienia.in) files.push({name: 'ustawienia.json', data: JSON.stringify(settingsObj(), null, 1)});
   files.push({name: 'omm.json', data: JSON.stringify(idx, null, 1)});
   files.push({name: 'CZYTAJ.txt', data: CZYTAJ});
-  return encWrap(await zipMake(files)); // zaszyfrowana, gdy włączono szyfrowanie kopii
+  return encWrap2(files, KC); // v94: zaszyfrowane (po kawałku) wybrane części, gdy włączono szyfrowanie kopii
 }
 const ZIP_INT = new WeakMap(); // kopia ZIP → {trk: ślady z GPX, foto: zdjęcia do zapisania po zgodzie}
 async function zipToBackup(buf) {
   // kopia ZIP → ta sama postać co dawna kopia GeoJSON (dalej działa zwykłe przywracanie)
   const z0 = zipOpen(buf);
-  if (z0.has('szyfr.json') && z0.has('dane.bin')) return zipToBackup(await encUnwrap(z0)); // kopia zaszyfrowana
-  const z = z0,
+  let zz = z0;
+  if (z0.has('szyfr.json')) {
+    let hh = null;
+    try {
+      hh = JSON.parse(new TextDecoder().decode(await z0.read('szyfr.json')));
+    } catch (e) {
+      throw new Error(_t('Uszkodzony opis szyfrowania w kopii.'));
+    }
+    if (hh && hh.format === 'omm-szyfr' && hh.v === 2) zz = await encOpen2(z0, hh); // v94: po kawałku, części jawne obok
+    else if (z0.has('dane.bin')) return zipToBackup(await encUnwrap(z0)); // v1: cała kopia w dane.bin
+  }
+  const z = zz,
     td = new TextDecoder(),
     txt = async n => td.decode(await z.read(n));
   if (!z.has('omm.json')) throw new Error(_t('To nie jest kopia OMM (w pliku ZIP brak omm.json).'));
@@ -33219,7 +33717,8 @@ async function zipToBackup(buf) {
       curW: idx.curW,
       maps,
       settings: z.has('ustawienia.json') ? JSON.parse(await txt('ustawienia.json')) : undefined,
-      ...(idx.zakres ? {zakres: idx.zakres} : {})
+      ...(idx.zakres ? {zakres: idx.zakres} : {}),
+      ...(idx.bezMap ? {bezMap: true} : {}) // v94: kopia bez map (wybór w Ustawieniach) – obecne mapy zostają
     },
   };
   ZIP_INT.set(out, {trk, foto}); // dane wewnętrzne kopii ZIP – poza zasięgiem treści pliku
@@ -36351,17 +36850,100 @@ async function trkMatchAuto(t) {
   if (ok === false) (t.mmW = 1), trkSave(); // serwer nie odpowiedział – spróbujemy później
 }
 async function trkMatchPending() {
-  // ślady, które czekały na internet (automatyczne dopasowanie)
-  if (!trkMatchAutoOn() || navigator.onLine === false || trkMatchPending.busy) return;
+  // ślady, które czekały na internet (automatyczne dopasowanie; v94: dziury w jeździe autem – zawsze)
+  if (navigator.onLine === false || trkMatchPending.busy) return;
   trkMatchPending.busy = true;
   try {
-    for (const t of (TRK.items || []).filter(x => x.mmW && !x.mm)) {
-      delete t.mmW;
-      await trkMatchAuto(t);
+    if (trkMatchAutoOn())
+      for (const t of (TRK.items || []).filter(x => x.mmW && !x.mm)) {
+        delete t.mmW;
+        await trkMatchAuto(t);
+      }
+    for (const t of (TRK.items || []).filter(x => x.gfW)) {
+      delete t.gfW;
+      await trkGapFill(t);
     }
   } finally {
     trkMatchPending.busy = false;
   }
+}
+// ---------- v94: dziury w jeździe autem dociągane po drogach (zawsze, gdy jest internet) ----------
+// Gdy w aucie GPS na chwilę traci dokładność (pomiary gorsze niż 30 m są odrzucane), ślad łączył dziurę prostą
+// przez budynki. Po „Stop” każdą taką przerwę (≥ 15 s bez dobrych pomiarów i ≥ 100 m) OMM wyznacza po drogach
+// z serwera tras (profil samochód) – tylko gdy trasa jest sensowna (nie dłuższa niż 2,5× w linii prostej i nie
+// szybsza niż 160 km/h). Dociągnięty kawałek jest jak dorysowany (linia przerywana); „Cofnij dopasowanie” go zdejmuje.
+async function trkGapFill(t) {
+  if (!t || t.a !== 'auto' || !t.pts || t.pts.length < 2 || !t.rid) return null;
+  if (navigator.onLine === false) {
+    t.gfW = 1;
+    trkSave();
+    return false;
+  }
+  const rows = await rawLoad(t.rid),
+    sh = (t.st - (t.rst || t.st)) / 1000,
+    good = rows.filter(r => r && r[3] <= 30).map(r => r[0] - sh),
+    P = t.pts,
+    sg = new Set(t.sg || []),
+    gaps = [];
+  if (good.length < 2) return null;
+  let gi = 0;
+  for (let i = 1; i < P.length && gaps.length < 12; i++) {
+    if (sg.has(i) || P[i][4] === 1 || P[i - 1][4] === 1) continue;
+    const d = hav(P[i - 1], P[i]),
+      t0 = P[i - 1][3],
+      t1 = P[i][3];
+    if (d < 100 || t1 - t0 < 15) continue;
+    // najdłuższa przerwa w dobrych pomiarach między tymi punktami
+    while (gi < good.length && good[gi] < t0) gi++;
+    let prev = t0,
+      mx = 0;
+    for (let k = gi; k < good.length && good[k] <= t1; k++) (mx = Math.max(mx, good[k] - prev)), (prev = good[k]);
+    mx = Math.max(mx, t1 - prev);
+    if (mx >= 15) gaps.push(i);
+  }
+  if (!gaps.length) return null;
+  const out = [];
+  let n = 0,
+    from = 0;
+  try {
+    for (const i of gaps) {
+      const a = P[i - 1],
+        b = P[i],
+        d = hav(a, b),
+        dt = b[3] - a[3],
+        r = await routeAB([a.slice(0, 2), b.slice(0, 2)], {prof: 'auto', noWalk: true});
+      if (!r || !r.p || r.p.length < 2 || !(r.len > 0) || r.len > Math.max(2.5 * d, d + 400) || r.len / Math.max(1, dt) > 45) continue;
+      out.push(...P.slice(from, i));
+      let c = 0;
+      const L = r.len;
+      for (let k = 1; k < r.p.length - 1; k++) {
+        c += hav(r.p[k - 1], r.p[k]);
+        const f = Math.min(1, c / L),
+          ele = a[2] != null && b[2] != null ? Math.round((a[2] + (b[2] - a[2]) * f) * 10) / 10 : null;
+        out.push([+r.p[k][0].toFixed(6), +r.p[k][1].toFixed(6), ele, Math.round(a[3] + dt * f), 1]);
+      }
+      from = i;
+      n++;
+    }
+  } catch (e) {
+    diag('dziury', _t('Dociąganie dziur auta: ') + String((e && e.message) || e), '');
+    t.gfW = 1;
+    trkSave();
+    return false;
+  }
+  if (!n) return null;
+  out.push(...P.slice(from));
+  // przesunięcie indeksów podziału śladu (sg) o wstawione punkty
+  const nsg = (t.sg || []).map(k => out.indexOf(P[k])).filter(k => k > 0);
+  if (!t.mm) t.mm = {o: {pts: t.pts, sg: t.sg || []}, at: Date.now(), f: 0, g: n};
+  else t.mm.g = n;
+  t.pts = out;
+  t.sg = nsg;
+  t.up = Date.now();
+  await trkChanged();
+  diag('dziury', _t('Dociągnięto dziury auta: ') + n, '');
+  toastMsg(n === 1 ? _t('🚗 Przerwę w GPS dociągnięto po drodze') : _t('🚗 Przerwy w GPS dociągnięto po drogach: ') + n);
+  return true;
 }
 window.addEventListener('online', () => setTimeout(trkMatchPending, 5000));
 setTimeout(trkMatchPending, 15000); // po uruchomieniu – ślady zapisane bez internetu
@@ -36459,7 +37041,7 @@ async function trkMatch(t, opt = {}) {
     keep.forEach(q => flat.push(q));
   });
   trashPut('slad', _t('Ślad „') + (t.nm || _t('Ślad')) + _t('” przed dopasowaniem do ścieżek'), {items: [{...clone(t), id: uid(), nm: (t.nm || _t('Ślad')) + _t(' (przed dopasowaniem)')}]});
-  t.mm = {o: {pts: t.pts, sg: t.sg || []}, at: Date.now(), f: Math.round((nOk / nAll) * 100), ...(auto ? {a: 1} : {})};
+  t.mm = {o: t.mm && t.mm.o ? t.mm.o : {pts: t.pts, sg: t.sg || []}, at: Date.now(), f: Math.round((nOk / nAll) * 100), ...(auto ? {a: 1} : {}), ...(t.mm && t.mm.g ? {g: t.mm.g} : {})}; // v94: oryginał sprzed dociągnięcia dziur zostaje
   delete t.mmW;
   t.pts = flat;
   t.sg = nsg;
@@ -37802,8 +38384,9 @@ async function autoBackup(force, localOnly) {
       if (du && OB && !localOnly) {
         try {
           const c = await FS.writeFile({path: 'autokopia/OMM-kopia.zip', directory: 'CACHE', recursive: true, data});
-          await OB.writeTo({uri: du, src: c.uri});
+          const wr = await OB.writeTo({uri: du, src: c.uri});
           st.drive = true;
+          st.ver = (wr && wr.verified) || ''; // v94 (R04): sprawdzenie zapisanej kopii (sha / size / none)
           FS.deleteFile({path: 'autokopia/OMM-kopia.zip', directory: 'CACHE'}).catch(() => {});
         } catch (e) {
           st.drive = false;
@@ -38728,10 +39311,20 @@ function carDetect(q, x) {
       dt = q[3] - a[3];
     if (dt > 0) v = hav(a, q) / dt;
   }
+  // v94: przerwa w pomiarach (np. GPS stracony w aucie) – przeskok pozycji szybszy niż marsz to jazda
+  // (krótki przejazd spod sklepu pod dom bez GPS wcześniej nie był wykrywany: auto zostawało pod sklepem)
+  let jump = 0;
+  if (n > 1) {
+    const a = REC.pts[n - 2],
+      dt = q[3] - a[3],
+      dj = hav(a, q);
+    if (dt >= 5 && dj >= 120 && dj / dt > 4.5) (jump = dt), (v = Math.max(v || 0, 8.01));
+  }
   if (v == null) return;
   if (v > 8) {
-    if (!CARD.drv || q[3] - CARD.drv > 120) {
+    if (!CARD.drv || q[3] - CARD.drv > 120 + jump) {
       CARD.drvT = 0; // nowa jazda po dłuższej przerwie
+      CARD.drvD = 0;
       const a = n > 1 ? REC.pts[n - 2] : q;
       CARD.d0 = [a[0], a[1]]; // v72: skąd ruszyła ta jazda
     }
@@ -38742,13 +39335,14 @@ function carDetect(q, x) {
       CARD.d0 = null;
       toastMsg(_t('🚗 Odjechano – usunięto miejsce auta'));
     }
-    CARD.drvT = (CARD.drvT || 0) + Math.max(0, Math.min(10, q[3] - (CARD.drv || q[3])));
+    CARD.drvT = (CARD.drvT || 0) + Math.max(0, Math.min(jump || 10, q[3] - (CARD.drv || q[3])));
+    CARD.drvD = (CARD.drvD || 0) + (n > 1 ? hav(REC.pts[n - 2], q) : 0); // v94: przejechany dystans tej jazdy
     CARD.drv = q[3];
     CARD.stopAt = null;
     CARD.walk = 0;
     return;
   }
-  if (!CARD.drv || q[3] - CARD.drv > 1800 || (CARD.drvT || 0) < 60) return; // za krótka jazda – to nie dojazd
+  if (!CARD.drv || q[3] - CARD.drv > 1800 || ((CARD.drvT || 0) < 60 && (CARD.drvD || 0) < 250)) return; // za krótka jazda – to nie dojazd (v94: albo ≥ 250 m)
   if (v >= 2.6) {
     // wolna jazda (korek, parking) – to nie marsz; zaczynamy liczyć od nowa
     CARD.stopAt = null;
@@ -41265,6 +41859,9 @@ function fieldHook(q, x) {
   try {
     sportRecPoint(q, x); // licznik sportowy liczy także z nagrywania (w tle)
   } catch (e) {}
+  try {
+    recNotifUpd(); // v94: dystans i czas w powiadomieniu nagrywania
+  } catch (e) {}
   if (!FLD_READY) return;
   try {
     carDetect(q, x);
@@ -43465,9 +44062,61 @@ function settingsDlg(keep, old) {
       ['nie', _t('Wyłączona')]
     ],
     NATIVE
-      ? _t('Pełna kopia ZIP (mapy, ślady, zdjęcia, ustawienia) w ') + abFolder().label + _t(' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.')
+      ? _t('Kopia ZIP (części wybrane niżej) w ') + abFolder().label + _t(' – zostaje 7 ostatnich. Po zapisie pojawia się komunikat „Kopia zapisana”.')
       : _t('Automatyczna kopia działa w aplikacji na Androida. Tutaj „Zrób kopię teraz” pobiera plik ZIP.')
   );
+  {
+    // v94 (214): skład kopii – co trafia do kopii i co z tego jest szyfrowane
+    const g = h('div', 'sset'),
+      tb = h('table', 'kopcz'),
+      KC = kopiaCfg(),
+      note = h('div', 'muted');
+    g.append(h('b', null, _t('Co jest w kopii')), tb, note);
+    const hr = h('tr');
+    hr.append(h('th', null, ''), h('th', null, _t('w kopii')), h('th', null, '🔒 ' + _t('szyfruj')));
+    tb.append(hr);
+    const saveKC = () => localStorage.setItem('omm-kopia-cz', JSON.stringify(KC));
+    encGet().then(E => {
+      KOPIA_CZ.forEach(([k, lab]) => {
+        const tr = h('tr'),
+          c1 = h('input'),
+          c2 = h('input');
+        c1.type = c2.type = 'checkbox';
+        c1.checked = KC[k].in;
+        c2.checked = !!E && KC[k].enc;
+        c2.disabled = !E || !KC[k].in;
+        c1.onchange = () => {
+          KC[k].in = c1.checked;
+          c2.disabled = !E || !c1.checked;
+          saveKC();
+          if (!c1.checked && k === 'mapy') tell(_t('Kopia bez map nie odtworzy Twoich map na nowym telefonie. Przy przywracaniu takiej kopii obecne mapy zostają bez zmian.'));
+          if (!c1.checked && k === 'zdjecia') tell(_t('Kopia bez zdjęć jest mniejsza, ale na nowym telefonie zdjęć nie będzie – zostaną tylko odnośniki.'));
+        };
+        c2.onchange = () => {
+          KC[k].enc = c2.checked;
+          saveKC();
+          if (!c2.checked && (k === 'zdjecia' || k === 'slady'))
+            tell(
+              k === 'zdjecia'
+                ? _t('Zdjęcia z telefonu mają zapisane miejsce i godzinę zrobienia. Bez szyfrowania każdy, kto zdobędzie plik kopii, zobaczy, gdzie byłeś.')
+                : _t('Ślady mają miejsca i godziny. Bez szyfrowania każdy, kto zdobędzie plik kopii, zobaczy, gdzie i kiedy byłeś.')
+            );
+        };
+        const t1 = h('td'),
+          t2 = h('td'),
+          t3 = h('td');
+        t1.textContent = lab;
+        t2.append(c1);
+        t3.append(c2);
+        tr.append(t1, t2, t3);
+        tb.append(tr);
+      });
+      note.textContent = E
+        ? _t('Części jawne są w pliku kopii jak dotąd (GeoJSON, GPX, JPG), szyfrowane – w folderze enc/ (każdy plik osobno). Dotyczy kopii w telefonie, na Dysku Google i zapisywanych ręcznie. W zaszyfrowanej kopii jest też ODSZYFRUJ.py – odczyt bez OMM (z hasłem).')
+        : _t('Szyfrowanie wybierzesz po ustawieniu hasła kopii: 🔒 Prywatność → „Szyfrowanie kopii hasłem”.');
+    });
+    sec.append(g);
+  }
   chk(
     _t('Kopia także przy wyjściu z aplikacji, gdy doszły nowe dane'),
     'omm-autokopia-zmiany',
@@ -43559,18 +44208,23 @@ function settingsDlg(keep, old) {
       ? _t('Pamięć OMM jest prywatna: menedżer plików, kabel USB i inne aplikacje jej nie widzą. Uwaga: znika razem z aplikacją przy odinstalowaniu – dlatego warto mieć też kopię na Dysku Google (Kopia zapasowa i dane). Kopie z pamięci OMM przywrócisz z listy w „Kopia zapasowa i dane”.')
       : _t('Dotyczy aplikacji na Androida.')
   );
+  const safF = safFolder();
   radios(
     _t('Pliki zapisywane ręcznie (eksport, kopie „Zapisz…”, wydruki, filmy)'),
     'omm-folder',
     'docs',
     [
       ['docs', FOLDERS.docs.label],
-      ['down', FOLDERS.down.label]
+      ['down', FOLDERS.down.label],
+      ...(NATIVE && plug('OmmBackup') ? [['saf', safF ? _t('Wybrany folder: ') + safF.name : _t('Dowolny folder (wybierz…)')]] : [])
     ],
     NATIVE
       ? _t('Pliki trafiają do podfolderów: kopie, eksport, wydruki, filmy. Po każdym zapisie można też plik „Udostępnić…” – np. na Dysk Google.')
-      : _t('Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.')
+      : _t('Dotyczy aplikacji na Androida. W przeglądarce pliki trafiają do folderu pobranych plików.'),
+    v => v === 'saf' && !safFolder() && safPick().then(ok => settingsDlg({top: body.scrollTop}, back)) // v94: dowolny folder
   );
+  if (NATIVE && plug('OmmBackup'))
+    btnRow([B(safF ? _t('📁 Zmień wybrany folder…') : _t('📁 Wybierz dowolny folder…'), () => safPick().then(ok => ok && settingsDlg({top: body.scrollTop}, back)))]);
   radios(_t('Wydruki i obrazy (PNG)'), 'omm-folder-png', 'same', [
     ['same', _t('Do tego samego folderu')],
     ['pics', FOLDERS.pics.label + _t(' – widoczne w galerii zdjęć')]
@@ -43588,7 +44242,7 @@ function settingsDlg(keep, old) {
     _t('Pełnej wielkości oryginał, razem z położeniem GPS zapisanym w zdjęciu. Bez tej opcji OMM trzyma tylko swoją kopię (do 2000 px).')
   );
   sec.append(
-    h('div', 'muted', _t('Wybór dowolnego folderu w telefonie wymaga dodatkowego kodu dla Androida – pojawi się po kolejnym przeglądzie bezpieczeństwa.'))
+    h('div', 'muted', _t('Dowolny folder (v94): Android pyta o dostęp tylko do wybranego folderu – OMM nie widzi reszty telefonu. Pliki trafiają do podfolderów kopie / eksport / wydruki / filmy; zapis jest bezpieczny (najpierw plik tymczasowy, potem zmiana nazwy).'))
   );
 
   cat('pryw', 'lock', _t('Prywatność'), _t('Blokada, szyfrowanie, zdjęcia z internetu'));
