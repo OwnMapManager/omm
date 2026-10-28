@@ -11,3 +11,10 @@ Decyzja autora (27.10.2026): wdrożyć bez wcześniejszego audytu, przejrzeć pr
 | 75 (F04) | Szyfrowanie kopii po kawałku: każdy plik osobno AES-256-GCM, własny IV, AAD `omm-v2:<nr>`, zaszyfrowany spis (`enc/spis.bin`) z SHA-256; `omm.json` zawsze szyfrowany, gdy cokolwiek jest szyfrowane. Odczyt starego formatu v1. Wybór części kopii i ich szyfrowania (pkt 214). `ODSZYFRUJ.py` w kopii. | `app/omm.html` (`encWrap2`, `encOpen2`, `zipBackup`, `zipToBackup`, `restoreBuf`) | Klucz jak w v1 (PBKDF2-SHA-256, 600 000 iteracji). Części jawne z wyboru użytkownika (z ostrzeżeniem przy zdjęciach i śladach). |
 | R07 | Suma SHA-256 dystrybucji Gradle przypięta w repozytorium (`gradle-8.14.3-bin.zip`); CI porównuje ją z oficjalną i przerywa wydanie przy niezgodności. | `android/gradle/wrapper/gradle-wrapper.properties`, `.github/workflows/android.yml` | Zmiana z `-all` na `-bin` (do budowania wystarczy). |
 | R05 | **Bez zmiany** – `useLegacyBridge` musi zostać: wtyczka background-geolocation wymaga go, inaczej Android zatrzymuje pozycje po ok. 5 min w tle (README wtyczki, issue #89). | – | Ryzyko świadomie przyjęte. |
+
+## v95 (28.10.2026) – kolejne drobne zmiany natywne (ta sama decyzja autora)
+
+| Pkt | Zmiana | Pliki | Uwagi bezpieczeństwa |
+| --- | --- | --- | --- |
+| 221 | „Pełny aparat telefonu”: `OmmPhotos.camera` otwiera zwykłą aplikację aparatu (`MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA`), po powrocie użytkownik wskazuje zdjęcia w systemowym oknie wyboru (`pick`, jak dotąd). | `OmmPhotosPlugin.java` | Brak nowych uprawnień i brak dostępu do galerii – OMM dostaje tylko zdjęcia wskazane w oknie systemowym. Brak aplikacji aparatu = błąd i powrót do szybkiego aparatu. |
+| 222 | Przyciemnianie ekranu w prowadzeniu: `OmmLock.brightness` ustawia `screenBrightness` tylko dla okna OMM (v < 0 – z powrotem jak w systemie). | `OmmLockPlugin.java` | Bez uprawnienia WRITE_SETTINGS – ustawienia jasności telefonu nietknięte; po zamknięciu okna wraca jasność systemowa. |

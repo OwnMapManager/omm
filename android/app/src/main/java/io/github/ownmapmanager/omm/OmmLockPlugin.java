@@ -89,6 +89,23 @@ public class OmmLockPlugin extends Plugin {
         call.resolve();
     }
 
+    /**
+     * v95: jasność ekranu tylko dla okna OMM (prowadzenie – przyciemnianie na prostych odcinkach).
+     * v: 0…1 – ustawiona jasność, v &lt; 0 – z powrotem jak w systemie. Bez uprawnień: dotyczy tylko okna
+     * OMM i znika po jego zamknięciu; ustawienia jasności telefonu zostają nietknięte.
+     */
+    @PluginMethod
+    public void brightness(PluginCall call) {
+        final double v = call.getDouble("v", -1.0);
+        getActivity()
+            .runOnUiThread(() -> {
+                android.view.WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+                lp.screenBrightness = v < 0 ? android.view.WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE : (float) Math.max(0.01, Math.min(1.0, v));
+                getActivity().getWindow().setAttributes(lp);
+                call.resolve();
+            });
+    }
+
     @PluginMethod
     public void recents(PluginCall call) {
         final boolean hide = Boolean.TRUE.equals(call.getBoolean("hide", false));

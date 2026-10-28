@@ -39,6 +39,7 @@ import java.util.List;
  *           Przed pierwszym wyborem prosi o zgodę „dostęp do lokalizacji w multimediach”; bez zgody
  *           działa dalej, tylko bez lokalizacji. Wybrane zdjęcia są kopiowane (oryginalne bajty)
  *           do pamięci podręcznej OMM; zwraca ścieżki kopii + odczytane współrzędne.
+ * camera  – (v95) otwiera zwykłą aplikację aparatu; po powrocie OMM proponuje pick.
  * cleanup – usuwa te kopie (OMM zapisuje u siebie własną, zmniejszoną kopię zdjęcia).
  *
  * Bezpieczeństwo: OMM nie dostaje dostępu do całej galerii – tylko do zdjęć wskazanych przez
@@ -62,6 +63,27 @@ public class OmmPhotosPlugin extends Plugin {
             return;
         }
         launch(call);
+    }
+
+    /**
+     * v95: zwykła aplikacja aparatu telefonu (pełne tryby, zdjęcie zapisuje się w galerii jak zawsze).
+     * Bez uprawnień i bez dostępu do zdjęć – OMM tylko otwiera aparat; po powrocie użytkownik sam
+     * wskazuje zrobione zdjęcia w systemowym oknie wyboru (pick).
+     */
+    @PluginMethod
+    public void camera(PluginCall call) {
+        try {
+            Intent i = new Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA);
+            startActivityForResult(call, i, "cameraBack");
+        } catch (Exception e) {
+            call.reject("brak aplikacji aparatu");
+        }
+    }
+
+    @ActivityCallback
+    private void cameraBack(PluginCall call, ActivityResult result) {
+        if (call == null) return;
+        call.resolve(new JSObject());
     }
 
     @PermissionCallback
