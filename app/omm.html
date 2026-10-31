@@ -1813,6 +1813,25 @@ button {
   font-style: normal;
   opacity: 0.7;
 }
+#stabs .stab[data-k='slady'],
+#stabs .stab[data-k='plan'] {
+  display: none !important; /* v100 (Q2): ślady i plany w mapie „Moje trasy” */
+}
+.lr .actb {
+  border: 0;
+  background: none;
+  padding: 0 4px;
+  font-size: 17px;
+  line-height: 1;
+  color: var(--sub);
+  flex: none;
+}
+.lr .actb.on {
+  color: var(--acc);
+}
+.mytr {
+  margin-bottom: 6px;
+}
 #mchip {
   position: absolute;
   z-index: 1000;
@@ -8345,6 +8364,22 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  // v100
+  "Moje trasy": "My routes",
+  "Aktywna warstwa: ": "Active layer: ",
+  "Aktywna warstwa – tu trafiają nowe obiekty": "Active layer – new objects go here",
+  "Do której warstwy mapy „": "Which layer of the map “",
+  "” zapisywać punkty?": "” should points be saved to?",
+  "Zapamiętam wybór – zmienisz go znakiem ◉ przy warstwie w panelu.": "I'll remember the choice – change it with the ◉ next to a layer in the panel.",
+  "Skopiuj zaznaczone na mapę…": "Copy the selected items to a map…",
+  "Nie zaznaczono niczego do skopiowania.": "Nothing selected to copy.",
+  "Skopiuj ślad „": "Copy track “",
+  "Skopiowano ślad na mapę „": "Track copied to map “",
+  "Zaplanowane": "Planned",
+  "Tu zapiszą się nowe ślady: ": "New tracks will be saved here: ",
+  "Aktywna warstwa – tu zapisują się nowe ślady": "Active layer – new tracks are saved here",
+  "Ślady GPS i zaplanowane trasy to mapa „Moje trasy” – wybierasz ją strzałką przy „Mapy”, a na górze listy przełączasz Ślady / Zaplanowane. Nowe ślady trafiają tu same, do warstwy wg rodzaju (Rower, Pieszo…).": "GPS tracks and planned routes are the “My routes” map – choose it with the arrow next to “Maps”, and switch Tracks / Planned at the top of the list. New tracks go there by themselves, into a layer by activity (Bike, On foot…).",
+  "Ślady GPS i Planowanie są teraz mapą „Moje trasy”: panel warstw → strzałka ▾ przy „Mapy” → Moje trasy (na górze Ślady / Zaplanowane).": "GPS tracks and Planning are now the “My routes” map: layers panel → the ▾ arrow next to “Maps” → My routes (Tracks / Planned at the top).",
   // v99
   "Ołówek przy nazwie i opisie zmienia tekst. „Więcej” – pozostałe działania, np. kolor, przeniesienie, usunięcie.": "The pencil next to the name and description changes the text. “More” – other actions, e.g. colour, moving, deleting.",
   "W wybranych plikach nie znaleziono obiektów do zaimportowania.": "No objects to import were found in the selected files.",
@@ -11772,7 +11807,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v99';
+const APP_VER = 'v100';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -19922,7 +19957,7 @@ function focusItem(it) {
 }
 // v98 (Q11): jedno okno ustawień warstwy (⋮ przy warstwie) – nazwa na górze, pod nią krycie, alarm, pola danych
 // i operacje na obiektach (ctl – te same kontrolki co dawniej rozwijane w liście), na dole: udostępnij, kolejność, usuń
-async function layerDlg(l, ctl, acts) {
+async function layerDlg(l, ctl, acts, onName) {
   let nm = null;
   const v = await dlg({
     title: _t('Warstwa'),
@@ -19942,8 +19977,11 @@ async function layerDlg(l, ctl, acts) {
   const n = nm && nm.value.trim();
   if (n && n !== l.name) {
     l.name = n.slice(0, 200);
-    save();
-    sheetIfOpen();
+    if (onName) onName();
+    else {
+      save();
+      sheetIfOpen();
+    }
   }
   if (v && v.fn) v.fn();
 }
@@ -20164,7 +20202,7 @@ function mchipUpd() {
   const b = $('mchip');
   if (!b || !P) return;
   const v = viewGet(),
-    t = P.name + (v !== 'all' ? ' · ' + _t(VIEWS[v]).toLowerCase() : '');
+    t = (P.plan ? _t('Moje trasy') : P.name) + (v !== 'all' ? ' · ' + _t(VIEWS[v]).toLowerCase() : '');
   if (b.dataset.t !== t) {
     b.dataset.t = t;
     b.innerHTML = ico('map', 14) + '<span></span>' + ico('chev', 12);
@@ -20513,12 +20551,13 @@ function sheet() {
   if (TAB === 'slady') return trkSheet();
   if (TAB === 'foto') return fotoSheet();
   tabsUi();
-  $('mtitle').textContent = P.name;
+  $('mtitle').textContent = P.plan ? _t('Moje trasy') : P.name; // v100 (Q2): plan = „Moje trasy › Zaplanowane”
   updMode();
   updSel();
   const el = $('list'),
     top = el.scrollTop;
   el.innerHTML = '';
+  if (P.plan) el.append(myTrRow());
   const AN = autoNameMap(),
     many = P.groups.length > 1,
     layers = allL(),
@@ -20614,10 +20653,16 @@ function sheet() {
             l.open = !l.open;
             sv();
           }, _t('Lista obiektów')),
+          // v100 (Q3): osobne gesty – ◉ = aktywna (tu trafiają nowe obiekty), nazwa = rozwiń / zwiń, oko, ⋮
+          B(act ? '◉' : '○', () => {
+            if (P.active !== l.id) toastMsg(_t('Aktywna warstwa: ') + l.name);
+            P.active = l.id;
+            sv();
+          }, 'actb' + (act ? ' on' : ''), _t('Aktywna warstwa – tu trafiają nowe obiekty')),
           B(
             l.name,
             () => {
-              P.active = l.id;
+              l.open = !l.open;
               sv();
             },
             'nm'
@@ -21398,6 +21443,7 @@ function openMap(id) {
   const m = DB.maps.find(x => x.id === id);
   if (!m) return;
   if (P !== m) {
+    ASKL.add(m.id); // v100 (Q3): przy pierwszym punkcie na tej mapie – pytanie o warstwę
     map.closePopup(); // v97 (przegląd): okienko obiektu z poprzedniej mapy nie zostaje otwarte
     closePops();
     toastMsg(_t('Mapa: ') + m.name); // v97: wyraźnie, na której mapie teraz jesteś
@@ -21414,24 +21460,32 @@ function openMap(id) {
   fitSmart(P.items);
 }
 $('mapb').onclick = () => {
-  if (TAB !== 'mapy') {
-    TAB = 'mapy';
-    sheet();
-  }
   const m = $('xmenu');
   m.innerHTML = '';
   m.append(h('div', 'sec', isW() ? _t('MAPY – TRYB PRACA') : _t('MOJE MAPY – TRYB PRYWATNY')));
   modeMaps().forEach(mm =>
     m.append(
       B(
-        (mm.id === P.id ? '● ' : '○ ') + mm.name + '  (' + mm.items.length + ')',
+        (mm.id === P.id && TAB === 'mapy' ? '● ' : '○ ') + mm.name + '  (' + mm.items.length + ')',
         () => {
           m.style.display = 'none';
+          if (TAB !== 'mapy') (TAB = 'mapy'), ctxSync();
           if (mm.id !== P.id) openMap(mm.id);
+          sheet();
         },
-        mm.id === P.id ? 'on' : ''
+        mm.id === P.id && TAB === 'mapy' ? 'on' : ''
       )
     )
+  );
+  // v100 (Q2): „Moje trasy” – ślady GPS i zaplanowane trasy jako mapa w tej samej liście
+  const mtOn = TAB === 'slady' || TAB === 'plan';
+  m.append(
+    B((mtOn ? '● ' : '○ ') + _t('Moje trasy') + '  (' + TRK.items.length + ' + ' + planMap().items.filter(i => i.t === 'line').length + ')', () => {
+      m.style.display = 'none';
+      TAB = TAB === 'plan' ? 'plan' : 'slady';
+      ctxSync();
+      sheet();
+    }, mtOn ? 'on' : '')
   );
   m.append(h('div', 'sep'));
   m.append(
@@ -21752,7 +21806,9 @@ function hintTxt() {
   return HINT[mode] + (DRAW_ALL.includes(mode) ? ' ▸ ' + (a ? a.l.name : '') : '');
 }
 function hintRef() {
-  if (mode && HINT[mode] && info.style.display === 'block' && info.textContent.startsWith(HINT[mode])) info.textContent = hintTxt();
+  // („info” to nakładka: tekst jest w #itx)
+  const t = $('itx') && $('itx').textContent;
+  if (mode && HINT[mode] && typeof t === 'string' && $('info').style.display === 'block' && t.startsWith(HINT[mode])) info.textContent = hintTxt();
 }
 const inGroup = (g, m) =>
   g === 'icons' ? m === 'pin' : g === 'draw' ? DRAW_ALL.includes(m) && m !== 'pin' : GROUPS.data.includes(m);
@@ -22331,8 +22387,22 @@ function commit() {
 }
 const nextNo = () =>
   P.items.reduce((m, i) => (i.t === 'num' && isFinite(i.no) && +i.no > m ? +i.no : m), 0) + 1;
-function placePoint(p) {
+const ASKL = new Set(); // v100 (Q3): mapy, na których przy pierwszym punkcie po przełączeniu pytamy o warstwę
+async function placePoint(p) {
   // punkt z ikoną, kropka albo kolejny numer
+  if (ASKL.has(P.id) && allL().length > 1) {
+    ASKL.delete(P.id);
+    const ls = allL(),
+      v = await dlg({
+        title: _t('Do której warstwy mapy „') + P.name + _t('” zapisywać punkty?'),
+        msg: _t('Zapamiętam wybór – zmienisz go znakiem ◉ przy warstwie w panelu.'),
+        btns: [...ls.map(({l}) => ({t: (l.id === P.active ? '◉ ' : '○ ') + l.name, v: l.id, c: l.id === P.active ? 'okb' : ''})), {t: _t('Anuluj'), v: null}]
+      });
+    if (!v) return;
+    P.active = v;
+    hintRef();
+  }
+  ASKL.delete(P.id);
   const a = findL(P.active);
   if (!a) return;
   a.l.vis = true;
@@ -23618,12 +23688,12 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
-<li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, cztery zakładki: <b>Mapy</b> (Twoje mapy i warstwy), <b>Ślady GPS</b>, <b>Planowanie</b> i <b>Zdjęcia</b>. W każdym wierszu (grupa, warstwa, obiekt, ślad) jest <b>oko</b> – pokazuje i ukrywa – oraz <b>⋮</b> z pozostałymi funkcjami (zmiana nazwy, udostępnianie, kolejność, usuwanie, ustawienia warstwy). Włączenie oka obiektu w ukrytej warstwie włącza warstwę i pokazuje tylko ten obiekt. Przytrzymanie wiersza włącza zaznaczanie i od razu zaznacza tę rzecz (warstwa – wszystkie jej obiekty). Strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
-<li><b>Planowanie</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
+<li><b>Panel warstw</b> – przycisk w lewym dolnym rogu, dwie zakładki: <b>Mapy</b> i <b>Zdjęcia</b>. Strzałką ▾ przy „Mapy” wybierasz mapę – także <b>„Moje trasy”</b>: Twoje ślady GPS i zaplanowane trasy (na górze listy przełącznik <b>Ślady / Zaplanowane</b>); nowe ślady trafiają tam same, do warstwy wg rodzaju. Przy warstwie: <b>◉</b> – aktywna (tu trafiają nowe obiekty / ślady), <b>nazwa</b> – rozwija listę, <b>oko</b> – pokazuje i ukrywa, <b>⋮</b> – jedno okno ustawień warstwy. Po zmianie mapy przy pierwszym punkcie OMM zapyta, do której warstwy go zapisać. Włączenie oka obiektu w ukrytej warstwie włącza warstwę i pokazuje tylko ten obiekt. Przytrzymanie wiersza włącza zaznaczanie i od razu zaznacza tę rzecz (warstwa – wszystkie jej obiekty). Strzałka przy nazwie rozwija listę obiektów, a <b>Filtrem</b> pokażesz np. tylko kanie.</li>
+<li><b>Moje trasy – zaplanowane</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Nawigacja</b> – „Nawiguj” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Do punktu najpierw <b>karta trasy</b> (czym jedziesz, warianty na mapie – wybrana niebieska, inne szare z etykietą czasu, np. „+4 min”; Edytuj, Zapisz, Nawiguj – patrz „Trasa do punktu”). Warianty wg sposobu jazdy: autem najszybsza, inne, najkrótsza, bez autostrad i płatnych; rowerem zalecana, najkrótsza, spokojna (mniej ruchliwych ulic), bez szutrów; pieszo zalecana i najkrótsza. Gdy wjedziesz na trasę w dowolnym miejscu (np. po pomylonej drodze), nawigacja rusza od tego miejsca. Mapa jedzie za Tobą: pomarańczowa strzałka w dolnej części ekranu, przebyty kawałek trasy szary, inne rysunki przygaszone, zoom wg prędkości; na start <b>kierunek jazdy u góry</b> (albo północ – Ustawienia → Nawigacja), a <b>kompas mapy</b> (stale widoczny w nawigacji, pomarańczowa obwódka = kierunek u góry) przełącza to w trakcie. Przesuniesz mapę palcem – po 5 s sama wraca. U góry na środku <b>strzałka następnego manewru</b> (bez tła, niebieska z ciemną obwódką) i odległość do niego; gdy nagrywasz, odsuwa się od kapsuły nagrywania. Na dole jeden panel: ✕, odległość do celu i godzina na miejscu oraz <b>żarówka</b> – tryb ekranu: zapalona – stale jasny, zgaszona – jak zwykle w telefonie, pół na pół – <b>przyciemnianie między manewrami</b> (domyślne: ekran prawie czarny na prostych, rozjaśnia się ok. 15 s przed skrętem, przy komunikacie i po dotknięciu). Głos: zapowiedź wcześniej przy większej prędkości (autem szybko ok. 1 km, w mieście 500 m, rowerem 150 m) i drugi raz tuż przed manewrem; po manewrze „Jedź prosto 800 metrów”, gdy do następnego daleko; drobne „ząbki” drogi (lewo-prawo na kilku metrach) bez komunikatów, przy wyraźnym przesunięciu jezdni – „Trzymaj się prawej / lewej”. Po zachodzie słońca <b>ciemna mapa</b> (Ustawienia → Nawigacja: tylko w nawigacji / zawsze po zmroku / nigdy; zdjęcia lotnicze bez zmian). Rowerem przed startem karta z <b>profilem wysokości</b>, a w trakcie zapowiedź podjazdu (nachylenie i długość) – do wyłączenia w Ustawieniach. <b>Punkty obowiązkowe</b> zaplanowanej trasy: po ominięciu OMM pyta „Wrócić?” (Wróć / Pomiń; bez odpowiedzi po 10 s wraca). Samochodem i rowerem po zjechaniu z trasy OMM prowadzi do najbliższego miejsca trasy przed Tobą, a ponad ok. 100 m od trasy przez 10 s – <b>liczy nową trasę do celu</b> (gdy po drodze są niezaliczone punkty obowiązkowe – najpierw pyta: przez punkt / bez punktu / wróć na trasę); pieszo po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień). Nawigacja i głos działają też przy zablokowanym telefonie. Rowerem przez przejście dla pieszych – „przeprowadź rower”. Gdy jedziesz równolegle do trasy (np. drugą stroną ulicy), OMM uznaje, że jesteś na trasie, a po ok. 150 m liczy ją od drogi, którą jedziesz. Słuchawki, które same się wyłączają po kilku minutach ciszy – Ustawienia → Nawigacja → „Podtrzymuj słuchawki Bluetooth”. ✕ pyta, czy zakończyć; na miejscu – „Jesteś na miejscu” (nie trzeba trafić w punkt: pieszo ok. 15 m, rowerem ok. 30 m, autem ok. 45 m; zalicza też minięcie celu i postój obok niego), a po ok. 10 s nawigacja kończy się samo (nagrywanie śladu trwa dalej).</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
 <li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. W marszu proste odcinki drogi prostuje (GPS pieszo „pływa” po kilka metrów na boki), a narożniki ustawia na przecięciu prostych. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją. W powiadomieniu nagrywania na pasku telefonu widać dystans i czas oraz przyciski <b>Zakończ</b> (zapis od razu, bez okna – nazwa wg wzoru, rodzaj rozpoznany, warstwa rodzaju), <b>Zdjęcie</b> i <b>Punkt</b> (w bieżącym miejscu, bez otwierania OMM). Przerwy w GPS podczas jazdy autem (ślad szedł prosto przez budynki) OMM po „Stop” sam dociąga po drogach, gdy jest internet – kawałek jest przerywany, „Cofnij dopasowanie” go zdejmuje. Rowerem i autem „krzątanie się” w jednym miejscu (zdjęcie, rozmowa przy rowerze – ponad minutę w promieniu ok. 25 m) to jeden punkt postoju, bez pętli. Zapis z powiadomienia od razu dopisuje miejsce do nazwy (bez zasięgu – ponawia co minutę). W okienku śladu: dystans, <b>czas jazdy i czas postojów osobno</b> oraz suma podjazdów. Ciasne zakręty jazdy (skrzyżowania, bramy) są ostre, łagodne łuki gładkie. Ikona <b>Zapisz jako trasę</b> w okienku śladu otwiera planer z trasą dokładnie po śladzie – punkty w zakrętach, można je przesuwać i dodawać (przelicza się tylko sąsiedni odcinek), potem „Zapisz” do Planowania i prowadzenie jak po każdej trasie. 📷 domyślnie otwiera <b>pełny aparat telefonu</b> (wszystkie tryby, zdjęcie zostaje w galerii) – po powrocie wskazujesz zrobione zdjęcia (najnowsze na górze); szybki aparat w OMM do wyboru w Ustawieniach → Foldery i pliki.</li>
-<li><b>Zakładka „Ślady GPS”</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, <b>Dopasuj do ścieżek</b> (w okienku śladu: ślad jest jednorazowo wysyłany do serwera tras i dosuwany do dróg i ścieżek z mapy tylko tam, gdzie leży blisko nich – po lesie bez ścieżek zostaje bez zmian; można cofnąć; Ustawienia → Ślady GPS → <b>Dociągaj ślady do ścieżek automatycznie</b> robi to samo po każdym „Stop”, domyślnie wyłączone; w trybie diagnostycznym ślad sprzed dopasowania jest w eksporcie GPX), import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
+<li><b>Moje trasy – ślady</b> – kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, <b>Dopasuj do ścieżek</b> (w okienku śladu: ślad jest jednorazowo wysyłany do serwera tras i dosuwany do dróg i ścieżek z mapy tylko tam, gdzie leży blisko nich – po lesie bez ścieżek zostaje bez zmian; można cofnąć; Ustawienia → Ślady GPS → <b>Dociągaj ślady do ścieżek automatycznie</b> robi to samo po każdym „Stop”, domyślnie wyłączone; w trybie diagnostycznym ślad sprzed dopasowania jest w eksporcie GPX), import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
 <li><b>Co widać na mapie</b> – u góry po lewej nazwa aktywnej mapy; dotknięcie: <b>Wszystko</b>, <b>Tylko ta mapa</b>, <b>Tylko ślady</b>, <b>Czysta mapa</b>, zmiana mapy i <b>własne widoki</b> („Zapisz obecny widok…” pamięta mapę i widoczność warstw). <b>Tryb skupienia</b>: gdy otworzysz okienko śladu, trasy albo punktu, reszta Twoich danych chowa się na ten czas („Pokaż wszystko” u góry; wyłączysz w Ustawieniach → Wygląd). Przy pierwszym użyciu funkcji pojawia się krótka podpowiedź 💡, a na start 5 kart (też w „i” → Jak zacząć → „Karty startowe”).</li>
 <li><b>Przez zieleń</b> – rowerem i pieszo karta trasy pokazuje dodatkowy wariant przez parki, lasy, zieleńce i ogródki (dane OpenStreetMap), najwyżej o 25% dłuższy, i przy każdym wariancie „🌳 62% w zieleni”. Ustawienia → Nawigacja → „Szukaj tras przez zieleń”.</li>
@@ -23677,12 +23747,12 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
-<li><b>Layers panel</b> – the button in the bottom-left corner, four tabs: <b>Maps</b> (your maps and layers), <b>GPS tracks</b>, <b>Planning</b> and <b>Photos</b>. Every row (group, layer, object, track) has an <b>eye</b> – show and hide – and <b>⋮</b> with the other functions (rename, share, order, delete, layer settings). Turning on the eye of an object in a hidden layer turns the layer on and shows only that object. A long press on a row starts selecting and selects that item right away (a layer – all its objects). The arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
-<li><b>Planning</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
+<li><b>Layers panel</b> – the button in the bottom-left corner, two tabs: <b>Maps</b> and <b>Photos</b>. With the ▾ arrow next to “Maps” you choose a map – including <b>“My routes”</b>: your GPS tracks and planned routes (at the top of the list a <b>Tracks / Planned</b> switch); new tracks go there by themselves, into a layer by activity. Next to a layer: <b>◉</b> – active (new objects / tracks go here), the <b>name</b> – expands the list, the <b>eye</b> – show and hide, <b>⋮</b> – one layer settings window. After switching maps, OMM asks which layer the first point should go to. Turning on the eye of an object in a hidden layer turns the layer on and shows only that object. A long press on a row starts selecting and selects that item right away (a layer – all its objects). The arrow next to the name expands the list of objects, and the <b>Filter</b> shows e.g. only parasols.</li>
+<li><b>My routes – planned</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). To a point there is first the <b>route card</b> (how you travel, variants on the map – the selected one blue, the others grey with a time label, e.g. “+4 min”; Edit, Save, Navigate – see “Route to a point”). Variants depend on how you travel: by car fastest, alternatives, shortest, no motorways or tolls; by bike recommended, shortest, quiet (fewer busy streets), no gravel; on foot recommended and shortest. When you get onto the route anywhere (e.g. after a wrong turn), navigation continues from there. The map follows you: the orange arrow sits in the lower part of the screen, the covered part of the route turns grey, other drawings are dimmed, zoom follows your speed; it starts with the <b>direction of travel up</b> (or north – Settings → Navigation), and the <b>map compass</b> (always shown while navigating, orange ring = direction up) switches it on the way. Pan the map with a finger – it comes back by itself after 5 s. At the top centre the <b>next manoeuvre arrow</b> (no background, blue with a dark outline) and the distance to it; while recording it moves aside from the recording capsule. At the bottom a single panel: ✕, distance to the destination and arrival time, and the <b>bulb</b> – screen mode: lit – always bright, off – as usual on the phone, half and half – <b>dimming between manoeuvres</b> (default: the screen is nearly black on straight stretches and brightens about 15 s before a turn, on announcements and on touch). Voice: announcements come earlier at higher speed (fast by car about 1 km, in town 500 m, by bike 150 m) and once more just before the manoeuvre; after a manoeuvre “Continue straight for 800 metres” when the next one is far; small “jogs” in the road (left-right within a few metres) are silent, a clear lane shift gives “Keep right / left”. After sunset a <b>dark map</b> (Settings → Navigation: only while navigating / always after dark / never; aerial imagery unchanged). By bike, an <b>elevation profile</b> card before the start and a note before each climb (gradient and length) – can be switched off in Settings. <b>Required points</b> of a planned route: if you skip one, OMM asks “Go back?” (Go back / Skip; with no answer it goes back after 10 s). By car and bike, when you leave the route OMM guides you to the nearest point of the route ahead, and more than about 100 m away for 10 s it <b>plans a new route to the destination</b> (with unvisited required points on the way it asks first: via the point / skip the point / back to the route); on foot a longer deviation makes the phone vibrate and say where the track is (no notifications). Navigation and voice work with the phone locked too. By bike across a pedestrian crossing – “walk your bike”. When you ride parallel to the route (e.g. on the other side of the street), OMM treats you as on the route, and after about 150 m re-plans it from the road you are on. Headphones that switch off after a few minutes of silence – Settings → Navigation → “Keep Bluetooth headphones awake”. ✕ asks before ending; on arrival – “You have arrived” (no need to hit the point exactly: about 15 m on foot, 30 m by bike, 45 m by car; passing the destination or stopping next to it counts too), and after about 10 s navigation ends by itself (track recording continues).</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
 <li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. When walking it straightens straight stretches of the way (GPS on foot drifts a few metres sideways) and puts corners where the lines meet. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering. The recording notification in the phone status bar shows distance and time plus <b>Finish</b> (saves at once, no window – name from the template, detected activity, activity layer), <b>Photo</b> and <b>Point</b> (at the current place, without opening OMM) buttons. GPS gaps while driving (the track went straight through buildings) are filled along roads after “Stop” when online – the piece is dashed, “Undo path matching” removes it. By bike and car, “pottering about” in one spot (a photo, a chat by the bike – over a minute within about 25 m) becomes a single stop point, with no loop. Saving from the notification adds the place to the name straight away (without signal – it retries every minute). The track window shows the distance, <b>moving time and stopped time separately</b>, and the total climb. Tight turns while riding or driving (junctions, gates) are sharp, gentle bends smooth. The <b>Save as route</b> icon in the track window opens the planner with a route exactly along the track – points at the turns that you can move or add (only the neighbouring section is recalculated), then “Save” to Planning and navigate it like any route. 📷 opens the <b>full phone camera</b> by default (all modes, the photo stays in the gallery) – when you come back you pick the photos you took (newest at the top); the quick camera in OMM can be chosen in Settings → Folders and files.</li>
-<li><b>The “GPS tracks” tab</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, <b>Match to paths</b> (in the track window: the track is sent once to the routing server and moved onto map roads and paths only where it lies close to them – off-path sections stay unchanged; can be undone; Settings → GPS tracks → <b>Snap tracks to paths automatically</b> does the same after every “Stop”, off by default; in diagnostic mode the track before matching is included in the GPX export), import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
+<li><b>My routes – tracks</b> – track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, <b>Match to paths</b> (in the track window: the track is sent once to the routing server and moved onto map roads and paths only where it lies close to them – off-path sections stay unchanged; can be undone; Settings → GPS tracks → <b>Snap tracks to paths automatically</b> does the same after every “Stop”, off by default; in diagnostic mode the track before matching is included in the GPX export), import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
 <li><b>What the map shows</b> – top left, the name of the active map; tap it for <b>Everything</b>, <b>This map only</b>, <b>Tracks only</b>, <b>Clean map</b>, switching maps and <b>your own views</b> (“Save the current view…” remembers the map and layer visibility). <b>Focus mode</b>: when you open the popup of a track, route or point, the rest of your data is hidden for the time being (“Show everything” at the top; switch it off in Settings → Appearance). The first time you use a feature a short 💡 hint appears, and at the start 5 cards (also in “i” → Getting started → “Start cards”).</li>
 <li><b>Through greenery</b> – by bike and on foot the route card shows an extra variant through parks, forests, green areas and allotments (OpenStreetMap data), at most 25% longer, and each variant shows “🌳 62% in greenery”. Settings → Navigation → “Look for routes through greenery”.</li>
@@ -29624,7 +29694,8 @@ async function trkData(t) {
       return w;
     },
     btns: [
-      ...(wps.length ? [{t: _t('Skopiuj punkty na mapę…'), v: 'cp'}, {t: _t('Przenieś punkty na mapę…'), v: 'mv'}] : []),
+      {t: _t('Skopiuj zaznaczone na mapę…'), v: 'cp'},
+      ...(wps.length ? [{t: _t('Przenieś punkty na mapę…'), v: 'mv'}] : []),
       {t: _t('Zapisz ślad jako trasę (do nawigacji)'), v: 'pl'},
       {t: _t('Zamknij'), v: null}
     ]
@@ -29632,8 +29703,21 @@ async function trkData(t) {
   if (!v) return;
   if (v === 'pl') return trkToPlan(t);
   const list = wps.filter(x => sel.has(x));
-  if (!list.length) return tell(_t('Nie zaznaczono żadnego zdjęcia ani punktu.'));
-  return trkWpToMap(t, list, v === 'mv');
+  if (!list.length && !(trk && v === 'cp')) return tell(_t('Nie zaznaczono niczego do skopiowania.'));
+  if (trk && v === 'cp') {
+    // v100 (Q2): sam ślad na zwykłą mapę – jako linia z nazwą, datą i statystykami w opisie (ślad zostaje w „Moje trasy”)
+    const d = await pickMapLayer(_t('Skopiuj ślad „') + (t.nm || _t('Ślad')) + '”');
+    if (!d) return;
+    const s1 = trkStatsC(t),
+      it = {id: uid(), t: 'line', p: trkSegs(t).flat().map(q => [+q[0].toFixed(6), +q[1].toFixed(6)]), l: d.l, c: trkColor(t), o: 1, sz: 3, nm: (t.nm || _t('Ślad')).slice(0, 200), n: fday(t.st) + ' · ' + fkm(s1.d) + (s1.dur ? ' · ' + fdur(s1.dur) : '') + (s1.up >= 1 ? ' · ↗ ' + fel(s1.up) : ''), cr: Date.now(), up: Date.now()};
+    d.m.items.push(it);
+    const f = lookL(d.m, d.l);
+    if (f) f.l.vis = f.g.vis = true;
+    save();
+    render();
+    if (!list.length) return toastMsg(_t('Skopiowano ślad na mapę „') + d.m.name + '”');
+  }
+  return trkWpToMap(t, list, false);
 }
 // v96: ślad → zaplanowana trasa do prowadzenia, z edycją w planerze. Punkty planera w miejscach zakrętów (i co
 // najwyżej co ok. 400 m), odcinki między nimi dokładnie po śladzie (bez postojów); po przesunięciu punktu przelicza
@@ -31183,7 +31267,12 @@ async function trkDgLoad(list) {
 
 // --- zakładka „Ślady GPS” w panelu ---
 function tabsUi() {
-  [...$('stabs').children].forEach(b => b.classList.toggle('on', b.dataset.k === TAB));
+  // v100 (Q2 „Moje dane”): zakładki „Ślady GPS” i „Planowanie” zniknęły – ślady i zaplanowane trasy to mapa
+  // „Moje trasy” w zakładce Mapy (wybór strzałką ▾ przy Mapach, przełącznik Ślady / Zaplanowane na górze listy)
+  const mt = TAB === 'slady' || TAB === 'plan';
+  [...$('stabs').children].forEach(b => b.classList.toggle('on', b.dataset.k === TAB || (mt && b.dataset.k === 'mapy')));
+  const ml = $('stabs').querySelector('[data-k="mapy"] .stl');
+  if (ml) ml.textContent = mt ? _t('Moje trasy') : _t('Mapy');
   const t = TAB === 'slady',
     f = TAB === 'foto';
   $('sa').style.display = t || f ? 'none' : '';
@@ -31197,10 +31286,22 @@ function tabsUi() {
 // zakładka: dotknięcie nazwy otwiera ją, strzałka ▾ obok – dodatkowo lista do wyboru (mapy / warstwy śladów)
 [...$('stabs').children].forEach(d => {
   d.querySelector('.stl').onclick = () => {
+    if (d.dataset.k === 'mapy' && (TAB === 'slady' || TAB === 'plan')) return $('mapb').onclick(); // v100: wybór mapy
     TAB = d.dataset.k;
     sheet();
   };
 });
+// v100: przełącznik „Ślady / Zaplanowane” na górze listy mapy „Moje trasy”
+function myTrRow() {
+  const r = h('div', 'tfilt mytr');
+  const nT = TRK.items.length,
+    nP = planMap().items.filter(i => i.t === 'line').length;
+  r.append(
+    B(_t('Ślady') + ' (' + nT + ')', () => ((TAB = 'slady'), sheet()), TAB === 'slady' ? 'on' : ''),
+    B(_t('Zaplanowane') + ' (' + nP + ')', () => ((TAB = 'plan'), sheet()), TAB === 'plan' ? 'on' : '')
+  );
+  return r;
+}
 const trkCatCount = c => {
   const ids = new Set(trkLayersOf(c).map(l => l.id));
   return TRK.items.filter(t => ids.has(t.l)).length;
@@ -31292,7 +31393,7 @@ function trkSheet() {
     catIds = new Set(trkLayersOf(cat).map(l => l.id)),
     catItems = TRK.items.filter(t => catIds.has(t.l));
   updMode();
-  $('mtitle').textContent = cat.name;
+  $('mtitle').textContent = _t('Moje trasy') + (trkCats().length > 1 ? ' · ' + cat.name : ''); // v100 (Q2)
   // v87: filtr rodzaju, którego już nie ma (np. usunięte wszystkie ślady autem), wraca do „Wszystkie”
   const kinds0 = new Set(catItems.map(t => t.a || ''));
   if (TFILT && !(TFILT === '-' ? kinds0.has('') : kinds0.has(TFILT))) TFILT = '';
@@ -31324,6 +31425,7 @@ function trkSheet() {
   sab('tselb', TSEL ? _t('Zaznaczanie włączone – wyłącz') : _t('Zaznacz'), !!TSEL);
   tselUi();
   el.innerHTML = '';
+  el.append(myTrRow()); // v100: Ślady / Zaplanowane
   if (!trkReady) return el.append(h('div', 'empty', _t('Wczytuję ślady…')));
   // filtr listy wg rodzaju aktywności (tylko lista – mapa bez zmian)
   const kinds = [...new Set(catItems.map(t => t.a || ''))];
@@ -31369,25 +31471,38 @@ function trkSheet() {
     r.append(
       exBtn(l.open, () => ((l.open = !l.open), trkChanged()), _t('Lista śladów')),
       sw,
-      B(l.name, () => (trkSetActive(l.id), trkChanged()), 'nm'),
+      B(act ? '◉' : '○', () => (TRK.active !== l.id && toastMsg(_t('Tu zapiszą się nowe ślady: ') + l.name), trkSetActive(l.id), trkChanged()), 'actb' + (act ? ' on' : ''), _t('Aktywna warstwa – tu zapisują się nowe ślady')), // v100 (Q3)
+      B(l.name, () => ((l.open = !l.open), trkChanged()), 'nm'),
       h('span', 'cnt', TFILT ? its.length + '/' + TRK.items.filter(t => t.l === l.id).length : String(its.length)),
       cb,
       IB(
         'more',
-        b => {
+        () => {
+          // v100 (Q11): warstwa śladów – to samo jedno okno co warstwa mapy
           const lys = TRK.layers.filter(x => x.cat === cat.id),
             k = lys.indexOf(l);
-          rowMenu(b, [
-            ['edit', _t('Zmień nazwę'), () => la.querySelector('[data-a="ren"]').click()],
-            ['color', _t('Kolor warstwy'), () => la.querySelector('[data-a="col"]').click()],
-            ['share', _t('Udostępnij / eksport'), () => la.querySelector('[data-a="sh"]').click()],
-            k > 0 && ['up', _t('Wyżej'), () => trkMoveLayer(l, -1)],
-            k < lys.length - 1 && ['down', _t('Niżej'), () => trkMoveLayer(l, 1)],
-            ['del', _t('Usuń warstwę'), () => la.querySelector('[data-a="del"]').click(), 'danger']
-          ]);
+          layerDlg(
+            l,
+            () => {
+              const c = h('div', 'ctl ctlw'),
+                sw2 = h('span', 'tsw');
+              sw2.style.background = l.c;
+              const cb2 = BI('color', _t('Kolor warstwy'), () => la.querySelector('[data-a="col"]').click());
+              cb2.prepend(sw2);
+              c.append(cb2, h('span', 'muted', plN(TRK.items.filter(t => t.l === l.id).length, _t('ślad'), _t('ślady'), _t('śladów'))));
+              return c;
+            },
+            [
+              ['share', _t('Udostępnij / eksport'), () => la.querySelector('[data-a="sh"]').click()],
+              k > 0 && ['up', _t('Wyżej'), () => trkMoveLayer(l, -1)],
+              k < lys.length - 1 && ['down', _t('Niżej'), () => trkMoveLayer(l, 1)],
+              ['del', _t('Usuń warstwę'), () => la.querySelector('[data-a="del"]').click(), 'danger']
+            ],
+            () => trkChanged()
+          );
         },
         'more',
-        _t('Opcje warstwy')
+        _t('Ustawienia warstwy')
       )
     );
     if (!TSEL)
@@ -42177,8 +42292,7 @@ const TUT_STEPS = [
   {sel: '#srchb', t: _t('Szukaj'), x: _t('Twoje punkty i ślady, współrzędne, a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.')},
   {sel: null, t: _t('Nawigacja'), x: _t('„Nawiguj” w okienku punktu, linii, śladu, auta albo zdjęcia. Do punktu najpierw karta trasy: czym jedziesz (Auto, Rower, Pieszo, Prosto), warianty na mapie, Edytuj (planowanie), Zapisz i Nawiguj. Mapa jedzie za Tobą, kierunek jazdy u góry (kompas mapy przełącza na północ), zoom wg prędkości. U góry strzałka następnego manewru, na dole jeden panel: ✕, do celu i godzina na miejscu, żarówka – ekran stale jasny / jak w telefonie / przyciemniany między manewrami. Przesuniesz mapę – po 5 s wraca sama.')},
   {sel: '#lbtn', t: _t('Mapy, warstwy i ślady'), x: _t('Panel z zakładkami: Mapy (Twoje mapy i warstwy), Ślady GPS, Planowanie i Zdjęcia. Oko pokazuje i ukrywa, strzałka obok nazwy rozwija listę.')},
-  {sel: '#stabs .stab[data-k="slady"]', open: 'sheet', tab: 'slady', t: _t('Wycieczka'), x: _t('Ślad może być wycieczką: w okienku śladu „Dodaj…” – zdjęcia z telefonu, punkty z map i opis; „Animacja” robi z tego relację do zapisania jako film. Kilka dni = zaznacz ślady i „Scal”.')},
-  {sel: '#stabs .stab[data-k="plan"]', open: 'sheet', tab: 'plan', t: _t('Planowanie'), x: _t('Zaplanowane trasy, punkty i rysunki na kolejne wyjścia. Zrobione odhaczasz „✓ Odwiedzone” – trafiają do wspólnej sekcji „Odwiedzone” i szarzeją na mapie; możesz podpiąć do nich nagrany ślad.')},
+  {sel: '#stabs .stab[data-k="mapy"]', open: 'sheet', tab: 'slady', t: _t('Moje trasy'), x: _t('Ślady GPS i zaplanowane trasy to mapa „Moje trasy” – wybierasz ją strzałką przy „Mapy”, a na górze listy przełączasz Ślady / Zaplanowane. Nowe ślady trafiają tu same, do warstwy wg rodzaju (Rower, Pieszo…).')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
   {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport to osobny widok: tablica z dyscyplinami (rower, bieg, marsz, trekking, jeździectwo, rolki), licznik każdej z nich i statystyki – ogólne i dla każdej dyscypliny. Z mapy wracasz do licznika przyciskiem ‹ albo „Wstecz”.')},
   {sel: '#setb', open: 'sheet', t: _t('Ustawienia'), x: _t('Kopia (w prywatnej pamięci OMM i na Dysku Google), foldery, nagrywanie śladu (komunikaty, wzór nazwy), „W terenie” (alerty przy nawigacji, ekran, alarm przy miejscówkach, auto), wygląd (motyw, podziałka, dokładność GPS), prywatność i kosz.')},
@@ -42365,6 +42479,10 @@ async function tutFirstRun() {
   localStorage.setItem('omm-tut-n', String(n));
   if (n >= 2) localStorage.setItem('omm-tut', 'nie');
 }
+setTimeout(() => {
+  // v100 (Q2): dotychczasowi użytkownicy – raz: gdzie są teraz ślady i plany
+  if (localStorage.getItem('omm-tut')) hintOnce('mojetrasy', _t('Ślady GPS i Planowanie są teraz mapą „Moje trasy”: panel warstw → strzałka ▾ przy „Mapy” → Moje trasy (na górze Ślady / Zaplanowane).'));
+}, 6000);
 (function tutWait() {
   // pytanie dopiero po wczytaniu śladów (żeby wiedzieć, czy to nowa instalacja)
   if (!trkReady) return setTimeout(tutWait, 500);
