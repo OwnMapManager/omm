@@ -11807,7 +11807,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v100';
+const APP_VER = 'v101';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -17969,6 +17969,10 @@ function render() {
   grp.clearLayers();
   LAY = {};
   FOTO_MK = [];
+  // v101: schowane w grupach / stosach znaczniki z POPRZEDNIEGO rysowania nie mogą wrócić na mapę (wracały jako
+  // „duchy” pod ikoną grupy – grupowanie wyglądało, jakby nie działało, a przybliżanie nic nie zmieniało)
+  cluHidden = [];
+  FOTO_HID = [];
   const HS = hidSet();
   updChip(HS);
   P.items.forEach(it => {
