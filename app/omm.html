@@ -12018,7 +12018,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v103';
+const APP_VER = 'v104';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -20404,10 +20404,19 @@ function viewTrkOk(t) {
   if (v === 'layer') return l && l.id === TRK.active;
   return l && l.cat === trkCur().id;
 }
+function trkUsable() {
+  // v103: przy starcie pasek trybu rysuje się, zanim powstaną dane śladów (TRK) – z zapamiętanym widokiem „Ślady”
+  // odwołanie do nich zatrzymywało w v102 uruchamianie całej aplikacji (pusty ekran, działał tylko wybór podkładu)
+  try {
+    return !!TRK && !!TRK.cats && trkReady;
+  } catch (e) {
+    return false;
+  }
+}
 function mchipUpd() {
   const b = $('mchip'),
     sc = $('vscope');
-  if (!b || !P) return;
+  if (!b || !P || !trkUsable()) return; // pasek uzupełni się po wczytaniu śladów
   const k = viewKind(),
     v = viewGet(),
     md = isW() ? _t('Praca') : isSport() ? _t('Sport') : _t('Prywatny'),
@@ -29027,6 +29036,9 @@ async function trkLoad() {
   trkReady = true;
   trkRender();
   if (TAB === 'slady') sheetIfOpen();
+  try {
+    viewApply(); // v103: pasek trybu i widok dopiero teraz, gdy ślady są wczytane
+  } catch (e) {}
   recCheck();
 }
 let trkQueue = Promise.resolve();
