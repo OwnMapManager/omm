@@ -1925,8 +1925,7 @@ body.sport {
 }
 body.navon #vscope,
 body.animon #vscope,
-body.planon #vscope,
-body.navon #lmenu {
+body.planon #vscope {
   display: none !important;
 }
 #mchip {
@@ -2790,11 +2789,7 @@ body.fc-it .leaflet-cluP__m-pane {
 body.rec #recb {
   display: none;
 }
-/* v99 (Q9): przy nagrywaniu jeden aparat – ten w pigułce nagrywania (zdjęcie do śladu) */
-body.rec #tshort [data-g="photo"],
-body.rec #tmore [data-g="photo"] {
-  display: none !important;
-}
+/* v106 (pkt 266): aparat na pasku po prawej także przy nagrywaniu (punkt na mapie + odnośnik w śladzie) */
 /* v68: w czasie nagrywania przycisk REC zmienia się w kapsułę: kropka, czas, dystans/stan i okrągły „stop”.
    Kapsuła rośnie w lewo od miejsca przycisku; pod okrągłym „stop” wisi pigułka (pauza, zdjęcie, punkt, powrót). */
 #reccap {
@@ -8758,6 +8753,105 @@ html.dark #mchip {
   color: var(--acc);
   font-size: 16px;
 }
+/* ---------- v106 (pkt 264): karta trasy – rodzaj dróg, „Szukaj przez zieleń” z limitem, lista wariantów ---------- */
+.rpick {
+  max-height: 72vh;
+  overflow-y: auto;
+}
+.rpick .rpsub {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.rpick .rpsub button {
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--txt);
+  border-radius: 16px;
+  padding: 5px 12px;
+  font: 600 13px system-ui, sans-serif;
+}
+.rpick .rpsub button.on {
+  background: var(--acc);
+  border-color: var(--acc);
+  color: #fff;
+}
+.rpick .rpgreen {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.rpick .rpgreen .chk {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font: 600 14px system-ui, sans-serif;
+}
+.rpick .rpgreen .chk input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+.rpick .rplim {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--sub);
+}
+.rpick .rplim small {
+  font-size: 12px;
+  margin-right: 2px;
+}
+.rpick .rplim b {
+  min-width: 40px;
+  text-align: center;
+  color: var(--txt);
+}
+.rpick .rpst {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--txt);
+  font: 700 16px system-ui, sans-serif;
+  padding: 0;
+}
+.rpick .rpgmsg {
+  font-size: 13px;
+  color: var(--sub);
+  padding: 2px 2px 0;
+}
+.rpick .rplist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rpick .rpli {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  text-align: left;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--txt);
+  border-radius: 10px;
+  padding: 6px 10px;
+}
+.rpick .rpli b {
+  font-size: 14px;
+}
+.rpick .rpli span {
+  font-size: 12.5px;
+  color: var(--sub);
+}
+.rpick .rpli.on {
+  border-color: var(--acc);
+  box-shadow: inset 0 0 0 1px var(--acc);
+}
 </style></head><body>
 <div id="map"></div>
 <div id="fchip"><button id="fchipb"></button><button id="fchipx" title="Pokaż wszystko">✕</button></div>
@@ -8832,6 +8926,31 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  // v106
+  "Najpierw musi się policzyć zwykła trasa.": "The regular route has to be computed first.",
+  "Brak danych o zieleni – serwer z mapą zieleni nie odpowiada. Spróbuj za chwilę.": "No greenery data – the greenery map server is not responding. Try again in a moment.",
+  "Po drodze nie ma parków ani lasów, przez które dałoby się pojechać.": "There are no parks or forests along the way to go through.",
+  "Trasa przez zieleń byłaby dłuższa o ": "A route through greenery would be longer by ",
+  "% – więcej niż limit ": "% – more than the limit of ",
+  "dłuższa o ": "longer by ",
+  "Szukaj przez zieleń": "Look for a route through greenery",
+  "maks. dłuższa o": "max. longer by",
+  "Szukam trasy przez zieleń…": "Looking for a route through greenery…",
+  "przejścia: ": "crossings: ",
+  "szukam innych wariantów…": "looking for other variants…",
+  "Wybierz u góry, czym jedziesz. Dotknij trasy, etykiety albo pozycji na liście, by ją wybrać. „Edytuj” pozwala zmienić trasę, a „Zapisz” – zachować ją na później.": "Choose at the top how you travel. Tap a route, its label or an item on the list to choose it. “Edit” lets you change the route and “Save” keeps it for later.",
+  "Dociągać tak zawsze ślady piesze (pieszo, trekking, bieg) – zaraz po „Stop”? Zejścia ze ścieżki (postój, szukanie grzybów, wejście w las) zostają takie, jak nagrał telefon. Oryginał zostaje do cofnięcia, a bez internetu ślad dopasuje się, gdy wróci zasięg.\n\nZmienisz to w Ustawieniach → Ślady GPS.": "Always snap walking tracks (walk, trekking, run) like this – right after “Stop”? Detours off the path (stops, looking for mushrooms, going into the forest) stay as the phone recorded them. The original is kept so you can undo, and without internet the track is matched when you are back online.\n\nYou can change this in Settings → GPS tracks.",
+  "Tak, zawsze": "Yes, always",
+  "Ślady piesze będą dociągane do ścieżek automatycznie": "Walking tracks will be snapped to paths automatically",
+  "Ślady piesze – dociągaj do ścieżek automatycznie": "Walking tracks – snap to paths automatically",
+  "Tylko pieszo, trekking i bieg. Na ścieżkę trafiają odcinki, gdzie szedłeś równo wzdłuż niej; postoje, kręcenie się w miejscu (grzyby) i zejścia dalej od ścieżki zostają takie, jak nagrał telefon. Oryginał zostaje – „Cofnij dopasowanie”.": "Walk, trekking and run only. Sections where you walked steadily along a path go onto it; stops, wandering in one spot (mushrooms) and detours further from the path stay as the phone recorded them. The original is kept – “Undo matching”.",
+  "Trasy przez zieleń: na karcie trasy (Pieszo, Rower) pole „Szukaj przez zieleń” z limitem wydłużenia – liczone tylko po zaznaczeniu.": "Routes through greenery: on the route card (Walk, Bike) the “Look for a route through greenery” box with a detour limit – computed only when ticked.",
+  "Zrób kopię, przywróć, kopie automatyczne, Dysk Google": "Make a backup, restore, automatic backups, Google Drive",
+  "Zrób kopię / przywróć / eksport": "Back up / restore / export",
+  "Pomoc i informacje": "Help and information",
+  "Pomoc, samouczek, wersja aplikacji, diagnostyka": "Help, tutorial, app version, diagnostics",
+  "Pomoc i „Jak zacząć” – opis funkcji": "Help and “Getting started” – feature guide",
+  "Samouczek – pokaz na żywo": "Tutorial – live walkthrough",
   // v105
   "Zaznacz / odznacz całą warstwę": "Select / deselect the whole layer",
   "TRYB PRACY": "WORK MODE",
@@ -8881,9 +9000,9 @@ const EN = {
   "grupa śladów – pokaż": "track group – show",
   "Menu w lewym dolnym rogu: Mapy, Ślady, Zdjęcia i Więcej (kopia, tryb pracy, ustawienia, pomoc). U góry panelu kolorem tryb pracy, niżej „Mapy: nazwa” z przyciskiem „Zmień ▾”. Przy warstwie: ◉ – aktywna, nazwa – rozwija, oko – pokaż / ukryj, ⋮ – ustawienia.": "Menu in the bottom-left corner: Maps, Tracks, Photos and More (backup, work mode, settings, help). At the top of the panel the work mode in colour, below it “Maps: name” with a “Change ▾” button. Next to a layer: ◉ – active, the name – expands, the eye – show / hide, ⋮ – settings.",
   "U góry: „Tylko: warstwa”, „Cała mapa” albo „Wszystko moje”. W Mapach widać punkty wybranej mapy, w Śladach – ślady wybranej grupy; nagrywany ślad zawsze. Dotknięcie znaczka trybu (np. Prywatny) zmienia tryb pracy.": "At the top: “Only: layer”, “Whole map” or “All of mine”. In Maps you see the points of the chosen map, in Tracks the tracks of the chosen group; the track being recorded always. Tapping the mode badge (e.g. Private) changes the work mode.",
-  "Nowe menu: przycisk „Menu” w lewym dolnym rogu → Mapy, Ślady, Zdjęcia, Więcej. U góry widać, co jest na mapie – „Tylko”, „Cała mapa”, „Wszystko moje”.": "New menu: the “Menu” button in the bottom-left corner → Maps, Tracks, Photos, More. At the top you can see what is on the map – “Only”, “Whole map”, “All of mine”.",
-  "U góry: nazwa mapy i przyciski „Tylko”, „Cała mapa”, „Wszystko moje”. Kolorowy znaczek trybu zmienia tryb pracy.": "At the top: the map name and the “Only”, “Whole map”, “All of mine” buttons. The coloured mode badge changes the work mode.",
-  "Przycisk „Menu” w lewym dolnym rogu: Mapy, Ślady, Zdjęcia i Więcej – tam też kopia zapasowa i ustawienia.": "The “Menu” button in the bottom-left corner: Maps, Tracks, Photos and More – backup and settings are there too.",
+  "Menu: przycisk ☰ w lewym dolnym rogu → Mapy, Ślady, Zdjęcia, Tryb, Ustawienia. Napis u góry mówi, co oglądasz.": "Menu: the ☰ button in the bottom-left corner → Maps, Tracks, Photos, Mode, Settings. The label at the top tells you what you are looking at.",
+  "Napis u góry mówi, co oglądasz: mapę albo ślady i tryb pracy. Które warstwy widać – decyduje oko przy warstwie.": "The label at the top says what you are looking at: a map or tracks, and the work mode. The eye next to a layer decides which layers are visible.",
+  "Przycisk ☰ w lewym dolnym rogu: Mapy, Ślady, Zdjęcia, Tryb i Ustawienia – tam też kopia zapasowa i pomoc.": "The ☰ button in the bottom-left corner: Maps, Tracks, Photos, Mode and Settings – where you also find backup and help.",
   "Tryb pracy: Prywatny": "Work mode: Private",
   // v100
   "Moje trasy": "My routes",
@@ -12329,7 +12448,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v105';
+const APP_VER = 'v106';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -15753,7 +15872,12 @@ const map = L.map('map', {
 function popAvoid(pp) {
   const el = pp && pp._container;
   if (!el || !map.hasLayer(pp) || el.offsetParent === null) return;
-  const obs = [...document.querySelectorAll('body > .ib, #reccap, #recpill, #fchip, #mchip, #fcchip, .navtop, .navbot')].filter(o => o.offsetParent !== null && getComputedStyle(o).visibility !== 'hidden');
+  // v106 (pkt 269): bez napisu u góry (#mchip – sam tekst, nie przycisk) i bez elementów, których nie da się dotknąć
+  const obs = [...document.querySelectorAll('body > .ib, #reccap, #recpill, #fchip, #fcchip, .navtop, .navbot, #tools, #lmenu')].filter(o => {
+    if (o.offsetParent === null && getComputedStyle(o).position !== 'fixed') return false;
+    const cs = getComputedStyle(o);
+    return cs.visibility !== 'hidden' && cs.display !== 'none' && cs.pointerEvents !== 'none';
+  });
   const W = innerWidth,
     H = innerHeight;
   let dx = 0,
@@ -15778,11 +15902,32 @@ function popAvoid(pp) {
     else if (cy < H / 2) dy -= hit.bottom + 8 - R.t;
     else dy += R.b - (hit.top - 8);
   }
+  // v106 (pkt 269): nigdy dalej, niż trzeba, żeby okienko zostało na ekranie (zgłoszenie 1.11: mapa uciekała
+  // o 1,5 szerokości ekranu, a okienko chowało się za lewą krawędzią)
+  {
+    const r = el.getBoundingClientRect();
+    dx = Math.max(r.right - W + 4, Math.min(r.left - 4, dx));
+    dy = Math.max(r.bottom - H + 4, Math.min(r.top - 4, dy));
+    if (Math.abs(dx) > W * 0.6) dx = 0;
+    if (Math.abs(dy) > H * 0.6) dy = 0;
+  }
+  if (Math.abs(dx) > 150 || Math.abs(dy) > 150) diag('okienko', 'Przesunięcie mapy dla okienka: ' + Math.round(dx) + ', ' + Math.round(dy) + ' px', JSON.stringify({ob: obs.map(o => o.id || o.className).slice(0, 8), W, H}));
   if (dx || dy) map.panBy([dx, dy], {animate: true, duration: 0.25});
 }
 map.on('popupopen', e => {
   const pp = e.popup;
   setTimeout(() => popAvoid(pp), 320); // po autoPan Leafletu
+  // v106 (pkt 269): zabezpieczenie – gdy okienko mimo wszystko wyląduje poza ekranem, mapa wraca do punktu
+  setTimeout(() => {
+    const el = pp._container;
+    if (!el || !map.hasLayer(pp)) return;
+    const r = el.getBoundingClientRect();
+    if (r.right < 40 || r.left > innerWidth - 40 || r.bottom < 40 || r.top > innerHeight - 40) {
+      diag('okienko', 'Okienko poza ekranem – powrót do punktu', JSON.stringify({l: Math.round(r.left), t: Math.round(r.top), W: innerWidth}));
+      const ll = pp.getLatLng && pp.getLatLng();
+      if (ll) map.panTo(ll, {animate: true});
+    }
+  }, 900);
   if (!pp._oaCU) (pp._oaCU = 1), pp.on('contentupdate', () => setTimeout(() => popAvoid(pp), 60));
 });
 if (map._rotate) {
@@ -24344,7 +24489,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Podsumowanie śladów</b> (przycisk w Śladach) – rodzaje aktywności do zaznaczenia (kilka naraz), okres: tydzień, miesiąc, rok, wszystko albo własny (od–do); domyślnie ślady ze wszystkich grup trybu (albo „Tylko grupa …”), opcja „Dołącz treningi ze Sportu”. Wynik: liczba, dystans, czas w ruchu, podejście, rozbicie na rodzaje, wykres i lista. W statystykach Sportu – „Dołącz ślady” (wycieczki z tym samym rodzajem). Trening nagrany ze śladem liczy się raz, a jego dystans i czas pochodzą z policzonego śladu.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów; dotknij, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
 <li><b>Co widać na mapie</b> – u góry po lewej nazwa aktywnej mapy; dotknięcie: <b>Wszystko</b>, <b>Tylko ta mapa</b>, <b>Tylko ślady</b>, <b>Czysta mapa</b>, zmiana mapy i <b>własne widoki</b> („Zapisz obecny widok…” pamięta mapę i widoczność warstw). <b>Tryb skupienia</b>: gdy otworzysz okienko śladu, trasy albo punktu, reszta Twoich danych chowa się na ten czas („Pokaż wszystko” u góry; wyłączysz w Ustawieniach → Wygląd). Przy pierwszym użyciu funkcji pojawia się krótka podpowiedź 💡, a na start 5 kart (też w „i” → Jak zacząć → „Karty startowe”).</li>
-<li><b>Przez zieleń</b> – rowerem i pieszo karta trasy pokazuje dodatkowy wariant przez parki, lasy, zieleńce i ogródki (dane OpenStreetMap), najwyżej o 25% dłuższy, i przy każdym wariancie „🌳 62% w zieleni”. Ustawienia → Nawigacja → „Szukaj tras przez zieleń”.</li>
+<li><b>Karta trasy i „Przez zieleń”</b> – po „Nawiguj” od razu karta: czym jedziesz (Pieszo / Rower / Auto / Prosto) i rodzaj dróg (Trekking / Szosa / Górski, Szlaki i leśne / Tylko utwardzone). Zalecana trasa pokazuje się w kilka sekund, pozostałe warianty dochodzą na listę (nazwa, czas, km, o ile dłuższa); policzone trasy są zapamiętane przy przełączaniu. Pieszo i rowerem pole <b>„🌳 Szukaj przez zieleń”</b> (zawsze niezaznaczone na starcie) z limitem „maks. dłuższa o” (domyślnie 40%, − / +): po zaznaczeniu OMM szuka trasy przez parki i lasy (dane OpenStreetMap) i dokłada ją obok zalecanej albo pisze, czemu nic nie znalazł. Strzałka prowadzenia pojawia się dopiero po wybraniu trasy.</li>
 <li><b>Okienko śladu</b> – u góry nazwa, rodzaj, wyruszenie → zakończenie i warstwa; pod spodem dystans, czas w ruchu, czas całkowity, średnia i podjazdy; pasek kolorów (dotknięcie zmienia prędkość / wysokość / jednolity). Jedna belka: <b>Nawiguj</b> (po śladzie), <b>Edytuj</b> (punkty śladu, dorysuj, podziel, dopasuj do ścieżek, rodzaj aktywności, opis, zdjęcia i punkty, „Przywróć oryginał”), <b>Statystyki</b>, <b>Udostępnij</b> (plik, obraz, zapis w telefonie, Animacja) i <b>Więcej</b> (ukryj, dane śladu – zaznaczasz zdjęcia i punkty, by skopiować albo przenieść je na mapę, albo zapisać ślad jako trasę do nawigacji – oraz usuń). Edycja zmienia ślad naprawdę; ślad policzony przez OMM i surowe pomiary zostają do porównania.</li>
 <li><b>Nowy punkt</b> – przytrzymaj mapę → „Zapisz punkt”: jedno okno – nazwa, opis, ikona, mapa i warstwa.</li>
 <li><b>Ustawienia warstwy</b> – ⋮ przy warstwie otwiera jedno okno: nazwa, krycie, ikona i nazwy punktów, przenoszenie obiektów, pola danych, alarm, scalanie, udostępnianie, kolejność i usuwanie.</li>
@@ -24405,7 +24550,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Track summary</b> (button in Tracks) – activity types to tick (several at once), period: week, month, year, all or custom (from–to); by default tracks from all groups of the mode (or “Only group …”), option “Include Sport workouts”. Result: count, distance, moving time, climb, breakdown by type, chart and list. In Sport statistics – “Include tracks” (trips of the same type). A workout recorded with a track counts once, and its distance and time come from the computed track.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans; tap one to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
 <li><b>What the map shows</b> – top left, the name of the active map; tap it for <b>Everything</b>, <b>This map only</b>, <b>Tracks only</b>, <b>Clean map</b>, switching maps and <b>your own views</b> (“Save the current view…” remembers the map and layer visibility). <b>Focus mode</b>: when you open the popup of a track, route or point, the rest of your data is hidden for the time being (“Show everything” at the top; switch it off in Settings → Appearance). The first time you use a feature a short 💡 hint appears, and at the start 5 cards (also in “i” → Getting started → “Start cards”).</li>
-<li><b>Through greenery</b> – by bike and on foot the route card shows an extra variant through parks, forests, green areas and allotments (OpenStreetMap data), at most 25% longer, and each variant shows “🌳 62% in greenery”. Settings → Navigation → “Look for routes through greenery”.</li>
+<li><b>Route card and “Through greenery”</b> – after “Navigate” the card appears at once: how you travel (Walk / Bike / Car / Straight) and the kind of roads (Trekking / Road / Mountain, Trails and forest / Paved only). The recommended route shows within seconds, other variants join the list (name, time, km, how much longer); computed routes are remembered when switching. On foot and by bike there is a <b>“🌳 Look for a route through greenery”</b> box (always unticked at start) with a “max. longer by” limit (40% by default, − / +): once ticked OMM looks for a route through parks and forests (OpenStreetMap data) and adds it next to the recommended one, or says why it found nothing. The guidance arrow appears only after you choose a route.</li>
 <li><b>Track window</b> – at the top the name, activity, start → end and layer; below them distance, moving time, total time, average and climb; the colour bar (tap to switch speed / elevation / plain). One bar: <b>Navigate</b> (along the track), <b>Edit</b> (track points, draw in, split, snap to paths, activity, description, photos and points, “Restore the original”), <b>Statistics</b>, <b>Share</b> (file, image, save on the phone, Animation) and <b>More</b> (hide, track data – select photos and points to copy or move to a map, or save the track as a route for navigation – and delete). Editing really changes the track; the track calculated by OMM and the raw readings are kept for comparison.</li>
 <li><b>New point</b> – press and hold the map → “Save point”: one window – name, description, icon, map and layer.</li>
 <li><b>Layer settings</b> – ⋮ next to a layer opens one window: name, opacity, point icon and names, moving objects, data fields, alarm, merging, sharing, order and deleting.</li>
@@ -37976,14 +38121,30 @@ async function greenFetch(a, b) {
     hit = GREEN_C.get(bb);
   if (hit) return hit;
   const sel = ['leisure~"^(park|garden|nature_reserve|recreation_ground)$"', 'landuse~"^(forest|grass|meadow|recreation_ground|village_green|allotments|cemetery)$"', 'natural~"^(wood|scrub|heath|grassland)$"'],
-    q = '[out:json][timeout:20];(' + sel.map(t => 'way[' + t + '](' + bb + ');').join('') + ');out geom 1500;',
-    ac = new AbortController(),
-    tm = setTimeout(() => ac.abort(), 20000);
+    q = '[out:json][timeout:15];(' + sel.map(t => 'way[' + t + '](' + bb + ');').join('') + ');out geom 1500;';
+  // v106 (pkt 264): kilka serwerów Overpass po kolei, każdy najwyżej 8 s (główny 1.11 nie odpowiadał wcale)
+  const OVP = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://overpass.private.coffee/api/interpreter'];
+  let tm = 0;
   try {
-    const r = await fetch('https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(q), {signal: ac.signal, referrerPolicy: 'no-referrer'});
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const j = await r.json(),
-      k0 = Math.cos((a[0] * Math.PI) / 180),
+    let j = null,
+      err = null;
+    for (const u of OVP) {
+      const ac = new AbortController();
+      tm = setTimeout(() => ac.abort(), 8000);
+      try {
+        const r = await fetch(u + '?data=' + encodeURIComponent(q), {signal: ac.signal, referrerPolicy: 'no-referrer'});
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        j = await r.json();
+        break;
+      } catch (e) {
+        err = e;
+        diag('trasy', 'Zieleń: ' + u.split('/')[2] + ' – ' + ((e && e.name === 'AbortError' ? 'brak odpowiedzi w 8 s' : e && e.message) || e), bb);
+      } finally {
+        clearTimeout(tm);
+      }
+    }
+    if (!j) throw err || new Error('brak odpowiedzi');
+    const k0 = Math.cos((a[0] * Math.PI) / 180),
       polys = (j.elements || [])
         .filter(e => Array.isArray(e.geometry) && e.geometry.length > 3)
         .map(e => {
@@ -38038,29 +38199,36 @@ function greenShare(r, G) {
   }
   return tot ? gr / tot : 0;
 }
-async function greenRoutes(a, b, prof, base) {
-  // kandydaci „przez zieleń”: przez środek 1 albo 2 największych zielonych obszarów leżących po drodze
-  // (A→obszar→B najwyżej +25% w linii prostej); zwraca najlepszy wariant {r, gs} albo null
+async function greenRoutes(a, b, prof, base, limF = 1.4) {
+  // kandydaci „przez zieleń”: przez środek 1 albo 2 największych zielonych obszarów leżących po drodze;
+  // zwraca najlepszy wariant {r, gs, G} albo {none: 'nodata' | 'noarea' | 'toolong', need} (v106: powód braku)
   const G = await greenFetch(a, b);
-  if (!G || !G.length || !base) return null;
+  if (!G) return {none: 'nodata'};
+  if (!G.length || !base) return {none: 'noarea'};
   const dAB = hav(a, b),
-    lim = base.len * 1.25,
-    near = G.filter(g => g.area > 5000 && hav(a, g.c) + hav(g.c, b) <= dAB * 1.25 && hav(a, g.c) > 80 && hav(g.c, b) > 80).sort((x, y) => y.area - x.area);
-  if (!near.length) return null;
+    lim = base.len * limF,
+    near = G.filter(g => g.area > 5000 && hav(a, g.c) + hav(g.c, b) <= dAB * Math.max(1.25, limF) && hav(a, g.c) > 80 && hav(g.c, b) > 80).sort((x, y) => y.area - x.area);
+  if (!near.length) return {none: 'noarea'};
   const along = g => hav(a, g.c) / (hav(a, g.c) + hav(g.c, b)),
     cand = near.slice(0, 4).map(g => [g]);
   if (near.length > 1) cand.push(near.slice(0, 2).sort((x, y) => along(x) - along(y)));
-  const res = await Promise.all(
-    cand.map(gs =>
-      routeAB([a, ...gs.map(g => g.c), b], {prof, noWalk: true, types: ['break', ...gs.map(() => 'through'), 'break']})
-        .then(r => (r && r.len <= lim ? {r, gs: greenShare(r, G)} : null))
-        .catch(() => null)
-    )
-  );
-  const ok = res.filter(Boolean).sort((x, y) => y.gs - x.gs);
-  return ok.length ? {...ok[0], G} : null;
+  const res = [];
+  for (const gs of cand) {
+    // po kolei – publiczny serwer tras
+    try {
+      const r = await routeAB([a, ...gs.map(g => g.c), b], {prof, noWalk: true, types: ['break', ...gs.map(() => 'through'), 'break']});
+      if (r) res.push({r, gs: greenShare(r, G)});
+    } catch (e) {}
+  }
+  const ok = res.filter(x => x.r.len <= lim && x.gs > 0.05).sort((x, y) => y.gs - x.gs);
+  if (ok.length) return {...ok[0], G};
+  if (!res.length) return {none: 'noarea'};
+  return {none: 'toolong', need: Math.min(...res.map(x => x.r.len / base.len))};
 }
 async function navAltPick() {
+  // v105→v106 (pkt 264): karta od razu (czym jedziesz, rodzaj roweru / dróg), pierwsza trasa w kilka sekund,
+  // pozostałe warianty dochodzą po kolei (publiczny serwer tras nie lubi wielu zapytań naraz), policzone trasy
+  // zapamiętane przy przełączaniu; „Szukaj przez zieleń” tylko po zaznaczeniu, z limitem wydłużenia (domyślnie 40%).
   const me = NAV,
     veh = !!NAV.pickVeh,
     wv = localStorage.getItem('omm-nav-warianty') !== '0',
@@ -38080,8 +38248,8 @@ async function navAltPick() {
         : pc === 'bicycle'
           ? [
               {nm: _t('Zalecana'), o: {alt: 2}},
-              {nm: _t('Najkrótsza'), o: {co: {shortest: true}}},
               {nm: _t('Spokojna'), o: {co: {use_roads: 0.1, use_living_streets: 1}}},
+              {nm: _t('Najkrótsza'), o: {co: {shortest: true}}},
               {nm: _t('Bez szutrów'), o: {co: {avoid_bad_surfaces: 1}}}
             ]
           : [
@@ -38099,68 +38267,65 @@ async function navAltPick() {
     for (let k = 0; k < n; k++) if (near(a.p[Math.floor((k * (a.p.length - 1)) / (n - 1))], b) < 25) ok++;
     return ok >= n * 0.9;
   };
-  const calc = async pr => {
+  // pamięć wyników dla sposobu jazdy: {C: [{r, nm, sw, cw, gs}], busy, err, gr: stan zieleni}
+  const CACHE = {};
+  const addTo = (st, pc, r, nm) => {
+    const d = st.C.find(c => same(c.r, r) && same(r, c.r));
+    if (d) return void (d.nm.includes(nm.toLowerCase()) || d.nm === nm || (d.nm += ' · ' + nm.toLowerCase()));
+    st.C.push({r, nm, ...(pc === 'bicycle' ? navSideOf(r) : {sw: 0, cw: 0})});
+  };
+  let onUpd = () => {};
+  const calc = pr => {
+    if (CACHE[pr]) return CACHE[pr];
     const pc = RT_PROF[pr].c,
       reqs = reqsOf(pc),
-      // v97: w nawigacji bez podmiany na trasę pieszą (noWalk) – rower ma jechać jak rower
-      gp = pc !== 'auto' && wv && greenOn() ? greenFetch(pos, to).catch(() => null) : null, // v99: zieleń równolegle
-      res = await Promise.all(reqs.map(q => routeAB([pos, to], {prof: pr, ...q.o, noWalk: true}).catch(() => null))),
-      C = [];
-    const add = (r, nm) => {
-      const d = C.find(c => same(c.r, r) && same(r, c.r));
-      if (d) return void (d.nm.includes(nm.toLowerCase()) || d.nm === nm || (d.nm += ' · ' + nm.toLowerCase()));
-      C.push({r, nm, ...(pc === 'bicycle' ? navSideOf(r) : {sw: 0, cw: 0})});
-    };
-    if (res[0]) {
-      add(res[0], reqs[0].nm);
-      (res[0].alts || []).forEach(a => add({p: a.p, man: a.man, len: a.len, time: a.time, src: 'valhalla'}, _t('Inna trasa')));
-    }
-    res.slice(1).forEach((r, k) => r && add(r, reqs[k + 1].nm));
-    if (gp && res[0]) {
-      // v99 (pkt 242): wariant „Przez zieleń” + udział zieleni przy każdym wariancie
-      await gp;
-      const gr = await greenRoutes(pos, to, pr, res[0]);
-      if (gr) {
-        C.forEach(c => (c.gs = greenShare(c.r, gr.G)));
-        const best = Math.max(0, ...C.map(c => c.gs));
-        if (gr.gs > best + 0.08) {
-          add(gr.r, _t('Przez zieleń'));
-          const c = C.find(x => x.r === gr.r);
-          if (c) c.gs = gr.gs;
-        } else {
-          const c = C.find(x => x.gs === best);
-          if (c && best >= 0.2 && !/ziele/i.test(c.nm)) c.nm += ' · ' + _t('przez zieleń');
+      st = (CACHE[pr] = {C: [], busy: true, more: true});
+    (async () => {
+      // 1) od razu zalecana (z wariantami serwera)
+      let r0 = null;
+      try {
+        r0 = await routeAB([pos, to], {prof: pr, ...reqs[0].o, noWalk: true});
+      } catch (e) {}
+      if (r0) {
+        addTo(st, pc, r0, reqs[0].nm);
+        (r0.alts || []).forEach(a => addTo(st, pc, {p: a.p, man: a.man, len: a.len, time: a.time, src: 'valhalla'}, _t('Inna trasa')));
+      } else st.err = RT_ERR;
+      st.busy = false;
+      onUpd(pr);
+      // 2) pozostałe warianty po kolei – dochodzą na kartę
+      if (r0)
+        for (const q of reqs.slice(1)) {
+          if (NAV !== me || st.dead) break;
+          try {
+            const r = await routeAB([pos, to], {prof: pr, ...q.o, noWalk: true});
+            if (r) addTo(st, pc, r, q.nm);
+          } catch (e) {}
+          onUpd(pr);
         }
-      }
-    }
-    if (pc === 'bicycle' && C.length > 1) {
-      // rowerem: trasy bez chodników i przejść dla pieszych pierwsze (gdy nie dłuższe niż o ok. 20%)
-      const t0 = Math.min(...C.map(c => c.r.time || 1e9)),
-        bad = c => c.sw + c.cw * 60;
-      C.sort((a, b) => {
-        const oa = a.r.time <= t0 * 1.2,
-          ob = b.r.time <= t0 * 1.2;
-        if (oa !== ob) return ob - oa;
-        return bad(a) - bad(b) || 0;
-      });
-      if (bad(C[0]) || bad(C[1])) diag('trasy', 'Rower – chodniki/przejścia w wariantach: ' + C.map(c => c.nm + ' ' + Math.round(c.sw) + ' m/' + c.cw).join('; '), '');
-    }
-    const gi = C.findIndex(c => c.nm === _t('Przez zieleń')); // wariant przez zieleń zawsze na karcie
-    if (gi > 4) C.splice(4, 0, C.splice(gi, 1)[0]);
-    return {C, res};
+      st.more = false;
+      onUpd(pr);
+    })();
+    return st;
   };
-  let cur = g === 'line' ? {C: [], res: []} : await calc(prof);
-  if (NAV !== me) return null;
+  // trasa dojazdu bez wyboru pojazdu (np. nowa trasa w trakcie) – od razu zalecana, karta tylko przy wariantach serwera
   if (!veh) {
-    // dojazd do startu trasy (sposób jazdy już wybrany) – karta tylko przy kilku wariantach
-    if (!cur.C.length) return cur.res.find(Boolean) || null;
-    if (cur.C.length < 2) return cur.C[0].r;
+    let r0 = null;
+    try {
+      r0 = await routeAB([pos, to], {prof, ...reqsOf(RT_PROF[prof].c)[0].o, noWalk: true});
+    } catch (e) {}
+    if (NAV !== me) return null;
+    if (!r0 || !(r0.alts || []).length) return r0;
+    const st = (CACHE[prof] = {C: [], busy: false, more: false}),
+      pc = RT_PROF[prof].c;
+    addTo(st, pc, r0, _t('Zalecana'));
+    r0.alts.forEach(a => addTo(st, pc, {p: a.p, man: a.man, len: a.len, time: a.time, src: 'valhalla'}, _t('Inna trasa')));
+    if (st.C.length < 2) return r0;
   }
-  let R = cur.C.slice(0, 5),
+  const gLim = () => Math.max(10, Math.min(100, Math.round((+localStorage.getItem('omm-zielen-lim') || 40) / 10) * 10));
+  let R = [],
     sel = 0,
-    busy = false,
-    tok = 0,
-    closed = false;
+    closed = false,
+    wantG = false; // „Szukaj przez zieleń” – zawsze niezaznaczone na starcie
   NAV.picking = true;
   NAV.camOff = Infinity;
   document.body.classList.add('navpick');
@@ -38169,9 +38334,19 @@ async function navAltPick() {
       card = h('div', 'rpick'),
       fitAll = () => {
         const ps = R.length ? R.flatMap(c => c.r.p) : [pos, to];
-        map.fitBounds(L.latLngBounds(ps), {paddingTopLeft: [30, 50], paddingBottomRight: [30, veh ? 230 : 150], maxZoom: 16});
+        map.fitBounds(L.latLngBounds(ps), {paddingTopLeft: [30, 50], paddingBottomRight: [30, veh ? 330 : 200], maxZoom: 16});
       };
-    // etykieta w miejscu, gdzie trasa odchodzi od pozostałych (albo w połowie)
+    const cur = () => (g === 'line' ? null : CACHE[prof]);
+    let fitted = false;
+    onUpd = pr => {
+      if (closed || NAV !== me || pr !== prof) return;
+      const st = cur();
+      const was = R[sel];
+      R = st ? st.C.slice(0, 6) : [];
+      sel = Math.max(0, R.indexOf(was));
+      draw();
+      if (R.length && !fitted) (fitted = true), fitAll();
+    };
     const labAt = k => {
       const P = R[k].r.p;
       for (const f of [0.5, 0.4, 0.6, 0.3, 0.7, 0.25, 0.75]) {
@@ -38180,55 +38355,85 @@ async function navAltPick() {
       }
       return P[Math.floor(0.5 * (P.length - 1))];
     };
-    const setG = async ng => {
-      if (busy && ng === g) return;
+    const setProf = pr => {
+      prof = pr;
+      fitted = false;
+      calc(pr);
+      onUpd(pr);
+      if (wantG) greenGo();
+    };
+    const setG = ng => {
       g = ng;
       try {
         localStorage.setItem('omm-nav-poj', g);
       } catch (e) {}
-      const t = ++tok;
       if (g === 'line') {
         R = [];
-        busy = false;
         draw();
         fitAll();
         return;
       }
-      prof = navPojProf(g);
-      busy = true;
-      R = [];
+      if (g === 'car') wantG = false;
+      setProf(navPojProf(g));
+    };
+    // v106 (pkt 264): przez zieleń – dopiero po zaznaczeniu; zostawia proponowaną, dokłada znalezioną albo mówi, czemu nic
+    const greenGo = async () => {
+      const pr = prof,
+        st = calc(pr);
+      if (!wantG || g === 'car' || g === 'line') return;
+      const lim = gLim();
+      st.gs = {busy: true, lim};
       draw();
-      const x = await calc(prof);
-      if (closed || t !== tok || NAV !== me) return;
-      R = x.C.slice(0, 5);
-      sel = 0;
-      busy = false;
-      draw();
-      if (R.length) fitAll();
+      while (st.busy) await new Promise(r => setTimeout(r, 300));
+      const base = st.C[0] && st.C[0].r;
+      if (!base) return (st.gs = {msg: _t('Najpierw musi się policzyć zwykła trasa.')}), draw();
+      const gr = await greenRoutes(pos, to, pr, base, 1 + lim / 100).catch(() => null);
+      if (closed || pr !== prof || !wantG) return;
+      if (!gr || gr.none) {
+        st.gs = {
+          msg: !gr || gr.none === 'nodata'
+            ? _t('Brak danych o zieleni – serwer z mapą zieleni nie odpowiada. Spróbuj za chwilę.')
+            : gr.none === 'noarea'
+              ? _t('Po drodze nie ma parków ani lasów, przez które dałoby się pojechać.')
+              : _t('Trasa przez zieleń byłaby dłuższa o ') + Math.round((gr.need - 1) * 100) + _t('% – więcej niż limit ') + lim + '%.'
+        };
+        return draw();
+      }
+      st.C.forEach(c => (c.gs = greenShare(c.r, gr.G)));
+      const old = st.C.find(c => same(c.r, gr.r) && same(gr.r, c.r));
+      if (old) (old.gs = gr.gs), /ziele/i.test(old.nm) || (old.nm += ' · ' + _t('przez zieleń'));
+      else st.C.splice(1, 0, {r: gr.r, nm: _t('Przez zieleń'), gs: gr.gs, ...(RT_PROF[pr].c === 'bicycle' ? navSideOf(gr.r) : {sw: 0, cw: 0})});
+      st.gs = {ok: true};
+      onUpd(pr);
+      const k = R.findIndex(c => c.r === gr.r || (old && c === old));
+      if (k >= 0) (sel = k), draw();
+    };
+    const longer = c => {
+      const b = R[0];
+      if (!b || c === b || !(c.r.len > b.r.len + 20)) return '';
+      return ' · ' + _t('dłuższa o ') + fkm(c.r.len - b.r.len) + ' (+' + Math.round((c.r.len / b.r.len - 1) * 100) + '%)';
     };
     const draw = () => {
       gl.clearLayers();
-      const t0 = R.length ? R[0].r.time : 0;
-      if (g === 'line') {
-        L.polyline([pos, to], {pane: 'tmpP', color: '#1a73e8', weight: 4, dashArray: '8 8', interactive: false}).addTo(gl);
-      }
+      const st = cur(),
+        t0 = R.length ? R[0].r.time : 0;
+      if (g === 'line') L.polyline([pos, to], {pane: 'tmpP', color: '#1a73e8', weight: 4, dashArray: '8 8', interactive: false}).addTo(gl);
       R.map((c, k) => k)
         .sort((a, b) => (a === sel) - (b === sel)) // wybrana na wierzchu
         .forEach(k => {
           const on = k === sel,
             P = R[k].r.p;
           L.polyline(P, {pane: 'tmpP', color: '#fff', weight: on ? 11 : 8, opacity: 0.9, interactive: false}).addTo(gl);
-          L.polyline(P, {pane: 'tmpP', color: on ? '#1a73e8' : '#8a8f98', weight: on ? 7 : 5, opacity: on ? 1 : 0.85, interactive: false}).addTo(gl);
-          // szeroki niewidoczny pas do dotknięcia
+          L.polyline(P, {pane: 'tmpP', color: on ? '#1a73e8' : /ziele/i.test(R[k].nm) ? '#43a047' : '#8a8f98', weight: on ? 7 : 5, opacity: on ? 1 : 0.85, interactive: false}).addTo(gl);
           L.polyline(P, {pane: 'tmpP', color: '#000', weight: 24, opacity: 0, interactive: true})
             .on('click', e => (L.DomEvent.stop(e), pick(k)))
             .addTo(gl);
           if (R.length < 2) return;
           const dt = Math.round((R[k].r.time - t0) / 60),
-            txt = k === sel || !k ? fhmin(R[k].r.time * 1000) : (dt >= 0 ? '+' : '−') + Math.abs(dt) + ' min';
+            tt = !k ? fhmin(R[k].r.time * 1000) : (dt >= 0 ? '+' : '−') + Math.abs(dt) + ' min';
           L.marker(labAt(k), {
             pane: 'navMeP',
-            icon: L.divIcon({className: 'rplab' + (on ? ' on' : ''), html: '<span>' + txt + '</span>', iconSize: null})
+            icon: L.divIcon({className: 'rplab' + (on ? ' on' : ''), html: '<span>' + esc(R[k].nm.split(' · ')[0]) + ' · ' + tt + '</span>', iconSize: null})
           })
             .on('click', e => (L.DomEvent.stop(e), pick(k)))
             .addTo(gl);
@@ -38243,30 +38448,97 @@ async function navAltPick() {
           pf.append(b);
         });
         card.append(pf);
+        // rodzaj roweru / dróg (Trekking, Szosa, Górski · Szlaki i leśne, Utwardzone) – ten sam wybór co w planerze
+        const G = PLAN_G.find(x => x[0] === g);
+        if (G && G[3].length > 1) {
+          const sr = h('div', 'rpsub');
+          G[3].forEach(k => {
+            const b = B(_t(PLAN_VN[k] || k), () => {
+              try {
+                localStorage.setItem('omm-plan-' + g, k);
+              } catch (e) {}
+              setProf(k);
+            }, k === prof ? 'on' : '');
+            sr.append(b);
+          });
+          card.append(sr);
+        }
+        if (g === 'walk' || g === 'bike') {
+          const gr = h('div', 'rpgreen'),
+            lb = h('label', 'chk'),
+            cb = h('input'),
+            lim = gLim(),
+            stp = d => {
+              try {
+                localStorage.setItem('omm-zielen-lim', String(Math.max(10, Math.min(100, lim + d))));
+              } catch (e) {}
+              if (wantG) greenGo();
+              else draw();
+            };
+          cb.type = 'checkbox';
+          cb.checked = wantG;
+          cb.onchange = () => {
+            wantG = cb.checked;
+            if (wantG) greenGo();
+            else {
+              const s2 = cur();
+              if (s2) {
+                s2.C = s2.C.filter(c => c.nm !== _t('Przez zieleń'));
+                delete s2.gs;
+              }
+              onUpd(prof);
+            }
+          };
+          lb.append(cb, h('span', null, '🌳 ' + _t('Szukaj przez zieleń')));
+          const sp = h('span', 'rplim');
+          sp.append(h('small', null, _t('maks. dłuższa o')), B('−', () => stp(-10), 'rpst'), h('b', null, lim + '%'), B('+', () => stp(10), 'rpst'));
+          gr.append(lb, sp);
+          card.append(gr);
+          const s2 = cur();
+          if (wantG && s2 && s2.gs) {
+            if (s2.gs.busy) card.append(h('div', 'rpgmsg', _t('Szukam trasy przez zieleń…')));
+            else if (s2.gs.msg) card.append(h('div', 'rpgmsg', s2.gs.msg));
+          }
+        }
       }
-      const row = h('div', 'rprow'),
+      // lista wariantów: nazwa, czas, km, o ile dłuższa, % zieleni, ⚠ chodnik
+      if (R.length > 1) {
+        const ls = h('div', 'rplist');
+        R.forEach((c, k) => {
+          const side = c.sw >= 30 || c.cw ? ' · ⚠ ' + (c.sw >= 30 ? _t('chodnik ') + fm(c.sw) : '') + (c.sw >= 30 && c.cw ? ', ' : '') + (c.cw ? _t('przejścia: ') + c.cw : '') : '',
+            b = B('', () => pick(k), 'rpli' + (k === sel ? ' on' : ''));
+          b.append(
+            h('b', null, c.nm),
+            h('span', null, fhmin(c.r.time * 1000) + ' · ' + fkm(c.r.len) + longer(c) + (c.gs != null && c.gs >= 0.05 ? ' · 🌳 ' + Math.round(c.gs * 100) + '%' : '') + side)
+          );
+          ls.append(b);
+        });
+        card.append(ls);
+      }
+      const st2 = cur(),
+        row = h('div', 'rprow'),
         info = h('div', 'rpi'),
         c = R[sel];
-      if (busy) info.append(h('b', null, _t('Wyznaczam trasę…')), h('span', null, ' '));
-      else if (g === 'line') info.append(h('b', null, fkm(hav(pos, to)) + _t(' prosto')), h('span', null, _t('Strzałka i linia do celu, bez poleceń skrętów')));
-      else if (!c) info.append(h('b', null, _t('Nie udało się wyznaczyć trasy')), h('span', null, RT_ERR + _t(' – wybierz inny sposób albo „Prosto”')));
+      if (g === 'line') info.append(h('b', null, fkm(hav(pos, to)) + _t(' prosto')), h('span', null, _t('Strzałka i linia do celu, bez poleceń skrętów')));
+      else if (!c && st2 && st2.busy) info.append(h('b', null, _t('Wyznaczam trasę…')), h('span', null, ' '));
+      else if (!c) info.append(h('b', null, _t('Nie udało się wyznaczyć trasy')), h('span', null, (st2 && st2.err ? st2.err : RT_ERR) + _t(' – wybierz inny sposób albo „Prosto”')));
       else {
         const side = c.sw >= 30 || c.cw ? ' · ⚠ ' + (c.sw >= 30 ? _t('chodnik ') + fm(c.sw) : '') + (c.sw >= 30 && c.cw ? ', ' : '') + (c.cw ? _t('przejścia dla pieszych: ') + c.cw : '') : '';
         info.append(
           h('b', null, fhmin(c.r.time * 1000) + ' · ' + fkm(c.r.len)),
-          h('span', null, c.nm + ' · ' + _t('na miejscu ') + fhm(Date.now() + c.r.time * 1000) + (c.gs != null && c.gs >= 0.05 ? ' · 🌳 ' + Math.round(c.gs * 100) + _t('% w zieleni') : '') + (R.length > 1 ? ' · ' + (sel + 1) + '/' + R.length : '') + side)
+          h('span', null, c.nm + ' · ' + _t('na miejscu ') + fhm(Date.now() + c.r.time * 1000) + longer(c) + (c.gs != null && c.gs >= 0.05 ? ' · 🌳 ' + Math.round(c.gs * 100) + _t('% w zieleni') : '') + side + (st2 && st2.more ? ' · ' + _t('szukam innych wariantów…') : ''))
         );
       }
       row.append(IB('x', () => fin(null), 'rpx', _t('Anuluj')), info);
       card.append(row);
       const act = h('div', 'rpact');
-      if (veh && c && !busy && g !== 'line')
+      if (veh && c && g !== 'line')
         act.append(
           BI('edit', _t('Edytuj'), () => fin({edit: c.r, prof}), 'rped'),
           BI('save', _t('Zapisz'), () => fin({edit: c.r, prof, save: true}), 'rpsv')
         );
       const go = B(_t('Nawiguj'), () => (g === 'line' ? fin({straight: true}) : c && fin(c.r)), 'okb rpgo');
-      if (busy || (g !== 'line' && !c)) go.disabled = true;
+      if (g !== 'line' && !c) go.disabled = true;
       act.append(go);
       card.append(act);
     };
@@ -38276,6 +38548,7 @@ async function navAltPick() {
     };
     const fin = r => {
       closed = true;
+      Object.values(CACHE).forEach(x => (x.dead = true));
       gl.remove();
       card.remove();
       document.body.classList.remove('navpick');
@@ -38288,9 +38561,11 @@ async function navAltPick() {
       done(r);
     };
     document.body.append(card);
+    if (g !== 'line') calc(prof);
     draw();
+    onUpd(prof);
     fitAll();
-    hintOnce('karta', _t('Wybierz u góry, czym jedziesz. Dotknij szarej trasy albo etykiety, by ją wybrać. „Edytuj” pozwala zmienić trasę, a „Zapisz” – zachować ją na później.'));
+    hintOnce('karta', _t('Wybierz u góry, czym jedziesz. Dotknij trasy, etykiety albo pozycji na liście, by ją wybrać. „Edytuj” pozwala zmienić trasę, a „Zapisz” – zachować ją na później.'));
   });
 }
 // v97: „Edytuj” / „Zapisz” na karcie wyboru – trasa trafia do planera (start: Twoja pozycja, cel, wybrany wariant)
@@ -38452,6 +38727,11 @@ function navRejoin(ti, pos) {
 }
 function navDraw() {
   if (!NAV || !NAV.pos) return;
+  if (!NAV.free && !(Array.isArray(NAV.to) && isFinite(NAV.to[0]))) {
+    // v106 (pkt 267): 28–29.10 rysowanie bez celu sypało błędem setki razy na sekundę – zapis raz i bez rysowania
+    if (!navDraw.warn) (navDraw.warn = 1), diag('nawigacja', 'Brak celu nawigacji przy rysowaniu', JSON.stringify({to: NAV.to, path: !!NAV.path}));
+    return;
+  }
   if (NAV.pace == null) NAV.pace = myPace();
   const hd = NAV.head != null ? NAV.head : NAV.gpsHead,
     pos = NAV.pos;
@@ -39380,6 +39660,8 @@ function wlToggle() {
 }
 document.addEventListener('visibilitychange', () => {
   wlSync();
+  // v106 (pkt 265): powrót do OMM (odblokowanie, przełączenie z innej aplikacji) = jak dotknięcie – ekran jasny 15 s
+  if (NAV && document.visibilityState === 'visible') navWake(15000);
   navDim();
   // v65: po powrocie do aplikacji pierwsze pozycje GPS bywają stare albo przesunięte – 15 s bez alarmów zejścia
   if (NAV && document.visibilityState === 'visible') NAV.grace = Date.now() + 15000;
@@ -41382,8 +41664,11 @@ function trkResample(P, sg, step = 8) {
 // dla których serwer ma sensowny profil dróg; bez internetu ślad czeka (t.mmW) i dopasuje się, gdy wróci zasięg
 const TRK_MM_ACTS = ['pieszo', 'trekking', 'bieg', 'rower', 'rolki', 'auto'];
 const trkMatchAutoOn = () => localStorage.getItem('omm-trk-dopasuj') === '1';
+// v106 (pkt 270): osobny automat dla śladów pieszych (pieszo, trekking, bieg) – domyślnie wyłączony
+const trkMatchWalkOn = () => localStorage.getItem('omm-trk-dop-pieszo') === '1';
+const trkMatchAutoFor = t => !!t && (trkMatchAutoOn() || (trkMatchWalkOn() && TRK_WALK_ACTS.includes(t.a)));
 async function trkMatchAuto(t) {
-  if (!t || t.mm || !TRK_MM_ACTS.includes(t.a) || !trkMatchAutoOn()) return;
+  if (!t || t.mm || !TRK_MM_ACTS.includes(t.a) || !trkMatchAutoFor(t)) return;
   if (navigator.onLine === false) {
     t.mmW = 1;
     return trkSave();
@@ -41396,7 +41681,7 @@ async function trkMatchPending() {
   if (navigator.onLine === false || trkMatchPending.busy) return;
   trkMatchPending.busy = true;
   try {
-    if (trkMatchAutoOn())
+    if (trkMatchAutoOn() || trkMatchWalkOn())
       for (const t of (TRK.items || []).filter(x => x.mmW && !x.mm)) {
         delete t.mmW;
         await trkMatchAuto(t);
@@ -41489,7 +41774,21 @@ async function trkGapFill(t) {
 }
 window.addEventListener('online', () => setTimeout(trkMatchPending, 5000));
 setTimeout(trkMatchPending, 15000); // po uruchomieniu – ślady zapisane bez internetu
-async function trkMatchOffer() {
+async function trkMatchOffer(t) {
+  // v106 (pkt 270): po pierwszym ręcznym dopasowaniu śladu pieszego – propozycja automatu tylko dla śladów pieszych
+  if (t && TRK_WALK_ACTS.includes(t.a)) {
+    if (localStorage.getItem('omm-trk-dop-pyt-p') || trkMatchWalkOn() || trkMatchAutoOn()) return;
+    localStorage.setItem('omm-trk-dop-pyt-p', '1');
+    const ok = await askYes(
+      _t('Dociągać tak zawsze ślady piesze (pieszo, trekking, bieg) – zaraz po „Stop”? Zejścia ze ścieżki (postój, szukanie grzybów, wejście w las) zostają takie, jak nagrał telefon. Oryginał zostaje do cofnięcia, a bez internetu ślad dopasuje się, gdy wróci zasięg.\n\nZmienisz to w Ustawieniach → Ślady GPS.'),
+      _t('Tak, zawsze')
+    );
+    if (ok) {
+      localStorage.setItem('omm-trk-dop-pieszo', '1');
+      toastMsg(_t('Ślady piesze będą dociągane do ścieżek automatycznie'));
+    }
+    return;
+  }
   // v92: po pierwszym ręcznym dopasowaniu – jednorazowa propozycja włączenia automatu
   if (localStorage.getItem('omm-trk-dop-pyt') || trkMatchAutoOn()) return;
   localStorage.setItem('omm-trk-dop-pyt', '1');
@@ -41544,9 +41843,18 @@ async function trkMatch(t, opt = {}) {
         // dobre = położone na ścieżce blisko pomiaru; potem tylko serie co najmniej 5 dobrych z rzędu.
         // v91: także „interpolated” – przy punktach co 8 m serwer dopasowuje tylko co ok. 10 m, resztę kładzie
         // na tej samej ścieżce jako „interpolated” (wcześniej liczone jako brak ścieżki → 0%)
+        // v106 (pkt 270): pieszo ostrożniej – na ścieżkę tylko pomiary do 10 m od niej, w ruchu (postój i kręcenie się
+        // w miejscu – grzyby, siku – zostają jak nagrane) i w seriach co najmniej ~50 m
+        const walk = cost === 'pedestrian',
+          spd = i => {
+            const a = part[Math.max(0, i - 2)],
+              b = part[Math.min(part.length - 1, i + 2)];
+            if (a[3] == null || b[3] == null || b[3] <= a[3]) return 9;
+            return hav(a, b) / (b[3] - a[3]);
+          };
         const good = part.map((q, i) => {
           const m = mp[i];
-          return !!(m && (m.type === 'matched' || m.type === 'interpolated') && isFinite(m.lat) && isFinite(m.lon) && hav(q, [m.lat, m.lon]) <= 18);
+          return !!(m && (m.type === 'matched' || m.type === 'interpolated') && isFinite(m.lat) && isFinite(m.lon) && hav(q, [m.lat, m.lon]) <= (walk ? 10 : 18) && (!walk || spd(i) >= 0.5));
         });
         for (let i = 0; i < good.length; ) {
           if (!good[i]) {
@@ -41555,7 +41863,7 @@ async function trkMatch(t, opt = {}) {
           }
           let k = i;
           while (k < good.length && good[k]) k++;
-          if (k - i < 5) for (let q = i; q < k; q++) good[q] = false;
+          if (k - i < (walk ? 6 : 5)) for (let q = i; q < k; q++) good[q] = false;
           i = k;
         }
         part.forEach((q, i) => {
@@ -41590,7 +41898,7 @@ async function trkMatch(t, opt = {}) {
   t.up = Date.now();
   await trkChanged();
   toastMsg(_t('Dopasowano do ścieżek ') + t.mm.f + _t('% śladu (reszta bez zmian)'));
-  if (!auto) setTimeout(trkMatchOffer, 1200);
+  if (!auto) setTimeout(() => trkMatchOffer(t), 1200);
   return true;
 }
 function trkMatchUndo(t) {
@@ -43171,6 +43479,11 @@ if (plug('App')) {
     else if (abChgOn() && abDirty()) autoBackup(false, true); // v72: doszły nowe dane od ostatniej kopii
   });
   plug('App').addListener('resume', () => setTimeout(() => autoBackup(false), 8000));
+  plug('App').addListener('resume', () => {
+    try {
+      if (NAV) navWake(15000); // v106 (pkt 265): odblokowanie / powrót – ekran od razu jasny
+    } catch (e) {}
+  });
 }
 setTimeout(() => autoBackup(false), 12000);
 // widok przy uruchomieniu: moja pozycja (v60) – włącza kropkę GPS jak przycisk ◎
@@ -43301,8 +43614,8 @@ const START_CARDS = [
   ['pin', 'Twoje miejsca', 'Przytrzymaj palec na mapie i wybierz „Zapisz punkt”. Dotknij punktu, by go zmienić albo do niego nawigować.'],
   ['rec', 'Nagraj spacer albo jazdę', '● REC u góry nagrywa trasę, także przy zgaszonym ekranie. Stop zapisuje ślad ze statystykami.'],
   ['nav', 'Nawiguj', 'Dotknij punktu i wybierz „Nawiguj”. Wybierz, czym jedziesz, i trasę na mapie.'],
-  ['map', 'Co widać na mapie', 'U góry: nazwa mapy i przyciski „Tylko”, „Cała mapa”, „Wszystko moje”. Kolorowy znaczek trybu zmienia tryb pracy.'],
-  ['layer', 'Menu', 'Przycisk „Menu” w lewym dolnym rogu: Mapy, Ślady, Zdjęcia i Więcej – tam też kopia zapasowa i ustawienia.']
+  ['map', 'Co widać na mapie', 'Napis u góry mówi, co oglądasz: mapę albo ślady i tryb pracy. Które warstwy widać – decyduje oko przy warstwie.'],
+  ['menu', 'Menu', 'Przycisk ☰ w lewym dolnym rogu: Mapy, Ślady, Zdjęcia, Tryb i Ustawienia – tam też kopia zapasowa i pomoc.']
 ];
 function startCards() {
   return new Promise(res => {
@@ -43385,7 +43698,7 @@ async function tutFirstRun() {
 }
 setTimeout(() => {
   // v100 (Q2): dotychczasowi użytkownicy – raz: gdzie są teraz ślady i plany
-  if (localStorage.getItem('omm-tut')) hintOnce('menu102', _t('Nowe menu: przycisk „Menu” w lewym dolnym rogu → Mapy, Ślady, Zdjęcia, Więcej. U góry widać, co jest na mapie – „Tylko”, „Cała mapa”, „Wszystko moje”.'));
+  if (localStorage.getItem('omm-tut')) hintOnce('menu106', _t('Menu: przycisk ☰ w lewym dolnym rogu → Mapy, Ślady, Zdjęcia, Tryb, Ustawienia. Napis u góry mówi, co oglądasz.'));
 }, 6000);
 (function tutWait() {
   // pytanie dopiero po wczytaniu śladów (żeby wiedzieć, czy to nowa instalacja)
@@ -48179,22 +48492,6 @@ function settingsDlg(keep, old) {
   };
   box.classList.add('setdlg');
   box.append(h('div', 'dt', _t('Ustawienia')));
-  {
-    // v105 (pkt 259): Ustawienia = jedyna droga do ustawień – na górze to, co było w „Więcej”
-    const top = h('div', 'settop');
-    top.append(
-      BI('save', _t('Kopia zapasowa'), () => {
-        back.remove();
-        $('projb').onclick();
-        const m = $('xmenu');
-        m.style.left = Math.max(8, (innerWidth - m.offsetWidth) / 2) + 'px';
-        m.style.top = Math.max(60, (innerHeight - m.offsetHeight) / 3) + 'px';
-      }),
-      BI('book', _t('Pomoc i samouczek'), () => (back.remove(), aboutDlg('start'))),
-      BI('info', _t('O aplikacji') + ' · ' + APP_VER, () => (back.remove(), aboutDlg('autor')))
-    );
-    body.append(top);
-  }
 
   // v75: kolejność kategorii – od najczęściej zmienianych; każda z krótkim opisem zawartości
   cat('look', 'moon', _t('Wygląd'), _t('Motyw, podziałka, obracanie mapy'));
@@ -48408,6 +48705,13 @@ function settingsDlg(keep, old) {
     false,
     _t('Po „Stop” OMM wyśle ślad do serwera tras i dociągnie go do dróg i ścieżek z mapy OSM – tak jak przycisk „Dopasuj do ścieżek” w okienku śladu. Tylko odcinki blisko ścieżek; gdzie szedłeś bez ścieżek, ślad zostaje. Pieszo, bieg, trekking, rower, rolki, auto. Oryginał zostaje – „Cofnij dopasowanie”. Bez internetu ślad dopasuje się, gdy wróci zasięg.'),
     () => localStorage.setItem('omm-trk-dop-pyt', '1') // wybór w Ustawieniach – bez późniejszej propozycji
+  );
+  chk(
+    _t('Ślady piesze – dociągaj do ścieżek automatycznie'),
+    'omm-trk-dop-pieszo',
+    false,
+    _t('Tylko pieszo, trekking i bieg. Na ścieżkę trafiają odcinki, gdzie szedłeś równo wzdłuż niej; postoje, kręcenie się w miejscu (grzyby) i zejścia dalej od ścieżki zostają takie, jak nagrał telefon. Oryginał zostaje – „Cofnij dopasowanie”.'),
+    () => localStorage.setItem('omm-trk-dop-pyt-p', '1')
   );
   {
     // v66: komunikaty w trakcie nagrywania – co ile i w jakiej formie (do zaznaczenia)
@@ -48722,12 +49026,7 @@ function settingsDlg(keep, old) {
     true,
     _t('Po „Nawiguj” karta: czym jedziesz (Auto / Rower / Pieszo / Prosto – zapamiętane), wszystkie warianty na mapie (wybrana niebieska, inne szare z czasem – dotknij, by wybrać), „Edytuj”, „Zapisz” i „Nawiguj”. Autem: najszybsza, inne, najkrótsza, bez autostrad i płatnych; rowerem: zalecana, najkrótsza, spokojna, bez szutrów (z chodnikami i przejściami dla pieszych na końcu); pieszo: zalecana i najkrótsza. Wyłączone – jedna trasa.')
   );
-  chk(
-    _t('Szukaj tras przez zieleń (test)'),
-    'omm-zielen',
-    true,
-    _t('Rowerem i pieszo na karcie trasy dodatkowy wariant „Przez zieleń” – przez parki, lasy, zieleńce i ogródki (dane OpenStreetMap), najwyżej o 25% dłuższy; przy każdym wariancie udział trasy w zieleni.')
-  );
+  sec.append(h('div', 'muted', _t('Trasy przez zieleń: na karcie trasy (Pieszo, Rower) pole „Szukaj przez zieleń” z limitem wydłużenia – liczone tylko po zaznaczeniu.')));
   radios(
     _t('Podtrzymuj słuchawki Bluetooth'),
     'omm-nav-sluch',
@@ -48952,7 +49251,17 @@ function settingsDlg(keep, old) {
       ['nie', _t('Wyłączony')]
     ]
   );
-  cat('dane', 'save', _t('Kopia zapasowa i dane'), _t('Kopie automatyczne, Dysk Google, stan'));
+  cat('dane', 'save', _t('Kopia zapasowa i dane'), _t('Zrób kopię, przywróć, kopie automatyczne, Dysk Google'));
+  // v106 (pkt 271): kopia ręczna, przywracanie i eksport – na początku swojej kategorii (wcześniej luzem nad kategoriami)
+  btnRow([
+    BI('save', _t('Zrób kopię / przywróć / eksport'), () => {
+      back.remove();
+      $('projb').onclick();
+      const m = $('xmenu');
+      m.style.left = Math.max(8, (innerWidth - m.offsetWidth) / 2) + 'px';
+      m.style.top = Math.max(60, (innerHeight - m.offsetHeight) / 3) + 'px';
+    }, 'okb')
+  ]);
   radios(
     _t('Przypomnienie o kopii'),
     'omm-kopia-przyp-dni',
@@ -49261,7 +49570,17 @@ function settingsDlg(keep, old) {
     ],
     _t('Dotyczy zdjęć-linków w zaimportowanych punktach (np. z Moich Map Google). Wczytanie łączy telefon z cudzym serwerem – pozna on Twój adres IP i godzinę. Zawsze przez bezpieczne https.')
   );
-  cat('diag', 'bulb', _t('Diagnostyka'), _t('Błędy map i serwerów – wyślij jednym przyciskiem'));
+  cat('pomoc', 'info', _t('Pomoc i informacje'), _t('Pomoc, samouczek, wersja aplikacji, diagnostyka'));
+  {
+    // v106 (pkt 271): pomoc, samouczek, „O aplikacji” i diagnostyka w jednej kategorii
+    const lst = h('div', 'settop');
+    lst.append(
+      BI('book', _t('Pomoc i „Jak zacząć” – opis funkcji'), () => (back.remove(), aboutDlg('start'))),
+      BI('play', _t('Samouczek – pokaz na żywo'), () => (back.remove(), tutStart())),
+      BI('info', _t('O aplikacji') + ' · ' + APP_NAME + ' ' + APP_VER, () => (back.remove(), aboutDlg('autor')))
+    );
+    sec.append(lst);
+  }
   {
     const n = diagAll().length;
     sec.append(h('div', 'muted', n ? _t('Zapisanych zdarzeń: ') + n + _t('. Ostatnie: ') + diagAll()[n - 1].m : _t('Brak zapisanych błędów.')));
