@@ -5,6 +5,15 @@
      zakaz ramek, wtyczek i obcych formularzy. Obrazki i zapytania – do serwerów map (różne adresy). -->
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src * data: blob:; media-src * data: blob:; connect-src * data: blob:; font-src 'self' data:; worker-src 'self' blob:; object-src 'none'; frame-src 'none'; child-src 'none'; base-uri 'none'; form-action 'none'">
 <title>OMM – Own Map Manager</title>
+<!-- v113 (pkt 286): skrypt startowy – wygląd i motyw ustawione, zanim cokolwiek się narysuje (po powrocie do aplikacji
+     nie mignie stary wygląd); w aplikacji (www) trafia do boot.js -->
+<script id="boot">
+try {
+  var c = document.documentElement.classList, w = localStorage.getItem('omm-wyglad'), m = localStorage.getItem('omm-motyw') || 'jasny';
+  if (w === 'krawedzie' || w === 'polana' || w === 'szron' || w === 'dziennik') c.add('sk-krawedzie', 'slim');
+  if (m === 'ciemny' || (m !== 'jasny' && localStorage.getItem('omm-dk') === '1')) c.add('dark');
+} catch (e) {}
+</script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css" integrity="sha512-Zcn6bjR/8RZbLEpLIeOwNtzREBAJnUKESxces60Mpoj+2okopSAcSUIUOseddDm0cxnGQzxIR7vJgsLZbdLE3w==" crossorigin="anonymous">
 <style>
 :root {
@@ -9037,59 +9046,9 @@ html.slim #vscope { border-radius: 6px; }
 html.slim #vscope button { border-radius: 4px; font-weight: 500; }
 html.slim .dt { font-weight: 500; }
 html.slim .dback { background: rgba(20, 28, 22, 0.32); }
-/* v111: Dziennik – pasek dnia na mapie i okno dziennika (działa w każdym wyglądzie; w menu ☰ przy wyglądzie „Dziennik”) */
-#daybar {
-  position: absolute; z-index: 1003; left: 8px; right: 8px; bottom: calc(8px + var(--sa));
-  background: var(--bg); color: var(--txt); border: 1px solid var(--line);
-  border-radius: calc(10px * var(--rk)); box-shadow: var(--sh, 0 2px 10px #0004); padding: 6px 12px 10px;
-}
-.dbhd, .jhd { display: flex; align-items: center; gap: 4px; }
-.dbsp { flex: 1; }
-.dbnav, .dbx { border: 0; background: none; color: var(--txt); min-width: 40px; height: 40px; font-size: 22px; line-height: 1; padding: 0; }
-.dbnav:disabled { opacity: 0.3; }
-.dbx { display: grid; place-items: center; color: var(--sub); }
-.dbt { font-size: 15px; font-weight: 500; }
-.dbax { position: relative; height: 16px; margin: 2px 0 0; }
-.dbh { position: absolute; transform: translateX(-50%); font-size: 11px; color: var(--sub); font-variant-numeric: tabular-nums; }
-.dbh:first-child { transform: none; }
-.dbtl { position: relative; height: 38px; touch-action: none; cursor: ew-resize; }
-.dbbase { position: absolute; left: 0; right: 0; top: 18px; height: 1px; background: var(--line); }
-.dbseg { position: absolute; top: 13px; height: 11px; border-radius: 2px; opacity: 0.9; }
-.dbfo { position: absolute; top: 2px; width: 8px; height: 8px; margin-left: -4px; background: #b9a26a; border: 1px solid var(--bg); }
-.dbpk { position: absolute; top: 28px; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: var(--txt); }
-.dbnow { position: absolute; top: 6px; bottom: 6px; width: 1px; background: #d0614e; }
-.dbcur { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--txt); }
-.dbcur::before { content: ''; position: absolute; top: -4px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--txt); }
-.dbinfo { font-size: 13px; color: var(--txt2); min-height: 18px; margin: 4px 0 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dbsum { display: flex; align-items: flex-end; gap: 16px; border-top: 1px solid var(--line); padding-top: 8px; }
-.dbc b { display: block; font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; }
-.dbc span { font-size: 11px; color: var(--sub); }
-.dbj { border: 1px solid var(--line); background: none; color: var(--acc); border-radius: calc(6px * var(--rk)); height: 36px; padding: 0 12px; font-weight: 500; }
-.dbox.journal { width: min(460px, 100%); max-height: 92%; padding: 10px 0 8px; display: flex; flex-direction: column; }
-.journal .jhd { padding: 0 6px 0 16px; }
-.journal .jhd .dt { margin: 0; font-size: 18px; }
-.jfl { display: flex; gap: 16px; padding: 6px 16px 8px; border-bottom: 1px solid var(--line); }
-.jf { border: 0; background: none; color: var(--sub); padding: 6px 0; font-size: 13px; border-bottom: 1.5px solid transparent; }
-.jf.on { color: var(--txt); font-weight: 600; border-bottom-color: var(--acc); }
-.jlist { overflow: auto; padding: 0 0 6px; }
-.jlist > .muted { padding: 16px; }
-.jday { padding: 4px 0 6px; border-bottom: 1px solid var(--line); }
-.jdh { display: flex; align-items: baseline; gap: 8px; width: 100%; border: 0; background: none; color: var(--txt); padding: 10px 16px 4px; text-align: left; }
-.jdn { font-size: 20px; font-weight: 500; min-width: 26px; }
-.jdw { font-size: 12px; color: var(--sub); }
-.jdk { font-size: 13px; font-variant-numeric: tabular-nums; }
-.jdm { font-size: 12px; color: var(--acc); }
-.jrow { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 40px; border: 0; background: none; color: var(--txt); padding: 4px 16px 4px 50px; text-align: left; }
-.jtm { width: 40px; font-size: 12px; color: var(--sub); font-variant-numeric: tabular-nums; flex: none; }
-.jmk { width: 14px; height: 3px; flex: none; }
-.jmk.foto { width: 8px; height: 8px; margin: 0 3px; }
-.jmk.pkt { width: 7px; height: 7px; border-radius: 50%; margin: 0 3.5px; }
-.jtx { flex: 1; min-width: 0; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.jv { font-size: 13px; color: var(--txt2); font-variant-numeric: tabular-nums; }
-.jmore { display: block; margin: 10px auto; border: 1px solid var(--line); background: none; color: var(--acc); border-radius: calc(6px * var(--rk)); height: 40px; padding: 0 14px; }
 /* ===== v112 (pkt 285): wygląd „Mapa i krawędzie” (Ustawienia → Wygląd → Wygląd aplikacji).
    Mapa na cały ekran; zamiast przycisków napisy z obwódką prosto na mapie; krawędzie chowają resztę:
-   lewa – listwa (Mapy, Ślady, Zdjęcia, Dziennik, Statystyki, Tryb pracy, Ustawienia) i panele obok niej,
+   lewa – listwa (Mapy, Ślady, Zdjęcia, Tryb pracy, Ustawienia), po wyborze panel na całą szerokość (v113),
    prawa – narzędzia mapy, dolna – informacje o dniu i miejscach w pobliżu. Okienka punktów i śladów – na dole na mgiełce. ===== */
 html.sk-krawedzie body { font-family: var(--ff), sans-serif; }
 html.sk-krawedzie #bbtn, html.sk-krawedzie #gps, html.sk-krawedzie #prnb, html.sk-krawedzie #compb, html.sk-krawedzie #srchb,
@@ -9116,16 +9075,8 @@ html.sk-krawedzie #skhud, html.sk-krawedzie #skside { display: block; }
 #skbc { left: 50%; transform: translateX(-50%); bottom: calc(36px + var(--sa)); font-size: 12px; color: var(--sub); white-space: nowrap; font-variant-numeric: tabular-nums; }
 #skbr { right: 16px; bottom: calc(26px + var(--sa)); color: var(--kme); min-height: 40px; }
 #skbr.fix::before { content: ''; }
-.skgrip { position: absolute; z-index: 1001; border: 0; background: none; padding: 0; display: grid; place-items: center; }
-.skgrip i { display: block; background: var(--kgrip); border-radius: 2px; }
-#skgl { left: 0; top: calc(50% - 44px); width: 22px; height: 88px; }
-#skgl i { width: 3px; height: 46px; }
-#skgr { right: 0; top: calc(38% - 44px); width: 22px; height: 88px; }
-#skgr i { width: 3px; height: 46px; }
-#skgb { left: calc(50% - 50px); bottom: calc(2px + var(--sa)); width: 100px; height: 24px; }
-#skgb i { width: 46px; height: 3px; }
 html.sk-krawedzie body.rec #skbl, html.sk-krawedzie body.navon #skbl, html.sk-krawedzie body.navon #skbc, html.sk-krawedzie body.navon #skbr,
-html.sk-krawedzie body.navon #sktl, html.sk-krawedzie body.skmode #skbl, html.sk-krawedzie body.skmode #skbc, html.sk-krawedzie body.skmode #skgb { display: none; }
+html.sk-krawedzie body.navon #sktl, html.sk-krawedzie body.skmode #skbl, html.sk-krawedzie body.skmode #skbc { display: none; }
 /* mgiełki (zamiast teł paneli) */
 .skfog { position: absolute; inset: 0; }
 .skfog.l { background: linear-gradient(90deg, rgba(var(--kfog), 0.96) 0, rgba(var(--kfog), 0.88) 150px, rgba(var(--kfog), 0) 230px); }
@@ -9201,11 +9152,6 @@ html.sk-krawedzie .leaflet-popup.skpop .note { background: none !important; padd
 /* nagrywanie: duże liczby na mapie, słowa na dole */
 html.sk-krawedzie body.rec #skrec { display: block; }
 #skrec .skfog { z-index: 1000; pointer-events: none; background: linear-gradient(180deg, rgba(var(--kfog), 0.9) 0, rgba(var(--kfog), 0.75) 120px, rgba(var(--kfog), 0) 200px); }
-#skrect { left: 16px; top: calc(10px + env(safe-area-inset-top, 0px)); }
-#skrect .skrd { font-size: 50px; font-weight: 300; line-height: 1.05; font-variant-numeric: tabular-nums; }
-#skrect .skrd small { font-size: 18px; }
-#skrect .skrs { font-size: 15px; color: var(--sub); font-variant-numeric: tabular-nums; }
-#skrect .sklb { color: var(--krec); }
 #skrp { left: 16px; bottom: calc(26px + var(--sa)); min-height: 40px; }
 #skrf { left: 50%; transform: translateX(-50%); bottom: calc(26px + var(--sa)); min-height: 40px; }
 #skrz { right: 16px; bottom: calc(26px + var(--sa)); min-height: 40px; color: var(--krec); }
@@ -9221,6 +9167,72 @@ html.sk-krawedzie .navbot button { background: none !important; box-shadow: none
 html.sk-krawedzie .rpick { background: linear-gradient(0deg, rgba(var(--kfog), 0.98) 0, rgba(var(--kfog), 0.95) 80%, rgba(var(--kfog), 0) 100%) !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; padding-top: 40px !important; font-family: var(--ff), sans-serif !important; }
 html.sk-krawedzie .rpick button { box-shadow: none !important; font-family: var(--ff), sans-serif !important; }
 html.sk-krawedzie .dbox { box-shadow: 0 0 0 1px var(--line), 0 10px 30px rgba(20, 28, 20, 0.12); font-family: var(--ff), sans-serif; }
+/* v113 (pkt 286): poprawki wyglądu „Mapa i krawędzie” */
+/* mocniejsza obwódka napisów na mapie – pełny obrys liter (8 kierunków) + miękka poświata, jak nazwy ulic na mapach */
+html.sk-krawedzie, html.sk-krawedzie #skhud, html.sk-krawedzie #skrec {
+  --ksh: -1.2px -1.2px 0 var(--kh), 1.2px -1.2px 0 var(--kh), -1.2px 1.2px 0 var(--kh), 1.2px 1.2px 0 var(--kh), 0 -1.6px 0 var(--kh), 0 1.6px 0 var(--kh), -1.6px 0 0 var(--kh), 1.6px 0 0 var(--kh), 0 0 4px var(--kh), 0 0 9px var(--kh), 0 0 14px var(--kh);
+  --kshi: drop-shadow(0 0 1px var(--kh)) drop-shadow(0 0 1px var(--kh)) drop-shadow(0 0 2px var(--kh)) drop-shadow(0 0 5px var(--kh));
+}
+html.sk-krawedzie .skt, html.sk-krawedzie .navtop, html.sk-krawedzie .navbot, html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip { text-shadow: var(--ksh); }
+html.sk-krawedzie .skt .ic, html.sk-krawedzie .skt svg { filter: var(--kshi); }
+#sktl .sklb { color: var(--txt2); }
+/* języczki przy krawędziach zamiast kresek: wybrzuszenie z mgiełki ze strzałką */
+.sktab { position: absolute; z-index: 1001; border: 0; padding: 0; display: grid; place-items: center; color: var(--sub);
+  background: rgba(var(--kfog), 0.92); box-shadow: 0 0 0 1px var(--line), 0 1px 6px rgba(20, 28, 20, 0.18); }
+.sktab i { font: 300 22px/1 var(--ff), sans-serif; font-style: normal; }
+#skgl { left: 0; top: calc(50% - 30px); width: 20px; height: 60px; border-radius: 0 14px 14px 0; }
+#skgr { right: 0; top: calc(38% - 30px); width: 20px; height: 60px; border-radius: 14px 0 0 14px; }
+#skgb { left: calc(50% - 30px); bottom: calc(0px + var(--sa)); width: 60px; height: 18px; border-radius: 14px 14px 0 0; }
+#skgb i { transform: rotate(90deg); font-size: 18px; }
+html.sk-krawedzie body.skmode #skhud > #skgr { display: grid; }
+/* lewa listwa: po wyborze zjeżdża w lewo, prawa – w prawo; mgiełka gaśnie */
+#skrail, #skright { transition: transform 0.18s ease-in, opacity 0.18s ease-in; }
+#skrail.skout { transform: translateX(-100%); opacity: 0; }
+#skright.skout { transform: translateX(110%); opacity: 0; }
+#skside .skfog { transition: opacity 0.18s; }
+#skside .skfog.skout { opacity: 0; }
+#skrail { animation: skInL 0.2s ease-out; }
+#skright { animation: skInR 0.2s ease-out; }
+@keyframes skInL { from { transform: translateX(-40px); opacity: 0; } }
+@keyframes skInR { from { transform: translateX(40px); opacity: 0; } }
+#skrail .skt em { font-style: normal; margin-left: 6px; color: var(--sub); font-size: 14px; transition: transform 0.15s; }
+#skrail .skt.open em { transform: rotate(180deg); }
+.sksub { display: none; flex-direction: column; padding-left: 28px; margin: -4px 0 4px; }
+.sksub.on { display: flex; }
+#skrail .sksub .skt { min-height: 38px; font-size: 15px; }
+#skrail .sksub .skt.on { color: var(--acc); font-weight: 500; }
+/* panele: lewy (Mapy, Ślady, Zdjęcia, Ustawienia) na całą szerokość, prawy (podkład, punkty, rysowanie, pomiary)
+   wysuwany z prawej – oba półprzezroczyste, mapa lekko prześwituje */
+html.sk-krawedzie #sheet { left: 0 !important; background: rgba(var(--kfog), 0.9) !important; padding-top: env(safe-area-inset-top, 0px); animation: skInL 0.22s ease-out; }
+html.sk-krawedzie #sheet #sh { padding-left: 4px !important; }
+html.sk-krawedzie #sheet #modeb { display: none !important; }
+#skback { display: none; }
+html.sk-krawedzie #sheet #skback { display: inline-grid; place-items: center; }
+html.sk-krawedzie #sheet .shsp { flex: 1; }
+html.sk-krawedzie #sheet #mname, html.sk-krawedzie #sheet #sa, html.sk-krawedzie #sheet #tsa, html.sk-krawedzie #sheet #list { padding-left: 16px !important; }
+html.sk-krawedzie #bmenu, html.sk-krawedzie #dmenu { position: fixed !important; top: 0 !important; bottom: 0 !important; right: 0 !important; left: auto !important; height: auto !important; max-height: none !important;
+  width: min(88%, 400px) !important; max-width: none !important; min-width: 0 !important; border-radius: 0 !important; border: 0 !important; box-shadow: -1px 0 0 var(--line) !important;
+  background: rgba(var(--kfog), 0.9) !important; padding: calc(8px + env(safe-area-inset-top, 0px)) 0 calc(10px + var(--sa)) !important; overflow-y: auto !important;
+  animation: skInR 0.22s ease-out; font-family: var(--ff), sans-serif; }
+html.sk-krawedzie #bmenu button, html.sk-krawedzie #dmenu button { background-color: transparent; }
+html.sk-krawedzie #bmenu button.on, html.sk-krawedzie #dmenu button.on { background-color: rgba(var(--kfog), 0.6); }
+/* Ustawienia – panel jak Mapy i Ślady (zamiast okna na środku) */
+html.sk-krawedzie .dback:has(.setdlg) { background: none !important; padding: 0 !important; align-items: stretch !important; justify-content: stretch !important; }
+html.sk-krawedzie .dback .dbox.setdlg { width: 100% !important; max-width: none !important; height: 100% !important; max-height: none !important; border-radius: 0 !important; box-shadow: none !important;
+  background: rgba(var(--kfog), 0.9) !important; padding-top: calc(12px + env(safe-area-inset-top, 0px)) !important; padding-bottom: calc(10px + var(--sa)) !important; animation: skInL 0.22s ease-out; }
+/* nagrywanie: jeden wąski wiersz u góry */
+#skrec .skfog { background: linear-gradient(180deg, rgba(var(--kfog), 0.85) 0, rgba(var(--kfog), 0.6) 40px, rgba(var(--kfog), 0) 76px) !important; }
+#skrect { left: 16px; right: 64px; top: calc(12px + env(safe-area-inset-top, 0px)); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-variant-numeric: tabular-nums; }
+#skrect b { color: var(--krec); font-weight: 500; }
+html.sk-krawedzie body.rec #skbc { display: none; }
+/* noc bez przyciemnionej mapy: mapa jest jasna, więc napisy na niej zostają dzienne (ciemne litery, jasna obwódka) */
+html.sk-krawedzie.dark:not(.dimmap) #skhud, html.sk-krawedzie.dark:not(.dimmap) #skrec {
+  --kh: #fbfbf8; --kfog: 251, 251, 248; --txt: #21251f; --sub: #5d6259; --txt2: #3f443c; --krec: #ad4a39; --kme: #376a95; --acc: #4f6d39; --line: #e2e4dd;
+}
+/* gdy otwarty jest panel (Mapy/Ślady/Zdjęcia, Ustawienia, Podkład, menu narzędzi) – napisy mapy chowają się pod nim */
+html.sk-krawedzie body:has(#sheet[style*="flex"]) #skhud, html.sk-krawedzie body:has(.setdlg) #skhud,
+html.sk-krawedzie body:has(#bmenu[style*="block"]) #skhud, html.sk-krawedzie body:has(#dmenu[style*="block"]) #skhud { visibility: hidden; }
+#skrail .skt em svg { vertical-align: middle; }
 </style></head><body>
 <div id="map"></div>
 <div id="skhud"></div>
@@ -9301,8 +9313,9 @@ const EN = {
   "Wygląd aplikacji": "App look",
   "Obecny": "Current",
   "Mapa i krawędzie (nowy) – mapa na cały ekran, napisy zamiast przycisków": "Map and edges (new) – full-screen map, words instead of buttons",
-  "W wyglądzie „Mapa i krawędzie” lewa krawędź ekranu chowa listwę (Mapy, Ślady, Zdjęcia, Dziennik, Statystyki), prawa – narzędzia mapy, a dolna – informacje o dniu. Motyw jasny / ciemny poniżej działa w obu wyglądach. Powrót: „Obecny”.": "In the “Map and edges” look the left screen edge hides a rail (Maps, Tracks, Photos, Journal, Statistics), the right one – map tools, and the bottom one – info about your day. The light / dark theme below works in both looks. To go back: “Current”.",
-  "Mapy, ślady, zdjęcia, dziennik": "Maps, tracks, photos, journal",
+  "W wyglądzie „Mapa i krawędzie” lewa krawędź ekranu chowa listwę (Mapy, Ślady, Zdjęcia, Tryb pracy, Ustawienia), prawa – narzędzia mapy, a dolna – informacje o dniu. Motyw jasny / ciemny poniżej działa w obu wyglądach. Powrót: „Obecny”.": "In the “Map and edges” look the left screen edge hides a rail (Maps, Tracks, Photos, Mode, Settings), the right one – map tools, and the bottom one – info about your day. The light / dark theme below works in both looks. To go back: “Current”.",
+  "Mapy, ślady, zdjęcia, ustawienia": "Maps, tracks, photos, settings",
+  "Wróć do listwy": "Back to the rail",
   "Narzędzia mapy": "Map tools",
   "Dziś i w pobliżu": "Today and nearby",
   "przytrzymaj: informacje GPS": "press and hold: GPS info",
@@ -9318,7 +9331,6 @@ const EN = {
   "Północ u góry": "North up",
   "Rysuj": "Draw",
   "Zmierz": "Measure",
-  "Zaplanuj trasę": "Plan a route",
   "Dziś": "Today",
   "śl.": "tr.",
   "zdj.": "ph.",
@@ -9331,14 +9343,14 @@ const EN = {
   "wschód": "sunrise",
   "zachód": "sunset",
   "Mapa i krawędzie": "Map and edges",
-  "Mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie. Reszta chowa się za krawędziami ekranu – cienkie kreski przy lewej, prawej i dolnej krawędzi pokazują, gdzie dotknąć.": "The map fills the screen and instead of buttons there are words right on the map. Everything else hides behind the screen edges – thin marks at the left, right and bottom edge show where to tap.",
+  "Mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie. Reszta chowa się za krawędziami ekranu – języczki ‹ › przy lewej, prawej i dolnej krawędzi pokazują, gdzie dotknąć.": "The map fills the screen and instead of buttons there are words right on the map. Everything else hides behind the screen edges – the ‹ › tabs at the left, right and bottom edge show where to tap.",
   "Lewa krawędź – listwa": "Left edge – rail",
-  "Dotknij nazwy mapy (albo kreski przy lewej krawędzi): Mapy, Ślady, Zdjęcia, Dziennik, Statystyki, Tryb pracy i Ustawienia. Mapy, Ślady i Zdjęcia otwierają się obok listwy; „‹ mapa” albo dotknięcie mapy chowa listwę.": "Tap the map name (or the mark at the left edge): Maps, Tracks, Photos, Journal, Statistics, Mode and Settings. Maps, Tracks and Photos open next to the rail; “‹ map” or tapping the map hides the rail.",
+  "Dotknij nazwy mapy albo języczka › przy lewej krawędzi: Mapy, Ślady, Zdjęcia, Tryb pracy ˅ (rozwija Prywatny / Praca / Sport) i Ustawienia. Po wyborze listwa chowa się w lewo, a na jej miejsce wjeżdża panel; „‹” w panelu wraca do listwy. Statystyki śladów są w panelu Ślady.": "Tap the map name or the › tab at the left edge: Maps, Tracks, Photos, Mode ˅ (opens Private / Work / Sport) and Settings. After a choice the rail slides away to the left and a panel takes its place; “‹” in the panel goes back to the rail. Track statistics are in the Tracks panel.",
   "Prawa krawędź – narzędzia mapy": "Right edge – map tools",
-  "Podkład (mapy, nakładki, mapy offline), Północ u góry, Moja pozycja, Zdjęcie, Punkt, Rysuj, Zmierz i Zaplanuj trasę.": "Base map (maps, overlays, offline maps), North up, My position, Photo, Point, Draw, Measure and Plan a route.",
+  "Podkład (mapy, nakładki, mapy offline), Punkt, Rysuj i Zmierz otwierają panel wysuwany z prawej; Północ u góry, Moja pozycja i Zdjęcie działają od razu. Trasę zaplanujesz, dotykając mapy, obiektu albo wyszukanego adresu.": "Base map (maps, overlays, offline maps), Point, Draw and Measure open a panel sliding in from the right; North up, My position and Photo work straight away. To plan a route, tap the map, an object or a searched address.",
   "Dolna krawędź – dziś i w pobliżu": "Bottom edge – today and nearby",
-  "Ile dziś przejechałeś lub przeszedłeś, najbliższe Twoje punkty (dotknięcie pokazuje punkt na mapie), dziennik, GPS i wschód / zachód słońca.": "How far you went today, your nearest points (tap one to show it on the map), the journal, GPS and sunrise / sunset.",
-  "Nagrywanie śladu. W trakcie u góry duży dystans, czas, prędkość i dokładność GPS, a na dole Pauza · Zdjęcie · Zakończ. Dotknięcie liczb – panel na żywo.": "Track recording. While recording: a big distance, time, speed and GPS accuracy at the top, and Pause · Photo · Finish at the bottom. Tap the numbers for the live panel.",
+  "Ile dziś przejechałeś lub przeszedłeś, najbliższe Twoje punkty (dotknięcie pokazuje punkt na mapie), GPS i wschód / zachód słońca.": "How far you went today, your nearest points (tap one to show it on the map), GPS and sunrise / sunset.",
+  "Nagrywanie śladu. W trakcie u góry jeden wąski wiersz: czas, dystans, prędkość i dokładność GPS, a na dole Pauza · Zdjęcie · Zakończ. Dotknięcie wiersza – panel na żywo.": "Track recording. While recording, one slim line at the top: time, distance, speed and GPS accuracy, and Pause · Photo · Finish at the bottom. Tap the line for the live panel.",
   "Pokazuje, gdzie jesteś; pośrodku na dole dokładność GPS i wysokość. Przytrzymaj „Ja” – Informacje GPS.": "Shows where you are; GPS accuracy and altitude at the bottom centre. Press and hold “Me” – GPS info.",
   "Twoje punkty, ślady, adresy i współrzędne.": "Your points, tracks, addresses and coordinates.",
   "Okienka na dole": "Pop-ups at the bottom",
@@ -9346,21 +9358,6 @@ const EN = {
   "Nowy wygląd: Mapa i krawędzie": "New look: Map and edges",
   "Ustawienia → Wygląd → „Wygląd aplikacji”: mapa na cały ekran, napisy zamiast przycisków, a listwa, narzędzia i informacje chowają się za krawędziami ekranu. Powrót: „Obecny”.": "Settings → Appearance → “App look”: full-screen map, words instead of buttons, and the rail, tools and info hide behind the screen edges. To go back: “Current”.",
   "Kopia (w prywatnej pamięci OMM i na Dysku Google), foldery, nagrywanie śladu (komunikaty, wzór nazwy), „W terenie” (alerty przy nawigacji, ekran, alarm przy miejscówkach, auto), wygląd (motyw, podziałka, dokładność GPS, a także cały wygląd aplikacji: Obecny albo Mapa i krawędzie), prywatność i kosz.": "Backup (in OMM's private storage and to Google Drive), folders, track recording (announcements, name pattern), “In the field” (guidance alerts, screen, alarm near spots, car), appearance (theme, scale bar, GPS accuracy, and the whole app look: Current or Map and edges), privacy and trash.",
-  // v111
-  "Dzień": "Day",
-  "Dziennik": "Journal",
-  "Poprzedni dzień": "Previous day",
-  "Następny dzień": "Next day",
-  "Przesuń palcem po osi – mapa pokaże, gdzie wtedy byłeś.": "Slide your finger along the axis – the map shows where you were then.",
-  "Tego dnia nic nie zapisano.": "Nothing was recorded that day.",
-  "godz.": "h",
-  "min": "min",
-  "w pobliżu": "nearby",
-  "bez zapisu": "no record",
-  "Nic tu jeszcze nie ma – nagraj ślad albo dodaj punkt lub zdjęcie.": "Nothing here yet – record a track or add a point or photo.",
-  "na mapie ›": "on the map ›",
-  "Punkt · ": "Point · ",
-  "Pokaż starsze dni": "Show older days",
   // v110
   "Jedź prosto": "Go straight",
   "Ruszaj": "Start",
@@ -12936,7 +12933,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v112';
+const APP_VER = 'v113';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -12953,6 +12950,9 @@ function themeApply() {
     dk = t.polar ? t.polar === 'night' : !(now >= t.rise && now < t.set);
   }
   document.documentElement.classList.toggle('dark', dk);
+  try {
+    localStorage.setItem('omm-dk', dk ? '1' : '0'); // v113: dla skryptu startowego (boot) – motyw od pierwszej klatki
+  } catch (e) {}
   document.documentElement.classList.toggle('dimmap', dk && localStorage.getItem('omm-mapa-noc') === 'tak');
 }
 themeApply();
@@ -21390,8 +21390,6 @@ function menuOpen(k) {
   closePops();
   if (k === 'ust') return settingsDlg();
   if (k === 'tryb') return;
-  if (k === 'dzien') return dayBarOpen(Date.now());
-  if (k === 'dziennik') return journalDlg();
   if (k === 'mapy') {
     if (TAB !== 'mapy' && TAB !== 'plan') TAB = 'mapy';
     viewSetKind('map');
@@ -21451,307 +21449,11 @@ function lmenuBuild() {
 }
 lmenuBuild();
 
-// ---------- v111 (pkt 284): wygląd „Dziennik” – dzień na osi czasu (pasek na mapie) i dziennik dzień po dniu ----------
-const day0 = ms => {
-  const d = new Date(ms);
-  d.setHours(0, 0, 0, 0);
-  return d.getTime();
-};
-const dayAdd = (ms, n) => {
-  const d = new Date(day0(ms));
-  d.setDate(d.getDate() + n);
-  return d.getTime();
-};
-const itLL = it => (it && Array.isArray(it.p) && it.p[0] && isFinite(it.p[0][0]) ? [it.p[0][0], it.p[0][1]] : null);
-const actColor = a => ACT_COL[a] || ACT_COL.inne;
-// wszystko, co ma czas: ślady (od–do), zdjęcia na śladach i na mapie, punkty mapy (czas dodania)
-function journalEvents() {
-  const ev = [];
-  for (const t of TRK.items) {
-    if (t.noTime || !t.st || !t.pts || t.pts.length < 2) continue;
-    const s = trkStatsC(t);
-    ev.push({k: 'trk', t: t.st, end: s.end, trk: t, d: s.d, mov: s.mov});
-    (t.wp || []).forEach(w => {
-      if (w.s != null && w.ph && w.ph.length) ev.push({k: 'foto', t: t.st + w.s * 1000, n: w.ph.length, nm: w.nm || '', ll: w.p, trk: t});
-    });
-  }
-  (P.items || []).forEach(it => {
-    if (!it.cr) return;
-    if (it.ph && it.ph.length) ev.push({k: 'foto', t: it.cr, n: it.ph.length, nm: nameOf(it) || '', ll: itLL(it), it});
-    else if (it.t === 'pin') ev.push({k: 'pkt', t: it.cr, nm: nameOf(it) || _t('Punkt'), ll: itLL(it), it});
-  });
-  return ev.sort((a, b) => a.t - b.t);
-}
-const fdayLong = ms => new Date(ms).toLocaleDateString(LOC, {weekday: 'short', day: 'numeric', month: 'long'});
-// położenie w danej chwili na śladzie z listy (bez wychodzenia poza ślad)
-function dayPosAt(trks, ms) {
-  for (const t of trks) {
-    const s = (ms - t.st) / 1000,
-      P0 = t.pts;
-    if (s < P0[0][3] || s > P0[P0.length - 1][3]) continue;
-    const i = Math.max(1, P0.findIndex(q => q[3] >= s)),
-      a = P0[i - 1],
-      b = P0[i],
-      k = Math.min(1, Math.max(0, (s - a[3]) / (b[3] - a[3] || 1)));
-    return {ll: [a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k], t};
-  }
-  return null;
-}
-let DAYB = null; // {d0, ev, trks, mk}
-function dayBarClose() {
-  if (!DAYB) return;
-  if (DAYB.mk) DAYB.mk.remove();
-  const el = $('daybar');
-  if (el) el.remove();
-  DAYB = null;
-}
-function dayBarOpen(ms) {
-  dayBarClose();
-  closePops();
-  const d0 = day0(ms),
-    d1 = dayAdd(d0, 1),
-    all = journalEvents(),
-    ev = all.filter(e => (e.end || e.t) >= d0 && e.t < d1),
-    trks = ev.filter(e => e.k === 'trk').map(e => e.trk),
-    hasPrev = all.some(e => e.t < d0),
-    hasNext = d1 <= Date.now();
-  // zakres godzin: zwykle 6–21, poszerzony, gdy coś było wcześniej / później
-  let h0 = 6,
-    h1 = 21;
-  ev.forEach(e => {
-    h0 = Math.min(h0, Math.floor(Math.max(0, e.t - d0) / 3600e3));
-    h1 = Math.max(h1, Math.ceil(Math.min(24 * 3600e3, (e.end || e.t) - d0) / 3600e3));
-  });
-  const T0 = d0 + h0 * 3600e3,
-    T1 = d0 + h1 * 3600e3,
-    pc = ms2 => Math.max(0, Math.min(100, ((ms2 - T0) / (T1 - T0)) * 100));
-  const bar = h('div', 'daybar');
-  bar.id = 'daybar';
-  // nagłówek: ‹ dzień ›  ✕
-  const hd = h('div', 'dbhd'),
-    prev = h('button', 'dbnav', '‹'),
-    next = h('button', 'dbnav', '›'),
-    x = h('button', 'dbx');
-  prev.setAttribute('aria-label', _t('Poprzedni dzień'));
-  next.setAttribute('aria-label', _t('Następny dzień'));
-  x.setAttribute('aria-label', _t('Zamknij'));
-  x.innerHTML = ico('x', 18);
-  prev.disabled = !hasPrev;
-  next.disabled = !hasNext;
-  prev.onclick = () => {
-    // poprzedni dzień z zapisami (bez pustych dni)
-    const p = all.filter(e => e.t < d0).pop();
-    dayBarOpen(p ? p.t : dayAdd(d0, -1));
-  };
-  next.onclick = () => {
-    const n = all.find(e => e.t >= d1);
-    dayBarOpen(n ? n.t : dayAdd(d0, 1));
-  };
-  const today = d0 === day0(Date.now()),
-    ttl = h('div', 'dbt', (today ? _t('Dziś') + ' · ' : '') + fdayLong(d0));
-  hd.append(prev, ttl, next, h('span', 'dbsp'), x);
-  x.onclick = dayBarClose;
-  // oś czasu
-  const ax = h('div', 'dbax');
-  for (let hh = h0; hh <= h1; hh += 3) {
-    const l = h('span', 'dbh', String(hh) + ':00');
-    l.style.left = pc(d0 + hh * 3600e3) + '%';
-    ax.append(l);
-  }
-  const tl = h('div', 'dbtl'),
-    base = h('div', 'dbbase');
-  tl.append(base);
-  ev.forEach(e => {
-    if (e.k === 'trk') {
-      const sg = h('div', 'dbseg');
-      sg.style.left = pc(e.t) + '%';
-      sg.style.width = Math.max(0.8, pc(e.end) - pc(e.t)) + '%';
-      sg.style.background = actColor(e.trk.a);
-      tl.append(sg);
-    } else {
-      const m = h('div', e.k === 'foto' ? 'dbfo' : 'dbpk');
-      m.style.left = pc(e.t) + '%';
-      tl.append(m);
-    }
-  });
-  if (today) {
-    const nw = h('div', 'dbnow');
-    nw.style.left = pc(Date.now()) + '%';
-    tl.append(nw);
-  }
-  const cur = h('div', 'dbcur');
-  cur.style.display = 'none';
-  tl.append(cur);
-  const info = h('div', 'dbinfo', ev.length ? _t('Przesuń palcem po osi – mapa pokaże, gdzie wtedy byłeś.') : _t('Tego dnia nic nie zapisano.'));
-  // podsumowanie dnia
-  const km = trks.reduce((a, t) => a + trkStatsC(t).d, 0),
-    mov = trks.reduce((a, t) => a + trkStatsC(t).mov, 0),
-    nf0 = ev.filter(e => e.k === 'foto').reduce((a, e) => a + e.n, 0),
-    npk = ev.filter(e => e.k === 'pkt').length,
-    sm = h('div', 'dbsum'),
-    cell = (v, l) => {
-      const c = h('div', 'dbc');
-      c.append(h('b', null, v), h('span', null, l));
-      sm.append(c);
-    };
-  cell(fkm(km), _t('w ruchu'));
-  cell(mov ? fdur(mov).replace(/:\d\d$/, '') : '–', mov >= 3600 ? _t('godz.') : _t('min'));
-  cell(String(trks.length), plN(trks.length, _t('ślad'), _t('ślady'), _t('śladów')).replace(/^\d+\s*/, ''));
-  if (nf0) cell(String(nf0), plN(nf0, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')).replace(/^\d+\s*/, ''));
-  if (npk) cell(String(npk), plN(npk, _t('punkt'), _t('punkty'), _t('punktów')).replace(/^\d+\s*/, ''));
-  const jb = h('button', 'dbj', _t('Dziennik'));
-  jb.onclick = () => (dayBarClose(), journalDlg());
-  sm.append(h('span', 'dbsp'), jb);
-  bar.append(hd, ax, tl, info, sm);
-  document.body.append(bar);
-  DAYB = {d0, ev, trks, mk: null};
-  // przesuwanie palcem po osi
-  const scrub = cx => {
-    const r = tl.getBoundingClientRect(),
-      k = Math.max(0, Math.min(1, (cx - r.left) / r.width)),
-      ms2 = T0 + k * (T1 - T0);
-    cur.style.display = 'block';
-    cur.style.left = k * 100 + '%';
-    const p = dayPosAt(trks, ms2);
-    let ll = p && p.ll,
-      txt = fhm(ms2);
-    if (p) txt += ' · ' + (ACTS[p.t.a] ? ACTS[p.t.a][1] : '') + (p.t.nm ? ' · ' + p.t.nm : '');
-    else {
-      // poza śladem: najbliższe zdarzenie z miejscem
-      let best = null;
-      ev.forEach(e => {
-        const l2 = e.ll || (e.k === 'trk' ? [e.trk.pts[0][0], e.trk.pts[0][1]] : null);
-        if (l2 && (!best || Math.abs(e.t - ms2) < Math.abs(best.e.t - ms2))) best = {e, l2};
-      });
-      if (best && Math.abs(best.e.t - ms2) < 45 * 60e3) {
-        ll = best.l2;
-        txt += ' · ' + (best.e.k === 'foto' ? _t('zdjęcie') : best.e.k === 'pkt' ? best.e.nm : _t('w pobliżu'));
-      } else txt += ' · ' + _t('bez zapisu');
-    }
-    info.textContent = txt;
-    if (ll) {
-      if (!DAYB.mk) DAYB.mk = L.circleMarker(ll, {radius: 7, color: '#fff', weight: 2.5, fillColor: getComputedStyle(document.documentElement).getPropertyValue('--acc').trim() || '#1a73e8', fillOpacity: 1, pane: 'trkW'}).addTo(map);
-      else DAYB.mk.setLatLng(ll);
-      if (!map.getBounds().pad(-0.15).contains(ll)) map.panTo(ll, {animate: false});
-    }
-  };
-  tl.addEventListener('pointerdown', e => {
-    tl.setPointerCapture(e.pointerId);
-    scrub(e.clientX);
-    const mv = e2 => scrub(e2.clientX),
-      up = () => (tl.removeEventListener('pointermove', mv), tl.removeEventListener('pointerup', up));
-    tl.addEventListener('pointermove', mv);
-    tl.addEventListener('pointerup', up);
-  });
-  // pokaż ślady dnia na mapie
-  const pts = [];
-  trks.forEach(t => {
-    const l = trkLayer(t);
-    if (!l.vis || t.vis === false) (l.vis = true), delete t.vis;
-    t.pts.forEach(q => pts.push([q[0], q[1]]));
-  });
-  ev.forEach(e => e.ll && pts.push(e.ll));
-  if (trks.length) trkChanged();
-  if (pts.length) map.fitBounds(L.latLngBounds(pts), {paddingTopLeft: [30, 60], paddingBottomRight: [30, bar.offsetHeight + 30], maxZoom: 16});
-}
-// dziennik: ślady, zdjęcia i punkty dzień po dniu
-function journalDlg() {
-  dayBarClose();
-  const back = h('div', 'dback'),
-    box = h('div', 'dbox about journal'),
-    fin = () => back.remove(),
-    all = journalEvents().reverse();
-  let flt = 'all',
-    nDays = 30;
-  const hd = h('div', 'jhd'),
-    x = h('button', 'dbx');
-  x.innerHTML = ico('x', 18);
-  x.setAttribute('aria-label', _t('Zamknij'));
-  x.onclick = fin;
-  hd.append(h('div', 'dt', _t('Dziennik')), h('span', 'dbsp'), x);
-  const fl = h('div', 'jfl'),
-    list = h('div', 'jlist');
-  [
-    ['all', _t('Wszystko')],
-    ['trk', _t('Ślady')],
-    ['foto', _t('Zdjęcia')],
-    ['pkt', _t('Punkty')]
-  ].forEach(([k, t]) => {
-    const b = h('button', 'jf' + (k === flt ? ' on' : ''), t);
-    b.onclick = () => {
-      flt = k;
-      fl.querySelectorAll('.jf').forEach(y => y.classList.toggle('on', y === b));
-      render();
-    };
-    fl.append(b);
-  });
-  const render = () => {
-    list.innerHTML = '';
-    const ev = all.filter(e => flt === 'all' || e.k === flt),
-      days = new Map();
-    ev.forEach(e => {
-      const k = day0(e.t);
-      if (!days.has(k)) days.set(k, []);
-      days.get(k).push(e);
-    });
-    if (!ev.length) list.append(h('div', 'muted', _t('Nic tu jeszcze nie ma – nagraj ślad albo dodaj punkt lub zdjęcie.')));
-    [...days.entries()].slice(0, nDays).forEach(([d, es]) => {
-      const sec = h('div', 'jday'),
-        dh = h('button', 'jdh'),
-        km = es.filter(e => e.k === 'trk').reduce((a, e) => a + e.d, 0);
-      const dn = new Date(d);
-      dh.append(
-        h('span', 'jdn', String(dn.getDate())),
-        h('span', 'jdw', dn.toLocaleDateString(LOC, {weekday: 'short'}) + ' · ' + dn.toLocaleDateString(LOC, {month: 'long', year: dn.getFullYear() === new Date().getFullYear() ? undefined : 'numeric'})),
-        h('span', 'dbsp'),
-        h('span', 'jdk', km ? fkm(km) : ''),
-        h('span', 'jdm', _t('na mapie ›'))
-      );
-      dh.onclick = () => (fin(), dayBarOpen(d));
-      sec.append(dh);
-      es.slice()
-        .reverse()
-        .forEach(e => {
-          const r = h('button', 'jrow'),
-            col = e.k === 'trk' ? actColor(e.trk.a) : e.k === 'foto' ? '#b9a26a' : 'var(--txt)';
-          const mk = h('span', 'jmk ' + e.k);
-          mk.style.background = col;
-          let t = '',
-            v = '';
-          if (e.k === 'trk') {
-            t = (ACTS[e.trk.a] ? ACTS[e.trk.a][1] : _t('Ślad')) + (e.trk.nm ? ' · ' + e.trk.nm : '');
-            v = fkm(e.d);
-          } else if (e.k === 'foto') {
-            t = plN(e.n, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) + (e.nm ? ' · ' + e.nm : '');
-          } else {
-            t = _t('Punkt · ') + e.nm;
-          }
-          r.append(h('span', 'jtm', fhm(e.t)), mk, h('span', 'jtx', t), h('span', 'jv', v));
-          r.onclick = () => {
-            fin();
-            if (e.k === 'trk') trkFocus(e.trk);
-            else if (e.it) focusItem(e.it);
-            else if (e.trk) trkFocus(e.trk);
-          };
-          sec.append(r);
-        });
-      list.append(sec);
-    });
-    if (days.size > nDays) {
-      const more = h('button', 'jmore', _t('Pokaż starsze dni'));
-      more.onclick = () => ((nDays += 30), render());
-      list.append(more);
-    }
-  };
-  render();
-  box.append(hd, fl, list);
-  back.append(box);
-  back.addEventListener('click', e => e.target === back && fin());
-  document.body.append(back);
-}
-// ---------- v112 (pkt 285): wygląd „Mapa i krawędzie” – napisy z obwódką prosto na mapie i trzy krawędzie ----------
-// lewa krawędź (albo dotknięcie nazwy mapy) – listwa: Mapy, Ślady, Zdjęcia, Dziennik, Statystyki, Tryb pracy, Ustawienia;
-// prawa – narzędzia mapy; dolna – dziś, miejsca w pobliżu, GPS i słońce. Stare przyciski są wtedy ukryte (CSS),
+// ---------- v112 (pkt 285), v113 (pkt 286): wygląd „Mapa i krawędzie” – napisy z obwódką prosto na mapie i krawędzie ----------
+// lewa krawędź (albo dotknięcie nazwy mapy) – listwa: Mapy, Ślady, Zdjęcia, Tryb pracy ˅, Ustawienia; po wyborze listwa
+// zjeżdża w lewo, a na jej miejsce wjeżdża panel na całą szerokość (półprzezroczysty). Prawa krawędź – narzędzia mapy:
+// Podkład, Punkt, Rysuj i Zmierz otwierają panel wysuwany z prawej (listwa zjeżdża w prawo), Północ u góry, Moja pozycja
+// i Zdjęcie działają od razu. Dolna krawędź – dziś, punkty w pobliżu, GPS i słońce. Stare przyciski są ukryte (CSS),
 // a napisy wywołują te same funkcje co one.
 const skOn = () => skinGet() === 'krawedzie';
 let SKS = null; // otwarta krawędź: 'l' | 'r' | 'b'
@@ -21775,36 +21477,45 @@ function skBuild() {
     R = $('skrec');
   H.innerHTML = R.innerHTML = '';
   skSide(null);
+  if (!$('skback')) {
+    // „‹” w nagłówku panelu Map / Śladów / Zdjęć – powrót do listwy
+    const b = h('button', 'ibt');
+    b.id = 'skback';
+    b.innerHTML = '<svg class="ic" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>';
+    b.title = _t('Wróć do listwy');
+    b.onclick = () => (($('sheet').style.display = 'none'), skSide('l'));
+    $('sh').prepend(b);
+  }
   if (!skOn()) return;
   const tl = skT('sktl', '<span class="sklb" id="sktlm"></span><b id="sktln"></b>', () => skSide('l'));
-  tl.title = _t('Mapy, ślady, zdjęcia, dziennik');
+  tl.title = _t('Mapy, ślady, zdjęcia, ustawienia');
   const ja = skT('skbr', skW('gps', _t('Ja')), () => $('gps').onclick());
   ja.title = _t('Gdzie jestem') + ' – ' + _t('przytrzymaj: informacje GPS');
   skLong(ja, gpsInfoDlg);
-  const gl = skT('skgl', '<i></i>', () => skSide('l'), 'skgrip'),
-    gr = skT('skgr', '<i></i>', () => skSide('r'), 'skgrip'),
-    gb = skT('skgb', '<i></i>', () => skSide('b'), 'skgrip');
-  gl.title = _t('Mapy, ślady, zdjęcia, dziennik');
-  gr.title = _t('Narzędzia mapy');
-  gb.title = _t('Dziś i w pobliżu');
-  [gl, gr, gb].forEach(g => (g.className = 'skgrip'));
+  // języczki przy krawędziach (wybrzuszenie ze strzałką) – pokazują, gdzie dotknąć
+  const tab = (id, ch, k, t) => {
+    const g = skT(id, '<i>' + ch + '</i>', () => skSide(k));
+    g.className = 'sktab';
+    g.title = t;
+    return g;
+  };
   H.append(
     tl,
     skT('sktr', $('srchb').innerHTML, () => searchDlg()),
     skT('skbl', '● ' + esc(_t('Nagraj')), () => $('recb').onclick()),
     skT('skbc', ''),
     ja,
-    gl,
-    gr,
-    gb
+    tab('skgl', '›', 'l', _t('Mapy, ślady, zdjęcia, ustawienia')),
+    tab('skgr', '‹', 'r', _t('Narzędzia mapy')),
+    tab('skgb', '‹', 'b', _t('Dziś i w pobliżu'))
   );
   $('sktr').title = _t('Szukaj');
   $('sktr').querySelector('svg').setAttribute('width', 22);
   $('sktr').querySelector('svg').setAttribute('height', 22);
-  // nagrywanie: duże liczby u góry, słowa na dole
+  // nagrywanie: jeden wąski wiersz u góry, słowa na dole
   R.append(
     h('div', 'skfog'),
-    skT('skrect', '<span class="sklb" id="skrl"></span><div class="skrd" id="skrd"></div><div class="skrs" id="skrv"></div>', () => $('rectx').onclick()),
+    skT('skrect', '<span id="skrl"></span>', () => $('rectx').onclick()),
     skT('skrp', '', () => REC && recPause(!REC.paused)),
     skT('skrf', skW('photo', _t('Zdjęcie')), () => recFoto()),
     skT('skrz', skW('rec', _t('Zakończ')), () => REC && recStop())
@@ -21825,29 +21536,23 @@ function skUpd() {
     }
     const g = typeof GPSI !== 'undefined' && GPSI.last && Date.now() - GPSI.last.t < 60000 && watching !== null ? GPSI.last : null;
     $('skbc').textContent = g ? '±' + fel(g.acc) + (g.alt != null && isFinite(g.alt) ? ' · ' + fel(g.alt) + ' ' + _t('n.p.m.') : '') : '';
-    $('skbr').classList.toggle('fix', !!me);
   } catch (e) {}
 }
 setInterval(skUpd, 3000);
-// nagrywanie – wywoływane z recUi()
+// nagrywanie – wywoływane z recUi(): „● 0:16 · 1,24 km · 4,2 km/h · ±10 m”
 function skRec(el, d, v, st) {
-  if (!skOn() || !$('skrd') || !REC) return;
-  const a = REC.a && ACTS[REC.a] ? ' · ' + ACTS[REC.a][1] : '',
-    km = fkm(d).split(' ');
-  $('skrl').textContent = '● ' + (REC.paused ? _t('Pauza') : _t('Nagrywanie')) + a;
-  $('skrd').innerHTML = esc(km[0]) + ' <small>' + esc(km[1] || '') + '</small>';
-  $('skrv').textContent = [fdur(el / 1000), st || (v != null ? fkmh(v) : ''), recPos && recPos.accu != null ? '±' + fel(recPos.accu) : '']
-    .filter(Boolean)
-    .join(' · ');
+  if (!skOn() || !$('skrl') || !REC) return;
+  const a = REC.a && ACTS[REC.a] ? ACTS[REC.a][1] : '';
+  $('skrl').innerHTML =
+    '<b>● ' + esc(REC.paused ? _t('Pauza') : a || _t('Nagrywanie')) + '</b> ' +
+    esc(['', fdur(el / 1000), fkm(d), st || (v != null ? fkmh(v) : ''), recPos && recPos.accu != null ? '±' + fel(recPos.accu) : ''].filter(Boolean).join(' · ').replace(/^/, '· '));
   $('skrp').innerHTML = REC.paused ? skW('play', _t('Wznów')) : skW('pause', _t('Pauza'));
 }
 // krawędzie: mgiełka na całym ekranie (dotknięcie jej chowa krawędź) i treść
-function skSide(k, keepSheet) {
+function skSide(k) {
   let S = $('skside');
   if (S) S.remove();
-  if (SKS === 'l' && k !== 'l' && !keepSheet && skSheetOpen()) $('sheet').style.display = 'none';
   SKS = k || null;
-  document.body.classList.toggle('skl', SKS === 'l');
   document.body.classList.toggle('sks', !!SKS && skOn());
   if (!SKS || !skOn()) return (SKS = null);
   closePops();
@@ -21858,85 +21563,98 @@ function skSide(k, keepSheet) {
   fog.onclick = close;
   S.append(fog);
   const go = fn => () => (close(), fn());
+  // wybór z własnym panelem: listwa odjeżdża do krawędzi i znika, a panel wjeżdża na jej miejsce
+  const slide = (box, fn) => () => {
+    box.classList.add('skout');
+    fog.classList.add('skout');
+    setTimeout(() => (close(), fn()), 170);
+  };
   if (k === 'l') {
     const r = h('div');
     r.id = 'skrail';
-    const it = (key, ik, t, fn) => {
-      const b = skT(null, skW(ik, t), fn);
-      b.dataset.k = key;
-      return b;
-    };
-    const sh = key => () => {
-      menuOpen(key);
-      skRailOn();
-    };
+    const it = (ik, t, fn) => skT(null, skW(ik, t), fn);
+    const sh = key => slide(r, () => menuOpen(key));
+    const curM = isW() ? 'work' : isSport() ? 'sport' : 'priv',
+      MD = {priv: ['home', _t('Prywatny')], work: ['work', _t('Praca')], sport: ['sport', _t('Sport')]},
+      tb = it(MD[curM][0], _t('Tryb pracy'), () => {
+        const on = !sub.classList.contains('on');
+        sub.classList.toggle('on', on);
+        tb.classList.toggle('open', on);
+      }),
+      sub = h('div', 'sksub');
+    tb.insertAdjacentHTML('beforeend', '<em><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></em>');
+    tb.title = _t('Tryb pracy') + ': ' + MD[curM][1];
+    Object.keys(MD).forEach(m => {
+      const b = skT(null, skW(MD[m][0], MD[m][1], 16), () => {
+        if (m === curM) return sub.classList.remove('on'), tb.classList.remove('open');
+        close();
+        modeSwitch(null, m);
+      });
+      b.classList.toggle('on', m === curM);
+      sub.append(b);
+    });
     r.append(
       skT(null, '‹ ' + esc(_t('mapa')), close, 'sm'),
-      it('mapy', 'map', _t('Mapy'), sh('mapy')),
-      it('slady', 'route', _t('Ślady'), sh('slady')),
-      it('foto', 'gallery', _t('Zdjęcia'), sh('foto')),
-      it('dz', 'book', _t('Dziennik'), go(journalDlg)),
-      it('st', 'stats', _t('Statystyki'), go(trkSummaryDlg)),
-      it('tryb', isW() ? 'work' : isSport() ? 'sport' : 'home', _t('Tryb pracy'), b => modeSwitch(b)),
-      it('ust', 'gear', _t('Ustawienia'), go(settingsDlg)),
+      it('map', _t('Mapy'), sh('mapy')),
+      it('route', _t('Ślady'), sh('slady')),
+      it('gallery', _t('Zdjęcia'), sh('foto')),
+      tb,
+      sub,
+      it('gear', _t('Ustawienia'), slide(r, () => settingsDlg())),
       h('div', 'skgrow')
     );
-    const nr = skT(null, REC ? '● ' + esc(_t('Nagrywanie')) : '● ' + esc(_t('Nagraj')), go(() => (REC ? $('rectx').onclick() : $('recb').onclick())));
+    const nr = skT(null, '● ' + esc(REC ? _t('Nagrywanie') : _t('Nagraj')), go(() => (REC ? $('rectx').onclick() : $('recb').onclick())));
     nr.style.color = 'var(--krec)';
     r.append(nr);
     S.append(r);
   } else if (k === 'r') {
     const r = h('div');
     r.id = 'skright';
-    const tw = (ik, t, fn) => skT(null, '<span>' + esc(t) + '</span>' + ico(ik, 18), fn);
+    const tw = (ik, t, fn) => skT(null, '<span>' + esc(t) + '</span>' + ico(ik, 18), fn),
+      pm = g => slide(r, () => openMenu(g, $('skgr')));
     r.append(
-      tw('layer', _t('Podkład'), go(() => $('bbtn').onclick())),
+      tw('layer', _t('Podkład'), slide(r, () => $('bbtn').onclick())),
       tw('compn', _t('Północ u góry'), go(() => map.setBearing && map.setBearing(0))),
       tw('gps', _t('Moja pozycja'), go(() => $('gps').onclick())),
       tw('photo', _t('Zdjęcie'), go(() => (REC ? recFoto() : fotoHere()))),
-      tw('pin', _t('Punkt'), b => (REC ? (close(), recPin()) : (openMenu('icons', b), close()))),
-      tw('tdDraw', _t('Rysuj'), b => (openMenu('draw', b), close())),
-      tw('profile', _t('Zmierz'), b => (openMenu('data', b), close())),
-      tw('plan', _t('Zaplanuj trasę'), go(() => $('planb').onclick()))
+      tw('pin', _t('Punkt'), REC ? go(() => recPin()) : pm('icons')),
+      tw('tdDraw', _t('Rysuj'), pm('draw')),
+      tw('profile', _t('Zmierz'), pm('data'))
     );
     S.append(r);
   } else if (k === 'b') S.append(skInfo(close));
   document.body.append(S);
-  if (k === 'l') skRailOn();
-}
-const skSheetOpen = () => getComputedStyle($('sheet')).display !== 'none';
-// panel Map / Śladów / Zdjęć obok listwy – zaznaczenie bieżącej pozycji listwy
-function skRailOn() {
-  const S = $('skside');
-  if (!S) return;
-  const open = skSheetOpen(),
-    k = !open ? '' : TAB === 'slady' ? 'slady' : TAB === 'foto' ? 'foto' : 'mapy';
-  S.querySelectorAll('#skrail .skt').forEach(b => b.classList.toggle('on', !!k && b.dataset.k === k));
-  S.querySelector('.skfog').className = 'skfog ' + (open ? 'lf' : 'l');
 }
 function skInfo(close) {
   const w = h('div');
   w.id = 'skinfo';
   const now = Date.now(),
-    d0 = day0(now);
-  let ev = [];
+    d0 = new Date(now).setHours(0, 0, 0, 0);
+  // dziś: ślady zaczęte dziś (dystans) i zdjęcia zrobione dziś
+  let dist = 0,
+    nt = 0,
+    nf = 0;
   try {
-    ev = journalEvents().filter(e => e.t >= d0);
+    for (const t of TRK.items) {
+      if (t.noTime || !t.st || t.st < d0 || !t.pts || t.pts.length < 2) continue;
+      nt++;
+      dist += trkStatsC(t).d || 0;
+      (t.wp || []).forEach(x => x.ph && (nf += x.ph.length));
+    }
+    (P.items || []).forEach(it => it.cr >= d0 && it.ph && (nf += it.ph.length));
   } catch (e) {}
-  const tr = ev.filter(e => e.k === 'trk'),
-    dist = tr.reduce((a, e) => a + (e.d || 0), 0),
-    nf = ev.filter(e => e.k === 'foto').reduce((a, e) => a + (e.n || 0), 0);
   w.append(h('div', 'sklb', _t('Dziś') + ' · ' + new Date(now).toLocaleDateString(LOC, {weekday: 'long', day: 'numeric', month: 'long'})));
   const big = h('div', 'skbig');
-  big.innerHTML = tr.length
-    ? esc(fkm(dist)) + ' <small>· ' + esc(tr.length + ' ' + _t('śl.')) + (nf ? ' · ' + esc(nf + ' ' + _t('zdj.')) : '') + '</small>'
+  big.innerHTML = nt
+    ? esc(fkm(dist)) + ' <small>· ' + esc(nt + ' ' + _t('śl.')) + (nf ? ' · ' + esc(nf + ' ' + _t('zdj.')) : '') + '</small>'
     : '<small>' + esc(_t('Dziś jeszcze nic nie zapisano.')) + '</small>';
   w.append(big);
   // miejsca w pobliżu – punkty z bieżącej mapy, od najbliższego (od Ciebie, a bez GPS – od środka mapy)
   const c = me ? [me.getLatLng().lat, me.getLatLng().lng] : [map.getCenter().lat, map.getCenter().lng],
+    ll = it => (Array.isArray(it.p) && it.p[0] && isFinite(it.p[0][0]) ? [it.p[0][0], it.p[0][1]] : null),
     near = (P.items || [])
-      .filter(it => it.t === 'pin' && itLL(it))
-      .map(it => ({it, d: hav(c, itLL(it))}))
+      .filter(it => it.t === 'pin' && ll(it))
+      .map(it => ({it, d: hav(c, ll(it))}))
       .sort((a, b) => a.d - b.d)
       .slice(0, 3);
   if (near.length) {
@@ -21953,17 +21671,13 @@ function skInfo(close) {
       w.append(r);
     });
   }
-  const r2 = h('button', 'skrow');
-  r2.innerHTML = '<span class="skg"><div>' + esc(_t('Dziennik')) + '</div><small>' + esc(_t('ślady, zdjęcia i punkty dzień po dniu')) + '</small></span><span class="skv">›</span>';
-  r2.onclick = () => (close(), journalDlg());
-  w.append(r2);
   const m = h('div', 'skmeta'),
     g = typeof GPSI !== 'undefined' && GPSI.last && now - GPSI.last.t < 120000 ? GPSI.last : null,
     st = sunTimes(c[0], c[1], now),
     add = t => t && m.append(h('span', '', t));
   add(g ? 'GPS ±' + fel(g.acc) : _t('GPS wyłączony'));
   if (g && g.alt != null && isFinite(g.alt)) add(fel(g.alt) + ' ' + _t('n.p.m.'));
-  if (st && st.rise) add((now < st.rise ? _t('wschód') + ' ' + fhm(st.rise) : now < st.set ? _t('zachód') + ' ' + fhm(st.set) : _t('wschód') + ' ' + fhm(st.rise + 864e5)));
+  if (st && st.rise) add(now < st.rise ? _t('wschód') + ' ' + fhm(st.rise) : now < st.set ? _t('zachód') + ' ' + fhm(st.set) : _t('wschód') + ' ' + fhm(st.rise + 864e5));
   w.append(m);
   w.onclick = e => e.stopPropagation();
   return w;
@@ -21994,16 +21708,8 @@ map.on('popupopen', e => {
     if (pt.y > top - 20 || pt.y < 60) map.panBy([0, pt.y - Math.min(top * 0.55, innerHeight * 0.33)], {animate: true, duration: 0.25});
   }, 30);
 });
-// panel (arkusz) zamknięty przyciskiem w nim – listwa zostaje, zmienia się tylko tło
-new MutationObserver(() => {
-  if (!skOn()) return;
-  const open = skSheetOpen();
-  if (open && SKS !== 'l') skSide('l', true);
-  else skRailOn();
-}).observe($('sheet'), {attributes: true, attributeFilter: ['style']});
 window.skinHook = v => {
   lmenuBuild();
-  dayBarClose();
   skBuild();
 };
 skBuild();
@@ -23517,13 +23223,14 @@ function dropMenu(anchor, title, items) {
     dropMenu.res = res;
   });
 }
-async function modeSwitch(anchor) {
+async function modeSwitch(anchor, pick) {
+  // v113 (pkt 286): pick – tryb wybrany już w listwie wyglądu „Mapa i krawędzie” (bez listy rozwijanej)
   // v60: Prywatny / Praca / Sport; v105 (pkt 262): prosta lista rozwijana w dół zamiast okna z kafelkami
   const curM = isW() ? 'work' : isSport() ? 'sport' : 'priv';
   const an = anchor && anchor.nodeType ? anchor : $('sheet').style.display === 'flex' ? $('modeb') : $('lbtn'),
     ar = an.getBoundingClientRect(); // przed zwinięciem menu (inaczej przycisk „Tryb” nie ma już położenia)
   lmenuToggle(false);
-  const to = await dropMenu({getBoundingClientRect: () => ar}, _t('TRYB PRACY'), [
+  const to = pick || await dropMenu({getBoundingClientRect: () => ar}, _t('TRYB PRACY'), [
     {v: 'priv', ic: 'home', t: _t('Prywatny'), on: curM === 'priv', d: _t('Twoje mapy, punkty i ślady – grzyby, wycieczki, miejsca.')},
     {v: 'work', ic: 'work', t: _t('Praca'), on: curM === 'work', d: _t('Osobne mapy i ślady do pracy; szkice: kropki, odcinki, strzałki, numeracja.')},
     {v: 'sport', ic: 'sport', t: _t('Sport'), on: curM === 'sport', d: _t('Osobny widok: licznik treningu, dyscypliny i statystyki. Korzysta z map prywatnych.')}
@@ -24955,7 +24662,6 @@ map.on('click', e => {
   {
     let hid = false;
     if ($('lmenu').style.display === 'flex') lmenuToggle(false), (hid = true);
-    if (DAYB) dayBarClose(), (hid = true); // v111: pasek dnia (Dziennik)
     const dm = $('dmenu');
     if (dm.style.display === 'block') (dm.style.display = 'none'), (hid = true);
     if (!mode && $('tools').classList.contains('open')) toolsOpen(false), ui(), (hid = true);
@@ -25618,7 +25324,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami. W <b>Kopia zapasowa i dane</b> tabelka „Co jest w kopii”: mapy, ślady, zdjęcia, ustawienia – każda część osobno w kopii lub nie i szyfrowana lub nie (np. zdjęcia jawnie, mapy zaszyfrowane); w zaszyfrowanej kopii jest ODSZYFRUJ.py do odczytu bez OMM (z hasłem). W <b>Foldery i pliki</b> możesz wskazać dowolny folder w telefonie na pliki zapisywane ręcznie.</li>
 <li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – osobny widok aplikacji: <b>tablica</b> z dużymi przyciskami dyscyplin – <b>rower</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>marsz</b> (tempo, kroki, dzienny cel kroków), <b>trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>jeździectwo</b> (stęp, kłus, galop) i <b>rolki</b> (prędkość, okrążenia). Dotknięcie przycisku otwiera licznik na ciemnym ekranie. Z licznika „Mapa” przechodzi na mapę – tam przycisk ‹ z dystansem albo systemowe „Wstecz” wraca do licznika; ‹ w liczniku wraca na tablicę (trening trwa). „Zakończ” zapisuje trening w <b>Statystykach</b>: ogólnych i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, rekordy, lista treningów. Kalorie po podaniu wagi w Ustawieniach → Sport; ślad nagrany z licznika trafia do kategorii „Sport”.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
-<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy z delikatną obwódką prosto na mapie: u góry nazwa mapy i tryb, obok lupa (Szukaj); na dole <b>● Nagraj</b>, dokładność GPS z wysokością i <b>Ja</b> (Twoja pozycja; przytrzymanie – Informacje GPS). Reszta chowa się za krawędziami ekranu – cienkie kreski pokazują, gdzie dotknąć: <b>lewa</b> (albo dotknięcie nazwy mapy) – listwa: Mapy, Ślady, Zdjęcia (otwierają się obok listwy), Dziennik, Statystyki, Tryb pracy, Ustawienia; <b>prawa</b> – narzędzia mapy: Podkład, Północ u góry, Moja pozycja, Zdjęcie, Punkt, Rysuj, Zmierz, Zaplanuj trasę; <b>dolna</b> – dziś (dystans, ślady, zdjęcia), najbliższe Twoje punkty, Dziennik, GPS i wschód / zachód słońca. Okienka punktów i śladów pojawiają się na dole ekranu. Podczas nagrywania u góry jest duży dystans, czas, prędkość i dokładność, a na dole <b>Pauza · Zdjęcie · Zakończ</b>. <b>Dziennik</b> – ślady, zdjęcia i punkty dzień po dniu (filtry: Wszystko, Ślady, Zdjęcia, Punkty); dotknięcie wpisu pokazuje go na mapie, „na mapie ›” przy dniu otwiera pasek dnia z osią godzin (przesuń palcem po osi – mapa pokaże, gdzie wtedy byłeś). Motyw jasny / ciemny działa w obu wyglądach. Ekrany planowania trasy, nawigacji i okna ustawień mają na razie układ jak w wyglądzie „Obecny”, tylko w nowych kolorach i kroju pisma.</li>
+<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy z obwódką prosto na mapie: u góry tryb i nazwa mapy, obok lupa (Szukaj); na dole <b>● Nagraj</b>, dokładność GPS z wysokością i <b>Ja</b> (Twoja pozycja; przytrzymanie – Informacje GPS). Reszta chowa się za krawędziami ekranu – pokazują je języczki ‹ ›: <b>lewa</b> (albo dotknięcie nazwy mapy) – listwa: Mapy, Ślady, Zdjęcia, Tryb pracy ˅ (rozwija Prywatny / Praca / Sport), Ustawienia. Po wyborze listwa chowa się w lewo, a na jej miejsce wjeżdża półprzezroczysty panel na całą szerokość; „‹” w panelu wraca do listwy. Statystyki śladów są w panelu Ślady. <b>Prawa</b> – narzędzia mapy: Podkład, Punkt, Rysuj i Zmierz otwierają panel wysuwany z prawej; Północ u góry, Moja pozycja i Zdjęcie działają od razu. Trasę zaplanujesz, dotykając mapy, obiektu albo wyszukanego adresu (Nawiguj). <b>Dolna</b> – dziś (dystans, ślady, zdjęcia), najbliższe Twoje punkty, GPS i wschód / zachód słońca. Okienka punktów i śladów pojawiają się na dole ekranu. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b>. Motyw jasny / ciemny działa w obu wyglądach. Ekrany nawigacji i karty trasy mają na razie układ jak w wyglądzie „Obecny”, tylko w nowych kolorach i kroju pisma.</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
 </ol>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe; wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”, a trasy po drogach liczy serwer Valhalla (FOSSGIS) – dostaje wtedy tylko współrzędne punktów trasy. „Szukaj przez zieleń” pobiera kafle mapy z OpenFreeMap (tylko numery kafli okolicy), a trasę liczy serwer BRouter (dostaje współrzędne startu, celu i punktów przelotowych).</p>`;
@@ -25678,7 +25384,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles. In <b>Backup and data</b> the table “What goes into the backup”: maps, tracks, photos, settings – each part in the backup or not and encrypted or not (e.g. photos plain, maps encrypted); an encrypted backup includes ODSZYFRUJ.py for reading without OMM (with the password). In <b>Folders and files</b> you can choose any folder on the phone for manually saved files.</li>
-<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words with a soft outline right on the map: the map name and mode at the top, a magnifier next to it (Search); at the bottom <b>● Record</b>, GPS accuracy with altitude and <b>Me</b> (your position; press and hold – GPS info). Everything else hides behind the screen edges – thin marks show where to tap: <b>left</b> (or tap the map name) – a rail: Maps, Tracks, Photos (open next to the rail), Journal, Statistics, Mode, Settings; <b>right</b> – map tools: Base map, North up, My position, Photo, Point, Draw, Measure, Plan a route; <b>bottom</b> – today (distance, tracks, photos), your nearest points, Journal, GPS and sunrise / sunset. Point and track pop-ups appear at the bottom of the screen. While recording there is a big distance, time, speed and accuracy at the top, and <b>Pause · Photo · Finish</b> at the bottom. <b>Journal</b> – tracks, photos and points day by day (filters: All, Tracks, Photos, Points); tapping an entry shows it on the map, “on the map ›” next to a day opens the day bar with an hour axis (slide your finger along it – the map shows where you were then). The light / dark theme works in both looks. Route planning, navigation and the settings windows keep the “Current” layout for now, just with the new colours and typeface.</li>
+<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are outlined words right on the map: the mode and map name at the top, a magnifier next to it (Search); at the bottom <b>● Record</b>, GPS accuracy with altitude and <b>Me</b> (your position; press and hold – GPS info). Everything else hides behind the screen edges, marked by ‹ › tabs: <b>left</b> (or tap the map name) – a rail: Maps, Tracks, Photos, Mode ˅ (opens Private / Work / Sport), Settings. After a choice the rail slides away to the left and a see-through full-width panel takes its place; “‹” in the panel goes back to the rail. Track statistics are in the Tracks panel. <b>Right</b> – map tools: Base map, Point, Draw and Measure open a panel sliding in from the right; North up, My position and Photo work straight away. To plan a route, tap the map, an object or a searched address (Navigate). <b>Bottom</b> – today (distance, tracks, photos), your nearest points, GPS and sunrise / sunset. Point and track pop-ups appear at the bottom of the screen. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom. The light / dark theme works in both looks. Navigation and the route card keep the “Current” layout for now, just with the new colours and typeface.</li>
 <li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – a separate view of the app: a <b>board</b> with big discipline buttons – <b>bike</b> (speed, average, max, climb, gradient), <b>running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>walking</b> (pace, steps, daily step goal), <b>trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>horse riding</b> (walk, trot, canter) and <b>inline skating</b> (speed, laps). Tapping a button opens the counter on a dark screen. “Map” in the counter goes to the map – there the ‹ button with the distance or the system “Back” returns to the counter; ‹ in the counter returns to the board (the workout continues). “Finish” saves the workout in <b>Statistics</b>: overall and for each discipline – week, month, year, all time, chart, records, workout list. Calories after entering your weight in Settings → Sport; a track recorded from the counter goes to the “Sport” category.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
@@ -45822,11 +45528,11 @@ const TUT_STEPS = [
 ];
 // v112 (pkt 285): samouczek w wyglądzie „Mapa i krawędzie” – napisy i krawędzie zamiast przycisków; kroki panelu jak zwykle
 const TUT_SK = [
-  {sel: null, t: _t('Mapa i krawędzie'), x: _t('Mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie. Reszta chowa się za krawędziami ekranu – cienkie kreski przy lewej, prawej i dolnej krawędzi pokazują, gdzie dotknąć.')},
-  {sel: '#sktl', t: _t('Lewa krawędź – listwa'), x: _t('Dotknij nazwy mapy (albo kreski przy lewej krawędzi): Mapy, Ślady, Zdjęcia, Dziennik, Statystyki, Tryb pracy i Ustawienia. Mapy, Ślady i Zdjęcia otwierają się obok listwy; „‹ mapa” albo dotknięcie mapy chowa listwę.')},
-  {sel: '#skgr', t: _t('Prawa krawędź – narzędzia mapy'), x: _t('Podkład (mapy, nakładki, mapy offline), Północ u góry, Moja pozycja, Zdjęcie, Punkt, Rysuj, Zmierz i Zaplanuj trasę.')},
-  {sel: '#skgb', t: _t('Dolna krawędź – dziś i w pobliżu'), x: _t('Ile dziś przejechałeś lub przeszedłeś, najbliższe Twoje punkty (dotknięcie pokazuje punkt na mapie), dziennik, GPS i wschód / zachód słońca.')},
-  {sel: '#skbl', t: _t('Nagraj'), x: _t('Nagrywanie śladu. W trakcie u góry duży dystans, czas, prędkość i dokładność GPS, a na dole Pauza · Zdjęcie · Zakończ. Dotknięcie liczb – panel na żywo.')},
+  {sel: null, t: _t('Mapa i krawędzie'), x: _t('Mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie. Reszta chowa się za krawędziami ekranu – języczki ‹ › przy lewej, prawej i dolnej krawędzi pokazują, gdzie dotknąć.')},
+  {sel: '#sktl', t: _t('Lewa krawędź – listwa'), x: _t('Dotknij nazwy mapy albo języczka › przy lewej krawędzi: Mapy, Ślady, Zdjęcia, Tryb pracy ˅ (rozwija Prywatny / Praca / Sport) i Ustawienia. Po wyborze listwa chowa się w lewo, a na jej miejsce wjeżdża panel; „‹” w panelu wraca do listwy. Statystyki śladów są w panelu Ślady.')},
+  {sel: '#skgr', t: _t('Prawa krawędź – narzędzia mapy'), x: _t('Podkład (mapy, nakładki, mapy offline), Punkt, Rysuj i Zmierz otwierają panel wysuwany z prawej; Północ u góry, Moja pozycja i Zdjęcie działają od razu. Trasę zaplanujesz, dotykając mapy, obiektu albo wyszukanego adresu.')},
+  {sel: '#skgb', t: _t('Dolna krawędź – dziś i w pobliżu'), x: _t('Ile dziś przejechałeś lub przeszedłeś, najbliższe Twoje punkty (dotknięcie pokazuje punkt na mapie), GPS i wschód / zachód słońca.')},
+  {sel: '#skbl', t: _t('Nagraj'), x: _t('Nagrywanie śladu. W trakcie u góry jeden wąski wiersz: czas, dystans, prędkość i dokładność GPS, a na dole Pauza · Zdjęcie · Zakończ. Dotknięcie wiersza – panel na żywo.')},
   {sel: '#skbr', t: _t('Ja'), x: _t('Pokazuje, gdzie jesteś; pośrodku na dole dokładność GPS i wysokość. Przytrzymaj „Ja” – Informacje GPS.')},
   {sel: '#sktr', t: _t('Szukaj'), x: _t('Twoje punkty, ślady, adresy i współrzędne.')},
   {sel: null, t: _t('Okienka na dole'), x: _t('Okienko punktu albo śladu pojawia się na dole ekranu, a mapa przesuwa obiekt nad nie. ✕ albo dotknięcie mapy je zamyka.')},
@@ -50822,7 +50528,7 @@ function settingsDlg(keep, old) {
       ['obecny', _t('Obecny')],
       ['krawedzie', _t('Mapa i krawędzie (nowy) – mapa na cały ekran, napisy zamiast przycisków')]
     ],
-    _t('W wyglądzie „Mapa i krawędzie” lewa krawędź ekranu chowa listwę (Mapy, Ślady, Zdjęcia, Dziennik, Statystyki), prawa – narzędzia mapy, a dolna – informacje o dniu. Motyw jasny / ciemny poniżej działa w obu wyglądach. Powrót: „Obecny”.'),
+    _t('W wyglądzie „Mapa i krawędzie” lewa krawędź ekranu chowa listwę (Mapy, Ślady, Zdjęcia, Tryb pracy, Ustawienia), prawa – narzędzia mapy, a dolna – informacje o dniu. Motyw jasny / ciemny poniżej działa w obu wyglądach. Powrót: „Obecny”.'),
     skinApply
   );
   radios(

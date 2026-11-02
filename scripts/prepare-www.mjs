@@ -28,6 +28,12 @@ const leafletTag = '<script src="lib/leaflet/leaflet.js"'; // (z atrybutem integ
 if (!html.includes(leafletTag)) throw new Error('Brak znacznika ' + leafletTag);
 html = html.replace(leafletTag, '<script src="lib/capacitor.js"></script>\n' + leafletTag);
 
+// v113: skrypt startowy z <head> (wygląd i motyw od pierwszej klatki) → boot.js
+const bootRx = /<script id="boot">([\s\S]*?)<\/script>/;
+const bootM = html.match(bootRx);
+if (!bootM) throw new Error('Brak skryptu startowego <script id="boot"> w ' + src);
+html = html.replace(bootRx, '<script src="boot.js"></script>');
+
 // skrypt aplikacji → app.js (dokładnie jeden wbudowany <script>; w HTML nie może być innych)
 const inl = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)];
 if (inl.length !== 1) throw new Error('Oczekiwano dokładnie jednego wbudowanego <script>, jest ' + inl.length);
@@ -78,6 +84,7 @@ if (!ver) throw new Error(`W ${src} nie ma stałej APP_VER = 'vNN'`);
 rmSync('www', {recursive: true, force: true});
 mkdirSync('www/lib', {recursive: true});
 writeFileSync('www/index.html', html);
+writeFileSync('www/boot.js', bootM[1]);
 writeFileSync('www/app.js', appJs);
 writeFileSync('www/version.txt', ver[1] + '\n');
 cpSync('node_modules/leaflet/dist', 'www/lib/leaflet', {recursive: true});
