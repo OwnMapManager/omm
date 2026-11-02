@@ -35,6 +35,8 @@ const appJs = inl[0][1];
 html = html.replace(inl[0][0], '<script src="app.js"></script>');
 if (/\son[a-z]+\s*=\s*["']/i.test(html.replace(/<script[\s\S]*?<\/script>/g, '')))
   throw new Error('W HTML są atrybuty zdarzeń (on…=) – CSP bez unsafe-inline by je zablokowała');
+// v111: + tiles.openfreemap.org (zieleń, v108), brouter.de i raw.githubusercontent.com (profil BRoutera, v110) –
+// bez nich WebView blokował zapytania („Failed to fetch” w raporcie z telefonu)
 // ścisła polityka treści dla aplikacji (wersja w app/omm.html jest łagodniejsza, bo ma skrypt w środku)
 const TILES = [
   'https://mapy.geoportal.gov.pl',
@@ -56,7 +58,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "media-src 'self' data: blob:",
-  "connect-src 'self' data: blob: https://overpass-api.de https://nominatim.openstreetmap.org https://services.gugik.gov.pl https://routing.openstreetmap.de https://valhalla1.openstreetmap.de " +
+  "connect-src 'self' data: blob: https://overpass-api.de https://nominatim.openstreetmap.org https://services.gugik.gov.pl https://routing.openstreetmap.de https://valhalla1.openstreetmap.de https://tiles.openfreemap.org https://brouter.de https://raw.githubusercontent.com " +
     TILES.join(' '),
   "font-src 'self' data:",
   "worker-src 'self' blob:",
