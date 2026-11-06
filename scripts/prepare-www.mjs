@@ -64,7 +64,7 @@ const CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "media-src 'self' data: blob:",
-  "connect-src 'self' data: blob: https://overpass-api.de https://nominatim.openstreetmap.org https://services.gugik.gov.pl https://routing.openstreetmap.de https://valhalla1.openstreetmap.de https://tiles.openfreemap.org https://brouter.de https://raw.githubusercontent.com " +
+  "connect-src 'self' data: blob: https://overpass-api.de https://nominatim.openstreetmap.org https://services.gugik.gov.pl https://routing.openstreetmap.de https://valhalla1.openstreetmap.de https://tiles.openfreemap.org https://brouter.de https://raw.githubusercontent.com https://api.met.no " +
     TILES.join(' '),
   "font-src 'self' data:",
   "worker-src 'self' blob:",
