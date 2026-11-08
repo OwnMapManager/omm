@@ -9432,9 +9432,16 @@ html.sk-krawedzie .navtop::before, html.sk-krawedzie .navbot::before { content: 
 #sklgrid { position: fixed; inset: 0; z-index: 1001; pointer-events: none; opacity: 0; transition: opacity 0.2s; background-image: radial-gradient(circle, rgba(var(--kfog), 1) 2.4px, transparent 2.6px), radial-gradient(circle, var(--acc) 1.6px, transparent 2px); background-size: 64px 64px; }
 #sklgrid.on { opacity: 0.8; }
 #sklcell { position: fixed; z-index: 1001; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; border: 2px dashed var(--acc); display: none; pointer-events: none; }
-#skledge { position: fixed; z-index: 3999; top: 70px; bottom: 70px; width: 30px; border: 2px dashed var(--acc); border-radius: 18px; background: rgba(var(--kfog), 0.6); display: none; pointer-events: none; }
-#skledge.l { left: 4px; } #skledge.r { right: 4px; }
-#skledge.hot { background: rgba(85, 112, 60, 0.22); }
+/* v117 (pkt 334): strefa powrotu do panelu – tylko delikatne rozjaśnienie samej krawędzi, pierścień przy kropli odlicza 2 s */
+#skledge { position: fixed; z-index: 3999; top: 0; bottom: 0; width: 26px; pointer-events: none; opacity: 0; transition: opacity 0.2s; }
+#skledge.l { left: 0; opacity: 1; background: linear-gradient(90deg, rgba(var(--kfog), 0.75), rgba(var(--kfog), 0)); }
+#skledge.r { right: 0; opacity: 1; background: linear-gradient(270deg, rgba(var(--kfog), 0.75), rgba(var(--kfog), 0)); }
+.sklghost .sklring { position: absolute; left: 50%; top: 50%; width: 60px; height: 60px; margin: -30px 0 0 -30px; display: none; transform: rotate(-90deg); overflow: visible; }
+.sklghost:not(.ic) .sklring { left: 30px; }
+.sklghost .sklring circle { fill: none; stroke: var(--acc); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 170; stroke-dashoffset: 170; }
+.sklghost.dwell .sklring { display: block; }
+.sklghost.dwell .sklring circle { animation: sklring 2s linear forwards; }
+@keyframes sklring { to { stroke-dashoffset: 0; } }
 /* pkt 321: przewijana treść paneli z dołu zanika u góry razem z mgłą – tekst nigdy nie leży na gołej mapie */
 html.sk-krawedzie #dmenu, html.sk-krawedzie #bmenu, html.sk-krawedzie #xmenu, html.sk-krawedzie .stydlg, html.sk-krawedzie .dback:not(:has(.setdlg)):not(:has(.srchdlg)) > .dbox, #skpanel.b {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, transparent 26px, #000 64px); mask-image: linear-gradient(to bottom, transparent 0, transparent 26px, #000 64px); }
@@ -9616,8 +9623,8 @@ const EN = {
   "Przywrócić fabryczny układ poleceń dla trybu ": "Restore the factory command layout for the mode ",
   "Przywrócono układ fabryczny": "Factory layout restored",
   "Przywróć układ fabryczny": "Restore the factory layout",
-  "Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy krawędzi, a wróci. Prywatny (i Sport) oraz Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.": "An empty panel disappears together with its tab – hold a command at the edge and it comes back. Private (and Sport) and Work have separate layouts. Factory layout: Settings → Appearance.",
-  "Pusty panel znika – przytrzymaj polecenie przy krawędzi ekranu, a wróci.": "An empty panel disappears – hold a command at the screen edge and it comes back.",
+  "Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy samej krawędzi ok. 2 s, a wróci. Prywatny (i Sport) oraz Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.": "An empty panel disappears together with its tab – hold a command at the very edge for about 2 s and it comes back. Private (and Sport) and Work have separate layouts. Factory layout: Settings → Appearance.",
+  "Pusty panel znika – przytrzymaj polecenie przy samej krawędzi ekranu ok. 2 s, a wróci.": "An empty panel disappears – hold a command at the very screen edge for about 2 s and it comes back.",
   "Stół do flipera z trzema odbijaczami, procami i torami u góry. Przytrzymaj „Wystrzel” (albo prawą połowę ekranu) i puść – kulka wylatuje tym mocniej, im dłużej trzymasz. Lewy i prawy fliper: przyciski na dole albo lewa i prawa połowa ekranu. Przejedź przez wszystkie trzy tory u góry – mnożnik punktów rośnie. Masz trzy kulki.": "A pinball table with three bumpers, slingshots and lanes at the top. Hold “Launch” (or the right half of the screen) and let go – the longer you hold, the harder the ball flies. Left and right flipper: the buttons at the bottom or the left and right half of the screen. Roll through all three top lanes – the score multiplier grows. You have three balls.",
   "Tej karty nie ma gdzie położyć": "This card has nowhere to go",
   "Układ poleceń": "Command layout",
@@ -9633,7 +9640,7 @@ const EN = {
   "Zgłoś problem albo pomysł": "Report a problem or an idea",
   "Zgłoś problem ze śladem": "Report a problem with the track",
   "Znalazłeś ukryte gry – są teraz w Menu → Gry": "You found the hidden games – they are now in Menu → Games",
-  "do krawędzi ekranu i chwilę przytrzymaj – wysunie się panel z tej strony; tak przeniesiesz polecenie do drugiego panelu.": "to the screen edge and hold for a moment – the panel on that side slides in; this is how you move a command to the other panel.",
+  "do samej krawędzi ekranu (kropla prawie za ekranem) i przytrzymaj ok. 2 s, aż zapełni się pierścień – wysunie się panel z tej strony; tak przeniesiesz polecenie do drugiego panelu. Puścisz wcześniej – kropla zostanie przy krawędzi.": "to the very edge of the screen (the drop almost off-screen) and hold for about 2 s until the ring fills – the panel on that side slides in; this is how you move a command to the other panel. Let go earlier and the drop stays at the edge.",
   "ekran ": "screen ",
   "kulki ": "balls ",
   "mocniej poza panel – wyjdzie na mapę jako sama ikona w kropli; dwie obok siebie łączą się w jedną kapsułkę,": "further out of the panel – it goes onto the map as an icon in a drop; two side by side merge into one capsule,",
@@ -9647,6 +9654,10 @@ const EN = {
   "W wyglądzie „Mapa i krawędzie” przytrzymaj polecenie w panelu i przeciągnij – wyżej, niżej, do drugiego panelu albo na mapę jako ikonę. Pogoda i Księżyc są w Panelu Dziś na dolnej krawędzi.": "In the “Map and edges” look press and hold a command in a panel and drag it – higher, lower, to the other panel or onto the map as an icon. Weather and the Moon are in the Today panel at the bottom edge.",
   "Przycisk z trzema kreskami w lewym dolnym rogu: Mapy, Ślady, Zdjęcia, Tryb i Ustawienia – tam też kopia zapasowa i pomoc.": "The three-line button in the bottom left corner: Maps, Tracks, Photos, Mode and Settings – backup and help are there too.",
   "Ustawienia → Wygląd → „Wygląd aplikacji”: mapa na cały ekran, napisy zamiast przycisków, a menu, narzędzia i informacje chowają się za krawędziami ekranu. Powrót: „Obecny”.": "Settings → Appearance → “App look”: the map fills the screen, words instead of buttons, and the menu, tools and information hide behind the screen edges. Back: “Current”.",
+  " (pominięte: ": " (skipped: ",
+  " – powód w Diagnostyce)": " – reason in Diagnostics)",
+  "Dociągam do ścieżek przeliczone ślady: ": "Snapping recalculated tracks to paths: ",
+  "Przywrócono ślad sprzed dopasowania – policzony od nowa z surowych pomiarów": "Restored the track from before matching – recalculated from raw readings",
   "Okna z dołu, nowe ikony": "Windows from the bottom, new icons",
   "Narzędzia, wybory i komunikaty wysuwają się z dołu z mgłą, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić. Ikony są teraz rysowane jak tuszem.": "Tools, choices and messages slide up from the bottom with fog, the measurement result is at the top. The active layer is shown next to the map name – tap it to change it. Icons are now drawn as if in ink.",
   "Ciemna – jak w nawigacji (ciemne tło, jasne drogi)": "Dark – like in navigation (dark background, light roads)",
@@ -13437,7 +13448,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v116';
+const APP_VER = 'v117';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -22065,15 +22076,29 @@ function skLong(b, fn) {
 // ---------- v116 (pkt 331): układ poleceń – panele z wierszami (od góry do dołu), przenoszenie przytrzymaniem między panelami
 // i na ekran (ikona w kropli, sąsiednie krople łączą się w kapsułkę), opór przy wyjściu z panelu, przytrzymanie przy krawędzi
 // wysuwa panel; pusty panel znika razem z języczkiem. Układ osobno dla Prywatny/Sport i Praca (localStorage „omm-uklad”).
+// v117 (pkt 333–335): wiersze od tuż pod paskiem stanu do tuż nad „Jak to działa”; gęstsza siatka kropel (krok ≈ średnica
+// kropli – połączone stoją ciasno); powrót kropli do panelu dopiero przy samej krawędzi i po 2 s (pierścień odlicza)
 const SKL_ROWH = 54,
-  SKL_TOP = 96,
-  SKL_CELL = 64,
+  SKL_CELL = 46,
   SKL_HOLD = 480,
   SKL_PULL = 70,
-  SKL_DWELL = 650,
-  SKL_EDGE = 44;
-const sklRows = () => Math.max(6, Math.floor((innerHeight - SKL_TOP - 104) / SKL_ROWH));
-const sklY = r => SKL_TOP + r * SKL_ROWH;
+  SKL_DWELL = 2000,
+  SKL_EDGE = 16;
+let SKL_SA = null;
+function sklSA() {
+  // marginesy bezpieczne ekranu (pasek stanu u góry, pasek nawigacji na dole) – odczyt z CSS env()
+  if (SKL_SA) return SKL_SA;
+  const d = h('div');
+  d.style.cssText = 'position:fixed;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)';
+  document.body.append(d);
+  const cs = getComputedStyle(d);
+  SKL_SA = {t: parseFloat(cs.paddingTop) || 0, b: parseFloat(cs.paddingBottom) || 0};
+  d.remove();
+  return SKL_SA;
+}
+const sklTop = () => sklSA().t + 14;
+const sklRows = () => Math.max(6, Math.floor((innerHeight - sklTop() - sklSA().b - 84) / SKL_ROWH));
+const sklY = r => sklTop() + r * SKL_ROWH;
 const SKL_M0 = ['mapy', 'slady', 'zdjecia', 'tryb', 'ustaw'],
   SKL_T0 = ['podklad', 'poz', 'polnoc', null, 'foto', 'punkt', 'rysuj', 'zmierz'];
 function sklCenter(ids) {
@@ -22136,13 +22161,34 @@ function sklGet() {
     const over = prev - (N - 1);
     if (over > 0) L[k].forEach(i => (i.r = Math.max(0, i.r - over)));
   });
-  const g = sklGrid();
+  const g = sklGrid(),
+    a0 = a[sklKey()];
+  // v117 (pkt 335): układ zapisany na starej, rzadszej siatce (64 px) – krople w tych samych miejscach na nowej
+  if (a0 && L.s.length && (a0.g || 64) !== SKL_CELL) {
+    const og = a0.g || 64,
+      ocols = Math.max(3, Math.floor(innerWidth / og)),
+      ox0 = (innerWidth - ocols * og) / 2,
+      used = new Set(),
+      nw = {};
+    // sąsiedzi z kapsułki zostają sąsiadami (pozycja względem lewego albo górnego sąsiada)
+    L.s.sort((x, y) => x.r - y.r || x.c - y.c).forEach(i => {
+      const lf = nw[i.c - 1 + ',' + i.r],
+        up = nw[i.c + ',' + (i.r - 1)];
+      let c = lf ? {c: lf.c + 1, r: lf.r} : up ? {c: up.c, r: up.r + 1} : sklCellAt(ox0 + i.c * og + og / 2, i.r * og + og / 2);
+      for (let d = 0; used.has(c.c + ',' + c.r) && d < 6; d++) c = {c: Math.min(g.cols - 1, c.c + 1), r: c.r};
+      used.add(c.c + ',' + c.r);
+      nw[i.c + ',' + i.r] = c;
+      i.c = c.c;
+      i.r = c.r;
+    });
+    sklSet(L);
+  }
   L.s.forEach(i => ((i.c = Math.max(0, Math.min(g.cols - 1, i.c))), (i.r = Math.max(g.r0, Math.min(g.r1, i.r)))));
   return L;
 }
 function sklSet(L) {
   const a = sklAll();
-  a[sklKey()] = L;
+  a[sklKey()] = {...L, g: SKL_CELL};
   try {
     localStorage.setItem('omm-uklad', JSON.stringify(a));
   } catch (e) {}
@@ -22159,8 +22205,10 @@ function sklReset() {
 function sklGrid() {
   const cols = Math.max(3, Math.floor(innerWidth / SKL_CELL)),
     rows = Math.floor(innerHeight / SKL_CELL),
-    x0 = (innerWidth - cols * SKL_CELL) / 2;
-  return {cols, rows, x0, r0: 1, r1: Math.max(1, rows - 2)};
+    x0 = (innerWidth - cols * SKL_CELL) / 2,
+    sa = sklSA();
+  // pod napisami u góry i nad Nagraj / linijką GPS na dole
+  return {cols, rows, x0, r0: Math.ceil((sa.t + 44) / SKL_CELL), r1: Math.max(2, Math.floor((innerHeight - sa.b - 110) / SKL_CELL))};
 }
 const sklXY = (c, r) => {
   const g = sklGrid();
@@ -22260,9 +22308,9 @@ function sklHelp() {
       '\n• ' +
       _t('mocniej poza panel – wyjdzie na mapę jako sama ikona w kropli; dwie obok siebie łączą się w jedną kapsułkę,') +
       '\n• ' +
-      _t('do krawędzi ekranu i chwilę przytrzymaj – wysunie się panel z tej strony; tak przeniesiesz polecenie do drugiego panelu.') +
+      _t('do samej krawędzi ekranu (kropla prawie za ekranem) i przytrzymaj ok. 2 s, aż zapełni się pierścień – wysunie się panel z tej strony; tak przeniesiesz polecenie do drugiego panelu. Puścisz wcześniej – kropla zostanie przy krawędzi.') +
       '\n\n' +
-      _t('Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy krawędzi, a wróci. Prywatny (i Sport) oraz Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.')
+      _t('Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy samej krawędzi ok. 2 s, a wróci. Prywatny (i Sport) oraz Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.')
   );
 }
 // --- przeciąganie
@@ -22293,7 +22341,10 @@ function sklStart(el, from, id, st) {
   const grid = h('div');
   grid.id = 'sklgrid';
   const gg = sklGrid();
-  grid.style.backgroundPosition = gg.x0 + SKL_CELL / 2 - 32 + 'px 0';
+  grid.style.backgroundPosition = gg.x0 + 'px 0';
+  grid.style.backgroundSize = SKL_CELL + 'px ' + SKL_CELL + 'px';
+  // pierścień przy kropli odliczający przytrzymanie przy krawędzi (powrót do panelu)
+  g.insertAdjacentHTML('afterbegin', '<svg class="sklring" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27"/></svg>');
   const cell = h('div');
   cell.id = 'sklcell';
   const edge = h('div');
@@ -22340,7 +22391,7 @@ function sklPreview(k, y) {
   const p = $('sklp');
   if (!p) return;
   const L = sklGet(),
-    lay = sklLayout(L[k], SKD.id, Math.round((y - SKL_TOP - SKL_ROWH / 2) / SKL_ROWH));
+    lay = sklLayout(L[k], SKD.id, Math.round((y - sklTop() - SKL_ROWH / 2) / SKL_ROWH));
   p.querySelectorAll('.sklr').forEach(r => {
     if (r.dataset.id === SKD.id) return;
     const it = lay.find(i => i.id === r.dataset.id);
@@ -22352,13 +22403,14 @@ function sklPreview(k, y) {
   SKD.row = lay[0].r;
 }
 function sklEdge(side) {
-  // przy krawędzi ekranu: panel wysuwa się dopiero po chwili trzymania
+  // przy samej krawędzi (kropla prawie poza ekranem): krawędź lekko się rozjaśnia, pierścień przy kropli odlicza 2 s,
+  // dopiero potem wysuwa się panel; puszczenie wcześniej – kropla zostaje przy krawędzi
   if (SKD.dwellSide === side) return;
   clearTimeout(SKD.dwellT);
   SKD.dwellSide = side;
   const e = SKD.edge;
-  e.className = side;
-  e.style.display = side ? 'block' : 'none';
+  e.className = side || '';
+  SKD.g.classList.toggle('dwell', !!side);
   if (!side) return;
   SKD.dwellT = setTimeout(() => {
     const L = sklGet(),
@@ -22373,6 +22425,7 @@ function sklEdge(side) {
     }
     vibe(15);
     e.classList.add('hot');
+    SKD.g.classList.remove('dwell');
     skSide(k);
     const r = $('sklp') && $('sklp').querySelector('.sklr[data-id="' + SKD.id + '"]');
     if (r) (r.classList.add('gap'), (SKD.el = r));
@@ -22426,7 +22479,7 @@ function sklDrop() {
     if (D.c) {
       rm();
       L.s.push({id: D.id, c: D.c.c, r: D.c.r});
-      if (D.from !== 's' && !L[D.from].length) toastMsg(_t('Pusty panel znika – przytrzymaj polecenie przy krawędzi ekranu, a wróci.'));
+      if (D.from !== 's' && !L[D.from].length) toastMsg(_t('Pusty panel znika – przytrzymaj polecenie przy samej krawędzi ekranu ok. 2 s, a wróci.'));
     }
   } else {
     const k = D.where,
@@ -22453,7 +22506,7 @@ function sklEnd() {
   sklApply();
   skEdgeCls();
 }
-addEventListener('resize', () => skOn() && !SKD && sklChips());
+addEventListener('resize', () => ((SKL_SA = null), skOn() && !SKD && sklChips()));
 // języczki: położenie zapamiętane – {m: {s: 'l'|'r', y: 0–1}, t: {…}}
 const TAB0 = {m: {s: 'l', y: 0.5}, t: {s: 'r', y: 0.38}, b: {x: 0.5}};
 function tabsGet() {
@@ -26977,7 +27030,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami. W <b>Kopia zapasowa i dane</b> tabelka „Co jest w kopii”: mapy, ślady, zdjęcia, ustawienia – każda część osobno w kopii lub nie i szyfrowana lub nie (np. zdjęcia jawnie, mapy zaszyfrowane); w zaszyfrowanej kopii jest ODSZYFRUJ.py do odczytu bez OMM (z hasłem). W <b>Foldery i pliki</b> możesz wskazać dowolny folder w telefonie na pliki zapisywane ręcznie.</li>
 <li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – osobny widok aplikacji: <b>tablica</b> z dużymi przyciskami dyscyplin – <b>rower</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>marsz</b> (tempo, kroki, dzienny cel kroków), <b>trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>jeździectwo</b> (stęp, kłus, galop) i <b>rolki</b> (prędkość, okrążenia). Dotknięcie przycisku otwiera licznik na ciemnym ekranie. Z licznika „Mapa” przechodzi na mapę – tam przycisk ‹ z dystansem albo systemowe „Wstecz” wraca do licznika; ‹ w liczniku wraca na tablicę (trening trwa). „Zakończ” zapisuje trening w <b>Statystykach</b>: ogólnych i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, rekordy, lista treningów. Kalorie po podaniu wagi w Ustawieniach → Sport; ślad nagrany z licznika trafia do kategorii „Sport”.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
-<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry tryb, nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (dotknięcie – Informacje GPS). Reszta chowa się za krawędziami – wyciągasz ją za <b>języczki</b>: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Tryb pracy, Ustawienia), <b>Narzędzia</b> (Podkład, Moja pozycja, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz) i dolny <b>Panel Dziś</b> (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc). Języczki przeciągniesz, przytrzymując je: boczne w górę, w dół albo na drugą krawędź, dolny wzdłuż dołu. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b>. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – polecenia w panelach Menu i Narzędzia stoją w wierszach od góry do dołu. <b>Przytrzymaj</b> polecenie i przeciągnij: w górę lub w dół panelu, do drugiego panelu (podjedź do jego krawędzi i chwilę przytrzymaj) albo na mapę – poza panel wychodzi się z lekkim oporem. Na mapie polecenie zostaje jako sama ikona w kółku z ołówkowym obrysem; dwie ikony obok siebie łączą się w jedną kapsułkę. Dotknięcie ikony działa jak polecenie, przytrzymanie – przenosi ją dalej (także z powrotem do panelu). Pusty panel znika razem z języczkiem; przeciągnij polecenie do krawędzi ekranu, a panel wróci. Układ zapisuje się osobno dla trybu Prywatny (i Sport) oraz Praca. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Na dole każdego panelu „Jak to działa”.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni (dane MET Norway / yr.no). Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty).</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i Flipery).</li>
+<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry tryb, nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (dotknięcie – Informacje GPS). Reszta chowa się za krawędziami – wyciągasz ją za <b>języczki</b>: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Tryb pracy, Ustawienia), <b>Narzędzia</b> (Podkład, Moja pozycja, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz) i dolny <b>Panel Dziś</b> (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc). Języczki przeciągniesz, przytrzymując je: boczne w górę, w dół albo na drugą krawędź, dolny wzdłuż dołu. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b>. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – polecenia w panelach Menu i Narzędzia stoją w wierszach od góry do dołu. <b>Przytrzymaj</b> polecenie i przeciągnij: w górę lub w dół panelu, do drugiego panelu (wypchnij do samej krawędzi ekranu i przytrzymaj ok. 2 s – pierścień przy kropli odlicza) albo na mapę – poza panel wychodzi się z lekkim oporem. Na mapie polecenie zostaje jako sama ikona w kółku z ołówkowym obrysem; dwie ikony obok siebie łączą się w jedną kapsułkę. Dotknięcie ikony działa jak polecenie, przytrzymanie – przenosi ją dalej (także z powrotem do panelu). Pusty panel znika razem z języczkiem; przytrzymaj polecenie przy samej krawędzi ekranu ok. 2 s, a panel wróci. Układ zapisuje się osobno dla trybu Prywatny (i Sport) oraz Praca. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Na dole każdego panelu „Jak to działa”.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni (dane MET Norway / yr.no). Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty).</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i Flipery).</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
 </ol>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe; wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”, a trasy po drogach liczy serwer Valhalla (FOSSGIS) – dostaje wtedy tylko współrzędne punktów trasy. „Szukaj przez zieleń” pobiera kafle mapy z OpenFreeMap (tylko numery kafli okolicy), a trasę liczy serwer BRouter (dostaje współrzędne startu, celu i punktów przelotowych).</p>`;
@@ -27037,7 +27090,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles. In <b>Backup and data</b> the table “What goes into the backup”: maps, tracks, photos, settings – each part in the backup or not and encrypted or not (e.g. photos plain, maps encrypted); an encrypted backup includes ODSZYFRUJ.py for reading without OMM (with the password). In <b>Folders and files</b> you can choose any folder on the phone for manually saved files.</li>
-<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words right on the map: the mode, map name and active layer at the top, a magnifier (Search) and the scale next to them; at the bottom <b>Record</b> (a red dot in a ring) and GPS accuracy with altitude (tap – GPS info). Everything else hides behind the edges – pull it out by the <b>tabs</b>: <b>Menu</b> (Maps, Tracks with statistics, Photos, Mode, Settings), <b>Tools</b> (Base map, My position, North up, Photo, Point, Draw, Measure) and the bottom <b>Today panel</b> (a chevron: distance, tracks, photos, the nearest place – the arrow below it shows more, weather, GPS, sun and Moon). Press and hold a tab to move it: the side ones up, down or to the other edge, the bottom one along the bottom. Windows, questions, choice lists, Base map, Draw, Measure, ⋮ menus and messages slide up from the bottom with fog; the content fades out at the top together with the fog. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom. Map in dark theme – normal, dimmed or dark: Settings → Appearance.</li><li><b>Command layout (Map and edges)</b> – commands in the Menu and Tools panels stand in rows from top to bottom. <b>Press and hold</b> a command and drag it: up or down the panel, to the other panel (move to its edge and hold for a moment) or onto the map – leaving the panel takes a little extra pull. On the map a command stays as an icon in a circle with a pencil outline; two icons side by side merge into one capsule. Tapping the icon runs the command, pressing and holding moves it again (also back to a panel). An empty panel disappears together with its tab; drag a command to the screen edge and the panel comes back. The layout is saved separately for the Private (and Sport) mode and for Work. Settings → Appearance → “Restore the factory layout”. “How it works” is at the bottom of each panel.</li><li><b>Weather, Moon, Search</b> – <b>weather</b> in the Today panel: now and the place name (district or village), tap for an hourly and daily forecast (MET Norway / yr.no data). Without GPS – from the last known place, with a button to turn GPS on. <b>Moon</b>: rise, set and phase – in the pop-up after tapping the map and in the Today panel. <b>Search</b> also finds kinds of places in the visible map area (park, car park, shelter, spring, wayside shrine, viewpoint, shop, toilet, river…). In Maps photos go only onto the map (onto a track – from the track pop-up in Tracks). In Tracks a Point goes to the open track, and when none is open OMM asks: which track or the map. A layer's <b>Data fields</b> are your form – you fill the fields in later at each point. Icons are drawn “in ink”, with a spot of colour where it means something (red – recording, green – confirm, blue – you).</li><li><b>Reports, photos on a track, GPS drift</b> – <b>Settings → Help and information → Report a problem or an idea</b>: a short form you send yourself by e-mail (the OMM mailbox address is filled in). For a track: track pop-up → More → <b>Report a problem with the track</b> – attaches the track as GPX with the original GPS readings (private data – OMM asks before preparing anything). Settings → GPS tracks → <b>Also save the original GPS readings</b> (on by default) – the GPX file then contains a second track with what the GPS reported. Photos without date and place (e.g. sent via a messenger) can be <b>placed on the track</b> with your finger when adding them to a track – one by one. When the phone “drifts” sideways while you walk and jumps back, after “Stop” OMM replaces that piece with a straight connection (with path snapping – along the path). <b>Games</b>: tap the name in “About” 7 times – they appear in Menu → Games (including Solitaire and Pinball).</li>
+<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words right on the map: the mode, map name and active layer at the top, a magnifier (Search) and the scale next to them; at the bottom <b>Record</b> (a red dot in a ring) and GPS accuracy with altitude (tap – GPS info). Everything else hides behind the edges – pull it out by the <b>tabs</b>: <b>Menu</b> (Maps, Tracks with statistics, Photos, Mode, Settings), <b>Tools</b> (Base map, My position, North up, Photo, Point, Draw, Measure) and the bottom <b>Today panel</b> (a chevron: distance, tracks, photos, the nearest place – the arrow below it shows more, weather, GPS, sun and Moon). Press and hold a tab to move it: the side ones up, down or to the other edge, the bottom one along the bottom. Windows, questions, choice lists, Base map, Draw, Measure, ⋮ menus and messages slide up from the bottom with fog; the content fades out at the top together with the fog. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom. Map in dark theme – normal, dimmed or dark: Settings → Appearance.</li><li><b>Command layout (Map and edges)</b> – commands in the Menu and Tools panels stand in rows from top to bottom. <b>Press and hold</b> a command and drag it: up or down the panel, to the other panel (push it to the very edge of the screen and hold for about 2 s – a ring around the drop counts down) or onto the map – leaving the panel takes a little extra pull. On the map a command stays as an icon in a circle with a pencil outline; two icons side by side merge into one capsule. Tapping the icon runs the command, pressing and holding moves it again (also back to a panel). An empty panel disappears together with its tab; hold a command at the very screen edge for about 2 s and the panel comes back. The layout is saved separately for the Private (and Sport) mode and for Work. Settings → Appearance → “Restore the factory layout”. “How it works” is at the bottom of each panel.</li><li><b>Weather, Moon, Search</b> – <b>weather</b> in the Today panel: now and the place name (district or village), tap for an hourly and daily forecast (MET Norway / yr.no data). Without GPS – from the last known place, with a button to turn GPS on. <b>Moon</b>: rise, set and phase – in the pop-up after tapping the map and in the Today panel. <b>Search</b> also finds kinds of places in the visible map area (park, car park, shelter, spring, wayside shrine, viewpoint, shop, toilet, river…). In Maps photos go only onto the map (onto a track – from the track pop-up in Tracks). In Tracks a Point goes to the open track, and when none is open OMM asks: which track or the map. A layer's <b>Data fields</b> are your form – you fill the fields in later at each point. Icons are drawn “in ink”, with a spot of colour where it means something (red – recording, green – confirm, blue – you).</li><li><b>Reports, photos on a track, GPS drift</b> – <b>Settings → Help and information → Report a problem or an idea</b>: a short form you send yourself by e-mail (the OMM mailbox address is filled in). For a track: track pop-up → More → <b>Report a problem with the track</b> – attaches the track as GPX with the original GPS readings (private data – OMM asks before preparing anything). Settings → GPS tracks → <b>Also save the original GPS readings</b> (on by default) – the GPX file then contains a second track with what the GPS reported. Photos without date and place (e.g. sent via a messenger) can be <b>placed on the track</b> with your finger when adding them to a track – one by one. When the phone “drifts” sideways while you walk and jumps back, after “Stop” OMM replaces that piece with a straight connection (with path snapping – along the path). When a new version computes tracks better, OMM offers to recalculate them – including tracks snapped to paths (recalculated from the raw readings and snapped again). <b>Games</b>: tap the name in “About” 7 times – they appear in Menu → Games (including Solitaire and Pinball).</li>
 <li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – a separate view of the app: a <b>board</b> with big discipline buttons – <b>bike</b> (speed, average, max, climb, gradient), <b>running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>walking</b> (pace, steps, daily step goal), <b>trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>horse riding</b> (walk, trot, canter) and <b>inline skating</b> (speed, laps). Tapping a button opens the counter on a dark screen. “Map” in the counter goes to the map – there the ‹ button with the distance or the system “Back” returns to the counter; ‹ in the counter returns to the board (the workout continues). “Finish” saves the workout in <b>Statistics</b>: overall and for each discipline – week, month, year, all time, chart, records, workout list. Calories after entering your weight in Settings → Sport; a track recorded from the counter goes to the “Sport” category.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
@@ -37003,25 +37056,30 @@ function trkProcessSg(oldPts, sg, newPts) {
 }
 // v73: wersja sposobu liczenia śladu po „Stop”. Gdy w nowej wersji OMM zmieni się to liczenie, podbijamy TRK_ALG –
 // wtedy OMM raz zapyta, czy przeliczyć ślady nagrane od v70 (mają surowe pomiary). Przycisk w okienku śladu zniknął.
-const TRK_ALG = 11; // v116: dryf telefonu przy marszu (odpływ w bok i szybki powrót) zastąpiony prostym połączeniem; v103: v103: marsz – prostowanie w pasie ±3 m (było ±7 m) i uproszczenie 1,5 m (było 3 m), ślad trzyma się zakrętów ścieżek; v96: ostre narożniki ciasnych zakrętów (jazda); v95: jazda – uproszczenie 1 m (gładsze łuki), krzątanie się w jednym miejscu = postój; v90: mocne wygładzanie i prostowanie tylko marszu (rodzaj śladu; rower – prowadzenie; auto – dojście); v89: marsz – proste odcinki prostowane (linie i narożniki); v88: marsz – mocniejsze wygładzanie, postoje z krótkich przerw w zapisie; v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
+const TRK_ALG = 12; // v117: przeliczenie obejmuje też ślady dociągnięte do ścieżek (dociągane od nowa); v116: dryf telefonu przy marszu (odpływ w bok i szybki powrót) zastąpiony prostym połączeniem; v103: v103: marsz – prostowanie w pasie ±3 m (było ±7 m) i uproszczenie 1,5 m (było 3 m), ślad trzyma się zakrętów ścieżek; v96: ostre narożniki ciasnych zakrętów (jazda); v95: jazda – uproszczenie 1 m (gładsze łuki), krzątanie się w jednym miejscu = postój; v90: mocne wygładzanie i prostowanie tylko marszu (rodzaj śladu; rower – prowadzenie; auto – dojście); v89: marsz – proste odcinki prostowane (linie i narożniki); v88: marsz – mocniejsze wygładzanie, postoje z krótkich przerw w zapisie; v85: budynek zaraz po budynku, potwierdzone wyjście, bez zygzaka po postoju, dojazd do bramy; v79: zakręty (przyspieszenie dośrodkowe), zamrożenie pozycji w budynku (v74: kurs GPS 15°, wygładzanie marszu)
 async function trkRecalcCore(t) {
-  // przeliczenie jednego śladu z surowych pomiarów; zwraca {old} albo null (nie da się)
-  if (!t.rid || t.mm || t.omm || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby; dopasowany do ścieżek i edytowany zostaje
-  const rows = await rawLoad(t.rid);
-  const s0 = t.pts[0][3],
-    s1 = t.pts[t.pts.length - 1][3],
+  // przeliczenie jednego śladu z surowych pomiarów; zwraca {old, rematch} albo null (nie da się)
+  // v117 (pkt 336): ślad dociągnięty do ścieżek też – liczony z surowych od nowa, a dociągnięcie robi wołający ponownie
+  // (wcześniej pomijany po cichu i poprawki liczenia, np. dryf, go nie obejmowały). Dziury auta (mm.g) zostają jak były.
+  if (!t.rid || t.omm || (t.mm && (t.mm.g || !t.mm.o)) || t.pts.some(q => q[4] === 1)) return null; // dorysowany kawałek zniknąłby; edytowany zostaje
+  const base = t.mm ? t.mm.o : t,
+    rows = await rawLoad(t.rid);
+  const s0 = base.pts[0][3],
+    s1 = base.pts[base.pts.length - 1][3],
     sh = (t.st - (t.rst || t.st)) / 1000, // ślad po podziale ma inny początek niż nagranie
     part = rows.filter(r => r[0] - sh >= s0 - 3 && r[0] - sh <= s1 + 3).map(r => [r[0] - sh, ...r.slice(1)]),
     cov = part.length ? (part[part.length - 1][0] - part[0][0]) / Math.max(1, s1 - s0) : 0;
   if (cov < 0.8) return null; // surowe pomiary tylko z części śladu (np. po scaleniu)
   const np = trkProcess(part, {eco: t.eco, act: t.a});
   if (!np || np.length < 2) return null;
-  const old = {pts: t.pts, sg: t.sg, alg: t.alg};
-  t.sg = trkProcessSg(t.pts, t.sg, np);
+  const old = {pts: t.pts, sg: t.sg, alg: t.alg, ...(t.mm ? {mm: t.mm} : {})},
+    rematch = !!t.mm;
+  t.sg = trkProcessSg(base.pts, base.sg, np);
   t.pts = np;
+  delete t.mm;
   t.alg = TRK_ALG;
   t.up = Date.now();
-  return {old};
+  return {old, rematch};
 }
 async function trkAlgAsk() {
   if (REC) return;
@@ -37030,7 +37088,7 @@ async function trkAlgAsk() {
     asked = +(localStorage.getItem('omm-alg-pytanie') || 0);
   } catch (e) {}
   if (asked >= TRK_ALG) return;
-  const list = TRK.items.filter(t => t.rid && !t.omm && (t.alg || 1) < TRK_ALG && !t.pts.some(q => q[4] === 1)); // v98: edytowanych nie przeliczamy
+  const list = TRK.items.filter(t => t.rid && !t.omm && !(t.mm && t.mm.g) && (t.alg || 1) < TRK_ALG && !t.pts.some(q => q[4] === 1)); // v98: edytowanych nie przeliczamy; v117: dociągnięte dziury auta też nie
   if (!list.length) return;
   localStorage.setItem('omm-alg-pytanie', String(TRK_ALG));
   const ok = await askYes(
@@ -37038,25 +37096,53 @@ async function trkAlgAsk() {
     _t('Przelicz')
   );
   if (!ok) return;
-  const done = [];
+  const done = [],
+    skip = [];
   for (const t of list) {
     try {
       const r = await trkRecalcCore(t);
-      if (r) done.push([t, r.old]);
-    } catch (e) {}
+      if (r) done.push([t, r.old, r.rematch]);
+      else skip.push(t);
+    } catch (e) {
+      skip.push(t);
+    }
   }
+  // v117 (pkt 336): pominięte – w Diagnostyce z powodem, żeby nic nie znikało po cichu
+  skip.forEach(t =>
+    diag('slad', 'Nie przeliczono: ' + (t.nm || t.id), t.mm && !t.mm.o ? 'brak śladu sprzed dopasowania' : 'surowe pomiary tylko z części śladu albo za mało pomiarów')
+  );
   if (!done.length) return toastMsg(_t('Nie było czego przeliczyć'));
   trkChanged();
-  toastAct(_t('Przeliczono ślady: ') + done.length, _t('Cofnij'), () => {
-    done.forEach(([t, o]) => {
-      t.pts = o.pts;
-      t.sg = o.sg;
-      if (o.alg) t.alg = o.alg;
-      else delete t.alg;
-      t.up = Date.now();
-    });
-    trkChanged();
-  }, 12000);
+  // ślady, które były dociągnięte do ścieżek – dociągnięcie od nowa, już na przeliczonym śladzie
+  const rm = done.filter(x => x[2]);
+  if (rm.length) {
+    toastMsg(_t('Dociągam do ścieżek przeliczone ślady: ') + rm.length);
+    for (const [t] of rm) {
+      try {
+        if (navigator.onLine === false) (t.mmW = 1);
+        else if ((await trkMatch(t, {auto: true})) === false) t.mmW = 1;
+      } catch (e) {}
+    }
+    trkSave();
+  }
+  toastAct(
+    _t('Przeliczono ślady: ') + done.length + (skip.length ? _t(' (pominięte: ') + skip.length + _t(' – powód w Diagnostyce)') : ''),
+    _t('Cofnij'),
+    () => {
+      done.forEach(([t, o]) => {
+        t.pts = o.pts;
+        t.sg = o.sg;
+        if (o.alg) t.alg = o.alg;
+        else delete t.alg;
+        if (o.mm) t.mm = o.mm;
+        else delete t.mm;
+        delete t.mmW;
+        t.up = Date.now();
+      });
+      trkChanged();
+    },
+    12000
+  );
 }
 setTimeout(() => trkAlgAsk(), 20000);
 // ---------- v81: ślady w warstwach swojego rodzaju (Samochód, Rower, Pieszo…) ----------
@@ -46546,14 +46632,20 @@ async function trkMatch(t, opt = {}) {
   if (!auto) setTimeout(() => trkMatchOffer(t), 1200);
   return true;
 }
-function trkMatchUndo(t) {
+async function trkMatchUndo(t) {
   if (!t || !t.mm || !t.mm.o) return;
   t.pts = t.mm.o.pts;
   t.sg = t.mm.o.sg;
   delete t.mm;
   t.up = Date.now();
+  // v117 (pkt 336): ślad sprzed dopasowania policzony starszym sposobem – od razu liczony z surowych pomiarów
+  let re = false;
+  if (t.rid && (t.alg || 1) < TRK_ALG)
+    try {
+      re = !!(await trkRecalcCore(t));
+    } catch (e) {}
   trkChanged();
-  toastMsg(_t('Przywrócono ślad sprzed dopasowania'));
+  toastMsg(re ? _t('Przywrócono ślad sprzed dopasowania – policzony od nowa z surowych pomiarów') : _t('Przywrócono ślad sprzed dopasowania'));
 }
 function dpSimple(P, tol) {
   // Douglas–Peucker na [szer, dł, …] w metrach
