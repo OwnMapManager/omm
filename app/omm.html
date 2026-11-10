@@ -1860,9 +1860,6 @@ button {
 body.work {
   --mdc: #e8710a;
 }
-body.sport {
-  --mdc: var(--accf);
-}
 #lbtn {
   overflow: visible !important;
 }
@@ -7434,34 +7431,7 @@ label.fnet input {
   margin: 0;
 }
 /* tryb Sport (v60): przycisk licznika i ekran licznika (ciemne tło) */
-#sportb {
-  display: none;
-  top: calc(248px + env(safe-area-inset-top, 0px));
-  right: 8px;
-  width: auto;
-  min-width: 48px;
-  padding: 0 14px 0 8px;
-  gap: 4px;
-  border-radius: calc(24px * var(--rk));
-  background: var(--acc);
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
-  font-variant-numeric: tabular-nums;
-}
-html.dark #sportb {
-  color: #202124;
-}
-body.sport #sportb {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-body.sboardon #sportb {
-  display: none;
-}
 /* tablica Sportu i statystyki (v62) – kolory motywu aplikacji, bez kolorowych ikon */
-#sboard,
 #sstat {
   position: fixed;
   inset: 0;
@@ -7506,126 +7476,6 @@ body.sboardon #sportb {
   border: 0;
   padding-left: 2px;
   font-size: 18px;
-}
-.sbtop {
-  margin: 18px 2px 14px;
-}
-.sbtitle {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.3px;
-}
-.sbsub {
-  margin-top: 4px;
-  color: var(--sub);
-  font-size: 15px;
-  font-variant-numeric: tabular-nums;
-}
-.sbact {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  text-align: left;
-  border: 2px solid var(--acc);
-  background: var(--accbg);
-  color: var(--txt);
-  border-radius: calc(18px * var(--rk));
-  padding: 14px 16px;
-  margin-bottom: 14px;
-}
-.sbact .sbaci {
-  display: flex;
-  color: var(--acc);
-}
-.sbact1 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.sbact1 b {
-  font-size: 17px;
-}
-.sbact1 i {
-  font-style: normal;
-  color: var(--sub);
-  font-size: 14px;
-  font-variant-numeric: tabular-nums;
-}
-.sbact > .ic:last-child {
-  color: var(--acc);
-}
-.sbgrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  flex: 1 0 auto;
-  align-content: start;
-}
-.sbtile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: min(22vh, 168px);
-  border: 1px solid var(--line);
-  background: var(--bg);
-  color: var(--txt);
-  border-radius: calc(20px * var(--rk));
-  padding: 14px 8px;
-  box-shadow: var(--sh, 0 1px 3px #0000000f);
-  transition: background 0.15s, transform 0.1s;
-}
-.sbtile:active {
-  background: var(--accbg);
-  transform: scale(0.98);
-}
-.sbtile.on {
-  border: 2px solid var(--acc);
-}
-.sbtile .sbic {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--accbg);
-  color: var(--acc);
-}
-.sbtile .sbic .ic {
-  stroke-width: 1.6;
-}
-.sbtile b {
-  font-size: 18px;
-  font-weight: 650;
-}
-.sbtile i {
-  font-style: normal;
-  font-size: 13.5px;
-  color: var(--sub);
-  font-variant-numeric: tabular-nums;
-}
-.sbrow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-.sbrow .sbwide {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid var(--line);
-  background: var(--bg);
-  color: var(--txt);
-  border-radius: calc(16px * var(--rk));
-  padding: 14px 8px;
-  font-size: 16px;
-  font-weight: 600;
 }
 /* statystyki */
 .ssc {
@@ -7848,146 +7698,6 @@ body.sboardon #sportb {
   font-style: normal;
   font-size: 11.5px;
   color: var(--sub);
-}
-#sport .sback {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 0;
-  background: none;
-  color: #e8eaed;
-  font-size: 16px;
-  font-weight: 600;
-  padding: 6px 8px 6px 0;
-}
-#sport {
-  position: fixed;
-  inset: 0;
-  z-index: 2600;
-  background: #000;
-  color: #e8eaed;
-  display: none;
-  flex-direction: column;
-  padding: calc(10px + env(safe-area-inset-top, 0px)) 12px calc(10px + env(safe-area-inset-bottom, 0px));
-  font-variant-numeric: tabular-nums;
-  user-select: none;
-}
-#sport .stop {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 15px;
-  color: #9aa0a6;
-}
-#sport .snm {
-  color: #e8eaed;
-  font-weight: 600;
-}
-#sport .sbig {
-  text-align: center;
-  margin: 2vh 0 1vh;
-}
-#sport .sbig b {
-  display: block;
-  font-size: min(25vw, 19vh);
-  line-height: 1.05;
-  white-space: nowrap;
-  font-weight: 700;
-  color: #fff;
-}
-#sport.paused .sbig b {
-  color: #fbbc04;
-}
-#sport .sbig span {
-  display: block;
-  margin-top: 6px;
-  font-size: 18px;
-  color: #9aa0a6;
-}
-#sport .sgrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: #222;
-  border-radius: calc(12px * var(--rk));
-  overflow: hidden;
-  flex: 1;
-  min-height: 0;
-}
-#sport .st {
-  background: #000;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 4px;
-}
-#sport .st b {
-  font-size: min(8.5vw, 4.6vh);
-  font-weight: 600;
-  color: #fff;
-  white-space: nowrap;
-}
-#sport .st i {
-  font-style: normal;
-  font-size: 11.5px;
-  color: #9aa0a6;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-}
-#sport .sbt {
-  display: flex;
-  justify-content: space-between;
-  gap: 4px;
-  margin-top: 10px;
-}
-#sport .sbt button {
-  flex: 1;
-  border: 0;
-  background: #202124;
-  color: #e8eaed;
-  border-radius: calc(12px * var(--rk));
-  padding: 8px 2px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  font-size: 10.5px;
-}
-#sport .sbt button.on {
-  background: var(--accf);
-  color: #fff;
-}
-#sport .sbt button.srec.on {
-  background: #b3261e;
-}
-.bguide summary {
-  font-weight: 600;
-  cursor: pointer;
-}
-.bguide .bgrow {
-  display: flex;
-  flex-direction: column;
-  margin: 8px 0;
-  font-size: 13.5px;
-}
-.bguide button {
-  margin-top: 8px;
-}
-.dmsg {
-  margin: -2px 0 12px;
-}
-.odol svg {
-  vertical-align: -4px;
-}
-.odor {
-  margin: 6px 0 8px;
-}
-.odor button {
-  margin-top: 4px;
-}
-#sport .sbt button.danger {
-  color: #f28b82;
 }
 .sset.nset label {
   display: flex;
@@ -8218,12 +7928,6 @@ body:not(.rec) #recb {
   width: 18px;
   height: 18px;
   transform: rotate(180deg);
-}
-#sportb {
-  top: calc(52px + env(safe-area-inset-top, 0px));
-}
-body.rec #sportb {
-  top: calc(232px + env(safe-area-inset-top, 0px));
 }
 .navbar {
   right: 96px;
@@ -9006,7 +8710,7 @@ html.slim .dback { background: rgba(20, 28, 22, 0.32); }
    prawa – narzędzia mapy, dolna – informacje o dniu i miejscach w pobliżu. Okienka punktów i śladów – na dole na mgiełce. ===== */
 html.sk-krawedzie body { font-family: var(--ff), sans-serif; }
 html.sk-krawedzie #bbtn, html.sk-krawedzie #gps, html.sk-krawedzie #prnb, html.sk-krawedzie #compb, html.sk-krawedzie #srchb,
-html.sk-krawedzie #recb, html.sk-krawedzie #sportb, html.sk-krawedzie #lbtn, html.sk-krawedzie #lmenu, html.sk-krawedzie #mchip,
+html.sk-krawedzie #recb, html.sk-krawedzie #lbtn, html.sk-krawedzie #lmenu, html.sk-krawedzie #mchip,
 html.sk-krawedzie #vscope, html.sk-krawedzie #wm, html.sk-krawedzie #recpill, html.sk-krawedzie #reccap, html.sk-krawedzie #recpan { display: none !important; }
 html.sk-krawedzie #tools { display: none !important; }
 html.sk-krawedzie body.skmode #tools { display: flex !important; }
@@ -9502,6 +9206,75 @@ html.sk-krawedzie #dmenu.icm .ipk .ig button { min-height: 58px !important; }
 .gpad.pasjans button.gk { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; }
 .gpad.flipery { grid-template-columns: 1fr 96px 1fr; grid-template-rows: 70px; }
 .gpad.flipery button.gk { font-size: 15px; font-weight: 600; }
+/* ===== v119 (pkt 348): Trening – kafelki parametrów prosto na mapie (każdy na własnym rozmytym tle), ikona dyscypliny u góry,
+   pasek u dołu; mapa między kafelkami ostra i podąża za Tobą ===== */
+.trnbox, #trnbar, #trnchip { --tk: rgba(var(--kfog, 251, 251, 248), 1); --th: var(--kh, #fbfbf8); color: var(--txt, #21251f); font-family: var(--ff, inherit), sans-serif; }
+html.dark:not(.sk-krawedzie) .trnbox, html.dark:not(.sk-krawedzie) #trnbar, html.dark:not(.sk-krawedzie) #trnchip { --kfog: 30, 34, 30; --kh: #171a17; --txt: #e7eae3; --sub: #a7ada2; }
+html.sk-krawedzie.mnight .trnbox, html.sk-krawedzie.mnight #trnbar, html.sk-krawedzie.mnight #trnchip { --kh: #171a17; --kfog: 23, 26, 23; --txt: #e7eae3; --sub: #a7ada2; --krec: #ec8a78; --acc: #a7c58e; }
+html.sk-krawedzie.dark:not(.dimmap):not(.mnight) .trnbox, html.sk-krawedzie.dark:not(.dimmap):not(.mnight) #trnbar, html.sk-krawedzie.dark:not(.dimmap):not(.mnight) #trnchip {
+  --kh: #fbfbf8; --kfog: 251, 251, 248; --txt: #21251f; --sub: #5d6259; --krec: #ad4a39; --acc: #4f6d39; --line: #e2e4dd; }
+.trnbox { position: fixed; inset: 0; z-index: 1000; pointer-events: none; transition: opacity 0.25s; }
+.trnbox.hid { opacity: 0; }
+.trnbox.hid .trnt { pointer-events: none; }
+.trnt { position: absolute; pointer-events: auto; box-sizing: border-box; border-radius: 16px; padding: 6px 10px 7px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; overflow: hidden;
+  background: rgba(var(--kfog, 251, 251, 248), 0.5); -webkit-backdrop-filter: blur(9px) saturate(1.15); backdrop-filter: blur(9px) saturate(1.15);
+  box-shadow: inset 0 0 0 1px rgba(var(--kfog, 251, 251, 248), 0.75), 0 1px 6px rgba(0, 0, 0, 0.14); user-select: none; -webkit-user-select: none; touch-action: none; transition: box-shadow 0.15s, transform 0.15s; }
+.trnt b { display: block; width: max-content; max-width: none; font-weight: 400; font-size: 25px; line-height: 1.05; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
+.trnt i { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 100%; margin-top: 3px; font-style: normal; font-size: 10.5px; line-height: 1.2; letter-spacing: 0.03em; color: var(--sub, #5d6259); overflow: hidden; }
+.trnt.zw b { font-size: 36px; }
+.trnt.zb { align-items: center; }
+.trnt.zb b { font-size: 58px; font-weight: 300; }
+.trnt.zb i { font-size: 12.5px; }
+.trnt.lift { z-index: 5; transform: scale(1.05); box-shadow: inset 0 0 0 2px var(--acc, #4f6d39), 0 8px 22px rgba(0, 0, 0, 0.25); transition: none; }
+.trnbox.paused .trnt b { opacity: 0.55; }
+.trncell { position: fixed; z-index: 999; border-radius: 16px; border: 2px dashed var(--acc, #4f6d39); display: none; pointer-events: none; }
+#trnchip { --ksh: -1.2px -1.2px 0 var(--kh, #fff), 1.2px -1.2px 0 var(--kh, #fff), -1.2px 1.2px 0 var(--kh, #fff), 1.2px 1.2px 0 var(--kh, #fff), 0 0 4px var(--kh, #fff), 0 0 9px var(--kh, #fff);
+  --kshi: drop-shadow(0 0 1px var(--kh, #fff)) drop-shadow(0 0 2px var(--kh, #fff)) drop-shadow(0 0 5px var(--kh, #fff)); }
+#trnchip { position: fixed; z-index: 1001; left: 12px; top: calc(8px + env(safe-area-inset-top, 0px)); display: flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 4px; border: 0; background: none; font-size: 17px; font-weight: 500;
+  text-shadow: var(--ksh, 0 0 2px #fff, 0 0 5px #fff, 0 0 9px #fff); }
+#trnchip .ic { filter: var(--kshi, drop-shadow(0 0 2px #fff)); }
+#trnchip .trnrec { font-size: 12px; font-weight: 500; color: var(--krec, #ad4a39); margin-left: 4px; letter-spacing: 0.04em; }
+#trnchip.paused .trnrec { color: var(--sub, #5d6259); }
+#trnbar { position: fixed; z-index: 1001; left: 0; right: 0; bottom: 0; pointer-events: none; }
+#trnbar .trnfog { position: absolute; left: 0; right: 0; bottom: 0; height: calc(116px + var(--sa, 0px)); pointer-events: none;
+  background: linear-gradient(0deg, rgba(var(--kfog, 251, 251, 248), 0.97) 0, rgba(var(--kfog, 251, 251, 248), 0.92) calc(100% - 52px), rgba(var(--kfog, 251, 251, 248), 0) 100%); }
+#trnbar .trnrow { position: relative; display: flex; align-items: flex-end; justify-content: space-around; gap: 2px; padding: 0 6px calc(10px + var(--sa, 0px)); pointer-events: auto; }
+.trnb { flex: 1 1 0; min-width: 0; max-width: 92px; min-height: 54px; border: 0; background: none; color: var(--txt, #21251f); display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; padding: 4px 0; font: 400 12.5px var(--ff, inherit), sans-serif; }
+.trnb span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+.trnb .ic { color: var(--sub, #5d6259); }
+.trnb.trnend, .trnb.trnend .ic { color: var(--krec, #ad4a39); font-weight: 500; }
+.trnb.trngo { flex: 0 0 auto; max-width: none; flex-direction: row; align-items: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 26px; background: var(--acc, #4f6d39); color: var(--kh, #fff); font-size: 16px; font-weight: 500; margin-bottom: 2px; }
+.trnb.trngo .ic { color: var(--kh, #fff); }
+.trnb.trnx { flex: 0 0 auto; max-width: none; padding: 0 8px; }
+.trnmd { flex: 1 1 auto; min-width: 0; align-self: center; border: 0; background: none; color: var(--sub, #5d6259); display: flex; align-items: center; justify-content: center; gap: 5px; font: 400 12.5px var(--ff, inherit), sans-serif; padding: 6px 2px; }
+.trnmd span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.trnmd .ic { flex: none; }
+html:not(.sk-krawedzie) #trnbar { bottom: calc(60px + var(--sa, 0px)); } /* wygląd „Obecny”: pod paskiem zostaje przycisk ☰ */
+/* w treningu nie ma Nagraj, linijki GPS, nazwy mapy i lupy – kafelki mają miejsce; nagrywanie treningu pokazuje pasek treningu */
+html.sk-krawedzie body.trnon #skgb, html.sk-krawedzie body.trnon #skbl, html.sk-krawedzie body.trnon #skbc, html.sk-krawedzie body.trnon #sktl, html.sk-krawedzie body.trnon #sktr, html.sk-krawedzie body.trnon #skrec, html.sk-krawedzie body.trnon #skbr { display: none !important; }
+body.trnon #recb, body.trnon #reccap, body.trnon #recpill, body.trnon #recpan, body.trnon #mchip { display: none !important; }
+body.sks #trn, body.sks #trnbar, body.sks #trnchip, body.skpopo #trn, body.skpopo #trnbar, body:has(#sheet[style*="flex"]) #trn, body:has(#sheet[style*="flex"]) #trnbar, body:has(#sheet[style*="flex"]) #trnchip,
+body:has(.setdlg) #trn, body:has(.setdlg) #trnbar, body:has(.setdlg) #trnchip, body.navon #trnchip { visibility: hidden; }
+/* v119 (pkt 342): w czasie nagrywania dolny języczek (Panel Dziś) stoi tuż nad paskiem Pauza · Zdjęcie · Zakończ */
+html.sk-krawedzie body.rec #skgb { bottom: calc(72px + var(--sa)); }
+/* v119 (pkt 343): Panel Dziś – daszek w dół nad treścią zamyka panel */
+.skbclose { display: block; margin: 0 auto 2px; width: 56px; height: 30px; border: 0; background: none; color: var(--kpts, #6b7166); padding: 0; }
+.skbclose .ic { display: block; margin: 0 auto; }
+#skinfo { touch-action: pan-x; transition: transform 0.12s; }
+/* v119 (pkt 349 R4): komunikat z ikoną; gdy na dole jest pasek (nagrywanie, trening, nawigacja) – komunikat nad nim, nie na nim */
+.toast.tic { display: flex; align-items: center; gap: 8px; }
+.toast.tic .ic { flex: none; }
+html.sk-krawedzie body.rec .toast, html.sk-krawedzie body.trnon .toast { bottom: calc(76px + var(--sa)); padding-bottom: 12px; background: linear-gradient(0deg, rgba(var(--kfog), 0.96) 0, rgba(var(--kfog), 0.94) calc(100% - 50px), rgba(var(--kfog), 0) 100%); }
+body.trnon:not(.sk-krawedzie) .toast { bottom: calc(96px + var(--sa)); }
+/* v119 (pkt 344, 348): w Śladach – zaplanowane trasy i statystyki treningów */
+.trxr { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 46px; border: 0; border-bottom: 1px solid var(--line); background: none; color: var(--txt); padding: 6px 12px; font: inherit; font-size: 15px; text-align: left; }
+.trxr .ic { flex: none; color: var(--sub); }
+.trxr .trxn { flex: 1; min-width: 0; }
+.trxr .trxc { color: var(--sub); font-size: 13px; font-variant-numeric: tabular-nums; }
+.trxr .trxv { color: var(--sub); font-size: 18px; }
+.trnsd { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.trnsl { display: flex; flex-direction: column; gap: 2px; }
+.trnsl > button { margin-top: 8px; align-self: flex-start; }
 </style></head><body>
 <div id="map"></div>
 <div id="skhud"></div>
@@ -9518,7 +9291,6 @@ html.sk-krawedzie #dmenu.icm .ipk .ig button { min-height: 58px !important; }
 <button class="ib" id="compb" title="Północ u góry" aria-label="Północ u góry"></button>
 <button class="ib" id="srchb" title="Szukaj: obiekty, ślady, adresy, współrzędne"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/></svg></button>
 <button class="ib" id="recb" title="Nagrywanie śladu GPS"></button>
-<button class="ib" id="sportb" title="Licznik treningu"></button>
 <div id="recpill"><button id="rpp" title="Pauza"></button><button id="rpf" title="Zdjęcie na trasie"></button><button id="rpt" title="Punkt na trasie (ikona, opis, zdjęcie)"></button><button id="rpb" title="Powrót do startu po nagrywanym śladzie"></button><button id="rpc" title="Zwiń przyciski"></button></div>
 <div id="reccap"><span class="rdot"></span><button id="rectx" title="Panel na żywo"><b id="rect"></b><i id="recs"></i></button><button id="recst" title="Zakończ nagrywanie"><i></i></button></div>
 <div id="recpan"><div id="recgrid"></div><div id="recll"></div><div id="recbt"></div></div>
@@ -9578,6 +9350,61 @@ const LANG = (() => {
 const LOC = LANG === 'pl' ? 'pl-PL' : /^en-/i.test(navigator.language || '') ? navigator.language : 'en-GB';
 // prettier-ignore
 const EN = {
+  "Podkład, Moja pozycja, Informacje GPS, Północ u góry, a niżej Zdjęcie, Punkt, Rysuj, Zmierz i Zaplanuj trasę. Każde polecenie przestawisz, przytrzymując je.": "Base map, My position, GPS info, North up, and below Photo, Point, Draw, Measure and Plan a route. Press and hold any command to move it.",
+  "Menu → Trening: kafelki z prędkością, dystansem i czasem prosto na mapie, a pod nimi Ty na mapie. Ikona u góry zmienia dyscyplinę, przytrzymanie kafelka go przenosi. Statystyki treningów są w Śladach.": "Menu → Workout: tiles with speed, distance and time right on the map, with you on the map beneath them. The icon at the top changes the discipline, pressing and holding a tile moves it. Workout statistics are in Tracks.",
+  "Co najmniej jedna dyscyplina zostaje": "At least one discipline stays",
+  "Co widać w czasie treningu – osobno dla każdej dyscypliny. Na mapie: przytrzymaj kafelek i przeciągnij, aby go przenieść; przytrzymaj bez ruchu – rozmiar, inny parametr, usuń.": "What you see during a workout – separately for each discipline. On the map: press, hold and drag a tile to move it; press and hold without moving – size, another value, remove.",
+  "Dodaj kafelek": "Add a tile",
+  "Dodaj kafelek…": "Add a tile…",
+  "Dotknij, aby wrócić do OMM.": "Tap to return to OMM.",
+  "Duży": "Large",
+  "Dzienny cel kroków…": "Daily step goal…",
+  "Ekran przygasa – dotknij, aby rozjaśnić": "Screen dims – tap to brighten",
+  "Ekran stale jasny": "Screen always bright",
+  "Ekran w czasie treningu": "Screen during a workout",
+  "Interwały i cel tempa…": "Intervals and pace target…",
+  "Jak zwykle w telefonie": "As usual on the phone",
+  "Kafelki na mapie": "Tiles on the map",
+  "Licznik i zapis śladu (ślad trafia do Śladów → Sport)": "Counter and track recording (the track goes to Tracks → Sport)",
+  "Liczą treningi z OMM (zaimportowane ślady się nie wliczają – ich sumy są w Śladach → Treningi). Pozostałe dyscypliny pojawią się tu po pierwszym treningu.": "They count workouts from OMM (imported tracks are not included – their totals are in Tracks → Workouts). Other disciplines appear here after the first workout.",
+  "Mały": "Small",
+  "Na ekranie nie ma już miejsca – usuń albo zmniejsz inny kafelek.": "There is no more room on the screen – remove or shrink another tile.",
+  "Na ekranie nie ma miejsca na większy kafelek – zmniejsz albo usuń inny.": "There is no room for a larger tile – shrink or remove another one.",
+  "OMM liczy trening": "OMM is counting a workout",
+  "Odznacz te, których nie uprawiasz – nie będzie ich w menu zmiany dyscypliny; strzałki zmieniają kolejność. Ślady i statystyki ukrytych dyscyplin zostają.": "Untick the ones you do not do – they will not be in the discipline menu; the arrows change the order. Tracks and statistics of hidden disciplines stay.",
+  "Okrążenie teraz": "Lap now",
+  "Pokaż tu inny parametr…": "Show another value here…",
+  "Prywatny albo Praca. Praca ma osobne mapy, ślady i narzędzia do szkiców. Trening (rower, bieg, marsz, trekking, jeździectwo, rolki) uruchamiasz z Menu → Trening – kafelki z parametrami są wtedy prosto na mapie.": "Private or Work. Work has separate maps, tracks and sketch tools. Start a workout (bike, running, walking, trekking, horse riding, inline skating) from Menu → Workout – its tiles are then right on the map.",
+  "Przygaszany – dotknięcie rozjaśnia na 15 s": "Dimmed – a tap brightens it for 15 s",
+  "Przywrócono kafelki: ": "Tiles restored: ",
+  "Przywróć kafelki fabryczne": "Restore factory tiles",
+  "Prędkość ": "Speed ",
+  "Sport nie jest już osobnym trybem: Menu → Trening pokazuje kafelki prosto na mapie. Statystyki treningów i zaplanowane trasy są teraz w Śladach.": "Sport is no longer a separate mode: Menu → Workout shows tiles right on the map. Workout statistics and planned routes are now in Tracks.",
+  "Stale jasny": "Always bright",
+  "Start (z nagrywaniem)": "Start (with the recording)",
+  "Start treningu": "Workout start",
+  "Start. ": "Start. ",
+  "Statystyki treningów": "Workout statistics",
+  "Szeroki": "Wide",
+  "Tempo min/km": "Pace min/km",
+  "Tempo min/mi": "Pace min/mi",
+  "Trening zapisany w statystykach (Ślady → Treningi)": "Workout saved in statistics (Tracks → Workouts)",
+  "Treningi – statystyki": "Workouts – statistics",
+  "Tylko licznik – jak licznik rowerowy, bez śladu": "Counter only – like a bike computer, no track",
+  "Uruchom ponownie": "Restart",
+  "Usuń z mapy": "Remove from the map",
+  "W obu przypadkach licznik liczy także przy zgaszonym ekranie. Trening kończy się razem z nagrywaniem śladu. Wybór zmienisz też przed startem – napis obok przycisku Start.": "Either way the counter keeps counting with the screen off. The workout ends together with the track recording. You can also change it before the start – the line next to the Start button.",
+  "Wszystkie parametry są już na mapie": "All values are already on the map",
+  "Zamiast: ": "Instead of: ",
+  "Zapis śladu, ekran, kafelki, dyscypliny, kalorie, głos": "Track recording, screen, tiles, disciplines, calories, voice",
+  "Zmień dyscyplinę": "Change the discipline",
+  "Zmień: zapis śladu albo tylko licznik": "Change: track recording or counter only",
+  "Zostaw co najmniej jeden kafelek": "Keep at least one tile",
+  "licznik": "counter",
+  "tylko licznik, bez śladu": "counter only, no track",
+  "z zapisem śladu": "with track recording",
+  "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  "✅ Kopia przywrócona. Część ustawień zadziała po ponownym uruchomieniu.": "✅ Backup restored. Some settings take effect after a restart.",
   // v115
   " jest skopiowany: wklej go jako odbiorcę.": " is copied: paste it as the recipient.",
   " nie pasuje do śladu – brak daty i miejsca albo zrobione w innym czasie i daleko od trasy (np. zdjęcia przysłane komunikatorem tracą te dane).\n\nCo z nimi zrobić?": " do not fit the track – no date and place, or taken at another time and far from the route (e.g. photos sent via a messenger lose this data).\n\nWhat should I do with them?",
@@ -9623,7 +9450,7 @@ const EN = {
   "Przywrócić fabryczny układ poleceń dla trybu ": "Restore the factory command layout for the mode ",
   "Przywrócono układ fabryczny": "Factory layout restored",
   "Przywróć układ fabryczny": "Restore the factory layout",
-  "Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy samej krawędzi ok. 2 s, a wróci. Prywatny (i Sport) oraz Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.": "An empty panel disappears together with its tab – hold a command at the very edge for about 2 s and it comes back. Private (and Sport) and Work have separate layouts. Factory layout: Settings → Appearance.",
+  "Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy samej krawędzi ok. 2 s, a wróci. Prywatny i Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.": "An empty panel disappears together with its tab – hold a command at the very edge for about 2 s and it comes back. Private and Work have separate layouts. Factory layout: Settings → Appearance.",
   "Pusty panel znika – przytrzymaj polecenie przy samej krawędzi ekranu ok. 2 s, a wróci.": "An empty panel disappears – hold a command at the very screen edge for about 2 s and it comes back.",
   "Stół do flipera z trzema odbijaczami, procami i torami u góry. Przytrzymaj „Wystrzel” (albo prawą połowę ekranu) i puść – kulka wylatuje tym mocniej, im dłużej trzymasz. Lewy i prawy fliper: przyciski na dole albo lewa i prawa połowa ekranu. Przejedź przez wszystkie trzy tory u góry – mnożnik punktów rośnie. Masz trzy kulki.": "A pinball table with three bumpers, slingshots and lanes at the top. Hold “Launch” (or the right half of the screen) and let go – the longer you hold, the harder the ball flies. Left and right flipper: the buttons at the bottom or the left and right half of the screen. Roll through all three top lanes – the score multiplier grows. You have three balls.",
   "Tej karty nie ma gdzie położyć": "This card has nowhere to go",
@@ -9703,7 +9530,6 @@ const EN = {
   "Menu: mapy, ślady, zdjęcia, ustawienia": "Menu: maps, tracks, photos, settings",
   "przytrzymaj, aby przesunąć": "press and hold to move",
   "Informacje GPS": "GPS info",
-  "Polanka": "Glade",
   "Pogoda…": "Weather…",
   "Prognoza pogody": "Weather forecast",
   "Pogoda – prognoza": "Weather – forecast",
@@ -9826,8 +9652,6 @@ const EN = {
   "ślady, zdjęcia i punkty dzień po dniu": "tracks, photos and points day by day",
   "GPS wyłączony": "GPS off",
   "n.p.m.": "a.s.l.",
-  "wschód": "sunrise",
-  "zachód": "sunset",
   "Mapa i krawędzie": "Map and edges",
   "Mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie. Reszta chowa się za krawędziami ekranu – języczki ‹ › przy lewej, prawej i dolnej krawędzi pokazują, gdzie dotknąć.": "The map fills the screen and instead of buttons there are words right on the map. Everything else hides behind the screen edges – the ‹ › tabs at the left, right and bottom edge show where to tap.",
   "Lewa krawędź – listwa": "Left edge – rail",
@@ -10449,7 +10273,6 @@ const EN = {
   "Podkład jak na mapie": "Base map as on the map",
   "Bez podkładu": "No base map",
   " – w animacji OSM": " – OSM in the animation",
-  "Podkład": "Base map",
   "Pokazywać w animacji": "Show in the animation",
   "Mniej": "Less",
   "Więcej": "More",
@@ -10799,7 +10622,6 @@ const EN = {
   "OMM nawiguje do celu": "OMM is navigating",
   " – dotknij, aby wrócić do OMM.": " – tap to return to OMM.",
   "Moją pozycję (GPS) – od razu ostatni widok, po złapaniu GPS przelot na Ciebie": "My position (GPS) – the last view right away, then a fly-over to you once GPS has a fix",
-  "Północ u góry": "North up",
   "⚠ Nie udaje się zapisywać nagrania w pamięci telefonu (": "⚠ The recording can't be saved in the phone's storage (",
   ").\n\nNagrywanie trwa dalej, a ślad zapisuje się też do pliku awaryjnego „": ").\n\nRecording continues, and the track is also saved to the emergency file “",
   "” w folderze OMM. Zwolnij trochę miejsca w telefonie.": "” in the OMM folder. Free up some space on the phone.",
@@ -11022,7 +10844,6 @@ const EN = {
   "Czas jazdy": "Riding time",
   "Dane do szacowania kalorii": "Data for the calorie estimate",
   "Dystans całkowity roweru zostanie wyzerowany na zawsze.\nWpisz ZERUJ, aby potwierdzić:": "The bike's total distance will be reset for good.\nType RESET to confirm:",
-  "Dziś": "Today",
   "Dziś: ": "Today: ",
   "Ekran licznika gaśnie normalnie": "The bike computer screen turns off as usual",
   "GPS…": "GPS…",
@@ -11882,7 +11703,6 @@ const EN = {
   "Nadaj nazwy automatycznie": "Name automatically",
   "Nadaj nazwy automatycznie (": "Name automatically (",
   "Nadaję nazwy… ": "Naming… ",
-  "Nagraj": "Record",
   "Nagraj ślad": "Record a track",
   "Nagrywa": "Recording",
   "Nagrywaj dalej": "Keep recording",
@@ -12225,7 +12045,6 @@ const EN = {
   "Skopiuj ręcznie:": "Copy manually:",
   "Stan": "Status",
   "Start śladu": "Track start",
-  "Statystyki": "Statistics",
   "Sterowanie: przyciski na dole (dwa kciuki) albo palcem po planszy.": "Controls: buttons at the bottom (two thumbs) or your finger on the board.",
   "Strzał!": "Fire!",
   "Strzałka": "Arrow",
@@ -12447,7 +12266,6 @@ const EN = {
   "Wyłączony": "Off",
   "Wyłączyć szyfrowanie kopii?\n\nNastępne kopie będą zwykłymi plikami ZIP, które może odczytać każdy, kto je zdobędzie. Już zaszyfrowane kopie nadal wymagają hasła.": "Turn off backup encryption?\n\nThe next backups will be plain ZIP files that anyone who gets them can read. Already encrypted backups still need the password.",
   "Wyżej": "Up",
-  "Wznów": "Resume",
   "Wznów nagrywanie": "Resume recording",
   "Włączona – postój dłuższy niż 2 min nie liczy się do czasu śladu": "On – a stop longer than 2 min does not count towards the track time",
   "Włączona: ": "On: ",
@@ -12465,7 +12283,6 @@ const EN = {
   "Zachowaj obie": "Keep both",
   "Zachód słońca": "Sunset",
   "Zadaszenie przeciwsłoneczne": "Sunshade",
-  "Zakończ": "Finish",
   "Zakończ bez zapisu": "Finish without saving",
   "Zakończ i zapisz": "Finish and save",
   "Zakończ nawigację": "End navigation",
@@ -12651,7 +12468,6 @@ const EN = {
   "Śr": "Avg",
   "Śr. prędkość poruszania się": "Avg. speed while moving",
   "Śr. prędkość w ruchu": "Avg. moving speed",
-  "Śr. w ruchu": "Avg. moving",
   "Średnia": "Medium",
   "Średnia prędkość": "Average speed",
   "Średnio na ślad": "Average per track",
@@ -12778,7 +12594,6 @@ const EN = {
   " zdjęć, których nie ma już w telefonie": " photos that are no longer on the phone",
   "Brak miejsca w pamięci – kopia nie została przywrócona, obecne dane są bez zmian.": "Not enough storage – the backup was not restored, your current data are unchanged.",
   "✅ Kopia przywrócona": "✅ Backup restored",
-  "Tryb pracy": "Work mode",
   "Twoje mapy, punkty i ślady – grzyby, wycieczki, miejsca.": "Your maps, points and tracks – mushrooms, trips, places.",
   "Osobne mapy i ślady do pracy; szkice: kropki, odcinki, strzałki, numeracja.": "Separate maps and tracks for work; sketches: dots, segments, arrows, numbering.",
   "Osobny widok: licznik treningu, dyscypliny i statystyki. Korzysta z map prywatnych.": "A separate view: workout counter, disciplines and statistics. Uses the private maps.",
@@ -13234,7 +13049,7 @@ const h = (t, c, x) => {
 };
 // v116 (pkt 330): emoji na początku napisu przycisku albo tytułu okna = ikona z pakietu „Tusz z plamką” (jedno miejsce
 // dla całej aplikacji; teksty i słownik EN bez zmian). Emoji gier, ikon punktów i dyscyplin sportu nie są tu mapowane.
-const EMI = {'🗺📊': 'map', '🗺': 'map', '📄': 'dl', '📊': 'stats', '🎬': 'play', '🔍': 'search', '🔎': 'search', '↗': 'share', '🧭': 'nav', '📍': 'pin', '🖼': 'gallery', '📁': 'folder', '📷': 'photo', '💾': 'save', '✎': 'edit', '✕': 'x', '🔗': 'link', '📖': 'book', '📡': 'gps', '🌈': 'color', '⛰': 'stats', '✂': 'tdCut', '⏱': 'clock', '🎯': 'gps', '🔇': 'mute', '🔊': 'snd', '🔒': 'lock', '📅': 'clock', '🌗': 'moon', '⏰': 'clock', '🔔': 'bell', '🔴': 'rec', '👆': 'finger', '🚗': 'car', '🅿': 'car', '🌐': 'globe', '📋': 'copy', '📏': 'ruler', '🚲': 'sp_bike', '🥾': 'sp_walk', '〰️': 'route', '〰': 'route', '⬠': 'tdDraw', '🔤': 'note', '⚠': 'info', '✅': 'check'};
+const EMI = {'🗺📊': 'map', '🗺': 'map', '📄': 'dl', '📊': 'stats', '🎬': 'play', '🔍': 'search', '🔎': 'search', '↗': 'share', '🧭': 'nav', '📍': 'pin', '🖼': 'gallery', '📁': 'folder', '📷': 'photo', '💾': 'save', '✎': 'edit', '✕': 'x', '🔗': 'link', '📖': 'book', '📡': 'gps', '🌈': 'color', '⛰': 'stats', '✂': 'tdCut', '⏱': 'clock', '🎯': 'gps', '🔇': 'mute', '🔊': 'snd', '🔒': 'lock', '📅': 'clock', '🌗': 'moon', '⏰': 'clock', '🔔': 'bell', '🔴': 'rec', '👆': 'finger', '🚗': 'car', '🅿': 'car', '🌐': 'globe', '📋': 'copy', '📏': 'ruler', '🚲': 'sp_bike', '🥾': 'sp_walk', '〰️': 'route', '〰': 'route', '⬠': 'tdDraw', '🔤': 'note', '⚠': 'info', '✅': 'check', '💡': 'bulb_on', '🚶': 'sp_walk', '✓': 'check', '🌳': 'route'};
 const EMI_RE = new RegExp('^(' + Object.keys(EMI).sort((a, b) => b.length - a.length).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\uFE0F?\\s*');
 const emiSplit = x => {
   const m = typeof x === 'string' && EMI_RE.exec(x);
@@ -13448,7 +13263,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v118';
+const APP_VER = 'v119';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -17271,6 +17086,12 @@ function imgTwoWay(url, nm, first = 'web', ms = 25000) {
     });
   });
 }
+// v119 (pkt 347): dziennik w zgłoszeniu „bez położenia” – współrzędne i numery kafli mapy wycięte
+const diagScrub = s =>
+  String(s)
+    .replace(/-?\d{1,3}\.\d{3,}/g, '…')
+    .replace(/\/\d{1,2}\/\d{2,7}\/\d{2,7}/g, '/z/x/y')
+    .replace(/([?&](?:bbox|lat|lon|lng|x|y|center|point)=)[^&\s]*/gi, '$1…');
 function diagReport() {
   const a = diagAll(),
     fd = t => new Date(t).toLocaleString('pl-PL', {day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit'});
@@ -17367,7 +17188,7 @@ async function reportDlg(t) {
     txt = (ta.value.trim() || _t('(bez opisu)')) + '\n\n— \n' + dev + (t ? '\n' + _t('Ślad: ') + (t.nm || '') + ' · ' + new Date(t.st || Date.now()).toLocaleString() : '');
   if (!t) {
     // ogólne: poczta z wpisanym adresem i tematem; dziennik doklejony na końcu (skrócony)
-    const log = lgc.checked && diagAll().length ? '\n\n' + _t('Dziennik błędów:') + '\n' + diagReport().split('\n\n').slice(1).join('\n\n').slice(0, 3500) : '';
+    const log = lgc.checked && diagAll().length ? '\n\n' + _t('Dziennik błędów:') + '\n' + diagScrub(diagReport().split('\n\n').slice(1).join('\n\n')).slice(0, 3500) : '';
     const url = 'mailto:' + APP_MAIL + '?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(txt + log);
     try {
       window.open(url, '_system') || (location.href = url);
@@ -17381,7 +17202,7 @@ async function reportDlg(t) {
   const nm = (trkFile(t) || 'slad') + '.gpx',
     gpx = trkGPX([t], t.nm, null, true),
     files = [[nm, gpx]];
-  if (lgc.checked && diagAll().length) files.push(['OMM-dziennik-' + APP_VER + '.txt', diagReport()]);
+  if (lgc.checked && diagAll().length) files.push(['OMM-dziennik-' + APP_VER + '.txt', diagScrub(diagReport())]);
   try {
     await navigator.clipboard.writeText(APP_MAIL);
   } catch (e) {}
@@ -18783,7 +18604,7 @@ function cleanDB(d) {
   ['cur', 'curW'].forEach(k => {
     if (own(d, k) && d[k] != null) d[k] = remap.get(String(d[k])) || (okId(d[k]) ? d[k] : undefined);
   });
-  if (own(d, 'mode') && d.mode !== 'work' && d.mode !== 'sport') d.mode = 'priv'; // v60: także tryb Sport
+  if (own(d, 'mode') && d.mode !== 'work') d.mode = 'priv'; // v119 (pkt 348): tryb Sport (v60–v118) → Prywatny
   return d;
 }
 const TRK_CM = ['jedn', 'predkosc', 'wysokosc'];
@@ -20953,7 +20774,8 @@ function settingsObj() {
 // v118 (pkt 340): ustawienia aplikacji w kopii – wszystko „omm-…” z pamięci przeglądarki poza tym, co należy do tego
 // telefonu albo chwili: ostatnie położenie i pogoda, blokada i szyfrowanie, wybrane foldery i Dysk, trwające nagrywanie
 // i plan, stan kopii, podpowiedzi, dziennik diagnostyczny, pamięci podręczne
-const PREFS_SKIP = /^omm-(poz|slonce-ll|pogoda|lock|szyfr|dysk-|folder|diag|autokopia-(blad|stan|zmiany)|alg-pytanie|set-open|tut|tip|pierwszy|start$|zmiany|kopia-(reczna|cz|pyt)|plan$|plan-szkic|rec$|sport-przejazd|sport-log|park|bdlcap-|v66-|orto-wariant|imp$|backup|kosz|vt-|zdj-hosty|anim-q|auto-hist)/;
+// v119 (pkt 347): bez ostatniego miejsca auta i pytań o nie (omm-auto-miejsce, omm-auto-pyt) – to położenie
+const PREFS_SKIP = /^omm-(auto-miejsce|auto-pyt|poz|slonce-ll|pogoda|lock|szyfr|dysk-|folder|diag|autokopia-(blad|stan|zmiany)|alg-pytanie|set-open|tut|tip|pierwszy|start$|zmiany|kopia-(reczna|cz|pyt)|plan$|plan-szkic|rec$|sport-przejazd|sport-log|park|bdlcap-|v66-|orto-wariant|imp$|backup|kosz|vt-|zdj-hosty|anim-q|auto-hist)/;
 function prefsExport() {
   const o = {};
   try {
@@ -21323,6 +21145,11 @@ function toKMLAll() {
   });
   return s + '</Document></kml>';
 }
+// v119 (pkt 349 R5): część ustawień z kopii (wygląd, układ, język, jednostki) działa w pełni dopiero po ponownym uruchomieniu
+function restoredMsg(withSet) {
+  if (!withSet || !withSet.prefs) return toastMsg(_t('✅ Kopia przywrócona'));
+  toastAct(_t('✅ Kopia przywrócona. Część ustawień zadziała po ponownym uruchomieniu.'), _t('Uruchom ponownie'), () => location.reload(), 12000);
+}
 function applySettings(st) {
   if (!st) return;
   try {
@@ -21528,7 +21355,7 @@ async function restoreBuf(buf) {
       if (settings) applySettings(settings);
       render();
       sheet();
-      return void toastMsg(_t('✅ Kopia przywrócona'));
+      return void restoredMsg(settings);
     }
     // każda wersja kopii przechodzi przez tę samą walidację (identyfikatory, kolory, teksty, zdjęcia)
     r = Object.assign(r, cleanDB({maps: r.maps, cur: r.cur, curW: r.curW}));
@@ -21638,7 +21465,7 @@ async function restoreBuf(buf) {
     sheet();
     if ((r.multi || part) && settings) applySettings(settings);
     if (part || !r.multi) fitSmart(P.items);
-    if (ok) toastMsg(_t('✅ Kopia przywrócona'));
+    if (ok) restoredMsg((r.multi || part) && settings);
   } catch (err) {
     tell(err.message);
   }
@@ -22004,7 +21831,7 @@ function mchipUpd() {
   const b = $('mchip');
   if (!b || !P || !trkUsable()) return; // napis uzupełni się po wczytaniu śladów
   const k = viewKind(),
-    md = isW() ? _t('Praca') : isSport() ? _t('Sport') : _t('Prywatny'),
+    md = isW() ? _t('Praca') : _t('Prywatny'),
     nm = k === 'trk' ? _t('Ślady: ') + trkCur().name : _t('Mapa: ') + (P.plan ? _t('Zaplanowane trasy') : P.name),
     txt = nm + ' – ' + md;
   if (b.dataset.t !== txt) {
@@ -22027,7 +21854,7 @@ function menuOpen(k) {
   if (k === 'ust') return settingsDlg();
   if (k === 'tryb') return;
   if (k === 'mapy') {
-    if (TAB !== 'mapy' && TAB !== 'plan') TAB = 'mapy';
+    TAB = 'mapy'; // v119 (pkt 344): z zaplanowanych tras (są w Śladach) – do zwykłych map
     viewSetKind('map');
   } else if (k === 'slady') {
     TAB = 'slady';
@@ -22073,14 +21900,15 @@ function lmenuBuild() {
     ['mapy', 'map', _t('Mapy')],
     ['slady', 'route', _t('Ślady')],
     ['foto', 'gallery', _t('Zdjęcia')],
-    ['tryb', isW() ? 'work' : isSport() ? 'sport' : 'home', _t('Tryb')],
+    ['trening', 'sport', _t('Trening')],
+    ['tryb', isW() ? 'work' : 'home', _t('Tryb')],
     ['ust', 'gear', _t('Ustawienia')],
     ...(polankaOn() ? [['gry', 'games', _t('Gry')]] : []) // v116 (pkt 323): odkryte gry – też w wyglądzie „Obecny”
   ].forEach(([k, ik, t]) => {
     const b = h('button', 'lmb');
     b.innerHTML = ico(ik, 21) + '<span>' + esc(t) + '</span>';
     b.title = t;
-    b.onclick = () => (k === 'tryb' ? modeSwitch(b) : k === 'gry' ? gameOpen() : menuOpen(k));
+    b.onclick = () => (k === 'tryb' ? modeSwitch(b) : k === 'gry' ? gameOpen() : k === 'trening' ? (lmenuToggle(false), trnOpen()) : menuOpen(k));
     m.append(b);
   });
 }
@@ -22134,8 +21962,8 @@ function sklSA() {
 const sklTop = () => sklSA().t + 14;
 const sklRows = () => Math.max(6, Math.floor((innerHeight - sklTop() - sklSA().b - 84) / SKL_ROWH));
 const sklY = r => sklTop() + r * SKL_ROWH;
-const SKL_M0 = ['mapy', 'slady', 'zdjecia', 'tryb', 'ustaw'],
-  SKL_T0 = ['podklad', 'poz', 'polnoc', null, 'foto', 'punkt', 'rysuj', 'zmierz'];
+const SKL_M0 = ['mapy', 'slady', 'zdjecia', 'trening', 'tryb', 'ustaw'],
+  SKL_T0 = ['podklad', 'poz', 'gpsi', 'polnoc', null, 'foto', 'punkt', 'rysuj', 'zmierz', 'plan'];
 function sklCenter(ids) {
   const N = sklRows(),
     o = Math.max(0, Math.floor((N - ids.length) / 2));
@@ -22150,10 +21978,13 @@ function sklCmds() {
     mapy: {ic: 'map', t: _t('Mapy'), fn: sh('mapy')},
     slady: {ic: 'route', t: _t('Ślady'), fn: sh('slady')},
     zdjecia: {ic: 'gallery', t: _t('Zdjęcia'), fn: sh('foto')},
-    tryb: {ic: isW() ? 'work' : isSport() ? 'sport' : 'home', t: _t('Tryb pracy'), fn: () => modeSwitch(sklAnchor())},
+    trening: {ic: 'sport', t: _t('Trening'), fn: () => trnOpen()}, // v119 (pkt 348)
+    tryb: {ic: isW() ? 'work' : 'home', t: _t('Tryb pracy'), fn: () => modeSwitch(sklAnchor())},
     ustaw: {ic: 'gear', t: _t('Ustawienia'), fn: () => settingsDlg()},
     podklad: {ic: 'layer', t: _t('Podkład'), fn: () => $('bbtn').onclick()},
     poz: {ic: 'gps', t: _t('Moja pozycja'), fn: () => $('gps').onclick()},
+    gpsi: {ic: 'info', t: _t('Informacje GPS'), fn: () => gpsInfoDlg()}, // v119 (pkt 349 R3): przytrzymanie przenosi polecenie
+    plan: {ic: 'plan', t: _t('Zaplanuj trasę'), fn: () => $('planb').onclick()}, // v119 (pkt 349 R2)
     polnoc: {ic: 'compn', t: _t('Północ u góry'), fn: () => map.setBearing && map.setBearing(0)},
     foto: {ic: 'photo', t: _t('Zdjęcie'), fn: () => (REC ? recFoto() : fotoHere())},
     punkt: {ic: 'pin', t: _t('Punkt'), fn: () => (REC ? recPin() : openMenu('icons', sklAnchor()))},
@@ -22179,14 +22010,17 @@ function sklGet() {
   const seen = new Set(),
     ok = i => i && C[i.id] && !seen.has(i.id) && seen.add(i.id);
   L = {m: L.m.filter(ok).map(i => ({...i})), t: L.t.filter(ok).map(i => ({...i})), s: L.s.filter(ok).map(i => ({...i}))};
-  // polecenia, których jeszcze nie ma w układzie (np. Gry po odkryciu) – na koniec panelu Menu
+  // polecenia, których jeszcze nie ma w układzie (np. Gry po odkryciu, nowe w wersji) – na koniec swojego panelu
+  // (narzędzia mapy do Narzędzi, reszta do Menu; pusty – ukryty – panel: do drugiego)
   Object.keys(C).forEach(id => {
     if (seen.has(id)) return;
     seen.add(id);
-    const used = new Set(L.m.map(i => i.r));
-    let r = L.m.length ? Math.max(...L.m.map(i => i.r)) + 1 : Math.floor(N / 2);
+    let k = SKL_T0.includes(id) ? 't' : 'm';
+    if (!L[k].length && L[k === 't' ? 'm' : 't'].length) k = k === 't' ? 'm' : 't';
+    const used = new Set(L[k].map(i => i.r));
+    let r = L[k].length ? Math.max(...L[k].map(i => i.r)) + 1 : Math.floor(N / 2);
     while (used.has(r) && r < N - 1) r++;
-    L.m.push({id, r: Math.min(r, N - 1)});
+    L[k].push({id, r: Math.min(r, N - 1)});
   });
   // wiersze w granicach ekranu i bez nakładania (np. po obróceniu telefonu)
   ['m', 't'].forEach(k => {
@@ -22239,7 +22073,7 @@ function sklCellAt(x, y, g) {
   g = g || sklGrid();
   return {c: Math.max(0, Math.min(g.cols - 1, Math.floor((x - g.x0) / g.cw))), r: Math.max(0, Math.min(g.rows - 1, Math.floor((y - g.y0) / g.ch)))};
 }
-const SKL_BLOCK = ['#sktl', '#sktr', '#skbl', '#skbc', '#sktab-m', '#sktab-t', '#skgb', '.leaflet-control-scale', '#skrec'];
+const SKL_BLOCK = ['#sktl', '#sktr', '#skbl', '#skbc', '#sktab-m', '#sktab-t', '#skgb', '.leaflet-control-scale', '#skrec > .skt']; // v119: przyciski nagrywania, nie cała warstwa
 function sklBlocked(g) {
   // pola, w których kropla zasłaniałaby napis albo języczek (wg ich rzeczywistego miejsca na tym ekranie)
   g = g || sklGrid();
@@ -22386,6 +22220,7 @@ function sklChips(L) {
   const C = sklCmds(),
     R = 21,
     at = {};
+  L.s = sklLift(L.s);
   L.s.forEach(i => (at[i.c + ',' + i.r] = i));
   let sh = '';
   const gq = sklGrid();
@@ -22426,6 +22261,29 @@ function sklChips(L) {
   });
   $('skhud').append(box);
 }
+// v119 (pkt 342): pasek nagrywania (i pasek treningu) jest stały – kapsuły, które by zasłonił, na ten czas stają w całości tuż
+// nad nim i wracają po zakończeniu (tylko wyświetlanie – zapisany układ się nie zmienia)
+function sklBarTop() {
+  const tb = document.querySelector('#trnbar .trnrow');
+  if (tb && tb.offsetParent) return tb.getBoundingClientRect().top - 4;
+  if (REC && document.body.classList.contains('rec')) return innerHeight - sklSA().b - 74;
+  return null;
+}
+function sklLift(S) {
+  const top = sklBarTop();
+  if (top == null || !S.length) return S;
+  const g = sklGrid(),
+    gid = sklGroups(S),
+    grp = {};
+  S.forEach(i => (grp[gid[i.id]] = grp[gid[i.id]] || []).push(i));
+  const out = [];
+  Object.values(grp).forEach(G => {
+    const low = Math.max(...G.map(i => sklXY(i.c, i.r, g)[1] + 21));
+    const dy = low > top ? Math.ceil((low - top) / g.ch) : 0;
+    G.forEach(i => out.push(dy ? {...i, r: Math.max(0, i.r - dy)} : i));
+  });
+  return out;
+}
 // wiersz polecenia w panelu
 function sklRow(it, k, side, C, close, slideOut) {
   const c = C[it.id],
@@ -22461,7 +22319,7 @@ function sklHelp() {
       '\n• ' +
       _t('do samej krawędzi ekranu (kropla prawie za ekranem) i przytrzymaj ok. 2 s, aż zapełni się pierścień – wysunie się panel z tej strony; tak przeniesiesz polecenie do drugiego panelu. Puścisz wcześniej – kropla zostanie przy krawędzi.') +
       '\n\n' +
-      _t('Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy samej krawędzi ok. 2 s, a wróci. Prywatny (i Sport) oraz Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.')
+      _t('Pusty panel znika razem z języczkiem – przytrzymaj polecenie przy samej krawędzi ok. 2 s, a wróci. Prywatny i Praca mają osobne układy. Układ fabryczny: Ustawienia → Wygląd.')
   );
 }
 // --- przeciąganie
@@ -22778,8 +22636,8 @@ function skUpd() {
   try {
     if (P && trkUsable()) {
       const k = viewKind(),
-        md = isW() ? _t('Praca') : isSport() ? _t('Sport') : _t('Prywatny');
-      $('sktlm').textContent = md + (k === 'trk' ? ' · ' + _t('Ślady') : '');
+        md = isW() ? _t('Praca') : _t('Prywatny');
+      $('sktlm').textContent = md + (k === 'trk' || P.plan ? ' · ' + _t('Ślady') : ''); // v119: zaplanowane trasy są w Śladach
       // v115 (pkt 310): po myślniku aktywna warstwa (tam trafiają nowe punkty) – dotknięcie: wybór innej
       const al = k !== 'trk' && !P.plan ? findL(P.active) : null,
         tx = (k === 'trk' ? trkCur().name : P.plan ? _t('Zaplanowane trasy') : P.name) + '\u0001' + (al ? al.l.name : '');
@@ -22829,18 +22687,37 @@ function skSide(k) {
   const fog = h('div', 'skfog ' + side),
     close = () => skSide(null);
   fog.onclick = close;
+  // v119 (pkt 343): dotknięcie w dowolnym miejscu poza treścią panelu zamyka (wcześniej tylko mgła – przy niskiej mgle
+  // Panelu Dziś dotknięcie mapy nie robiło nic, a panelu nie dało się zamknąć)
+  S.addEventListener('click', e => {
+    if (e.target === S) close();
+  });
   S.append(fog);
-  const go = fn => () => (close(), fn());
-  // wybór z własnym panelem: listwa odjeżdża do krawędzi i znika, a panel wjeżdża na jej miejsce
-  const slide = (box, fn) => () => {
-    box.classList.add('skout');
-    fog.classList.add('skout');
-    setTimeout(() => (close(), fn()), 170);
-  };
   if (k === 'm' || k === 't') {
     // v116 (pkt 331): panel z wierszami wg układu użytkownika
     S.append(sklPanel(k, side, close, fog));
-  } else if (k === 'b') S.append(skInfo(close));
+  } else if (k === 'b') {
+    const inf = skInfo(close);
+    S.append(inf);
+    // v119 (pkt 343): daszek w dół nad panelem (dotknięcie zamyka) i zsunięcie panelu palcem w dół
+    const cv = h('button', 'skbclose');
+    cv.innerHTML = ico('chev', 22);
+    cv.title = _t('Zamknij');
+    cv.setAttribute('aria-label', _t('Zamknij'));
+    cv.onclick = e => (e.stopPropagation(), close());
+    inf.prepend(cv);
+    let y0 = null,
+      x0 = 0;
+    inf.addEventListener('pointerdown', e => ((y0 = e.clientY), (x0 = e.clientX)));
+    inf.addEventListener('pointermove', e => {
+      if (y0 == null) return;
+      const dy = e.clientY - y0;
+      if (Math.abs(e.clientX - x0) > 40) return void (y0 = null);
+      if (dy > 0) inf.style.transform = 'translateY(' + Math.min(dy, 200) + 'px)';
+      if (dy > 90) (y0 = null), eatNextClick(), close();
+    });
+    ['pointerup', 'pointercancel'].forEach(ev => inf.addEventListener(ev, () => ((y0 = null), (inf.style.transform = ''))));
+  }
   document.body.append(S);
   if (k === 'b') skFogB();
   if (k === 'm' || k === 't') skFogFit(S.querySelector('#sklp'), fog, side);
@@ -23870,7 +23747,9 @@ function sheet() {
   if (TAB === 'slady') return trkSheet();
   if (TAB === 'foto') return fotoSheet();
   tabsUi();
-  mtitleSet(_t('Mapa: ') + (P.plan ? _t('Zaplanowane trasy') : P.name), () => mapsPick()); // v105 (pkt 262)
+  // v105 (pkt 262); v119 (pkt 344): zaplanowane trasy są w Śladach – nagłówek prowadzi z powrotem do Śladów
+  if (P.plan) mtitleSet(_t('Ślady · Zaplanowane trasy'), () => menuOpen('slady'));
+  else mtitleSet(_t('Mapa: ') + P.name, () => mapsPick());
   updMode();
   updSel();
   const el = $('list'),
@@ -24830,19 +24709,7 @@ $('mapb').onclick = () => {
       )
     )
   );
-  // v102: zapisane trasy (z „Zapisz” na karcie trasy / w planerze) – zwykła pozycja na liście map
-  const pm = planMap(),
-    pOn = TAB === 'plan';
-  if (pm.items.length || pOn)
-    m.append(
-      B((pOn ? '● ' : '○ ') + _t('Zaplanowane trasy') + '  (' + pm.items.length + ')', () => {
-        m.style.display = 'none';
-        TAB = 'plan';
-        ctxSync();
-        sheet();
-        viewApply();
-      }, pOn ? 'on' : '')
-    );
+  // v119 (pkt 344): „Zaplanowane trasy” przeniesione do Śladów (sekcja nad warstwami śladów)
   m.append(h('div', 'sep'));
   m.append(
     BI('edit', _t('Zmień nazwę tej mapy'), () => {
@@ -24980,10 +24847,9 @@ $('seldel').onclick = async () => {
 function updMode() {
   const ib = document.querySelector('[data-g="icons"]');
   if (ib) ib.style.display = isW() ? 'none' : '';
-  const b = $('modeb'),
-    sp = isSport();
-  // v102 (pkt 253): „Tryb pracy: Prywatny / Praca / Sport” na kolorowym pasku panelu
-  b.innerHTML = ico(isW() ? 'work' : sp ? 'sport' : 'home', 17) + '<span>' + _t('Tryb pracy: ') + (isW() ? _t('Praca') : sp ? _t('Sport') : _t('Prywatny')) + ' ▾</span>';
+  const b = $('modeb');
+  // v102 (pkt 253): „Tryb pracy: Prywatny / Praca” na kolorowym pasku panelu (v119: Sport to już nie tryb, tylko „Trening”)
+  b.innerHTML = ico(isW() ? 'work' : 'home', 17) + '<span>' + _t('Tryb pracy: ') + (isW() ? _t('Praca') : _t('Prywatny')) + ' ▾</span>';
   document.body.classList.toggle('work', isW());
   try {
     mchipUpd();
@@ -24993,8 +24859,6 @@ function updMode() {
   try {
     lmenuBuild(); // v105: ikona „Tryb” zgodna z trybem
   } catch (e) {}
-  document.body.classList.toggle('sport', sp); // tryb Sport: przycisk powrotu do licznika / tablicy na mapie
-  if (sp && typeof sportPill === 'function') sportPill();
   try {
     tsBuild(); // v76: skróty zależą od trybu (Praca – inne rysowanie); przy starcie – później, gdy lista gotowa
   } catch (e) {}
@@ -25033,15 +24897,15 @@ function dropMenu(anchor, title, items) {
 }
 async function modeSwitch(anchor, pick) {
   // v113 (pkt 286): pick – tryb wybrany już w listwie wyglądu „Mapa i krawędzie” (bez listy rozwijanej)
-  // v60: Prywatny / Praca / Sport; v105 (pkt 262): prosta lista rozwijana w dół zamiast okna z kafelkami
-  const curM = isW() ? 'work' : isSport() ? 'sport' : 'priv';
+  // v60: Prywatny / Praca / Sport; v105 (pkt 262): prosta lista rozwijana w dół zamiast okna z kafelkami;
+  // v119 (pkt 348): bez trybu Sport – trening to zwykłe polecenie „Trening”
+  const curM = isW() ? 'work' : 'priv';
   const an = anchor && anchor.nodeType ? anchor : $('sheet').style.display === 'flex' ? $('modeb') : $('lbtn'),
     ar = an.getBoundingClientRect(); // przed zwinięciem menu (inaczej przycisk „Tryb” nie ma już położenia)
   lmenuToggle(false);
   const to = pick || await dropMenu({getBoundingClientRect: () => ar}, _t('TRYB PRACY'), [
     {v: 'priv', ic: 'home', t: _t('Prywatny'), on: curM === 'priv', d: _t('Twoje mapy, punkty i ślady – grzyby, wycieczki, miejsca.')},
-    {v: 'work', ic: 'work', t: _t('Praca'), on: curM === 'work', d: _t('Osobne mapy i ślady do pracy; szkice: kropki, odcinki, strzałki, numeracja.')},
-    {v: 'sport', ic: 'sport', t: _t('Sport'), on: curM === 'sport', d: _t('Osobny widok: licznik treningu, dyscypliny i statystyki. Korzysta z map prywatnych.')}
+    {v: 'work', ic: 'work', t: _t('Praca'), on: curM === 'work', d: _t('Osobne mapy i ślady do pracy; szkice: kropki, odcinki, strzałki, numeracja.')}
   ]);
   if (!to || to === curM) return;
   if (mode) setMode(null);
@@ -25058,15 +24922,8 @@ async function modeSwitch(anchor, pick) {
   lsel = null;
   save();
   render();
-  if (isSport()) {
-    $('sheet').style.display = 'none';
-    sboardOpen(); // Sport – od razu tablica dyscyplin
-  } else {
-    if (SPT_OPEN) sportClose(); // trening (jeśli trwa) zostaje – wróci po przełączeniu na Sport
-    sboardHide();
-    if (typeof SST_OPEN !== 'undefined' && SST_OPEN) sstatClose();
-    sheet();
-  }
+  if (typeof SST_OPEN !== 'undefined' && SST_OPEN) sstatClose();
+  sheet();
   // v102 (test person): pusty tryb – wyraźnie, że dane nie zniknęły, tylko są w innym trybie
   if (to === 'work') {
     const cats = new Set(trkCats().map(c => c.id)),
@@ -25083,7 +24940,7 @@ async function modeSwitch(anchor, pick) {
       render();
       sheetIfOpen();
     }, 9000), 500);
-  } else toastMsg(_t('Tryb pracy: ') + (to === 'sport' ? _t('Sport') : _t('Prywatny')));
+  } else toastMsg(_t('Tryb pracy: ') + _t('Prywatny'));
   viewApply();
   fitSmart(P.items);
 }
@@ -27160,7 +27017,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
 <li><b>Grupowanie punktów</b> – przy oddaleniu punkty leżące blisko siebie łączą się w jedną ikonę z poświatą i liczbą w rogu (ta sama ikona co punkty, przy różnych – ta, której jest najwięcej). Dotknięcie przybliża mapę; gdy punkty leżą prawie w jednym miejscu – lista do wyboru. Przy dużym oddaleniu dymki komentarzy się chowają. Wyłączysz to w menu mapy.</li>
 <li><b>Opis i ocena</b> – dotknij punktu na mapie: zmienisz nazwę, ikonę, dodasz komentarz, ocenę w gwiazdkach; przy noclegach „Dane noclegu” wstawia gotowe pola opisu.</li>
-<li><b>Menu</b> – przycisk ☰ w lewym dolnym rogu rozwija w górę kapsułę (jak narzędzia po prawej): <b>Mapy</b>, <b>Ślady</b>, <b>Zdjęcia</b>, <b>Tryb</b> (Prywatny / Praca / Sport – prosta lista) i <b>Ustawienia</b> (na górze: kopia zapasowa, pomoc i samouczek, o aplikacji; niżej wszystkie ustawienia i diagnostyka). Mapy i Ślady wyglądają tak samo: u góry cienki pasek „Tryb pracy: … ▾” (dotknięcie rozwija listę trybów), niżej „Mapa: nazwa ▾” albo „Ślady: grupa ▾” (dotknięcie rozwija listę map / grup), pod nim przyciski (Wczytaj plik / Wczytaj GPX, Zaznacz, Filtr, Warstwa…) i lista warstw: <b>◉</b> – aktywna, <b>nazwa</b> – rozwija listę, <b>oko</b> – pokazuje i ukrywa, <b>⋮</b> – jedno okno ustawień warstwy. <b>Przytrzymanie warstwy</b> zaznacza całą warstwę (bez rozwijania), przytrzymanie obiektu – pojedyncze obiekty; potem dotknięcie dokłada albo zdejmuje (◐ – w warstwie zaznaczona część). Na mapie u góry delikatny napis „Mapa: nazwa – tryb” (albo „Ślady: grupa – tryb”). W Mapach widać całą wybraną mapę, w Śladach całą wybraną grupę; które warstwy – decyduje oko. Nagrywany ślad widać zawsze. Lupa znajduje też mapy, warstwy i grupy śladów („pokaż tylko ją” – do przycisku „Pokaż wszystko”). Po zmianie mapy przy pierwszym punkcie OMM zapyta, do której warstwy go zapisać. Dotknięcie mapy chowa rozwinięte menu ☰, narzędzia po prawej, podmenu i panel nagrywania na żywo, gdy nic z nich nie wybrałeś.</li>
+<li><b>Menu</b> – przycisk ☰ w lewym dolnym rogu rozwija w górę kapsułę (jak narzędzia po prawej): <b>Mapy</b>, <b>Ślady</b>, <b>Zdjęcia</b>, <b>Trening</b>, <b>Tryb</b> (Prywatny / Praca – prosta lista) i <b>Ustawienia</b> (na górze: kopia zapasowa, pomoc i samouczek, o aplikacji; niżej wszystkie ustawienia i diagnostyka). Mapy i Ślady wyglądają tak samo: u góry cienki pasek „Tryb pracy: … ▾” (dotknięcie rozwija listę trybów), niżej „Mapa: nazwa ▾” albo „Ślady: grupa ▾” (dotknięcie rozwija listę map / grup), pod nim przyciski (Wczytaj plik / Wczytaj GPX, Zaznacz, Filtr, Warstwa…) i lista warstw: <b>◉</b> – aktywna, <b>nazwa</b> – rozwija listę, <b>oko</b> – pokazuje i ukrywa, <b>⋮</b> – jedno okno ustawień warstwy. <b>Przytrzymanie warstwy</b> zaznacza całą warstwę (bez rozwijania), przytrzymanie obiektu – pojedyncze obiekty; potem dotknięcie dokłada albo zdejmuje (◐ – w warstwie zaznaczona część). Na mapie u góry delikatny napis „Mapa: nazwa – tryb” (albo „Ślady: grupa – tryb”). W Mapach widać całą wybraną mapę, w Śladach całą wybraną grupę; które warstwy – decyduje oko. Nagrywany ślad widać zawsze. Lupa znajduje też mapy, warstwy i grupy śladów („pokaż tylko ją” – do przycisku „Pokaż wszystko”). Po zmianie mapy przy pierwszym punkcie OMM zapyta, do której warstwy go zapisać. Dotknięcie mapy chowa rozwinięte menu ☰, narzędzia po prawej, podmenu i panel nagrywania na żywo, gdy nic z nich nie wybrałeś.</li>
 <li><b>Moje trasy – zaplanowane</b> – trasy, punkty i rysunki na kolejne wyjścia. Gdy byłeś na miejscu, odhacz „✓ Odwiedzone” (OMM sam zapyta po dojściu do celu) – obiekt trafia do sekcji „Odwiedzone” i szarzeje na mapie. Do trasy możesz podpiąć nagrany ślad.</li>
 <li><b>Nawigacja</b> – „Nawiguj” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Do punktu najpierw <b>karta trasy</b> (czym jedziesz, warianty na mapie – wybrana niebieska, inne szare z etykietą czasu, np. „+4 min”; Edytuj, Zapisz, Nawiguj – patrz „Trasa do punktu”). Warianty wg sposobu jazdy: autem najszybsza, inne, najkrótsza, bez autostrad i płatnych; rowerem zalecana, najkrótsza, spokojna (mniej ruchliwych ulic), bez szutrów; pieszo zalecana i najkrótsza. Gdy wjedziesz na trasę w dowolnym miejscu (np. po pomylonej drodze), nawigacja rusza od tego miejsca. Mapa jedzie za Tobą: pomarańczowa strzałka w dolnej części ekranu, przebyty kawałek trasy szary, inne rysunki przygaszone, zoom wg prędkości; na start <b>kierunek jazdy u góry</b> (albo północ – Ustawienia → Nawigacja), a <b>kompas mapy</b> (stale widoczny w nawigacji, pomarańczowa obwódka = kierunek u góry) przełącza to w trakcie. Przesuniesz mapę palcem – po 5 s sama wraca. U góry na środku <b>strzałka następnego manewru</b> (bez tła, niebieska z ciemną obwódką) i odległość do niego; gdy nagrywasz, odsuwa się od kapsuły nagrywania. Na dole jeden panel: ✕, odległość do celu i godzina na miejscu oraz <b>żarówka</b> – tryb ekranu: zapalona – stale jasny, zgaszona – jak zwykle w telefonie, pół na pół – <b>przyciemnianie między manewrami</b> (domyślne: ekran prawie czarny na prostych, rozjaśnia się ok. 15 s przed skrętem, przy komunikacie i po dotknięciu). Głos: zapowiedź wcześniej przy większej prędkości (autem szybko ok. 1 km, w mieście 500 m, rowerem 150 m) i drugi raz tuż przed manewrem; po manewrze „Jedź prosto 800 metrów”, gdy do następnego daleko; drobne „ząbki” drogi (lewo-prawo na kilku metrach) bez komunikatów, przy wyraźnym przesunięciu jezdni – „Trzymaj się prawej / lewej”. Po zachodzie słońca <b>ciemna mapa</b> (Ustawienia → Nawigacja: tylko w nawigacji / zawsze po zmroku / nigdy; zdjęcia lotnicze bez zmian). Rowerem przed startem karta z <b>profilem wysokości</b>, a w trakcie zapowiedź podjazdu (nachylenie i długość) – do wyłączenia w Ustawieniach. <b>Punkty obowiązkowe</b> zaplanowanej trasy: po ominięciu OMM pyta „Wrócić?” (Wróć / Pomiń; bez odpowiedzi po 10 s wraca). Samochodem i rowerem po zjechaniu z trasy OMM prowadzi do najbliższego miejsca trasy przed Tobą, a ponad ok. 100 m od trasy przez 10 s – <b>liczy nową trasę do celu</b> (gdy po drodze są niezaliczone punkty obowiązkowe – najpierw pyta: przez punkt / bez punktu / wróć na trasę); pieszo po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień). Nawigacja i głos działają też przy zablokowanym telefonie. Rowerem przez przejście dla pieszych – „przeprowadź rower”. Gdy jedziesz równolegle do trasy (np. drugą stroną ulicy), OMM uznaje, że jesteś na trasie, a po ok. 150 m liczy ją od drogi, którą jedziesz. Słuchawki, które same się wyłączają po kilku minutach ciszy – Ustawienia → Nawigacja → „Podtrzymuj słuchawki Bluetooth”. ✕ pyta, czy zakończyć; na miejscu – „Jesteś na miejscu” (nie trzeba trafić w punkt: pieszo ok. 15 m, rowerem ok. 30 m, autem ok. 45 m; zalicza też minięcie celu i postój obok niego), a po ok. 10 s nawigacja kończy się samo (nagrywanie śladu trwa dalej).</li>
 <li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
@@ -27179,9 +27036,10 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
 <li><b>Ustawienia</b> (trybik w panelu) – kategorie od najczęściej zmienianych, każda z krótkim opisem; otwarta jest jedna naraz. <b>Wygląd</b> (motyw jasny, ciemny albo wg zachodu słońca, podziałka mapy na dole ekranu, dokładność GPS na przycisku, obracanie mapy, widok na starcie), <b>Mapy pod ikoną mapy</b>, <b>Ślady GPS</b> (nagrywanie, komunikaty, nazwa i kolor śladu), <b>Auto i parkowanie</b> (miejsce auta, stałe strefy parkowania, zapominanie po kilku dniach, przesiadka do auta), <b>Prowadzenie</b> (alerty – co i jak ma mówić, kierunek mapy, zoom), <b>W terenie</b> (alarm przy miejscówkach, ekran nie gaśnie), <b>Powiadom SMS</b> (godzina powrotu i numer – gdy nie potwierdzisz, że wszystko OK, OMM przygotuje SMS z Twoją pozycją), <b>Sport</b>, <b>Kopia zapasowa i dane</b> (automatyczna w prywatnej pamięci OMM i na Dysku Google, także przy wyjściu z aplikacji; przywracanie z listy; <b>Kosz</b> – usunięte rzeczy czekają tam 30 dni), <b>Foldery i pliki</b>, <b>Prywatność</b> oraz <b>Język i jednostki</b>. Krótkie wybory są przełącznikami w jednym rzędzie, opcje tak/nie – suwakami. W <b>Kopia zapasowa i dane</b> tabelka „Co jest w kopii”: mapy, ślady, zdjęcia, ustawienia – każda część osobno w kopii lub nie i szyfrowana lub nie (np. zdjęcia jawnie, mapy zaszyfrowane); w zaszyfrowanej kopii jest ODSZYFRUJ.py do odczytu bez OMM (z hasłem). W <b>Foldery i pliki</b> możesz wskazać dowolny folder w telefonie na pliki zapisywane ręcznie.</li>
-<li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b>, <b>Praca</b> (osobne mapy i narzędzia do szkiców) i <b>Sport</b> – osobny widok aplikacji: <b>tablica</b> z dużymi przyciskami dyscyplin – <b>rower</b> (prędkość, średnia, maks., podjazd, nachylenie), <b>bieg</b> (tempo, czas każdego kilometra głosem, „Trening”: interwały z poleceniami głosowymi i cel tempa), <b>marsz</b> (tempo, kroki, dzienny cel kroków), <b>trekking</b> (podejście, zejście, tempo pod górę, czas do zachodu słońca, czas dojścia przy prowadzeniu), <b>jeździectwo</b> (stęp, kłus, galop) i <b>rolki</b> (prędkość, okrążenia). Dotknięcie przycisku otwiera licznik na ciemnym ekranie. Z licznika „Mapa” przechodzi na mapę – tam przycisk ‹ z dystansem albo systemowe „Wstecz” wraca do licznika; ‹ w liczniku wraca na tablicę (trening trwa). „Zakończ” zapisuje trening w <b>Statystykach</b>: ogólnych i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, rekordy, lista treningów. Kalorie po podaniu wagi w Ustawieniach → Sport; ślad nagrany z licznika trafia do kategorii „Sport”.</li>
+<li><b>Tryby</b> – przycisk trybu w panelu (u góry po lewej): <b>Prywatny</b> i <b>Praca</b> (osobne mapy, ślady i narzędzia do szkiców). Od v119 Sport nie jest trybem – zastąpiło go polecenie <b>Trening</b>.</li>
+<li><b>Trening</b> – Menu → <b>Trening</b> (w wyglądzie „Mapa i krawędzie” możesz je też wyjąć na mapę jako kroplę). Na mapie pojawiają się <b>kafelki</b> ostatnio trenowanej dyscypliny – każdy na własnym rozmytym tle, a między nimi widać mapę i siebie. U góry ikona dyscypliny – dotknięcie zmienia sport (zapamiętany na następny raz; w trakcie treningu cały trening i ślad przechodzą do nowej dyscypliny), tam też narzędzia dyscypliny: interwały i cel tempa (bieg), dzienny cel kroków (marsz), okrążenie (rolki). Na dole <b>Start</b>, a nad nim wybór: <b>z zapisem śladu</b> albo <b>tylko licznik</b> (jak licznik rowerowy – bez śladu); to samo w Ustawieniach → Trening. W obu przypadkach licznik liczy także przy zgaszonym ekranie. W trakcie pasek: <b>Pauza</b>, <b>Zdjęcie</b> (gdy zapisuje ślad), <b>Ukryj</b> – kafelki znikają na chwilę, żeby obejrzeć mapę (wracają tym samym przyciskiem albo same po 20 s), <b>Ekran</b> – przygaszany (dotknięcie rozjaśnia na 15 s), stale jasny albo jak w telefonie – i <b>Zakończ</b>. <b>Koniec nagrywania to koniec treningu</b> – także „Zakończ” w powiadomieniu. <b>Kafelki</b>: przytrzymaj i przeciągnij – przeniesiesz kafelek po siatce; przytrzymaj bez ruchu – rozmiar (mały, szeroki, duży), inny parametr w tym miejscu, usuń, dodaj kafelek, układ fabryczny. Co ma być widać – też w Ustawieniach → Trening → Kafelki na mapie, osobno dla każdej dyscypliny. Parametry: prędkość albo tempo, dystans, czas ruchu i całkowity, średnia, maks., podejście, zejście, wysokość, nachylenie, kalorie, dziś, licznik całkowity, godzina, sygnał GPS i parametry dyscypliny (rower; bieg – ostatni km, interwał, cel tempa; marsz – kroki, cel dzienny; trekking – tempo pod górę, do zachodu, czas dojścia; jeździectwo – stęp, kłus, galop; rolki – okrążenia). Po „Zakończ” podsumowanie, a wszystkie treningi są w <b>Ślady → Treningi – statystyki</b>: ogólnie i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, lista. Kalorie po podaniu wagi w Ustawieniach → Trening; ślad treningu trafia do Śladów, kategoria „Sport”.</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
-<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry tryb, nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (dotknięcie – Informacje GPS). Reszta chowa się za krawędziami – wyciągasz ją za <b>języczki</b>: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Tryb pracy, Ustawienia), <b>Narzędzia</b> (Podkład, Moja pozycja, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz) i dolny <b>Panel Dziś</b> (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc). Języczki przeciągniesz, przytrzymując je: boczne w górę, w dół albo na drugą krawędź, dolny wzdłuż dołu. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b>. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – polecenia w panelach Menu i Narzędzia stoją w wierszach od góry do dołu. <b>Przytrzymaj</b> polecenie i przeciągnij: w górę lub w dół panelu, do drugiego panelu (wypchnij do samej krawędzi ekranu i przytrzymaj ok. 2 s – pierścień przy kropli odlicza) albo na mapę – poza panel wychodzi się z lekkim oporem. Na mapie polecenie zostaje jako sama ikona w kółku z ołówkowym obrysem; dwie ikony obok siebie łączą się w jedną kapsułkę. Dotknięcie ikony działa jak polecenie, przytrzymanie – przenosi ją dalej (także z powrotem do panelu). Pusty panel znika razem z języczkiem; przytrzymaj polecenie przy samej krawędzi ekranu ok. 2 s, a panel wróci. Układ zapisuje się osobno dla trybu Prywatny (i Sport) oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Na dole każdego panelu „Jak to działa”.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni (dane MET Norway / yr.no). Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty).</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i Flipery).</li>
+<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry tryb, nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (dotknięcie – Informacje GPS). Reszta chowa się za krawędziami – wyciągasz ją za <b>języczki</b>: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Trening, Tryb pracy, Ustawienia), <b>Narzędzia</b> (Podkład, Moja pozycja, Informacje GPS, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz, Zaplanuj trasę) i dolny <b>Panel Dziś</b> (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc; zamykasz go daszkiem w dół nad panelem, dotknięciem mapy albo zsuwając palcem w dół). Języczki przeciągniesz, przytrzymując je: boczne w górę, w dół albo na drugą krawędź, dolny wzdłuż dołu. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b> – krople, które pasek by zasłonił, stają na ten czas tuż nad nim (razem z dolnym języczkiem) i wracają po zakończeniu. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – polecenia w panelach Menu i Narzędzia stoją w wierszach od góry do dołu. <b>Przytrzymaj</b> polecenie i przeciągnij: w górę lub w dół panelu, do drugiego panelu (wypchnij do samej krawędzi ekranu i przytrzymaj ok. 2 s – pierścień przy kropli odlicza) albo na mapę – poza panel wychodzi się z lekkim oporem. Na mapie polecenie zostaje jako sama ikona w kółku z ołówkowym obrysem; dwie ikony obok siebie łączą się w jedną kapsułkę. Dotknięcie ikony działa jak polecenie, przytrzymanie – przenosi ją dalej (także z powrotem do panelu). Pusty panel znika razem z języczkiem; przytrzymaj polecenie przy samej krawędzi ekranu ok. 2 s, a panel wróci. Układ zapisuje się osobno dla trybu Prywatny oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Na dole każdego panelu „Jak to działa”.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni (dane MET Norway / yr.no). Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty).</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i Flipery).</li>
 <li><b>Z Moich Map Google</b> – w Moich Mapach pobierz plik KML/KMZ, potem tutaj Import.</li>
 </ol>
 <p class="muted">Twoje dane są tylko Twoje – aplikacja nikomu ich nie wysyła. Z internetu pobiera podkłady mapowe; wyszukiwarka adresów pyta OpenStreetMap tylko po naciśnięciu „Szukaj w internecie”, a trasy po drogach liczy serwer Valhalla (FOSSGIS) – dostaje wtedy tylko współrzędne punktów trasy. „Szukaj przez zieleń” pobiera kafle mapy z OpenFreeMap (tylko numery kafli okolicy), a trasę liczy serwer BRouter (dostaje współrzędne startu, celu i punktów przelotowych).</p>`;
@@ -27222,7 +27080,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
 <li><b>Point grouping</b> – when zoomed out, points close together merge into one icon with a glow and a count in the corner (the same icon as the points; when mixed – the most common one). Tapping zooms in; when the points are almost in one place – a list to choose from. Comment bubbles hide when zoomed far out. Turn it off in the map menu.</li>
 <li><b>Description and rating</b> – tap a point on the map: rename it, change the icon, add a comment and a star rating; for places to stay “Place-to-stay details” inserts ready description fields.</li>
-<li><b>Menu</b> – the ☰ button in the bottom-left corner unfolds a capsule upwards (like the tools on the right): <b>Maps</b>, <b>Tracks</b>, <b>Photos</b>, <b>Mode</b> (Private / Work / Sport – a simple list) and <b>Settings</b> (at the top: backup, help and tutorial, about; below, all settings and diagnostics). Maps and Tracks look the same: at the top a thin “Work mode: … ▾” bar (tap to open the list of modes), below it “Map: name ▾” or “Tracks: group ▾” (tap to open the list of maps / groups), then buttons (Load file / Load GPX, Select, Filter, Layer…) and the list of layers: <b>◉</b> – active, the <b>name</b> – expands the list, the <b>eye</b> – show and hide, <b>⋮</b> – one layer settings window. <b>Holding a layer</b> selects the whole layer (without expanding it), holding an object selects single objects; then a tap adds or removes (◐ – part of the layer selected). At the top of the map a subtle label “Map: name – mode” (or “Tracks: group – mode”). In Maps you see the whole chosen map, in Tracks the whole chosen group; the eye decides which layers. The track being recorded is always visible. Search also finds maps, layers and track groups (“show only it” – until “Show all”). After switching maps OMM asks which layer the first point should go to. Tapping the map hides the open ☰ menu, the tools on the right, sub-menus and the live recording panel when you did not pick anything.</li>
+<li><b>Menu</b> – the ☰ button in the bottom-left corner unfolds a capsule upwards (like the tools on the right): <b>Maps</b>, <b>Tracks</b>, <b>Photos</b>, <b>Workout</b>, <b>Mode</b> (Private / Work – a simple list) and <b>Settings</b> (at the top: backup, help and tutorial, about; below, all settings and diagnostics). Maps and Tracks look the same: at the top a thin “Work mode: … ▾” bar (tap to open the list of modes), below it “Map: name ▾” or “Tracks: group ▾” (tap to open the list of maps / groups), then buttons (Load file / Load GPX, Select, Filter, Layer…) and the list of layers: <b>◉</b> – active, the <b>name</b> – expands the list, the <b>eye</b> – show and hide, <b>⋮</b> – one layer settings window. <b>Holding a layer</b> selects the whole layer (without expanding it), holding an object selects single objects; then a tap adds or removes (◐ – part of the layer selected). At the top of the map a subtle label “Map: name – mode” (or “Tracks: group – mode”). In Maps you see the whole chosen map, in Tracks the whole chosen group; the eye decides which layers. The track being recorded is always visible. Search also finds maps, layers and track groups (“show only it” – until “Show all”). After switching maps OMM asks which layer the first point should go to. Tapping the map hides the open ☰ menu, the tools on the right, sub-menus and the live recording panel when you did not pick anything.</li>
 <li><b>My routes – planned</b> – routes, points and drawings for your next trips. When you have been there, tick “✓ Visited” (OMM asks by itself when you arrive) – the object moves to the “Visited” section and turns grey on the map. You can link a recorded track to a route.</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). To a point there is first the <b>route card</b> (how you travel, variants on the map – the selected one blue, the others grey with a time label, e.g. “+4 min”; Edit, Save, Navigate – see “Route to a point”). Variants depend on how you travel: by car fastest, alternatives, shortest, no motorways or tolls; by bike recommended, shortest, quiet (fewer busy streets), no gravel; on foot recommended and shortest. When you get onto the route anywhere (e.g. after a wrong turn), navigation continues from there. The map follows you: the orange arrow sits in the lower part of the screen, the covered part of the route turns grey, other drawings are dimmed, zoom follows your speed; it starts with the <b>direction of travel up</b> (or north – Settings → Navigation), and the <b>map compass</b> (always shown while navigating, orange ring = direction up) switches it on the way. Pan the map with a finger – it comes back by itself after 5 s. At the top centre the <b>next manoeuvre arrow</b> (no background, blue with a dark outline) and the distance to it; while recording it moves aside from the recording capsule. At the bottom a single panel: ✕, distance to the destination and arrival time, and the <b>bulb</b> – screen mode: lit – always bright, off – as usual on the phone, half and half – <b>dimming between manoeuvres</b> (default: the screen is nearly black on straight stretches and brightens about 15 s before a turn, on announcements and on touch). Voice: announcements come earlier at higher speed (fast by car about 1 km, in town 500 m, by bike 150 m) and once more just before the manoeuvre; after a manoeuvre “Continue straight for 800 metres” when the next one is far; small “jogs” in the road (left-right within a few metres) are silent, a clear lane shift gives “Keep right / left”. After sunset a <b>dark map</b> (Settings → Navigation: only while navigating / always after dark / never; aerial imagery unchanged). By bike, an <b>elevation profile</b> card before the start and a note before each climb (gradient and length) – can be switched off in Settings. <b>Required points</b> of a planned route: if you skip one, OMM asks “Go back?” (Go back / Skip; with no answer it goes back after 10 s). By car and bike, when you leave the route OMM guides you to the nearest point of the route ahead, and more than about 100 m away for 10 s it <b>plans a new route to the destination</b> (with unvisited required points on the way it asks first: via the point / skip the point / back to the route); on foot a longer deviation makes the phone vibrate and say where the track is (no notifications). Navigation and voice work with the phone locked too. By bike across a pedestrian crossing – “walk your bike”. When you ride parallel to the route (e.g. on the other side of the street), OMM treats you as on the route, and after about 150 m re-plans it from the road you are on. Headphones that switch off after a few minutes of silence – Settings → Navigation → “Keep Bluetooth headphones awake”. ✕ asks before ending; on arrival – “You have arrived” (no need to hit the point exactly: about 15 m on foot, 30 m by bike, 45 m by car; passing the destination or stopping next to it counts too), and after about 10 s navigation ends by itself (track recording continues).</li>
 <li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
@@ -27241,8 +27099,9 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles. In <b>Backup and data</b> the table “What goes into the backup”: maps, tracks, photos, settings – each part in the backup or not and encrypted or not (e.g. photos plain, maps encrypted); an encrypted backup includes ODSZYFRUJ.py for reading without OMM (with the password). In <b>Folders and files</b> you can choose any folder on the phone for manually saved files.</li>
-<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words right on the map: the mode, map name and active layer at the top, a magnifier (Search) and the scale next to them; at the bottom <b>Record</b> (a red dot in a ring) and GPS accuracy with altitude (tap – GPS info). Everything else hides behind the edges – pull it out by the <b>tabs</b>: <b>Menu</b> (Maps, Tracks with statistics, Photos, Mode, Settings), <b>Tools</b> (Base map, My position, North up, Photo, Point, Draw, Measure) and the bottom <b>Today panel</b> (a chevron: distance, tracks, photos, the nearest place – the arrow below it shows more, weather, GPS, sun and Moon). Press and hold a tab to move it: the side ones up, down or to the other edge, the bottom one along the bottom. Windows, questions, choice lists, Base map, Draw, Measure, ⋮ menus and messages slide up from the bottom with fog; the content fades out at the top together with the fog. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom. Map in dark theme – normal, dimmed or dark: Settings → Appearance.</li><li><b>Command layout (Map and edges)</b> – commands in the Menu and Tools panels stand in rows from top to bottom. <b>Press and hold</b> a command and drag it: up or down the panel, to the other panel (push it to the very edge of the screen and hold for about 2 s – a ring around the drop counts down) or onto the map – leaving the panel takes a little extra pull. On the map a command stays as an icon in a circle with a pencil outline; two icons side by side merge into one capsule. Tapping the icon runs the command, pressing and holding moves it again (also back to a panel). An empty panel disappears together with its tab; hold a command at the very screen edge for about 2 s and the panel comes back. The layout is saved separately for the Private (and Sport) mode and for Work; drops remember the nearest edge, so on another screen or after rotating the phone they stay in the same corner, and the layout and all settings go into the backup. Settings → Appearance → “Restore the factory layout”. “How it works” is at the bottom of each panel.</li><li><b>Weather, Moon, Search</b> – <b>weather</b> in the Today panel: now and the place name (district or village), tap for an hourly and daily forecast (MET Norway / yr.no data). Without GPS – from the last known place, with a button to turn GPS on. <b>Moon</b>: rise, set and phase – in the pop-up after tapping the map and in the Today panel. <b>Search</b> also finds kinds of places in the visible map area (park, car park, shelter, spring, wayside shrine, viewpoint, shop, toilet, river…). In Maps photos go only onto the map (onto a track – from the track pop-up in Tracks). In Tracks a Point goes to the open track, and when none is open OMM asks: which track or the map. A layer's <b>Data fields</b> are your form – you fill the fields in later at each point. Icons are drawn “in ink”, with a spot of colour where it means something (red – recording, green – confirm, blue – you).</li><li><b>Reports, photos on a track, GPS drift</b> – <b>Settings → Help and information → Report a problem or an idea</b>: a short form you send yourself by e-mail (the OMM mailbox address is filled in). For a track: track pop-up → More → <b>Report a problem with the track</b> – attaches the track as GPX with the original GPS readings (private data – OMM asks before preparing anything). Settings → GPS tracks → <b>Also save the original GPS readings</b> (on by default) – the GPX file then contains a second track with what the GPS reported. Photos without date and place (e.g. sent via a messenger) can be <b>placed on the track</b> with your finger when adding them to a track – one by one. When the phone “drifts” sideways while you walk and jumps back, after “Stop” OMM replaces that piece with a straight connection (with path snapping – along the path). When a new version computes tracks better, OMM offers to recalculate them – including tracks snapped to paths (recalculated from the raw readings and snapped again). <b>Games</b>: tap the name in “About” 7 times – they appear in Menu → Games (including Solitaire and Pinball).</li>
-<li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b>, <b>Work</b> (separate maps and sketch tools) and <b>Sport</b> – a separate view of the app: a <b>board</b> with big discipline buttons – <b>bike</b> (speed, average, max, climb, gradient), <b>running</b> (pace, each kilometre's time by voice, “Workout”: intervals with voice commands and a pace target), <b>walking</b> (pace, steps, daily step goal), <b>trekking</b> (ascent, descent, climbing rate, time to sunset, time to arrival while navigating), <b>horse riding</b> (walk, trot, canter) and <b>inline skating</b> (speed, laps). Tapping a button opens the counter on a dark screen. “Map” in the counter goes to the map – there the ‹ button with the distance or the system “Back” returns to the counter; ‹ in the counter returns to the board (the workout continues). “Finish” saves the workout in <b>Statistics</b>: overall and for each discipline – week, month, year, all time, chart, records, workout list. Calories after entering your weight in Settings → Sport; a track recorded from the counter goes to the “Sport” category.</li>
+<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words right on the map: the mode, map name and active layer at the top, a magnifier (Search) and the scale next to them; at the bottom <b>Record</b> (a red dot in a ring) and GPS accuracy with altitude (tap – GPS info). Everything else hides behind the edges – pull it out by the <b>tabs</b>: <b>Menu</b> (Maps, Tracks with statistics, Photos, Workout, Mode, Settings), <b>Tools</b> (Base map, My position, GPS info, North up, Photo, Point, Draw, Measure, Plan a route) and the bottom <b>Today panel</b> (a chevron: distance, tracks, photos, the nearest place – the arrow below it shows more, weather, GPS, sun and Moon; close it with the down chevron above the panel, by tapping the map or by swiping it down). Press and hold a tab to move it: the side ones up, down or to the other edge, the bottom one along the bottom. Windows, questions, choice lists, Base map, Draw, Measure, ⋮ menus and messages slide up from the bottom with fog; the content fades out at the top together with the fog. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom – drops the bar would cover move just above it for that time (together with the bottom tab) and return afterwards. Map in dark theme – normal, dimmed or dark: Settings → Appearance.</li><li><b>Command layout (Map and edges)</b> – commands in the Menu and Tools panels stand in rows from top to bottom. <b>Press and hold</b> a command and drag it: up or down the panel, to the other panel (push it to the very edge of the screen and hold for about 2 s – a ring around the drop counts down) or onto the map – leaving the panel takes a little extra pull. On the map a command stays as an icon in a circle with a pencil outline; two icons side by side merge into one capsule. Tapping the icon runs the command, pressing and holding moves it again (also back to a panel). An empty panel disappears together with its tab; hold a command at the very screen edge for about 2 s and the panel comes back. The layout is saved separately for the Private mode and for Work; drops remember the nearest edge, so on another screen or after rotating the phone they stay in the same corner, and the layout and all settings go into the backup. Settings → Appearance → “Restore the factory layout”. “How it works” is at the bottom of each panel.</li><li><b>Weather, Moon, Search</b> – <b>weather</b> in the Today panel: now and the place name (district or village), tap for an hourly and daily forecast (MET Norway / yr.no data). Without GPS – from the last known place, with a button to turn GPS on. <b>Moon</b>: rise, set and phase – in the pop-up after tapping the map and in the Today panel. <b>Search</b> also finds kinds of places in the visible map area (park, car park, shelter, spring, wayside shrine, viewpoint, shop, toilet, river…). In Maps photos go only onto the map (onto a track – from the track pop-up in Tracks). In Tracks a Point goes to the open track, and when none is open OMM asks: which track or the map. A layer's <b>Data fields</b> are your form – you fill the fields in later at each point. Icons are drawn “in ink”, with a spot of colour where it means something (red – recording, green – confirm, blue – you).</li><li><b>Reports, photos on a track, GPS drift</b> – <b>Settings → Help and information → Report a problem or an idea</b>: a short form you send yourself by e-mail (the OMM mailbox address is filled in). For a track: track pop-up → More → <b>Report a problem with the track</b> – attaches the track as GPX with the original GPS readings (private data – OMM asks before preparing anything). Settings → GPS tracks → <b>Also save the original GPS readings</b> (on by default) – the GPX file then contains a second track with what the GPS reported. Photos without date and place (e.g. sent via a messenger) can be <b>placed on the track</b> with your finger when adding them to a track – one by one. When the phone “drifts” sideways while you walk and jumps back, after “Stop” OMM replaces that piece with a straight connection (with path snapping – along the path). When a new version computes tracks better, OMM offers to recalculate them – including tracks snapped to paths (recalculated from the raw readings and snapped again). <b>Games</b>: tap the name in “About” 7 times – they appear in Menu → Games (including Solitaire and Pinball).</li>
+<li><b>Modes</b> – the mode button in the panel (top left): <b>Private</b> and <b>Work</b> (separate maps, tracks and sketch tools). Since v119 Sport is no longer a mode – the <b>Workout</b> command replaced it.</li>
+<li><b>Workout</b> – Menu → <b>Workout</b> (in the “Map and edges” look you can also pull it onto the map as a drop). <b>Tiles</b> of the discipline you trained last appear on the map – each on its own blurred background, with the map and you visible between them. At the top the discipline icon – tap it to change the sport (remembered for next time; during a workout the whole workout and its track move to the new discipline); the discipline tools are there too: intervals and pace target (running), daily step goal (walking), lap (inline skating). At the bottom <b>Start</b> and above it the choice: <b>with track recording</b> or <b>counter only</b> (like a bike computer – no track); the same in Settings → Workout. Either way the counter keeps counting with the screen off. During the workout the bar: <b>Pause</b>, <b>Photo</b> (when recording a track), <b>Hide</b> – the tiles disappear for a moment so you can look at the map (they come back with the same button or by themselves after 20 s), <b>Screen</b> – dimmed (a tap brightens it for 15 s), always bright or as usual on the phone – and <b>Finish</b>. <b>Stopping the recording ends the workout</b> – also “Finish” in the notification. <b>Tiles</b>: press, hold and drag to move a tile on the grid; press and hold without moving – size (small, wide, large), another value in this place, remove, add a tile, factory layout. What is shown – also in Settings → Workout → Tiles on the map, separately for each discipline. Values: speed or pace, distance, moving and total time, average, max, ascent, descent, altitude, gradient, calories, today, total counter, clock, GPS signal and the discipline’s own values (running – last km, interval, pace target; walking – steps, daily goal; trekking – climbing rate, to sunset, time to arrival; horse riding – walk, trot, canter; inline skating – laps). After “Finish” a summary, and all workouts are in <b>Tracks → Workouts – statistics</b>: overall and for each discipline – week, month, year, all time, chart, list. Calories after entering your weight in Settings → Workout; a workout track goes to Tracks, category “Sport”.</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>From Google My Maps</b> – download a KML/KMZ file in My Maps, then Import it here.</li>
 </ol>
@@ -35816,6 +35675,28 @@ function trkSheet() {
     );
     el.append(sa);
   }
+  if (!TSEL) {
+    // v119 (pkt 344, 348): zaplanowane trasy (z „Zapisz” na karcie trasy i w planerze) i statystyki treningów – w Śladach
+    const pm = planMap(),
+      nTr = slogGet().length,
+      xr = (ic, t, n, fn) => {
+        const b = h('button', 'trxr');
+        b.innerHTML = ico(ic, 20) + '<span class="trxn"></span><span class="trxc">' + esc(n) + '</span><span class="trxv">›</span>';
+        b.querySelector('.trxn').textContent = t;
+        b.onclick = fn;
+        return b;
+      };
+    el.append(
+      xr('plan', _t('Zaplanowane trasy'), String(pm.items.length), () => {
+        TAB = 'plan';
+        viewSetKind('map');
+        ctxSync();
+        sheet();
+        viewApply();
+      }),
+      xr('sport', _t('Treningi – statystyki'), nTr ? String(nTr) : '', () => sstatOpen('all'))
+    );
+  }
   TRK.layers.forEach((l, li) => {
     if (l.cat !== cat.id) return; // tylko warstwy otwartej kategorii (wybór strzałką przy zakładce)
     const its = TRK.items
@@ -37811,6 +37692,7 @@ try {
   if (N) N.addListener('recAction', e => e && recNotifAction(e.a));
 } catch (e) {}
 function recClear(keepRaw) {
+  const st0 = REC && REC.st; // v119 (pkt 348): koniec nagrywania = koniec treningu
   recWatchOff();
   recNotifUpd.stopping = false;
   recNfTx = '';
@@ -37846,6 +37728,7 @@ function recClear(keepRaw) {
   recDraw();
   recUi();
   sheetIfOpen();
+  if (st0) trnRecGone(st0);
 }
 async function recCheck() {
   // po uruchomieniu: czy zostało przerwane nagranie (np. telefon zamknął aplikację)?
@@ -38173,7 +38056,10 @@ function wpSyncAll() {
 const wpOnMap = w => !!w.ref && P.items.some(i => i.id === w.ref); // punkt widać już jako obiekt mapy
 var WLREC = false;
 function recUi() {
-  document.body.classList.toggle('rec', !!REC);
+  if (document.body.classList.contains('rec') !== !!REC) {
+    document.body.classList.toggle('rec', !!REC);
+    if (typeof sklChips === 'function' && skOn()) setTimeout(() => sklChips(), 0); // v119 (pkt 342): krople nad paskiem nagrywania
+  }
   recMeUpd();
   if (!!REC !== WLREC) {
     WLREC = !!REC;
@@ -38303,8 +38189,6 @@ function recFollow() {
   if (map.latLngToContainerPoint(ll).distanceTo(map.getSize().divideBy(2)) < 4) return;
   map.panTo(ll, {animate: true, duration: 0.6});
 }
-sportPill(); // v62: „‹ licznik” / „‹ Sport” na mapie w trybie Sport
-$('sportb').onclick = () => sportPick();
 $('recb').innerHTML = '<i class="rcd"></i>REC'; // v72: pigułka „● REC” (w trakcie nagrywania – kapsuła)
 // v72: podkład, szukaj i moja pozycja stoją nad paskiem narzędzi – wysokość paska do zmiennej CSS
 try {
@@ -38351,7 +38235,7 @@ const blVis = el => el && el.offsetParent !== null && getComputedStyle(el).visib
 function blObstacles() {
   // prostokąty tego, co się rozsuwa albo stoi na stałe przy krawędziach
   const out = [];
-  document.querySelectorAll('#tools, #fin, #recb, #reccap, #recpill, .navbar, .navtop, .navbot, #plntop, #plnhint, #info, #recpan, #sportb, #wm').forEach(el => {
+  document.querySelectorAll('#tools, #fin, #recb, #reccap, #recpill, .navbar, .navtop, .navbot, #plntop, #plnhint, #info, #recpan, #wm').forEach(el => {
     if (!blVis(el) || (el.id === 'recpill' && document.body.classList.contains('recfold'))) return;
     const r = el.getBoundingClientRect();
     if (r.width && r.height) out.push({l: r.left - 4, t: r.top - 4, r: r.right + 4, b: r.bottom + 4});
@@ -41923,7 +41807,8 @@ async function greenQuery(bb) {
   const box = bb.map(v => v.toFixed(4)).join(','),
     sel = ['leisure~"^(park|nature_reserve)$"', 'landuse=forest', 'natural=wood'], // v108: tylko duże obszary – lżej dla serwera
     q = '[out:json][timeout:25];(' + sel.map(t => 'way[' + t + '](' + box + ');').join('') + ');out skel geom qt;';
-  const OVP = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://overpass.private.coffee/api/interpreter'],
+  // v119 (pkt 347): zieleń bierze się z kafli wektorowych (v108) – Overpass tylko zapasowo i tylko serwer główny (bez luster)
+  const OVP = ['https://overpass-api.de/api/interpreter'],
     H = plug('CapacitorHttp');
   let err = null;
   for (let si = 0; si < OVP.length; si++) {
@@ -43996,7 +43881,8 @@ function navWake(ms) {
 function navDim() {
   // przyciemnienie: czarna warstwa nad wszystkim (dotyk przechodzi do mapy) i jasność okna OMM (bez uprawnień)
   const on =
-    !!NAV &&
+    trnDimWant() || // v119 (pkt 348): trening – przygaszanie z wybudzaniem dotknięciem
+    (!!NAV &&
     NAV.bri === 'przyciemniaj' &&
     !document.hidden &&
     NAV.pos &&
@@ -44007,7 +43893,7 @@ function navDim() {
     Date.now() - NAV.t0 > 15000 &&
     !(NAV.wn && NAV.wn.textContent) &&
     !(NAV.dm != null && NAV.nx && NAV.dm < Math.max(80, (NAV.spd || 0) * 15)) &&
-    !(NAV.rj && !NAV.nx);
+    !(NAV.rj && !NAV.nx));
   let el = $('navdim');
   if (on && !el) {
     el = h('div', null);
@@ -44297,7 +44183,7 @@ const wlMode = () => (['trasa', 'zawsze'].includes(localStorage.getItem('omm-ekr
 const wlWant = () =>
   wlMode() === 'zawsze' ||
   (NAV ? NAV.bri !== 'telefon' : wlMode() === 'trasa' && !!REC) || // v95: w prowadzeniu decyduje żarówka (tryb jasności)
-  (SPT_OPEN && localStorage.getItem('omm-sport-ekran') !== 'nie');
+  (!!TRN && !!SPT && trnBri() !== 'telefon'); // v119: trening – jasny albo przygaszany z wybudzaniem
 let WL = null;
 async function wlSync() {
   // trzyma albo zwalnia blokadę wygaszania zgodnie z ustawieniem i tym, co się dzieje (nagrywanie, prowadzenie)
@@ -44332,6 +44218,7 @@ document.addEventListener('visibilitychange', () => {
   wlSync();
   // v106 (pkt 265): powrót do OMM (odblokowanie, przełączenie z innej aplikacji) = jak dotknięcie – ekran jasny 15 s
   if (NAV && document.visibilityState === 'visible') navWake(15000);
+  if (TRN && document.visibilityState === 'visible') TRN_WAKE = Date.now() + 15000; // v119: trening – jak w nawigacji
   navDim();
   // v65: po powrocie do aplikacji pierwsze pozycje GPS bywają stare albo przesunięte – 15 s bez alarmów zejścia
   if (NAV && document.visibilityState === 'visible') NAV.grace = Date.now() + 15000;
@@ -44416,9 +44303,18 @@ async function copyText(text) {
     await askText(_t('Skopiuj ręcznie:'), text);
   }
 }
+// v119 (pkt 349 R4): emoji na początku komunikatu → ikona z pakietu „Tusz” (jak w oknach), reszta tekstem
+function toastFill(d, t) {
+  const m = typeof t === 'string' && EMI_RE.exec(t);
+  if (!m || !EMI[m[1]]) return void (d.textContent = t);
+  d.classList.add('tic');
+  d.innerHTML = ico(EMI[m[1]], 18) + '<span></span>';
+  d.lastChild.textContent = t.slice(m[0].length);
+}
 function toastMsg(t) {
   document.querySelectorAll('.toast').forEach(x => x.remove()); // nowy komunikat zastępuje poprzedni
-  const d = h('div', 'toast', t);
+  const d = h('div', 'toast');
+  toastFill(d, t);
   document.body.append(d);
   setTimeout(() => d.remove(), 1800);
 }
@@ -47054,11 +46950,12 @@ async function extRoute(a, b) {
 function toastAct(t, bl, fn, ms = 7000) {
   // komunikat z przyciskiem (np. „Cofnij”)
   document.querySelectorAll('.toast').forEach(x => x.remove());
-  const d = h('div', 'toast tact2', t),
+  const d = h('div', 'toast tact2'),
     b = B(bl, () => {
       d.remove();
       fn();
     });
+  toastFill(d, t);
   d.append(b);
   document.body.append(d);
   setTimeout(() => d.remove(), ms);
@@ -48694,7 +48591,8 @@ const TUT_STEPS = [
   {sel: '#lbtn', t: _t('Menu'), x: _t('Przycisk ☰ w lewym dolnym rogu: Mapy, Ślady, Zdjęcia, Tryb i Ustawienia (tam też kopia, pomoc i „O aplikacji”). W panelu u góry „Tryb pracy: … ▾”, niżej „Mapa: nazwa ▾” – dotknięcie rozwija listę. Przy warstwie: ◉ – aktywna, nazwa – rozwija, oko – pokaż / ukryj, ⋮ – ustawienia; przytrzymanie – zaznacza całą warstwę.')},
   {sel: '#mchip', t: _t('Co widać na mapie'), x: _t('Napis u góry mówi, co oglądasz: „Mapa: nazwa – tryb” albo „Ślady: grupa – tryb”. W Mapach widać całą wybraną mapę, w Śladach całą grupę; które warstwy – decyduje oko. Nagrywany ślad widać zawsze.')},
   {sel: '#stabs .stab[data-k="foto"]', open: 'sheet', tab: 'foto', t: _t('Zdjęcia'), x: _t('Wszystkie zdjęcia z map, śladów i planów w jednej galerii – dotknij, by pokazać miejsce na mapie albo poprowadzić do niego.')},
-  {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny, Praca albo Sport. Praca ma osobne mapy i narzędzia do szkiców. Sport to osobny widok: tablica z dyscyplinami (rower, bieg, marsz, trekking, jeździectwo, rolki), licznik każdej z nich i statystyki – ogólne i dla każdej dyscypliny. Z mapy wracasz do licznika przyciskiem ‹ albo „Wstecz”.')},
+  {sel: '#modeb', open: 'sheet', t: _t('Tryb'), x: _t('Prywatny albo Praca. Praca ma osobne mapy, ślady i narzędzia do szkiców. Trening (rower, bieg, marsz, trekking, jeździectwo, rolki) uruchamiasz z Menu → Trening – kafelki z parametrami są wtedy prosto na mapie.')},
+  {sel: '#lbtn', t: _t('Trening'), x: _t('Menu → Trening: kafelki z prędkością, dystansem i czasem prosto na mapie, a pod nimi Ty na mapie. Ikona u góry zmienia dyscyplinę, przytrzymanie kafelka go przenosi. Statystyki treningów są w Śladach.')}, // v119 (pkt 348)
   {sel: '#setb', open: 'sheet', t: _t('Ustawienia'), x: _t('Kopia (w prywatnej pamięci OMM i na Dysku Google), foldery, nagrywanie śladu (komunikaty, wzór nazwy), „W terenie” (alerty przy nawigacji, ekran, alarm przy miejscówkach, auto), wygląd (motyw, podziałka, dokładność GPS, a także cały wygląd aplikacji: Obecny albo Mapa i krawędzie), prywatność i kosz.')},
   {sel: '#infob', open: 'sheet', t: _t('O aplikacji'), x: _t('O autorze i założeniach OMM, krótki przewodnik „Jak zacząć” – i ten samouczek, gdy zechcesz go obejrzeć jeszcze raz.')}
 ];
@@ -48702,7 +48600,7 @@ const TUT_STEPS = [
 const TUT_SK = [
   {sel: null, t: _t('Mapa i krawędzie'), x: _t('Mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie. Reszta chowa się za krawędziami: przy bokach dwa języczki (menu i narzędzia), na dole trzeci – Panel Dziś.')},
   {sel: '#sktab-m', t: _t('Menu'), x: _t('Dotknij języczka albo nazwy mapy: Mapy, Ślady (tam też statystyki), Zdjęcia, Tryb pracy i Ustawienia – w wierszach od góry do dołu panelu.')},
-  {sel: '#sktab-t', t: _t('Narzędzia (suwaki)'), x: _t('Podkład, Moja pozycja (przytrzymaj – informacje GPS), Północ u góry, a niżej Zdjęcie, Punkt, Rysuj i Zmierz. Trasę zaplanujesz, dotykając mapy, obiektu albo wyszukanego adresu.')},
+  {sel: '#sktab-t', t: _t('Narzędzia (suwaki)'), x: _t('Podkład, Moja pozycja, Informacje GPS, Północ u góry, a niżej Zdjęcie, Punkt, Rysuj, Zmierz i Zaplanuj trasę. Każde polecenie przestawisz, przytrzymując je.')},
   {sel: '#sktab-t', t: _t('Języczki można przesuwać'), x: _t('Przytrzymaj języczek i przeciągnij – w górę, w dół albo na drugą krawędź (oba mogą być po jednej stronie). Menu wysuwa się z tej krawędzi, przy której jest jego języczek.')},
   {sel: null, t: _t('Układ poleceń'), x: _t('W panelu przytrzymaj polecenie i przeciągnij: wyżej, niżej, do drugiego panelu albo na mapę – tam zostaje sama ikona. Ikony obok siebie łączą się w kapsułkę. Układ fabryczny: Ustawienia → Wygląd.')},
   {sel: '#skgb', t: _t('Dół – dziś i w pobliżu'), x: _t('Ile dziś przejechałeś lub przeszedłeś, pogoda (dotknij – prognoza), najbliższe Twoje punkty, słońce, Księżyc z fazą i GPS. Przytrzymaj języczek, żeby przesunąć go wzdłuż dołu.')},
@@ -48815,6 +48713,7 @@ const START_CARDS = [
   ['menu', 'Menu', 'Przycisk z trzema kreskami w lewym dolnym rogu: Mapy, Ślady, Zdjęcia, Tryb i Ustawienia – tam też kopia zapasowa i pomoc.'],
   ['moon', 'Nowy wygląd: Mapa i krawędzie', 'Ustawienia → Wygląd → „Wygląd aplikacji”: mapa na cały ekran, napisy zamiast przycisków, a menu, narzędzia i informacje chowają się za krawędziami ekranu. Powrót: „Obecny”.'],
   ['sliders', 'Twój układ poleceń', 'W wyglądzie „Mapa i krawędzie” przytrzymaj polecenie w panelu i przeciągnij – wyżej, niżej, do drugiego panelu albo na mapę jako ikonę. Pogoda i Księżyc są w Panelu Dziś na dolnej krawędzi.'],
+  ['sport', 'Trening', 'Menu → Trening: prędkość, dystans i czas na kafelkach prosto na mapie, pod nimi widzisz siebie na mapie. Kafelki przestawisz przytrzymaniem, a ikona dyscypliny u góry zmienia sport.'],
   ['tdDraw', 'Okna z dołu, nowe ikony', 'Narzędzia, wybory i komunikaty wysuwają się z dołu z mgłą, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić. Ikony są teraz rysowane jak tuszem.']
 ];
 function startCards() {
@@ -48881,20 +48780,7 @@ async function tutFirstRun() {
     if (v) tutStart();
     return;
   }
-  return startCards(); // v99 (Q7): nowa instalacja – 5 kart startowych zamiast pytania o samouczek
-  const v = await dlg({
-    title: _t('Witaj w OMM! 👋\n\nPokazać krótki samouczek? Zajmie ok. 1 minutę.\n\nSamouczek jest też zawsze w panelu warstw: przycisk „i” (O aplikacji) → Jak zacząć → „Pokaż samouczek”.'),
-    btns: [
-      {t: _t('Nie pokazuj więcej'), v: 'nie'},
-      {t: _t('Nie teraz'), v: 'pozniej'},
-      {t: _t('Pokaż samouczek'), v: 'tak', c: 'okb'}
-    ]
-  });
-  if (v === 'tak') return tutStart();
-  if (v === 'nie') return localStorage.setItem('omm-tut', 'nie');
-  const n = +(localStorage.getItem('omm-tut-n') || 0) + 1; // „Nie teraz” – zapytamy jeszcze najwyżej raz
-  localStorage.setItem('omm-tut-n', String(n));
-  if (n >= 2) localStorage.setItem('omm-tut', 'nie');
+  return startCards(); // v99 (Q7): nowa instalacja – karty startowe zamiast pytania o samouczek (v119: stare pytanie usunięte)
 }
 setTimeout(() => {
   // v100 (Q2): dotychczasowi użytkownicy – raz: gdzie są teraz ślady i plany
@@ -48903,6 +48789,11 @@ setTimeout(() => {
       ? hintOnce('menu114', _t('Menu: języczek ☰ przy krawędzi (albo nazwa mapy) → Mapy, Ślady, Zdjęcia, Tryb pracy, Ustawienia. Języczki przeciągniesz, przytrzymując je.'))
       : hintOnce('menu106', _t('Menu: przycisk ☰ w lewym dolnym rogu → Mapy, Ślady, Zdjęcia, Tryb, Ustawienia. Napis u góry mówi, co oglądasz.'));
 }, 6000);
+setTimeout(() => {
+  // v119 (pkt 348): kto korzystał ze Sportu – raz: gdzie jest teraz
+  if (localStorage.getItem('omm-tut') && !document.querySelector('.tipb, .dback') && (localStorage.getItem('omm-sport-dysc') || localStorage.getItem('omm-sport-log')))
+    hintOnce('trn119', _t('Sport nie jest już osobnym trybem: Menu → Trening pokazuje kafelki prosto na mapie. Statystyki treningów i zaplanowane trasy są teraz w Śladach.'));
+}, 20000);
 (function tutWait() {
   // pytanie dopiero po wczytaniu śladów (żeby wiedzieć, czy to nowa instalacja)
   if (!trkReady) return setTimeout(tutWait, 500);
@@ -52210,7 +52101,7 @@ fieldInit();
  * Kalorie: szacunek MET (Compendium of Physical Activities 2011) × waga × czas ruchu + praca na podjazdach.
  */
 function isSport() {
-  return DB.mode === 'sport';
+  return false; // v119 (pkt 348): Sport nie jest już trybem – „Trening” działa w każdym trybie
 }
 /*
  * v61: każda dyscyplina ma własne narzędzie (tl):
@@ -52247,11 +52138,9 @@ const SPORTS = {
     if (localStorage.getItem('omm-sport-dysc') === 'szosa') localStorage.setItem('omm-sport-dysc', 'rower');
   } catch (e) {}
 })();
-var SPT = null, // bieżący przejazd (pamiętany do wyzerowania)
-  SPT_OPEN = false,
-  SPT_W = null, // obserwacja GPS licznika
-  SPT_EL = null,
-  SPT_REC = false; // nagrywanie włączone przez licznik
+var SPT = null, // trwający trening (pamiętany do zakończenia)
+  SPT_W = null, // v119: licznik bez nagrywania – własna obserwacja GPS w tle ({bg} albo {nv})
+  SPT_REC = false; // trening zapisuje ślad (korzysta z nagrywania i kończy się razem z nim)
 function sptLoad() {
   try {
     const x = JSON.parse(localStorage.getItem('omm-sport-przejazd') || 'null');
@@ -52289,7 +52178,7 @@ function sptNew(disc) {
 }
 function sptSave() {
   try {
-    if (SPT) localStorage.setItem('omm-sport-przejazd', JSON.stringify({...SPT, gbuf: [], wb: []}));
+    if (SPT) localStorage.setItem('omm-sport-przejazd', JSON.stringify({...SPT, gbuf: [], wb: [], rec: !!SPT_REC}));
   } catch (e) {}
 }
 const dayKey = (t = Date.now()) => {
@@ -52469,7 +52358,7 @@ async function runSetup() {
   if (v === 'iv') {
     const prev = localStorage.getItem('omm-interwaly') || '3:00 / 1:30 × 6',
       s = await askText(_t('Interwały: praca / przerwa × powtórzenia\n(np. 3:00 / 1:30 × 6 albo 0:45 / 0:15 × 10)'), prev);
-    if (s === null) return sptDraw();
+    if (s === null) return trnDraw();
     const m = String(s).match(/(\d+)(?::(\d{1,2}))?\s*\/\s*(\d+)(?::(\d{1,2}))?\s*[x×*]\s*(\d+)/i);
     if (!m) return tell(_t('Nie rozumiem zapisu. Wpisz np. 3:00 / 1:30 × 6'));
     const w = +m[1] * 60 + +(m[2] || 0),
@@ -52490,7 +52379,7 @@ async function runSetup() {
     } else if (s !== null) tell(_t('Wpisz tempo jako min:s, np. 5:30'));
   }
   sptSave();
-  sptDraw();
+  trnDraw();
 }
 function tpCheck() {
   // cel tempa: podpowiedź głosem najwyżej co 30 s, gdy tempo odbiega o ponad 15 s
@@ -52509,7 +52398,7 @@ async function walkSetup() {
   const g = Math.round(+String(s).replace(/\s/g, ''));
   if (!(g >= 500 && g <= 100000)) return tell(_t('Podaj liczbę od 500 do 100 000.'));
   localStorage.setItem('omm-cel-krokow', String(g));
-  sptDraw();
+  trnDraw();
 }
 // --- dane z GPS ---
 function sptFeed(lat, lon, alt, acc, spd, t) {
@@ -52587,15 +52476,13 @@ function sptFeed(lat, lon, alt, acc, spd, t) {
   SPT.last = p;
   SPT.lastT = t;
   if (SPT.iv) ivTick();
-  if (SPT_OPEN) sptDraw();
-  else {
-    sportPill(); // na mapie: dystans na przycisku powrotu
-    if (++SPT_N % 15 === 0) sptSave();
-  }
+  if (TRN) trnDraw();
+  if (++SPT_N % 15 === 0) sptSave();
 }
 function sportRecPoint(q, x) {
   // punkt z nagrywania śladu (działa też w tle)
   if (!SPT || !REC) return;
+  if (x && x.accuracy != null) SPT_ACC = x.accuracy;
   sptFeed(q[0], q[1], q[2], x && x.accuracy, x && x.speed, REC.st + q[3] * 1000);
 }
 // --- ekran licznika ---
@@ -52683,268 +52570,750 @@ function sptTiles(tl) {
     ['kc', _t('Kalorie (szac.)')]
   ];
 }
-function sptDraw() {
-  if (!SPT_EL || !SPT) return;
-  const E = SPT_EL,
-    S = SPORTS[SPT.disc],
-    tl = S.tl,
-    o = odoNow(SPT.disc),
-    avg = SPT.mov > 5 ? SPT.d / SPT.mov : 0,
+// ---------- v119 (pkt 348): Trening – polecenie zamiast osobnego trybu Sport; kafelki parametrów prosto na mapie ----------
+/*
+ * „Trening” (Menu, kropla albo lewe menu w wyglądzie „Obecny”) pokazuje na mapie kafelki ostatnio trenowanej dyscypliny –
+ * ikona dyscypliny u góry (dotknięcie: zmiana, zapamiętana na następny raz) i pasek u dołu: Start / Anuluj.
+ * Po starcie pasek: Pauza · Zdjęcie (gdy zapisuje ślad) · Kafelki (chwilowe ukrycie, by obejrzeć mapę) · Ekran · Zakończ.
+ * Ustawienia → Trening: start nagrywa też ślad (domyślnie) albo tylko licznik – wtedy pozycje z usługi w tle (działa przy
+ * zgaszonym ekranie), bez zapisu śladu. Koniec nagrywania = koniec treningu (także „Zakończ” w powiadomieniu).
+ * Kafelki: każdy na własnym rozmytym tle, mapa między nimi ostra i podąża za Tobą. Przytrzymanie i przeciągnięcie –
+ * przeniesienie po siatce kropel; przytrzymanie bez ruchu – rozmiar (mały, szeroki, duży), inny parametr, usuń, dodaj.
+ * Układ osobno dla każdej dyscypliny (omm-trn-kafle), zapis względem najbliższej krawędzi – inny ekran nie psuje układu.
+ * Ekran: jasny / jak w telefonie / przygaszany z wybudzeniem dotknięciem (jak w nawigacji).
+ */
+var SPT_ACC = null,
+  SPT_N = 0,
+  TRN = null, // widok treningu: {ready: true} przed startem, {} w trakcie; null – zamknięty
+  TRN_HIDE = 0, // kafelki chwilowo ukryte (czas ukrycia)
+  TRN_WAKE = 0;
+const trnBri = () => {
+  const v = localStorage.getItem('omm-trn-ekran');
+  return ['jasny', 'telefon', 'przyciemniaj'].includes(v) ? v : 'przyciemniaj';
+};
+const trnRecOn = () => localStorage.getItem('omm-trn-slad') !== '0';
+function trnDisc() {
+  const d = localStorage.getItem('omm-sport-dysc');
+  return SPORTS[d] ? d : spDiscs()[0] || 'rower';
+}
+// --- parametry (kafelki) dyscypliny: [klucz, podpis]; „v” – duża liczba: prędkość albo tempo
+function trnKeys(disc) {
+  const tl = SPORTS[disc].tl,
+    pace = tl === 'run' || tl === 'walk',
+    out = [['v', pace ? (IMP ? _t('Tempo min/mi') : _t('Tempo min/km')) : _t('Prędkość ') + (IMP ? 'mph' : 'km/h')]],
+    seen = new Set(['v']);
+  [...sptTiles(tl), ['avg', _t('Średnia ') + (IMP ? 'mph' : 'km/h')], ['max', _t('Maks. ') + (IMP ? 'mph' : 'km/h')], ['up', _t('Podejście ↗')], ['dn', _t('Zejście ↘')], ['ele', _t('Wysokość')], ['el', _t('Czas całkowity')], ['clk', _t('Godzina')], ['gps', _t('Sygnał GPS')]].forEach(
+    ([k, l]) => !seen.has(k) && (seen.add(k), out.push([k, l]))
+  );
+  return out;
+}
+const TRN_DEF = {
+  bike: [['v', 'd', 'mov'], ['avg', 'max', 'up', 'kc']],
+  run: [['v', 'd', 'mov'], ['avgp', 'lap', 'iv', 'kc']],
+  walk: [['v', 'd', 'mov'], ['steps', 'goal', 'up', 'kc']],
+  trek: [['v', 'd', 'mov'], ['up', 'dn', 'ele', 'sun']],
+  horse: [['v', 'd', 'mov'], ['avg', 'gs', 'gk', 'gg']],
+  skate: [['v', 'd', 'mov'], ['avg', 'laps', 'lap', 'best']]
+};
+const TRN_Z = {s: [2, 2], w: [4, 2], b: [4, 3]}; // rozmiar kafelka w polach siatki (kolumny × wiersze)
+const trnBarRows = g => Math.max(2, Math.ceil(76 / g.ch));
+function trnDefault(disc, g) {
+  // układ fabryczny: u góry duża liczba (szeroka) i dwa małe, nad paskiem rząd małych
+  const [top, bot] = TRN_DEF[SPORTS[disc].tl] || TRN_DEF.bike,
+    out = [];
+  let c = 0,
+    r = 1;
+  top.forEach((k, i) => {
+    const z = i ? 's' : 'w',
+      [w] = TRN_Z[z];
+    if (c + w > g.cols) (c = 0), (r += 2);
+    out.push({k, z, c, r});
+    c += w;
+  });
+  const rb = g.rows - trnBarRows(g) - 2;
+  c = 0;
+  bot.forEach(k => {
+    if (c + 2 > g.cols) return;
+    out.push({k, z: 's', c, r: rb});
+    c += 2;
+  });
+  return out;
+}
+function trnLayAll() {
+  try {
+    return JSON.parse(localStorage.getItem('omm-trn-kafle') || '{}') || {};
+  } catch (e) {
+    return {};
+  }
+}
+function trnLayGet(disc) {
+  // kafelki dyscypliny w polach bieżącej siatki: [{k, z, c, r}]
+  const g = sklGrid(),
+    keys = new Set(trnKeys(disc).map(x => x[0])),
+    a = trnLayAll()[disc];
+  let L;
+  if (!Array.isArray(a)) L = trnDefault(disc, g);
+  else
+    L = a
+      .filter(t => t && keys.has(t.k) && TRN_Z[t.z])
+      .map(t => {
+        const [w, hh] = TRN_Z[t.z];
+        return {k: t.k, z: t.z, c: t.h === 'r' ? g.cols - (+t.x || 0) - w : +t.x || 0, r: t.v === 'b' ? g.rows - (+t.y || 0) - hh : +t.y || 0};
+      });
+  return trnFit(L, g);
+}
+function trnFit(L, g) {
+  // w granicach ekranu i bez nakładania – zajęty kafelek przesuwa się na najbliższe wolne miejsce
+  const B = trnBlocked(g),
+    used = new Set(),
+    out = [];
+  L.forEach(t => {
+    const [w, hh] = TRN_Z[t.z];
+    let c = Math.max(0, Math.min(g.cols - w, t.c)),
+      r = Math.max(0, Math.min(g.rows - hh, t.r));
+    const free = (c0, r0) => {
+      if (c0 < 0 || r0 < 0 || c0 + w > g.cols || r0 + hh > g.rows) return false;
+      for (let i = 0; i < w; i++) for (let j = 0; j < hh; j++) if (B.has(c0 + i + ',' + (r0 + j)) || used.has(c0 + i + ',' + (r0 + j))) return false;
+      return true;
+    };
+    if (!free(c, r)) {
+      let best = null;
+      for (let rr = 0; rr <= g.rows - hh; rr++)
+        for (let cc = 0; cc <= g.cols - w; cc++)
+          if (free(cc, rr)) {
+            const d = Math.abs(cc - c) + Math.abs(rr - r);
+            if (!best || d < best.d) best = {c: cc, r: rr, d};
+          }
+      if (!best) return; // nie mieści się – pominięty (zostaje w zapisie)
+      c = best.c;
+      r = best.r;
+    }
+    for (let i = 0; i < w; i++) for (let j = 0; j < hh; j++) used.add(c + i + ',' + (r + j));
+    out.push({k: t.k, z: t.z, c, r});
+  });
+  return out;
+}
+function trnLaySet(disc, L) {
+  const g = sklGrid(),
+    a = trnLayAll();
+  a[disc] = L.map(t => {
+    const [w, hh] = TRN_Z[t.z],
+      hr = t.c + w / 2 > g.cols / 2 ? 'r' : 'l',
+      vb = t.r + hh / 2 > g.rows / 2 ? 'b' : 't';
+    return {k: t.k, z: t.z, h: hr, x: hr === 'r' ? g.cols - t.c - w : t.c, v: vb, y: vb === 'b' ? g.rows - t.r - hh : t.r};
+  });
+  try {
+    localStorage.setItem('omm-trn-kafle', JSON.stringify(a));
+  } catch (e) {}
+}
+function trnLayReset(disc) {
+  const a = trnLayAll();
+  delete a[disc];
+  try {
+    localStorage.setItem('omm-trn-kafle', JSON.stringify(a));
+  } catch (e) {}
+}
+// pola zajęte przez to, czego kafelek nie może zasłonić: ikona dyscypliny, pasek, języczki, krople, podziałka
+const TRN_BLOCK = ['#trnchip', '#trnbar .trnrow', '#sktab-m', '#sktab-t', '#skgb', '#sklchips .sklchip', '.leaflet-control-scale', '#tools', '#bbtn', '#gps', '#srchb', '#compb', '#prnb', '#lbtn', '#fcchip', '#fchip'];
+function trnBlocked(g) {
+  const B = new Set();
+  TRN_BLOCK.forEach(sel =>
+    document.querySelectorAll(sel).forEach(el => {
+      if (el.hidden || !el.offsetParent) return;
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      for (let c = 0; c < g.cols; c++)
+        for (let rr = 0; rr < g.rows; rr++) {
+          const x0 = g.x0 + c * g.cw,
+            y0 = g.y0 + rr * g.ch;
+          if (x0 + g.cw > r.left + 3 && x0 < r.right - 3 && y0 + g.ch > r.top + 3 && y0 < r.bottom - 3) B.add(c + ',' + rr);
+        }
+    })
+  );
+  return B;
+}
+// --- widok
+function trnOpen() {
+  // polecenie „Trening”: trwa – pokaż kafelki i wróć do pozycji; nie trwa – kafelki do startu
+  closePops();
+  if (typeof skSide === 'function') skSide(null);
+  if (SPT) {
+    TRN_HIDE = 0;
+    if (!TRN) TRN = {};
+    trnBuild();
+    trnCenter();
+    return;
+  }
+  TRN = {ready: true};
+  trnBuild();
+  if (watching === null && !REC) gpsStart({quiet: true});
+}
+function trnShowing() {
+  return !!TRN;
+}
+function trnBuild() {
+  ['trn', 'trnbar', 'trnchip'].forEach(i => $(i) && $(i).remove());
+  if (!TRN) return;
+  document.body.classList.add('trnon');
+  document.body.classList.toggle('trnready', !!TRN.ready);
+  const disc = SPT ? SPT.disc : trnDisc(),
+    S = SPORTS[disc];
+  // ikona dyscypliny u góry – dotknięcie: zmiana dyscypliny (i narzędzia dyscypliny)
+  const ch = h('button', 'trnchip');
+  ch.id = 'trnchip';
+  ch.innerHTML = ico(S.ik, 24) + '<span class="trnn">' + esc(_t(S.n)) + '</span>' + ico('chev', 16) + '<span class="trnrec"></span>';
+  ch.title = _t('Zmień dyscyplinę');
+  ch.onclick = e => (e.stopPropagation(), trnDiscMenu());
+  // pasek u dołu
+  const bar = h('div', 'trnbar');
+  bar.id = 'trnbar';
+  const row = h('div', 'trnrow'),
+    bt = (ic, t, fn, cls) => {
+      const b = h('button', 'trnb' + (cls ? ' ' + cls : ''));
+      b.innerHTML = ico(ic, 22) + '<span>' + esc(t) + '</span>';
+      b.title = t;
+      b.onclick = e => (e.stopPropagation(), fn(b));
+      return b;
+    };
+  if (TRN.ready) {
+    const md = h('button', 'trnmd');
+    const mdUpd = () => (md.innerHTML = ico(trnRecOn() ? 'rec' : 'stats', 18) + '<span>' + esc(trnRecOn() ? _t('z zapisem śladu') : _t('tylko licznik, bez śladu')) + '</span>' + ico('chev', 14));
+    mdUpd();
+    md.title = _t('Zmień: zapis śladu albo tylko licznik');
+    md.onclick = e => {
+      e.stopPropagation();
+      localStorage.setItem('omm-trn-slad', trnRecOn() ? '0' : '1');
+      mdUpd();
+    };
+    row.append(bt('x', _t('Anuluj'), trnClose, 'trnx'), md, bt('play', REC ? _t('Start (z nagrywaniem)') : _t('Start'), trnStart, 'trngo'));
+  } else {
+    row.append(
+      bt('pause', _t('Pauza'), trnPause, 'trnpau'),
+      ...(SPT_REC ? [bt('photo', _t('Zdjęcie'), () => recFoto())] : []),
+      bt('eyeOff', _t('Ukryj'), trnHideToggle, 'trnhid'),
+      bt('bulb_half', _t('Ekran'), trnBriNext, 'trnbri'),
+      bt('stop', _t('Zakończ'), trnEnd, 'trnend')
+    );
+  }
+  bar.append(h('div', 'trnfog'), row);
+  // kafelki
+  const box = h('div', 'trnbox');
+  box.id = 'trn';
+  document.body.append(box, bar, ch);
+  if (typeof sklChips === 'function' && skOn()) sklChips(); // krople kolidujące z paskiem – w górę (pkt 342), przed kafelkami
+  trnTiles();
+  clearInterval(trnBuild.tm);
+  trnBuild.tm = setInterval(trnTick, 1000);
+  wlSync();
+  trnDraw();
+}
+function trnTiles() {
+  const box = $('trn');
+  if (!box) return;
+  box.innerHTML = '';
+  const disc = SPT ? SPT.disc : trnDisc(),
+    K = Object.fromEntries(trnKeys(disc)),
+    g = sklGrid(),
+    L = trnLayGet(disc);
+  L.forEach(t => {
+    const [w, hh] = TRN_Z[t.z],
+      el = h('div', 'trnt z' + t.z);
+    el.dataset.k = t.k;
+    el.style.left = g.x0 + t.c * g.cw + 2 + 'px';
+    el.style.top = g.y0 + t.r * g.ch + 2 + 'px';
+    el.style.width = w * g.cw - 4 + 'px';
+    el.style.height = hh * g.ch - 4 + 'px';
+    el.innerHTML = '<b data-k="' + t.k + '">–</b><i>' + esc(K[t.k] || t.k) + '</i>';
+    if (t.k === 'laps') el.onclick = () => SPT && !SPT.paused && (sptLap('btn'), (SPT.lapP = SPT.last), sptSave(), trnDraw(), vibe(20));
+    trnPress(el, t);
+    box.append(el);
+  });
+  box.classList.toggle('hid', !!TRN_HIDE);
+}
+function trnClose() {
+  ['trn', 'trnbar', 'trnchip'].forEach(i => $(i) && $(i).remove());
+  clearInterval(trnBuild.tm);
+  TRN = null;
+  TRN_HIDE = 0;
+  document.body.classList.remove('trnon', 'trnready');
+  navDim();
+  wlSync();
+  if (typeof sklChips === 'function' && skOn()) sklChips();
+}
+function trnCenter() {
+  recTouch = 0;
+  const p = REC && recPos ? [recPos.lat, recPos.lng] : me ? [me.getLatLng().lat, me.getLatLng().lng] : null;
+  if (p) map.setView(p, Math.max(map.getZoom(), 16));
+}
+function trnTick() {
+  if (!TRN) return clearInterval(trnBuild.tm);
+  if (SPT && SPT.iv) ivTick();
+  if (SPT && ++SPT_N % 5 === 0) sptSave();
+  // chwilowo ukryte kafelki wracają po 20 s bez dotykania mapy
+  if (TRN_HIDE && Date.now() - Math.max(TRN_HIDE, recTouch) > 20000) trnHideToggle();
+  // licznik bez nagrywania: mapa podąża za Tobą (przy nagrywaniu robi to nagrywanie)
+  if (SPT && !REC && me && Date.now() - recTouch > 6000 && !mode && !document.querySelector('.dback') && !(map._popup && map._popup._map)) {
+    const ll = me.getLatLng();
+    if (map.latLngToContainerPoint(ll).distanceTo(map.getSize().divideBy(2)) > 4) map.panTo(ll, {animate: true, duration: 0.6});
+  }
+  navDim();
+  trnDraw();
+}
+function trnDraw() {
+  const E = $('trn');
+  if (!E) return;
+  const disc = SPT ? SPT.disc : trnDisc(),
+    T = SPT || sptNew(disc),
+    tl = SPORTS[disc].tl,
+    o = odoNow(disc),
+    avg = T.mov > 5 ? T.d / T.mov : 0,
     set = (k, v) => {
-      const el = E.querySelector('[data-k="' + k + '"]');
-      if (el) el.textContent = v;
+      const el = E.querySelector('b[data-k="' + k + '"]');
+      if (!el || el.textContent === v) return;
+      el.textContent = v;
+      el.style.fontSize = ''; // nowa wartość – od pełnej wielkości (trnFitAll zmniejszy, gdy się nie mieści)
     },
-    lastLap = SPT.laps && SPT.laps.length ? SPT.laps[SPT.laps.length - 1] : null;
-  // duża liczba: tempo (bieg, marsz) albo prędkość
-  if (tl === 'run' || tl === 'walk') set('v', SPT.vs > 0.3 ? fpace(SPT.vs) : '–:––');
-  else set('v', fspd(SPT.v));
+    lastLap = T.laps && T.laps.length ? T.laps[T.laps.length - 1] : null;
+  if (SPT && SPT_REC && REC && !!REC.paused !== !!SPT.paused) SPT.paused = !!REC.paused; // pauza z powiadomienia
+  if (tl === 'run' || tl === 'walk') set('v', T.vs > 0.3 ? fpace(T.vs) : '–:––');
+  else set('v', fspd(T.v));
   set('avg', fspd(avg));
   set('avgp', fpace(avg));
-  const mx = Math.max(SPT.max, avg); // maks. nigdy mniejsza od średniej (prędkość z GPS vs dystans)
-  set('max', fspd(mx));
-  set('d', fkm(SPT.d));
-  set('mov', fdur(Math.round(SPT.mov)));
+  set('max', fspd(Math.max(T.max, avg)));
+  set('d', fkm(T.d));
+  set('mov', fdur(Math.round(T.mov)));
+  set('el', SPT ? fdur(Math.round((Date.now() - SPT.t0) / 1000)) : '0:00');
   set('day', fkm(o.day));
   set('tot', fkm(o.tot));
-  set('ele', SPT.ele != null ? fel(SPT.ele) : '–');
-  set('up', fel(SPT.up));
-  set('dn', fel(SPT.dn || 0));
-  set('gr', SPT.gr != null ? (SPT.gr > 0 ? '+' : '') + Math.round(SPT.gr) + '%' : '–');
-  set('kc', bodyW() ? Math.round(SPT.kc) + ' kcal' : _t('podaj wagę'));
+  set('ele', T.ele != null ? fel(T.ele) : '–');
+  set('up', fel(T.up));
+  set('dn', fel(T.dn || 0));
+  set('gr', T.gr != null ? (T.gr > 0 ? '+' : '') + Math.round(T.gr) + '%' : '–');
+  set('kc', bodyW() ? Math.round(T.kc) + ' kcal' : _t('podaj wagę'));
   set('clk', fhm(Date.now()));
-  set('gps', SPT_ACC != null ? '±' + Math.round(SPT_ACC) + ' m' : _t('GPS…'));
-  if (tl === 'run' || tl === 'walk' || tl === 'trek') set('lap', lastLap ? fsec(lastLap.t) : '–');
+  const acc = SPT_ACC != null ? SPT_ACC : typeof GPSI !== 'undefined' && GPSI.last && Date.now() - GPSI.last.t < 60000 ? GPSI.last.acc : null;
+  set('gps', acc != null ? '±' + Math.round(acc) + ' m' : _t('GPS…'));
+  set('lap', lastLap ? fsec(lastLap.t) : '–');
   if (tl === 'run') {
-    set('iv', ivLabel());
-    set('tp', SPT.tp ? fsec(SPT.tp) + (SPT.vs > 0.5 ? ((IMP ? MI : 1000) / SPT.vs > SPT.tp + 15 ? ' ↑' : (IMP ? MI : 1000) / SPT.vs < SPT.tp - 15 ? ' ↓' : ' ✓') : '') : '–');
+    set('iv', T.iv ? ivLabel() : '–');
+    set('tp', T.tp ? fsec(T.tp) + (T.vs > 0.5 ? ((IMP ? MI : 1000) / T.vs > T.tp + 15 ? ' ↑' : (IMP ? MI : 1000) / T.vs < T.tp - 15 ? ' ↓' : ' ✓') : '') : '–');
   }
   if (tl === 'walk') {
     const sd = Math.round(o.day / stride());
-    set('steps', Math.round(SPT.d / stride()).toLocaleString(LOC));
+    set('steps', Math.round(T.d / stride()).toLocaleString(LOC));
     set('goal', sd.toLocaleString(LOC) + ' / ' + stepGoal().toLocaleString(LOC) + (sd >= stepGoal() ? ' ✓' : ''));
   }
-  if (tl === 'trek') {
-    const ub = SPT.ub || [],
+  {
+    const ub = T.ub || [],
       u0 = ub[0],
       u1 = ub[ub.length - 1],
       dt = u0 && u1 ? (u1[0] - u0[0]) / 3600000 : 0;
     set('vup', dt > 0.033 ? Math.round((u1[1] - u0[1]) / dt) + ' m/h' : '–');
-    const pos = SPT.last || (NAV && NAV.pos);
+    const pos = T.last || (NAV && NAV.pos) || (me ? [me.getLatLng().lat, me.getLatLng().lng] : null);
     if (pos) {
       const s = sunTimes(pos[0], pos[1]),
         now = Date.now();
       set('sun', s.polar ? '–' : now < s.set ? fhmin(s.set - now) : _t('po zach.'));
     } else set('sun', '–');
-    if (NAV && NAV.left != null) {
-      const sp = avg > 0.3 ? avg : myPace();
-      set('eta', feta(NAV.left / sp) + ' · ' + fkm(NAV.left));
-    } else set('eta', _t('nawiguj…'));
+    if (NAV && NAV.left != null) set('eta', feta(NAV.left / (avg > 0.3 ? avg : myPace())) + ' · ' + fkm(NAV.left));
+    else set('eta', '–');
   }
   if (tl === 'horse') {
-    const g = SPT.gait || {};
+    const g = T.gait || {};
     set('gs', fdur(Math.round(g.s || 0)));
     set('gk', fdur(Math.round(g.k || 0)));
     set('gg', fdur(Math.round(g.g || 0)));
-    const now = gaitOf(SPT.vs || SPT.v);
-    set('unit', (IMP ? 'mph' : 'km/h') + (now ? ' · ' + _t(GAIT[now]) : ''));
   }
-  if (tl === 'skate') {
-    const L2 = SPT.laps || [];
-    set('laps', String(L2.length));
-    set('lap', lastLap ? fsec(lastLap.t) : '–');
-    set('best', L2.length ? fsec(Math.min(...L2.map(x => x.t))) : '–');
+  const L2 = T.laps || [];
+  set('laps', String(L2.length));
+  set('best', L2.length ? fsec(Math.min(...L2.map(x => x.t))) : '–');
+  // pasek i ikona dyscypliny
+  const pb = document.querySelector('#trnbar .trnpau');
+  if (pb) {
+    const t = SPT && SPT.paused ? _t('Dalej') : _t('Pauza');
+    if (pb.dataset.t !== t) (pb.dataset.t = t), (pb.innerHTML = ico(SPT && SPT.paused ? 'play' : 'pause', 22) + '<span>' + esc(t) + '</span>');
   }
-  E.querySelector('.spau').innerHTML = SPT.paused ? ico('play', 22) + '<span>' + _t('Dalej') + '</span>' : ico('pause', 22) + '<span>' + _t('Pauza') + '</span>';
-  E.classList.toggle('paused', !!SPT.paused);
-  E.querySelector('.swl').classList.toggle('on', wlWant());
-  E.querySelector('.srec').classList.toggle('on', !!REC);
-  E.querySelector('.srec span').textContent = REC ? _t('Nagrywa') : _t('Nagrywaj ślad');
+  const hb = document.querySelector('#trnbar .trnhid');
+  if (hb) {
+    const t = TRN_HIDE ? _t('Pokaż') : _t('Ukryj');
+    if (hb.dataset.t !== t) (hb.dataset.t = t), (hb.innerHTML = ico(TRN_HIDE ? 'eye' : 'eyeOff', 22) + '<span>' + esc(t) + '</span>');
+  }
+  const bb = document.querySelector('#trnbar .trnbri');
+  if (bb) {
+    const m = trnBri();
+    if (bb.dataset.m !== m) (bb.dataset.m = m), (bb.innerHTML = ico({jasny: 'bulb_on', telefon: 'bulb_off', przyciemniaj: 'bulb_half'}[m], 22) + '<span>' + esc(_t('Ekran')) + '</span>');
+  }
+  const ch = $('trnchip');
+  if (ch) {
+    ch.classList.toggle('paused', !!(SPT && SPT.paused));
+    ch.querySelector('.trnrec').textContent = SPT ? (SPT.paused ? _t('pauza') : SPT_REC ? '● ' + _t('ślad') : _t('licznik')) : '';
+  }
+  E.classList.toggle('paused', !!(SPT && SPT.paused));
+  trnFitAll();
 }
-var SPT_ACC = null,
-  SPT_N = 0;
-function sportOpen(disc = 'rower') {
-  // otwarcie licznika (przejazd trwa dalej, aż go wyzerujesz)
-  if (!SPORTS[disc]) disc = 'rower';
-  const S = SPORTS[disc],
-    tl = S.tl;
-  SPT = SPT || sptLoad();
-  if (!SPT || SPT.disc !== disc) {
-    if (SPT && (SPT.d >= 20 || SPT.mov >= 30)) slogAdd(SPT); // poprzedni trening – do statystyk
+function trnFitAll() {
+  // liczba zawsze cała w kafelku – mniejsza czcionka, gdy się nie mieści (sprawdzane co odświeżenie: krój pisma
+  // wczytuje się chwilę po starcie i bywa szerszy od zastępczego)
+  document.querySelectorAll('#trn .trnt b').forEach(el => {
+    const W = el.parentNode.clientWidth - 20;
+    if (el.scrollWidth <= W + 1) return;
+    let fs = parseFloat(getComputedStyle(el).fontSize) || 25;
+    while (el.scrollWidth > W + 1 && fs > 11) el.style.fontSize = (fs -= 1.5) + 'px';
+  });
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => TRN && trnFitAll());
+// --- start, pauza, koniec
+async function trnStart() {
+  const disc = trnDisc(),
+    S = SPORTS[disc];
+  if (SPT) return;
+  if (REC) {
+    // trwa nagrywanie – trening z niego korzysta i kończy się razem z nim
+    REC.l = sportLayer(disc).id;
+    REC.a = S.a;
+    recPersist(true);
     SPT = sptNew(disc);
+    SPT_REC = true;
+  } else if (trnRecOn()) {
+    const l = sportLayer(disc);
+    await recStart();
+    if (!REC) return;
+    REC.l = l.id;
+    REC.a = S.a;
+    recPersist(true);
+    SPT = sptNew(disc);
+    SPT_REC = true;
+  } else {
+    SPT = sptNew(disc);
+    SPT_REC = false;
+    await trnWatchOn();
   }
-  SPT = {...sptNew(disc), ...SPT, wb: []}; // starsze zapisy (v60) – brakujące pola
-  localStorage.setItem('omm-sport-dysc', disc);
-  SPT.last = null; // po przerwie nie łączymy odległej pozycji z poprzednią
-  SPT.lastT = Math.max(SPT.lastT || 0, Date.now() - 1000);
-  if (SPT.iv) SPT.iv.lt = Date.now();
-  SPT_OPEN = true;
-  let E = $('sport');
-  if (!E) {
-    E = h('div');
-    E.id = 'sport';
-    document.body.append(E);
-  }
-  SPT_EL = E;
-  const tile = (k, l) => '<div class="st"><b data-k="' + k + '">–</b><i>' + esc(l) + '</i></div>',
-    U = tl === 'run' || tl === 'walk' ? (IMP ? _t('min/mi – tempo') : _t('min/km – tempo')) : IMP ? 'mph' : 'km/h';
-  E.innerHTML =
-    '<div class="stop"><button class="snm sback" aria-label="' + esc(_t('Wstecz – tablica Sportu')) + '">' + ico('back', 22) + ico(S.ik, 24) + '<span>' + esc(_t(S.n)) + '</span></button><span data-k="gps"></span><span data-k="clk"></span></div>' +
-    '<div class="sbig"><b data-k="v">0</b><span data-k="unit">' + esc(U) + '</span></div>' +
-    '<div class="sgrid">' +
-    sptTiles(tl).map(([k, l]) => tile(k, l)).join('') +
-    '</div><div class="sbt"></div>';
-  E.querySelector('.sback').onclick = sportBack;
-  const bt = E.querySelector('.sbt'),
-    mk = (ic, l, fn, c) => BI(ic, l, fn, c);
-  bt.append(
-    mk('pause', _t('Pauza'), () => {
-      SPT.paused = !SPT.paused;
-      SPT.last = null;
-      if (SPT.iv) SPT.iv.lt = Date.now();
-      if (SPT_REC && REC) recPause(SPT.paused);
-      sptSave();
-      sptDraw();
-    }, 'spau'),
-    mk('rec', _t('Nagrywaj ślad'), sportRecToggle, 'srec')
-  );
-  // narzędzie dyscypliny
-  if (tl === 'run') bt.append(mk('clock', _t('Trening'), runSetup));
-  if (tl === 'walk') bt.append(mk('star', _t('Cel'), walkSetup));
-  if (tl === 'skate')
-    bt.append(
-      mk('refresh', _t('Okrążenie'), () => {
-        sptLap('btn');
-        SPT.lapP = SPT.last;
-        sptSave();
-        sptDraw();
-      })
-    );
-  bt.append(
-    mk('bulb', _t('Ekran'), () => {
-      const on = localStorage.getItem('omm-sport-ekran') === 'nie';
-      localStorage.setItem('omm-sport-ekran', on ? 'tak' : 'nie');
-      toastMsg(on ? _t('💡 Ekran licznika nie zgaśnie') : _t('Ekran licznika gaśnie normalnie'));
-      wlSync();
-      sptDraw();
-    }, 'swl'),
-    mk('map', _t('Mapa'), sportToMap),
-    mk('x', _t('Zakończ'), sportEnd, 'danger')
-  );
-  E.style.display = 'flex';
-  document.body.classList.add('sporton');
-  sboardHide();
-  if (navigator.geolocation && SPT_W == null)
-    SPT_W = navigator.geolocation.watchPosition(
-      p => {
-        SPT_ACC = p.coords.accuracy;
-        sptFeed(p.coords.latitude, p.coords.longitude, p.coords.altitude, p.coords.accuracy, p.coords.speed, p.timestamp || Date.now());
-        sptDraw();
-      },
-      e => {
-        if (e.code === 1) tell(gpsHelp(e));
-      },
-      {enableHighAccuracy: true, maximumAge: 1000, timeout: 60000}
-    );
-  clearInterval(SPT_EL._tm);
-  SPT_EL._tm = setInterval(() => {
-    if (SPT && SPT.iv) ivTick();
-    sptDraw();
-    if (++SPT_EL._n % 5 === 0) sptSave();
-  }, 1000);
-  SPT_EL._n = 0;
-  wlSync();
-  sptDraw();
-}
-function sportClose() {
-  // licznik chowa się (przejazd i nagrywanie trwają dalej) – wraca przyciskiem w trybie Sport
-  SPT_OPEN = false;
-  if (SPT_W != null) navigator.geolocation.clearWatch(SPT_W);
-  SPT_W = null;
-  if (SPT_EL) {
-    clearInterval(SPT_EL._tm);
-    SPT_EL.style.display = 'none';
-  }
-  document.body.classList.remove('sporton');
   sptSave();
-  wlSync();
+  TRN = {};
+  TRN_WAKE = Date.now() + 15000;
+  vibe([40, 60, 40]);
+  sSay(_t('Start. ') + _t(S.n) + '.');
+  trnBuild();
+  trnCenter();
 }
-function sportToMap() {
-  // licznik → mapa (trening trwa; na mapie „‹ licznik” i „Wstecz” wracają)
-  sportClose();
-  sboardHide();
-  sportPill();
+function trnPause() {
+  if (!SPT) return;
+  SPT.paused = !SPT.paused;
+  SPT.last = null;
+  if (SPT.iv) SPT.iv.lt = Date.now();
+  if (SPT_REC && REC) recPause(SPT.paused);
+  sptSave();
+  trnDraw();
 }
-function sportBack() {
-  // licznik → tablica Sportu (trening trwa dalej)
-  sportClose();
-  sboardOpen();
-}
-async function sportEnd() {
-  // koniec treningu: zapis do dziennika (statystyki), ślad z licznika zapisany jak zwykle, licznik od zera
-  if (!SPT) return sportBack();
+async function trnEnd() {
+  if (!SPT) return trnClose();
+  if (SPT_REC && REC) return recStop(); // okno zapisu śladu; zapis albo usunięcie śladu kończy trening (trnRecGone)
   const S0 = SPT,
     short = S0.d < 20 && S0.mov < 30;
   if (
     !(await askYes(
-      short
-        ? _t('Zakończyć trening? Nic jeszcze nie przejechano – nie trafi do statystyk.')
-        : _t('Zakończyć trening i zapisać go w statystykach?\n\n') + _t(SPORTS[S0.disc].n) + ': ' + fkm(S0.d) + ' · ' + fdur(Math.round(S0.mov)),
+      short ? _t('Zakończyć trening? Nic jeszcze nie przejechano – nie trafi do statystyk.') : _t('Zakończyć trening i zapisać go w statystykach?\n\n') + _t(SPORTS[S0.disc].n) + ': ' + fkm(S0.d) + ' · ' + fdur(Math.round(S0.mov)),
       _t('Zakończ')
     ))
   )
     return;
-  sportClose();
-  let trk = null;
-  if (SPT_REC && REC) {
-    const st0 = REC.st;
-    SPT_REC = false;
-    await recStop();
-    const t = TRK.items.find(x => x.st === st0);
-    if (t) {
-      trk = t.id;
-      // v105 (pkt 263): dystans, czas ruchu i podjazdy z policzonego śladu – ta sama liczba co w Śladach
-      // (licznik na żywo liczy w biegu; kalorie przeliczone proporcjonalnie do dystansu)
-      try {
-        const s = trkStatsC(t);
-        if (s && s.d > 0) {
-          if (S0.d > 0 && S0.kc) S0.kc = (S0.kc * s.d) / S0.d;
-          S0.d = s.d;
-          S0.mov = s.mov;
-          S0.up = s.up;
-          S0.dn = s.down || S0.dn;
-        }
-      } catch (x) {}
-    }
-  }
-  const e = short ? null : slogAdd(S0, trk);
+  trnFinish(null);
+}
+function trnRecGone(st0) {
+  // z recClear: nagrywanie treningu się skończyło (zapis, usunięcie, „Zakończ” w powiadomieniu) – koniec treningu
+  if (!SPT || !SPT_REC) return;
+  SPT_REC = false;
+  setTimeout(() => trnFinish((TRK.items || []).find(x => x.st === st0) || null), 0);
+}
+function trnFinish(t) {
+  const S0 = SPT;
+  trnWatchOff();
+  if (!S0) return trnClose();
+  if (t)
+    try {
+      // dystans, czas ruchu i podjazdy z policzonego śladu – ta sama liczba co w Śladach (kalorie proporcjonalnie)
+      const s = trkStatsC(t);
+      if (s && s.d > 0) {
+        if (S0.d > 0 && S0.kc) S0.kc = (S0.kc * s.d) / S0.d;
+        S0.d = s.d;
+        S0.mov = s.mov;
+        S0.up = s.up;
+        S0.dn = s.down || S0.dn;
+      }
+    } catch (x) {}
+  const e = S0.d < 20 && S0.mov < 30 ? null : slogAdd(S0, t && t.id);
   SPT = null;
+  SPT_REC = false;
+  SPT_ACC = null;
   try {
     localStorage.removeItem('omm-sport-przejazd');
   } catch (x) {}
-  sboardOpen();
-  if (e) sportSummary(e);
+  trnClose();
+  if (e) setTimeout(() => (document.querySelector('.dback') ? toastMsg(_t('Trening zapisany w statystykach (Ślady → Treningi)')) : sportSummary(e)), t ? 1700 : 50);
 }
-async function sportRecToggle() {
-  // nagrywanie śladu z licznika – ślad trafi do kategorii „Sport”, warstwa wg dyscypliny
-  if (REC) {
-    if (SPT_REC) {
-      SPT_REC = false;
-      sportClose();
-      await recStop();
-      if (!REC) sportOpen(SPT.disc);
-      return;
+async function trnWatchOn() {
+  // licznik bez nagrywania: pozycje z usługi w tle (działa przy zgaszonym ekranie), nic nie trafia do śladów
+  if (SPT_W || REC) return;
+  const feed = (lat, lon, alt, acc, spd, t) => {
+    SPT_ACC = acc;
+    gpsiAdd('rec', {latitude: lat, longitude: lon, accuracy: acc, altitude: alt, speed: spd}, t);
+    sptFeed(lat, lon, alt, acc, spd, t);
+  };
+  const BG = plug('BackgroundGeolocation');
+  if (BG) {
+    try {
+      const LN = plug('LocalNotifications');
+      if (LN) await LN.requestPermissions();
+    } catch (e) {}
+    try {
+      const id = await BG.addWatcher(
+        {backgroundTitle: _t('OMM liczy trening'), backgroundMessage: _t('Dotknij, aby wrócić do OMM.'), requestPermissions: true, stale: false, distanceFilter: 3},
+        (loc, err) => {
+          if (err) return void (err.code === 'NOT_AUTHORIZED' && tell(gpsHelp({code: 1})));
+          if (loc) feed(loc.latitude, loc.longitude, loc.altitude, loc.accuracy, loc.speed, loc.time || Date.now());
+        }
+      );
+      SPT_W = {bg: id};
+    } catch (e) {
+      tell(_t('Nie udało się włączyć GPS: ') + ((e && e.message) || e));
     }
-    return tell(_t('Trwa już nagrywanie śladu – licznik korzysta z niego.'));
+    return;
   }
-  const l = sportLayer(SPT.disc);
-  await recStart();
-  if (!REC) return;
-  REC.l = l.id;
-  REC.a = SPORTS[SPT.disc].a;
-  recPersist(true);
-  SPT_REC = true;
-  sptDraw();
+  if (navigator.geolocation)
+    SPT_W = {
+      nv: navigator.geolocation.watchPosition(
+        p => feed(p.coords.latitude, p.coords.longitude, p.coords.altitude, p.coords.accuracy, p.coords.speed, p.timestamp || Date.now()),
+        e => e.code === 1 && tell(gpsHelp(e)),
+        {enableHighAccuracy: true, maximumAge: 1000, timeout: 60000}
+      )
+    };
 }
+function trnWatchOff() {
+  if (!SPT_W) return;
+  const BG = plug('BackgroundGeolocation');
+  if (SPT_W.bg != null && BG) BG.removeWatcher({id: SPT_W.bg}).catch(() => {});
+  if (SPT_W.nv != null && navigator.geolocation) navigator.geolocation.clearWatch(SPT_W.nv);
+  SPT_W = null;
+}
+// --- ukrycie kafelków, ekran
+function trnHideToggle() {
+  TRN_HIDE = TRN_HIDE ? 0 : Date.now();
+  const b = $('trn');
+  if (b) b.classList.toggle('hid', !!TRN_HIDE);
+  if (TRN_HIDE) recTouch = Date.now(); // mapa nie wraca od razu do pozycji – można ją przesuwać
+  trnDraw();
+}
+function trnBriNext() {
+  const o = ['przyciemniaj', 'jasny', 'telefon'],
+    v = o[(o.indexOf(trnBri()) + 1) % 3];
+  localStorage.setItem('omm-trn-ekran', v);
+  toastMsg({jasny: _t('Ekran stale jasny'), telefon: _t('Ekran jak zwykle w telefonie'), przyciemniaj: _t('Ekran przygasa – dotknij, aby rozjaśnić')}[v]);
+  TRN_WAKE = Date.now() + 15000;
+  wlSync();
+  navDim();
+  trnDraw();
+}
+const trnDimWant = () => !!TRN && !!SPT && !TRN.ready && trnBri() === 'przyciemniaj' && !document.hidden && Date.now() > TRN_WAKE && !document.querySelector('.dback') && !SKD && !TRN.drag;
+document.addEventListener(
+  'pointerdown',
+  () => {
+    if (!TRN) return;
+    TRN_WAKE = Date.now() + 15000;
+    navDim();
+  },
+  true
+);
+// --- dyscyplina
+async function trnDiscMenu() {
+  const cur = SPT ? SPT.disc : trnDisc(),
+    tl = SPORTS[cur].tl,
+    v = await dlg({
+      title: _t('Dyscyplina'),
+      btns: [
+        ...spDiscs(cur).map(k => ({t: (k === cur ? '● ' : '○ ') + _t(SPORTS[k].n), v: 'd:' + k, c: k === cur ? 'okb' : ''})),
+        ...(tl === 'run' && SPT ? [{t: _t('Interwały i cel tempa…'), v: 'run'}] : []),
+        ...(tl === 'walk' ? [{t: _t('Dzienny cel kroków…'), v: 'walk'}] : []),
+        ...(tl === 'skate' && SPT ? [{t: _t('Okrążenie teraz'), v: 'lap'}] : []),
+        {t: _t('Dodaj kafelek…'), v: 'add'},
+        {t: _t('Statystyki treningów'), v: 'st'},
+        {t: _t('Anuluj'), v: null}
+      ]
+    });
+  if (!v) return;
+  if (v === 'run') return runSetup();
+  if (v === 'walk') return walkSetup();
+  if (v === 'lap') return SPT && (sptLap('btn'), (SPT.lapP = SPT.last), sptSave(), trnDraw());
+  if (v === 'add') return trnAddTile(cur);
+  if (v === 'st') return sstatOpen(cur);
+  const k = v.slice(2);
+  if (k === cur) return;
+  localStorage.setItem('omm-sport-dysc', k);
+  if (SPT) {
+    // w trakcie: cały trening (i ślad) przechodzi do nowej dyscypliny
+    SPT.disc = k;
+    SPT.laps = [];
+    SPT.lapD = SPT.d;
+    SPT.lapM = SPT.mov;
+    if (SPT_REC && REC) {
+      REC.l = sportLayer(k).id;
+      REC.a = SPORTS[k].a;
+      recPersist(true);
+    }
+    sptSave();
+  }
+  trnBuild();
+}
+// --- przestawianie kafelków (jak krople): przytrzymanie i przeciągnięcie; przytrzymanie bez ruchu – menu kafelka
+function trnPress(el, t) {
+  let tm = null,
+    st = null;
+  el.addEventListener('pointerdown', e => {
+    if (e.button > 0 || TRN_HIDE) return;
+    st = {x: e.clientX, y: e.clientY};
+    clearTimeout(tm);
+    tm = setTimeout(() => trnDragStart(el, t, st, e.pointerId), SKL_HOLD);
+  });
+  el.addEventListener('pointermove', e => {
+    if (!(TRN && TRN.drag) && st && Math.hypot(e.clientX - st.x, e.clientY - st.y) > 10) clearTimeout(tm), (st = null);
+  });
+  ['pointerup', 'pointercancel'].forEach(ev => el.addEventListener(ev, () => (clearTimeout(tm), (st = null))));
+  el.addEventListener('contextmenu', e => e.preventDefault());
+}
+function trnDragStart(el, t, st, pid) {
+  if (!TRN || TRN.drag) return;
+  vibe(25);
+  eatNextClick();
+  const g = sklGrid(),
+    disc = SPT ? SPT.disc : trnDisc(),
+    others = trnLayGet(disc).filter(x => x.k !== t.k),
+    B = trnBlocked(g),
+    [w, hh] = TRN_Z[t.z];
+  others.forEach(o => {
+    const [ow, oh] = TRN_Z[o.z];
+    for (let i = 0; i < ow; i++) for (let j = 0; j < oh; j++) B.add(o.c + i + ',' + (o.r + j));
+  });
+  const grid = h('div');
+  grid.id = 'sklgrid';
+  grid.className = 'on';
+  grid.style.backgroundPosition = g.x0 + 'px ' + g.y0 + 'px';
+  grid.style.backgroundSize = g.cw + 'px ' + g.ch + 'px';
+  const cell = h('div', 'trncell');
+  cell.style.width = w * g.cw - 4 + 'px';
+  cell.style.height = hh * g.ch - 4 + 'px';
+  document.body.append(grid, cell);
+  const r0 = el.getBoundingClientRect(),
+    D = {el, t, g, B, w, hh, ox: st.x - r0.left, oy: st.y - r0.top, sx: st.x, sy: st.y, moved: false, to: null, grid, cell};
+  TRN.drag = D;
+  el.classList.add('lift');
+  const mv = e => {
+    e.preventDefault();
+    if (Math.hypot(e.clientX - D.sx, e.clientY - D.sy) > 12) D.moved = true;
+    const x = e.clientX - D.ox,
+      y = e.clientY - D.oy;
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    const c = Math.max(0, Math.min(g.cols - w, Math.round((x - g.x0) / g.cw))),
+      r = Math.max(0, Math.min(g.rows - hh, Math.round((y - g.y0) / g.ch)));
+    let ok = true;
+    for (let i = 0; i < w && ok; i++) for (let j = 0; j < hh && ok; j++) if (B.has(c + i + ',' + (r + j))) ok = false;
+    D.to = ok ? {c, r} : null;
+    cell.style.display = ok ? 'block' : 'none';
+    cell.style.left = g.x0 + c * g.cw + 2 + 'px';
+    cell.style.top = g.y0 + r * g.ch + 2 + 'px';
+  };
+  const end = cancel => {
+    document.removeEventListener('pointermove', mv);
+    document.removeEventListener('pointerup', up);
+    document.removeEventListener('pointercancel', cc);
+    grid.remove();
+    cell.remove();
+    el.classList.remove('lift');
+    if (TRN) TRN.drag = null;
+    if (!cancel && D.moved && D.to) {
+      const L = trnLayGet(disc).map(x => (x.k === t.k ? {...x, c: D.to.c, r: D.to.r} : x));
+      trnLaySet(disc, L);
+    }
+    trnTiles();
+    trnDraw();
+    if (!cancel && !D.moved) trnTileMenu(t);
+  };
+  const up = () => end(false),
+    cc = () => end(true);
+  document.addEventListener('pointermove', mv, {passive: false});
+  document.addEventListener('pointerup', up);
+  document.addEventListener('pointercancel', cc);
+}
+async function trnTileMenu(t) {
+  const disc = SPT ? SPT.disc : trnDisc(),
+    K = trnKeys(disc),
+    lab = (K.find(x => x[0] === t.k) || [0, t.k])[1],
+    zs = [['s', _t('Mały')], ['w', _t('Szeroki')], ['b', _t('Duży')]],
+    v = await dlg({
+      title: lab,
+      btns: [
+        ...zs.map(([z, n]) => ({t: (t.z === z ? '● ' : '○ ') + n, v: 'z:' + z, c: t.z === z ? 'okb' : ''})),
+        {t: _t('Pokaż tu inny parametr…'), v: 'swap'},
+        {t: _t('Dodaj kafelek…'), v: 'add'},
+        {t: _t('Usuń z mapy'), v: 'del', c: 'danger'},
+        {t: _t('Przywróć układ fabryczny'), v: 'reset'},
+        {t: _t('Anuluj'), v: null}
+      ]
+    });
+  if (!v) return;
+  let L = trnLayGet(disc);
+  if (v === 'reset') {
+    trnLayReset(disc);
+    return trnTiles(), trnDraw();
+  }
+  if (v === 'add') return trnAddTile(disc);
+  if (v === 'del') {
+    if (L.length <= 1) return toastMsg(_t('Zostaw co najmniej jeden kafelek'));
+    L = L.filter(x => x.k !== t.k);
+  }
+  if (v === 'swap') {
+    const used = new Set(L.map(x => x.k)),
+      k = await dlg({title: _t('Zamiast: ') + lab, btns: [...K.filter(x => !used.has(x[0])).map(x => ({t: x[1], v: x[0]})), {t: _t('Anuluj'), v: null}]});
+    if (!k) return;
+    L = L.map(x => (x.k === t.k ? {...x, k} : x));
+  }
+  if (v.startsWith('z:')) {
+    const z = v.slice(2),
+      g = sklGrid(),
+      [w, hh] = TRN_Z[z],
+      rest = L.filter(x => x.k !== t.k);
+    // większy kafelek w miejscu starego, a gdy się nie mieści – najbliższe wolne miejsce
+    const fit = trnFit([...rest, {k: t.k, z, c: Math.min(t.c, g.cols - w), r: Math.min(t.r, g.rows - hh)}], g);
+    if (!fit.some(x => x.k === t.k)) return tell(_t('Na ekranie nie ma miejsca na większy kafelek – zmniejsz albo usuń inny.'));
+    L = fit;
+  }
+  trnLaySet(disc, L);
+  trnTiles();
+  trnDraw();
+}
+async function trnAddTile(disc) {
+  const L = trnLayGet(disc),
+    used = new Set(L.map(x => x.k)),
+    K = trnKeys(disc).filter(x => !used.has(x[0]));
+  if (!K.length) return toastMsg(_t('Wszystkie parametry są już na mapie'));
+  const k = await dlg({title: _t('Dodaj kafelek'), btns: [...K.map(x => ({t: x[1], v: x[0]})), {t: _t('Anuluj'), v: null}]});
+  if (!k) return;
+  const g = sklGrid(),
+    fit = trnFit([...L, {k, z: 's', c: 0, r: 1}], g);
+  if (!fit.some(x => x.k === k)) return tell(_t('Na ekranie nie ma już miejsca – usuń albo zmniejsz inny kafelek.'));
+  trnLaySet(disc, fit);
+  trnTiles();
+  trnDraw();
+}
+addEventListener('resize', () => TRN && !TRN.drag && setTimeout(() => (trnTiles(), trnDraw()), 60));
+function trnBackKey() {
+  // systemowe „Wstecz”: chwilowo ukryte kafelki – pokaż; przed startem – zamknij
+  if (SST_OPEN) return sstatClose(), true;
+  if (!TRN) return false;
+  if (TRN.ready) return trnClose(), true;
+  if (TRN_HIDE) return trnHideToggle(), true;
+  return false;
+}
+function sportRecToggle() {} // (v119: nagrywanie wybiera się w Ustawieniach → Trening albo przed startem)
 function sportLayer(disc) {
   // kategoria „Sport” (tryb prywatny) i warstwa dyscypliny – tworzone przy pierwszym treningu
   const S = SPORTS[disc];
@@ -52961,12 +53330,6 @@ function sportLayer(disc) {
   if (!c.active) c.active = l.id;
   trkSave();
   return l;
-}
-async function sportPick() {
-  // przycisk na mapie: wróć do trwającego treningu albo na tablicę Sportu
-  const cur = sptCur();
-  if (cur) return sportOpen(cur.disc);
-  sboardOpen();
 }
 
 // ---------- dziennik treningów (v62): podstawa statystyk Sportu ----------
@@ -53138,8 +53501,7 @@ function sportSummary(e) {
   ]).then(r => r === 's' && sstatOpen(e.disc));
 }
 
-// ---------- tablica Sportu (v62) ----------
-var SB_OPEN = false;
+// ---------- v119: trwający trening (tablica Sportu z v62 usunięta – zastąpił ją Trening na mapie) ----------
 function sptCur() {
   // trwający trening: bieżący w pamięci albo zapisany (po ponownym uruchomieniu) – null, gdy brak
   return SPT || sptLoad();
@@ -53149,137 +53511,6 @@ function weekStart(t = Date.now()) {
   d.setHours(0, 0, 0, 0);
   d.setDate(d.getDate() - ((d.getDay() + 6) % 7)); // poniedziałek
   return d.getTime();
-}
-function sboardOpen() {
-  if (!isSport()) return;
-  slogMigrate();
-  let E = $('sboard');
-  if (!E) {
-    E = h('div');
-    E.id = 'sboard';
-    document.body.append(E);
-  }
-  SB_OPEN = true;
-  E.style.display = 'flex';
-  document.body.classList.add('sboardon');
-  sboardDraw();
-}
-function sboardHide() {
-  SB_OPEN = false;
-  const E = $('sboard');
-  if (E) E.style.display = 'none';
-  document.body.classList.remove('sboardon');
-}
-function sboardDraw() {
-  const E = $('sboard');
-  if (!E || !SB_OPEN) return;
-  E.innerHTML = '';
-  const log = slogGet(),
-    now = Date.now(),
-    d0 = new Date().setHours(0, 0, 0, 0),
-    w0 = weekStart(),
-    act = sptCur();
-  // nagłówek: tryb · statystyki · ustawienia
-  const hd = h('div', 'sbh'),
-    mb = B('', () => modeSwitch(mb), 'sbmode', _t('Przełącz tryb'));
-  mb.innerHTML = ico('sport', 18) + '<span>' + _t('Sport') + '</span>' + ico('chev', 16);
-  hd.append(mb, h('span', 'shsp'), IB('stats', () => sstatOpen('all'), '', _t('Statystyki')), IB('gear', () => settingsDlg(), '', _t('Ustawienia')));
-  // dziś: suma ze wszystkich dyscyplin (liczniki dzienne)
-  const dayD = Object.keys(SPORTS).reduce((a, k) => a + odoNow(k).day, 0),
-    todayN = log.filter(e => e.t0 >= d0).length + (act && act.t0 >= d0 ? 1 : 0),
-    weekD = log.filter(e => e.t0 >= w0).reduce((a, e) => a + e.d, 0) + (act && act.t0 >= w0 ? act.d : 0);
-  const top = h('div', 'sbtop');
-  top.append(
-    h('div', 'sbtitle', _t('Co dziś trenujesz?')),
-    h('div', 'sbsub', _t('Dziś ') + fkm(dayD) + (todayN ? ' · ' + plN(todayN, _t('trening'), _t('treningi'), _t('treningów')) : '') + _t(' · ten tydzień ') + fkm(weekD))
-  );
-  E.append(hd, top);
-  // trwający trening
-  if (act) {
-    const S = SPORTS[act.disc],
-      c = B('', () => sportOpen(act.disc), 'sbact');
-    c.innerHTML =
-      '<span class="sbaci">' +
-      ico(S.ik, 30) +
-      '</span><span class="sbact1"><b>' +
-      esc(_t('Wróć do treningu')) +
-      '</b><i>' +
-      esc(_t(S.n)) +
-      ' · ' +
-      esc(fkm(act.d)) +
-      ' · ' +
-      esc(fdur(Math.round(act.mov || 0))) +
-      (SPT_REC && REC ? ' · ● ' + esc(_t('nagrywa')) : '') +
-      '</i></span>' +
-      ico('play', 22);
-    E.append(c);
-  }
-  // kafle dyscyplin (v73: tylko wybrane w Ustawieniach → Sport, w ustawionej kolejności; trwający trening zawsze)
-  const grid = h('div', 'sbgrid');
-  spDiscs(act && act.disc).map(k => [k, SPORTS[k]]).forEach(([k, S]) => {
-    const t = B('', () => sboardPick(k), 'sbtile' + (act && act.disc === k ? ' on' : '')),
-      od = odoNow(k),
-      wk = log.filter(e => e.disc === k && e.t0 >= w0).reduce((a, e) => a + e.d, 0) + (act && act.disc === k && act.t0 >= w0 ? act.d : 0);
-    t.innerHTML =
-      '<span class="sbic">' +
-      ico(S.ik, 40) +
-      '</span><b>' +
-      esc(_t(S.n)) +
-      '</b><i>' +
-      esc(od.day > 0 ? _t('dziś ') + fkm(od.day) : wk > 0 ? _t('tydzień ') + fkm(wk) : _t('—')) +
-      '</i>';
-    t.title = _t(S.n);
-    grid.append(t);
-  });
-  E.append(grid);
-  // dół: statystyki i mapa
-  const row = h('div', 'sbrow');
-  row.append(BI('stats', _t('Statystyki'), () => sstatOpen('all'), 'sbwide'), BI('map', _t('Mapa'), () => (sboardHide(), sportPill()), 'sbwide'));
-  E.append(row);
-}
-async function sboardPick(k) {
-  // dotknięcie kafla: licznik dyscypliny; inny trwający trening – najpierw pytanie
-  const act = sptCur();
-  if (act && act.disc !== k && (act.d >= 20 || act.mov >= 30)) {
-    const v = await dlg({
-      title: _t('Trwa trening: ') + _t(SPORTS[act.disc].n) + ' · ' + fkm(act.d) + '. ' + _t('Co z nim zrobić?'),
-      btns: [
-        {t: _t('Wróć do niego'), v: 'back', c: 'okb'},
-        {t: _t('Zakończ go i zacznij: ') + _t(SPORTS[k].n), v: 'new'},
-        {t: _t('Anuluj'), v: null}
-      ]
-    });
-    if (v === 'back') return sportOpen(act.disc);
-    if (v !== 'new') return;
-    if (SPT_REC && REC) return tell(_t('Najpierw zakończ trening z nagrywaniem śladu (przycisk „Zakończ” w liczniku).'));
-    slogAdd(act);
-    try {
-      localStorage.removeItem('omm-sport-przejazd');
-    } catch (e) {}
-    SPT = null;
-  }
-  sportOpen(k);
-}
-function sportPill() {
-  // przycisk na mapie w trybie Sport: „‹ licznik” (trwa trening) albo „‹ Sport” (tablica)
-  const b = $('sportb');
-  if (!b) return;
-  const act = sptCur();
-  b.innerHTML = ico('back', 20) + (act ? ico(SPORTS[act.disc].ik, 22) + '<span>' + esc(fkm(act.d)) + '</span>' : '<span>' + esc(_t('Sport')) + '</span>');
-  b.title = act ? _t('Wróć do licznika') : _t('Wróć do tablicy Sportu');
-}
-function sportBackKey() {
-  // systemowe „Wstecz” w trybie Sport; true = obsłużone
-  if (!isSport()) return false;
-  if (SST_OPEN) return sstatClose(), true;
-  if (SPT_OPEN) return sportBack(), true;
-  return false;
-}
-function sportMapBack() {
-  // „Wstecz” na mapie w trybie Sport (gdy nic innego nie jest otwarte): do licznika albo tablicy
-  if (!isSport() || SB_OPEN) return false;
-  sportPick();
-  return true;
 }
 
 // ---------- statystyki Sportu (v62): ogólne i dla każdej dyscypliny ----------
@@ -53302,7 +53533,6 @@ function sstatClose() {
   SST_OPEN = false;
   const E = $('sstat');
   if (E) E.style.display = 'none';
-  if (SB_OPEN) sboardDraw();
 }
 function perRange(per, now = Date.now()) {
   // początek okresu i podział wykresu: [od, kubełki [{t0, t1, lab}]]
@@ -53575,13 +53805,13 @@ function sstatDraw() {
 }
 async function sstatEntry(e) {
   // szczegóły treningu: pokaż ślad, usuń ze statystyk
-  if (e.cur) return sportOpen(e.disc);
+  if (e.cur) return sstatClose(), trnOpen();
   if (e.ft) {
     // v105: dołączony ślad – pokaż go na mapie
     const t = TRK.items.find(x => x.id === e.trk);
     if (t) {
       sstatClose();
-      sboardHide();
+      $('sheet').style.display = 'none';
       trkFocus(t);
     }
     return;
@@ -53614,8 +53844,7 @@ async function sstatEntry(e) {
   ]);
   if (v2 === 'trk' && t) {
     sstatClose();
-    sboardHide();
-    sportPill();
+    $('sheet').style.display = 'none';
     trkFocus(t);
   }
   if (v2 === 'del' && (await askYes(_t('Usunąć ten trening ze statystyk?\n\nŚlad GPS (jeśli jest) zostaje w Śladach. Licznik całkowity się nie zmienia.'), _t('Usuń'), true))) {
@@ -54365,12 +54594,85 @@ function settingsDlg(keep, old) {
     fill();
     sec.append(g);
   }
-  cat('sport', 'sport', _t('Sport'), _t('Dyscypliny, kalorie, liczniki, głos'));
+  cat('sport', 'sport', _t('Trening'), _t('Zapis śladu, ekran, kafelki, dyscypliny, kalorie, głos'));
+  // v119 (pkt 348): Trening – co robi Start, ekran w treningu, kafelki na mapie
+  radios(
+    _t('Start treningu'),
+    'omm-trn-slad',
+    '1',
+    [
+      ['1', _t('Licznik i zapis śladu (ślad trafia do Śladów → Sport)')],
+      ['0', _t('Tylko licznik – jak licznik rowerowy, bez śladu')]
+    ],
+    _t('W obu przypadkach licznik liczy także przy zgaszonym ekranie. Trening kończy się razem z nagrywaniem śladu. Wybór zmienisz też przed startem – napis obok przycisku Start.')
+  );
+  radios(
+    _t('Ekran w czasie treningu'),
+    'omm-trn-ekran',
+    'przyciemniaj',
+    [
+      ['przyciemniaj', _t('Przygaszany – dotknięcie rozjaśnia na 15 s')],
+      ['jasny', _t('Stale jasny')],
+      ['telefon', _t('Jak zwykle w telefonie')]
+    ]
+  );
   {
-    // v73: które dyscypliny są na tablicy i w jakiej kolejności
+    // kafelki na mapie – osobno dla każdej dyscypliny
+    const g = h('div', 'sset'),
+      dr = h('div', 'trnsd'),
+      ls = h('div', 'trnsl');
+    let dsc = trnDisc();
+    g.append(h('b', null, _t('Kafelki na mapie')), h('div', 'muted', _t('Co widać w czasie treningu – osobno dla każdej dyscypliny. Na mapie: przytrzymaj kafelek i przeciągnij, aby go przenieść; przytrzymaj bez ruchu – rozmiar, inny parametr, usuń.')), dr, ls);
+    const draw = () => {
+      dr.innerHTML = '';
+      spDiscs().forEach(k => {
+        const b = B('', () => ((dsc = k), draw()), 'schip' + (k === dsc ? ' on' : ''));
+        b.innerHTML = ico(SPORTS[k].ik, 18) + '<span>' + esc(_t(SPORTS[k].n)) + '</span>';
+        dr.append(b);
+      });
+      ls.innerHTML = '';
+      const L = trnLayGet(dsc),
+        on = new Set(L.map(x => x.k));
+      trnKeys(dsc).forEach(([k, lab]) => {
+        const lb = h('label', 'chk'),
+          c = h('input');
+        c.type = 'checkbox';
+        c.checked = on.has(k);
+        c.onchange = () => {
+          let L2 = trnLayGet(dsc);
+          if (c.checked) {
+            const fit = trnFit([...L2, {k, z: 's', c: 0, r: 1}], sklGrid());
+            if (!fit.some(x => x.k === k)) {
+              c.checked = false;
+              return tell(_t('Na ekranie nie ma już miejsca – usuń albo zmniejsz inny kafelek.'));
+            }
+            L2 = fit;
+          } else {
+            if (L2.length <= 1) return (c.checked = true), toastMsg(_t('Zostaw co najmniej jeden kafelek'));
+            L2 = L2.filter(x => x.k !== k);
+          }
+          trnLaySet(dsc, L2);
+          if (TRN) trnTiles(), trnDraw();
+        };
+        lb.append(c, h('span', null, lab));
+        ls.append(lb);
+      });
+      const rs = B(_t('Przywróć kafelki fabryczne'), () => {
+        trnLayReset(dsc);
+        if (TRN) trnTiles(), trnDraw();
+        draw();
+        toastMsg(_t('Przywrócono kafelki: ') + _t(SPORTS[dsc].n));
+      });
+      ls.append(rs);
+    };
+    draw();
+    sec.append(g);
+  }
+  {
+    // v73: które dyscypliny są w menu treningu i w jakiej kolejności
     const g = h('div', 'sset'),
       ls = h('div', 'spdl');
-    g.append(h('b', null, _t('Dyscypliny na tablicy')), h('div', 'muted', _t('Odznacz te, których nie uprawiasz; strzałki zmieniają kolejność. Ślady i statystyki ukrytych dyscyplin zostają.')), ls);
+    g.append(h('b', null, _t('Dyscypliny')), h('div', 'muted', _t('Odznacz te, których nie uprawiasz – nie będzie ich w menu zmiany dyscypliny; strzałki zmieniają kolejność. Ślady i statystyki ukrytych dyscyplin zostają.')), ls);
     const draw = () => {
       ls.innerHTML = '';
       const o = spOrder(),
@@ -54387,7 +54689,7 @@ function settingsDlg(keep, old) {
           let hh = spHidden();
           if (!c.checked && o.filter(x => !hh.includes(x)).length <= 1) {
             c.checked = true;
-            return toastMsg(_t('Co najmniej jedna dyscyplina zostaje na tablicy'));
+            return toastMsg(_t('Co najmniej jedna dyscyplina zostaje'));
           }
           hh = c.checked ? hh.filter(x => x !== k) : [...hh, k];
           localStorage.setItem('omm-sport-ukryte', JSON.stringify(hh));
@@ -54480,7 +54782,7 @@ function settingsDlg(keep, old) {
       r.append(rb);
       g.append(r);
     });
-    g.append(h('div', 'muted', _t('Liczą treningi nagrane w OMM z licznikiem Sport (zaimportowane ślady się nie wliczają – ich sumy są w Statystykach). Pozostałe dyscypliny pojawią się tu po pierwszym treningu.')));
+    g.append(h('div', 'muted', _t('Liczą treningi z OMM (zaimportowane ślady się nie wliczają – ich sumy są w Śladach → Treningi). Pozostałe dyscypliny pojawią się tu po pierwszym treningu.')));
     sec.append(g);
   }
   radios(
@@ -54895,8 +55197,7 @@ if (plug('App'))
       dialogs[dialogs.length - 1].dispatchEvent(new MouseEvent('click', {bubbles: true}));
       return;
     }
-    if (sportBackKey()) return; // Sport: statystyki → tablica, licznik → tablica
-    if (SB_OPEN) return plug('App').minimizeApp(); // tablica Sportu – ekran główny trybu
+    if (trnBackKey()) return; // v119: statystyki treningów, kafelki przed startem, chwilowo ukryte kafelki
     if (['bmenu', 'xmenu', 'dmenu'].some(i => $(i).style.display === 'block')) return closePops();
     if ($('sheet').style.display === 'flex')
       return TSEL && TAB === 'slady' ? $('tsx').click() : $('closes').click(); // najpierw wyjście z zaznaczania
@@ -54909,15 +55210,21 @@ if (plug('App'))
     if ($('recpan').style.display === 'block') return $('rectx').click();
     if (mode === 'plan' && PLN) return PLN.menu ? planMenuClose() : planClose(); // v69: planer pyta przed porzuceniem trasy
     if (mode) return setMode(null);
-    if (sportMapBack()) return; // mapa w trybie Sport → licznik (trwa trening) albo tablica
     plug('App').minimizeApp();
   });
-// v62: uruchomienie w trybie Sport – od razu tablica (albo licznik, gdy trening trwa)
-if (isSport())
-  setTimeout(() => {
-    if (!isSport() || TUT) return;
-    const cur = sptCur();
-    if (cur) sportOpen(cur.disc);
-    else sboardOpen();
-  }, 400);
+// v119 (pkt 348): trening trwał przy zamknięciu aplikacji – kafelki wracają; licznik bez śladu łapie GPS w tle od nowa,
+// a trening ze śladem korzysta z przywróconego nagrywania (okno „Nagrywanie zostało przerwane”)
+setTimeout(() => {
+  const x = sptLoad();
+  if (!x || SPT) return;
+  SPT = {...sptNew(x.disc), ...x, wb: [], last: null, lastT: Math.max(+x.lastT || 0, Date.now() - 1000)};
+  delete SPT.rec;
+  if (SPT.iv) SPT.iv.lt = Date.now();
+  SPT_REC = !!x.rec && !!REC;
+  if (SPT_REC) SPT.paused = !!REC.paused;
+  TRN = {};
+  TRN_WAKE = Date.now() + 15000;
+  trnBuild();
+  if (!SPT_REC) trnWatchOn();
+}, 900);
 </script></body></html>

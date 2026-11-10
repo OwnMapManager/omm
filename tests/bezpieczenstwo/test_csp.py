@@ -9,12 +9,18 @@ with sync_playwright() as p:
     pg.on('console',lambda m: csp.append(m.text) if 'Content Security Policy' in m.text or 'Refused' in m.text else None)
     pg.route('**/*', lambda r: r.fulfill(body=PNG,content_type='image/png') if not r.request.url.startswith('http://localhost') else r.continue_())
     pg.goto('http://localhost:8765/index.html'); pg.wait_for_timeout(2500)
-    print('APP_VER', pg.evaluate('APP_VER'), 'tutorial prompt:', pg.locator('text=Pokaż samouczek').count())
-    pg.click('text=Pokaż samouczek'); pg.wait_for_timeout(500)
-    for i in range(11): pg.click('.tut .okb'); pg.wait_for_timeout(300)
-    # rysowanie punktu, ustawienia, ślady
+    # v119 (pkt 349 R7): nowa instalacja ma karty startowe – pomijamy je i przechodzimy cały samouczek
+    print('APP_VER', pg.evaluate('APP_VER'), 'start cards:', pg.locator('.scards').count())
+    pg.evaluate("localStorage.setItem('omm-tut','nie')"); pg.reload(); pg.wait_for_timeout(2500)
+    pg.evaluate("tutStart()"); pg.wait_for_timeout(500)
+    for i in range(40):
+        if not pg.locator('.tut .okb').count(): break
+        pg.click('.tut .okb'); pg.wait_for_timeout(250)
+    # menu, ślady, ustawienia, trening
     pg.evaluate("$('lbtn').click()"); pg.wait_for_timeout(400)
-    pg.evaluate("document.querySelector('[data-k=slady]').click()"); pg.wait_for_timeout(400)
+    pg.evaluate("menuOpen('slady')"); pg.wait_for_timeout(400)
+    pg.evaluate("$('sheet').style.display='none'; trnOpen()"); pg.wait_for_timeout(400)
+    print('trening – kafelki:', pg.locator('#trn .trnt').count()); pg.evaluate("trnClose()")
     pg.evaluate("$('setb').click()"); pg.wait_for_timeout(400)
     pg.screenshot(path='t9.png')
     print('settings has zdj option:', pg.locator('text=Zdjęcia z internetu').count())

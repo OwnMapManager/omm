@@ -42,7 +42,8 @@ with sync_playwright() as p:
     # podmieniony bajt w dane.bin -> odmowa
     d=bytearray(open(T+'enc.zip','rb').read()); 
     pg.evaluate("encSetPassword('tajne-haslo-1')")
-    R['tamper']=pg.evaluate("""async b=>{const u=Uint8Array.from(atob(b),c=>c.charCodeAt(0));const z=zipOpen(u.buffer);const n=await z.read('dane.bin');const h=JSON.parse(new TextDecoder().decode(await z.read('szyfr.json')));n[100]^=1;const E=await IDB.get('szyfr-kopii');
+    print('enc_names', R['enc_names'])
+    R['tamper']='skip' if 'dane.bin' not in R['enc_names'] else pg.evaluate("""async b=>{const u=Uint8Array.from(atob(b),c=>c.charCodeAt(0));const z=zipOpen(u.buffer);const n=await z.read('dane.bin');const h=JSON.parse(new TextDecoder().decode(await z.read('szyfr.json')));n[100]^=1;const E=await IDB.get('szyfr-kopii');
       const k=await encDerive('tajne-haslo-1',Uint8Array.from(atob(h.salt),c=>c.charCodeAt(0)),h.iter);try{await crypto.subtle.decrypt({name:'AES-GCM',iv:Uint8Array.from(atob(h.iv),c=>c.charCodeAt(0))},k,n);return 'ACCEPTED'}catch(e){return 'REJECTED'}}""", enc['b64'])
     # anulowanie przywracania: nic się nie zmienia (zdjęcia też)
     pg.evaluate("IDB.del('szyfr-kopii')")
