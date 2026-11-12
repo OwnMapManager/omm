@@ -1,4 +1,4 @@
-# Serwery, z którymi łączy się OMM (stan v120)
+# Serwery, z którymi łączy się OMM (stan v121)
 
 Lista CSP `connect-src` (scripts/prepare-www.mjs) obejmuje tylko zapytania z WebView (`fetch`). Część zapytań w aplikacji na Androida
 idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest tutaj.
@@ -23,7 +23,7 @@ idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest 
 |---|---|---|---|
 | tiles.openfreemap.org | kafle wektorowe – zieleń do tras, rodzaje miejsc w Szukaj | numery kafli | fetch |
 | overpass-api.de | zieleń – tylko zapasowo, gdy kafli wektorowych brak (od v119 bez luster kumi.systems i private.coffee) | prostokąt obszaru | natywnie (CapacitorHttp) albo fetch |
-| valhalla1.openstreetmap.de | trasy (Nawiguj), dociąganie śladów do ścieżek | punkty trasy / punkty śladu | fetch |
+| valhalla1.openstreetmap.de | trasy (Nawiguj), dociąganie śladów do ścieżek, wysokości poza Polską i zapasowo (v121) | punkty trasy / punkty śladu / punkty profilu | fetch |
 | brouter.de | trasy przez zieleń | punkty trasy | natywnie albo fetch |
 | routing.openstreetmap.de | trasy zapasowo (OSRM), „wzdłuż dróg” przy rysowaniu | punkty trasy | fetch |
 | nominatim.openstreetmap.org | wyszukiwanie miejsc, nazwy miejsc śladów i pogody | tekst wyszukiwania / punkt | fetch |
