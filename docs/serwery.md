@@ -1,4 +1,4 @@
-# Serwery, z którymi łączy się OMM (stan v119)
+# Serwery, z którymi łączy się OMM (stan v120)
 
 Lista CSP `connect-src` (scripts/prepare-www.mjs) obejmuje tylko zapytania z WebView (`fetch`). Część zapytań w aplikacji na Androida
 idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest tutaj.
