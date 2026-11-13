@@ -782,6 +782,55 @@ button {
   height: 24px;
   margin: 1px;
 }
+/* v123 (pkt 374): edycja kształtu – uchwyt w połowie odcinka, zaznaczony punkt, „+” za końcem linii, dymek „Usuń punkt” */
+.vh.mid {
+  width: 14px;
+  height: 14px;
+  margin: 6px;
+  border-width: 2px;
+  opacity: 0.6;
+}
+.vh.sel {
+  background: var(--acc);
+}
+.vh.plus {
+  width: 24px;
+  height: 24px;
+  margin: 1px;
+  border-width: 2px;
+  border-style: dashed;
+  display: grid;
+  place-items: center;
+  font: 600 17px/1 var(--ff), sans-serif;
+  color: var(--acc);
+}
+.vh.plus.on {
+  background: var(--acc);
+  border-style: solid;
+  color: #fff;
+}
+.vhdel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 20px));
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 38px;
+  margin: 0;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 19px;
+  background: var(--bg);
+  color: var(--danger, #b3261e);
+  font: 500 14px var(--ff), sans-serif;
+  white-space: nowrap;
+  box-shadow: var(--sh, 0 1px 4px #0006);
+}
+.vhdel.off {
+  color: var(--sub);
+}
 .leaflet-popup-content .pg {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -8807,6 +8856,15 @@ html.sk-krawedzie .leaflet-popup.skpop .pb { gap: 4px 18px !important; flex-wrap
 html.sk-krawedzie .leaflet-popup.skpop .pb button { padding: 8px 0 !important; min-height: 40px; font-size: 15.5px !important; }
 html.sk-krawedzie .leaflet-popup.skpop .pb button:first-child { color: var(--acc) !important; font-weight: 500; }
 html.sk-krawedzie .leaflet-popup.skpop .pb button.del { color: var(--krec) !important; }
+/* v123 (pkt 375): kafelki kolorów – reguła „przyciski bez tła” wyżej gasiła też tło z koloru (białe pole, a dotknięcie
+   i tak zmieniało kolor). Kolor idzie przez zmienną --swc; zaznaczony kafelek ma pierścień. To samo z zaznaczonym
+   rozmiarem / stylem (.szr) – było go nie widać. */
+html.sk-krawedzie .leaflet-popup.skpop .sw { grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 12px; }
+html.sk-krawedzie .leaflet-popup.skpop .sw button { background: var(--swc, #888) !important; width: 100%; max-width: 44px; height: auto; aspect-ratio: 1; justify-self: center; padding: 0 !important; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important; }
+html.sk-krawedzie .leaflet-popup.skpop .sw button.on { box-shadow: 0 0 0 2px var(--kh), 0 0 0 4px var(--txt) !important; }
+html.sk-krawedzie .leaflet-popup.skpop .szr { gap: 18px; }
+html.sk-krawedzie .leaflet-popup.skpop .szr button { flex: 0 0 auto; height: 40px; padding: 0 !important; font-size: 15.5px; }
+html.sk-krawedzie .leaflet-popup.skpop .szr button.on { color: var(--acc) !important; font-weight: 600; box-shadow: inset 0 -2px 0 var(--acc) !important; }
 html.sk-krawedzie .leaflet-popup.skpop .note { background: none !important; padding: 0 !important; }
 /* nagrywanie: duże liczby na mapie, słowa na dole */
 html.sk-krawedzie body.rec #skrec { display: block; }
@@ -9910,6 +9968,20 @@ const EN = {
   "Szukaj przez zieleń": "Look for a route through greenery",
   "maks. dłuższa o": "max. longer by",
   "Szukam trasy przez zieleń…": "Looking for a route through greenery…",
+  "Przeciągnij punkt w nowe miejsce. Mała kropka między punktami wstawia nowy punkt. Dotknij punktu, aby go usunąć. „+” za końcem linii – dorysuj dalej.": "Drag a point to a new place. The small dot between points inserts a new point. Tap a point to delete it. “+” past the end of a line – keep drawing.",
+  "Dorysowywanie: dotykaj mapy w kolejnych miejscach; „+” kończy": "Extending: tap the map at the next places; “+” stops",
+  "Okrąg: promień ": "Circle: radius ",
+  "Wielokąt: ": "Polygon: ",
+  " · obwód ": " · perimeter ",
+  " pkt": " pts",
+  "Strzałka: ": "Arrow: ",
+  "Linia: ": "Line: ",
+  "Wielokąt musi mieć 3 punkty": "A polygon needs 3 points",
+  "Linia musi mieć 2 punkty": "A line needs 2 points",
+  "Edytuj (przesuń, dodaj, usuń punkty)": "Edit (move, add, delete points)",
+  "Edytuj (chwyć i przeciągnij)": "Edit (grab and drag)",
+  "Ta trasa jest za długa na szukanie zieleni (działa do ok. 150 km).": "This route is too long to search for greenery (works up to about 150 km).",
+  "Pobieram mapę zieleni: ": "Downloading the greenery map: ",
   "przejścia: ": "crossings: ",
   "szukam innych wariantów…": "looking for other variants…",
   "Wybierz u góry, czym jedziesz. Dotknij trasy, etykiety albo pozycji na liście, by ją wybrać. „Edytuj” pozwala zmienić trasę, a „Zapisz” – zachować ją na później.": "Choose at the top how you travel. Tap a route, its label or an item on the list to choose it. “Edit” lets you change the route and “Save” keeps it for later.",
@@ -13566,7 +13638,7 @@ const eye = (v, fn) => {
 };
 let curColor = localStorage.getItem('mapa-col') || '#e53935',
   curOp = +(localStorage.getItem('mapa-op') || 0.35);
-const APP_VER = 'v122';
+const APP_VER = 'v123';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -19524,6 +19596,8 @@ function openItemPopup(it, latlng) {
         col === it.c ? 'on' : ''
       );
       b.style.background = col;
+      b.style.setProperty('--swc', col); // v123 (pkt 375): w „Mapa i krawędzie” tło kafelka bierze kolor stąd
+      b.setAttribute('aria-label', col);
       sw.append(b);
     });
     c.append(sw);
@@ -19744,7 +19818,10 @@ function openItemPopup(it, latlng) {
       '',
       _t('Dodaj zdjęcie')
     ),
-    IB('move', () => startEdit(it), '', _t('Przesuń (chwyć i przeciągnij)')),
+    // v123 (pkt 374): kształty – „Edytuj” (punkty można przesuwać, dodawać i usuwać); punkt, numer, napis – „Przesuń”
+    isPt(it)
+      ? IB('move', () => startEdit(it), '', _t('Przesuń (chwyć i przeciągnij)'))
+      : IB('edit', () => startEdit(it), '', editFlex(it) ? _t('Edytuj (przesuń, dodaj, usuń punkty)') : _t('Edytuj (chwyć i przeciągnij)')),
     IB('link', () => (map.closePopup(), lkShowOn([it])), lkElse(it).length ? 'on' : '', _t('Pokaż też na mapie…')),
     IB(
       'del',
@@ -26155,6 +26232,7 @@ function clearAll() {
 }
 function dropEdit() {
   if (!edit) return;
+  map.off('zoomend moveend', editView);
   edit.it.p = edit.orig.p;
   if (edit.orig.r != null) edit.it.r = edit.orig.r;
   edit = null;
@@ -26656,17 +26734,41 @@ async function pairBubble() {
   }
   if (RESB && RESB.getLatLng && !mode) resBubble(c, lines, [], so);
 }
-// ---- przesuwanie gotowych obiektów (punkt, numer, wierzchołki linii i wielokątów, okrąg) ----
+// ---- edycja gotowych obiektów (v123, pkt 374) ----
+// Punkt, numer, napis – przesunięcie (uchwyt albo dotknięcie mapy). Okrąg – środek i promień. Strzałka – oba końce.
+// Linia i wielokąt – pełna edycja kształtu:
+//   • przeciągnięcie punktu – nowe miejsce,
+//   • mała, półprzezroczysta kropka w połowie odcinka – przeciągnięcie (albo dotknięcie) wstawia tam nowy punkt,
+//   • dotknięcie punktu – dymek „Usuń punkt” (linia zostaje z co najmniej 2, wielokąt z 3 punktami),
+//   • „+” za końcem linii – dotknięcie włącza dorysowywanie (kolejne dotknięcia mapy dokładają punkty na tym końcu),
+//     przeciągnięcie „+” dokłada jeden punkt,
+//   • ↶ cofa każdy krok, ✓ zapisuje, ✕ przywraca kształt sprzed edycji; na pasku na bieżąco długość / pole.
+const editFlex = it => it.t === 'line' || it.t === 'poly'; // kształty o zmiennej liczbie punktów
+const editMin = it => (it.t === 'poly' ? 3 : 2);
 function startEdit(it) {
   setMode(null);
   map.closePopup();
   $('sheet').style.display = 'none';
-  edit = {it, orig: JSON.parse(JSON.stringify({p: it.p, r: it.r})), hist: []};
+  edit = {it, orig: JSON.parse(JSON.stringify({p: it.p, r: it.r})), hist: [], sel: -1, ext: null, drag: false};
   mode = 'edit';
   ui();
   info.style.display = 'block';
-  info.textContent = HINT.edit;
+  editInfo();
   drawHandles();
+  map.on('zoomend moveend', editView);
+  if (editFlex(it)) hintOnce('edytuj', _t('Przeciągnij punkt w nowe miejsce. Mała kropka między punktami wstawia nowy punkt. Dotknij punktu, aby go usunąć. „+” za końcem linii – dorysuj dalej.'));
+}
+function editInfo() {
+  // pasek podpowiedzi: co się edytuje i ile ma teraz długości / pola
+  if (!edit) return;
+  const it = edit.it;
+  let t;
+  if (isPt(it)) t = HINT.edit;
+  else if (edit.ext) t = _t('Dorysowywanie: dotykaj mapy w kolejnych miejscach; „+” kończy') + ' · ' + fm(dist(it.p));
+  else if (it.t === 'circle') t = _t('Okrąg: promień ') + fm(it.r) + ' · ' + fa(Math.PI * it.r * it.r);
+  else if (it.t === 'poly') t = _t('Wielokąt: ') + fa(area(it.p)) + _t(' · obwód ') + fm(dist([...it.p, it.p[0]])) + ' · ' + it.p.length + _t(' pkt');
+  else t = (it.t === 'arrow' ? _t('Strzałka: ') : _t('Linia: ')) + fm(dist(it.p)) + (editFlex(it) ? ' · ' + it.p.length + _t(' pkt') : '');
+  info.textContent = t;
 }
 function liveUpd() {
   const it = edit.it,
@@ -26678,63 +26780,163 @@ function liveUpd() {
     l.setRadius(it.r);
   } else l.setLatLngs(it.p);
 }
+function editView() {
+  // po przesunięciu / przybliżeniu mapy: uchwyty w połowie odcinków i „+” zależą od skali
+  if (!edit || edit.drag || !editFlex(edit.it)) return;
+  drawHandles();
+}
 function drawHandles() {
   tmp.clearLayers();
-  const it = edit.it;
-  const mk = (ll, onMove, big) => {
+  if (!edit) return;
+  const it = edit.it,
+    snap = () => edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+  // uchwyt: o.move(q) – przeciąganie, o.start() – tuż przed nim (po zapisaniu kroku do cofania), o.tap() – dotknięcie
+  const mk = (ll, cls, o) => {
     const m = L.marker(ll, {
       pane: 'tmpP',
-      draggable: true,
+      draggable: !!o.move,
       autoPan: true,
+      zIndexOffset: o.z || 0,
       icon: L.divIcon({
         className: '',
-        html: '<div class="vh' + (big ? ' big' : '') + '"></div>',
+        html: '<div class="vh' + (cls ? ' ' + cls : '') + '">' + (o.html || '') + '</div>',
         iconSize: [26, 26],
         iconAnchor: [13, 13]
       })
     }).addTo(tmp);
-    m.on('dragstart', () => edit.hist.push(JSON.stringify({p: it.p, r: it.r})));
-    m.on('drag', e => {
-      const q = e.target.getLatLng();
-      onMove([q.lat, q.lng]);
-      liveUpd();
-    });
-    m.on('dragend', () => {
-      render();
-      drawHandles();
-    });
+    if (o.move) {
+      m.on('dragstart', () => {
+        edit.drag = true;
+        edit.sel = -1;
+        snap();
+        if (o.start) o.start();
+      });
+      m.on('drag', e => {
+        const q = e.target.getLatLng();
+        o.move([q.lat, q.lng]);
+        liveUpd();
+        editInfo();
+      });
+      m.on('dragend', () => {
+        edit.drag = false;
+        render();
+        drawHandles();
+        editInfo();
+      });
+    }
+    if (o.tap) m.on('click', o.tap);
     return m;
   };
-  if (isPt(it))
-    mk(
-      it.p[0],
-      q => {
-        it.p[0] = q;
-      },
-      true
-    );
-  else if (it.t === 'circle') {
-    mk(
-      it.p[0],
-      q => {
-        it.p[0] = q;
-      },
-      true
-    );
-    mk(ring(it.p[0], it.r, 4)[1], q => {
-      it.r = Math.max(0.5, map.distance(it.p[0], q));
+  if (isPt(it)) return void mk(it.p[0], 'big', {move: q => (it.p[0] = q)});
+  if (it.t === 'circle') {
+    mk(it.p[0], 'big', {move: q => (it.p[0] = q)});
+    mk(ring(it.p[0], it.r, 4)[1], '', {move: q => (it.r = Math.max(0.5, map.distance(it.p[0], q)))});
+    return;
+  }
+  const flex = editFlex(it),
+    n = it.p.length,
+    bnd = map.getBounds().pad(0.25),
+    many = n > 150, // bardzo długie kształty (np. z pliku): uchwyty tylko w widocznej części mapy
+    vis = q => !many || bnd.contains(q),
+    px = q => map.latLngToContainerPoint(q);
+  it.p.forEach((q, i) => {
+    if (!vis(q)) return;
+    mk(q, i === edit.sel ? 'sel' : '', {z: 100, move: v => (it.p[i] = v), tap: flex ? () => editSel(i) : null});
+  });
+  if (!flex) return;
+  // uchwyty w połowie odcinków (w wielokącie także odcinek zamykający) – tylko tam, gdzie jest na nie miejsce
+  const segs = it.t === 'poly' ? n : n - 1;
+  for (let i = 0; i < segs; i++) {
+    const a = it.p[i],
+      c = it.p[(i + 1) % n];
+    if (!vis(a) && !vis(c)) continue;
+    const pa = px(a),
+      pc = px(c);
+    if (pa.distanceTo(pc) < 56) continue;
+    const ml = map.containerPointToLatLng(pa.add(pc).divideBy(2)),
+      mid = [ml.lat, ml.lng],
+      ins = () => it.p.splice(i + 1, 0, mid.slice());
+    mk(mid, 'mid', {
+      start: ins,
+      move: v => (it.p[i + 1] = v),
+      tap: () => {
+        snap();
+        ins();
+        edit.sel = -1;
+        render();
+        drawHandles();
+        editInfo();
+      }
     });
-  } else
-    it.p.forEach((q, i) =>
-      mk(q, v => {
-        it.p[i] = v;
-      })
-    );
+  }
+  // linia: „+” za każdym końcem – dorysuj dalej
+  if (it.t === 'line')
+    [
+      [0, 1, 'start'],
+      [n - 1, n - 2, 'end']
+    ].forEach(([e, nb, k]) => {
+      if (!vis(it.p[e])) return;
+      const pe = px(it.p[e]),
+        d = pe.subtract(px(it.p[nb])),
+        l = Math.hypot(d.x, d.y) || 1,
+        pl = map.containerPointToLatLng(pe.add(d.multiplyBy(40 / l))),
+        pos = [pl.lat, pl.lng];
+      mk(pos, 'plus' + (edit.ext === k ? ' on' : ''), {
+        html: '+',
+        z: 50,
+        tap: () => editExt(k),
+        start: () => (k === 'end' ? it.p.push(pos.slice()) : it.p.unshift(pos.slice())),
+        move: v => (it.p[k === 'end' ? it.p.length - 1 : 0] = v)
+      });
+    });
+  // dymek „Usuń punkt” nad zaznaczonym punktem
+  if (edit.sel >= 0 && edit.sel < n) {
+    const can = n > editMin(it),
+      b = h('button', 'vhdel' + (can ? '' : ' off'));
+    b.innerHTML = can ? ico('del', 16) : '';
+    b.append(h('span', null, can ? _t('Usuń punkt') : it.t === 'poly' ? _t('Wielokąt musi mieć 3 punkty') : _t('Linia musi mieć 2 punkty')));
+    const m = L.marker(it.p[edit.sel], {pane: 'tmpP', zIndexOffset: 500, icon: L.divIcon({className: 'vhdelw', html: b, iconSize: [0, 0], iconAnchor: [0, 0]})}).addTo(tmp);
+    m.on('click', () => (can ? editDel() : editSel(-1)));
+  }
+}
+function editSel(i) {
+  if (!edit) return;
+  edit.sel = edit.sel === i ? -1 : i;
+  drawHandles();
+}
+function editDel() {
+  const it = edit.it,
+    i = edit.sel;
+  if (i < 0 || i >= it.p.length || it.p.length <= editMin(it)) return;
+  edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+  it.p.splice(i, 1);
+  edit.sel = -1;
+  render();
+  drawHandles();
+  editInfo();
+}
+function editExt(k) {
+  // dorysowywanie linii od początku ('start') albo od końca ('end'); ponowne dotknięcie „+” kończy
+  edit.ext = edit.ext === k ? null : k;
+  edit.sel = -1;
+  drawHandles();
+  editInfo();
 }
 function editTap(p) {
-  if (!isPt(edit.it)) return;
-  edit.hist.push(JSON.stringify({p: edit.it.p, r: edit.it.r}));
-  edit.it.p = [p];
+  const it = edit.it;
+  if (!isPt(it)) {
+    if (edit.ext && it.t === 'line') {
+      edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+      if (edit.ext === 'end') it.p.push(p);
+      else it.p.unshift(p);
+      render();
+      drawHandles();
+      editInfo();
+    } else if (edit.sel >= 0) editSel(-1); // dotknięcie mapy obok – chowa dymek „Usuń punkt”
+    return;
+  }
+  edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+  it.p = [p];
   render();
   drawHandles();
 }
@@ -26744,11 +26946,14 @@ function editUndo() {
   const o = JSON.parse(st);
   edit.it.p = o.p;
   if (o.r != null) edit.it.r = o.r;
+  edit.sel = -1;
   render();
   drawHandles();
+  editInfo();
 }
 function editDone(save_) {
   const it = edit.it;
+  map.off('zoomend moveend', editView);
   if (save_) {
     touch(it);
     edit = null;
@@ -27917,7 +28122,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. GPS włącza się sam przy każdym uruchomieniu (mapa nie skacze do Ciebie, chyba że tak ustawisz w „Widok po uruchomieniu”), więc pogoda i Panel Dziś od razu mają dane. Ikona ◎ mówi, co się dzieje: szara przekreślona – GPS wyłączony, niebieski pierścień z mrugającą kropką – szuka pozycji, niebieski pierścień z kropką – działa, jasnoniebieskie tło – mapa jest na Tobie. Dotknięcie: gdy mapa nie jest na Tobie – leci do Ciebie, gdy jest – wyłącza GPS. <b>Informacje GPS</b> (Ustawienia → Pomoc i informacje, Ustawienia → Ślady GPS, przytrzymanie ◎, wiersz GPS w Panelu Dziś) – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut. W Informacjach GPS (Android) jest też <b>mapa nieba</b>: satelity GPS, GLONASS, Galileo, BeiDou – kolor to system, pełna kropka – użyty do pozycji, wielkość – siła sygnału.</li>
 <li><b>Układ przycisków</b> – domyślnie w prawym górnym rogu jest tylko <b>● REC</b>, po prawej na dole: <b>podkład</b>, <b>szukaj</b> 🔍 i <b>moja pozycja</b> ◎ (z dokładnością GPS – kolor mówi, czy jest dobra), pod nimi pasek narzędzi, a w lewym dolnym rogu – panel warstw (nad nim kompas, gdy mapa jest obrócona). Ustawienia → Wygląd → <b>Ustaw przyciski na ekranie</b>: na mapie pojawia się siatka pól, a podkład, szukaj, pozycję, warstwy i kompas przeciągasz palcem w dowolne wolne pole (przycisk wskakuje w najbliższe) i zatwierdzasz; „Przywróć domyślny” wraca do zwykłego układu. Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej jadą w górę nad rosnący pasek narzędzi, u góry – zjeżdżają pod nagrywanie, pasek prowadzenia i planowania. <b>Przytrzymaj palec na mapie</b> – okno współrzędnych tego miejsca (jak „Współrzędne punktu”): kopiuj, udostępnij, prowadź, trasa tutaj, zapisz punkt.</li>
 <li><b>Podkład</b> – przycisk mapy po prawej, nad szukaj i ◎: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
-<li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
+<li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. Gotowy kształt poprawisz później: dotknij go → Więcej → <b>Edytuj</b>. Przeciągnij punkt w nowe miejsce; mała, przygaszona kropka w połowie odcinka wstawia tam nowy punkt (przeciągnij ją albo dotknij); dotknięcie punktu pokazuje „Usuń punkt”; „+” za końcem linii pozwala dorysować ją dalej (dotykaj mapy, ponowne „+” kończy). U góry widać na bieżąco długość albo pole, ↶ cofa krok, ✓ zapisuje, ✕ przywraca kształt sprzed zmian. Punkty, numery i napisy mają w tym miejscu „Przesuń”. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
 <li><b>Trasa do punktu</b> – <b>„Nawiguj”</b> w okienku punktu, współrzędnych (przytrzymaj mapę), auta albo zdjęcia otwiera <b>kartę trasy</b>: na górze <b>A</b> (skąd – Twoja pozycja, adres z wyszukiwarki, Twój punkt albo miejsce wskazane na mapie) i <b>B</b> (dokąd – to samo; ⇅ zamienia A z B), niżej <b>czym jedziesz</b> – Auto, Rower, Pieszo, Koń albo Prosto (OMM pamięta ostatni wybór; zmiana od razu przelicza). Osobnego „Zaplanuj trasę” już nie ma – każdą trasę planujesz tą samą kartą, także „Trasa stąd” w okienku przytrzymanego miejsca. W czasie nawigacji ✎ na pasku: <b>Zmień cel</b> albo <b>Dodaj przystanek</b>. <b>Koń</b>: OMM jedzie drogami gruntowymi, polnymi i szlakami konnymi, a omija autostrady, drogi ekspresowe, chodniki i ścieżki tylko dla pieszych lub rowerów (jeździec na drodze jest jak pojazd – Prawo o ruchu drogowym, art. 35). W lesie konno wolno tylko drogami wyznaczonymi przez nadleśnictwo (ustawa o lasach, art. 29 ust. 1a), więc OMM omija leśne dukty bez oznaczenia szlaku konnego, a gdy nie da się ich ominąć – ostrzega „sprawdź, czy wolno tu jechać konno”. Dwa warianty: <b>Najkrócej</b> albo <b>Gruntowe i zieleń</b>; czas liczony dla ok. 7 km/h, na mapie wszystkie warianty (wybrana niebieska, inne szare z czasem – dotknij, by wybrać), na dole <b>Edytuj</b> (planer z tą trasą), <b>Zapisz</b> (do „Planowania” albo na inną mapę) i <b>Nawiguj</b>. Rowerem warianty z chodnikami i przejściami dla pieszych są na końcu, a na karcie widać ostrzeżenie „⚠ chodnik 250 m”. <b>Uchwyt ˅</b> na górze karty (albo dotknięcie mapy) zwija ją do paska z czasem, dystansem i „Nawiguj” – cała mapa z trasami jest widoczna; dotknięcie paska albo ˄ rozwija kartę. „🌳 Szukaj przez zieleń” pobiera parki, lasy, łąki i ogrody z gotowych kafli mapy (OpenFreeMap, dane OpenStreetMap) raz dla okolicy i zapamiętuje je – kolejne trasy w pobliżu liczą się bez serwera. Trasę przez zieleń liczy serwer BRouter z profilem, który woli drogi wśród zieleni, nad wodą i z dala od hałasu, a przy tym nie klucza (płynna trasa, polecenia skrętów z BRoutera); do tego OMM sprawdza warianty przez ścieżki rowerowe w parkach i lasach do ok. 1 km w bok (bez alejek tylko dla pieszych i zamykanych parków). Ocenia otoczenie co 25 m: park, las, łąka najlepiej; obok ogródków, trawników, wody – dobrze; wzdłuż dużej ulicy i przy terenach przemysłowych – źle. Cmentarze i ogródki działkowe nie są celem, tylko miłym sąsiedztwem. Wariant pokazuje się, gdy zysk zieleni jest wyraźnie większy niż nadłożona droga; przy każdym wariancie widać „🌳 X km” w zieleni. Gdy nawigujesz pieszo, a przez półtorej minuty jedziesz szybciej niż ok. 30 km/h, OMM zapyta, czy przełączyć na Auto albo zakończyć nawigację.</li>
 <li><b>Edycja trasy (planer)</b> – otwiera się z karty trasy („Edytuj”), z okienka zapisanej trasy („Edytuj trasę”) albo ze śladu („Zapisz jako trasę”). Na dole panel: długość, czas, podejścia i profil wysokości, a pod nimi sposób przejazdu: <b>Pieszo</b> (szlaki i drogi leśne albo tylko utwardzone), <b>Rower</b> (trekking, szosa, górski), <b>Auto</b> albo <b>Prosto</b> – zmiana od razu przelicza trasę. Start możesz przenieść w inne miejsce (np. trasa na jutro z domu). <b>Dotknij mapy</b> – start, potem cel (obok Twojej pinezki punkt przyciąga się do niej i bierze jej nazwę); gdy trasa ma start i cel, dotykanie, przesuwanie i przybliżanie mapy niczego już nie dodaje. <b>Przytrzymaj palec</b> w dowolnym miejscu albo <b>dotknij obiektu</b> (pinezki, śladu, kształtu) – dymek: dodaj jako punkt pośredni, ustaw jako cel albo start. Nowy punkt pośredni trafia tam, gdzie najmniej wydłuża trasę. <b>Przytrzymaj linię trasy</b> i przeciągnij – trasa pójdzie tamtędy (powstaje punkt kształtujący, oznaczony literą a, b, c…, tak samo na mapie i na liście). <b>Przeciągnij punkt</b> – przesuwasz go; <b>dotknij punktu</b> – menu: dalej prosto (bez dróg, np. przez łąkę), <b>punkt obowiązkowy</b> (flaga ⚑ – w nawigacji nie pomijaj, po ominięciu OMM zapyta, czy wrócić; nowe punkty są zwykłe), ustaw jako start / cel, usuń. Panel podciągnięty w górę pokazuje listę punktów: <b>przytrzymaj wiersz</b> i przesuń go (albo uchwyt ≡), strzałki ↑ ↓ przestawiają o jedną pozycję, ✕ usuwa, a „Dodaj” (Twoja pozycja, Twój punkt, wyszukiwarka), „Odwróć”, „Pętla” (powrót do startu) i <b>„Ułóż kolejność”</b> (najkrótsza kolejność ponumerowanych punktów pośrednich, gdy masz kilka miejsc do odwiedzenia; start i cel zostają, punkty kształtujące wracają tam, gdzie najmniej wydłużają trasę; „Cofnij”) są pod listą. Gdy nawigujesz po niezapisanej trasie, po zakończeniu nawigacji OMM zapyta, czy ją zapisać, wrócić do planowania, czy odrzucić. U góry ↶ ↷ cofają i ponawiają każdą zmianę, a „?” pokazuje podpowiedź. „Nawiguj” – nawigacja po tej trasie. „Zapisz” odkłada trasę do zakładki „Planowanie” albo na inną mapę; zapisana trasa ma w okienku „Edytuj trasę”.</li>
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
@@ -27933,7 +28138,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Podsumowanie śladów</b> (przycisk w Śladach) – rodzaje aktywności do zaznaczenia (kilka naraz), okres: tydzień, miesiąc, rok, wszystko albo własny (od–do); domyślnie ślady ze wszystkich grup trybu (albo „Tylko grupa …”), opcja „Dołącz treningi ze Sportu”. Wynik: liczba, dystans, czas w ruchu, podejście, rozbicie na rodzaje, wykres i lista. W statystykach Sportu – „Dołącz ślady” (wycieczki z tym samym rodzajem). Trening nagrany ze śladem liczy się raz, a jego dystans i czas pochodzą z policzonego śladu.</li>
 <li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów, w grupach: przy śladach – tytuł śladu i jego zdjęcia, przy mapach – mapa i warstwa, przy „Wszystkie” – dzień. Pod zdjęciem tylko godzina. Przy grupie <b>＋</b> dodaje zdjęcia do tego śladu albo warstwy, a ikona mapy pokazuje je na mapie. <b>Przytrzymaj zdjęcie</b> – tryb zaznaczania: dotykaj kolejnych albo kółka przy grupie (cała grupa); na dole <b>Udostępnij</b>, <b>Przenieś</b> (do innego śladu, mapy lub warstwy), <b>Na mapie</b>, <b>Usuń</b> i <b>Więcej</b> (podpis, opis). Filtr „Plany” jest tylko wtedy, gdy plany mają zdjęcia. Dotknij zdjęcia, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
 <li><b>Co widać na mapie</b> – u góry po lewej nazwa aktywnej mapy; dotknięcie: <b>Wszystko</b>, <b>Tylko ta mapa</b>, <b>Tylko ślady</b>, <b>Czysta mapa</b>, zmiana mapy i <b>własne widoki</b> („Zapisz obecny widok…” pamięta mapę i widoczność warstw). <b>Tryb skupienia</b>: gdy otworzysz okienko śladu, trasy albo punktu, reszta Twoich danych chowa się na ten czas („Pokaż wszystko” u góry; wyłączysz w Ustawieniach → Wygląd). Przy pierwszym użyciu funkcji pojawia się krótka podpowiedź 💡, a na start 5 kart (też w „i” → Jak zacząć → „Karty startowe”).</li>
-<li><b>Karta trasy i „Przez zieleń”</b> – po „Nawiguj” od razu karta: skąd i dokąd (A i B), czym jedziesz (Pieszo / Rower / Auto / Koń / Prosto) i rodzaj dróg (Trekking / Szosa / Górski, Szlaki i leśne / Tylko utwardzone). Zalecana trasa pokazuje się w kilka sekund, pozostałe warianty dochodzą na listę (nazwa, czas, km, o ile dłuższa); policzone trasy są zapamiętane przy przełączaniu. Pieszo i rowerem pole <b>„🌳 Szukaj przez zieleń”</b> (zawsze niezaznaczone na starcie) z limitem „maks. dłuższa o” (domyślnie 40%, − / +): po zaznaczeniu OMM szuka trasy przez parki i lasy (dane OpenStreetMap) i dokłada ją obok zalecanej albo pisze, czemu nic nie znalazł. Strzałka prowadzenia pojawia się dopiero po wybraniu trasy. Lista wariantów jest zwinięta – warianty wybierasz dotknięciem linii na mapie (każda ma etykietę z różnicą czasu i długością) albo z listy pod „Warianty ▾”. „+” między A i B dodaje punkt pośredni (dalej w planerze). „Trasa stąd” najpierw pyta „dokąd?”: do mojej pozycji, szukaj albo wskaż na mapie. Dopóki karta jest otwarta, mapa pokazuje wszystkie warianty od A do B nad kartą (także po przeliczeniu, np. przez zieleń) i nie jedzie za Tobą, a nocna mapa włącza się dopiero po „Nawiguj”. Wskazane miejsce dostaje nazwę ulicy i dzielnicy, a warianty serwera – nazwę ulicy, którą prowadzą („Przez …”). Lista wariantów pokazuje ok. trzech wierszy, resztę przewiniesz.</li>
+<li><b>Karta trasy i „Przez zieleń”</b> – po „Nawiguj” od razu karta: skąd i dokąd (A i B), czym jedziesz (Pieszo / Rower / Auto / Koń / Prosto) i rodzaj dróg (Trekking / Szosa / Górski, Szlaki i leśne / Tylko utwardzone). Zalecana trasa pokazuje się w kilka sekund, pozostałe warianty dochodzą na listę (nazwa, czas, km, o ile dłuższa); policzone trasy są zapamiętane przy przełączaniu. Pieszo i rowerem pole <b>„🌳 Szukaj przez zieleń”</b> (zawsze niezaznaczone na starcie) z limitem „maks. dłuższa o” (domyślnie 40%, − / +): po zaznaczeniu OMM szuka trasy przez parki i lasy (dane OpenStreetMap) i dokłada ją obok zalecanej albo pisze, czemu nic nie znalazł. Przy długiej trasie (kilkadziesiąt kilometrów) zieleń jest sprawdzana w pasie wzdłuż zwykłej trasy – pierwszy raz OMM pobiera mapę zieleni (widać postęp, potem ma ją w pamięci na 60 dni), szukanie działa do ok. 150 km. Strzałka prowadzenia pojawia się dopiero po wybraniu trasy. Lista wariantów jest zwinięta – warianty wybierasz dotknięciem linii na mapie (każda ma etykietę z różnicą czasu i długością) albo z listy pod „Warianty ▾”. „+” między A i B dodaje punkt pośredni (dalej w planerze). „Trasa stąd” najpierw pyta „dokąd?”: do mojej pozycji, szukaj albo wskaż na mapie. Dopóki karta jest otwarta, mapa pokazuje wszystkie warianty od A do B nad kartą (także po przeliczeniu, np. przez zieleń) i nie jedzie za Tobą, a nocna mapa włącza się dopiero po „Nawiguj”. Wskazane miejsce dostaje nazwę ulicy i dzielnicy, a warianty serwera – nazwę ulicy, którą prowadzą („Przez …”). Lista wariantów pokazuje ok. trzech wierszy, resztę przewiniesz.</li>
 <li><b>Okienko śladu</b> – u góry nazwa (dotknięcie zmienia ją), obok <b>oko</b> (pokaż / ukryj ślad bez zamykania okienka) i aparat; pod nią rodzaj, wyruszenie → zakończenie i warstwa; pod spodem dystans, czas w ruchu, czas całkowity, średnia i podjazdy; pasek kolorów (dotknięcie zmienia prędkość / wysokość / jednolity). Jeden wiersz przycisków (ikona nad podpisem): <b>Nawiguj</b> (po śladzie), <b>Edytuj</b> (punkty śladu, dorysuj, podziel, dopasuj do ścieżek, rodzaj aktywności, opis, zdjęcia i punkty, „Przywróć oryginał”), <b>Statystyki</b>, <b>Udostępnij</b> (plik, obraz, zapis w telefonie, Animacja) i <b>Więcej</b> (dane śladu – zaznaczasz zdjęcia i punkty, by skopiować albo przenieść je na mapę, albo zapisać ślad jako trasę do nawigacji – oraz usuń). Edycja zmienia ślad naprawdę; ślad policzony przez OMM i surowe pomiary zostają do porównania.</li>
 <li><b>Nowy punkt</b> – przytrzymaj mapę → „Zapisz punkt”: jedno okno – nazwa, opis, ikona, mapa i warstwa.</li>
 <li><b>Ustawienia warstwy</b> – ⋮ przy warstwie otwiera jedno okno: nazwa, krycie, ikona i nazwy punktów, przenoszenie obiektów, pola danych, alarm, scalanie, udostępnianie, kolejność i usuwanie.</li>
@@ -27984,7 +28189,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Map</b> – move it with your finger, zoom with two fingers. GPS turns on by itself at every start (the map doesn't jump to you unless you set it in “View at start-up”), so the weather and the Today panel have data at once. The ◎ icon tells you what is going on: grey and crossed out – GPS off, a blue ring with a blinking dot – looking for a fix, a blue ring with a dot – working, a light blue background – the map is on you. Tap: when the map isn't on you – it flies to you, when it is – GPS turns off. <b>GPS information</b> (Settings → Help and information, Settings → GPS tracks, press and hold ◎, the GPS row in the Today panel) – accuracy, fix age, speed, course and an accuracy chart of the last minutes. GPS information (Android) also has a <b>sky view</b>: GPS, GLONASS, Galileo, BeiDou satellites – colour is the system, a solid dot is used for the fix, size is signal strength.</li>
 <li><b>Button layout</b> – by default only <b>● REC</b> is in the top-right corner; on the right at the bottom: <b>base map</b>, <b>search</b> 🔍 and <b>my position</b> ◎ (with GPS accuracy – the colour tells whether it is good), below them the toolbar, and in the bottom-left corner – the layers panel (with the compass above it when the map is rotated). Settings → Appearance → <b>Arrange buttons on the screen</b>: a grid appears on the map, you drag the base map, search, position, layers and compass with your finger to any free cell (the button snaps to the nearest one) and confirm; “Restore default” brings back the standard layout. The buttons make room for what expands: at the bottom right they move up above the growing toolbar, at the top they move down below recording and the navigation and planning bars. <b>Press and hold the map</b> – the coordinates window for that spot (as “Point coordinates”): copy, share, navigate, route here, save point.</li>
 <li><b>Base map</b> – the map button on the right, above search and ◎: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
-<li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
+<li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. You can fix a finished shape later: tap it → More → <b>Edit</b>. Drag a point to a new place; the small, dimmed dot in the middle of a segment inserts a new point there (drag it or tap it); tapping a point shows “Delete point”; the “+” past the end of a line lets you keep drawing it (tap the map, tap “+” again to stop). The length or area is shown live at the top, ↶ undoes a step, ✓ saves, ✕ restores the shape from before the changes. Points, numbers and labels have “Move” here instead. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
 <li><b>Route to a point</b> – <b>“Navigate”</b> in the popup of a point, coordinates (press and hold the map), the car or a photo opens the <b>route card</b>: at the top <b>A</b> (from – your position, an address from search, one of your points or a place picked on the map) and <b>B</b> (to – the same; ⇅ swaps A and B), below <b>how you travel</b> – Car, Bike, On foot, Horse or Straight (OMM remembers the last choice; a change re-plans at once). There is no separate “Plan a route” any more – you plan every route with the same card, also “Route from here” in the pop-up of a held place. During navigation ✎ on the bar: <b>Change destination</b> or <b>Add a stop</b>. <b>Horse</b>: OMM uses dirt and field roads and bridle paths and avoids motorways, expressways, sidewalks and paths for pedestrians or bikes only (in Poland a rider on the road counts as a vehicle – Road Traffic Act, art. 35). In forests riding is allowed only on roads marked by the forest district (Forest Act, art. 29 sec. 1a), so OMM avoids forest tracks without a bridle-path mark, and when they can't be avoided it warns “check whether riding is allowed here”. Two variants: <b>Shortest</b> or <b>Dirt roads and greenery</b>; time is counted for about 7 km/h, all variants on the map (the selected one blue, the others grey with a time – tap to choose), at the bottom <b>Edit</b> (the planner with this route), <b>Save</b> (to “Planning” or to another map) and <b>Navigate</b>. By bike, variants with sidewalks and pedestrian crossings come last, and the card shows a warning such as “⚠ sidewalk 250 m”. The <b>˅ handle</b> at the top of the card (or a tap on the map) collapses it to a bar with time, distance and “Navigate” – the whole map with the routes is visible; tap the bar or ˄ to expand. “🌳 Search through greenery” downloads parks, forests, meadows and gardens from ready-made map tiles (OpenFreeMap, OpenStreetMap data) once for the area and keeps them – later routes nearby work without the server. The greenery route is calculated by the BRouter server with a profile that prefers ways among greenery, by water and away from noise, without zigzagging (a smooth route, turn instructions from BRouter); OMM also tries variants through cycle-legal paths in parks and forests up to about 1 km to the side (no pedestrian-only alleys or closed parks). It rates the surroundings every 25 m: park, forest, meadow best; next to allotments, lawns, water – good; along a major road and by industrial areas – bad. Cemeteries and allotments are not targets, only pleasant surroundings. A variant is shown when the greenery gained clearly outweighs the extra distance; each variant shows “🌳 X km” in greenery. When navigating on foot while moving faster than about 30 km/h for a minute and a half, OMM asks whether to switch to Car or end navigation.</li>
 <li><b>Editing a route (planner)</b> – opens from the route card (“Edit”), from a saved route's popup (“Edit route”) or from a track (“Save as route”). The panel at the bottom shows distance, time, climb and the elevation profile, and below them how you travel: <b>On foot</b> (trails and forest tracks or paved only), <b>Bike</b> (trekking, road, mountain), <b>Car</b> or <b>Straight</b> – a change re-plans the route at once. You can move the start elsewhere (e.g. a route for tomorrow from home). <b>Tap the map</b> – start, then destination (next to your pin a point snaps to it and takes its name); once the route has a start and a destination, tapping, panning and zooming the map adds nothing. <b>Press and hold</b> anywhere or <b>tap an object</b> (pin, track, shape) – a bubble: add as a via point, set as destination or start. A new via point goes where it lengthens the route the least. <b>Press and hold the route line</b> and drag – the route goes that way (a shaping point is created, labelled a, b, c… on the map and in the list). <b>Drag a point</b> to move it; <b>tap a point</b> – menu: straight from here (no roads, e.g. across a meadow), <b>required point</b> (flag ⚑ – don't skip it while navigating, if you do OMM asks whether to go back; new points are regular), set as start / destination, delete. Pull the panel up for the list of points: <b>press and hold a row</b> and move it (or the ≡ handle), the ↑ ↓ arrows move it by one place, ✕ deletes, and “Add” (your position, your point, search), “Reverse”, “Loop” (back to start) and <b>“Optimise order”</b> (shortest order of the numbered via points when you have several places to visit; start and destination stay, shaping points return where they lengthen the route the least; “Undo”) are below the list. If you navigate an unsaved route, OMM asks after navigation ends whether to save it, go back to planning or discard it. At the top ↶ ↷ undo and redo every change, and “?” shows the hint. “Navigate” – navigation along this route. “Save” keeps the route in the “Planning” tab or on another map; a saved route has “Edit route” in its popup.</li>
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
@@ -28000,7 +28205,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Track summary</b> (button in Tracks) – activity types to tick (several at once), period: week, month, year, all or custom (from–to); by default tracks from all groups of the mode (or “Only group …”), option “Include Sport workouts”. Result: count, distance, moving time, climb, breakdown by type, chart and list. In Sport statistics – “Include tracks” (trips of the same type). A workout recorded with a track counts once, and its distance and time come from the computed track.</li>
 <li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans, in groups: for tracks – the track title and its photos, for maps – the map and layer, for “All” – the day. Under a photo only the time. <b>＋</b> by a group adds photos to that track or layer, and the map icon shows them on the map. <b>Press and hold a photo</b> – selection mode: tap more photos or the circle by a group (the whole group); at the bottom <b>Share</b>, <b>Move</b> (to another track, map or layer), <b>On the map</b>, <b>Delete</b> and <b>More</b> (caption, description). The “Plans” filter appears only when plans have photos. Tap a photo to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
 <li><b>What the map shows</b> – top left, the name of the active map; tap it for <b>Everything</b>, <b>This map only</b>, <b>Tracks only</b>, <b>Clean map</b>, switching maps and <b>your own views</b> (“Save the current view…” remembers the map and layer visibility). <b>Focus mode</b>: when you open the popup of a track, route or point, the rest of your data is hidden for the time being (“Show everything” at the top; switch it off in Settings → Appearance). The first time you use a feature a short 💡 hint appears, and at the start 5 cards (also in “i” → Getting started → “Start cards”).</li>
-<li><b>Route card and “Through greenery”</b> – after “Navigate” the card appears at once: from and to (A and B), how you travel (Walk / Bike / Car / Horse / Straight) and the kind of roads (Trekking / Road / Mountain, Trails and forest / Paved only). The recommended route shows within seconds, other variants join the list (name, time, km, how much longer); computed routes are remembered when switching. On foot and by bike there is a <b>“🌳 Look for a route through greenery”</b> box (always unticked at start) with a “max. longer by” limit (40% by default, − / +): once ticked OMM looks for a route through parks and forests (OpenStreetMap data) and adds it next to the recommended one, or says why it found nothing. The guidance arrow appears only after you choose a route. The variants list is collapsed – pick a variant by tapping its line on the map (each has a label with the time difference and length) or from the list under “Variants ▾”. “+” between A and B adds a via point (then in the planner). “Route from here” first asks “where to?”: to my position, search, or pick on the map. While the card is open the map shows all variants from A to B above the card (also after recalculating, e.g. through greenery) and does not follow you, and the night map turns on only after “Navigate”. A picked place gets the street and district name, and the server's variants are named after the street they use (“Via …”). The list shows about three rows, scroll for the rest.</li>
+<li><b>Route card and “Through greenery”</b> – after “Navigate” the card appears at once: from and to (A and B), how you travel (Walk / Bike / Car / Horse / Straight) and the kind of roads (Trekking / Road / Mountain, Trails and forest / Paved only). The recommended route shows within seconds, other variants join the list (name, time, km, how much longer); computed routes are remembered when switching. On foot and by bike there is a <b>“🌳 Look for a route through greenery”</b> box (always unticked at start) with a “max. longer by” limit (40% by default, − / +): once ticked OMM looks for a route through parks and forests (OpenStreetMap data) and adds it next to the recommended one, or says why it found nothing. On a long route (tens of kilometres) greenery is checked in a strip along the regular route – the first time OMM downloads the greenery map (progress is shown; it is then kept for 60 days); the search works up to about 150 km. The guidance arrow appears only after you choose a route. The variants list is collapsed – pick a variant by tapping its line on the map (each has a label with the time difference and length) or from the list under “Variants ▾”. “+” between A and B adds a via point (then in the planner). “Route from here” first asks “where to?”: to my position, search, or pick on the map. While the card is open the map shows all variants from A to B above the card (also after recalculating, e.g. through greenery) and does not follow you, and the night map turns on only after “Navigate”. A picked place gets the street and district name, and the server's variants are named after the street they use (“Via …”). The list shows about three rows, scroll for the rest.</li>
 <li><b>Track window</b> – at the top the name (tap to rename it), next to it the <b>eye</b> (show / hide the track without closing the window) and the camera; below it the activity, start → end and layer; below them distance, moving time, total time, average and climb; the colour bar (tap to switch speed / elevation / plain). One row of buttons (icon above the label): <b>Navigate</b> (along the track), <b>Edit</b> (track points, draw in, split, snap to paths, activity, description, photos and points, “Restore the original”), <b>Statistics</b>, <b>Share</b> (file, image, save on the phone, Animation) and <b>More</b> (track data – select photos and points to copy or move to a map, or save the track as a route for navigation – and delete). Editing really changes the track; the track calculated by OMM and the raw readings are kept for comparison.</li>
 <li><b>New point</b> – press and hold the map → “Save point”: one window – name, description, icon, map and layer.</li>
 <li><b>Layer settings</b> – ⋮ next to a layer opens one window: name, opacity, point icon and names, moving objects, data fields, alarm, merging, sharing, order and deleting.</li>
@@ -43467,18 +43672,42 @@ async function netBin(url, lim) {
     return a.buffer;
   }
 }
-async function vtGreenArea(S, W, N, E) {
-  // zielone wielokąty z kafli z14 w prostokącie; null, gdy kafli nie udało się pobrać
-  const n2 = 2 ** VT_Z,
-    tx = lo => Math.floor(((lo + 180) / 360) * n2),
-    ty = la => Math.floor(((1 - Math.log(Math.tan((la * Math.PI) / 180) + 1 / Math.cos((la * Math.PI) / 180)) / Math.PI) / 2) * n2),
-    x0 = tx(W),
-    x1 = tx(E),
-    y0 = ty(N),
-    y1 = ty(S),
-    keys = [];
-  for (let x = x0; x <= x1; x++) for (let y = y0; y <= y1; y++) keys.push([x, y]);
-  if (keys.length > 200) return null; // za duży obszar – zostaje Overpass albo nic
+const vtX = lo => Math.floor(((lo + 180) / 360) * 2 ** VT_Z),
+  vtY = la => Math.floor(((1 - Math.log(Math.tan((la * Math.PI) / 180) + 1 / Math.cos((la * Math.PI) / 180)) / Math.PI) / 2) * 2 ** VT_Z);
+function vtRectKeys(S, W, N, E) {
+  // kafle z14 pokrywające prostokąt
+  const keys = [];
+  for (let x = vtX(W); x <= vtX(E); x++) for (let y = vtY(N); y <= vtY(S); y++) keys.push([x, y]);
+  return keys;
+}
+// v123 (pkt 376): długa trasa (np. Łódź → Marcinów, 52 km) – prostokąt wokół startu i celu to ~1650 kafli, więc OMM
+// rezygnował z kafli, pytał zapasowy serwer o cały ten obszar i kończył komunikatem „serwer nie odpowiada”. Teraz
+// zieleń zbierana jest w pasie ~1,5 km wzdłuż zwykłej trasy (tu ~130 kafli); krótkie trasy – prostokąt jak dotąd.
+const VT_RECT_MAX = 60, // do tylu kafli – prostokąt wokół startu i celu (dotychczasowe zachowanie)
+  VT_MAX = 450, // najwięcej kafli na jedną trasę (pas wzdłuż ok. 150 km)
+  VT_PAS = 1500; // szerokość pasa w bok od zwykłej trasy [m]
+function vtRouteKeys(P) {
+  // kafle z14 w pasie VT_PAS wzdłuż linii P (próbkowanej co ~400 m)
+  const set = new Map(),
+    box = q => {
+      const dla = VT_PAS / 110540,
+        dlo = VT_PAS / (111320 * Math.cos((q[0] * Math.PI) / 180));
+      for (let x = vtX(q[1] - dlo); x <= vtX(q[1] + dlo); x++) for (let y = vtY(q[0] + dla); y <= vtY(q[0] - dla); y++) set.set(x + '_' + y, [x, y]);
+    };
+  for (let i = 0; i < P.length; i++) {
+    if (!i) {
+      box(P[0]);
+      continue;
+    }
+    const d = hav(P[i - 1], P[i]),
+      n = Math.max(1, Math.ceil(d / 400));
+    for (let k = 1; k <= n; k++) box([P[i - 1][0] + ((P[i][0] - P[i - 1][0]) * k) / n, P[i - 1][1] + ((P[i][1] - P[i - 1][1]) * k) / n]);
+  }
+  return [...set.values()];
+}
+async function vtGreenArea(keys, onProg) {
+  // zielone wielokąty z podanych kafli z14 ([x, y]); null, gdy kafli nie udało się pobrać; onProg(pobrane, wszystkie)
+  if (keys.length > VT_MAX) return null;
   const out = [];
   let tpl = null,
     bad = 0,
@@ -43499,13 +43728,17 @@ async function vtGreenArea(S, W, N, E) {
     tpl = await vtTpl();
     if (!tpl) return null;
     const rows = [];
-    // po 4 naraz – CDN to wytrzyma, a telefon nie czeka długo
-    for (let i = 0; i < miss.length; i += 4) {
+    let done = 0;
+    // po 4 naraz (przy długiej trasie po 6) – CDN to wytrzyma, a telefon nie czeka długo
+    const par = miss.length > 40 ? 6 : 4;
+    for (let i = 0; i < miss.length; i += par) {
+      if (onProg && miss.length > 12) onProg(done, miss.length);
       await Promise.all(
-        miss.slice(i, i + 4).map(async ([x, y, k]) => {
+        miss.slice(i, i + par).map(async ([x, y, k]) => {
           try {
             const buf = await netBin(tpl.replace('{z}', VT_Z).replace('{x}', x).replace('{y}', y), 12000),
               w = buf.byteLength ? vtGreen(buf, x, y) : [];
+            done++;
             GREEN_C.set(k, w);
             rows.push([k, {at: Date.now(), w}]);
             out.push(...w);
@@ -43568,30 +43801,48 @@ function greenPolys(list, a, S, W, N, E) {
   polys.rides = rides;
   return polys;
 }
-async function greenFetch(a, b) {
-  // v109: zieleń szukana do ~1 km w bok od linii start–cel
-  const pad = Math.max(0.01, Math.abs(a[0] - b[0]) * 0.3, Math.abs(a[1] - b[1]) * 0.3),
-    S = Math.min(a[0], b[0]) - pad,
+async function greenFetch(a, b, base, onProg) {
+  // v109: zieleń szukana do ~1 km w bok od linii start–cel; v123 (pkt 376): przy dłuższej trasie – w pasie wzdłuż
+  // zwykłej trasy (base.p). Zwraca wielokąty, null (brak danych – serwer / internet) albo 'far' (trasa za długa).
+  const pad = Math.max(0.01, Math.abs(a[0] - b[0]) * 0.3, Math.abs(a[1] - b[1]) * 0.3);
+  let S = Math.min(a[0], b[0]) - pad,
     N = Math.max(a[0], b[0]) + pad,
     W = Math.min(a[1], b[1]) - pad * 1.6,
     E = Math.max(a[1], b[1]) + pad * 1.6,
-    i0 = Math.floor(S / GREEN_TLA),
+    vk = vtRectKeys(S, W, N, E);
+  const pas = vk.length > VT_RECT_MAX; // za duży prostokąt – pas wzdłuż trasy
+  if (pas) {
+    const P = base && base.p && base.p.length > 1 ? base.p : [a, b];
+    vk = vtRouteKeys(P);
+    if (vk.length > VT_MAX) return 'far';
+    // prostokąt całego pasa (do odsiania obszarów spoza niego)
+    S = N = P[0][0];
+    W = E = P[0][1];
+    P.forEach(q => ((S = Math.min(S, q[0])), (N = Math.max(N, q[0])), (W = Math.min(W, q[1])), (E = Math.max(E, q[1]))));
+    const m = (VT_PAS * 1.5) / 110540;
+    S -= m;
+    N += m;
+    W -= m * 1.7;
+    E += m * 1.7;
+  }
+  const i0 = Math.floor(S / GREEN_TLA),
     i1 = Math.floor(N / GREEN_TLA),
     j0 = Math.floor(W / GREEN_TLO),
     j1 = Math.floor(E / GREEN_TLO),
     keys = [];
-  for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) keys.push(i + '_' + j);
-  const bbk = keys[0] + ':' + keys[keys.length - 1];
+  if (!pas) for (let i = i0; i <= i1; i++) for (let j = j0; j <= j1; j++) keys.push(i + '_' + j);
+  const bbk = pas ? 'pas:' + vk.length + ':' + vk[0].join('_') + ':' + vk[vk.length - 1].join('_') : keys[0] + ':' + keys[keys.length - 1];
   if (GREEN_P.has(bbk)) return GREEN_P.get(bbk);
   const pr = (async () => {
     try {
       // v108 (pkt 278): najpierw kafle wektorowe (szybkie, pewne); Overpass tylko, gdy kafli brak
-      const vt = await vtGreenArea(S, W, N, E).catch(e => (diag('trasy', 'Zieleń z kafli: ' + ((e && e.message) || e), bbk), null));
+      const vt = await vtGreenArea(vk, onProg).catch(e => (diag('trasy', 'Zieleń z kafli: ' + ((e && e.message) || e), bbk), null));
       if (vt) {
         const polys = greenPolys(vt, a, S, W, N, E);
-        diag('trasy', 'Zieleń: ' + polys.length + ' obszarów (kafle wektorowe)', bbk);
+        diag('trasy', 'Zieleń: ' + polys.length + ' obszarów (kafle wektorowe' + (pas ? ', pas wzdłuż trasy: ' + vk.length + ' kafli' : '') + ')', bbk);
         return polys;
       }
+      if (pas) return null; // zapasowy Overpass nie udźwignie tak dużego obszaru
       let have = await greenTilesLoad(keys);
       const miss = keys.filter(k => !have.has(k));
       if (miss.length) {
@@ -43725,20 +43976,20 @@ async function brProfile(fresh) {
     return BR_PROF;
   }
 }
-async function brRoute(pts, retry) {
-  // trasa BRoutera przez punkty; zwraca {p, len, time} albo rzuca błąd
+async function brRoute(pts, retry, ms = 25000) {
+  // trasa BRoutera przez punkty; zwraca {p, len, time} albo rzuca błąd; ms – limit czasu (długa trasa: 60 s)
   const id = await brProfile(retry);
   const u = BR_URL + '?lonlats=' + pts.map(q => q[1].toFixed(6) + ',' + q[0].toFixed(6)).join('|') + '&profile=' + id + '&alternativeidx=0&format=geojson&timode=2';
   let r, txt;
   try {
-    r = await brHttp(u, 25000);
+    r = await brHttp(u, ms);
     txt = r.text;
   } catch (e) {
     throw new Error('trasa: ' + ((e && e.message) || e));
   }
   if (r.status >= 400 || String(txt).trim()[0] !== '{') {
     // wgrany profil wygasł – wgrywamy od nowa i jeszcze raz
-    if (!retry && /profile|not found|custom/i.test(txt)) return brRoute(pts, true);
+    if (!retry && /profile|not found|custom/i.test(txt)) return brRoute(pts, true, ms);
     throw new Error('BRouter: ' + String(txt).slice(0, 120));
   }
   const j = JSON.parse(txt),
@@ -43958,41 +44209,73 @@ function greenScore(r, G) {
 function greenShare(r, G) {
   return greenScore(r, G).share;
 }
-async function greenRoutes(a, b, prof, base, limF = 1.4) {
+async function greenRoutes(a, b, prof, base, limF = 1.4, onProg) {
   // v109 (pkt 280): warianty „przez zieleń” – zieleń szukana do ~1 km w bok od zwykłej trasy, tylko do przodu;
   // przez park / las punkty przelotowe na wejściu i wyjściu wzdłuż kierunku jazdy (ścieżki w środku), kilka kolejnych
   // obszarów w łańcuchu; cmentarze, ogródki i ogrody to tylko miłe sąsiedztwo, nie cel. Wygrywa wariant z największym
   // zyskiem „ładnych metrów” ponad nadłożone metry; zawracanie (np. w drugą stronę do parku za plecami) odpada.
-  // Zwraca {r, gm, gs, G} albo {none: 'nodata' | 'noarea' | 'toolong' | 'nogain', need}
-  const G = await greenFetch(a, b);
+  // v123 (pkt 376): trasy dłuższe niż ~8 km w linii prostej – „do przodu” liczone wzdłuż zwykłej trasy (nie wzdłuż
+  // prostej start–cel, bo długa trasa rzadko jest prosta), a pierwszym kandydatem jest trasa BRoutera z profilem
+  // „zieleń, cisza, woda” bez punktów przelotowych. onProg(pobrane, wszystkie) – postęp pobierania mapy zieleni.
+  // Zwraca {r, gm, gs, G} albo {none: 'nodata' | 'noarea' | 'toolong' | 'nogain' | 'toofar', need}
+  const G = await greenFetch(a, b, base, onProg);
   greenRoutes.rej = [];
+  if (G === 'far') return {none: 'toofar'};
   if (!G) return {none: 'nodata'};
   if (!G.length || !base) return {none: 'noarea'};
   const k0 = Math.cos((a[0] * Math.PI) / 180),
     xy = q => [(q[1] - a[1]) * k0 * 111320, (q[0] - a[0]) * 110540],
     B = xy(b),
-    dAB = Math.hypot(B[0], B[1]) || 1,
-    ux = B[0] / dAB,
-    uy = B[1] / dAB,
-    tOf = q => {
-      const v = xy(q);
-      return v[0] * ux + v[1] * uy;
-    },
+    dStr = Math.hypot(B[0], B[1]) || 1,
+    ux = B[0] / dStr,
+    uy = B[1] / dStr,
+    long = dStr > 8000,
     lim = base.len * limF;
-  // próbki zwykłej trasy co ~100 m
-  const bs = [];
+  // próbki zwykłej trasy co ~100 m (bsC – ile metrów od startu wzdłuż trasy)
+  const bs = [],
+    bsC = [];
   for (let i = 0, c = 0, nx = 0; i < base.p.length; i++) {
     if (i) c += hav(base.p[i - 1], base.p[i]);
-    if (c >= nx || i === base.p.length - 1) bs.push(base.p[i]), (nx = c + 100);
+    if (c >= nx || i === base.p.length - 1) bs.push(base.p[i]), bsC.push(c), (nx = c + 100);
   }
-  const dBase = q => {
-    let d = Infinity;
-    for (const x of bs) {
-      const v = hav(q, x);
-      if (v < d) d = v;
-    }
-    return d;
+  // siatka próbek (oczka ~550 m): najbliższa próbka bez przeglądania całej trasy
+  const grid = new Map();
+  bs.forEach((x, i) => {
+    const k = Math.floor(x[0] / 0.005) + ':' + Math.floor(x[1] / 0.008);
+    if (!grid.has(k)) grid.set(k, []);
+    grid.get(k).push(i);
+  });
+  const nearB = q => {
+    // [odległość do zwykłej trasy, numer najbliższej próbki]
+    let d = Infinity,
+      bi = -1;
+    const ci = Math.floor(q[0] / 0.005),
+      cj = Math.floor(q[1] / 0.008);
+    for (let di = -1; di <= 1; di++)
+      for (let dj = -1; dj <= 1; dj++) {
+        const L = grid.get(ci + di + ':' + (cj + dj));
+        if (L)
+          for (const i of L) {
+            const v = hav(q, bs[i]);
+            if (v < d) (d = v), (bi = i);
+          }
+      }
+    if (bi < 0 || d > 500)
+      // dalej niż oczko siatki – dokładnie, po całej trasie
+      for (let i = 0; i < bs.length; i++) {
+        const v = hav(q, bs[i]);
+        if (v < d) (d = v), (bi = i);
+      }
+    return [d, bi];
   };
+  const dBase = q => nearB(q)[0],
+    dAB = long ? bsC[bsC.length - 1] || 1 : dStr,
+    tOf = long
+      ? q => bsC[nearB(q)[1]]
+      : q => {
+          const v = xy(q);
+          return v[0] * ux + v[1] * uy;
+        };
   // v110 (pkt 281): cele = drogi, którymi wolno jechać rowerem, biegnące przez zieleń (park, las, łąka…), złożone
   // w ciągi; punkty przelotowe leżą NA tych drogach (serwer nie kluczy do płotu ani do zamykanego parku tylko dla pieszych)
   const runs = [];
@@ -44121,15 +44404,16 @@ async function greenRoutes(a, b, prof, base, limF = 1.4) {
     useBr = false;
     diag('trasy', 'Zieleń: BRouter – ' + ((e && e.message) || e), '');
   }
-  for (const c of cands.slice(0, 6)) {
+  // długa trasa: najpierw sama trasa BRoutera z zielonym profilem (null), potem najwyżej 3 łańcuchy obszarów
+  for (const c of long ? [null, ...cands.slice(0, 3)] : cands.slice(0, 6)) {
     // po kolei – publiczny serwer tras nie lubi wielu zapytań naraz
-    const vias = c.flatMap(x => x.vias).filter(q => tOf(q) > 30 && tOf(q) < dAB - 30);
-    if (!vias.length) continue;
+    const vias = c ? c.flatMap(x => x.vias).filter(q => tOf(q) > 30 && tOf(q) < dAB - 30) : [];
+    if (c ? !vias.length : !useBr) continue;
     try {
       // v110 (pkt 281): BRouter z profilem „zieleń, cisza, woda” (płynnie, bez pętli przy punktach); bez niego –
       // Valhalla z karą za każdy manewr
       const r = useBr
-        ? await brRoute([a, ...vias, b]).catch(e => ((useBr = false), diag('trasy', 'Zieleń: BRouter – ' + ((e && e.message) || e), ''), null))
+        ? await brRoute([a, ...vias, b], false, long ? 60000 : 25000).catch(e => ((useBr = false), diag('trasy', 'Zieleń: BRouter – ' + ((e && e.message) || e), ''), null))
         : await routeAB([a, ...vias, b], {prof, noWalk: true, co: {maneuver_penalty: 30}, types: ['break', ...vias.map(() => 'through'), 'break']});
       if (!r || !r.p || r.p.length < 2) continue;
       // zawracanie: trasa cofa się wzdłuż kierunku start → cel o ponad 250 m
@@ -44140,13 +44424,13 @@ async function greenRoutes(a, b, prof, base, limF = 1.4) {
         mx = Math.max(mx, t);
         back = Math.max(back, mx - t);
       }
-      if (back > 350 || tOf(r.p[Math.min(r.p.length - 1, 8)]) < -200) {
+      if (c && (back > (long ? 1500 : 350) || tOf(r.p[Math.min(r.p.length - 1, 8)]) < -200)) {
         (greenRoutes.rej = greenRoutes.rej || []).push({why: 'back', back: Math.round(back), r});
         continue;
       }
       // kluczenie: odcinek między kolejnymi punktami (start, przelotowe, cel) dłuższy niż 1,8× w linii prostej – pętla
       // do punktu (np. ścieżka dostępna tylko z drugiej strony parku); taki wariant odpada
-      {
+      if (c) {
         const anc = [a, ...vias, b],
           idx = anc.map(q => {
             let bi = 0,
@@ -44368,7 +44652,12 @@ async function navAltPick() {
       while (st.busy) await new Promise(r => setTimeout(r, 300));
       const base = st.C[0] && st.C[0].r;
       if (!base) return (st.gs = {msg: _t('Najpierw musi się policzyć zwykła trasa.')}), draw();
-      const gr = await greenRoutes(pos, to, pr, base, 1 + lim / 100).catch(() => null);
+      // v123 (pkt 376): przy długiej trasie widać, ile mapy zieleni już pobrano
+      const gr = await greenRoutes(pos, to, pr, base, 1 + lim / 100, (n, all) => {
+        if (closed || pr !== prof || !st.gs || !st.gs.busy) return;
+        st.gs.prog = n + ' / ' + all;
+        draw();
+      }).catch(e => (diag('trasy', 'Zieleń: ' + ((e && e.message) || e), ''), null));
       if (closed || pr !== prof || !wantG) return;
       if (!gr || gr.none) {
         // v111 (pkt 283): ile zieleni ma każdy wariant – także gdy ładniejszej trasy nie ma
@@ -44381,6 +44670,8 @@ async function navAltPick() {
         st.gs = {
           msg: !gr || gr.none === 'nodata'
             ? _t('Brak danych o zieleni – serwer z mapą zieleni nie odpowiada. Spróbuj za chwilę.')
+            : gr.none === 'toofar'
+              ? _t('Ta trasa jest za długa na szukanie zieleni (działa do ok. 150 km).')
             : gr.none === 'noarea'
               ? _t('Po drodze nie ma parków ani lasów, przez które dałoby się pojechać.')
               : gr.none === 'nogain'
@@ -44535,7 +44826,7 @@ async function navAltPick() {
           card.append(gr);
           const s2 = cur();
           if (wantG && s2 && s2.gs) {
-            if (s2.gs.busy) card.append(h('div', 'rpgmsg', _t('Szukam trasy przez zieleń…')));
+            if (s2.gs.busy) card.append(h('div', 'rpgmsg', _t('Szukam trasy przez zieleń…') + (s2.gs.prog ? ' ' + _t('Pobieram mapę zieleni: ') + s2.gs.prog : '')));
             else if (s2.gs.msg) card.append(h('div', 'rpgmsg', s2.gs.msg));
           }
         }
