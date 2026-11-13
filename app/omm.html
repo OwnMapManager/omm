@@ -777,6 +777,142 @@ button {
   box-shadow: var(--sh, 0 1px 4px #0006);
   box-sizing: border-box;
 }
+/* v125 (pkt 383–384): dymek i legenda na mapie – stały rozmiar na ekranie */
+.cal {
+  position: relative;
+  width: 0;
+  height: 0;
+}
+.calsv {
+  position: absolute;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0 !important; /* Leaflet daje svg w panelach z-index 200 – strzałka ma być POD ramką */
+}
+.calbx {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: 200px;
+  padding: 6px 10px;
+  border: 2px solid #202124;
+  border-radius: 10px;
+  background: #fff;
+  color: #202124;
+  line-height: 1.25;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  text-align: left;
+  box-shadow: 0 1px 4px #0005;
+  cursor: pointer;
+  font-family: var(--ff), system-ui, sans-serif;
+  z-index: 1;
+}
+.lgd {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  max-width: 260px;
+  padding: 8px 10px;
+  border: 1px solid #0005;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #202124;
+  line-height: 1.3;
+  box-shadow: 0 1px 4px #0004;
+  cursor: pointer;
+  font-family: var(--ff), system-ui, sans-serif;
+  font-weight: 500;
+}
+.lgd .lgt {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.lgd .lge {
+  color: #5f6368;
+  font-style: italic;
+}
+.lgd .lgr,
+.lger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lgd .lgr {
+  min-height: 22px;
+}
+.lgd .lgr i,
+.lger > i {
+  flex: none;
+  width: 26px;
+  display: grid;
+  place-items: center;
+  font-style: normal;
+}
+.lga {
+  display: block;
+  width: 24px;
+  height: 15px;
+  box-sizing: border-box;
+  box-shadow: 0 0 0 1px #0004; /* cienka ramka – jasne kolory (biały) widać na białym tle legendy */
+}
+.lgc {
+  box-shadow: 0 0 0 1px #0003;
+}
+.lgl {
+  display: block;
+  width: 24px;
+  border-radius: 3px;
+}
+.lgc {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+.lgp {
+  display: grid;
+  place-items: center;
+  font-weight: 400;
+  line-height: 1;
+}
+/* okno opisów legendy */
+.lged {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lged > input,
+.lger input {
+  box-sizing: border-box;
+  min-width: 0;
+}
+.lged > input {
+  width: 100%;
+}
+.lgel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 46vh;
+  overflow-y: auto;
+}
+.lger input {
+  flex: 1;
+  margin: 0;
+}
+.lger .lgmv {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  margin: 0;
+}
+.lger .lgmv:disabled {
+  opacity: 0.3;
+}
 .vh.big {
   width: 24px;
   height: 24px;
@@ -1184,6 +1320,23 @@ button {
   margin: 6px 0;
   max-height: 65vh;
   overflow-y: auto;
+}
+.ov:has(.ovpc) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ov:has(.ovpc) input {
+  flex: 1;
+  min-width: 0;
+}
+.ovpc {
+  flex: none;
+  min-width: 38px;
+  text-align: right;
+  color: var(--sub);
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
 }
 .lyd .ctlw {
   margin: 0 !important;
@@ -4943,6 +5096,52 @@ body.animon #wm {
   flex: 1;
   min-width: 0;
 }
+.film .fcrows {
+  display: contents;
+}
+.film .fnote {
+  color: #ffd27a;
+  font-size: 13px;
+  padding: 6px 4px 2px;
+}
+.film .fcl select.fcsel {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 8px;
+  border-radius: calc(10px * var(--rk, 1));
+}
+.film .fcl .fced {
+  flex: none;
+  margin-right: 6px;
+}
+.film .frec:disabled {
+  opacity: 0.45;
+}
+.ftit {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ftit input[type='text'],
+.ftit textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+.ftit label.chk {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 2px 0 0;
+}
+.ftit label.chk input {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  padding: 0;
+}
 .film .fcl {
   display: flex;
   align-items: center;
@@ -8109,24 +8308,34 @@ body.rec .navbar {
   gap: 10px;
   justify-items: center;
 }
+.stgrid.c6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+/* v125 (pkt 381): kafelek koloru – zaokrąglony kwadrat (kolor na wewnętrznym <i>), zaznaczony z obwódką i ptaszkiem */
 .stsw {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 100%;
+  max-width: 44px;
+  aspect-ratio: 1;
   border: 0;
   padding: 0;
-  position: relative;
+  background: none;
+  display: block;
+}
+.stsw i {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: calc(9px * var(--rk, 1));
   box-shadow: inset 0 0 0 1px #0002;
+  font: 700 17px/1 var(--ff), sans-serif;
+  font-style: normal;
 }
-.stsw.wh {
-  box-shadow: inset 0 0 0 1.5px #0003;
+.stsw i.wh {
+  box-shadow: inset 0 0 0 1.5px #0004;
 }
-.stsw.on::after {
-  content: '';
-  position: absolute;
-  inset: -5px;
-  border-radius: 50%;
-  border: 2.5px solid var(--acc);
+.stsw.on i {
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4.5px var(--acc);
 }
 .stops {
   display: grid;
@@ -8162,6 +8371,105 @@ body.rec .navbar {
 }
 .stop.on {
   color: var(--acc);
+}
+/* kafelek z podglądem rozmiaru / napisu: jasne tło zamiast szachownicy, podgląd na środku */
+.stop.pap i {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px #0002;
+  display: grid;
+  place-items: center;
+}
+.stop.pap.on i {
+  box-shadow: 0 0 0 2.5px var(--acc);
+}
+.stop.pap i b {
+  position: static;
+  inset: auto;
+  display: block;
+  font-style: normal;
+}
+.stop i b.pln {
+  width: 30px;
+  border-radius: 4px;
+}
+.stop i b.pdt {
+  border-radius: 50%;
+}
+.stop i b.ptx {
+  font-weight: 700;
+  line-height: 1;
+}
+.stop i b.ptb {
+  padding: 3px 5px;
+  border-radius: 5px;
+  font-size: 15px;
+}
+.stops {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.stops.fx {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+.stops.fx .stop {
+  flex: none;
+  min-width: 44px;
+}
+.stop {
+  white-space: nowrap;
+  margin: 0;
+}
+.stop i {
+  width: 100%;
+  max-width: 44px;
+  height: auto;
+  aspect-ratio: 1;
+}
+.stops.fx .stop i {
+  width: 44px;
+}
+.stydlg .stops + .stops {
+  margin-top: 10px;
+}
+.stydlg .stops + .sth {
+  margin-top: 14px;
+}
+.leaflet-popup-content button.stop,
+.leaflet-popup-content button.stsw {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  min-height: 0;
+  height: auto;
+  width: auto;
+}
+.leaflet-popup-content button.stsw {
+  width: 100%;
+}
+.leaflet-popup-content button.stop {
+  color: var(--sub);
+  font: 600 11.5px var(--ff), sans-serif;
+}
+.leaflet-popup-content button.stop.on {
+  color: var(--acc);
+}
+/* te same kontrolki w okienku obiektu */
+.leaflet-popup-content .stlab {
+  display: block;
+  margin: 14px 0 8px;
+}
+.leaflet-popup-content .stgrid {
+  margin-top: 10px;
+}
+.leaflet-popup-content .stops {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.leaflet-popup-content .stops + .stops {
+  margin-top: 10px;
 }
 .stwl {
   display: flex;
@@ -8856,12 +9164,10 @@ html.sk-krawedzie .leaflet-popup.skpop .pb { gap: 4px 18px !important; flex-wrap
 html.sk-krawedzie .leaflet-popup.skpop .pb button { padding: 8px 0 !important; min-height: 40px; font-size: 15.5px !important; }
 html.sk-krawedzie .leaflet-popup.skpop .pb button:first-child { color: var(--acc) !important; font-weight: 500; }
 html.sk-krawedzie .leaflet-popup.skpop .pb button.del { color: var(--krec) !important; }
-/* v123 (pkt 375): kafelki kolorów – reguła „przyciski bez tła” wyżej gasiła też tło z koloru (białe pole, a dotknięcie
-   i tak zmieniało kolor). Kolor idzie przez zmienną --swc; zaznaczony kafelek ma pierścień. To samo z zaznaczonym
-   rozmiarem / stylem (.szr) – było go nie widać. */
-html.sk-krawedzie .leaflet-popup.skpop .sw { grid-template-columns: repeat(6, 1fr); gap: 10px; margin-top: 12px; }
-html.sk-krawedzie .leaflet-popup.skpop .sw button { background: var(--swc, #888) !important; width: 100%; max-width: 44px; height: auto; aspect-ratio: 1; justify-self: center; padding: 0 !important; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25) !important; }
-html.sk-krawedzie .leaflet-popup.skpop .sw button.on { box-shadow: 0 0 0 2px var(--kh), 0 0 0 4px var(--txt) !important; }
+/* v125 (pkt 381): wspólne kontrolki wyglądu (kafelki) w okienku – reguła „przyciski bez tła” wyżej nie może ich zgasić */
+html.sk-krawedzie .leaflet-popup.skpop .stsw, html.sk-krawedzie .leaflet-popup.skpop .stop { padding: 0 !important; height: auto !important; min-height: 0 !important; }
+html.sk-krawedzie .leaflet-popup.skpop .stop { color: var(--sub) !important; font-size: 11.5px !important; }
+html.sk-krawedzie .leaflet-popup.skpop .stop.on { color: var(--acc) !important; }
 html.sk-krawedzie .leaflet-popup.skpop .szr { gap: 18px; }
 html.sk-krawedzie .leaflet-popup.skpop .szr button { flex: 0 0 auto; height: 40px; padding: 0 !important; font-size: 15.5px; }
 html.sk-krawedzie .leaflet-popup.skpop .szr button.on { color: var(--acc) !important; font-weight: 600; box-shadow: inset 0 -2px 0 var(--acc) !important; }
@@ -10022,6 +10328,37 @@ const EN = {
   "Szukaj przez zieleń": "Look for a route through greenery",
   "maks. dłuższa o": "max. longer by",
   "Szukam trasy przez zieleń…": "Looking for a route through greenery…",
+  "Dymek": "Callout",
+  "Dymek z opisem": "Callout",
+  "Dymek: dotknij miejsca, które ma wskazywać, i wpisz opis; ✓ gdy skończysz": "Callout: tap the place it should point at and type the text; ✓ when done",
+  "Dymek: duży uchwyt – wskazywane miejsce, mały – ramka z opisem; ✓ zapisz, ✕ anuluj": "Callout: big handle – the place it points at, small one – the text box; ✓ save, ✕ cancel",
+  "Edytuj (strzałka i ramka)": "Edit (arrow and box)",
+  "Grubość obrysu": "Outline width",
+  "Legenda": "Legend",
+  "Legenda bez opisów nie została dodana": "A legend without descriptions was not added",
+  "Legenda mapy": "Map legend",
+  "Legenda – dotknij, aby opisać kolory": "Legend – tap to describe the colours",
+  "Legenda: dotknij mapy tam, gdzie ma stanąć jej lewy górny róg": "Legend: tap the map where its top-left corner should be",
+  "Liczniki są dostępne, gdy film pokazuje trasę": "Counters are available when the film shows the route",
+  "Na tej mapie nie ma jeszcze powierzchni, linii ani punktów do opisania. Narysuj je i wróć do legendy.": "This map has no areas, lines or points to describe yet. Draw them and come back to the legend.",
+  "Opis (niekonieczny)": "Description (optional)",
+  "Opis w dymku:": "Callout text:",
+  "Opisy": "Descriptions",
+  "Plansza z trasą": "Route card",
+  "Pozycji w legendzie: ": "Legend entries: ",
+  "Przejazd trasy albo nieruchoma plansza z całą trasą": "Route ride or a still card with the whole route",
+  "Ramkę dymka przesuniesz: dotknij dymka → Więcej → Edytuj.": "To move the callout box: tap the callout → More → Edit.",
+  "Tytuł": "Title",
+  "Tytuł i opis w filmie": "Title and description in the film",
+  "Tytuł legendy (niekonieczny)": "Legend title (optional)",
+  "Wpisz, co oznacza każdy kolor albo ikona. Pozycje bez opisu nie pokażą się w legendzie.": "Type what each colour or icon means. Entries without a description will not be shown in the legend.",
+  "Wstaw": "Insert",
+  "Wszystko jest wyłączone – włącz okiem choć jedną część filmu.": "Everything is switched off – turn on at least one part of the film with the eye.",
+  "Zastosuj": "Apply",
+  "Zmień również nazwę śladu": "Also rename the track",
+  "Zmień tytuł i opis w filmie": "Change the title and description in the film",
+  "np. ": "e.g. ",
+  "opis": "description",
   "Przeciągnij punkt w nowe miejsce. Mała kropka między punktami wstawia nowy punkt. Dotknij punktu, aby go usunąć. „+” za końcem linii – dorysuj dalej.": "Drag a point to a new place. The small dot between points inserts a new point. Tap a point to delete it. “+” past the end of a line – keep drawing.",
   "Dorysowywanie: dotykaj mapy w kolejnych miejscach; „+” kończy": "Extending: tap the map at the next places; “+” stops",
   "Okrąg: promień ": "Circle: radius ",
@@ -13695,7 +14032,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v124';
+const APP_VER = 'v125';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -18768,12 +19105,15 @@ function buildBMenu() {
       r.max = 100;
       r.value = Math.round(o.op * 100);
       r.title = _t('Krycie nakładki');
+      // v125 (pkt 381): suwak zawsze z liczbą obok – nie „na ślepo”
+      const pc = h('span', 'ovpc', Math.round(o.op * 100) + '%');
       r.oninput = () => {
         o.op = r.value / 100;
+        pc.textContent = r.value + '%';
         OV[k].l.setOpacity(o.op);
       };
       r.onchange = saveOv;
-      d.append(r);
+      d.append(r, pc);
       m.append(d);
       if (k === 'nmt')
         m.append(B((NMT_SMOOTH ? '☑ ' : '☐ ') + _t('wygładź przy dużym zbliżeniu'), toggleSmooth, 'sm'));
@@ -18915,7 +19255,7 @@ function cleanTimes(o) {
     if (own(o, k) && !(typeof o[k] === 'number' && isFinite(o[k]))) o[k] = Date.now();
   });
 }
-const ITEM_T = ['pin', 'line', 'poly', 'circle', 'dot', 'num', 'arrow', 'text'];
+const ITEM_T = ['pin', 'line', 'poly', 'circle', 'dot', 'num', 'arrow', 'text', 'call', 'legend']; // v125: dymek i legenda
 function cleanItem(it) {
   // poprawia pola obiektu mapy; false = obiekt nie do użycia (zła geometria)
   if (!it || typeof it !== 'object' || !ITEM_T.includes(it.t) || !Array.isArray(it.p) || !it.p.length) return false;
@@ -18952,6 +19292,27 @@ function cleanItem(it) {
   cleanStr(it, 'nm', 300);
   cleanStr(it, 'tx', 500);
   cleanStr(it, 'n', 20000);
+  // v125 (pkt 384): dymek – położenie ramki względem wskazywanego punktu (piksele ekranu)
+  ['dx', 'dy'].forEach(k => own(it, k) && (it.t === 'call' ? (it[k] = Math.round(safeNum(it[k], -600, 600, k === 'dx' ? 70 : -70))) : delete it[k]));
+  // v125 (pkt 383): legenda – tytuł i pozycje {k: klucz koloru / ikony, tx: opis, s: próbka}
+  if (it.t === 'legend') {
+    const g = it.lg && typeof it.lg === 'object' ? it.lg : {};
+    it.lg = {
+      title: typeof g.title === 'string' ? g.title.slice(0, 60) : '',
+      rows: (Array.isArray(g.rows) ? g.rows : [])
+        .filter(r => r && typeof r.k === 'string' && typeof r.tx === 'string')
+        .slice(0, 60)
+        .map(r => {
+          const q = r.s && typeof r.s === 'object' ? r.s : {},
+            c = safeColor(q.c);
+          return {
+            k: r.k.slice(0, 90),
+            tx: r.tx.slice(0, 80),
+            s: {kind: ['a', 'l', 'd', 'p'].includes(q.kind) ? q.kind : 'a', ...(c ? {c} : {}), ...(typeof q.i === 'string' ? {i: q.i.slice(0, 64)} : {}), ...(q.nf === true ? {nf: true} : {}), ...(q.ns === true ? {ns: true} : {}), o: safeNum(q.o, 0, 1, 0.35), sz: Math.round(safeNum(q.sz, 0, 3, 1))}
+          };
+        })
+    };
+  } else if (own(it, 'lg')) delete it.lg;
   cleanPh(it);
   cleanTimes(it);
   if (own(it, 'fv')) {
@@ -19373,7 +19734,8 @@ const touch = it => {
   it.up = Date.now();
 };
 const okItem = it => cleanItem(it); // sprawdza i od razu poprawia pola (patrz „walidacja danych”)
-const isPt = it => it.t === 'pin' || it.t === 'dot' || it.t === 'num' || it.t === 'text';
+const isBox = it => it.t === 'call' || it.t === 'legend'; // v125 (pkt 383–384): dymek i legenda – stały rozmiar na ekranie
+const isPt = it => it.t === 'pin' || it.t === 'dot' || it.t === 'num' || it.t === 'text' || isBox(it);
 // ---------- kategorie obiektów (ikony), filtr widoczności, porządkowanie nazw ----------
 const isArea = it => it.t === 'poly' || it.t === 'circle';
 // kategoria obiektu = jego ikona (punkty oraz obszary z ikoną); '_' = bez kategorii
@@ -19498,7 +19860,8 @@ function describe(it) {
   if (it.t === 'circle') return _t('Promień: ') + fm(it.r) + _t('<br>Powierzchnia: ') + fa(Math.PI * it.r * it.r);
   return (
     (it.t === 'num' ? _t('Numer: ') + esc(it.no) + '<br>' : '') +
-    (it.t === 'text' ? _t('Tekst: ') + esc(it.tx) + '<br>' : '') +
+    (it.t === 'text' || it.t === 'call' ? _t('Tekst: ') + esc(it.tx) + '<br>' : '') +
+    (it.t === 'legend' ? _t('Pozycji w legendzie: ') + lgRows(it).length + '<br>' : '') +
     it.p[0][0].toFixed(6) +
     ', ' +
     it.p[0][1].toFixed(6)
@@ -19588,7 +19951,8 @@ function openItemPopup(it, latlng) {
     cc.onclick = () => coordPopup(it.p[0], nameOf(it));
     body.append(cc);
     if (it.t === 'num') body.append(h('div', 'pdesc', _t('Numer: ') + it.no));
-    if (it.t === 'text') body.append(h('div', 'pdesc', _t('Tekst: ') + it.tx));
+    if (it.t === 'text' || it.t === 'call') body.append(h('div', 'pdesc', _t('Tekst: ') + it.tx));
+    if (it.t === 'legend') body.append(h('div', 'pdesc', _t('Pozycji w legendzie: ') + lgRows(it).length));
   } else {
     const d = h('div', 'pdesc');
     d.innerHTML = describe(it);
@@ -19660,137 +20024,59 @@ function openItemPopup(it, latlng) {
     if (!pop.isOpen()) pop.openOn(map);
   };
   function colorSec(c) {
-    const sw = h('div', 'sw');
-    PAL.forEach(col => {
-      const b = B(
-        '',
-        () => {
-          it.c = col;
-          touch(it);
-          redraw();
-          show(colorSec);
-        },
-        col === it.c ? 'on' : ''
-      );
-      b.style.background = col;
-      b.style.setProperty('--swc', col); // v123 (pkt 375): w „Mapa i krawędzie” tło kafelka bierze kolor stąd
-      b.setAttribute('aria-label', col);
-      sw.append(b);
-    });
-    c.append(sw);
-    if (
-      ['dot', 'num', 'text', 'line', 'arrow'].includes(it.t) ||
-      (it.t === 'pin' && ICONS[it.i] && ICONS[it.i].col)
-    ) {
-      const lb = h('label');
-      lb.textContent = _t('Rozmiar');
-      const r = h('div', 'szr');
-      SZ_NAMES.forEach((nn, i) =>
-        r.append(
-          B(
-            nn,
-            () => {
-              it.sz = i;
-              touch(it);
-              redraw();
-              show(colorSec);
-            },
-            szOf(it) === i ? 'on' : ''
-          )
-        )
-      );
-      c.append(lb, r);
-    }
-    if (it.t === 'num' || it.t === 'text') {
-      const lb2 = h('label');
-      lb2.textContent = _t('Styl');
-      const r2 = h('div', 'szr');
-      [
-        [_t('Z tłem'), true],
-        [_t('Bez tła'), false]
-      ].forEach(([nn, v]) =>
-        r2.append(
-          B(
-            nn,
-            () => {
-              it.bg = v;
-              touch(it);
-              redraw();
-              show(colorSec);
-            },
-            (it.bg !== false) === v ? 'on' : ''
-          )
-        )
-      );
-      c.append(lb2, r2);
-      const r3 = h('div', 'szr');
-      r3.style.marginTop = '6px';
-      [
-        [_t('Zwykły'), 'n'],
-        [_t('Pogrubiony'), 'b']
-      ].forEach(([nn, v]) =>
-        r3.append(
-          B(
-            nn,
-            () => {
-              it.fw = v;
-              touch(it);
-              redraw();
-              show(colorSec);
-            },
-            (it.fw === 'n' ? 'n' : 'b') === v ? 'on' : ''
-          )
-        )
-      );
-      c.append(r3);
-    }
-    if (it.t === 'poly' || it.t === 'circle') {
-      // v124 (pkt 378): wypełnienie i obrys – włącz / wyłącz (nie oba naraz)
-      const tg = (nm, k) => {
-        const lb0 = h('label');
-        lb0.textContent = nm;
-        const r0 = h('div', 'szr');
-        [
-          [_t('Tak'), false],
-          [_t('Nie'), true]
-        ].forEach(([n0, v]) =>
-          r0.append(
-            B(
-              n0,
-              () => {
-                if (v && it[k === 'nf' ? 'ns' : 'nf']) return toastMsg('⚠ ' + _t('Kształt musi mieć wypełnienie albo obrys'));
-                if (v) it[k] = true;
-                else delete it[k];
-                touch(it);
-                redraw();
-                show(colorSec);
-              },
-              !!it[k] === v ? 'on' : ''
-            )
-          )
-        );
-        c.append(lb0, r0);
-      };
-      tg(_t('Wypełnienie'), 'nf');
-      tg(_t('Obrys'), 'ns');
-    }
-    if ((it.t === 'poly' || it.t === 'circle') && !it.nf) {
-      const lb = h('label', '', ''),
-        r = h('input');
-      lb.textContent = _t('Krycie wypełnienia');
-      r.type = 'range';
-      r.min = 0;
-      r.max = 100;
-      r.value = Math.round(it.o * 100);
-      r.style.width = '100%';
-      r.onchange = () => {
-        it.o = r.value / 100;
+    // v125 (pkt 381): te same kontrolki co przy rysowaniu (styCtl…): kafelki kolorów, stopnie krycia, obrys z / bez,
+    // grubość obrysu, rozmiar i styl napisu – z podglądem
+    const set = fn => v => {
+        fn(v);
         touch(it);
         redraw();
-      };
-      lb.append(r);
-      c.append(lb);
+        show(colorSec);
+      },
+      lab = t => {
+        const l = h('label', 'stlab');
+        l.textContent = t;
+        return l;
+      },
+      area = it.t === 'poly' || it.t === 'circle',
+      colored = !(it.t === 'pin' && !(ICONS[it.i] && ICONS[it.i].col)) && it.t !== 'legend';
+    if (colored) c.append(styCtlColors(it.c, set(col => (it.c = col)), 6));
+    if (area) {
+      c.append(
+        lab(_t('Wypełnienie')),
+        styCtlFill(it.c, !!it.nf, it.o, (nf, op) =>
+          set(() => {
+            if (nf) {
+              it.nf = true;
+              delete it.ns; // bez wypełnienia obrys musi zostać
+            } else {
+              delete it.nf;
+              it.o = op;
+            }
+          })()
+        ),
+        lab(_t('Obrys')),
+        styCtlStroke(it.c, !!it.ns && !it.nf, ns =>
+          set(() => {
+            if (ns) {
+              it.ns = true;
+              delete it.nf; // bez obrysu wypełnienie musi zostać
+            } else delete it.ns;
+          })()
+        )
+      );
+      if (!it.ns) c.append(lab(_t('Grubość obrysu')), styCtlSizes('ln', it.c, szOf(it), set(i => (it.sz = i))));
     }
+    if (it.t === 'line' || it.t === 'arrow') c.append(lab(_t('Grubość linii')), styCtlSizes('ln', it.c, szOf(it), set(i => (it.sz = i))));
+    if (it.t === 'dot' || (it.t === 'pin' && ICONS[it.i] && ICONS[it.i].col)) c.append(lab(_t('Wielkość')), styCtlSizes('dt', it.c, szOf(it), set(i => (it.sz = i))));
+    if (it.t === 'legend') c.append(lab(_t('Wielkość')), styCtlSizes('tx', '#202124', szOf(it), set(i => (it.sz = i))));
+    if (it.t === 'call') c.append(lab(_t('Wielkość')), styCtlSizes('tx', it.c, szOf(it), set(i => (it.sz = i))), lab(_t('Styl')), styCtlText(it.c, null, it.fw, null, set(v => (it.fw = v))));
+    if (it.t === 'num' || it.t === 'text')
+      c.append(
+        lab(_t('Wielkość')),
+        styCtlSizes('tx', it.c, szOf(it), set(i => (it.sz = i))),
+        lab(_t('Styl')),
+        styCtlText(it.c, it.bg !== false, it.fw, set(v => (it.bg = v)), set(v => (it.fw = v)))
+      );
   }
   function layerSec(c) {
     const lb = h('label');
@@ -19886,12 +20172,13 @@ function openItemPopup(it, latlng) {
         openItemPopup(it, latlng);
       })
     );
-  if (it.t === 'text')
+  if (it.t === 'legend') row.append(BI('fields', _t('Opisy'), () => (map.closePopup(), legendEdit(it)))); // v125: opisy legendy
+  if (it.t === 'text' || it.t === 'call')
     row.append(
       BI('edit', _t('Tekst'), async () => {
-        const v = await askText(_t('Treść napisu:'), it.tx || '');
+        const v = it.t === 'call' ? await dlg({title: _t('Opis w dymku:'), input: true, multi: true, def: it.tx || '', ok: _t('Zapisz')}) : await askText(_t('Treść napisu:'), it.tx || '');
         if (v === null || !v.trim()) return;
-        it.tx = v.trim().slice(0, 200);
+        it.tx = v.trim().slice(0, it.t === 'call' ? 300 : 200);
         touch(it);
         save();
         render();
@@ -19926,8 +20213,10 @@ function openItemPopup(it, latlng) {
       _t('Dodaj zdjęcie')
     ),
     // v123 (pkt 374): kształty – „Edytuj” (punkty można przesuwać, dodawać i usuwać); punkt, numer, napis – „Przesuń”
-    isPt(it)
+    isPt(it) && it.t !== 'call'
       ? IB('move', () => startEdit(it), '', _t('Przesuń (chwyć i przeciągnij)'))
+      : it.t === 'call'
+        ? IB('edit', () => startEdit(it), '', _t('Edytuj (strzałka i ramka)'))
       : IB('edit', () => startEdit(it), '', editFlex(it) ? _t('Edytuj (przesuń, dodaj, usuń punkty)') : _t('Edytuj (chwyć i przeciągnij)')),
     IB('link', () => (map.closePopup(), lkShowOn([it])), lkElse(it).length ? 'on' : '', _t('Pokaż też na mapie…')),
     IB(
@@ -20147,14 +20436,15 @@ function render() {
               '</div>'
           })
         });
-      } else if (it.t === 'num' || it.t === 'text')
+      } else if (isBox(it)) l = L.marker(it.p[0], {pane, icon: boxIcon(it)}); // v125: dymek / legenda – stały rozmiar na ekranie
+      else if (it.t === 'num' || it.t === 'text')
         l = L.marker(it.p[0], {
           pane,
           icon: L.divIcon({className: '', iconSize: [0, 0], iconAnchor: [0, 0], html: labelHtml(it)})
         });
       else if (isLn(it)) l = L.polyline(it.p, st);
-      else if (it.t === 'poly') l = L.polygon(it.p, {...st, weight: 4});
-      else l = L.circle(it.p[0], {...st, weight: 4, radius: it.r});
+      else if (it.t === 'poly') l = L.polygon(it.p, st);
+      else l = L.circle(it.p[0], {...st, radius: it.r});
       l.on('click', click);
       // linie są cienkie – niewidoczny szeroki pas wokół nich łapie dotknięcie palcem
       if (isLn(it) || it.t === 'poly')
@@ -20239,7 +20529,9 @@ const NAMES = {
   dot: _t('Kropka'),
   num: _t('Numer'),
   arrow: _t('Strzałka'),
-  text: _t('Tekst')
+  text: _t('Tekst'),
+  call: _t('Dymek'),
+  legend: _t('Legenda')
 };
 function autoNamesOf(m) {
   const n = {},
@@ -20251,8 +20543,10 @@ function autoNamesOf(m) {
     o[i.id] =
       i.t === 'num'
         ? 'Nr ' + i.no
-        : i.t === 'text'
-          ? _t('„') + String(i.tx || '').slice(0, 30) + _t('”')
+        : i.t === 'text' || i.t === 'call'
+          ? _t('„') + String(i.tx || '').replace(/\s+/g, ' ').slice(0, 30) + _t('”')
+          : i.t === 'legend'
+            ? (i.lg && i.lg.title) || NAMES.legend
           : (ic ? ic.n + (isArea(i) ? _t(' – obszar') : '') : NAMES[i.t]) + ' ' + n[k];
   });
   return o;
@@ -20928,9 +21222,15 @@ function parseFile(text, fname) {
         sz = pr.rozmiar != null ? pr.rozmiar : pr.pm_sz,
         no = pr.numer != null ? pr.numer : pr.pm_no;
       o.forEach(x => {
-        if (x.t === 'pin' && (tt === 'dot' || tt === 'num' || tt === 'text')) x.t = tt;
+        if (x.t === 'pin' && (tt === 'dot' || tt === 'num' || tt === 'text' || tt === 'call' || tt === 'legend')) x.t = tt;
         if (x.t === 'line' && tt === 'arrow') x.t = 'arrow';
-        if (x.t === 'text')
+        if (x.t === 'call' || x.t === 'legend') delete x.i; // v125: dymek / legenda z pliku GeoJSON
+        if (x.t === 'call') {
+          x.dx = +pr.dymek_dx;
+          x.dy = +pr.dymek_dy;
+        }
+        if (x.t === 'legend') x.lg = pr.legenda;
+        if (x.t === 'text' || x.t === 'call')
           x.tx = String(pr.tekst != null ? pr.tekst : pr.pm_tx != null ? pr.pm_tx : nm || '');
         else if (nm) x.nm = String(nm);
         if (x.t === 'text' && pr.nazwa) x.nm = String(pr.nazwa);
@@ -21325,7 +21625,9 @@ const TYP = {
     dot: 'kropka',
     num: 'numer',
     arrow: 'strzalka',
-    text: 'tekst'
+    text: 'tekst',
+    call: 'dymek',
+    legend: 'legenda'
   },
   TYP_R = {
     punkt: 'pin',
@@ -21335,7 +21637,9 @@ const TYP = {
     kropka: 'dot',
     numer: 'num',
     strzalka: 'arrow',
-    tekst: 'text'
+    tekst: 'text',
+    dymek: 'call',
+    legenda: 'legend'
   };
 const iso = t => (t ? new Date(t).toISOString() : null);
 function lookL(m, id) {
@@ -21380,7 +21684,13 @@ function toFeature(it, m, AN) {
   let g;
   if (it.sz != null) pr.rozmiar = it.sz;
   if (it.t === 'num') pr.numer = it.no;
-  if (it.t === 'text') pr.tekst = it.tx;
+  if (it.t === 'text' || it.t === 'call') pr.tekst = it.tx;
+  if (it.t === 'call') {
+    pr.dymek_dx = callOff(it)[0];
+    pr.dymek_dy = callOff(it)[1];
+    pr.pogrubienie = it.fw !== 'n';
+  }
+  if (it.t === 'legend') pr.legenda = it.lg;
   if (it.t === 'num' || it.t === 'text') {
     pr.tlo = it.bg !== false;
     pr.pogrubienie = it.fw !== 'n';
@@ -21551,10 +21861,16 @@ function buildMap(mm, feats) {
       if (pr.bez_wypelnienia === true && (x.t === 'poly' || x.t === 'circle')) it.nf = true;
       else if (pr.bez_obrysu === true && (x.t === 'poly' || x.t === 'circle')) it.ns = true;
       if (pr.ukryty === true) it.off = true;
-      if (x.t === 'pin' && (t === 'dot' || t === 'num' || t === 'text')) {
+      if (x.t === 'pin' && (t === 'dot' || t === 'num' || t === 'text' || t === 'call' || t === 'legend')) {
         it.t = t;
         delete it.i;
       }
+      if (it.t === 'call') {
+        it.tx = String(pr.tekst != null ? pr.tekst : pr.name || '');
+        it.dx = +pr.dymek_dx;
+        it.dy = +pr.dymek_dy;
+      }
+      if (it.t === 'legend') it.lg = pr.legenda;
       if (x.t === 'line' && t === 'arrow') it.t = 'arrow';
       if (pr.rozmiar != null && isFinite(pr.rozmiar)) it.sz = Math.max(0, Math.min(3, +pr.rozmiar));
       if (it.t === 'num') it.no = String(pr.numer != null ? pr.numer : '?');
@@ -22058,6 +22374,8 @@ function glyph(it) {
   const c = /^#[0-9a-f]{6}$/i.test(it.c || '') ? it.c : '#888';
   if (it.t === 'pin' || icOfItem(it)) return iconHtml(it.i, 18, it.c);
   if (it.t === 'text') return '<b style="color:' + c + ';font-size:15px">T</b>';
+  if (it.t === 'call') return ico('note', 16);
+  if (it.t === 'legend') return ico('fields', 16);
   if (it.t === 'num')
     return (
       '<b style="color:' +
@@ -25229,8 +25547,8 @@ function renderGhost() {
       if (it.t === 'pin') l = L.marker(it.p[0], {pane, icon: pinDivIcon(o.plan && it.v ? {...it, c} : it), opacity: op});
       else if (isPt(it)) l = L.circleMarker(it.p[0], {pane, radius: 6, color: '#fff', weight: 1.5, fillColor: c, fillOpacity: op});
       else if (isLn(it)) l = L.polyline(it.p, st);
-      else if (it.t === 'poly') l = L.polygon(it.p, {...st, weight: 4});
-      else l = L.circle(it.p[0], {...st, weight: 4, radius: it.r});
+      else if (it.t === 'poly') l = L.polygon(it.p, st);
+      else l = L.circle(it.p[0], {...st, radius: it.r});
       l.on('click', ev => {
         if (mode === 'plan' && PLN) {
           L.DomEvent.stop(ev);
@@ -26018,6 +26336,8 @@ const ICON = {
   seg: svgi('<path d="M3.8 18.1 C9.7 14.3, 13.9 10.4, 19.1 4.3"/><circle cx="5" cy="19" r="1.6" fill="currentColor"/><circle cx="19" cy="5" r="1.6" fill="currentColor"/>'),
   arrow: svgi('<path d="M4.1 20.1 C8.5 15.8, 10.3 13.2, 18.3 5.9"/><path d="M10.3 5.7 C11.5 5.1, 13.9 5.5, 19 5 M18.1 5.4 C18.3 8.9, 18.3 12, 18 13.6"/>'),
   text: svgi('<path d="M5 6.9 C5 6, 5.1 5, 5 4.6 M5.3 4.2 C9.8 4.8, 13.9 3.9, 18.3 3.7 M18.9 4.4 C19.1 5.2, 19 5.7, 18.9 7 M12.6 3.6 C12.6 9.7, 12.5 14.3, 12.1 19.3 M8.7 19.7 C11 19.9, 12.9 20, 15.3 20.2"/>'),
+  call: svgi('<path d="M3.1 5.1 C7.7 3.8, 13.6 5.2, 20 4.7 M20 4.4 C20 8.1, 19.7 11.5, 20.3 15.5 M19.5 15.6 C17.1 15.5, 13.9 14.5, 10.6 15.1 M10.6 15.1 C9.8 16.1, 9 17.3, 6.4 19.9 M6.2 19.7 C5.9 18.6, 5.8 17, 5.8 14.9 M5.9 15 C5.2 14.9, 4.6 14.9, 4 15.1 M4.3 14.8 C4.1 11.2, 4.6 8.2, 4.1 4.3"/><path d="M8.3 8.6 C10.2 8.9, 12.2 9, 16.3 8.2 M8.1 11.2 C9.5 11.6, 11.5 11.6, 13.3 11.7"/>'),
+  legend: svgi('<path d="M4.9 4 C8.2 3.5, 12.3 4.3, 18.1 3.3 M18.5 4 C19.4 2.9, 21.2 5.6, 19.5 4.8 M20.9 6.2 C20.7 9.1, 21.3 12.7, 21.1 17.6 M20.5 18 C20.8 18.8, 19.7 21.2, 18.9 19.7 M18.8 19.6 C13.4 19.9, 8.9 19.4, 6.1 19.3 M5.5 20 C5.2 19, 2.5 18.2, 4.5 17.6 M3.4 18.5 C3.8 14, 3.6 9, 3 5.6 M3.5 6 C4.6 4.9, 5.2 4.4, 5.7 3.2 M5.5 4 C5.5 4, 5.5 4, 5.5 4"/><path d="M11.7 8.8 C12.9 8.7, 14 9.2, 17 9.1 M11.3 15 C12.8 14.9, 14.1 15.2, 17.3 15"/><path d="M6.4 7.9 C7.3 7.1, 7.6 7.2, 9.6 7.3 C9.1 8.5, 9.4 9.1, 9.8 10.5 C8.7 10.5, 7.7 10.1, 6.3 10.6 C6.9 9.6, 6.3 9.2, 6.3 7.2" fill="currentColor" stroke="none"/><circle cx="8" cy="15" r="1.6" fill="currentColor"/>'),
   measure: svgi('<path d="M4.1 16.2 C5.4 12.1, 10.3 9.4, 15.4 2.2 M16 3 C17.1 4.5, 18.4 5.9, 20.7 8.1 M21.8 8.2 C16 12, 11 18, 7.3 21.5 M7.7 21 C6.8 19.2, 5.1 18.2, 3.3 16.2 M6.9 12.1 C7.7 12.8, 8.7 13.6, 8.8 13.8 M10.1 8.9 C10.5 9.6, 11.1 10.1, 12.2 10.9 M12.8 6.1 C13.5 6.7, 14.2 7.4, 15.1 7.9"/>'),
   marea: svgi('<path d="M4.6 18.3 C4.4 14.2, 4.4 11, 3.9 7.8 M4.4 7.4 C6.7 6.6, 9.5 5.7, 12.4 4.2 M12.5 3.5 C15.4 6.8, 18.2 9.8, 20 10.4 M20.3 11.2 C18.9 14, 17.3 16.8, 16.4 19 M15.5 19.5 C13.2 18.2, 9.8 18, 5.6 18.1"/><path d="M8.3 14 C9.6 12.3, 11.2 11.3, 12.2 10.3 M9.5 16.1 C11.7 13.7, 14.4 11.7, 15.7 10.1 M7.2 10.8 C7.9 10.3, 8.1 10, 9.9 7.9" opacity=".7"/>'),
   azimuth: svgi('<path d="M3 12 C3.4 19.8, 10.4 22.2, 16.3 20.6 M16.5 19.8 C19.8 19.2, 20.7 14.6, 19.9 11.7 M21 12 C20.8 4.2, 14.5 0.1, 7.3 4.4 M7.5 4.2 C5.1 6.5, 2.9 7.8, 2 12.3"/><path d="M12.1 11.7 C12.8 10.4, 13.9 8.4, 14.7 5.4"/><path d="M12 3.1 C12.1 3.6, 11.9 4.2, 12 5"/>'),
@@ -26039,6 +26359,8 @@ const LABEL = {
   num: _t('Numeracja'),
   seg: _t('Linia (odcinek)'),
   arrow: _t('Strzałka'),
+  call: _t('Dymek z opisem'),
+  legend: _t('Legenda'),
   text: _t('Tekst'),
   measure: _t('Odległość (linia łamana)'),
   marea: _t('Powierzchnia'),
@@ -26052,11 +26374,11 @@ const LABEL = {
   print: _t('Wydruk kadru do grafiki')
 };
 const GROUPS = {
-  draw: ['dot', 'line', 'circle', 'poly'], // v67: kropka także w trybie prywatnym
-  drawW: ['dot', 'num', 'text', 'arrow', 'seg', 'line', 'poly'],
+  draw: ['dot', 'line', 'circle', 'poly', 'call', 'legend'], // v67: kropka także w trybie prywatnym; v125: dymek i legenda
+  drawW: ['dot', 'num', 'text', 'arrow', 'seg', 'line', 'poly', 'call', 'legend'],
   data: ['measure', 'marea', 'azimuth', 'dh', 'profile', 'height', 'coord', 'azgo', 'print'] // „Zaplanuj trasę” – osobny przycisk (v59); v72: wydruk
 };
-const DRAW_ALL = ['pin', 'line', 'circle', 'poly', 'dot', 'num', 'seg', 'arrow', 'text'];
+const DRAW_ALL = ['pin', 'line', 'circle', 'poly', 'dot', 'num', 'seg', 'arrow', 'text', 'call', 'legend'];
 const drawList = () => (isW() ? GROUPS.drawW : GROUPS.draw);
 const PINS = IGROUPS.flatMap(g => g.ids);
 const HINT = {
@@ -26070,6 +26392,8 @@ const HINT = {
   seg: _t('Dotknij początku i końca odcinka; potem kolejny'),
   arrow: _t('Dotknij, skąd strzałka wychodzi, potem miejsca, na które wskazuje; potem kolejna'),
   text: _t('Dotknij mapy w miejscu napisu i wpisz treść; ✓ gdy skończysz'),
+  call: _t('Dymek: dotknij miejsca, które ma wskazywać, i wpisz opis; ✓ gdy skończysz'),
+  legend: _t('Legenda: dotknij mapy tam, gdzie ma stanąć jej lewy górny róg'),
   measure: _t('Odległość: dotykaj kolejnych punktów (bez zapisu)'),
   marea: _t('Powierzchnia: dotykaj wierzchołków obszaru (bez zapisu)'),
   azimuth: _t('Azymut: dotknij punkt startowy A, potem docelowy B'),
@@ -26129,6 +26453,103 @@ const PAL = [
 // v67: wygląd rysowanego obiektu – wąski pionowy pasek w miejscu narzędzi (kolory bez ramek, krycie w %, grubość);
 // zmiana działa na bieżący obiekt: rysowany kształt, a gdy nic nie jest rysowane – ostatnio dodany w tej sesji
 const OP_STEPS = [0.25, 0.5, 0.75, 1];
+// v125 (pkt 381): JEDEN zestaw kontrolek wyglądu – ten sam w oknie przy rysowaniu i w okienku gotowego obiektu
+// (wcześniej okienko miało własne: „Tak / Nie”, suwak bez liczby, inne kafelki kolorów). Każda funkcja zwraca gotowy
+// element; on(...) dostaje nowy wybór.
+function styCtlColors(cur, on, cols) {
+  // kafelki kolorów o zaokrąglonych rogach; zaznaczony – obwódka i ptaszek
+  const g = h('div', 'stgrid' + (cols ? ' c' + cols : ''));
+  PAL.forEach(c => {
+    const act = String(c).toLowerCase() === String(cur || '').toLowerCase(),
+      b = B('', () => on(c), 'stsw' + (act ? ' on' : ''), c),
+      i = h('i', c === '#ffffff' ? 'wh' : '', act ? '✓' : '');
+    i.style.background = c;
+    i.style.color = ['#fdd835', '#ffffff', '#fb8c00'].includes(c) ? '#202124' : '#fff';
+    b.setAttribute('aria-label', c);
+    b.append(i);
+    g.append(b);
+  });
+  return g;
+}
+const styTile = (act, inner, label) => {
+  // kafelek z podglądem i podpisem (wspólny dla krycia, obrysu, grubości i stylu napisu)
+  const b = h('button', 'stop' + (act ? ' on' : ''));
+  b.type = 'button';
+  b.innerHTML = '<i>' + inner + '</i><span>' + esc(label) + '</span>';
+  return b;
+};
+function styCtlFill(col, nf, op, on) {
+  // wypełnienie: Bez · 25 · 50 · 75 · 100% (on(bezWypełnienia, krycie))
+  const g = h('div', 'stops'),
+    o = op != null ? +op : 0.35,
+    near = OP_STEPS.reduce((a, v) => (Math.abs(v - o) < Math.abs(a - o) ? v : a), OP_STEPS[0]),
+    b0 = styTile(nf, '<b style="background:none"></b>', _t('Bez'));
+  b0.onclick = () => on(true, o);
+  g.append(b0);
+  OP_STEPS.forEach(v => {
+    const b = styTile(!nf && v === near, '<b style="background:' + col + ';opacity:' + v + '"></b>', Math.round(v * 100) + '%');
+    b.onclick = () => on(false, v);
+    g.append(b);
+  });
+  return g;
+}
+function styCtlStroke(col, ns, on) {
+  // obrys: z obrysem / bez obrysu (on(bezObrysu))
+  const g = h('div', 'stops fx');
+  [
+    [false, _t('Z obrysem')],
+    [true, _t('Bez obrysu')]
+  ].forEach(([v, nm]) => {
+    const b = styTile(!!ns === v, '<b style="background:color-mix(in srgb, ' + col + ' 40%, transparent);box-shadow:' + (v ? 'none' : 'inset 0 0 0 4px ' + col) + '"></b>', nm);
+    b.onclick = () => on(v);
+    g.append(b);
+  });
+  return g;
+}
+function styCtlSizes(kind, col, cur, on) {
+  // rozmiar XS–L z podglądem: 'ln' – grubość linii / obrysu, 'dt' – wielkość kropki, 'tx' – wielkość napisu
+  const g = h('div', 'stops fx');
+  SZ_NAMES.forEach((n, i) => {
+    const pv =
+        kind === 'ln'
+          ? '<b class="pln" style="height:' + LW[i] + 'px;background:' + col + '"></b>'
+          : kind === 'tx'
+            ? '<b class="ptx" style="font-size:' + Math.min(26, TF[i]) + 'px;color:' + col + '">Aa</b>'
+            : '<b class="pdt" style="width:' + DR[i] * 2 + 'px;height:' + DR[i] * 2 + 'px;background:' + col + '"></b>',
+      b = styTile(i === cur, pv, n + (kind === 'ln' ? ' · ' + LW[i] + ' px' : ''));
+    b.classList.add('pap');
+    b.onclick = () => on(i);
+    g.append(b);
+  });
+  return g;
+}
+function styCtlText(col, bg, fw, onBg, onFw) {
+  // napis i numer: tło (z tłem / bez) oraz pismo (zwykłe / pogrubione) – dwa rzędy kafelków
+  const f = document.createDocumentFragment(),
+    g1 = h('div', 'stops fx'),
+    g2 = h('div', 'stops fx');
+  [
+    [true, _t('Z tłem')],
+    [false, _t('Bez tła')]
+  ].forEach(([v, nm]) => {
+    const b = styTile(!!bg === v, v ? '<b class="ptx ptb" style="background:' + col + ';color:' + (['#fdd835', '#ffffff', '#fb8c00'].includes(col) ? '#202124' : '#fff') + '">Aa</b>' : '<b class="ptx" style="color:' + col + '">Aa</b>', nm);
+    b.classList.add('pap');
+    b.onclick = () => onBg && onBg(v);
+    g1.append(b);
+  });
+  [
+    ['n', _t('Zwykły')],
+    ['b', _t('Pogrubiony')]
+  ].forEach(([v, nm]) => {
+    const b = styTile((fw === 'n' ? 'n' : 'b') === v, '<b class="ptx" style="font-weight:' + (v === 'b' ? 800 : 400) + ';color:' + col + '">Aa</b>', nm);
+    b.classList.add('pap');
+    b.onclick = () => onFw(v);
+    g2.append(b);
+  });
+  if (onBg) f.append(g1);
+  f.append(g2);
+  return f;
+}
 function styLive() {
   if (cur.length) return preview();
   const id = sess[sess.length - 1],
@@ -26140,8 +26561,9 @@ function styLive() {
     delete it.nf;
     delete it.ns;
     Object.assign(it, shapeSty());
+    it.sz = curSz;
   }
-  if (['line', 'arrow', 'dot', 'num', 'text', 'pin'].includes(it.t) && it.sz != null) it.sz = curSz;
+  if (['line', 'arrow', 'dot', 'num', 'text', 'pin', 'call'].includes(it.t) && it.sz != null) it.sz = curSz;
   if (it.t === 'num' || it.t === 'text') {
     it.bg = curBg;
     it.fw = curFw;
@@ -26160,7 +26582,7 @@ function buildSty(showOp, showSz, showBg) {
   const add = (k, html, title) => {
     const b = B('', () => styDlg(k), 'sti' + (STYK === k ? ' on' : ''), title);
     b.dataset.k = k;
-    b.dataset.l = {c: _t('Kolor'), o: _t('Krycie'), w: ['line', 'arrow', 'seg'].includes(mode) ? _t('Grubość') : _t('Wielkość'), t: _t('Napis')}[k]; // v115: podpis w wyglądzie krawędzi
+    b.dataset.l = {c: _t('Kolor'), o: _t('Krycie'), w: ['line', 'arrow', 'seg', 'poly', 'circle'].includes(mode) ? _t('Grubość') : _t('Wielkość'), t: _t('Napis')}[k]; // v115: podpis w wyglądzie krawędzi
     b.innerHTML = html;
     b.setAttribute('aria-label', title);
     m.append(b);
@@ -26168,9 +26590,10 @@ function buildSty(showOp, showSz, showBg) {
   add('c', '<i class="stc" style="background:' + curColor + '"></i>', _t('Kolor'));
   if (showOp) add('o', '<i class="sto"><b style="background:' + curColor + ';opacity:' + (curNf ? 0 : curOp) + '' + '"></b></i>', curNf ? _t('Bez wypełnienia') : _t('Krycie wypełnienia') + ' ' + Math.round(curOp * 100) + '%');
   if (showSz) {
-    const ln = ['line', 'arrow', 'seg'].includes(mode),
+    const ar = mode === 'poly' || mode === 'circle',
+      ln = ar || ['line', 'arrow', 'seg'].includes(mode),
       d = ln ? LW[curSz] + 1 : 5 + curSz * 3;
-    add('w', ln ? '<i class="stw"><b style="height:' + d + 'px"></b></i>' : '<i class="stw"><b style="width:' + d + 'px;height:' + d + 'px;border-radius:50%"></b></i>', ln ? _t('Grubość linii') : _t('Wielkość'));
+    add('w', ln ? '<i class="stw"><b style="height:' + d + 'px"></b></i>' : '<i class="stw"><b style="width:' + d + 'px;height:' + d + 'px;border-radius:50%"></b></i>', ar ? _t('Grubość obrysu') : ln ? _t('Grubość linii') : _t('Wielkość'));
   }
   if (showBg) add('t', '<i class="stt">Aa</i>', _t('Tło i pogrubienie napisu'));
 }
@@ -26206,95 +26629,74 @@ function styDlg(k) {
   });
   const hd = h('div', 'sth');
   d.append(hd);
+  const lnM = ['line', 'arrow', 'seg', 'poly', 'circle'].includes(mode); // rozmiar = grubość linii / obrysu
   if (k === 'c') {
     hd.append(h('b', null, _t('Kolor')));
-    const g = h('div', 'stgrid');
-    PAL.forEach(c => {
-      const b = B('', pick(() => styColor(c)), 'stsw' + (c === curColor ? ' on' : '') + (c === '#ffffff' ? ' wh' : ''), c);
-      b.style.background = c;
-      g.append(b);
-    });
-    d.append(g);
+    d.append(styCtlColors(curColor, c => pick(() => styColor(c))()));
   } else if (k === 'o') {
     hd.append(h('b', null, _t('Wypełnienie')), h('small', null, _t('ile mapy prześwituje')));
-    const g = h('div', 'stops');
-    const nf = B('', pick(() => {
-      curNf = true;
-      curNs = false; // bez wypełnienia obrys musi zostać
-      localStorage.setItem('mapa-nf', '1');
-      localStorage.setItem('mapa-ns', '0');
-    }), 'stop' + (curNf ? ' on' : ''));
-    nf.innerHTML = '<i><b style="background:none"></b></i><span>' + esc(_t('Bez')) + '</span>';
-    g.append(nf);
-    OP_STEPS.forEach(v => {
-      const b = B('', pick(() => {
-        curOp = v;
-        curNf = false;
-        localStorage.setItem('mapa-op', v);
-        localStorage.setItem('mapa-nf', '0');
-      }), 'stop' + (!curNf && Math.abs(curOp - v) < 0.13 ? ' on' : ''));
-      b.innerHTML = '<i><b style="background:' + curColor + ';opacity:' + v + '"></b></i><span>' + Math.round(v * 100) + '%</span>';
-      g.append(b);
-    });
-    d.append(g);
+    d.append(
+      styCtlFill(curColor, curNf, curOp, (nf, op) =>
+        pick(() => {
+          if (nf) {
+            curNf = true;
+            curNs = false; // bez wypełnienia obrys musi zostać
+            localStorage.setItem('mapa-ns', '0');
+          } else {
+            curNf = false;
+            curOp = op;
+            localStorage.setItem('mapa-op', op);
+          }
+          localStorage.setItem('mapa-nf', curNf ? '1' : '0');
+        })()
+      )
+    );
     // obrys: z obrysem / bez (bez obrysu tylko przy wypełnieniu)
     const h2 = h('div', 'sth');
     h2.append(h('b', null, _t('Obrys')));
-    const g2 = h('div', 'stops');
-    [
-      [false, _t('Z obrysem')],
-      [true, _t('Bez obrysu')]
-    ].forEach(([v, nm]) => {
-      const b = B('', pick(() => {
-        if (v && curNf) {
-          curNf = false;
-          localStorage.setItem('mapa-nf', '0');
-        }
-        curNs = v;
-        localStorage.setItem('mapa-ns', v ? '1' : '0');
-      }), 'stop' + ((curNs && !curNf) === v ? ' on' : ''));
-      b.innerHTML = '<i><b style="background:color-mix(in srgb, ' + curColor + ' 40%, transparent);box-shadow:' + (v ? 'none' : 'inset 0 0 0 4px ' + curColor) + '"></b></i><span>' + esc(nm) + '</span>';
-      g2.append(b);
-    });
-    d.append(h2, g2);
+    d.append(
+      h2,
+      styCtlStroke(curColor, curNs && !curNf, v =>
+        pick(() => {
+          if (v && curNf) {
+            curNf = false;
+            localStorage.setItem('mapa-nf', '0');
+          }
+          curNs = v;
+          localStorage.setItem('mapa-ns', v ? '1' : '0');
+        })()
+      )
+    );
   } else if (k === 'w') {
-    const ln = ['line', 'arrow', 'seg'].includes(mode),
-      tx = mode === 'num' || mode === 'text';
-    hd.append(h('b', null, ln ? _t('Grubość linii') : _t('Wielkość')));
-    const g = h('div', 'stwl');
-    SZ_NAMES.forEach((n, i) => {
-      const b = B('', pick(() => {
-        curSz = i;
-        localStorage.setItem('mapa-sz', i);
-      }), 'stwr' + (i === curSz ? ' on' : ''));
-      b.innerHTML =
-        (ln
-          ? '<i class="ln"><b style="height:' + LW[i] + 'px;background:' + curColor + '"></b></i>'
-          : tx
-            ? '<i class="tx" style="font-size:' + TF[i] + 'px;color:' + curColor + '">Aa</i>'
-            : '<i class="dt"><b style="width:' + DR[i] * 2 + 'px;height:' + DR[i] * 2 + 'px;background:' + curColor + '"></b></i>') +
-        '<span>' +
-        esc(n) +
-        (ln ? ' · ' + LW[i] + ' px' : '') +
-        '</span>';
-      g.append(b);
-    });
-    d.append(g);
+    const tx = mode === 'num' || mode === 'text' || mode === 'call';
+    hd.append(h('b', null, mode === 'poly' || mode === 'circle' ? _t('Grubość obrysu') : lnM ? _t('Grubość linii') : _t('Wielkość')));
+    d.append(
+      styCtlSizes(lnM ? 'ln' : tx ? 'tx' : 'dt', curColor, curSz, i =>
+        pick(() => {
+          curSz = i;
+          localStorage.setItem('mapa-sz', i);
+        })()
+      )
+    );
   } else {
     hd.append(h('b', null, _t('Napis')));
-    const g = h('div', 'stwl');
-    const bg = B('', pick(() => {
-        curBg = !curBg;
-        localStorage.setItem('mapa-bg', curBg ? '1' : '0');
-      }), 'stwr' + (curBg ? ' on' : '')),
-      fw = B('', pick(() => {
-        curFw = curFw === 'b' ? 'n' : 'b';
-        localStorage.setItem('mapa-fw', curFw);
-      }), 'stwr' + (curFw === 'b' ? ' on' : ''));
-    bg.innerHTML = '<i class="tx tb">Aa</i><span>' + esc(curBg ? _t('Z tłem – dotknij, by wyłączyć') : _t('Bez tła – dotknij, by włączyć')) + '</span>';
-    fw.innerHTML = '<i class="tx" style="font-weight:800">B</i><span>' + esc(curFw === 'b' ? _t('Pogrubiony – dotknij, by zwykły') : _t('Zwykły – dotknij, by pogrubić')) + '</span>';
-    g.append(bg, fw);
-    d.append(g);
+    d.append(
+      styCtlText(
+        curColor,
+        curBg,
+        curFw,
+        v =>
+          pick(() => {
+            curBg = v;
+            localStorage.setItem('mapa-bg', curBg ? '1' : '0');
+          })(),
+        v =>
+          pick(() => {
+            curFw = v;
+            localStorage.setItem('mapa-fw', curFw);
+          })()
+      )
+    );
   }
   document.body.append(sc, d);
   // okno obok paska narzędzi, dolną krawędzią na wysokości ikon
@@ -26318,7 +26720,7 @@ function ui() {
   document.body.classList.toggle('skmode', !!mode); // v112: wygląd „Mapa i krawędzie” – narzędzia widoczne tylko w trakcie pracy
   map.getContainer().style.cursor = mode ? 'crosshair' : '';
   const ds =
-    ['line', 'poly', 'circle', 'dot', 'num', 'text', 'seg', 'arrow'].includes(mode) ||
+    ['line', 'poly', 'circle', 'dot', 'num', 'text', 'seg', 'arrow', 'call'].includes(mode) ||
     (mode === 'pin' && !!ICONS[pinIcon] && !!ICONS[pinIcon].col);
   $('sty').style.display = 'none';
   styClose();
@@ -26326,7 +26728,7 @@ function ui() {
   if (ds)
     buildSty(
       mode === 'poly' || mode === 'circle',
-      ['dot', 'num', 'text', 'seg', 'line', 'arrow', 'pin'].includes(mode),
+      ['dot', 'num', 'text', 'seg', 'line', 'arrow', 'pin', 'poly', 'circle', 'call'].includes(mode), // v125: obrys też ma grubość
       mode === 'num' || mode === 'text'
     );
   ['draw', 'data'].forEach(g => {
@@ -26401,6 +26803,7 @@ function dropEdit() {
   map.off('zoomend moveend', editView);
   edit.it.p = edit.orig.p;
   if (edit.orig.r != null) edit.it.r = edit.orig.r;
+  if (edit.orig.dx != null) (edit.it.dx = edit.orig.dx), (edit.it.dy = edit.orig.dy);
   edit = null;
   render();
 }
@@ -26732,7 +27135,7 @@ function commit() {
   };
   if (mode === 'circle') it.r = map.distance(cur[0], cur[1]);
   if (mode === 'poly' || mode === 'circle') Object.assign(it, shapeSty());
-  if (['line', 'seg', 'arrow'].includes(mode)) it.sz = curSz;
+  if (['line', 'seg', 'arrow', 'poly', 'circle'].includes(mode)) it.sz = curSz; // v125 (pkt 381): grubość także dla obrysu
   it.cr = it.up = Date.now();
   P.items.push(it);
   sess.push(it.id);
@@ -26832,6 +27235,354 @@ async function placePoint(p) {
   render();
   info.textContent = sessInfo() + (mode === 'num' ? _t(' · następny nr ') + nextNo() : '');
 }
+// ================= v125 (pkt 383–384): DYMEK i LEGENDA =================
+// Oba to obiekty-punkty o STAŁYM rozmiarze na ekranie (nie rosną przy przybliżaniu mapy), wstawiane z „Rysuj”
+// w trybie Prywatny i Praca, drukowane z kadrem.
+//  • dymek ('call'): p[0] – miejsce, które wskazuje strzałka; ramka z opisem (tx) stoi obok, przesunięta o dx, dy
+//    pikseli ekranu; kolor ramki i strzałki = kolor obiektu, wielkość pisma = rozmiar XS–L
+//  • legenda ('legend'): p[0] – lewy górny róg; lg = {title, rows: [{k, tx, s}]}; pozycje WEDŁUG KOLORU (powierzchnia,
+//    linia, kropka) albo ikony (punkt) – OMM sam zbiera je z obiektów mapy, użytkownik wpisuje opisy
+const CALL_DX = 70,
+  CALL_DY = -70,
+  LG_FS = [11, 12.5, 14.5, 17]; // wielkość pisma legendy XS–L
+const callOff = it => [it.dx != null ? +it.dx : CALL_DX, it.dy != null ? +it.dy : CALL_DY];
+function callHtml(it) {
+  const c = it.c || '#202124',
+    [dx, dy] = callOff(it),
+    len = Math.hypot(dx, dy) || 1,
+    ux = dx / len,
+    uy = dy / len,
+    hs = 10, // długość grotu
+    x0 = Math.min(0, dx) - 14,
+    y0 = Math.min(0, dy) - 14,
+    w = Math.abs(dx) + 28,
+    hh = Math.abs(dy) + 28,
+    Q = (x, y) => (x - x0).toFixed(1) + ' ' + (y - y0).toFixed(1),
+    ax = ux * hs * 1.5,
+    ay = uy * hs * 1.5,
+    nx = -uy * hs * 0.55,
+    ny = ux * hs * 0.55,
+    line = 'M' + Q(ax, ay) + 'L' + Q(dx, dy),
+    head = 'M' + Q(0, 0) + 'L' + Q(ax + nx, ay + ny) + 'L' + Q(ax - nx, ay - ny) + 'Z';
+  // strzałka: grot we wskazywanym miejscu, linia do środka ramki (ramka zasłania jej koniec); biała poświata pod spodem
+  return (
+    '<div class="cal"><svg class="calsv" width="' + w + '" height="' + hh + '" style="left:' + x0 + 'px;top:' + y0 + 'px">' +
+    '<path d="' + line + '" stroke="#fff" stroke-opacity=".85" stroke-width="6" stroke-linecap="round" fill="none"/>' +
+    '<path d="' + head + '" stroke="#fff" stroke-opacity=".85" stroke-width="4" stroke-linejoin="round" fill="#fff"/>' +
+    '<path d="' + line + '" stroke="' + c + '" stroke-width="2.5" stroke-linecap="round" fill="none"/>' +
+    '<path d="' + head + '" fill="' + c + '"/></svg>' +
+    '<div class="calbx" style="left:' + dx + 'px;top:' + dy + 'px;border-color:' + c + ';font-size:' + TF[szOf(it)] + 'px;font-weight:' + fwv(it) + '">' +
+    esc(it.tx || '') +
+    '</div></div>'
+  );
+}
+// --- legenda: klucz pozycji = rodzaj + kolor (punkt z ikoną: ikona)
+function lgKeyOf(it) {
+  const c = String(it.c || '').toLowerCase();
+  if (it.t === 'poly' || it.t === 'circle') return 'a' + c;
+  if (it.t === 'line' || it.t === 'arrow') return 'l' + c;
+  if (it.t === 'dot') return 'd' + c;
+  if (it.t === 'pin' && it.i) return 'p' + it.i + (ICONS[it.i] && ICONS[it.i].col ? c : '');
+  return null;
+}
+function lgScan(m) {
+  // wszystkie rodzaje oznaczeń użyte na mapie (bez ukrytych okiem): klucz → próbka {kind, c, o, nf, ns, sz, i, n, lay}
+  const out = new Map();
+  (m || P).items.forEach(it => {
+    const k = lgKeyOf(it);
+    if (!k || it.off) return;
+    const e = out.get(k);
+    if (e) return void e.n++;
+    const f = findL(it.l);
+    out.set(k, {kind: k[0], c: it.c, o: it.o != null ? it.o : 0.35, nf: !!it.nf, ns: !!it.ns, sz: szOf(it), i: it.i, n: 1, lay: f ? f.l.name : ''});
+  });
+  return out;
+}
+function lgSample(q) {
+  // próbka obok opisu: prostokąt z wypełnieniem i obrysem jak obiekt, kreska, kropka albo ikona punktu
+  const c = /^#[0-9a-f]{6}$/i.test(q.c || '') ? q.c : '#888';
+  if (q.kind === 'p') return '<b class="lgp">' + iconHtml(q.i, 18, q.c) + '</b>';
+  if (q.kind === 'l') return '<b class="lgl" style="background:' + c + ';height:' + Math.min(6, LW[q.sz != null ? q.sz : 1]) + 'px"></b>';
+  if (q.kind === 'd') return '<b class="lgc" style="background:' + c + '"></b>';
+  return '<b class="lga" style="background:' + (q.nf ? 'none' : 'color-mix(in srgb, ' + c + ' ' + Math.round((q.o != null ? q.o : 0.35) * 100) + '%, transparent)') + ';border:' + (q.ns ? '0' : '2px solid ' + c) + '"></b>';
+}
+function lgRows(it, scan) {
+  // pozycje do pokazania: z opisem; próbka aktualna z mapy (gdy oznaczenie znikło z mapy – ostatnia zapamiętana)
+  scan = scan || lgScan();
+  return ((it.lg && it.lg.rows) || []).filter(r => r.tx).map(r => ({k: r.k, tx: r.tx, s: scan.get(r.k) || r.s})).filter(r => r.s);
+}
+function legendHtml(it) {
+  const rows = lgRows(it),
+    fs = LG_FS[szOf(it)],
+    t = it.lg && it.lg.title;
+  if (!rows.length) return '<div class="lgd" style="font-size:' + fs + 'px"><span class="lge">' + esc(_t('Legenda – dotknij, aby opisać kolory')) + '</span></div>';
+  return '<div class="lgd" style="font-size:' + fs + 'px">' + (t ? '<b class="lgt">' + esc(t) + '</b>' : '') + rows.map(r => '<div class="lgr"><i>' + lgSample(r.s) + '</i><span>' + esc(r.tx) + '</span></div>').join('') + '</div>';
+}
+const boxIcon = it => L.divIcon({className: '', iconSize: [0, 0], iconAnchor: [0, 0], html: it.t === 'call' ? callHtml(it) : legendHtml(it)});
+async function legendEdit(it) {
+  // okno opisów legendy: tytuł + lista oznaczeń znalezionych na mapie (opis, kolejność); true = zapisano
+  const scan = lgScan(),
+    old = (it.lg && it.lg.rows) || [],
+    list = [
+      ...old.map(r => ({k: r.k, tx: r.tx || '', s: scan.get(r.k) || r.s})).filter(r => r.s),
+      ...[...scan.keys()].filter(k => !old.some(r => r.k === k)).map(k => ({k, tx: '', s: scan.get(k)}))
+    ];
+  if (!list.length) {
+    await tell(_t('Na tej mapie nie ma jeszcze powierzchni, linii ani punktów do opisania. Narysuj je i wróć do legendy.'));
+    return false;
+  }
+  const ti = h('input');
+  ti.type = 'text';
+  ti.maxLength = 60;
+  ti.value = (it.lg && it.lg.title) || '';
+  ti.placeholder = _t('Tytuł legendy (niekonieczny)');
+  const ok = await dlg({
+    title: _t('Legenda mapy'),
+    msg: _t('Wpisz, co oznacza każdy kolor albo ikona. Pozycje bez opisu nie pokażą się w legendzie.'),
+    body: () => {
+      const f = h('div', 'lged'),
+        ul = h('div', 'lgel');
+      const draw = () => {
+        ul.innerHTML = '';
+        list.forEach((r, i) => {
+          const row = h('div', 'lger'),
+            sm = h('i'),
+            inp = h('input'),
+            mv = d => {
+              const j = i + d;
+              if (j < 0 || j >= list.length) return;
+              [list[i], list[j]] = [list[j], list[i]];
+              draw();
+            },
+            up = IB('up', () => mv(-1), 'lgmv', _t('Wyżej')),
+            dn = IB('down', () => mv(1), 'lgmv', _t('Niżej'));
+          sm.innerHTML = lgSample(r.s);
+          inp.type = 'text';
+          inp.maxLength = 80;
+          inp.value = r.tx;
+          inp.placeholder = r.s.kind === 'p' && ICONS[r.s.i] ? ICONS[r.s.i].n : r.s.lay ? _t('np. ') + r.s.lay : _t('opis');
+          inp.oninput = () => (r.tx = inp.value);
+          up.disabled = !i;
+          dn.disabled = i === list.length - 1;
+          row.append(sm, inp, up, dn);
+          ul.append(row);
+        });
+      };
+      draw();
+      f.append(ti, ul);
+      return f;
+    },
+    btns: [
+      {t: _t('Anuluj'), v: null},
+      {t: _t('Zapisz'), v: 1, c: 'okb'}
+    ]
+  });
+  if (!ok) return false;
+  it.lg = {
+    title: ti.value.trim().slice(0, 60),
+    rows: list
+      .filter(r => r.tx.trim())
+      .map(r => ({k: r.k, tx: r.tx.trim().slice(0, 80), s: {kind: r.s.kind, c: r.s.c, o: r.s.o, nf: r.s.nf, ns: r.s.ns, sz: r.s.sz, i: r.s.i}}))
+  };
+  touch(it);
+  save();
+  render();
+  return true;
+}
+async function placeLegend(p) {
+  const a = findL(P.active);
+  if (!a) return;
+  a.l.vis = true;
+  a.g.vis = true;
+  const it = {id: uid(), t: 'legend', p: [p], lg: {title: '', rows: []}, sz: 1, l: P.active, cr: Date.now(), up: Date.now()};
+  P.items.push(it);
+  render();
+  const ok = await legendEdit(it);
+  if (!ok || !it.lg.rows.length) {
+    // bez opisów nie ma legendy – nic nie zostaje na mapie
+    P.items = P.items.filter(x => x !== it);
+    render();
+    if (ok) toastMsg(_t('Legenda bez opisów nie została dodana'));
+  } else {
+    sess.push(it.id);
+    save();
+  }
+  if (mode === 'legend') $('done').click(); // jedna legenda na raz – koniec narzędzia
+}
+async function placeCall(p) {
+  const v = await dlg({title: _t('Opis w dymku:'), input: true, multi: true, def: '', ok: _t('Wstaw')});
+  if (v === null || !String(v).trim() || mode !== 'call') return;
+  const a = findL(P.active);
+  if (!a) return;
+  a.l.vis = true;
+  a.g.vis = true;
+  const it = {id: uid(), t: 'call', p: [p], tx: String(v).trim().slice(0, 300), dx: CALL_DX, dy: CALL_DY, fw: curFw, sz: curSz, l: P.active, ...style(), cr: Date.now(), up: Date.now()};
+  P.items.push(it);
+  sess.push(it.id);
+  save();
+  render();
+  info.textContent = sessInfo();
+  hintOnce('dymek', _t('Ramkę dymka przesuniesz: dotknij dymka → Więcej → Edytuj.'));
+}
+// --- wydruk kadru: dymek i legenda rysowane na płótnie (k – skala napisów i ikon na grafice)
+function drawCall(ctx, it, pr, k, op) {
+  const [x, y] = pr(it.p[0]),
+    [dx0, dy0] = callOff(it),
+    dx = dx0 * k,
+    dy = dy0 * k,
+    c = it.c || '#202124',
+    fs = TF[szOf(it)] * k,
+    pad = 8 * k,
+    maxW = 200 * k - 2 * pad;
+  ctx.save();
+  ctx.globalAlpha = op;
+  ctx.font = fwv(it) + ' ' + fs + 'px system-ui,sans-serif';
+  // łamanie tekstu jak w ramce na ekranie
+  const lines = [];
+  String(it.tx || '')
+    .split('\n')
+    .forEach(par => {
+      let cur = '';
+      par.split(' ').forEach(wd => {
+        const nx = cur ? cur + ' ' + wd : wd;
+        if (ctx.measureText(nx).width <= maxW || !cur) cur = nx;
+        else lines.push(cur), (cur = wd);
+      });
+      lines.push(cur);
+    });
+  const lh = fs * 1.25,
+    bw = Math.min(maxW, Math.max(...lines.map(l => ctx.measureText(l).width))) + 2 * pad,
+    bh = lines.length * lh + 2 * pad * 0.8,
+    bx = x + dx - bw / 2,
+    by = y + dy - bh / 2,
+    len = Math.hypot(dx, dy) || 1,
+    ux = dx / len,
+    uy = dy / len,
+    hs = 10 * k;
+  const arrow = (col, wl) => {
+    ctx.strokeStyle = ctx.fillStyle = col;
+    ctx.lineWidth = wl;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(x + ux * hs * 1.5, y + uy * hs * 1.5);
+    ctx.lineTo(x + dx, y + dy);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x + ux * hs * 1.5 - uy * hs * 0.55, y + uy * hs * 1.5 + ux * hs * 0.55);
+    ctx.lineTo(x + ux * hs * 1.5 + uy * hs * 0.55, y + uy * hs * 1.5 - ux * hs * 0.55);
+    ctx.closePath();
+    ctx.fill();
+  };
+  arrow('rgba(255,255,255,.85)', 6 * k);
+  arrow(c, 2.5 * k);
+  ctx.fillStyle = '#fff';
+  ctx.strokeStyle = c;
+  ctx.lineWidth = 2 * k;
+  ctx.beginPath();
+  ctx.roundRect(bx, by, bw, bh, 10 * k);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#202124';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  lines.forEach((l, i) => ctx.fillText(l, bx + pad, by + pad * 0.8 + lh * (i + 0.5)));
+  ctx.restore();
+}
+function drawLegend(ctx, it, pr, k, op) {
+  const rows = lgRows(it);
+  if (!rows.length) return;
+  const [x, y] = pr(it.p[0]),
+    fs = LG_FS[szOf(it)] * k,
+    pad = 10 * k,
+    sw = 26 * k, // szerokość próbki
+    gap = 8 * k,
+    lh = Math.max(fs * 1.5, 22 * k),
+    t = it.lg && it.lg.title;
+  ctx.save();
+  ctx.globalAlpha = op;
+  ctx.font = '500 ' + fs + 'px system-ui,sans-serif';
+  const tw = Math.max(...rows.map(r => ctx.measureText(r.tx).width));
+  ctx.font = '700 ' + fs + 'px system-ui,sans-serif';
+  const bw = Math.max(tw + sw + gap, t ? ctx.measureText(t).width : 0) + 2 * pad,
+    th = t ? lh : 0,
+    bh = th + rows.length * lh + 2 * pad * 0.8;
+  ctx.fillStyle = 'rgba(255,255,255,.94)';
+  ctx.strokeStyle = 'rgba(0,0,0,.35)';
+  ctx.lineWidth = Math.max(1, 1 * k);
+  ctx.beginPath();
+  ctx.roundRect(x, y, bw, bh, 8 * k);
+  ctx.fill();
+  ctx.stroke();
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#202124';
+  let yy = y + pad * 0.8;
+  if (t) {
+    ctx.fillText(t, x + pad, yy + lh / 2);
+    yy += lh;
+  }
+  ctx.font = '500 ' + fs + 'px system-ui,sans-serif';
+  rows.forEach(r => {
+    const q = r.s,
+      c = /^#[0-9a-f]{6}$/i.test(q.c || '') ? q.c : '#888',
+      cx0 = x + pad,
+      cy = yy + lh / 2;
+    if (q.kind === 'p') {
+      const d = ICONS[q.i];
+      if (d && d.svg && ICIMG[q.i]) ctx.drawImage(ICIMG[q.i], cx0 + sw / 2 - 10 * k, cy - 10 * k, 20 * k, 20 * k);
+      else if (d && d.col) {
+        ctx.fillStyle = c;
+        ctx.beginPath();
+        ctx.arc(cx0 + sw / 2, cy, 6 * k, 0, 7);
+        ctx.fill();
+      } else {
+        ctx.font = Math.round(16 * k) + 'px system-ui,sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#202124';
+        ctx.fillText(d && d.svg ? d.n.slice(0, 2) : String(q.i), cx0 + sw / 2, cy);
+        ctx.textAlign = 'left';
+        ctx.font = '500 ' + fs + 'px system-ui,sans-serif';
+      }
+    } else if (q.kind === 'l') {
+      ctx.strokeStyle = c;
+      ctx.lineWidth = Math.min(6, LW[q.sz != null ? q.sz : 1]) * k;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(cx0 + 2 * k, cy);
+      ctx.lineTo(cx0 + sw - 2 * k, cy);
+      ctx.stroke();
+    } else if (q.kind === 'd') {
+      ctx.fillStyle = c;
+      ctx.beginPath();
+      ctx.arc(cx0 + sw / 2, cy, 6 * k, 0, 7);
+      ctx.fill();
+    } else {
+      const rh = Math.min(lh - 6 * k, 16 * k);
+      ctx.beginPath();
+      ctx.rect(cx0 + 1 * k, cy - rh / 2, sw - 2 * k, rh);
+      if (!q.nf) {
+        ctx.globalAlpha = op * (q.o != null ? q.o : 0.35);
+        ctx.fillStyle = c;
+        ctx.fill();
+        ctx.globalAlpha = op;
+      }
+      if (!q.ns) {
+        ctx.strokeStyle = c;
+        ctx.lineWidth = 2 * k;
+        ctx.stroke();
+      }
+      // cienka ciemna ramka wokół próbki – jasne kolory widać na białym tle
+      ctx.strokeStyle = 'rgba(0,0,0,.3)';
+      ctx.lineWidth = Math.max(1, 0.8 * k);
+      ctx.strokeRect(cx0 + 1 * k - 1.6 * k, cy - rh / 2 - 1.6 * k, sw - 2 * k + 3.2 * k, rh + 3.2 * k);
+    }
+    ctx.fillStyle = '#202124';
+    ctx.fillText(r.tx, x + pad + sw + gap, cy);
+    yy += lh;
+  });
+  ctx.restore();
+}
 async function placeText(p) {
   const v = await askText(_t('Treść napisu:'), '');
   if (v === null || !v.trim() || mode !== 'text') return;
@@ -26913,12 +27664,13 @@ async function pairBubble() {
 //     przeciągnięcie „+” dokłada jeden punkt,
 //   • ↶ cofa każdy krok, ✓ zapisuje, ✕ przywraca kształt sprzed edycji; na pasku na bieżąco długość / pole.
 const editFlex = it => it.t === 'line' || it.t === 'poly'; // kształty o zmiennej liczbie punktów
+const editSnap = it => JSON.stringify({p: it.p, r: it.r, dx: it.dx, dy: it.dy}); // stan do cofania (dx, dy – ramka dymka)
 const editMin = it => (it.t === 'poly' ? 3 : 2);
 function startEdit(it) {
   setMode(null);
   map.closePopup();
   $('sheet').style.display = 'none';
-  edit = {it, orig: JSON.parse(JSON.stringify({p: it.p, r: it.r})), hist: [], sel: -1, ext: null, drag: false};
+  edit = {it, orig: JSON.parse(editSnap(it)), hist: [], sel: -1, ext: null, drag: false};
   mode = 'edit';
   ui();
   info.style.display = 'block';
@@ -26932,7 +27684,8 @@ function editInfo() {
   if (!edit) return;
   const it = edit.it;
   let t;
-  if (isPt(it)) t = HINT.edit;
+  if (it.t === 'call') t = _t('Dymek: duży uchwyt – wskazywane miejsce, mały – ramka z opisem; ✓ zapisz, ✕ anuluj');
+  else if (isPt(it)) t = HINT.edit;
   else if (edit.ext) t = _t('Dorysowywanie: dotykaj mapy w kolejnych miejscach; „+” kończy') + ' · ' + fm(dist(it.p));
   else if (it.t === 'circle') t = _t('Okrąg: promień ') + fm(it.r) + ' · ' + fa(Math.PI * it.r * it.r);
   else if (it.t === 'poly') t = _t('Wielokąt: ') + fa(area(it.p)) + _t(' · obwód ') + fm(dist([...it.p, it.p[0]])) + ' · ' + it.p.length + _t(' pkt');
@@ -26943,22 +27696,25 @@ function liveUpd() {
   const it = edit.it,
     l = LAY[it.id];
   if (!l) return;
-  if (isPt(it)) l.setLatLng(it.p[0]);
+  if (it.t === 'call') {
+    l.setLatLng(it.p[0]);
+    l.setIcon(boxIcon(it)); // ramka i strzałka na bieżąco
+  } else if (isPt(it)) l.setLatLng(it.p[0]);
   else if (it.t === 'circle') {
     l.setLatLng(it.p[0]);
     l.setRadius(it.r);
   } else l.setLatLngs(it.p);
 }
 function editView() {
-  // po przesunięciu / przybliżeniu mapy: uchwyty w połowie odcinków i „+” zależą od skali
-  if (!edit || edit.drag || !editFlex(edit.it)) return;
+  // po przesunięciu / przybliżeniu mapy: uchwyty w połowie odcinków i „+” zależą od skali (dymek: uchwyt ramki)
+  if (!edit || edit.drag || !(editFlex(edit.it) || edit.it.t === 'call')) return;
   drawHandles();
 }
 function drawHandles() {
   tmp.clearLayers();
   if (!edit) return;
   const it = edit.it,
-    snap = () => edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+    snap = () => edit.hist.push(editSnap(it));
   // uchwyt: o.move(q) – przeciąganie, o.start() – tuż przed nim (po zapisaniu kroku do cofania), o.tap() – dotknięcie
   const mk = (ll, cls, o) => {
     const m = L.marker(ll, {
@@ -26996,6 +27752,22 @@ function drawHandles() {
     if (o.tap) m.on('click', o.tap);
     return m;
   };
+  if (it.t === 'call') {
+    // dymek: wskazywane miejsce (duży uchwyt) i ramka z opisem (mały; przesunięcie w pikselach ekranu)
+    const [dx, dy] = callOff(it),
+      bl = map.containerPointToLatLng(map.latLngToContainerPoint(it.p[0]).add([dx, dy]));
+    mk(it.p[0], 'big', {move: q => (it.p[0] = q)});
+    mk([bl.lat, bl.lng], 'sel', {
+      z: 100,
+      move: q => {
+        const a = map.latLngToContainerPoint(it.p[0]),
+          b = map.latLngToContainerPoint(q);
+        it.dx = Math.max(-600, Math.min(600, Math.round(b.x - a.x)));
+        it.dy = Math.max(-600, Math.min(600, Math.round(b.y - a.y)));
+      }
+    });
+    return;
+  }
   if (isPt(it)) return void mk(it.p[0], 'big', {move: q => (it.p[0] = q)});
   if (it.t === 'circle') {
     mk(it.p[0], 'big', {move: q => (it.p[0] = q)});
@@ -27077,7 +27849,7 @@ function editDel() {
   const it = edit.it,
     i = edit.sel;
   if (i < 0 || i >= it.p.length || it.p.length <= editMin(it)) return;
-  edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+  edit.hist.push(editSnap(it));
   it.p.splice(i, 1);
   edit.sel = -1;
   render();
@@ -27095,7 +27867,7 @@ function editTap(p) {
   const it = edit.it;
   if (!isPt(it)) {
     if (edit.ext && it.t === 'line') {
-      edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+      edit.hist.push(editSnap(it));
       if (edit.ext === 'end') it.p.push(p);
       else it.p.unshift(p);
       render();
@@ -27104,7 +27876,7 @@ function editTap(p) {
     } else if (edit.sel >= 0) editSel(-1); // dotknięcie mapy obok – chowa dymek „Usuń punkt”
     return;
   }
-  edit.hist.push(JSON.stringify({p: it.p, r: it.r}));
+  edit.hist.push(editSnap(it));
   it.p = [p];
   render();
   drawHandles();
@@ -27115,6 +27887,7 @@ function editUndo() {
   const o = JSON.parse(st);
   edit.it.p = o.p;
   if (o.r != null) edit.it.r = o.r;
+  if (o.dx != null) (edit.it.dx = o.dx), (edit.it.dy = o.dy);
   edit.sel = -1;
   render();
   drawHandles();
@@ -27296,6 +28069,8 @@ function drawIt(ctx, it, pr, k, z, op, kl = k) {
     });
     if (close) ctx.closePath();
   };
+  if (it.t === 'call') return drawCall(ctx, it, pr, k, op);
+  if (it.t === 'legend') return drawLegend(ctx, it, pr, k, op);
   if (isLn(it)) {
     path(it.p);
     ctx.globalAlpha = op;
@@ -27331,7 +28106,7 @@ function drawIt(ctx, it, pr, k, z, op, kl = k) {
     ctx.globalAlpha = op;
     if (!it.ns) {
       ctx.strokeStyle = c;
-      ctx.lineWidth = 4 * kl;
+      ctx.lineWidth = (it.sz != null ? LW[it.sz] : 4) * kl; // v125 (pkt 381): grubość obrysu jak na mapie
       ctx.stroke();
     }
     if (icOfItem(it) && ICIMG[it.i]) {
@@ -27569,7 +28344,7 @@ async function doPrint(b, z, thin) {
   show(_t('Wydruk: rysuję obiekty…'));
   await loadIconImgs([
     ...new Set(
-      P.items.filter(i => (i.t === 'pin' || isArea(i)) && ICONS[i.i] && ICONS[i.i].svg).map(i => i.i)
+      P.items.filter(i => (i.t === 'pin' || isArea(i)) && ICONS[i.i] && ICONS[i.i].svg).map(i => i.i) // ikony legendy – te same
     )
   ]);
   const pr = q => {
@@ -27582,12 +28357,20 @@ async function doPrint(b, z, thin) {
     if (!g.vis || !l.vis) continue;
     const HS = hidSet();
     P.items.forEach(it => {
-      if (it.l === l.id && okItem(it) && !(HS.has(catOf(it)) || it.off))
+      if (it.l === l.id && okItem(it) && !(HS.has(catOf(it)) || it.off) && !isBox(it))
         try {
           drawIt(ctx, it, pr, k, z, l.op, kl);
         } catch (e) {}
     });
   }
+  // v125 (pkt 383–384): dymki i legendy na samym wierzchu
+  P.items.forEach(it => {
+    const f = isBox(it) && !it.off && findL(it.l);
+    if (f && f.g.vis && f.l.vis && okItem(it))
+      try {
+        drawIt(ctx, it, pr, k, z, f.l.op, kl);
+      } catch (e) {}
+  });
   drawDecor(ctx, z, W, H, b, [...new Set(attr.filter(Boolean))].join(', ').replace(/<[^>]*>/g, ''));
   show(_t('Wydruk: zapisuję plik…'));
   const blob = await new Promise(res => {
@@ -27701,6 +28484,14 @@ map.on('click', e => {
     placeText(p);
     return;
   }
+  if (mode === 'call') {
+    placeCall(p);
+    return;
+  }
+  if (mode === 'legend') {
+    placeLegend(p);
+    return;
+  }
   if (mode === 'circle' || mode === 'seg' || mode === 'arrow') {
     cur.push(p);
     if (cur.length === 2) {
@@ -27789,7 +28580,7 @@ $('done').onclick = () => {
     else info.textContent = _t('Zaznacz dwa narożniki kadru');
     return;
   }
-  if (['pin', 'dot', 'num', 'text'].includes(mode)) {
+  if (['pin', 'dot', 'num', 'text', 'call', 'legend'].includes(mode)) {
     mode = null;
     clearAll();
     ui();
@@ -28320,7 +29111,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. GPS włącza się sam przy każdym uruchomieniu (mapa nie skacze do Ciebie, chyba że tak ustawisz w „Widok po uruchomieniu”), więc pogoda i Panel Dziś od razu mają dane. Ikona ◎ mówi, co się dzieje: szara przekreślona – GPS wyłączony, niebieski pierścień z mrugającą kropką – szuka pozycji, niebieski pierścień z kropką – działa, jasnoniebieskie tło – mapa jest na Tobie. Dotknięcie: gdy mapa nie jest na Tobie – leci do Ciebie, gdy jest – wyłącza GPS. <b>Informacje GPS</b> (Ustawienia → Pomoc i informacje, Ustawienia → Ślady GPS, przytrzymanie ◎, wiersz GPS w Panelu Dziś) – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut. W Informacjach GPS (Android) jest też <b>mapa nieba</b>: satelity GPS, GLONASS, Galileo, BeiDou – kolor to system, pełna kropka – użyty do pozycji, wielkość – siła sygnału.</li>
 <li><b>Układ przycisków</b> – domyślnie w prawym górnym rogu jest tylko <b>● REC</b>, po prawej na dole: <b>podkład</b>, <b>szukaj</b> 🔍 i <b>moja pozycja</b> ◎ (z dokładnością GPS – kolor mówi, czy jest dobra), pod nimi pasek narzędzi, a w lewym dolnym rogu – panel warstw (nad nim kompas, gdy mapa jest obrócona). Ustawienia → Wygląd → <b>Ustaw przyciski na ekranie</b>: na mapie pojawia się siatka pól, a podkład, szukaj, pozycję, warstwy i kompas przeciągasz palcem w dowolne wolne pole (przycisk wskakuje w najbliższe) i zatwierdzasz; „Przywróć domyślny” wraca do zwykłego układu. Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej jadą w górę nad rosnący pasek narzędzi, u góry – zjeżdżają pod nagrywanie, pasek prowadzenia i planowania. <b>Przytrzymaj palec na mapie</b> – okno współrzędnych tego miejsca (jak „Współrzędne punktu”): kopiuj, udostępnij, prowadź, trasa tutaj, zapisz punkt.</li>
 <li><b>Podkład</b> – przycisk mapy po prawej, nad szukaj i ◎: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany), mapa ze zdjęcia (np. tablicy w lesie). Na górze menu „Mapy offline”.</li>
-<li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. Gotowy kształt poprawisz później: dotknij go → Więcej → <b>Edytuj</b>. Przeciągnij punkt w nowe miejsce; mała, przygaszona kropka w połowie odcinka wstawia tam nowy punkt (przeciągnij ją albo dotknij); dotknięcie punktu pokazuje „Usuń punkt”; „+” za końcem linii pozwala dorysować ją dalej (dotykaj mapy, ponowne „+” kończy). U góry widać na bieżąco długość albo pole, ↶ cofa krok, ✓ zapisuje, ✕ przywraca kształt sprzed zmian. Punkty, numery i napisy mają w tym miejscu „Przesuń”. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
+<li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. Gotowy kształt poprawisz później: dotknij go → Więcej → <b>Edytuj</b>. Przeciągnij punkt w nowe miejsce; mała, przygaszona kropka w połowie odcinka wstawia tam nowy punkt (przeciągnij ją albo dotknij); dotknięcie punktu pokazuje „Usuń punkt”; „+” za końcem linii pozwala dorysować ją dalej (dotykaj mapy, ponowne „+” kończy). U góry widać na bieżąco długość albo pole, ↶ cofa krok, ✓ zapisuje, ✕ przywraca kształt sprzed zmian. Punkty, numery i napisy mają w tym miejscu „Przesuń”. Wygląd wybierasz z kafelków z podglądem – takich samych przy rysowaniu i w okienku gotowego obiektu (Kolor): kolor, <b>wypełnienie</b> (Bez, 25–100%), <b>obrys</b> (z obrysem albo bez) i <b>grubość obrysu</b> (XS–L). <b>Dymek z opisem</b> (w „Rysuj”, także w trybie Praca): dotknij miejsca, które ma wskazywać, i wpisz opis – ramka staje obok, strzałka trzyma się punktu; w „Edytuj” przesuwasz osobno ramkę i koniec strzałki. <b>Legenda</b> (w „Rysuj”): dotknij mapy tam, gdzie ma stanąć – OMM zbierze kolory powierzchni, linii i kropek oraz ikony punktów z tej mapy, a Ty wpiszesz, co znaczą (pozycje bez opisu się nie pokazują, strzałki zmieniają kolejność); opisy poprawisz z okienka legendy („Opisy”). Dymek i legenda mają stały rozmiar na ekranie i drukują się razem z kadrem. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
 <li><b>Trasa do punktu</b> – <b>„Nawiguj”</b> w okienku punktu, współrzędnych (przytrzymaj mapę), auta albo zdjęcia otwiera <b>kartę trasy</b>: na górze <b>A</b> (skąd – Twoja pozycja, adres z wyszukiwarki, Twój punkt albo miejsce wskazane na mapie) i <b>B</b> (dokąd – to samo; ⇅ zamienia A z B), niżej <b>czym jedziesz</b> – Auto, Rower, Pieszo, Koń albo Prosto (OMM pamięta ostatni wybór; zmiana od razu przelicza). Osobnego „Zaplanuj trasę” już nie ma – każdą trasę planujesz tą samą kartą, także „Trasa stąd” w okienku przytrzymanego miejsca. W czasie nawigacji ✎ na pasku: <b>Zmień cel</b> albo <b>Dodaj przystanek</b>. <b>Koń</b>: OMM jedzie drogami gruntowymi, polnymi i szlakami konnymi, a omija autostrady, drogi ekspresowe, chodniki i ścieżki tylko dla pieszych lub rowerów (jeździec na drodze jest jak pojazd – Prawo o ruchu drogowym, art. 35). W lesie konno wolno tylko drogami wyznaczonymi przez nadleśnictwo (ustawa o lasach, art. 29 ust. 1a), więc OMM omija leśne dukty bez oznaczenia szlaku konnego, a gdy nie da się ich ominąć – ostrzega „sprawdź, czy wolno tu jechać konno”. Dwa warianty: <b>Najkrócej</b> albo <b>Gruntowe i zieleń</b>; czas liczony dla ok. 7 km/h, na mapie wszystkie warianty (wybrana niebieska, inne szare z czasem – dotknij, by wybrać), na dole ✕, ↶ ↷ (cofnij, ponów), ⋮ (szukaj, pętla, ułóż kolejność, odwróć), <b>Zapisz</b> (do „Planowania” albo na inną mapę) i <b>Nawiguj</b>. Rowerem warianty z chodnikami i przejściami dla pieszych są na końcu, a na karcie widać ostrzeżenie „⚠ chodnik 250 m”. <b>Uchwyt ˅</b> na górze karty (albo dotknięcie mapy) zwija ją do paska z czasem, dystansem i „Nawiguj” – cała mapa z trasami jest widoczna; dotknięcie paska albo ˄ rozwija kartę. „🌳 Szukaj przez zieleń” pobiera parki, lasy, łąki i ogrody z gotowych kafli mapy (OpenFreeMap, dane OpenStreetMap) raz dla okolicy i zapamiętuje je – kolejne trasy w pobliżu liczą się bez serwera. Trasę przez zieleń liczy serwer BRouter z profilem, który woli drogi wśród zieleni, nad wodą i z dala od hałasu, a przy tym nie klucza (płynna trasa, polecenia skrętów z BRoutera); do tego OMM sprawdza warianty przez ścieżki rowerowe w parkach i lasach do ok. 1 km w bok (bez alejek tylko dla pieszych i zamykanych parków). Ocenia otoczenie co 25 m: park, las, łąka najlepiej; obok ogródków, trawników, wody – dobrze; wzdłuż dużej ulicy i przy terenach przemysłowych – źle. Cmentarze i ogródki działkowe nie są celem, tylko miłym sąsiedztwem. Wariant pokazuje się, gdy zysk zieleni jest wyraźnie większy niż nadłożona droga; przy każdym wariancie widać „🌳 X km” w zieleni. Gdy nawigujesz pieszo, a przez półtorej minuty jedziesz szybciej niż ok. 30 km/h, OMM zapyta, czy przełączyć na Auto albo zakończyć nawigację.</li>
 <li><b>Ekran Trasa (planowanie i edycja)</b> – jeden ekran dla każdej trasy: z „Nawiguj”, „Trasa stąd”, „Zaplanuj trasę”, z okienka zapisanej trasy („Edytuj trasę”) i ze śladu („Zapisz jako trasę”). Na karcie punkty <b>A</b>, <b>1</b>, <b>2</b>… <b>B</b>: dotknięcie nazwy zmienia punkt (szukaj, wskaż na mapie, Twoja pozycja), <b>„+”</b> między wierszami dodaje punkt pośredni dokładnie w tym miejscu, ✕ usuwa, <b>przytrzymanie wiersza</b> (albo uchwyt ≡) zmienia kolejność, ⇅ odwraca trasę. Niżej czym jedziesz i rodzaj dróg, „Szukaj przez zieleń”, wynik – czas, długość, ↗ podejście i ↘ zejście (dotknięcie rozwija profil wysokości) – i „Warianty ▾”: warianty liczą się także przez punkty pośrednie. Na dole ✕, ↶ ↷ (cofnij, ponów każdą zmianę), ⋮ (szukaj miejsca, pętla – powrót do startu, <b>ułóż kolejność</b> – najkrótsza kolejność punktów pośrednich, odwróć, jak to działa), <b>Zapisz</b> (do „Planowania” albo na inną mapę) i <b>Nawiguj</b>. Na mapie: dotknięcie zwija kartę do paska; <b>przytrzymaj palec</b> albo <b>dotknij obiektu</b> – dymek: punkt pośredni (trafia tam, gdzie najmniej wydłuża trasę), cel albo start; <b>przytrzymaj linię trasy</b> i przeciągnij – trasa pójdzie tamtędy (punkt kształtujący a, b, c…; wtedy zostaje tylko Twoja trasa, bez wariantów); <b>przeciągnij punkt</b> – przesuwasz go; <b>dotknij punktu</b> – menu: dalej prosto (bez dróg), <b>punkt obowiązkowy</b> (w nawigacji po ominięciu OMM zapyta, czy wrócić), ustaw jako start / cel, usuń. Gdy nawigujesz po niezapisanej trasie, po zakończeniu OMM zapyta, czy ją zapisać, wrócić do niej, czy odrzucić.</li>
 <li><b>Obracanie mapy</b> – przekręć mapę wyraźnie dwoma palcami (od ok. 25°; samo przybliżanie jej nie obraca, a w Ustawieniach → Wygląd obracanie można wyłączyć). Gdy mapa jest obrócona, po lewej pojawia się kompas – dotknięcie ustawia północ u góry. Przy uruchomieniu OMM pokazuje ostatni widok i po złapaniu GPS przelatuje na Twoją pozycję (Ustawienia → Wygląd).</li>
@@ -28340,7 +29131,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Okienko śladu</b> – u góry nazwa (dotknięcie zmienia ją), obok <b>oko</b> (pokaż / ukryj ślad bez zamykania okienka) i aparat; pod nią rodzaj, wyruszenie → zakończenie i warstwa; pod spodem dystans, czas w ruchu, czas całkowity, średnia i podjazdy; pasek kolorów (dotknięcie zmienia prędkość / wysokość / jednolity). Jeden wiersz przycisków (ikona nad podpisem): <b>Nawiguj</b> (po śladzie), <b>Edytuj</b> (punkty śladu, dorysuj, podziel, dopasuj do ścieżek, rodzaj aktywności, opis, zdjęcia i punkty, „Przywróć oryginał”), <b>Statystyki</b>, <b>Udostępnij</b> (plik, obraz, zapis w telefonie, Animacja) i <b>Więcej</b> (dane śladu – zaznaczasz zdjęcia i punkty, by skopiować albo przenieść je na mapę, albo zapisać ślad jako trasę do nawigacji – oraz usuń). Edycja zmienia ślad naprawdę; ślad policzony przez OMM i surowe pomiary zostają do porównania.</li>
 <li><b>Nowy punkt</b> – przytrzymaj mapę → „Zapisz punkt”: jedno okno – nazwa, opis, ikona, mapa i warstwa.</li>
 <li><b>Ustawienia warstwy</b> – ⋮ przy warstwie otwiera jedno okno: nazwa, krycie, ikona i nazwy punktów, przenoszenie obiektów, pola danych, alarm, scalanie, udostępnianie, kolejność i usuwanie.</li>
-<li><b>Ślady jako wycieczki</b> – w okienku śladu <b>Edytuj</b> → dodaj: zdjęcia z telefonu (położone według śladu w chwili zrobienia – aparat często zapisuje złe miejsce), punkty i zdjęcia z dowolnej mapy (odnośnik – zmiana na mapie widać w śladzie) albo opis. Na liście śladów widać liczbę zdjęć 📷 i punktów 📍. Na mapie zdjęcia śladu wyglądają jak zdjęcia na mapie: granatowy dymek z aparatem, od ustawionego przybliżenia miniatura, kilka w jednym miejscu – jedna ikona z liczbą; dotknięcie – galeria zdjęć śladu („Pokaż miejsce”), przytrzymanie – okienko punktu. Wycieczkę na kilka dni robisz z kilku śladów: zaznacz je i „Scal” – przerwy zostają, a w animacji pojawią się plansze „Dzień 2”. <b>Animacja</b> w okienku śladu: plansza tytułowa z opisem, trasa rysująca się za strzałką, przy punkcie strzałka staje i pokazuje się dymek z opisem, zdjęcie wyrasta ze znacznika na cały ekran i wraca. Koło zębate w odtwarzaczu: podkład mapy oraz przy każdym elemencie oko (pokazywać czy nie) i czas ◀ liczba ▶ co 0,5 s (przytrzymanie przewija, można wpisać) – tytuł i opis, przejazd trasy (10 s – 3 min), zdjęcia, punkty, plansze dni, liczniki na dole, statystyki na końcu; wyłączone zdjęcia i punkty zostają na mapie, ale animacja się przy nich nie zatrzymuje. Ustawienia zapamiętane, tak samo w filmie. <b>Pokaż też na mapie…</b> (⋮ przy obiekcie, okienko punktu albo pasek zaznaczania) daje ten sam obiekt na innej mapie: to nie kopia, zmiany widać wszędzie; usuwanie pyta „tylko z tej mapy / wszędzie”. Dotknięcie dowolnego zdjęcia otwiera galerię wszystkich zdjęć mapy („Pokaż miejsce”).</li>
+<li><b>Ślady jako wycieczki</b> – w okienku śladu <b>Edytuj</b> → dodaj: zdjęcia z telefonu (położone według śladu w chwili zrobienia – aparat często zapisuje złe miejsce), punkty i zdjęcia z dowolnej mapy (odnośnik – zmiana na mapie widać w śladzie) albo opis. Na liście śladów widać liczbę zdjęć 📷 i punktów 📍. Na mapie zdjęcia śladu wyglądają jak zdjęcia na mapie: granatowy dymek z aparatem, od ustawionego przybliżenia miniatura, kilka w jednym miejscu – jedna ikona z liczbą; dotknięcie – galeria zdjęć śladu („Pokaż miejsce”), przytrzymanie – okienko punktu. Wycieczkę na kilka dni robisz z kilku śladów: zaznacz je i „Scal” – przerwy zostają, a w animacji pojawią się plansze „Dzień 2”. <b>Animacja</b> w okienku śladu: plansza tytułowa z opisem, trasa rysująca się za strzałką, przy punkcie strzałka staje i pokazuje się dymek z opisem, zdjęcie wyrasta ze znacznika na cały ekran i wraca. „Przejazd trasy” ma trzy stany: animowany przejazd, <b>Plansza z trasą</b> (nieruchoma mapa z całym śladem, własny czas) albo wyłączony okiem – wtedy film składa się z tego, co zostało włączone, np. z tytułu i zdjęć albo z samych zdjęć. Ołówek przy „Tytuł i opis” zmienia tytuł i opis w filmie; ptaszek „Zmień również nazwę śladu” zapisuje je też w śladzie. Koło zębate w odtwarzaczu: podkład mapy oraz przy każdym elemencie oko (pokazywać czy nie) i czas ◀ liczba ▶ co 0,5 s (przytrzymanie przewija, można wpisać) – tytuł i opis, przejazd trasy (10 s – 3 min), zdjęcia, punkty, plansze dni, liczniki na dole, statystyki na końcu; wyłączone zdjęcia i punkty zostają na mapie, ale animacja się przy nich nie zatrzymuje. Ustawienia zapamiętane, tak samo w filmie. <b>Pokaż też na mapie…</b> (⋮ przy obiekcie, okienko punktu albo pasek zaznaczania) daje ten sam obiekt na innej mapie: to nie kopia, zmiany widać wszędzie; usuwanie pyta „tylko z tej mapy / wszędzie”. Dotknięcie dowolnego zdjęcia otwiera galerię wszystkich zdjęć mapy („Pokaż miejsce”).</li>
 <li><b>Import</b> – zdjęcia, KML/KMZ, GPX, GeoJSON i CSV wczytujesz przez jedno okno: wybierasz <b>Mapa</b> (mapa albo „+ Nowa mapa”, warstwa albo „+ Nowa warstwa”, przy wielu warstwach w pliku „Zachowaj warstwy z pliku”) albo <b>Ślad</b> (zdjęcia kładą się na śladzie wg godziny zrobienia – te, które nie pasują, można na końcu dodać do mapy; plik GPX z nagraniem trafia do wybranej warstwy Śladów GPS, a jego punkty do śladu albo na mapę). Ostatni wybór jest zapamiętany.</li>
 <li><b>Szukaj</b> – 🔍 po prawej, nad ◎: Twoje punkty, ślady, współrzędne (także UTM, MGRS, PL-1992), a po naciśnięciu „Szukaj w internecie” – miejscowości i adresy.</li>
 <li><b>Gdzie jestem (SOS)</b> – pomiary → Współrzędne punktu → „📡 Moja pozycja”: współrzędne do skopiowania, SMS-a albo udostępnienia, przycisk 112 oraz godzina zachodu słońca.</li>
@@ -28387,7 +29178,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Map</b> – move it with your finger, zoom with two fingers. GPS turns on by itself at every start (the map doesn't jump to you unless you set it in “View at start-up”), so the weather and the Today panel have data at once. The ◎ icon tells you what is going on: grey and crossed out – GPS off, a blue ring with a blinking dot – looking for a fix, a blue ring with a dot – working, a light blue background – the map is on you. Tap: when the map isn't on you – it flies to you, when it is – GPS turns off. <b>GPS information</b> (Settings → Help and information, Settings → GPS tracks, press and hold ◎, the GPS row in the Today panel) – accuracy, fix age, speed, course and an accuracy chart of the last minutes. GPS information (Android) also has a <b>sky view</b>: GPS, GLONASS, Galileo, BeiDou satellites – colour is the system, a solid dot is used for the fix, size is signal strength.</li>
 <li><b>Button layout</b> – by default only <b>● REC</b> is in the top-right corner; on the right at the bottom: <b>base map</b>, <b>search</b> 🔍 and <b>my position</b> ◎ (with GPS accuracy – the colour tells whether it is good), below them the toolbar, and in the bottom-left corner – the layers panel (with the compass above it when the map is rotated). Settings → Appearance → <b>Arrange buttons on the screen</b>: a grid appears on the map, you drag the base map, search, position, layers and compass with your finger to any free cell (the button snaps to the nearest one) and confirm; “Restore default” brings back the standard layout. The buttons make room for what expands: at the bottom right they move up above the growing toolbar, at the top they move down below recording and the navigation and planning bars. <b>Press and hold the map</b> – the coordinates window for that spot (as “Point coordinates”): copy, share, navigate, route here, save point.</li>
 <li><b>Base map</b> – the map button on the right, above search and ◎: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands), a map from a photo (e.g. of a forest signboard). “Offline maps” is at the top of the menu.</li>
-<li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. You can fix a finished shape later: tap it → More → <b>Edit</b>. Drag a point to a new place; the small, dimmed dot in the middle of a segment inserts a new point there (drag it or tap it); tapping a point shows “Delete point”; the “+” past the end of a line lets you keep drawing it (tap the map, tap “+” again to stop). The length or area is shown live at the top, ↶ undoes a step, ✓ saves, ✕ restores the shape from before the changes. Points, numbers and labels have “Move” here instead. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
+<li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. You can fix a finished shape later: tap it → More → <b>Edit</b>. Drag a point to a new place; the small, dimmed dot in the middle of a segment inserts a new point there (drag it or tap it); tapping a point shows “Delete point”; the “+” past the end of a line lets you keep drawing it (tap the map, tap “+” again to stop). The length or area is shown live at the top, ↶ undoes a step, ✓ saves, ✕ restores the shape from before the changes. Points, numbers and labels have “Move” here instead. The look is chosen from tiles with a preview – the same ones while drawing and in a finished object’s window (Colour): colour, <b>fill</b> (None, 25–100%), <b>outline</b> (with or without) and <b>outline width</b> (XS–L). <b>Callout</b> (in “Draw”, also in Work mode): tap the place it should point at and type the text – the box stands next to it and the arrow stays on the point; in “Edit” you move the box and the arrow tip separately. <b>Legend</b> (in “Draw”): tap the map where it should stand – OMM collects the colours of areas, lines and dots and the point icons from this map and you type what they mean (entries without a description are not shown, the arrows change the order); fix the descriptions from the legend’s window (“Descriptions”). The callout and the legend keep a fixed size on screen and are printed with the frame. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
 <li><b>Route to a point</b> – <b>“Navigate”</b> in the popup of a point, coordinates (press and hold the map), the car or a photo opens the <b>route card</b>: at the top <b>A</b> (from – your position, an address from search, one of your points or a place picked on the map) and <b>B</b> (to – the same; ⇅ swaps A and B), below <b>how you travel</b> – Car, Bike, On foot, Horse or Straight (OMM remembers the last choice; a change re-plans at once). There is no separate “Plan a route” any more – you plan every route with the same card, also “Route from here” in the pop-up of a held place. During navigation ✎ on the bar: <b>Change destination</b> or <b>Add a stop</b>. <b>Horse</b>: OMM uses dirt and field roads and bridle paths and avoids motorways, expressways, sidewalks and paths for pedestrians or bikes only (in Poland a rider on the road counts as a vehicle – Road Traffic Act, art. 35). In forests riding is allowed only on roads marked by the forest district (Forest Act, art. 29 sec. 1a), so OMM avoids forest tracks without a bridle-path mark, and when they can't be avoided it warns “check whether riding is allowed here”. Two variants: <b>Shortest</b> or <b>Dirt roads and greenery</b>; time is counted for about 7 km/h, all variants on the map (the selected one blue, the others grey with a time – tap to choose), at the bottom ✕, ↶ ↷ (undo, redo), ⋮ (search, loop, sort the order, reverse), <b>Save</b> (to “Planning” or to another map) and <b>Navigate</b>. By bike, variants with sidewalks and pedestrian crossings come last, and the card shows a warning such as “⚠ sidewalk 250 m”. The <b>˅ handle</b> at the top of the card (or a tap on the map) collapses it to a bar with time, distance and “Navigate” – the whole map with the routes is visible; tap the bar or ˄ to expand. “🌳 Search through greenery” downloads parks, forests, meadows and gardens from ready-made map tiles (OpenFreeMap, OpenStreetMap data) once for the area and keeps them – later routes nearby work without the server. The greenery route is calculated by the BRouter server with a profile that prefers ways among greenery, by water and away from noise, without zigzagging (a smooth route, turn instructions from BRouter); OMM also tries variants through cycle-legal paths in parks and forests up to about 1 km to the side (no pedestrian-only alleys or closed parks). It rates the surroundings every 25 m: park, forest, meadow best; next to allotments, lawns, water – good; along a major road and by industrial areas – bad. Cemeteries and allotments are not targets, only pleasant surroundings. A variant is shown when the greenery gained clearly outweighs the extra distance; each variant shows “🌳 X km” in greenery. When navigating on foot while moving faster than about 30 km/h for a minute and a half, OMM asks whether to switch to Car or end navigation.</li>
 <li><b>Route screen (planning and editing)</b> – one screen for every route: from “Navigate”, “Route from here”, “Plan a route”, from a saved route's popup (“Edit route”) and from a track (“Save as route”). On the card the points <b>A</b>, <b>1</b>, <b>2</b>… <b>B</b>: tap a name to change the point (search, pick on the map, your position), <b>“+”</b> between rows adds a via point exactly there, ✕ removes it, <b>press and hold a row</b> (or the ≡ handle) to change the order, ⇅ reverses the route. Below: how you travel and the kind of roads, “Search through greenery”, the result – time, length, ↗ climb and ↘ descent (tap to show the elevation profile) – and “Variants ▾”: variants are computed through the via points too. At the bottom ✕, ↶ ↷ (undo, redo every change), ⋮ (search a place, loop – back to the start, <b>sort the order</b> – the shortest order of the via points, reverse, how it works), <b>Save</b> (to “Planning” or to another map) and <b>Navigate</b>. On the map: a tap folds the card into a bar; <b>press and hold</b> or <b>tap an object</b> – a bubble: via point (placed where it lengthens the route least), destination or start; <b>press and hold the route line</b> and drag – the route goes that way (a shaping point a, b, c…; then only your own route stays, without variants); <b>drag a point</b> to move it; <b>tap a point</b> – menu: straight on (off-road), <b>mandatory point</b> (if you skip it while navigating OMM asks whether to go back), set as start / destination, delete. When you navigate along an unsaved route, OMM asks afterwards whether to save it, go back to it or discard it.</li>
 <li><b>Rotating the map</b> – twist the map clearly with two fingers (from about 25°; zooming alone doesn't rotate it, and rotation can be switched off in Settings → Appearance). When the map is rotated, a compass appears on the left – tap it for north up. On start OMM shows the last view and flies to your position once GPS has a fix (Settings → Appearance).</li>
@@ -28407,7 +29198,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Track window</b> – at the top the name (tap to rename it), next to it the <b>eye</b> (show / hide the track without closing the window) and the camera; below it the activity, start → end and layer; below them distance, moving time, total time, average and climb; the colour bar (tap to switch speed / elevation / plain). One row of buttons (icon above the label): <b>Navigate</b> (along the track), <b>Edit</b> (track points, draw in, split, snap to paths, activity, description, photos and points, “Restore the original”), <b>Statistics</b>, <b>Share</b> (file, image, save on the phone, Animation) and <b>More</b> (track data – select photos and points to copy or move to a map, or save the track as a route for navigation – and delete). Editing really changes the track; the track calculated by OMM and the raw readings are kept for comparison.</li>
 <li><b>New point</b> – press and hold the map → “Save point”: one window – name, description, icon, map and layer.</li>
 <li><b>Layer settings</b> – ⋮ next to a layer opens one window: name, opacity, point icon and names, moving objects, data fields, alarm, merging, sharing, order and deleting.</li>
-<li><b>Tracks as trips</b> – in the track window <b>Edit</b> → add: photos from the phone (placed by the track at the moment they were taken – the camera often saves a wrong location), points and photos from any map (a link – a change on the map shows in the track) or a description. The track list shows the number of photos 📷 and points 📍. On the map, track photos look like map photos: a navy bubble with a camera, a thumbnail from the chosen zoom, several in one place – one icon with a number; tap – gallery of the track's photos (“Show place”), hold – the point window. A trip of several days is made from several tracks: select them and “Merge” – the gaps stay and the animation shows “Day 2” cards. <b>Animation</b> in the track window: title card with the description, the route drawing itself behind the arrow, at a point the arrow stops and a bubble with its description appears, a photo grows from its marker to full screen and back. The gear in the player: the base map and for each element an eye (show or not) and a time ◀ number ▶ in 0.5 s steps (hold to scroll, can be typed) – title and description, route (10 s – 3 min), photos, points, day cards, counters at the bottom, statistics at the end; hidden photos and points stay on the map but the animation does not stop at them. Settings are remembered, the same in the video. <b>Also show on map…</b> (⋮ of an object, the point window or the selection bar) puts the same object on another map: not a copy, changes show everywhere; deleting asks “only from this map / everywhere”. Tapping any photo opens the gallery of all photos of the map (“Show place”).</li>
+<li><b>Tracks as trips</b> – in the track window <b>Edit</b> → add: photos from the phone (placed by the track at the moment they were taken – the camera often saves a wrong location), points and photos from any map (a link – a change on the map shows in the track) or a description. The track list shows the number of photos 📷 and points 📍. On the map, track photos look like map photos: a navy bubble with a camera, a thumbnail from the chosen zoom, several in one place – one icon with a number; tap – gallery of the track's photos (“Show place”), hold – the point window. A trip of several days is made from several tracks: select them and “Merge” – the gaps stay and the animation shows “Day 2” cards. <b>Animation</b> in the track window: title card with the description, the route drawing itself behind the arrow, at a point the arrow stops and a bubble with its description appears, a photo grows from its marker to full screen and back. “Route ride” has three states: the animated ride, a <b>Route card</b> (a still map with the whole track, its own time) or switched off with the eye – then the film consists of what is left on, e.g. the title and photos or photos only. The pencil next to “Title and description” changes them in the film; the “Also rename the track” tick saves them in the track too. The gear in the player: the base map and for each element an eye (show or not) and a time ◀ number ▶ in 0.5 s steps (hold to scroll, can be typed) – title and description, route (10 s – 3 min), photos, points, day cards, counters at the bottom, statistics at the end; hidden photos and points stay on the map but the animation does not stop at them. Settings are remembered, the same in the video. <b>Also show on map…</b> (⋮ of an object, the point window or the selection bar) puts the same object on another map: not a copy, changes show everywhere; deleting asks “only from this map / everywhere”. Tapping any photo opens the gallery of all photos of the map (“Show place”).</li>
 <li><b>Import</b> – photos, KML/KMZ, GPX, GeoJSON and CSV go through one window: choose <b>Map</b> (a map or “+ New map”, a layer or “+ New layer”, with several layers in the file “Keep layers from the file”) or <b>Track</b> (photos are placed on the track by the time they were taken – those that do not fit can be added to a map at the end; a GPX file with a recording goes to the chosen GPS tracks layer, and its points to the track or onto the map). The last choice is remembered.</li>
 <li><b>Search</b> – 🔍 on the right, above ◎: your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
@@ -41256,7 +42047,8 @@ const animPref = (k, d) => localStorage.getItem('omm-anim-' + k) || d;
 // v92: wszystkie czasy co 0,5 s (przytrzymanie ◀ ▶ przewija szybciej)
 const ANIM_OPT = [
   {k: 'tyt', lb: _t('Tytuł i opis'), eye: 1, t: [1, 15, 3], st: 0.5},
-  {k: 'jazda', lb: _t('Przejazd trasy'), t: [10, 180, 30], st: 0.5},
+  // v125 (pkt 382): przejazd ma trzy stany – animowany przejazd / nieruchoma plansza z całą trasą / wyłączony (oko)
+  {k: 'jazda', lb: _t('Przejazd trasy'), eye: 1, t: [10, 180, 30], st: 0.5, alt: {k: 'plansza', lb: _t('Plansza z trasą'), t: [1, 15, 4], st: 0.5}},
   {k: 'foto', lb: _t('Zdjęcia'), eye: 1, t: [1, 10, 3], st: 0.5},
   {k: 'pkt', lb: _t('Punkty z opisem'), eye: 1, t: [1, 10, 3], st: 0.5},
   {k: 'dni', lb: _t('Plansze „Dzień 2”'), eye: 1},
@@ -41272,6 +42064,9 @@ const animCfg = () => {
     }
     o.on[x.k] = !x.eye || animPref(x.k + '-on', '1') !== '0';
   });
+  // tryb przejazdu: 'jazda' (animacja) | 'plansza' (cała trasa na nieruchomej mapie) | 'off' (film bez mapy)
+  o.tryb = !o.on.jazda ? 'off' : animPref('jazda-tryb', 'jazda') === 'plansza' ? 'plansza' : 'jazda';
+  o.plansza = Math.max(1, Math.min(15, Math.round((+animPref('plansza', 4) || 4) * 2) / 2));
   return o;
 };
 function animPlan(t) {
@@ -41322,6 +42117,23 @@ function animAt(t, s, frac) {
 }
 function animTimeline(plan, cfg) {
   // oś czasu (ms): wstęp → rysowanie (z przystankami: zdjęcia, punkty, dni) → zakończenie
+  if (cfg.tryb && cfg.tryb !== 'jazda') {
+    // v125 (pkt 382): bez przejazdu – tytuł → (plansza z całą trasą) → zdjęcia, punkty i plansze dni po kolei →
+    // statystyki; każda część tylko, gdy włączona (film może być z samych zdjęć)
+    const show = st => (st.typ === 'foto' ? cfg.on.foto : st.typ === 'pkt' ? cfg.on.pkt : cfg.on.dni),
+      hold = cfg.on.tyt ? cfg.tyt * 1000 : 0,
+      segs = [];
+    let tt = 0;
+    if (hold) segs.push({k: 'in', t0: 0, d: hold}), (tt = hold);
+    if (cfg.tryb === 'plansza') segs.push({k: 'map', t0: tt, d: cfg.plansza * 1000}), (tt += cfg.plansza * 1000);
+    plan.stops.filter(show).forEach(st => {
+      const d = st.typ === 'day' ? ANIM_DAY : st.typ === 'foto' ? ANIM_GROW + cfg.foto * 1000 + ANIM_SHRINK : cfg.pkt * 1000;
+      segs.push({k: 'stop', t0: tt, d, f0: 1, w: st.w, typ: st.typ});
+      tt += d;
+    });
+    if (cfg.on.stat) segs.push({k: 'out', t0: tt, d: cfg.stat * 1000}), (tt += cfg.stat * 1000);
+    return {segs, T: tt, IN: hold, hold, cfg};
+  }
   const Dd = cfg.jazda * 1000,
     hold = cfg.on.tyt ? cfg.tyt * 1000 : 500, // plansza tytułowa (albo krótko cała trasa), potem zbliżenie
     IN = hold + 1300,
@@ -41346,10 +42158,12 @@ function animTimeline(plan, cfg) {
 function animState(tl, ms) {
   // stan animacji w chwili ms: faza, ułamek trasy, postęp fazy (u 0–1), przystanek
   ms = Math.max(0, Math.min(tl.T, ms));
+  if (!tl.segs.length) return {cfg: tl.cfg, hold: 0, k: 'map', u: 1, ms: 0, frac: 1}; // wszystko wyłączone
   let g = tl.segs[0];
   for (const x of tl.segs) if (ms >= x.t0) g = x;
   const u = g.d ? Math.min(1, (ms - g.t0) / g.d) : 1,
     c = {cfg: tl.cfg, hold: tl.hold};
+  if (g.k === 'map') return {...c, k: 'map', u, ms: ms - g.t0, d: g.d, frac: 1};
   if (g.k === 'in') return {...c, k: 'in', u, ms: ms - g.t0, d: g.d, frac: 0};
   if (g.k === 'out') return {...c, k: 'out', u, ms: ms - g.t0, frac: 1};
   if (g.k === 'stop') return {...c, k: 'stop', u, ms: ms - g.t0, d: g.d, frac: g.f0, w: g.w, typ: g.typ};
@@ -41367,7 +42181,9 @@ async function filmEngine(t, W, H, prog, cfg) {
     k = Math.min(W, H) / 720, // skala napisów i grubości linii
     hasE = s.emin != null,
     TOP = Math.round(132 * k),
-    LIC = cfg.on.licz, // v91: liczniki na dole można wyłączyć – mapa zajmuje wtedy więcej miejsca
+    TR = cfg.tryb || 'jazda', // v125 (pkt 382): 'jazda' | 'plansza' | 'off'
+    OFF = TR === 'off', // film bez mapy (tytuł, zdjęcia, punkty, statystyki na ciemnym tle)
+    LIC = cfg.on.licz && !OFF, // v91: liczniki na dole można wyłączyć – mapa zajmuje wtedy więcej miejsca
     MD = plan.days > 1, // ślad na kilka dni (scalone wyjścia)
     BOT = Math.round((LIC ? (hasE ? 176 : 104) : 16) * k),
     mode = trkModeOf(t),
@@ -41506,20 +42322,31 @@ async function filmEngine(t, W, H, prog, cfg) {
   function frame(st) {
     // kamera wg fazy
     let cam;
-    if (st.k === 'in') cam = st.ms < st.hold ? camO : mixCam(camO, followAt(0), (st.ms - st.hold) / 1200);
+    if (TR !== 'jazda') (cam = camO), (st = {...st, frac: 1}); // bez przejazdu: nieruchomy widok całej trasy, ślad w całości
+    else if (st.k === 'in') cam = st.ms < st.hold ? camO : mixCam(camO, followAt(0), (st.ms - st.hold) / 1200);
     else if (st.k === 'out') cam = mixCam(followAt(1), camO, st.ms / 1400);
     else cam = followAt(st.frac);
     const v = clampCam(cam),
       O = p => [(p[0] - v.x0) * v.s, (p[1] - v.y0) * v.s];
-    cx.fillStyle = '#eef0f2';
-    cx.fillRect(0, 0, W, H);
-    cx.drawImage(world, v.x0, v.y0, W / v.s, H / v.s, 0, 0, W, H);
+    if (OFF) {
+      // bez mapy: spokojne ciemne tło
+      const bg = cx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#26303a');
+      bg.addColorStop(1, '#151b21');
+      cx.fillStyle = bg;
+      cx.fillRect(0, 0, W, H);
+    } else {
+      cx.fillStyle = '#eef0f2';
+      cx.fillRect(0, 0, W, H);
+      cx.drawImage(world, v.x0, v.y0, W / v.s, H / v.s, 0, 0, W, H);
+    }
     // ślad do czoła: biała obwódka, potem kolor (jednolity albo wg prędkości / wysokości)
     const a = animAt(t, s, st.frac),
       hp = O(toW(a.ll)),
       PA = Pw.map(O), // cała trasa w układzie klatki
       P = PA.slice(0, a.i + 1);
     cx.lineCap = cx.lineJoin = 'round';
+    if (!OFF) {
     // cała trasa „w tle” – widać, dokąd prowadzi ślad
     cx.beginPath();
     PA.forEach((p, i) => (i && !sg.has(i) ? cx.lineTo(p[0], p[1]) : cx.moveTo(p[0], p[1])));
@@ -41577,7 +42404,7 @@ async function filmEngine(t, W, H, prog, cfg) {
       cx.stroke();
     };
     dot(P[0], '#2e7d32', 10);
-    if (st.k === 'out') dot(O(Pw[n - 1]), '#212121', 10);
+    if (st.k === 'out' || TR !== 'jazda') dot(O(Pw[n - 1]), '#212121', 10);
     else {
       const hc = segCol(Math.min(a.i, n - 1)),
         nb = t.pts[Math.min(n - 1, a.i + 1)],
@@ -41605,6 +42432,7 @@ async function filmEngine(t, W, H, prog, cfg) {
     }
     // v90: przystanki na mapie – zdjęcia (dymek z aparatem) i punkty (kropla); widać je, zanim strzałka dojedzie
     plan.stops.forEach(x => x.typ !== 'day' && x.w.p && !(st.k === 'stop' && st.w === x.w && x.typ === 'foto' && st.ms > 60) && pinAt(O(toW(x.w.p)), x.typ));
+    } // !OFF
     // --- nagłówek: nazwa, rodzaj, data
     cx.fillStyle = 'rgba(255,255,255,.95)';
     rr(16 * k, 16 * k, W - 32 * k, TOP - 28 * k, 20 * k);
@@ -41622,7 +42450,7 @@ async function filmEngine(t, W, H, prog, cfg) {
     cx.fillText('OMM', W - 34 * k, 94 * k);
     // --- dół: liczniki i mini-profil wysokości (v91: można wyłączyć)
     if (LIC) {
-    const fin = st.k === 'out',
+    const fin = st.k === 'out' || TR !== 'jazda',
       dd = fin ? s.d : s.cum[a.i] + hav(t.pts[a.i], a.ll),
       vNow = spd && !fin ? spd[Math.min(n - 1, a.i)] : s.vmov,
       eNow = hasE ? s.el[Math.min(n - 1, a.i)] : null,
@@ -41689,8 +42517,8 @@ async function filmEngine(t, W, H, prog, cfg) {
     if (st.k === 'stop') stopFrame(st, O);
     if (st.k === 'in' && st.cfg.on.tyt && st.ms < st.hold) introCard(st);
     // --- podsumowanie (koniec): kafelki statystyk
-    if (st.k === 'out' && st.ms > 1400 && st.cfg.on.stat) {
-      const al = Math.min(1, (st.ms - 1400) / 450),
+    if (st.k === 'out' && st.ms > (TR === 'jazda' ? 1400 : 0) && st.cfg.on.stat) {
+      const al = Math.min(1, (st.ms - (TR === 'jazda' ? 1400 : 0)) / 450),
         tl = tiles.slice(0, 8),
         cols = W > H ? 4 : 2,
         rows = Math.ceil(tl.length / cols),
@@ -41838,7 +42666,7 @@ async function filmEngine(t, W, H, prog, cfg) {
       cx.restore();
       return;
     }
-    const pp = O(toW(w.p)),
+    const pp = OFF ? [W / 2, TOP + areaH * 0.6] : O(toW(w.p)), // bez mapy – na środku kadru
       note = w.n ? String(w.n) : '';
     if (st.typ === 'pkt') {
       // punkt: strzałka stoi przy punkcie, nad nim dymek z nazwą i opisem
@@ -41863,12 +42691,15 @@ async function filmEngine(t, W, H, prog, cfg) {
       cx.fillStyle = '#fff';
       rr(bx, by, bw, bh, 16 * k);
       cx.fill();
-      cx.beginPath();
-      const ty = above ? by + bh : by;
-      cx.moveTo(pp[0] - 11 * k, ty);
-      cx.lineTo(pp[0], ty + (above ? 12 : -12) * k);
-      cx.lineTo(pp[0] + 11 * k, ty);
-      cx.fill();
+      if (!OFF) {
+        // ogonek dymka wskazuje punkt na mapie
+        cx.beginPath();
+        const ty = above ? by + bh : by;
+        cx.moveTo(pp[0] - 11 * k, ty);
+        cx.lineTo(pp[0], ty + (above ? 12 : -12) * k);
+        cx.lineTo(pp[0] + 11 * k, ty);
+        cx.fill();
+      }
       cx.shadowBlur = 0;
       cx.textAlign = 'left';
       let y = by + pad;
@@ -41910,7 +42741,8 @@ async function filmEngine(t, W, H, prog, cfg) {
         ih = im.height * b,
         R1 = [(W - iw) / 2 + dx * (u2 - 0.5) * W * 0.04, (H - ih) / 2 + dy * (u2 - 0.5) * H * 0.03, iw, ih],
         q = 30 * k,
-        R0 = [pp[0] - q, pp[1] - 2.7 * 14 * k - q * 0.6, 2 * q, 2 * q],
+        // z punktu na mapie; bez mapy – lekkie powiększenie ze środka kadru
+        R0 = OFF ? [R1[0] + iw * 0.06, R1[1] + ih * 0.06, iw * 0.88, ih * 0.88] : [pp[0] - q, pp[1] - 2.7 * 14 * k - q * 0.6, 2 * q, 2 * q],
         R = R0.map((v0, i) => v0 + (R1[i] - v0) * e);
       if (!full && bgs.get(w)) {
         cx.globalAlpha = e * e;
@@ -41918,12 +42750,13 @@ async function filmEngine(t, W, H, prog, cfg) {
         cx.globalAlpha = 1;
       }
       cx.save();
+      if (OFF) cx.globalAlpha = e;
       cx.beginPath();
       cx.roundRect(R[0], R[1], R[2], R[3], (1 - e) * 10 * k);
       cx.clip();
       coverIn(im, R[0], R[1], R[2], R[3]);
       cx.restore();
-      if (e < 1) {
+      if (e < 1 && !OFF) {
         cx.lineWidth = 3 * k * (1 - e);
         cx.strokeStyle = '#fff';
         cx.beginPath();
@@ -42006,7 +42839,7 @@ async function trkAnim(t, opt) {
     recb = BI(
       A.share ? 'share' : 'dl',
       A.share ? _t('Udostępnij film') : _t('Zapisz film'),
-      () => A.eng && filmRecord(t, cfg, fmtSel.value, qSel.value, A.share),
+      () => A.eng && A.tl && A.tl.T > 0 && filmRecord(tv(), cfg, fmtSel.value, qSel.value, A.share),
       'frec'
     );
   fmtSel.onchange = () => {
@@ -42043,57 +42876,146 @@ async function trkAnim(t, opt) {
     if (fr.k === 'draw') A.ms = animMsOf(A.tl, fr.frac);
     else A.ms = Math.min(A.ms, A.tl.T);
     A.eng.frame(animState(A.tl, A.ms));
+    chk();
   };
-  ANIM_OPT.forEach(o => {
-    const r = h('div', 'fcl' + (cfg.on[o.k] ? '' : ' off')),
-      lb = h('span', 'fcn', o.lb);
-    if (o.eye) {
-      const ey = B('', () => {
-        localStorage.setItem('omm-anim-' + o.k + '-on', cfg.on[o.k] ? '0' : '1');
-        cfg = animCfg();
-        ey.innerHTML = cfg.on[o.k] ? EYE_ON : EYE_OFF;
-        r.classList.toggle('off', !cfg.on[o.k]);
-        if (o.k === 'licz') build(); // inny układ klatki
-        else reTl();
-      }, 'eye', _t('Pokazywać w animacji'));
-      ey.innerHTML = cfg.on[o.k] ? EYE_ON : EYE_OFF;
-      r.append(ey);
-    } else r.append(h('span', 'eyesp'));
-    r.append(lb);
-    if (o.t) {
-      const [lo, hi] = o.t,
-        inp = h('input'),
-        set = v => {
-          v = Math.max(lo, Math.min(hi, Math.round((+String(v).replace(',', '.') || 0) * 2) / 2));
-          inp.value = v;
-          localStorage.setItem('omm-anim-' + o.k, String(v));
+  // v125 (pkt 382): wiersze ustawień budowane od nowa po każdej zmianie trybu przejazdu (inny czas, wyszarzone liczniki)
+  const rowsEl = h('div', 'fcrows'),
+    fnote = h('div', 'fnote');
+  cfgRow.append(rowsEl, fnote);
+  const chk = () => {
+    // film musi mieć choć jedną część – inaczej nie ma czego zapisać
+    const empty = !!A.tl && A.tl.T <= 0;
+    recb.disabled = empty;
+    fnote.textContent = empty ? _t('Wszystko jest wyłączone – włącz okiem choć jedną część filmu.') : '';
+    fnote.style.display = empty ? '' : 'none';
+  };
+  const rows = () => {
+    rowsEl.innerHTML = '';
+    ANIM_OPT.forEach(o0 => {
+      // przejazd w trybie „Plansza z trasą” ma własny czas (klucz „plansza”)
+      const pl = !!o0.alt && animPref('jazda-tryb', 'jazda') === 'plansza',
+        o = pl ? {...o0, t: o0.alt.t, st: o0.alt.st} : o0,
+        tk = pl ? o0.alt.k : o.k,
+        dead = o.k === 'licz' && cfg.tryb === 'off', // liczniki nie mają czego liczyć bez mapy
+        r = h('div', 'fcl' + (cfg.on[o.k] && !dead ? '' : ' off'));
+      if (o.eye) {
+        const ey = B('', () => {
+          if (dead) return toastMsg(_t('Liczniki są dostępne, gdy film pokazuje trasę'));
+          localStorage.setItem('omm-anim-' + o.k + '-on', cfg.on[o.k] ? '0' : '1');
           cfg = animCfg();
-          reTl();
+          if (o.k === 'licz' || o.k === 'jazda') {
+            // inny układ klatki
+            rows();
+            build();
+          } else {
+            ey.innerHTML = cfg.on[o.k] ? EYE_ON : EYE_OFF;
+            r.classList.toggle('off', !cfg.on[o.k]);
+            reTl();
+          }
+        }, 'eye', _t('Pokazywać w animacji'));
+        ey.innerHTML = cfg.on[o.k] && !dead ? EYE_ON : EYE_OFF;
+        r.append(ey);
+      } else r.append(h('span', 'eyesp'));
+      if (o0.alt) {
+        // wybór: animowany przejazd albo nieruchoma plansza z całą trasą
+        const sel = h('select', 'fcn fcsel');
+        sel.add(new Option(o0.lb, 'jazda'));
+        sel.add(new Option(o0.alt.lb, 'plansza'));
+        sel.value = pl ? 'plansza' : 'jazda';
+        sel.title = _t('Przejazd trasy albo nieruchoma plansza z całą trasą');
+        sel.onchange = () => {
+          localStorage.setItem('omm-anim-jazda-tryb', sel.value);
+          cfg = animCfg();
+          rows();
+          build();
         };
-      inp.type = 'number';
-      inp.inputMode = 'decimal';
-      inp.step = o.st;
-      inp.min = lo;
-      inp.max = hi;
-      inp.value = cfg[o.k];
-      inp.onchange = () => set(inp.value);
-      // przytrzymanie przycisku – powtarzanie (po 0,4 s, coraz szybciej)
-      const stp = (lb, d, tt) => {
-        const b = B(lb, null, 'fstp', tt);
-        let tm = 0;
-        const end = () => (clearTimeout(tm), (tm = 0));
-        const rep = n => {
-          set(cfg[o.k] + d);
-          tm = setTimeout(() => rep(n + 1), n < 1 ? 400 : n < 8 ? 120 : 50);
+        r.append(sel);
+      } else r.append(h('span', 'fcn', o.lb));
+      if (o.k === 'tyt') r.append(IB('edit', () => titleEdit(), 'fced', _t('Zmień tytuł i opis w filmie')));
+      if (o.t) {
+        const [lo, hi] = o.t,
+          inp = h('input'),
+          set = v => {
+            v = Math.max(lo, Math.min(hi, Math.round((+String(v).replace(',', '.') || 0) * 2) / 2));
+            inp.value = v;
+            localStorage.setItem('omm-anim-' + tk, String(v));
+            cfg = animCfg();
+            reTl();
+          };
+        inp.type = 'number';
+        inp.inputMode = 'decimal';
+        inp.step = o.st;
+        inp.min = lo;
+        inp.max = hi;
+        inp.value = cfg[tk];
+        inp.onchange = () => set(inp.value);
+        // przytrzymanie przycisku – powtarzanie (po 0,4 s, coraz szybciej)
+        const stp = (lb, d, tt) => {
+          const b = B(lb, null, 'fstp', tt);
+          let tm = 0;
+          const end = () => (clearTimeout(tm), (tm = 0));
+          const rep = n => {
+            set(cfg[tk] + d);
+            tm = setTimeout(() => rep(n + 1), n < 1 ? 400 : n < 8 ? 120 : 50);
+          };
+          b.addEventListener('pointerdown', e => (e.preventDefault(), end(), rep(0)));
+          ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, end));
+          return b;
         };
-        b.addEventListener('pointerdown', e => (e.preventDefault(), end(), rep(0)));
-        ['pointerup', 'pointerleave', 'pointercancel'].forEach(ev => b.addEventListener(ev, end));
-        return b;
-      };
-      r.append(stp('◀', -o.st, _t('Mniej')), inp, h('small', null, 's'), stp('▶', o.st, _t('Więcej')));
-    }
-    cfgRow.append(r);
-  });
+        r.append(stp('◀', -o.st, _t('Mniej')), inp, h('small', null, 's'), stp('▶', o.st, _t('Więcej')));
+      }
+      rowsEl.append(r);
+    });
+    chk();
+  };
+  // tytuł i opis tylko dla filmu (A.ov) albo – po zaznaczeniu – także jako nazwa i opis śladu
+  const tv = () => (A.ov ? {...t, nm: A.ov.nm, ds: A.ov.ds} : t);
+  const titleEdit = async () => {
+    const was = A.playing;
+    A.playing = false;
+    const nm = h('input'),
+      ds = h('textarea'),
+      cb = h('input'),
+      cur = tv();
+    nm.type = 'text';
+    nm.maxLength = 200;
+    nm.value = cur.nm || '';
+    nm.placeholder = _t('Tytuł');
+    ds.rows = 3;
+    ds.maxLength = 2000;
+    ds.value = cur.ds || '';
+    ds.placeholder = _t('Opis (niekonieczny)');
+    cb.type = 'checkbox';
+    const ok = await dlg({
+      title: _t('Tytuł i opis w filmie'),
+      body: () => {
+        const f = h('div', 'ftit'),
+          lb = h('label', 'chk');
+        lb.append(cb, h('span', null, _t('Zmień również nazwę śladu')));
+        f.append(nm, ds, lb);
+        return f;
+      },
+      btns: [
+        {t: _t('Anuluj'), v: null},
+        {t: _t('Zastosuj'), v: 1, c: 'okb'}
+      ]
+    });
+    if (ANIM !== A) return;
+    if (ok) {
+      const n2 = nm.value.trim().slice(0, 200),
+        d2 = ds.value.trim().slice(0, 2000);
+      if (cb.checked) {
+        // także w śladzie (nazwa i opis)
+        t.nm = n2;
+        t.ds = d2;
+        t.up = Date.now();
+        A.ov = null;
+        trkChanged();
+      } else A.ov = {nm: n2, ds: d2};
+      await build();
+    } else if (was) (A.playing = true), (A.last = performance.now());
+  };
+  rows();
   bar.append(row, cfgRow, row2);
   seek.oninput = () => {
     if (!A.eng) return;
@@ -42108,11 +43030,12 @@ async function trkAnim(t, opt) {
     stage.append(msg);
     msg.textContent = _t('Przygotowuję mapę…');
     const [W, H] = filmSize(fmtSel.value, '720'),
-      eng = await filmEngine(t, W, H, (d, n) => (msg.textContent = _t('Pobieram mapę ') + d + '/' + n + '…'), cfg);
+      eng = await filmEngine(tv(), W, H, (d, n) => (msg.textContent = _t('Pobieram mapę ') + d + '/' + n + '…'), cfg);
     if (ANIM !== A) return;
     A.eng = eng;
     A.tl = animTimeline(eng.plan, cfg);
     A.ms = 0;
+    chk();
     stage.innerHTML = '';
     stage.append(eng.cv);
     eng.frame(animState(A.tl, 0));
@@ -42136,7 +43059,7 @@ async function trkAnim(t, opt) {
       } catch (e) {
         if (!A.err) (A.err = 1), diag('film', _t('Błąd klatki animacji: ') + (e && e.message), (e && e.stack) || '');
       }
-      seek.value = Math.round((A.ms / A.tl.T) * 1000);
+      seek.value = A.tl.T > 0 ? Math.round((A.ms / A.tl.T) * 1000) : 0;
     }
     A.raf = requestAnimationFrame(loop);
   };

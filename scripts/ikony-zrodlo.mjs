@@ -156,6 +156,9 @@ export const ICON = {
   ),
   arrow: svgi('<path d="M5 19L18 6"/><path d="M10 5.5h8.5V14"/>'),
   text: svgi('<path d="M5 7V4.5h14V7M12 4.5V20M9 20h6"/>'),
+  // v125 (pkt 383–384): dymek z opisem i legenda
+  call: svgi('<path d="M4 4.5h16v10.5H10.5L6 20v-5H4z"/><path d="M8 8.5h8M8 11.5h5"/>'),
+  legend: svgi('<rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M11.5 9h5.5M11.5 15h5.5"/><rect x="6.5" y="7.5" width="3" height="3" fill="currentColor"/><circle cx="8" cy="15" r="1.6" fill="currentColor"/>'),
   measure: svgi(RULER),
   marea: svgi('<path d="M5 18L4 8l9-4 7 7-4 8z"/><path d="M8 14l4-4M10 16l6-6M7 11l3-3" opacity=".7"/>'),
   azimuth: svgi('<circle cx="12" cy="12" r="9"/><path d="M12 12l3-7"/><path d="M12 3v2"/>'),
