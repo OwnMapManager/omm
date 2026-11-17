@@ -34,6 +34,8 @@ idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest 
 
 Kafle działek i budynków EGiB (integracja.gugik.gov.pl) i nakładek GDOŚ od v127 przychodzą po 512 px i są pamiętane w telefonie 30 dni (IndexedDB, klucz `ov:…`, tylko gdy przyszły drogą natywną; po ~4000 kaflach pamięć czyszczona).
 
+Od v129 obszary GDOŚ idą z własnym stylem (parametr WMS `SLD_BODY`: wypełnienie i obrys w kolorze wybranym w OMM, bez podpisów serwera); gdy serwer stylu nie przyjmie (4 błędy kafli bez żadnego sukcesu), OMM wraca na stałe do stylu serwera (`omm-gdos-sld=nie`). Nazwy obszarów: WFS `GetFeature` (JSON, do 60 obiektów, kratka zapytań wg przybliżenia). Pomnik-drzewo: obwód/wysokość/wiek z pól rejestru, potem Overpass (`natural=tree` / `denotation=natural_monument` w promieniu 35 m), wiek bez danych – szacunek z obwodu.
+
 ## Inne
 - github.com – link do pobrania nowej wersji (otwiera przeglądarkę).
 - Kopia na Dysk Google – przez systemowy wybór folderu (SAF), OMM nie łączy się z Google bezpośrednio.
