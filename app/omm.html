@@ -14215,7 +14215,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v127';
+const APP_VER = 'v128';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -18783,7 +18783,10 @@ const CachedWMS = L.TileLayer.WMS.extend({
           }
           fin(null, im.src);
         });
-    IDB.get(key)
+    // v128 (pkt 406): pamięć kafli dopiero po starcie skryptu – nakładka włączona przy uruchomieniu tworzy kafle,
+    // zanim IDB (niżej w kodzie) istnieje; synchroniczny błąd przerywał cały start aplikacji (brak przycisków)
+    Promise.resolve()
+      .then(() => IDB.get(key))
       .then(v => (v && v.d && Date.now() - v.t < OV_TTL ? fin(null, v.d) : fetchIt()))
       .catch(() => fetchIt());
     return img;
@@ -19319,7 +19322,7 @@ function track(l) {
   l.on('load', refreshStat);
 }
 // v127 (pkt 401): działki i budynki dopiero od przybliżenia 14 – przy oddaleniu podpowiedź (raz na 3 min)
-let ovZoomHintT = 0;
+var ovZoomHintT = 0; // var – handler zoomend może ruszyć już w trakcie startu
 function ovZoomHint() {
   const on = ['dz', 'bud'].filter(k => OVS[k] && OVS[k].on);
   if (!on.length || map.getZoom() >= 14 || Date.now() - ovZoomHintT < 180000) return;
