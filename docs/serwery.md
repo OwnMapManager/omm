@@ -1,4 +1,4 @@
-# Serwery, z którymi łączy się OMM (stan v121)
+# Serwery, z którymi łączy się OMM (stan v127)
 
 Lista CSP `connect-src` (scripts/prepare-www.mjs) obejmuje tylko zapytania z WebView (`fetch`). Część zapytań w aplikacji na Androida
 idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest tutaj.
@@ -16,6 +16,7 @@ idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest 
 | basemap.nationalmap.gov | USGS (USA) | numery kafli |
 | tile.waymarkedtrails.org | szlaki piesze i rowerowe | numery kafli |
 | mapserver.bdl.lasy.gov.pl | Bank Danych o Lasach (siedliska, drzewostany) | prostokąt mapy, punkt dotknięcia |
+| sdi.gdos.gov.pl (WMS) | v127: nakładki Ochrona przyrody (parki, rezerwaty, Natura 2000, pomniki przyrody…), opis po dotknięciu (GetFeatureInfo) | prostokąt mapy, punkt dotknięcia |
 
 ## Dane (`connect-src` i zapytania natywne)
 
@@ -29,6 +30,9 @@ idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest 
 | nominatim.openstreetmap.org | wyszukiwanie miejsc, nazwy miejsc śladów i pogody | tekst wyszukiwania / punkt | fetch |
 | api.met.no | pogoda | punkt (zaokrąglony) | natywnie albo fetch |
 | raw.githubusercontent.com | informacja o nowej wersji | — | fetch |
+| sdi.gdos.gov.pl (WFS) | v127: Szukaj po rodzaju – formy ochrony przyrody w widocznym obszarze | prostokąt oglądanej mapy | fetch, w razie błędu natywnie |
+
+Kafle działek i budynków EGiB (integracja.gugik.gov.pl) i nakładek GDOŚ od v127 przychodzą po 512 px i są pamiętane w telefonie 30 dni (IndexedDB, klucz `ov:…`, tylko gdy przyszły drogą natywną; po ~4000 kaflach pamięć czyszczona).
 
 ## Inne
 - github.com – link do pobrania nowej wersji (otwiera przeglądarkę).
