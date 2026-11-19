@@ -9137,6 +9137,13 @@ html.sk-krawedzie #sheet #list { background: none !important; padding-right: 10p
 html.sk-krawedzie #sheet .l { background: none !important; border-left: 0 !important; box-shadow: none !important; border-bottom: 1px solid var(--line) !important; border-radius: 0 !important; font-weight: 300; }
 html.sk-krawedzie #sheet .l.act { background: none !important; font-weight: 500; }
 html.sk-krawedzie #sheet button { box-shadow: none !important; }
+/* v131 (pkt 430): okienko obiektu mapy – dymek z ogonkiem przy obiekcie (ślady i współrzędne zostają na dole) */
+html.sk-krawedzie .leaflet-popup.skdym .leaflet-popup-content-wrapper { background: var(--bg) !important; color: var(--txt) !important; border-radius: 16px !important; box-shadow: 0 6px 24px rgba(0, 0, 0, .28) !important; max-height: 52vh; overflow: auto; }
+html.sk-krawedzie .leaflet-popup.skdym .leaflet-popup-content { margin: 12px 14px 10px !important; font-family: var(--ff), sans-serif; font-size: 15px; }
+html.sk-krawedzie .leaflet-popup.skdym .leaflet-popup-tip { background: var(--bg) !important; box-shadow: none !important; }
+html.sk-krawedzie .leaflet-popup.skdym .leaflet-popup-close-button { width: 36px; height: 36px; font: 300 24px var(--ff), sans-serif !important; color: var(--sub) !important; display: grid; place-items: center; top: 2px !important; right: 2px !important; }
+html.sk-krawedzie .leaflet-popup.skdym .tph { padding-right: 30px; }
+html.sk-krawedzie .leaflet-popup.skdym .ps, html.sk-krawedzie .leaflet-popup.skdym .cco { font-size: 12.5px; color: var(--sub); }
 /* okienka (punkt, ślad, współrzędne) – na dole ekranu, tekst na mgiełce */
 html.sk-krawedzie .leaflet-popup.skpop { position: fixed !important; left: 0 !important; right: 0 !important; bottom: 0 !important; top: auto !important; transform: none !important; margin: 0 !important; z-index: 1004;
   padding: 120px 16px calc(14px + var(--sa)); background: linear-gradient(0deg, rgba(var(--kfog), 0.98) 0, rgba(var(--kfog), 0.95) 60%, rgba(var(--kfog), 0) 100%); }
@@ -9828,6 +9835,28 @@ html.dark .pgd .pgbig.dn { color: #ef9a9a; }
 .pgd .pgsp .pgo { fill: var(--sub); opacity: 0.45; }
 .pgd .pgsp .pgtr { stroke: var(--acc); stroke-width: 1.5; stroke-dasharray: 4 3; opacity: 0.8; }
 .pgd .pgmap { align-self: flex-start; margin-top: 4px; }
+/* v131 (pkt 416): nazwa miejsca w panelu Pogoda = przycisk „Zmień miejsce” */
+button.wxwhere.wxpick { border: 0; background: none; padding: 2px 0; font: inherit; color: inherit; text-align: left; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; text-decoration: underline dotted; text-underline-offset: 3px; }
+/* v131 (pkt 420): wybór mapy / grupy śladów / trybu – prosta lista rozwijana pod przyciskiem, nie panel z dołu */
+html.sk-krawedzie #xmenu.xdrop { left: var(--xl, 8px) !important; top: var(--xt, 80px) !important; right: auto !important; bottom: auto !important; width: min(330px, calc(100vw - 16px)) !important; max-height: 62vh !important;
+  background: var(--bg) !important; color: var(--txt) !important; border-radius: 14px !important; box-shadow: 0 8px 28px rgba(0, 0, 0, 0.28) !important;
+  padding: 6px 4px !important; -webkit-mask-image: none !important; mask-image: none !important; animation: none !important; }
+html.sk-krawedzie #xmenu.xdrop[style*="block"] { display: block !important; }
+html.sk-krawedzie #xmenu.xdrop button { width: 100%; text-align: left; padding: 10px 12px !important; min-height: 44px; color: var(--txt) !important; }
+html.sk-krawedzie #xmenu.xdrop button.on { color: var(--acc) !important; }
+html.sk-krawedzie #xmenu.xdrop .sec { padding: 6px 12px 2px !important; }
+/* v131 (pkt 427): kolor i grubość tylko przy narzędziach rysowania (pomiary bez palety); pomiary jednym dotknięciem – sam ✕ */
+#tools:not(.drawing) #tpal { display: none !important; }
+#fin.quick #undo, #fin.quick #done, html.sk-krawedzie #fin.quick #undo, html.sk-krawedzie #fin.quick #done { display: none !important; }
+/* v131 (pkt 423): kafelki wyboru rodzaju – siatka równych kolumn, mniejsze, bez przewijania w bok */
+.tfilt.tfbal { display: grid !important; gap: 5px !important; }
+.tfilt.tfbal > button { min-width: 0 !important; width: 100% !important; padding: 5px 4px !important; font-size: 13px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex !important; align-items: center; justify-content: center; gap: 3px; min-height: 34px !important; }
+.tfilt.tfbal > button .ic, .tfilt.tfbal > button svg { width: 16px !important; height: 16px !important; flex: none; }
+/* v131 (pkt 417): wiersz obiektu – ⋮ zaraz przy oku, jednakowe małe odstępy między przyciskami */
+#list .l > .obj { gap: 2px !important; }
+#list .l > .obj > .ic { margin-right: 8px; }
+#list .l > .obj > .nm { flex: 1 1 auto; min-width: 0; margin-right: 4px; }
+#list .l > .obj > .eye, #list .l > .obj > button.more, #list .l > .obj > .ibt { margin: 0 !important; }
 /* v130 (pkt 415, wariant B4): kolor warstwy jako cienki, przygaszony pasek odsunięty od krawędzi */
 #list .l::before { content: ''; position: absolute; left: 5px; top: 10px; bottom: 10px; width: 2px; border-radius: 2px; background: var(--lc, var(--sub)); opacity: 0.55; pointer-events: none; z-index: 1; }
 #list .l + .l { border-top: 0 !important; }
@@ -9970,7 +9999,7 @@ body.boxed #fin, body.boxed #tools, body.boxed #tpal, body.boxed #sklchips, body
   <div id="sa"><button id="impb"></button><button id="fotb"></button><button id="selb"></button><button id="fltb"></button><button id="addl"></button><button id="addg" style="display:none">＋ Grupa</button><button id="projb" style="display:none"></button></div>
   <div id="tsa"><button id="trecb"></button><button id="timp"></button><button id="tsumb"></button><button id="tselb"></button><button id="tadd"></button></div>
   <div id="list"></div>
-  <div id="selbar"><span id="selc"></span><button id="selmv"></button><button id="selic"></button><button id="selnm"></button><button id="sellk"></button><button id="seldel"></button><button id="selx"></button></div>
+  <div id="selbar"><span id="selc"></span><button id="selsh"></button><button id="selmv"></button><button id="selic"></button><button id="selnm"></button><button id="sellk"></button><button id="seldel"></button><button id="selx"></button></div>
   <div id="tselbar"><span id="tselc"></span><button id="tsmv"></button><button id="tsvis"></button><button id="tshid"></button><button id="tsact"></button><button id="tsnm"></button><button id="tsmrg"></button><button id="tsgpx"></button><button id="tsdel"></button><button id="tsx"></button></div>
 </div>
 <input type="file" id="file" multiple hidden>
@@ -10129,6 +10158,49 @@ const EN = {
   "tylko licznik, bez śladu": "counter only, no track",
   "z zapisem śladu": "with track recording",
   "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  "Pogoda dla innego miejsca…": "Weather for another place…",
+  "\n\nNic nie zostało usunięte.": "\n\nNothing was deleted.",
+  ", tryb ": ", mode ",
+  "Dodaj punkt pośredni (też na azymut)": "Add a waypoint (also on a bearing)",
+  "Dotknij mapy w miejscu, dla którego chcesz prognozę": "Tap the map at the place you want the forecast for",
+  "Kopia ZIP z mapami, śladami, zdjęciami i ustawieniami – z niej przywrócisz wszystko.": "A ZIP backup with maps, tracks, photos and settings – you can restore everything from it.",
+  "Kopia zawiera też ustawienia: wygląd, układ poleceń, podkład, nakładki, język i opcje. Wczytać je zamiast obecnych?": "The backup also contains settings: look, command layout, base map, overlays, language and options. Load them instead of the current ones?",
+  "Mapy offline usunięte – zwolniono miejsce po kaflach: ": "Offline maps removed – space freed from tiles: ",
+  "Najpierw zakończ nagrywanie śladu.": "Stop recording the track first.",
+  "Najpierw zrobić kopię zapasową?": "Make a backup first?",
+  "Nie udało się zrobić kopii: ": "The backup failed: ",
+  "Pogoda dla miejsca": "Weather for a place",
+  "Pokaż zaznaczone na mapie": "Show selected on the map",
+  "Przywracam ustawienia fabryczne…": "Restoring factory settings…",
+  "Przywrócić ustawienia fabryczne?\n\nWygląd, układ poleceń, podkład, nakładki i wszystkie opcje wrócą do stanu jak po instalacji. Mapy, ślady, zdjęcia i treningi zostają.": "Restore factory settings?\n\nThe look, command layout, base map, overlays and all options go back to how they were after installation. Maps, tracks, photos and workouts stay.",
+  "Przywróć ustawienia fabryczne": "Restore factory settings",
+  "Punkt pośredni. Teraz azymut do celu: ": "Waypoint reached. Now the bearing to the target: ",
+  "Reset aplikacji": "Reset app",
+  "Ustawienia aplikacji z kopii": "App settings from the backup",
+  "Ustawienia fabryczne, usunięcie wszystkich danych": "Factory settings, deleting all data",
+  "Usunąć wszystko?": "Delete everything?",
+  "Usuwam wszystkie dane…": "Deleting all data…",
+  "Usuń wszystko": "Delete everything",
+  "Usuń wszystko i zacznij od nowa": "Delete everything and start over",
+  "Wczytaj z kopii": "Load from backup",
+  "Wybór mapy (OSM, zdjęcia lotnicze, satelita) i nakładki (działki, szlaki, lasy, ochrona przyrody). Grupy nakładek zwijasz dotknięciem nagłówka.": "Choose the map (OSM, aerial photos, satellite) and overlays (parcels, trails, forests, nature protection). Collapse overlay groups by tapping the header.",
+  "Wyszukaj cel": "Search for the target",
+  "Wyszukaj miejsce": "Search for a place",
+  "Zmień miejsce": "Change place",
+  "Znikną wszystkie mapy, ślady, zdjęcia dodane w OMM, treningi, kosz i ustawienia. Tego nie da się cofnąć – chyba że masz kopię zapasową. Zdjęcia w galerii telefonu i pliki kopii w folderze zostają.": "All maps, tracks, photos added in OMM, workouts, the trash and settings will be gone. This cannot be undone – unless you have a backup. Photos in the phone gallery and backup files in the folder stay.",
+  "Zostaw obecne": "Keep current",
+  "azymut i odległość wpisane od Twojej pozycji": "bearing and distance entered from your position",
+  "fabryczny": "factory",
+  "pokaż zaznaczone: ": "show selected: ",
+  "przywrócono ustawienia fabryczne": "factory settings restored",
+  "układ: ": "layout: ",
+  "układ: kropla bez polecenia – przerysowano": "layout: drop without a command – redrawn",
+  "ustawienia obecne zostawione": "current settings kept",
+  "ustawienia wczytane z kopii": "settings loaded from the backup",
+  "wskazane miejsce": "picked place",
+  "wstawiono punkt": "point placed",
+  "zapisany": "saved",
+  "„Przywróć ustawienia fabryczne” zostawia mapy, ślady, zdjęcia i treningi – wraca tylko wygląd, układ poleceń i opcje. „Usuń wszystko” czyści całą aplikację; zdjęcia w galerii telefonu i kopie w folderze zostają.": "“Restore factory settings” keeps maps, tracks, photos and workouts – only the look, command layout and options go back. “Delete everything” clears the whole app; photos in the phone gallery and backups in the folder stay.",
   "\n\nWybór „nie pytaj” zmienisz w Ustawieniach → Ślady GPS → „Postoje po zapisie”.": "\n\nYou can change the “don’t ask” choice in Settings → GPS tracks → “Stops after saving”.",
   " (szare, poza trendem)": " (grey, left out of the trend)",
   " dni, wiatr się znosi): ": " days, wind cancels out): ",
@@ -14344,7 +14416,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v130';
+const APP_VER = 'v131';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeApply() {
   // v66: 'slonce' – ciemny od zachodu do wschodu słońca w miejscu, gdzie jesteś (bez internetu, z ostatniej pozycji)
@@ -18031,6 +18103,26 @@ map.on('moveend', () => {
 L.control.attribution({position: 'bottomleft', prefix: false}).addTo(map);
 map.createPane('tmpP').style.zIndex = 900;
 map.createPane('navMeP').style.zIndex = 960; // v92: strzałka prowadzenia nad trasą i nad znacznikiem nagrywania
+// v131 (pkt 420): #xmenu jako lista rozwijana w miejscu dotknięcia (wybór mapy, grupy śladów, trybu) albo jako panel z dołu
+function xmenuVars(m) {
+  // w wyglądzie krawędzi pozycję trzyma CSS (!important) – dla listy rozwijanej przez zmienne
+  let l = m.style.left,
+    t = m.style.top;
+  // v131: w krawędziach lista map rozwija się spod nazwy mapy u góry (przycisk mapb jest tam ukryty)
+  const hd = typeof skOn === 'function' && skOn() && m.classList.contains('xdrop') && $('sktl');
+  if (hd && hd.offsetParent !== null && !(parseFloat(t) > 40)) {
+    const r = hd.getBoundingClientRect();
+    l = Math.max(8, r.left - 6) + 'px';
+    t = Math.round(r.bottom + 4) + 'px';
+  }
+  m.style.setProperty('--xl', l);
+  m.style.setProperty('--xt', t);
+}
+function xmenuAs(drop) {
+  const m = $('xmenu');
+  m.classList.toggle('xdrop', !!drop);
+  return m;
+}
 const closePops = except =>
   ['bmenu', 'xmenu', 'dmenu'].forEach(i => {
     if (i !== except) $(i).style.display = 'none';
@@ -18099,6 +18191,16 @@ const B64TXT = s => {
     return String(s || '').slice(0, 400);
   }
 };
+async function ovpProbe() {
+  const t0 = Date.now();
+  try {
+    const j = await ovpJson('[out:json][timeout:10];node(52.2297,21.0122,52.2298,21.0123);out 1;', 15000);
+    return {ok: true, how: 'POST', status: j && j.elements ? 200 : 0, type: 'application/json', ms: Date.now() - t0, txt: ''};
+  } catch (e) {
+    const m = /HTTP (\d+)/.exec(String((e && e.message) || e));
+    return {ok: false, how: 'POST', status: m ? +m[1] : 0, type: '', ms: Date.now() - t0, txt: String((e && e.message) || e)};
+  }
+}
 async function diagProbe(url, ms = 20000) {
   // co dokładnie odpowiada serwer na ten adres: {ok, how, status, type, ms, txt}
   const t0 = Date.now(),
@@ -18238,7 +18340,6 @@ async function diagTest(out) {
     lo = c.lng,
     d = 0.004,
     bb13 = [la - d, lo - d, la + d, lo + d].map(x => x.toFixed(5)).join(','),
-    yr = typeof ortoYear === 'function' ? ortoYear() : 2015,
     z = 15,
     tx = Math.floor(((lo + 180) / 360) * 2 ** z),
     ty = Math.floor(((1 - Math.log(Math.tan((la * Math.PI) / 180) + 1 / Math.cos((la * Math.PI) / 180)) / Math.PI) / 2) * 2 ** z);
@@ -18251,7 +18352,7 @@ async function diagTest(out) {
       return nmtUrl(9, Math.floor((NMT_N0 - N) / tm), Math.floor((E - NMT_E0) / tm));
     })()],
     ['NMT – cieniowanie (WMS, zapas)', GEO + '/wss/service/PZGIK/NMT/GRID1/WMS/ShadedRelief?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=512&HEIGHT=512'],
-    ['Ortofoto archiwalne ' + yr + ' (WMS)', GEO + '/wss/service/PZGIK/ORTO/WMS/StandardResolutionTime?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:4326&BBOX=' + bb13 + '&WIDTH=256&HEIGHT=256&TIME=' + (yr >= 2025 ? '2025-11-01' : yr + '-12-01') + 'T00:00:00.000Z']
+    // v131: ortofoto archiwalne usunięte
   ];
   // v126 (pkt 388/393): także WSZYSTKIE nakładki (działki EGiB, budynki, sieci, Lasy Państwowe, szlaki)
   try {
@@ -18278,7 +18379,7 @@ async function diagTest(out) {
   // wiaty i schrony (Overpass)
   out(++i + ' / ' + N + ': ' + _t('Wiaty i schrony (Overpass)') + ' …');
   {
-    const pr = await diagProbe('https://overpass-api.de/api/status', 15000),
+    const pr = await ovpProbe(), // v131 (pkt 425): prawdziwe małe zapytanie tak jak w aplikacji
       line = (pr.status === 200 ? '✓ ' : '✗ ') + _t('Wiaty i schrony (Overpass): ') + pr.how + ' HTTP ' + pr.status + ' · ' + pr.ms + ' ms' + (pr.txt ? ' · ' + pr.txt.slice(0, 120) : '');
     diag('test', line);
     out(line);
@@ -18711,7 +18812,6 @@ function offWrap(layer, id) {
 const BASE_LBL = {
   OpenStreetMap: 'Mapa (OpenStreetMap)',
   'Ortofoto – Geoportal': 'Zdjęcia lotnicze (Geoportal, ortofoto)',
-  'Ortofoto archiwalne – Geoportal': 'Stare zdjęcia lotnicze – wybierz rok (Geoportal)',
   'Satelita – Google (nieoficjalnie)': 'Zdjęcia satelitarne – Google (nieoficjalnie)',
   'Hybryda – Google (nieoficjalnie)': 'Zdjęcia satelitarne z nazwami – Google (nieoficjalnie)',
   'Sentinel-2 – satelita bez chmur': 'Zdjęcia satelitarne bez chmur (Sentinel-2)',
@@ -18772,18 +18872,7 @@ const BASES = {
     maxZoom: 21,
     attribution: s2Attr(s2Year())
   }),
-  // archiwalne zdjęcia lotnicze (v58): stan na wybrany rok – usługa z wymiarem czasu, tylko w układach 2180 / 4326
-  'Ortofoto archiwalne – Geoportal': new OrtoArch(GEO + '/wss/service/PZGIK/ORTO/WMS/StandardResolutionTime', {
-    layers: 'Raster',
-    styles: '',
-    format: 'image/jpeg',
-    version: '1.3.0',
-    crs: L.CRS.EPSG4326,
-    time: ortoTime(ortoYear()),
-    maxZoom: 21,
-    attribution: '© GUGiK – ortofotomapa archiwalna',
-    ...NOREF
-  }),
+  // v131 (pkt 424): „Ortofoto archiwalne” usunięte (same problemy z serwerem)
   'USGS Topo (USA)': L.tileLayer('https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 21,
     maxNativeZoom: 16,
@@ -18804,7 +18893,6 @@ const MAP_REG = {
   OpenTopoMap: 'w',
   CyclOSM: 'w',
   'Sentinel-2 – satelita bez chmur': 'w',
-  'Ortofoto archiwalne – Geoportal': 'pl',
   'USGS Topo (USA)': 'us',
   'USGS – zdjęcia lotnicze (USA)': 'us',
   'Bez podkładu (siatka)': 'w',
@@ -18853,12 +18941,13 @@ const baseDef = () => {
 };
 let curBase = null,
   curKey = localStorage.getItem('omm-base-def') || localStorage.getItem('mapa-base');
+if (curKey === 'Ortofoto archiwalne – Geoportal') curKey = 'Ortofoto – Geoportal'; // v131 (pkt 424): podkład usunięty
 if (!BASES[curKey]) curKey = baseDef();
 
 // nakładki: zwykłe WMS dodawane nad podkładem, dokładnie jak w działającym pliku
 const KIEG = 'https://integracja.gugik.gov.pl/cgi-bin/KrajowaIntegracjaEwidencjiGruntow';
 let OVS = JSON.parse(localStorage.getItem('mapa-ov3') || '{}');
-const OVDEF = {nmt: 0.55, dz: 1, bud: 1, kiut: 1, zwl: 0.55, bdlt: 1, bdls: 0.6, bdld: 0.6, shel: 1, wmt: 0.9, wmc: 0.9, g_pn: 0.6, g_pk: 0.6, g_rez: 0.6, g_ochk: 0.5, g_oso: 0.5, g_soo: 0.5, g_zpk: 0.6, g_ue: 0.7, g_sd: 0.8, g_pp: 1};
+const OVDEF = {nmt: 0.55, dz: 1, bud: 1, kiut: 1, zwl: 0.55, bdlt: 1, bdls: 0.6, bdld: 0.6, shel: 1, wmt: 0.9, wmc: 0.9, g_pn: 0.6, g_pk: 0.6, g_rez: 0.6, g_ochk: 0.5, g_oso: 0.5, g_soo: 0.5, g_zpk: 0.6, g_ue: 0.7, g_pp: 1};
 Object.keys(OVDEF).forEach(k => {
   const o = (OVS[k] = OVS[k] || {on: false, op: OVDEF[k]});
   if (!(o.op >= 0.1)) o.op = OVDEF[k];
@@ -18976,12 +19065,11 @@ const GDOS_WMS = 'https://sdi.gdos.gov.pl/wms',
     g_soo: ['SpecjalneObszaryOchrony', 'Natura 2000 – obszary siedliskowe'],
     g_zpk: ['ZespolyPrzyrodniczoKrajobrazowe', 'Zespoły przyrodniczo-krajobrazowe'],
     g_ue: ['UzytkiEkologiczne', 'Użytki ekologiczne'],
-    g_sd: ['StanowiskaDokumentacyjne', 'Stanowiska dokumentacyjne'],
     g_pp: ['PomnikiPrzyrody', 'Pomniki przyrody']
   };
 // v129 (pkt 407): kolor obszarów GDOŚ wybierany w OMM – własny styl (SLD_BODY: wypełnienie i obrys w wybranym
 // kolorze, bez podpisów serwera); gdy serwer stylu nie przyjmie (same błędy kafli), wraca styl serwera
-const GDOS_COL = {g_pn: '#e53935', g_pk: '#fdd835', g_rez: '#8e24aa', g_ochk: '#00897b', g_oso: '#fb8c00', g_soo: '#1e88e5', g_zpk: '#795548', g_ue: '#ec407a', g_sd: '#9e9e9e'};
+const GDOS_COL = {g_pn: '#e53935', g_pk: '#fdd835', g_rez: '#8e24aa', g_ochk: '#00897b', g_oso: '#fb8c00', g_soo: '#1e88e5', g_zpk: '#795548', g_ue: '#ec407a'};
 const gdosCol = k => (OVS[k] && /^#[0-9a-f]{6}$/i.test(OVS[k].c || '') ? OVS[k].c.toLowerCase() : GDOS_COL[k]); // bez safeColor – RX_COL jest niżej w kodzie (start!)
 const gdosSld = (lay, c) =>
   '<StyledLayerDescriptor version="1.0.0" xmlns="http://www.opengis.net/sld" xmlns:ogc="http://www.opengis.net/ogc"><NamedLayer><Name>GDOS:' + lay +
@@ -19182,14 +19270,7 @@ async function shelFetch() {
   st.msg = _t('… pobieram wiaty z OpenStreetMap');
   refreshStat();
   try {
-    const ac = new AbortController(),
-      tm = setTimeout(() => ac.abort(), 30000);
-    const r = await fetch('https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(q), {
-      signal: ac.signal
-    });
-    clearTimeout(tm);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    const j = await r.json();
+    const j = await ovpJson(q, 30000); // v131 (pkt 425)
     if (my !== shelReq) return;
     SHEL.clearLayers();
     shelBB = p;
@@ -19722,19 +19803,7 @@ function buildBMenu() {
   const m = $('bmenu');
   m.innerHTML = '';
   STAT = [];
-  // na samej górze: mapy offline i odświeżenie (gdy jakiś kafel się nie wczytał)
-  const top = h('div', 'btop');
-  top.append(
-    BI('offline', _t('Mapy offline'), () => {
-      m.style.display = 'none';
-      offDlg();
-    }),
-    BI('refresh', _t('Odśwież mapę'), () => {
-      m.style.display = 'none';
-      refreshMap();
-    })
-  );
-  m.append(top);
+  // v131 (pkt 419): bez górnego wiersza „Mapy offline” / „Odśwież mapę” – lista podkładów od razu na górze
   // v129 (pkt 409): grupy (Podkład, Teren, Ewidencja…) zwijane – nagłówek z ▾/▸, stan zapamiętany
   let ZW = {};
   try {
@@ -19775,7 +19844,7 @@ function buildBMenu() {
       n === curKey ? 'on' : ''
     );
     bBox.append(n === curKey ? withStat(b, BASES[n]) : b);
-    if (n === curKey && (n === 'Sentinel-2 – satelita bez chmur' || n === 'Ortofoto archiwalne – Geoportal')) bBox.append(yearRow(n));
+    if (n === curKey && n === 'Sentinel-2 – satelita bez chmur') bBox.append(yearRow(n));
   });
   m.append(h('div', 'sec', _t('NAKŁADKI')));
   m.lastChild.style.cssText = 'font-weight:700;color:var(--txt)';
@@ -20774,7 +20843,7 @@ function openItemPopup(it, latlng) {
     body.append(st);
   }
   const sec = h('div'),
-    pop = L.popup({minWidth: 250, maxWidth: 300}),
+    pop = L.popup({minWidth: 250, maxWidth: 300, className: 'opop', autoPanPaddingTopLeft: [12, 70], autoPanPaddingBottomRight: [12, 90]}), // v131 (pkt 430): obiekt mapy – dymek przy obiekcie
     row = h('div', 'pb');
   const show = fn => {
     sec.innerHTML = '';
@@ -21637,7 +21706,7 @@ async function itemDelete(it) {
   return true;
 }
 function xmenu(btn, l) {
-  const m = $('xmenu');
+  const m = xmenuAs(false);
   m.innerHTML = '';
   ['GPX', 'KML', 'GeoJSON', 'CSV'].forEach(f =>
     m.append(
@@ -22783,6 +22852,24 @@ function restoredMsg(withSet) {
   if (!withSet || !withSet.prefs) return toastMsg(_t('✅ Kopia przywrócona'));
   toastAct(_t('✅ Kopia przywrócona. Część ustawień zadziała po ponownym uruchomieniu.'), _t('Uruchom ponownie'), () => location.reload(), 12000);
 }
+// v131 (pkt 422): przy przywracaniu – pytanie, czy wczytać ustawienia aplikacji z kopii; „Zostaw obecne” bierze z niej
+// tylko dziennik treningów (to dane, nie ustawienie). Podpowiedź: świeża instalacja albo po resecie – wczytaj
+async function setFromBackupAsk(st) {
+  if (!st || !st.prefs || !Object.keys(st.prefs).length) return st;
+  const fresh = !localStorage.getItem('omm-uklad') && !localStorage.getItem('omm-wyglad') && Date.now() - +(localStorage.getItem('omm-pierwszy') || 0) < 3 * 864e5,
+    v = await dlg({
+      title: _t('Ustawienia aplikacji z kopii'),
+      msg: _t('Kopia zawiera też ustawienia: wygląd, układ poleceń, podkład, nakładki, język i opcje. Wczytać je zamiast obecnych?'),
+      btns: [
+        {t: _t('Wczytaj z kopii'), v: 'wcz', c: fresh ? 'okb' : ''},
+        {t: _t('Zostaw obecne'), v: 'zost', c: fresh ? '' : 'okb'}
+      ]
+    });
+  diag('kopia', v === 'wcz' ? _t('ustawienia wczytane z kopii') : _t('ustawienia obecne zostawione'));
+  if (v === 'wcz') return st;
+  if (st.sport) sportImport(st.sport);
+  return null;
+}
 function applySettings(st) {
   if (!st) return;
   try {
@@ -22825,7 +22912,7 @@ function applySettings(st) {
   }
 }
 $('projb').onclick = () => {
-  const m = $('xmenu');
+  const m = xmenuAs(false);
   m.innerHTML = '';
   // v99 (Q9): w nazwie pliku czas lokalny (wcześniej UTC – godzina „przesunięta”)
   const stamp = () => {
@@ -22994,10 +23081,11 @@ async function restoreBuf(buf) {
         snapshot('przed-przywroceniem');
         await trkReplace(tr);
       }
-      if (settings) applySettings(settings);
+      const st1 = settings && (await setFromBackupAsk(settings));
+      if (st1) applySettings(st1);
       render();
       sheet();
-      return void restoredMsg(settings);
+      return void restoredMsg(st1);
     }
     // każda wersja kopii przechodzi przez tę samą walidację (identyfikatory, kolory, teksty, zdjęcia)
     r = Object.assign(r, cleanDB({maps: r.maps, cur: r.cur, curW: r.curW}));
@@ -23105,9 +23193,10 @@ async function restoreBuf(buf) {
     const ok = save();
     render();
     sheet();
-    if ((r.multi || part) && settings) applySettings(settings);
+    const st1 = (r.multi || part) && settings && (await setFromBackupAsk(settings));
+    if (st1) applySettings(st1);
     if (part || !r.multi) fitSmart(P.items);
-    if (ok) restoredMsg((r.multi || part) && settings);
+    if (ok) restoredMsg(st1);
   } catch (err) {
     tell(err.message);
   }
@@ -23898,6 +23987,7 @@ function sklChips() {
   if (box) box.remove();
   if (!skOn() || !$('skhud')) return;
   const L = sklGet();
+  sklMode = sklKey();
   box = h('div');
   box.id = 'sklchips';
   const C = sklCmds(),
@@ -23930,7 +24020,7 @@ function sklChips() {
       c = fo ? C[fo.ids[0]] : C[i.id];
     if (!c) return;
     b.dataset.id = i.id;
-    b.title = fo ? fo.n + ': ' + fo.ids.map(k => C[k].t).join(', ') : c.t;
+    b.title = fo ? fo.n + ': ' + fo.ids.map(k => (C[k] || {}).t || '').join(', ') : c.t;
     b.setAttribute('aria-label', fo ? fo.n : c.t);
     b.style.left = x + 'px';
     b.style.top = y + 'px';
@@ -23983,7 +24073,7 @@ function sklFolder(fid, btn) {
   if (!F) return;
   sklCard(
     F.n,
-    F.ids.map(id => ({ic: ico(C[id].ic, 20), t: C[id].t, id, fn: () => ((SKL_ANC = btn), C[id].fn())})),
+    F.ids.filter(id => C[id]).map(id => ({ic: ico(C[id].ic, 20), t: C[id].t, id, fn: () => ((SKL_ANC = btn), C[id].fn())})),
     btn,
     fid
   );
@@ -24107,13 +24197,19 @@ function sklPress(el, from, id) {
 }
 function sklStart(el, from, id, st) {
   if (!st || SKD) return;
-  vibe(25);
-  eatNextClick();
   const C = sklCmds(),
     L = sklGet(),
     fo = isFold(id) ? L.f[id] : null,
-    c = fo ? C[fo.ids[0]] : C[id],
-    g = h('div', 'sklghost ic' + (fo ? ' fold' : ''));
+    c = fo ? C[fo.ids[0]] : C[id];
+  // v131 (pkt 418): kropla z innego układu (np. po zmianie trybu) – przerysuj krople zamiast przeciągać nieistniejące
+  if (!c) {
+    diag('uklad', _t('układ: kropla bez polecenia – przerysowano'), String(id));
+    sklMode = sklKey();
+    return void sklApply();
+  }
+  vibe(25);
+  eatNextClick();
+  const g = h('div', 'sklghost ic' + (fo ? ' fold' : ''));
   g.innerHTML = ico(c.ic, 22) + '<span>' + esc(fo ? fo.n : c.t) + '</span>';
   document.body.append(g);
   const grid = h('div');
@@ -24767,6 +24863,7 @@ map.on('popupopen', e => {
     el = pp._container;
   if (!el) return;
   skSide(null);
+  if (el.classList.contains('opop')) return void skDymek(pp, el); // v131 (pkt 430): obiekt mapy – dymek przy obiekcie
   document.body.classList.add('skpopo');
   pp.once('remove', () => document.body.classList.remove('skpopo'));
   el.classList.add('skpop');
@@ -24786,6 +24883,25 @@ map.on('popupopen', e => {
     if (pt.y > top - 20 || pt.y < 60) map.panBy([0, pt.y - Math.min(top * 0.55, innerHeight * 0.33)], {animate: true, duration: 0.25});
   }, 30);
 });
+// v131 (pkt 430): okienko obiektu mapy w „Mapa i krawędzie” – dymek z ogonkiem przy obiekcie; mapa ustawia obiekt
+// w środku poziomo i nisko, żeby dymek zmieścił się nad nim (bez przesuwania mapy o pół ekranu)
+function skDymek(pp, el) {
+  el.classList.add('skdym');
+  const ll = pp.getLatLng && pp.getLatLng(),
+    fit = () => {
+      if (!ll || !map.hasLayer(pp)) return;
+      const w = el.querySelector('.leaflet-popup-content-wrapper'),
+        hh = (w ? w.offsetHeight : 240) + 24,
+        H = innerHeight,
+        pt = map.latLngToContainerPoint(ll),
+        ty = Math.min(H - 110, Math.max(hh + 70, H * 0.55)),
+        dx = pt.x - map.getSize().x / 2,
+        dy = pt.y - ty;
+      if (Math.abs(dx) > 8 || Math.abs(dy) > 8) map.panBy([dx, dy], {animate: true, duration: 0.25});
+    };
+  setTimeout(fit, 40);
+  if (!pp._skdCU) (pp._skdCU = 1), pp.on('contentupdate', () => el.classList.contains('skdym') && setTimeout(fit, 60));
+}
 window.skinHook = v => {
   lmenuBuild();
   skBuild();
@@ -25072,20 +25188,68 @@ const wxTemp = t => {
 const fmm = x => String(Math.round(x * 10) / 10).replace('.', ',') + ' mm';
 // dokładność GPS: dobra / średnia / słaba
 const gpsAccCls = a => (a == null || !isFinite(a) ? '' : a <= 8 ? 'gok' : a <= 25 ? 'gmid' : 'gbad');
-async function wxPanel() {
+// v131 (pkt 416): pogoda dla innego miejsca – dotknięcie nazwy miejsca: Twoja pozycja, ostatnie miejsca, wyszukiwanie,
+// wskazanie na mapie; wybór tylko na ten raz (następne otwarcie – znów bieżąca lokalizacja)
+function wxRecent() {
+  try {
+    return (JSON.parse(localStorage.getItem('omm-wx-ostatnie') || '[]') || []).filter(x => x && Array.isArray(x.p)).slice(0, 5);
+  } catch (e) {
+    return [];
+  }
+}
+async function wxPickPlace(pn) {
+  const R = wxRecent(),
+    v = await dlg({
+      title: _t('Pogoda dla miejsca'),
+      btns: [
+        {t: '📍 ' + _t('Moja pozycja'), v: 'me'},
+        ...R.map((x, i) => ({t: '🕘 ' + x.n, v: 'r' + i})),
+        {t: '🔍 ' + _t('Wyszukaj miejsce'), v: 'srch', c: 'okb'},
+        {t: _t('Wskaż na mapie'), v: 'map'},
+        {t: _t('Anuluj'), v: null}
+      ]
+    });
+  if (!v) return;
+  const go = (p, n) => {
+    if (n) {
+      const L2 = [{p: [+p[0].toFixed(4), +p[1].toFixed(4)], n: String(n).slice(0, 60)}, ...wxRecent().filter(x => x.n !== n)].slice(0, 5);
+      try {
+        localStorage.setItem('omm-wx-ostatnie', JSON.stringify(L2));
+      } catch (e) {}
+    }
+    pn.close();
+    wxPanel(p ? {p, n} : null);
+  };
+  if (v === 'me') return go(null);
+  if (v[0] === 'r') return go(R[+v.slice(1)].p, R[+v.slice(1)].n);
+  if (v === 'srch') return searchDlg((ll, nm) => go(ll.slice(), nm || ll[0].toFixed(3) + ', ' + ll[1].toFixed(3)));
+  pn.close();
+  toastMsg(_t('Dotknij mapy w miejscu, dla którego chcesz prognozę'));
+  map.once('click', async e => {
+    const p = [e.latlng.lat, e.latlng.lng],
+      n = (await wxPlace(p)) || p[0].toFixed(3) + ', ' + p[1].toFixed(3);
+    go(p, n);
+  });
+}
+async function wxPanel(at) {
   // prognoza: dziś godzina po godzinie i kolejne dni po jednym wierszu – panel z krawędzi języczka menu
-  const wh = wxWhere();
+  const wh = at && at.p ? {p: at.p, live: true, other: true} : wxWhere();
   const pn = skPanel(_t('Pogoda'), 'b');
   if (!wh) {
     pn.body.append(h('p', 'muted', _t('Prognoza jest dla miejsca, w którym jesteś – OMM jeszcze nie zna Twojej pozycji.')));
     pn.body.append(B(_t('Włącz GPS, aby zobaczyć pogodę'), () => (pn.close(), gpsStart({stay: true})), 'skact'));
+    pn.body.append(B(_t('Pogoda dla innego miejsca…'), () => wxPickPlace(pn), 'skact')); // v131 (pkt 416)
     return;
   }
   const p = wh.p,
-    where = h('div', 'wxwhere');
-  const setW = n => (where.textContent = (n || p[0].toFixed(3) + ', ' + p[1].toFixed(3)) + (wh.live ? '' : ' · ' + _t('ostatnio znane miejsce')));
-  setW(wxPlaceCached(p));
-  wxPlace(p).then(n => n && setW(n));
+    where = h('button', 'wxwhere wxpick');
+  where.type = 'button';
+  where.title = _t('Zmień miejsce');
+  const setW = n =>
+    (where.innerHTML = esc((wh.other ? '📍 ' : '') + (n || p[0].toFixed(3) + ', ' + p[1].toFixed(3)) + (wh.live ? '' : ' · ' + _t('ostatnio znane miejsce'))) + ' ' + ico('chev', 14));
+  setW(at && at.n ? at.n : wxPlaceCached(p));
+  if (!(at && at.n)) wxPlace(p).then(n => n && setW(n));
+  where.onclick = () => wxPickPlace(pn);
   pn.head.append(where);
   if (!wh.live) pn.head.append(B(_t('Włącz GPS dla pogody lokalnej'), () => (pn.close(), gpsStart({stay: true})), 'skact'));
   pn.body.append(h('p', 'muted', _t('Pobieram prognozę…')));
@@ -25931,9 +26095,8 @@ function sheet() {
               });
             }
             o.append(ic, nm);
-            if (RATED(it) && it.ra) o.append(h('span', 'cm ra', '★' + it.ra));
+            // v131 (pkt 417): bez oceny ★ i dymka 💬 w wierszu (są w okienku obiektu) – nazwa ma więcej miejsca
             if (it.ph && it.ph.length) o.append(h('span', 'cm', '📷'));
-            if (it.n) o.append(h('span', 'cm', '💬'));
             // v85: w ukrytej warstwie (albo grupie) obiekt jest niewidoczny, więc oko też pokazuje „ukryty”
             const effOff = it.off || !l.vis || !g.vis;
             if (effOff) o.classList.add('hid');
@@ -26582,6 +26745,7 @@ function fotoSheet() {
     ['slady', _t('Ślady')],
     ['plan', _t('Zaplanowane trasy')]
   ].forEach(([k, n]) => (k !== 'plan' || cnt(k)) && fr.append(B(n + ' (' + cnt(k) + ')', () => ((FOTOF = k), (FSEL = null), fotoSheet()), FOTOF === k ? 'on' : '')));
+  tfiltBalance(fr);
   const its = all.filter(x => FOTOF === 'all' || x.src === FOTOF),
     keys = new Set(its.map(fotoKey));
   if (FSEL) [...FSEL].forEach(k => !keys.has(k) && FSEL.delete(k));
@@ -26911,7 +27075,7 @@ function openMap(id) {
   fitSmart(P.items);
 }
 $('mapb').onclick = () => {
-  const m = $('xmenu');
+  const m = xmenuAs(true);
   m.innerHTML = '';
   m.append(h('div', 'sec', isW() ? _t('MAPY – TRYB PRACA') : _t('MOJE MAPY – TRYB PRYWATNY')));
   modeMaps().forEach(mm =>
@@ -26974,7 +27138,7 @@ $('mapb').onclick = () => {
   const r = ($('sheet').style.display === 'flex' ? $('mtitle') : $('mapb')).getBoundingClientRect(); // v105: pod „Mapa: … ▾”
   m.style.display = 'block';
   m.style.left = Math.max(4, Math.min(r.left, innerWidth - m.offsetWidth - 4)) + 'px';
-  m.style.top = r.bottom + 4 + 'px';
+  m.style.top = r.bottom + 4 + 'px'; xmenuVars(m);
 };
 $('lbtn').onclick = () => {
   // v102: Menu – rozwijana lista (Mapy, Ślady, Zdjęcia, Więcej); otwarty panel – zamyka go
@@ -27027,6 +27191,35 @@ $('selx').onclick = () => {
   selMode = false;
   SEL.clear();
   sheet();
+};
+// v131 (pkt 431): podświetlenie zaznaczonych na mapie (ok. 4 s) i przybliżenie do nich
+var SEL_FL = null;
+function selFlash(paths) {
+  if (SEL_FL) map.removeLayer(SEL_FL);
+  const g = L.layerGroup(),
+    b = L.latLngBounds([]);
+  paths.forEach(ps => {
+    if (!ps.length) return;
+    ps.forEach(q => b.extend(q));
+    if (ps.length === 1) g.addLayer(L.circleMarker(ps[0], {radius: 18, color: '#ffb300', weight: 4, fill: false, interactive: false}));
+    else g.addLayer(L.polyline(ps, {color: '#ffb300', weight: 9, opacity: 0.55, interactive: false}));
+  });
+  if (!b.isValid()) return;
+  SEL_FL = g.addTo(map);
+  map.fitBounds(b, {padding: [50, 50], maxZoom: 17});
+  diag('zaznaczanie', _t('pokaż zaznaczone: ') + paths.length);
+  setTimeout(() => {
+    if (SEL_FL === g) map.removeLayer(g), (SEL_FL = null);
+  }, 4500);
+}
+$('selsh').onclick = () => {
+  const l = selItems().filter(okItem);
+  if (!l.length) return tell(_t('Najpierw zaznacz obiekty na liście.'));
+  let ch = 0;
+  l.forEach(it => it.off && (delete it.off, (it.up = Date.now()), ch++));
+  if (ch) save(), render();
+  $('sheet').style.display = 'none';
+  selFlash(l.map(it => it.p.map(q => [q[0], q[1]])));
 };
 $('selmv').onclick = () => {
   const l = selItems();
@@ -27081,12 +27274,22 @@ function updMode() {
   try {
     tsBuild(); // v76: skróty zależą od trybu (Praca – inne rysowanie); przy starcie – później, gdy lista gotowa
   } catch (e) {}
+  // v131 (pkt 418): Prywatny i Praca mają osobne układy kropli – po zmianie trybu krople rysowane od nowa
+  // (wcześniej zostawał układ poprzedniego trybu, a przytrzymanie kropli kończyło się błędem)
+  try {
+    if (typeof skOn === 'function' && skOn() && $('skhud') && sklMode !== sklKey()) {
+      sklMode = sklKey();
+      sklApply();
+      diag('uklad', _t('układ: ') + (sklAll()[sklKey()] ? _t('zapisany') : _t('fabryczny')) + _t(', tryb ') + sklKey());
+    }
+  } catch (e) {}
 }
+var sklMode = null; // tryb, dla którego narysowano krople
 $('modeb').onclick = () => modeSwitch($('modeb'));
 // v105 (pkt 262): prosta rozwijana lista (jak „Mapa: … ▾”) – pod przyciskiem, a przy dolnej krawędzi obok niego
 function dropMenu(anchor, title, items) {
   return new Promise(res => {
-    const m = $('xmenu');
+    const m = xmenuAs(true);
     closePops();
     m.innerHTML = '';
     m.style.zIndex = '3100'; // także nad tablicą Sportu
@@ -27106,10 +27309,10 @@ function dropMenu(anchor, title, items) {
       H = m.offsetHeight;
     if (r.bottom + H + 8 > innerHeight) {
       m.style.left = Math.min(innerWidth - W - 4, r.right + 6) + 'px';
-      m.style.top = Math.max(8, r.bottom - H) + 'px';
+      m.style.top = Math.max(8, r.bottom - H) + 'px'; xmenuVars(m);
     } else {
       m.style.left = Math.max(4, Math.min(r.left, innerWidth - W - 4)) + 'px';
-      m.style.top = r.bottom + 4 + 'px';
+      m.style.top = r.bottom + 4 + 'px'; xmenuVars(m);
     }
     dropMenu.res = res;
   });
@@ -27644,7 +27847,7 @@ function styColor(c) {
 function ui() {
   // v67: ✓ ✕ ↶ wysuwają się w lewo z paska narzędzi (pasek „fin”), w narzędziach jednym dotknięciem – tylko ✕
   const fin = $('fin'),
-    q = QUICK.includes(mode);
+    q = QUICK.includes(mode) || mode === 'pin'; // v131 (pkt 426): punkt – jedno dotknięcie, bez ✓ i ↶
   fin.classList.toggle('show', !!mode);
   fin.classList.toggle('quick', q);
   document.body.classList.toggle('skmode', !!mode); // v112: wygląd „Mapa i krawędzie” – narzędzia widoczne tylko w trakcie pracy
@@ -27655,7 +27858,7 @@ function ui() {
       (sm === 'pin' && (mode === 'edit' ? !!ICONS[edit.it.i] && !!ICONS[edit.it.i].col : !!ICONS[pinIcon] && !!ICONS[pinIcon].col));
   $('sty').style.display = 'none';
   styClose();
-  $('tools').classList.toggle('drawing', ds);
+  $('tools').classList.toggle('drawing', ds && mode !== 'pin'); // v131: kolor i rozmiar punktu – w dymku po wstawieniu
   document.body.classList.toggle('boxed', !!(edit && edit.box)); // v127: panel dymka / legendy zamiast paska
   if (ds)
     buildSty(
@@ -28167,6 +28370,15 @@ async function placePoint(p) {
   sess.push(it.id);
   save();
   render();
+  if (mode === 'pin') {
+    // v131 (pkt 426): „Punkt” stawia jeden punkt i od razu kończy – parametry w dymku przy punkcie
+    mode = null;
+    clearAll();
+    ui();
+    info.style.display = 'none';
+    diag('punkt', _t('wstawiono punkt'), it.i || '');
+    return void setTimeout(() => openItemPopup(it, L.latLng(p)), 80);
+  }
   info.textContent = sessInfo() + (mode === 'num' ? _t(' · następny nr ') + nextNo() : '');
 }
 // ================= v125 (pkt 383–384): DYMEK i LEGENDA =================
@@ -30198,7 +30410,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <ol>
 <li><b>Mapa</b> – przesuwasz palcem, przybliżasz dwoma palcami. GPS włącza się sam przy każdym uruchomieniu (mapa nie skacze do Ciebie, chyba że tak ustawisz w „Widok po uruchomieniu”), więc pogoda i Panel Dziś od razu mają dane. Ikona ◎ mówi, co się dzieje: szara przekreślona – GPS wyłączony, niebieski pierścień z mrugającą kropką – szuka pozycji, niebieski pierścień z kropką – działa, jasnoniebieskie tło – mapa jest na Tobie. Dotknięcie: gdy mapa nie jest na Tobie – leci do Ciebie, gdy jest – wyłącza GPS. <b>Informacje GPS</b> (Ustawienia → Pomoc i informacje, Ustawienia → Ślady GPS, przytrzymanie ◎, wiersz GPS w Panelu Dziś) – dokładność, wiek pomiaru, prędkość, kurs i wykres dokładności z ostatnich minut. W Informacjach GPS (Android) jest też <b>mapa nieba</b>: satelity GPS, GLONASS, Galileo, BeiDou – kolor to system, pełna kropka – użyty do pozycji, wielkość – siła sygnału.</li>
 <li><b>Układ przycisków</b> – domyślnie w prawym górnym rogu jest tylko <b>● REC</b>, po prawej na dole: <b>podkład</b>, <b>szukaj</b> 🔍 i <b>moja pozycja</b> ◎ (z dokładnością GPS – kolor mówi, czy jest dobra), pod nimi pasek narzędzi, a w lewym dolnym rogu – panel warstw (nad nim kompas, gdy mapa jest obrócona). Ustawienia → Wygląd → <b>Ustaw przyciski na ekranie</b>: na mapie pojawia się siatka pól, a podkład, szukaj, pozycję, warstwy i kompas przeciągasz palcem w dowolne wolne pole (przycisk wskakuje w najbliższe) i zatwierdzasz; „Przywróć domyślny” wraca do zwykłego układu. Przyciski ustępują miejsca temu, co się rozsuwa: na dole po prawej jadą w górę nad rosnący pasek narzędzi, u góry – zjeżdżają pod nagrywanie, pasek prowadzenia i planowania. <b>Przytrzymaj palec na mapie</b> – okno współrzędnych tego miejsca (jak „Współrzędne punktu”): kopiuj, udostępnij, prowadź, trasa tutaj, zapisz punkt.</li>
-<li><b>Podkład</b> – przycisk mapy po prawej, nad szukaj i ◎: zwykła mapa, zdjęcia lotnicze (także archiwalne – stan na wybrany rok), satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany, a od v127 <b>Ochrona przyrody (GDOŚ)</b>: parki narodowe i krajobrazowe, rezerwaty, obszary chronionego krajobrazu, Natura 2000, zespoły przyrodniczo-krajobrazowe, użytki ekologiczne, stanowiska dokumentacyjne, pomniki przyrody – dotknięcie mapy pokazuje dane z rejestru; obszary w wybranym kolorze – kafelki pod suwakiem, przy 100% pełne wypełnienie, nazwa obszaru jedna na obszar; przy pomniku-drzewie OMM dopisuje obwód, wysokość i wiek: z rejestru, z OpenStreetMap albo szacunek z obwodu), mapa ze zdjęcia (np. tablicy w lesie). Grupy w menu (Podkład, Teren, Ewidencja…) zwijasz dotknięciem nagłówka – przy zwiniętej widać, ile nakładek jest włączonych. Na górze menu „Mapy offline”. Działki i budynki widać od przybliżenia ok. 1:30 000; raz obejrzane miejsca (działki, budynki, GDOŚ) OMM pamięta w telefonie przez 30 dni, a gdy serwer nie odda części mapy także po ponowieniu – komunikat z „Szczegóły”.</li>
+<li><b>Podkład</b> – przycisk mapy po prawej, nad szukaj i ◎: zwykła mapa, zdjęcia lotnicze, satelita, rzeźba terenu, nakładki (działki, szlaki, siedliska leśne i drzewostany, a od v127 <b>Ochrona przyrody (GDOŚ)</b>: parki narodowe i krajobrazowe, rezerwaty, obszary chronionego krajobrazu, Natura 2000, zespoły przyrodniczo-krajobrazowe, użytki ekologiczne, pomniki przyrody – dotknięcie mapy pokazuje dane z rejestru; obszary w wybranym kolorze – kafelki pod suwakiem, przy 100% pełne wypełnienie, nazwa obszaru jedna na obszar; przy pomniku-drzewie OMM dopisuje obwód, wysokość i wiek: z rejestru, z OpenStreetMap albo szacunek z obwodu), mapa ze zdjęcia (np. tablicy w lesie). Grupy w menu (Podkład, Teren, Ewidencja…) zwijasz dotknięciem nagłówka – przy zwiniętej widać, ile nakładek jest włączonych.  Działki i budynki widać od przybliżenia ok. 1:30 000; raz obejrzane miejsca (działki, budynki, GDOŚ) OMM pamięta w telefonie przez 30 dni, a gdy serwer nie odda części mapy także po ponowieniu – komunikat z „Szczegóły”.</li>
 <li><b>Pasek narzędzi</b> (prawy dolny róg) – nad ikoną narzędzi są <b>skróty</b>: domyślnie 📷 zdjęcie, a możesz przypiąć dowolne dwa narzędzia (Ustawienia → Wygląd → Skróty na pasku narzędzi albo przytrzymaj narzędzie w rozwiniętym menu – przypnij / odepnij). Ikona narzędzi rozwija: <b>punkt</b> (pinezka → grupa i ikona → dotykaj mapy → ✓), <b>zaplanuj trasę</b>, <b>rysowanie</b> (kropki, linie, wielokąty, okręgi) i <b>pomiary</b>. Przy rysowaniu z przycisku narzędzia wysuwają się w górę małe ikony ustawień: <b>kolor</b>, <b>krycie</b> (przy obszarach), <b>grubość</b> albo <b>wielkość</b> i przy napisach <b>Aa</b> (tło, pogrubienie). Dotknięcie ikony otwiera obok większe okno wyboru, które znika po wyborze – zmiana działa na rysowany kształt, a gdy nic nie rysujesz, na ostatnio dodany (aż do ✓). Chwilę później z tego samego przycisku wysuwa się w lewo pasek ↶ cofnij · ✕ anuluj · ✓ zapisz. Gotowy kształt poprawisz później: dotknij go → Więcej → <b>Edytuj</b>. Przeciągnij punkt w nowe miejsce; mała, przygaszona kropka w połowie odcinka wstawia tam nowy punkt (przeciągnij ją albo dotknij); dotknięcie punktu pokazuje „Usuń punkt”; „+” za końcem linii pozwala dorysować ją dalej (dotykaj mapy, ponowne „+” kończy). U góry widać na bieżąco długość albo pole, ↶ cofa krok, ✓ zapisuje, ✕ przywraca kształt sprzed zmian. Punkty, numery i napisy mają w tym miejscu „Przesuń”. Wygląd wybierasz z kafelków z podglądem – takich samych przy rysowaniu i w okienku gotowego obiektu (Kolor): kolor, <b>wypełnienie</b> (Bez, 25–100%), <b>obrys</b> (z obrysem albo bez) i <b>grubość obrysu</b> (XS–L). <b>Dymek z opisem</b> (w „Rysuj”, także w trybie Praca): dotknij miejsca, które ma wskazywać – dymek od razu stoi na mapie, a z dołu wysuwa się panel: <b>tekst</b>, kolor ramki, <b>Tło</b>, <b>Krycie tła</b> (Bez · 25–100%), <b>Krycie dymka</b>, obrys, wielkość i styl pisma. Na mapie dwa uchwyty: <b>celownik</b> na czubku ogonka (co wskazuje dymek) i <b>✥</b> przy rogu ramki (gdzie stoi ramka); ogonek sam wybiera najbliższą krawędź. ✓ zapisuje, ↶ cofa, ✕ anuluje. „Edytuj” istniejącego dymka otwiera ten sam panel. Następny dymek dostaje wygląd poprzedniego. <b>Legenda</b> (w „Rysuj”): dotknij mapy tam, gdzie ma stanąć – OMM zbierze kolory powierzchni, linii i kropek oraz ikony punktów z tej mapy, a w panelu z dołu wpiszesz, co znaczą (pozycje bez opisu się nie pokazują, strzałki zmieniają kolejność), ustawisz wygląd, a uchwytem ✥ przesuniesz legendę; „Opisy” i „Przesuń” w okienku legendy otwierają ten sam panel; legenda jest zwarta, z prostymi rogami, a w okienku → Kolor ustawisz <b>Tło</b>, <b>Krycie tła</b> i <b>Krycie legendy</b>. Dymek i legenda mają stały rozmiar na ekranie i drukują się razem z kadrem. <b>Pomiary</b>: odległość i powierzchnia – dotykaj punktów i ✓; azymut, różnica wysokości i profil – dotknij A, potem B; wysokość i współrzędne – jedno dotknięcie. Wynik od razu w dymku z ✕ i „Udostępnij” (obraz mapy z wynikami albo tekst). W tym samym menu jest <b>wydruk kadru do grafiki</b>.</li>
 <li><b>Trasa do punktu</b> – <b>„Nawiguj”</b> w okienku punktu, współrzędnych (przytrzymaj mapę), auta albo zdjęcia otwiera <b>kartę trasy</b>: na górze <b>A</b> (skąd – Twoja pozycja, adres z wyszukiwarki, Twój punkt albo miejsce wskazane na mapie) i <b>B</b> (dokąd – to samo; ⇅ zamienia A z B), niżej <b>czym jedziesz</b> – Auto, Rower, Pieszo, Koń albo Prosto (OMM pamięta ostatni wybór; zmiana od razu przelicza). Osobnego „Zaplanuj trasę” już nie ma – każdą trasę planujesz tą samą kartą, także „Trasa stąd” w okienku przytrzymanego miejsca. W czasie nawigacji ✎ na pasku: <b>Zmień cel</b> albo <b>Dodaj przystanek</b>. <b>Koń</b>: OMM jedzie drogami gruntowymi, polnymi i szlakami konnymi, a omija autostrady, drogi ekspresowe, chodniki i ścieżki tylko dla pieszych lub rowerów (jeździec na drodze jest jak pojazd – Prawo o ruchu drogowym, art. 35). W lesie konno wolno tylko drogami wyznaczonymi przez nadleśnictwo (ustawa o lasach, art. 29 ust. 1a), więc OMM omija leśne dukty bez oznaczenia szlaku konnego, a gdy nie da się ich ominąć – ostrzega „sprawdź, czy wolno tu jechać konno”. Dwa warianty: <b>Najkrócej</b> albo <b>Gruntowe i zieleń</b>; czas liczony dla ok. 7 km/h, na mapie wszystkie warianty (wybrana niebieska, inne szare z czasem – dotknij, by wybrać), na dole ✕, ↶ ↷ (cofnij, ponów), ⋮ (szukaj, pętla, ułóż kolejność, odwróć), <b>Zapisz</b> (do Śladów – wybierasz grupę i warstwę) i <b>Nawiguj</b>. Rowerem warianty z chodnikami i przejściami dla pieszych są na końcu, a na karcie widać ostrzeżenie „⚠ chodnik 250 m”. <b>Uchwyt ˅</b> na górze karty (albo dotknięcie mapy) zwija ją do paska z czasem, dystansem i „Nawiguj” – cała mapa z trasami jest widoczna; dotknięcie paska albo ˄ rozwija kartę. „🌳 Szukaj przez zieleń” pobiera parki, lasy, łąki i ogrody z gotowych kafli mapy (OpenFreeMap, dane OpenStreetMap) raz dla okolicy i zapamiętuje je – kolejne trasy w pobliżu liczą się bez serwera. Trasę przez zieleń liczy serwer BRouter z profilem, który woli drogi wśród zieleni, nad wodą i z dala od hałasu, a przy tym nie klucza (płynna trasa, polecenia skrętów z BRoutera); do tego OMM sprawdza warianty przez ścieżki rowerowe w parkach i lasach do ok. 1 km w bok (bez alejek tylko dla pieszych i zamykanych parków). Ocenia otoczenie co 25 m: park, las, łąka najlepiej; obok ogródków, trawników, wody – dobrze; wzdłuż dużej ulicy i przy terenach przemysłowych – źle. Cmentarze i ogródki działkowe nie są celem, tylko miłym sąsiedztwem. Wariant pokazuje się, gdy zysk zieleni jest wyraźnie większy niż nadłożona droga; przy każdym wariancie widać „🌳 X km” w zieleni. Gdy nawigujesz pieszo, a przez półtorej minuty jedziesz szybciej niż ok. 30 km/h, OMM zapyta, czy przełączyć na Auto albo zakończyć nawigację.</li>
 <li><b>Ekran Trasa (planowanie i edycja)</b> – jeden ekran dla każdej trasy: z „Nawiguj”, „Trasa stąd”, „Zaplanuj trasę”, z okienka zapisanej trasy („Edytuj trasę”) i ze śladu („Zapisz jako trasę”). Na karcie punkty <b>A</b>, <b>1</b>, <b>2</b>… <b>B</b>: dotknięcie nazwy zmienia punkt (szukaj, wskaż na mapie, Twoja pozycja), <b>„+”</b> między wierszami dodaje punkt pośredni dokładnie w tym miejscu, ✕ usuwa, <b>przytrzymanie wiersza</b> (albo uchwyt ≡) zmienia kolejność, ⇅ odwraca trasę. Niżej czym jedziesz i rodzaj dróg, „Szukaj przez zieleń”, wynik – czas, długość, ↗ podejście i ↘ zejście (dotknięcie rozwija profil wysokości) – i „Warianty ▾”: warianty liczą się także przez punkty pośrednie. Na dole ✕, ↶ ↷ (cofnij, ponów każdą zmianę), ⋮ (szukaj miejsca, pętla – powrót do startu, <b>ułóż kolejność</b> – najkrótsza kolejność punktów pośrednich, odwróć, jak to działa), <b>Zapisz</b> (do „Planowania” albo na inną mapę) i <b>Nawiguj</b>. Na mapie: dotknięcie zwija kartę do paska; <b>przytrzymaj palec</b> albo <b>dotknij obiektu</b> – dymek: punkt pośredni (trafia tam, gdzie najmniej wydłuża trasę), cel albo start; <b>przytrzymaj linię trasy</b> i przeciągnij – trasa pójdzie tamtędy (punkt kształtujący a, b, c…; wtedy zostaje tylko Twoja trasa, bez wariantów); <b>przeciągnij punkt</b> – przesuwasz go; <b>dotknij punktu</b> – menu: dalej prosto (bez dróg), <b>punkt obowiązkowy</b> (w nawigacji po ominięciu OMM zapyta, czy wrócić), ustaw jako start / cel, usuń. Gdy nawigujesz po niezapisanej trasie, po zakończeniu OMM zapyta, czy ją zapisać, wrócić do niej, czy odrzucić.</li>
@@ -30208,7 +30420,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Menu</b> – przycisk ☰ w lewym dolnym rogu rozwija w górę kapsułę (jak narzędzia po prawej): <b>Mapy</b>, <b>Ślady</b>, <b>Zdjęcia</b>, <b>Trening</b>, <b>Tryb</b> (Prywatny / Praca – prosta lista) i <b>Ustawienia</b> (na górze: kopia zapasowa, pomoc i samouczek, o aplikacji; niżej wszystkie ustawienia i diagnostyka). Mapy i Ślady wyglądają tak samo: u góry cienki pasek „Tryb pracy: … ▾” (dotknięcie rozwija listę trybów), niżej „Mapa: nazwa ▾” albo „Ślady: grupa ▾” (dotknięcie rozwija listę map / grup), pod nim przyciski (Wczytaj plik / Wczytaj GPX, Zaznacz, Filtr, Warstwa…) i lista warstw: <b>◉</b> – aktywna, <b>nazwa</b> – rozwija listę, <b>oko</b> – pokazuje i ukrywa, <b>⋮</b> – jedno okno ustawień warstwy. <b>Przytrzymanie warstwy</b> zaznacza całą warstwę (bez rozwijania), przytrzymanie obiektu – pojedyncze obiekty; potem dotknięcie dokłada albo zdejmuje (◐ – w warstwie zaznaczona część). Na mapie u góry delikatny napis „Mapa: nazwa – tryb” (albo „Ślady: grupa – tryb”). W Mapach widać całą wybraną mapę, w Śladach całą wybraną grupę; które warstwy – decyduje oko. Nagrywany ślad widać zawsze. Lupa znajduje też mapy, warstwy i grupy śladów („pokaż tylko ją” – do przycisku „Pokaż wszystko”). Po zmianie mapy przy pierwszym punkcie OMM zapyta, do której warstwy go zapisać. Dotknięcie mapy chowa rozwinięte menu ☰, narzędzia po prawej, podmenu i panel nagrywania na żywo, gdy nic z nich nie wybrałeś.</li>
 <li><b>Zaplanowane trasy</b> – zapisana trasa z ekranu Trasa („Zapisz”) jest <b>w Śladach</b>, w grupie i warstwie, które wybierzesz albo utworzysz („＋ Nowa warstwa…”, „＋ Nowa grupa…”); trasy nie mogą leżeć na mapach. Na mapie trasa to <b>linia przerywana</b> w kolorze warstwy, na liście ma ikonę trasy. Jej okienko: <b>Nawiguj</b> (także od razu do mety przez pozostałe punkty), <b>Edytuj trasę</b> (wraca na ekran Trasa), <b>Udostępnij</b>, Więcej – opis, przeniesienie do innej warstwy, usuń. Trasy nie wchodzą do statystyk ani podsumowań. Trasy z dawnego „Planowania” i ze zwykłych map OMM przeniósł sam do grupy śladów „Zaplanowane trasy” (inne obiekty z Planowania zostały na mapie „Planowanie”).</li>
 <li><b>Nawigacja</b> – „Nawiguj” w okienku punktu, linii, śladu, auta albo zdjęcia. Po linii, śladzie albo zaplanowanej trasie – w wybraną stronę; gdy nie jesteś na starcie ani na trasie, OMM pokaże odległości i zapyta, jak zacząć: <b>doprowadź na start</b> (potem cała trasa), <b>dołącz do trasy najbliżej</b> (i dalej do mety) albo <b>od razu do mety</b> (nowa trasa z Twojego miejsca przez pozostałe punkty) – oraz czym dojedziesz do trasy (samochodem, rowerem, pieszo – po drogach z poleceniami głosowymi – albo prosto). Do punktu najpierw <b>karta trasy</b> (czym jedziesz, warianty na mapie – wybrana niebieska, inne szare z etykietą czasu, np. „+4 min”; Zapisz, Nawiguj – patrz „Trasa do punktu”). Warianty wg sposobu jazdy: autem najszybsza, inne, najkrótsza, bez autostrad i płatnych; rowerem zalecana, najkrótsza, spokojna (mniej ruchliwych ulic), bez szutrów; pieszo zalecana i najkrótsza. Gdy wjedziesz na trasę w dowolnym miejscu (np. po pomylonej drodze), nawigacja rusza od tego miejsca. Mapa jedzie za Tobą: pomarańczowa strzałka w dolnej części ekranu, przebyty kawałek trasy szary, inne rysunki przygaszone, zoom wg prędkości; na start <b>kierunek jazdy u góry</b> (albo północ – Ustawienia → Nawigacja), a <b>kompas mapy</b> (stale widoczny w nawigacji, pomarańczowa obwódka = kierunek u góry) przełącza to w trakcie. Przesuniesz mapę palcem – po 5 s sama wraca. U góry na środku <b>strzałka następnego manewru</b> (bez tła, niebieska z ciemną obwódką) i odległość do niego; gdy nagrywasz, odsuwa się od kapsuły nagrywania. Na dole jeden panel: ✕, odległość do celu i godzina na miejscu oraz <b>żarówka</b> – tryb ekranu: zapalona – stale jasny, zgaszona – jak zwykle w telefonie, pół na pół – <b>przyciemnianie między manewrami</b> (domyślne: ekran prawie czarny na prostych, rozjaśnia się ok. 15 s przed skrętem, przy komunikacie i po dotknięciu). Głos: zapowiedź wcześniej przy większej prędkości (autem szybko ok. 1 km, w mieście 500 m, rowerem 150 m) i drugi raz tuż przed manewrem; po manewrze „Jedź prosto 800 metrów”, gdy do następnego daleko; drobne „ząbki” drogi (lewo-prawo na kilku metrach) bez komunikatów, przy wyraźnym przesunięciu jezdni – „Trzymaj się prawej / lewej”. Po zachodzie słońca <b>ciemna mapa</b> (Ustawienia → Nawigacja: tylko w nawigacji / zawsze po zmroku / nigdy; zdjęcia lotnicze bez zmian). Rowerem przed startem karta z <b>profilem wysokości</b>, a w trakcie zapowiedź podjazdu (nachylenie i długość) – do wyłączenia w Ustawieniach. <b>Punkty obowiązkowe</b> zaplanowanej trasy: po ominięciu OMM pyta „Wrócić?” (Wróć / Pomiń; bez odpowiedzi po 10 s wraca). Samochodem i rowerem po zjechaniu z trasy OMM prowadzi do najbliższego miejsca trasy przed Tobą, a ponad ok. 100 m od trasy przez 10 s – <b>liczy nową trasę do celu</b> (gdy po drodze są niezaliczone punkty obowiązkowe – najpierw pyta: przez punkt / bez punktu / wróć na trasę); pieszo po dłuższym zejściu telefon wibruje i mówi, gdzie jest ślad (bez powiadomień). Nawigacja i głos działają też przy zablokowanym telefonie. Rowerem przez przejście dla pieszych – „przeprowadź rower”. Gdy jedziesz równolegle do trasy (np. drugą stroną ulicy), OMM uznaje, że jesteś na trasie, a po ok. 150 m liczy ją od drogi, którą jedziesz. Słuchawki, które same się wyłączają po kilku minutach ciszy – Ustawienia → Nawigacja → „Podtrzymuj słuchawki Bluetooth”. ✕ pyta, czy zakończyć; na miejscu – „Jesteś na miejscu” (nie trzeba trafić w punkt: pieszo ok. 15 m, rowerem ok. 30 m, autem ok. 45 m; zalicza też minięcie celu i postój obok niego), a po ok. 10 s nawigacja kończy się samo (nagrywanie śladu trwa dalej).</li>
-<li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz.</li>
+<li><b>Idź na azymut</b> – pomiary → „Idź na azymut”: podaj stopnie i odległość w km albo zaznacz „Bez celu” – wtedy idziesz po linii kursu, aż sam zakończysz. Cel możesz też <b>wskazać na mapie</b> albo <b>wyszukać</b> – OMM sam policzy azymut i odległość. W drodze „Dodaj punkt pośredni” prowadzi na azymut najpierw do niego, potem do celu. Przygaszony ekran rozjaśnia się, gdy zejdziesz z kursu, co ustawiony dystans i przy celu.</li>
 <li><b>Ślady GPS</b> – przycisk <b>● REC</b> w prawym górnym rogu nagrywa trasę (także przy wygaszonym ekranie). W czasie nagrywania przycisk zmienia się w kapsułę: czas, dystans i stan (pauza, auto-pauza, auto zaparkowane – kropka i stop są wtedy bursztynowe), a okrągły czerwony przycisk to <b>stop</b> (OMM zapyta o zapis). Ślad na żywo jest liczony co ~20 s tak samo jak po „Stop” (bez zygzaków), a ostatnie sekundy to cienka linia do Twojej pozycji. Gdy w czasie nagrywania pokażesz coś na mapie (zdjęcie, obiekt, wynik szukania), mapa przestaje jechać za Tobą – na dole pojawia się <b>Wyśrodkuj</b>, które wraca do Ciebie i przywraca podążanie. Przy starcie najpierw wysuwają się w dół przyciski (pauza, zdjęcie, punkt, powrót do startu), potem w lewo kapsuła z czasem; strzałka ˄ pod przyciskami zwija je, a dotknięcie kapsuły rozwija z powrotem. Dotknięcie czasu (przy rozwiniętych przyciskach) otwiera panel na żywo. Postoje to auto-pauza: linia się nie urywa, a statystyki są dwie – w ruchu i całkowite. W panelu nagrywania: „Do auta” (miejsce auta OMM zapamiętuje sam – po kilkudziesięciu krokach od auta albo gdy zakończysz nagrywanie zaraz po zaparkowaniu – a usuwa, gdy odjedziesz autem, usuniesz ślad, z którego pochodzi, albo minie ustawiony czas; w stałych strefach parkowania – np. pod domem i przy pracy, z promieniem 100–1000 m – auta nie zapamiętuje wcale, Ustawienia → Auto i parkowanie), „Powiadom SMS” i 💡 ekran. ↩ prowadzi z powrotem do startu po własnym śladzie. Twoja pozycja to czerwona strzałka na końcu śladu (kierunek ruchu). OMM zapisuje w telefonie każdy surowy pomiar GPS, a po „Stop” liczy ślad od nowa: wygładza go w przód i w tył (zakręty zostają na miejscu, znikają zygzaki), postoje zamienia w jeden punkt, a drobne drgania usuwa. W marszu odcinki drogi, które naprawdę są proste, prostuje (GPS pieszo „pływa” po kilka metrów na boki), a narożniki ustawia na przecięciu prostych; kręte ścieżki (np. w lesie) zostają ze wszystkimi zakrętami. Ślad zaczyna się po trzech dokładnych pomiarach, więc nie ma kółek na starcie. Dystans w kapsule liczy się tak samo, więc nie rośnie od drgań. Gdy nowa wersja OMM lepiej liczy ślady, sama raz zapyta, czy przeliczyć nimi ślady nagrane od v70 (z „Cofnij”). Po zaparkowaniu auta nagrywanie domyślnie trwa dalej – wstrzymanie do ponownej jazdy można wybrać w Ustawieniach. Komunikaty co kilometr albo co kilka minut – głos, wibracja, dźwięk lub powiadomienie (Ustawienia → Ślady GPS), tam też wzór nazwy nowego śladu z numeracją. W powiadomieniu nagrywania na pasku telefonu widać dystans i czas oraz przyciski <b>Zakończ</b> (zapis od razu, bez okna – nazwa wg wzoru, rodzaj rozpoznany, warstwa rodzaju), <b>Zdjęcie</b> i <b>Punkt</b> (w bieżącym miejscu, bez otwierania OMM). Przerwy w GPS podczas jazdy autem (ślad szedł prosto przez budynki) OMM po „Stop” sam dociąga po drogach, gdy jest internet – kawałek jest przerywany, „Cofnij dopasowanie” go zdejmuje. Rowerem i autem „krzątanie się” w jednym miejscu (zdjęcie, rozmowa przy rowerze – ponad minutę w promieniu ok. 25 m) to jeden punkt postoju, bez pętli. Zapis z powiadomienia od razu dopisuje miejsce do nazwy (bez zasięgu – ponawia co minutę). W okienku śladu: dystans, <b>czas jazdy i czas postojów osobno</b> oraz suma podjazdów. Ciasne zakręty jazdy (skrzyżowania, bramy) są ostre, łagodne łuki gładkie. Ikona <b>Zapisz jako trasę</b> w okienku śladu otwiera planer z trasą dokładnie po śladzie – punkty w zakrętach, można je przesuwać i dodawać (przelicza się tylko sąsiedni odcinek), potem „Zapisz” do Planowania i prowadzenie jak po każdej trasie. 📷 domyślnie otwiera <b>pełny aparat telefonu</b> (wszystkie tryby, zdjęcie zostaje w galerii) – po powrocie wskazujesz zrobione zdjęcia (najnowsze na górze); szybki aparat w OMM do wyboru w Ustawieniach → Foldery i pliki. Ślad pieszy, w którym była też jazda (np. zapomniane nagrywanie w aucie), nie jest na odcinku jazdy prostowany jak marsz ani dociągany do chodników; po odcięciu jazdy („Pokaż i podziel”) druga część dostaje rodzaj „Samochód” i liczy się od nowa jak jazda. Zmiana rodzaju aktywności śladu liczy go od nowa z zapisanych pomiarów (marsz jest prostowany, jazda nie).</li>
 <li><b>Moje trasy – ślady</b> – w wyglądzie „Mapa i krawędzie” Ślady i Mapy wysuwają się jako <b>szuflada z lewej</b> (obok widać mapę); warstwa to blok z paskiem w kolorze warstwy, a ślady pod nią są wcięte i mają <b>ikonę rodzaju</b> (dotknięcie ikony zmienia kolor). Kategorie i warstwy śladów, rodzaj aktywności, podsumowanie tygodnia, miesiąca i roku, dorysowanie brakującego kawałka (z podglądem i „Cofnij”), podział i scalanie, <b>Dopasuj do ścieżek</b> (w okienku śladu: ślad jest jednorazowo wysyłany do serwera tras i dosuwany do dróg i ścieżek z mapy tylko tam, gdzie leży blisko nich – po lesie bez ścieżek zostaje bez zmian; można cofnąć; Ustawienia → Ślady GPS → <b>Dociągaj ślady do ścieżek automatycznie</b> robi to samo po każdym „Stop”, domyślnie wyłączone; gdy włączone jest „Zapisuj też oryginalne odczyty GPS”, ślad sprzed dopasowania jest w eksporcie GPX), import GPX, KML, TCX i GeoJSON. Przy usuwaniu śladu z punktami albo zdjęciami dodanymi w trakcie nagrywania OMM zapyta, czy zostawić je na mapie (na tej samej albo innej warstwie), czy usunąć razem ze śladem – z kosza wracają razem.</li>
 <li><b>Zdjęcie</b> – dotknij aparatu na pasku po prawej (albo „Zdjęcie” w okienku przytrzymanego miejsca na mapie) i zrób zdjęcie: wraca od razu, a OMM pokazuje okno <b>„Nowe zdjęcie”</b>. <b>Gdzie</b> – mapa (na start otwarta), grupa śladów (gdy jesteś w Śladach) albo <b>nagrywany ślad</b> (w czasie nagrywania – domyślnie); dotknięcie wiersza zmienia wybór. Pod spodem <b>Warstwa</b> (mapa) albo <b>Ślad</b> (grupa śladów – na start najbliższy), <b>Ikona</b> (nieobowiązkowa – bez ikony na mapie widać miniaturę zdjęcia), <b>Miejsce</b>: gdzie zrobiono (GPS) albo „Wskażę na mapie” (po „Zapisz” dotykasz miejsca), <b>Nazwa</b> (puste = data i godzina). Gdy stoisz bardzo blisko swojego punktu, na dole jest podpowiedź „📍 Obok: … · dodaj do niego”. Przyciski: <b>Usuń zdjęcie</b>, <b>Dodaj szybko</b> (na mapę „Zdjęcia” – OMM ją założy – bez ikony, z datą i godziną, w miejscu zrobienia) i <b>Zapisz</b>. Zdjęcie na mapie w czasie nagrywania ma też odnośnik w śladzie. „＋” dokłada kolejne zdjęcie. Przytrzymanie aparatu: zdjęcie w wybranym miejscu albo z galerii. Każdy obiekt ma „Dodaj zdjęcie” (aparat albo galeria – zdjęcia zrobione daleko od obiektu OMM pokazuje osobno: dodać tylko pasujące albo wszystkie); okienko śladu ma ikonę aparatu (zdjęcie w miejscu, w którym jesteś, albo z galerii – ustawiane na śladzie według godziny zrobienia), a w „Edytuj” – „Dobierz zdjęcia z galerii (wg godziny)”.</li>
@@ -30228,7 +30440,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Tryby</b> – w Obecnym wyglądzie przycisk trybu w panelu (u góry po lewej), w „Mapa i krawędzie” nazwa trybu ▾ w lewym górnym rogu ekranu: <b>Prywatny</b> i <b>Praca</b> (osobne mapy, ślady i narzędzia do szkiców). Od v119 Sport nie jest trybem – zastąpiło go polecenie <b>Trening</b>.</li>
 <li><b>Trening</b> – Menu → <b>Trening</b> (w wyglądzie „Mapa i krawędzie” możesz je też wyjąć na mapę jako kroplę). Na mapie pojawiają się <b>kafelki</b> ostatnio trenowanej dyscypliny – każdy na własnym rozmytym tle, a między nimi widać mapę i siebie. U góry ikona dyscypliny – dotknięcie zmienia sport (zapamiętany na następny raz; w trakcie treningu cały trening i ślad przechodzą do nowej dyscypliny), tam też narzędzia dyscypliny: interwały i cel tempa (bieg), dzienny cel kroków (marsz), okrążenie (rolki). Na dole <b>Start</b>, a nad nim wybór: <b>z zapisem śladu</b> albo <b>tylko licznik</b> (jak licznik rowerowy – bez śladu); to samo w Ustawieniach → Trening. W obu przypadkach licznik liczy także przy zgaszonym ekranie. W trakcie pasek: <b>Pauza</b>, <b>Zdjęcie</b> (gdy zapisuje ślad), <b>Ukryj</b> – kafelki znikają na chwilę, żeby obejrzeć mapę (wracają tym samym przyciskiem albo same po 20 s), <b>Ekran</b> – przygaszany (dotknięcie rozjaśnia na chwilę; przytrzymanie – co ma go rozjaśniać), stale jasny albo jak w telefonie – i <b>Zakończ</b>. <b>Koniec nagrywania to koniec treningu</b> – także „Zakończ” w powiadomieniu. Obok nazwy dyscypliny ⚙ (ustawienia treningu: dane do kalorii – waga, wiek, wzrost, płeć – kafelki, zapis śladu i warstwa, do której trafiają ślady każdej dyscypliny) i wykres (statystyki). <b>Kafelki</b>: przytrzymaj i przeciągnij – przeniesiesz kafelek po siatce; przytrzymaj bez ruchu – rozmiar (mały, szeroki, duży), inny parametr w tym miejscu, usuń, dodaj kafelek, układ fabryczny. Co ma być widać – też w Ustawieniach → Trening → Kafelki na mapie, osobno dla każdej dyscypliny. Parametry: prędkość albo tempo, dystans, czas ruchu i całkowity, średnia, maks., podejście, zejście, wysokość, nachylenie, kalorie, dziś, licznik całkowity, godzina, sygnał GPS i parametry dyscypliny (rower; bieg – ostatni km, interwał, cel tempa; marsz – kroki, cel dzienny; trekking – tempo pod górę, do zachodu, czas dojścia; jeździectwo – stęp, kłus, galop; rolki – okrążenia). Po „Zakończ” podsumowanie, a wszystkie treningi są w <b>Ślady → Podsumowanie → Treningi</b>: ogólnie i dla każdej dyscypliny – tydzień, miesiąc, rok, cały czas, wykres, lista. Kalorie po podaniu wagi w Ustawieniach → Trening; ślad treningu trafia do Śladów – domyślnie <b>razem ze zwykłymi śladami</b> (warstwa rodzaju w otwartej grupie: Rower to Rower); w Ustawieniach → Trening → „Zapisuj ślady treningów” możesz wybrać osobną grupę „Sport” albo wybraną warstwę dla każdej dyscypliny. Ekran przygaszony: pierwsze dotknięcie tylko go rozjaśnia; rozjaśnia się też sam na postoju (na cały postój i 5 s po ruszeniu), co kilometr i przy komunikacie głosowym – co i na jak długo, ustawisz przytrzymaniem przycisku <b>Ekran</b> albo w Ustawieniach → Trening → „Rozjaśniaj ekran”. W czasie nagrywania widać też Twoje inne widoczne ślady – cieńsze i przygaszone (oko „Ślady” na pasku je chowa).</li>
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
-<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry po lewej <b>tryb ▾</b> (dotknięcie przełącza Prywatny / Praca), pod nim nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (zielona – dobra, bursztynowa – średnia, czerwona – słaba; dotknięcie – Informacje GPS). Polecenia stoją na mapie jako <b>krople</b> (ikona w kółku z ołówkowym obrysem); dwie krople obok siebie łączą się w kapsułkę. Kropla z małymi ikonami 2×2 to <b>folder</b> (przy więcej niż czterech poleceniach czwarte pole to „+N”) – dotknięcie otwiera obok kropli kartę z poleceniami i podpisami. Tak samo, kartą przy kropli, otwierają się wybory Rysuj, Zmierz i Zdjęcie; wolisz panel z dołu ekranu – Ustawienia → Wygląd → „Wybory z kropli”. Fabrycznie są dwa foldery: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Trening, Ustawienia, Gry) i <b>Narzędzia</b> (Podkład, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz), a do tego kropla Moja pozycja. Na dole <b>Panel Dziś</b> za języczkiem (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc; zamykasz go daszkiem w dół nad panelem, dotknięciem mapy albo zsuwając palcem w dół). ⚙ w Panelu Dziś ustawia, które wiersze widać i w jakiej kolejności, oraz wygląd schowka (ikony z podpisami, same ikony albo ukryty). Języczek Dziś przeciągniesz wzdłuż dołu, przytrzymując go. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b> – krople, które pasek by zasłonił, stają na ten czas tuż nad nim (razem z dolnym języczkiem) i wracają po zakończeniu. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – <b>przytrzymaj</b> kroplę i przeciągnij: w inne miejsce mapy, obok innej kropli (kapsułka), <b>na inną kroplę</b> (powstaje folder – albo trafia do istniejącego) albo <b>na języczek Dziś</b> – wtedy polecenie trafia do <b>schowka</b> (dolny wiersz Panelu Dziś); stamtąd dotknięcie je uruchamia, a przytrzymanie wyciąga z powrotem na mapę. Polecenie wyjmiesz też z rozwiniętego folderu, przytrzymując je na liście. Przytrzymanie kropli bez ruchu otwiera menu: <b>Schowaj</b>, <b>Rozdziel folder</b>, <b>Zmień nazwę folderu</b>. Układ zapisuje się osobno dla trybu Prywatny oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Układ z wcześniejszych wersji (panele Menu i Narzędzia) zamienia się w dwa foldery w miejscu dawnych języczków.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni – dotknięcie dnia rozwija jego szczegóły: godzina po godzinie (dalej 4 pory dnia), opad z prawdopodobieństwem, wiatr ze strzałką kierunku, zachmurzenie, wschód i zachód słońca (dane MET Norway / yr.no). Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty); w pogodzie słońce jest bursztynowe, deszcz niebieski, śnieg jasnoniebieski, a temperatura ciepła lub mroźna ma swój odcień.</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). Przy przejściu pieszo z dociąganiem do ścieżek postoje do ok. 10 m od drogi też trafiają na drogę. Gdy przy wolnej jeździe (np. dojazd do świateł) telefon przez kilkanaście sekund nie poda pozycji, OMM nie „dopowiada” dalszej jazdy – ślad nie wysuwa się do przodu i nie wraca zygzakiem. <b>Wysokości</b> (profil, różnica wysokości, wysokość terenu, podjazdy tras) w Polsce są z NMT GUGiK, a za granicą albo gdy GUGiK nie odpowiada – z modelu terenu serwera tras (ok. 30 m, mniej dokładny); przy wyniku widać źródło. <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i leśne Flipery: pień-rampa, borowiki, dziupla, misje koszyka, multiball, TILT).</li>
+<li><b>Wygląd aplikacji</b> – Ustawienia → Wygląd: <b>Obecny</b> albo <b>Mapa i krawędzie</b>. W wyglądzie „Mapa i krawędzie” mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry po lewej <b>tryb ▾</b> (dotknięcie przełącza Prywatny / Praca), pod nim nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (zielona – dobra, bursztynowa – średnia, czerwona – słaba; dotknięcie – Informacje GPS). Polecenia stoją na mapie jako <b>krople</b> (ikona w kółku z ołówkowym obrysem); dwie krople obok siebie łączą się w kapsułkę. Kropla z małymi ikonami 2×2 to <b>folder</b> (przy więcej niż czterech poleceniach czwarte pole to „+N”) – dotknięcie otwiera obok kropli kartę z poleceniami i podpisami. Tak samo, kartą przy kropli, otwierają się wybory Rysuj, Zmierz i Zdjęcie; wolisz panel z dołu ekranu – Ustawienia → Wygląd → „Wybory z kropli”. Fabrycznie są dwa foldery: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Trening, Ustawienia, Gry) i <b>Narzędzia</b> (Podkład, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz), a do tego kropla Moja pozycja. Na dole <b>Panel Dziś</b> za języczkiem (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc; zamykasz go daszkiem w dół nad panelem, dotknięciem mapy albo zsuwając palcem w dół). ⚙ w Panelu Dziś ustawia, które wiersze widać i w jakiej kolejności, oraz wygląd schowka (ikony z podpisami, same ikony albo ukryty). Języczek Dziś przeciągniesz wzdłuż dołu, przytrzymując go. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b> – krople, które pasek by zasłonił, stają na ten czas tuż nad nim (razem z dolnym języczkiem) i wracają po zakończeniu. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – <b>przytrzymaj</b> kroplę i przeciągnij: w inne miejsce mapy, obok innej kropli (kapsułka), <b>na inną kroplę</b> (powstaje folder – albo trafia do istniejącego) albo <b>na języczek Dziś</b> – wtedy polecenie trafia do <b>schowka</b> (dolny wiersz Panelu Dziś); stamtąd dotknięcie je uruchamia, a przytrzymanie wyciąga z powrotem na mapę. Polecenie wyjmiesz też z rozwiniętego folderu, przytrzymując je na liście. Przytrzymanie kropli bez ruchu otwiera menu: <b>Schowaj</b>, <b>Rozdziel folder</b>, <b>Zmień nazwę folderu</b>. Układ zapisuje się osobno dla trybu Prywatny oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Układ z wcześniejszych wersji (panele Menu i Narzędzia) zamienia się w dwa foldery w miejscu dawnych języczków.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni – dotknięcie dnia rozwija jego szczegóły: godzina po godzinie (dalej 4 pory dnia), opad z prawdopodobieństwem, wiatr ze strzałką kierunku, zachmurzenie, wschód i zachód słońca (dane MET Norway / yr.no). Nazwa miejsca w nagłówku prognozy to wybór: moja pozycja, ostatnie miejsca, wyszukiwanie albo wskazanie na mapie. Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty); w pogodzie słońce jest bursztynowe, deszcz niebieski, śnieg jasnoniebieski, a temperatura ciepła lub mroźna ma swój odcień.</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). Przy przejściu pieszo z dociąganiem do ścieżek postoje do ok. 10 m od drogi też trafiają na drogę. Gdy przy wolnej jeździe (np. dojazd do świateł) telefon przez kilkanaście sekund nie poda pozycji, OMM nie „dopowiada” dalszej jazdy – ślad nie wysuwa się do przodu i nie wraca zygzakiem. <b>Wysokości</b> (profil, różnica wysokości, wysokość terenu, podjazdy tras) w Polsce są z NMT GUGiK, a za granicą albo gdy GUGiK nie odpowiada – z modelu terenu serwera tras (ok. 30 m, mniej dokładny); przy wyniku widać źródło. <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i leśne Flipery: pień-rampa, borowiki, dziupla, misje koszyka, multiball, TILT).</li><li><b>Punkt, dymek obiektu, zaznaczanie, reset</b> – <b>Punkt</b> (Narzędzia) stawia jeden punkt jednym dotknięciem – bez ✓ i cofania; od razu przy punkcie otwiera się <b>dymek</b> z nazwą, warstwą, kolorem, rozmiarem i „Więcej”. W wyglądzie „Mapa i krawędzie” dotknięcie obiektu mapy (punktu, linii, obszaru) albo „pokaż na mapie” z listy ustawia mapę na obiekcie i pokazuje jego dymek; dymek znika po dotknięciu mapy albo ✕. Okienka śladów zostają na dole ekranu. <b>Zaznaczanie</b>: przytrzymaj obiekt albo ślad na liście – włącza się zaznaczanie; przycisk <b>Pokaż</b> na pasku zaznaczania przybliża mapę do zaznaczonych i na chwilę je podświetla. <b>Reset</b>: Ustawienia → Reset aplikacji – „Przywróć ustawienia fabryczne” (zostają mapy, ślady, zdjęcia i treningi) albo „Usuń wszystko i zacznij od nowa” (potwierdzenie aktywne po 5 s); przed każdym OMM proponuje kopię zapasową. Przy przywracaniu kopii OMM pyta, czy wczytać z niej ustawienia aplikacji, czy zostawić obecne.</li>
 <li><b>Miejsce auta</b> – OMM zapamiętuje je sam, gdy podczas nagrywania z jazdy przejdziesz w marsz. Pełznięcie w korku (kilka km/h z przystankami) nie jest parkowaniem: miejsce zapisuje się dopiero, gdy przez ok. 3 minuty nie ruszysz autem albo oddalisz się pieszo o ponad 100 m (albo zaraz po „Stop”). Miejsce znika, gdy odjedziesz spod auta, a także gdy OMM zobaczy, że jedziesz (ponad ok. 30 km/h, ponad 500 m) dalej niż 300 m od niego – także bez nagrywania; „Cofnij” w komunikacie przywraca je (autobus, taksówka, drugie auto). Co OMM zrobił z autem, widać w Diagnostyce.</li>
 <li><b>Listy map, warstw i śladów</b> – rozwinięta warstwa (i grupa ikon w wyborze ikony) ma lekko przyciemnione tło, a wiersze są na przemian minimalnie inne i oddzielone kreską. Obok oka <b>ikona mapy</b> – jednym dotknięciem pokazuje na mapie obiekt, ślad, całą warstwę albo grupę.</li>
 <li><b>Polecenia w schowku i folderze</b> – przytrzymaj ikonę w schowku (Panel Dziś) albo na karcie folderu i przesuwaj: kolejność zmienia się na miejscu, panel zostaje otwarty. Wyciągnięcie poza panel / kartę zamyka go i dalej przeciągasz kroplę po mapie. Gdy otwarta jest klawiatura, krople się chowają i nie przestawiają.</li>
@@ -30266,7 +30478,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <ol>
 <li><b>Map</b> – move it with your finger, zoom with two fingers. GPS turns on by itself at every start (the map doesn't jump to you unless you set it in “View at start-up”), so the weather and the Today panel have data at once. The ◎ icon tells you what is going on: grey and crossed out – GPS off, a blue ring with a blinking dot – looking for a fix, a blue ring with a dot – working, a light blue background – the map is on you. Tap: when the map isn't on you – it flies to you, when it is – GPS turns off. <b>GPS information</b> (Settings → Help and information, Settings → GPS tracks, press and hold ◎, the GPS row in the Today panel) – accuracy, fix age, speed, course and an accuracy chart of the last minutes. GPS information (Android) also has a <b>sky view</b>: GPS, GLONASS, Galileo, BeiDou satellites – colour is the system, a solid dot is used for the fix, size is signal strength.</li>
 <li><b>Button layout</b> – by default only <b>● REC</b> is in the top-right corner; on the right at the bottom: <b>base map</b>, <b>search</b> 🔍 and <b>my position</b> ◎ (with GPS accuracy – the colour tells whether it is good), below them the toolbar, and in the bottom-left corner – the layers panel (with the compass above it when the map is rotated). Settings → Appearance → <b>Arrange buttons on the screen</b>: a grid appears on the map, you drag the base map, search, position, layers and compass with your finger to any free cell (the button snaps to the nearest one) and confirm; “Restore default” brings back the standard layout. The buttons make room for what expands: at the bottom right they move up above the growing toolbar, at the top they move down below recording and the navigation and planning bars. <b>Press and hold the map</b> – the coordinates window for that spot (as “Point coordinates”): copy, share, navigate, route here, save point.</li>
-<li><b>Base map</b> – the map button on the right, above search and ◎: regular map, aerial photos (also archival – as of a chosen year), satellite, terrain relief, overlays (parcels, trails, forest sites and stands, and since v127 <b>Nature protection (GDOŚ)</b>: national and landscape parks, nature reserves, protected landscape areas, Natura 2000, nature and landscape complexes, ecological sites, documentation sites, natural monuments – tapping the map shows register data; areas in a colour you choose – tiles under the slider, 100% means a full fill, one name per area; for a monument tree OMM adds girth, height and age: from the register, from OpenStreetMap or estimated from girth), a map from a photo (e.g. of a forest signboard). Groups in the menu (Base map, Terrain, Land register…) collapse with a tap on the header – a collapsed group shows how many overlays are on. “Offline maps” is at the top of the menu. Parcels and buildings appear from about 1:30,000; viewed places (parcels, buildings, GDOŚ) are remembered on the phone for 30 days, and when a server does not deliver part of the map even after a retry – a message with “Details”.</li>
+<li><b>Base map</b> – the map button on the right, above search and ◎: regular map, aerial photos, satellite, terrain relief, overlays (parcels, trails, forest sites and stands, and since v127 <b>Nature protection (GDOŚ)</b>: national and landscape parks, nature reserves, protected landscape areas, Natura 2000, nature and landscape complexes, ecological sites, natural monuments – tapping the map shows register data; areas in a colour you choose – tiles under the slider, 100% means a full fill, one name per area; for a monument tree OMM adds girth, height and age: from the register, from OpenStreetMap or estimated from girth), a map from a photo (e.g. of a forest signboard). Groups in the menu (Base map, Terrain, Land register…) collapse with a tap on the header – a collapsed group shows how many overlays are on.  Parcels and buildings appear from about 1:30,000; viewed places (parcels, buildings, GDOŚ) are remembered on the phone for 30 days, and when a server does not deliver part of the map even after a retry – a message with “Details”.</li>
 <li><b>Toolbar</b> (bottom-right corner) – above the tools icon are <b>shortcuts</b>: 📷 photo by default, and you can pin any two tools (Settings → Appearance → Toolbar shortcuts, or press and hold a tool in the expanded menu – pin / unpin). The tools icon expands: <b>point</b> (pin → group and icon → tap the map → ✓), <b>plan a route</b>, <b>drawing</b> (dots, lines, polygons, circles) and <b>measurements</b>. While drawing, small setting icons slide up from the tool button: <b>colour</b>, <b>opacity</b> (for areas), <b>thickness</b> or <b>size</b> and, for labels, <b>Aa</b> (background, bold). Tapping an icon opens a larger picker next to it, which closes once you choose – a change applies to the shape being drawn or, when nothing is being drawn, to the last one added (until ✓). A moment later the ↶ undo · ✕ cancel · ✓ save bar slides out to the left from the same button. You can fix a finished shape later: tap it → More → <b>Edit</b>. Drag a point to a new place; the small, dimmed dot in the middle of a segment inserts a new point there (drag it or tap it); tapping a point shows “Delete point”; the “+” past the end of a line lets you keep drawing it (tap the map, tap “+” again to stop). The length or area is shown live at the top, ↶ undoes a step, ✓ saves, ✕ restores the shape from before the changes. Points, numbers and labels have “Move” here instead. The look is chosen from tiles with a preview – the same ones while drawing and in a finished object’s window (Colour): colour, <b>fill</b> (None, 25–100%), <b>outline</b> (with or without) and <b>outline width</b> (XS–L). <b>Callout</b> (in “Draw”, also in Work mode): tap the place it should point at – the callout appears on the map at once and a panel slides up from the bottom: <b>text</b>, frame colour, <b>Background</b>, <b>Background opacity</b> (None · 25–100%), <b>Callout opacity</b>, outline, size and text style. On the map there are two handles: a <b>crosshair</b> at the tail tip (what the callout points at) and <b>✥</b> at the box corner (where the box stands); the tail picks the nearest edge itself. ✓ saves, ↶ undoes, ✕ cancels. “Edit” on an existing callout opens the same panel. The next callout gets the look of the previous one. <b>Legend</b> (in “Draw”): tap the map where it should stand – OMM collects the colours of areas, lines and dots and the point icons from this map and in the panel at the bottom you type what they mean (entries without a description are not shown, the arrows change the order), set the look and move the legend with the ✥ handle; “Descriptions” and “Move” in the legend’s window open the same panel; the legend is compact with square corners, and in the window → Colour you set the <b>Background</b>, <b>Background opacity</b> and <b>Legend opacity</b>. The callout and the legend keep a fixed size on screen and are printed with the frame. <b>Measurements</b>: distance and area – tap points and ✓; bearing, height difference and profile – tap A, then B; elevation and coordinates – a single tap. The result appears at once in a bubble with ✕ and “Share” (a map image with the results, or text). The same menu has <b>print the view to an image</b>.</li>
 <li><b>Route to a point</b> – <b>“Navigate”</b> in the popup of a point, coordinates (press and hold the map), the car or a photo opens the <b>route card</b>: at the top <b>A</b> (from – your position, an address from search, one of your points or a place picked on the map) and <b>B</b> (to – the same; ⇅ swaps A and B), below <b>how you travel</b> – Car, Bike, On foot, Horse or Straight (OMM remembers the last choice; a change re-plans at once). There is no separate “Plan a route” any more – you plan every route with the same card, also “Route from here” in the pop-up of a held place. During navigation ✎ on the bar: <b>Change destination</b> or <b>Add a stop</b>. <b>Horse</b>: OMM uses dirt and field roads and bridle paths and avoids motorways, expressways, sidewalks and paths for pedestrians or bikes only (in Poland a rider on the road counts as a vehicle – Road Traffic Act, art. 35). In forests riding is allowed only on roads marked by the forest district (Forest Act, art. 29 sec. 1a), so OMM avoids forest tracks without a bridle-path mark, and when they can't be avoided it warns “check whether riding is allowed here”. Two variants: <b>Shortest</b> or <b>Dirt roads and greenery</b>; time is counted for about 7 km/h, all variants on the map (the selected one blue, the others grey with a time – tap to choose), at the bottom ✕, ↶ ↷ (undo, redo), ⋮ (search, loop, sort the order, reverse), <b>Save</b> (to “Planning” or to another map) and <b>Navigate</b>. By bike, variants with sidewalks and pedestrian crossings come last, and the card shows a warning such as “⚠ sidewalk 250 m”. The <b>˅ handle</b> at the top of the card (or a tap on the map) collapses it to a bar with time, distance and “Navigate” – the whole map with the routes is visible; tap the bar or ˄ to expand. “🌳 Search through greenery” downloads parks, forests, meadows and gardens from ready-made map tiles (OpenFreeMap, OpenStreetMap data) once for the area and keeps them – later routes nearby work without the server. The greenery route is calculated by the BRouter server with a profile that prefers ways among greenery, by water and away from noise, without zigzagging (a smooth route, turn instructions from BRouter); OMM also tries variants through cycle-legal paths in parks and forests up to about 1 km to the side (no pedestrian-only alleys or closed parks). It rates the surroundings every 25 m: park, forest, meadow best; next to allotments, lawns, water – good; along a major road and by industrial areas – bad. Cemeteries and allotments are not targets, only pleasant surroundings. A variant is shown when the greenery gained clearly outweighs the extra distance; each variant shows “🌳 X km” in greenery. When navigating on foot while moving faster than about 30 km/h for a minute and a half, OMM asks whether to switch to Car or end navigation.</li>
 <li><b>Route screen (planning and editing)</b> – one screen for every route: from “Navigate”, “Route from here”, “Plan a route”, from a saved route's popup (“Edit route”) and from a track (“Save as route”). On the card the points <b>A</b>, <b>1</b>, <b>2</b>… <b>B</b>: tap a name to change the point (search, pick on the map, your position), <b>“+”</b> between rows adds a via point exactly there, ✕ removes it, <b>press and hold a row</b> (or the ≡ handle) to change the order, ⇅ reverses the route. Below: how you travel and the kind of roads, “Search through greenery”, the result – time, length, ↗ climb and ↘ descent (tap to show the elevation profile) – and “Variants ▾”: variants are computed through the via points too. At the bottom ✕, ↶ ↷ (undo, redo every change), ⋮ (search a place, loop – back to the start, <b>sort the order</b> – the shortest order of the via points, reverse, how it works), <b>Save</b> (to “Planning” or to another map) and <b>Navigate</b>. On the map: a tap folds the card into a bar; <b>press and hold</b> or <b>tap an object</b> – a bubble: via point (placed where it lengthens the route least), destination or start; <b>press and hold the route line</b> and drag – the route goes that way (a shaping point a, b, c…; then only your own route stays, without variants); <b>drag a point</b> to move it; <b>tap a point</b> – menu: straight on (off-road), <b>mandatory point</b> (if you skip it while navigating OMM asks whether to go back), set as start / destination, delete. When you navigate along an unsaved route, OMM asks afterwards whether to save it, go back to it or discard it.</li>
@@ -30276,7 +30488,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Menu</b> – the ☰ button in the bottom-left corner unfolds a capsule upwards (like the tools on the right): <b>Maps</b>, <b>Tracks</b>, <b>Photos</b>, <b>Workout</b>, <b>Mode</b> (Private / Work – a simple list) and <b>Settings</b> (at the top: backup, help and tutorial, about; below, all settings and diagnostics). Maps and Tracks look the same: at the top a thin “Work mode: … ▾” bar (tap to open the list of modes), below it “Map: name ▾” or “Tracks: group ▾” (tap to open the list of maps / groups), then buttons (Load file / Load GPX, Select, Filter, Layer…) and the list of layers: <b>◉</b> – active, the <b>name</b> – expands the list, the <b>eye</b> – show and hide, <b>⋮</b> – one layer settings window. <b>Holding a layer</b> selects the whole layer (without expanding it), holding an object selects single objects; then a tap adds or removes (◐ – part of the layer selected). At the top of the map a subtle label “Map: name – mode” (or “Tracks: group – mode”). In Maps you see the whole chosen map, in Tracks the whole chosen group; the eye decides which layers. The track being recorded is always visible. Search also finds maps, layers and track groups (“show only it” – until “Show all”). After switching maps OMM asks which layer the first point should go to. Tapping the map hides the open ☰ menu, the tools on the right, sub-menus and the live recording panel when you did not pick anything.</li>
 <li><b>Planned routes</b> – a route saved from the Route screen (“Save”) lives <b>in Tracks</b>, in the group and layer you choose or create (“＋ New layer…”, “＋ New group…”); routes cannot be placed on maps. On the map a route is a <b>dashed line</b> in the layer colour, in the list it has a route icon. Its window: <b>Navigate</b> (also straight to the finish via the remaining points), <b>Edit route</b> (back to the Route screen), <b>Share</b>, More – description, move to another layer, delete. Routes are not counted in statistics or summaries. Routes from the former “Planning” and from regular maps were moved by OMM to the track group “Planned routes” (other Planning objects stayed on the “Planowanie” map).</li>
 <li><b>Navigation</b> – “Navigate” in the window of a point, line, track, car or photo. Along a line, track or planned route – in the chosen direction; when you are neither at the start nor on the route, OMM shows the distances and asks how to begin: <b>take me to the start</b> (then the whole route), <b>join the route at the nearest point</b> (and on to the finish) or <b>straight to the finish</b> (a new route from where you are through the remaining points) – and how you'll get to the route (by car, by bike, on foot – along roads with voice directions – or straight). To a point there is first the <b>route card</b> (how you travel, variants on the map – the selected one blue, the others grey with a time label, e.g. “+4 min”; Save, Navigate – see “Route to a point”). Variants depend on how you travel: by car fastest, alternatives, shortest, no motorways or tolls; by bike recommended, shortest, quiet (fewer busy streets), no gravel; on foot recommended and shortest. When you get onto the route anywhere (e.g. after a wrong turn), navigation continues from there. The map follows you: the orange arrow sits in the lower part of the screen, the covered part of the route turns grey, other drawings are dimmed, zoom follows your speed; it starts with the <b>direction of travel up</b> (or north – Settings → Navigation), and the <b>map compass</b> (always shown while navigating, orange ring = direction up) switches it on the way. Pan the map with a finger – it comes back by itself after 5 s. At the top centre the <b>next manoeuvre arrow</b> (no background, blue with a dark outline) and the distance to it; while recording it moves aside from the recording capsule. At the bottom a single panel: ✕, distance to the destination and arrival time, and the <b>bulb</b> – screen mode: lit – always bright, off – as usual on the phone, half and half – <b>dimming between manoeuvres</b> (default: the screen is nearly black on straight stretches and brightens about 15 s before a turn, on announcements and on touch). Voice: announcements come earlier at higher speed (fast by car about 1 km, in town 500 m, by bike 150 m) and once more just before the manoeuvre; after a manoeuvre “Continue straight for 800 metres” when the next one is far; small “jogs” in the road (left-right within a few metres) are silent, a clear lane shift gives “Keep right / left”. After sunset a <b>dark map</b> (Settings → Navigation: only while navigating / always after dark / never; aerial imagery unchanged). By bike, an <b>elevation profile</b> card before the start and a note before each climb (gradient and length) – can be switched off in Settings. <b>Required points</b> of a planned route: if you skip one, OMM asks “Go back?” (Go back / Skip; with no answer it goes back after 10 s). By car and bike, when you leave the route OMM guides you to the nearest point of the route ahead, and more than about 100 m away for 10 s it <b>plans a new route to the destination</b> (with unvisited required points on the way it asks first: via the point / skip the point / back to the route); on foot a longer deviation makes the phone vibrate and say where the track is (no notifications). Navigation and voice work with the phone locked too. By bike across a pedestrian crossing – “walk your bike”. When you ride parallel to the route (e.g. on the other side of the street), OMM treats you as on the route, and after about 150 m re-plans it from the road you are on. Headphones that switch off after a few minutes of silence – Settings → Navigation → “Keep Bluetooth headphones awake”. ✕ asks before ending; on arrival – “You have arrived” (no need to hit the point exactly: about 15 m on foot, 30 m by bike, 45 m by car; passing the destination or stopping next to it counts too), and after about 10 s navigation ends by itself (track recording continues).</li>
-<li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself.</li>
+<li><b>Walk on a bearing</b> – measurements → “Walk on a bearing”: enter degrees and the distance in km, or tick “No target” – then you follow the course line until you stop yourself. You can also <b>pick the target on the map</b> or <b>search</b> for it – OMM works out the bearing and distance itself. On the way, “Add a waypoint” leads on a bearing to it first, then to the target. A dimmed screen lights up when you go off course, every set distance and at the target.</li>
 <li><b>GPS tracks</b> – the <b>● REC</b> button in the top-right corner records the route (also with the screen off). While recording, the button turns into a capsule: time, distance and state (paused, auto-pause, car parked – the dot and stop turn amber then), and the round red button is <b>stop</b> (OMM asks whether to save). The live track is computed every ~20 s the same way as after “Stop” (no zigzags), and the last seconds are a thin line to your position. When you show something on the map during recording (a photo, an object, a search result), the map stops following you – <b>Re-centre</b> appears at the bottom, which takes you back and resumes following. At start the buttons slide down first (pause, photo, point, back to start), then the capsule with the time slides out to the left; the ˄ arrow below the buttons folds them, and tapping the capsule unfolds them again. Tapping the time (with the buttons unfolded) opens the live panel. Stops are auto-paused: the line does not break, and there are two sets of statistics – moving and total. In the recording panel: “To the car” (OMM remembers where the car is – after a few dozen steps away from it, or when you stop recording right after parking – and forgets it when you drive off, delete the track it came from or the set time passes; in permanent parking zones – e.g. at home and at work, with a 100–1000 m radius – it does not remember the car at all, Settings → Car and parking), “SMS alert” and 💡 screen. ↩ leads you back to the start along your own track. Your position is the red arrow at the end of the track (direction of travel). OMM keeps every raw GPS fix on the phone and after “Stop” computes the track again: it smooths it forwards and backwards (bends stay in place, zigzags go), turns stops into a single point and removes small jitter. When walking it straightens stretches of the way that really are straight (GPS on foot drifts a few metres sideways) and puts corners where the lines meet; winding paths (e.g. in a forest) keep all their bends. The track starts after three accurate fixes, so there are no circles at the start. The distance in the capsule is computed the same way, so it does not grow from jitter. When a new OMM version computes tracks better, it asks once whether to recompute the tracks recorded since v70 with it (with “Undo”). After you park the car recording continues by default – pausing until you drive again can be chosen in Settings. Announcements every kilometre or every few minutes – voice, vibration, sound or notification (Settings → GPS tracks), where you also set the name pattern for new tracks with numbering. The recording notification in the phone status bar shows distance and time plus <b>Finish</b> (saves at once, no window – name from the template, detected activity, activity layer), <b>Photo</b> and <b>Point</b> (at the current place, without opening OMM) buttons. GPS gaps while driving (the track went straight through buildings) are filled along roads after “Stop” when online – the piece is dashed, “Undo path matching” removes it. By bike and car, “pottering about” in one spot (a photo, a chat by the bike – over a minute within about 25 m) becomes a single stop point, with no loop. Saving from the notification adds the place to the name straight away (without signal – it retries every minute). The track window shows the distance, <b>moving time and stopped time separately</b>, and the total climb. Tight turns while riding or driving (junctions, gates) are sharp, gentle bends smooth. The <b>Save as route</b> icon in the track window opens the planner with a route exactly along the track – points at the turns that you can move or add (only the neighbouring section is recalculated), then “Save” to Planning and navigate it like any route. 📷 opens the <b>full phone camera</b> by default (all modes, the photo stays in the gallery) – when you come back you pick the photos you took (newest at the top); the quick camera in OMM can be chosen in Settings → Folders and files. A walking track that also contains driving (e.g. recording forgotten in the car) is not straightened like walking on the driving part nor snapped to sidewalks; after cutting off the drive (“Show and split”) the second part gets the “Car” type and is recomputed as driving. Changing a track’s activity type recomputes it from the saved measurements (walking is straightened, driving is not).</li>
 <li><b>My routes – tracks</b> – in the “Map and edges” look Tracks and Maps slide in as a <b>drawer from the left</b> (the map stays visible next to it); a layer is a block with a bar in the layer colour, and the tracks below it are indented and have an <b>activity icon</b> (tap it to change the colour). Track categories and layers, activity type, weekly, monthly and yearly summary, extending a missing piece (with preview and “Undo”), splitting and merging, <b>Match to paths</b> (in the track window: the track is sent once to the routing server and moved onto map roads and paths only where it lies close to them – off-path sections stay unchanged; can be undone; Settings → GPS tracks → <b>Snap tracks to paths automatically</b> does the same after every “Stop”, off by default; with “Also save the original GPS readings” on, the track before matching is included in the GPX export), import of GPX, KML, TCX and GeoJSON. When you delete a track with points or photos added while recording, OMM asks whether to keep them on the map (on the same or another layer) or delete them with the track – they come back together from the trash.</li>
 <li><b>Photo</b> – tap the camera on the right-hand bar (or “Photo” in the popup of a held place on the map) and take a photo: it comes back at once and OMM shows the <b>“New photo”</b> window. <b>Where</b> – a map (the open one at first), a track group (when you are in Tracks) or the <b>track being recorded</b> (the default while recording); tap the row to change it. Below: <b>Layer</b> (map) or <b>Track</b> (track group – the nearest one at first), <b>Icon</b> (optional – without an icon the map shows the photo thumbnail), <b>Place</b>: where taken (GPS) or “I'll tap the map” (after “Save” you tap the place), <b>Name</b> (empty = date and time). When you stand very close to one of your points, a hint “📍 Nearby: … · add to it” appears at the bottom. Buttons: <b>Delete photo</b>, <b>Quick add</b> (to the “Photos” map – OMM creates it – no icon, named with date and time, where it was taken) and <b>Save</b>. A photo saved to a map while recording also gets a link in the track. “＋” adds another photo. Hold the camera: photo at a chosen place or from the gallery. Every object has “Add photo” (camera or gallery – photos taken far from the object are shown separately: add only the matching ones or all); the track popup has a camera icon (a photo where you are, or from the gallery – placed on the track by the time it was taken), and under “Edit” – “Match photos from the gallery (by time)”.</li>
@@ -30293,7 +30505,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Search</b> – 🔍 (in the “Map and edges” look a drop like other commands – move it, put it in a folder or the tray): your points, tracks, coordinates (also UTM, MGRS, PL-1992), and after pressing “Search the internet” – towns and addresses. Type a <b>kind</b> (e.g. river, park, shelter, spring, and from the GDOŚ register: natural monument, national park, landscape park, nature reserve, Natura 2000, ecological site) – OMM highlights all such objects in the visible map area: as an area, a line or an icon; a label with the count at the top (✕ clears), tapping an object shows register data, Navigate, <b>Add to map</b>.</li>
 <li><b>Where am I (SOS)</b> – measurements → Point coordinates → “📡 My position”: coordinates to copy, send by SMS or share, an emergency-call button and the sunset time.</li>
 <li><b>Settings</b> (gear in the panel) – categories from the most often changed, each with a short description; one is open at a time. <b>Appearance</b> (light or dark theme or by sunset, map scale bar at the bottom of the screen, GPS accuracy on the button, map rotation, start view), <b>Maps under the map icon</b>, <b>GPS tracks</b> (recording, announcements, track name and colour), <b>Car and parking</b> (car location, permanent parking zones, forgetting after a few days, switching to the car), <b>Navigation</b> (alerts – what and how to announce, map direction, zoom), <b>In the field</b> (alarm near spots, keep the screen on), <b>SMS alert</b> (return time and a number – if you don't confirm you're OK, OMM prepares an SMS with your position), <b>Sport</b>, <b>Backup and data</b> (automatic in OMM's private storage and to Google Drive, also when you leave the app; restore from a list; <b>Trash</b> – deleted things wait there for 30 days), <b>Folders and files</b>, <b>Privacy</b> and <b>Language and units</b>. Short choices are switches in one row, yes/no options are toggles. In <b>Backup and data</b> the table “What goes into the backup”: maps, tracks, photos, settings – each part in the backup or not and encrypted or not (e.g. photos plain, maps encrypted); an encrypted backup includes ODSZYFRUJ.py for reading without OMM (with the password). In <b>Folders and files</b> you can choose any folder on the phone for manually saved files.</li>
-<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words right on the map: at the top left the <b>mode ▾</b> (tap to switch Private / Work), below it the map name and active layer, a magnifier (Search) and the scale next to them; at the bottom <b>Record</b> (a red dot in a ring) and GPS accuracy with altitude (green – good, amber – fair, red – poor; tap – GPS info). Commands stand on the map as <b>drops</b> (an icon in a circle with a pencil outline); two drops side by side merge into a capsule. A drop with small 2×2 icons is a <b>folder</b> (with more than four commands the fourth field is “+N”) – a tap opens a card with the commands and labels next to the drop. The Draw, Measure and Photo choices open the same way, as a card by the drop; if you prefer the panel at the bottom of the screen – Settings → Appearance → “Choices from drops”. By default there are two folders: <b>Menu</b> (Maps, Tracks with statistics, Photos, Workout, Settings, Games) and <b>Tools</b> (Base map, North up, Photo, Point, Draw, Measure), plus the My position drop. At the bottom the <b>Today panel</b> behind its tab (a chevron: distance, tracks, photos, the nearest place – the arrow below it shows more, weather, GPS, sun and Moon; close it with the down chevron above the panel, by tapping the map or by swiping it down). ⚙ in the Today panel sets which rows are shown and in what order, and how the stash looks (icons with labels, icons only or hidden). Press and hold the Today tab to move it along the bottom. Windows, questions, choice lists, Base map, Draw, Measure, ⋮ menus and messages slide up from the bottom with fog; the content fades out at the top together with the fog. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom – drops the bar would cover move just above it for that time (together with the bottom tab) and return afterwards. Map in dark theme – normal, dimmed or dark: Settings → Appearance.</li><li><b>Command layout (Map and edges)</b> – <b>press and hold</b> a drop and drag it: elsewhere on the map, next to another drop (capsule), <b>onto another drop</b> (a folder is made – or it joins an existing one) or <b>onto the Today tab</b> – the command then goes to the <b>stash</b> (the bottom row of the Today panel); from there a tap runs it and press and hold pulls it back onto the map. You can also take a command out of an open folder by holding it in the list. Holding a drop without moving opens a menu: <b>Stash</b>, <b>Split folder</b>, <b>Rename folder</b>. The layout is saved separately for the Private mode and for Work; drops remember the nearest edge, so on another screen or after rotating the phone they stay in the same corner, and the layout and all settings go into the backup. Settings → Appearance → “Restore the factory layout”. A layout from earlier versions (Menu and Tools panels) turns into two folders where the old tabs were.</li><li><b>Weather, Moon, Search</b> – <b>weather</b> in the Today panel: now and the place name (district or village), tap for an hourly and daily forecast – tapping a day expands its details: hour by hour (later 4 parts of the day), precipitation with probability, wind with a direction arrow, cloud cover, sunrise and sunset (MET Norway / yr.no data). Without GPS – from the last known place, with a button to turn GPS on. <b>Moon</b>: rise, set and phase – in the pop-up after tapping the map and in the Today panel. <b>Search</b> also finds kinds of places in the visible map area (park, car park, shelter, spring, wayside shrine, viewpoint, shop, toilet, river…). In Maps photos go only onto the map (onto a track – from the track pop-up in Tracks). In Tracks a Point goes to the open track, and when none is open OMM asks: which track or the map. A layer's <b>Data fields</b> are your form – you fill the fields in later at each point. Icons are drawn “in ink”, with a spot of colour where it means something (red – recording, green – confirm, blue – you); in the weather the sun is amber, rain blue, snow light blue, and warm or freezing temperatures have their own tint.</li><li><b>Reports, photos on a track, GPS drift</b> – <b>Settings → Help and information → Report a problem or an idea</b>: a short form you send yourself by e-mail (the OMM mailbox address is filled in). For a track: track pop-up → More → <b>Report a problem with the track</b> – attaches the track as GPX with the original GPS readings (private data – OMM asks before preparing anything). Settings → GPS tracks → <b>Also save the original GPS readings</b> (on by default) – the GPX file then contains a second track with what the GPS reported. Photos without date and place (e.g. sent via a messenger) can be <b>placed on the track</b> with your finger when adding them to a track – one by one. When the phone “drifts” sideways while you walk and jumps back, after “Stop” OMM replaces that piece with a straight connection (with path snapping – along the path). When a new version computes tracks better, OMM offers to recalculate them – including tracks snapped to paths (recalculated from the raw readings and snapped again). On a walk with path snapping, stops up to about 10 m from a road also go onto the road. When the phone gives no position for a dozen or so seconds while you drive slowly (e.g. approaching traffic lights), OMM no longer “guesses” further driving – the track does not run ahead and come back in a zigzag. <b>Elevations</b> (profile, elevation difference, terrain height, route climbs) in Poland come from the GUGiK DTM, and abroad or when GUGiK does not answer – from the routing server's terrain model (about 30 m, less accurate); the source is shown with the result. <b>Games</b>: tap the name in “About” 7 times – they appear in Menu → Games (including Solitaire and the forest Pinball: log ramp, boletes, tree hollow, basket missions, multiball, TILT).</li>
+<li><b>App look</b> – Settings → Appearance: <b>Current</b> or <b>Map and edges</b>. In the “Map and edges” look the map fills the screen and instead of buttons there are words right on the map: at the top left the <b>mode ▾</b> (tap to switch Private / Work), below it the map name and active layer, a magnifier (Search) and the scale next to them; at the bottom <b>Record</b> (a red dot in a ring) and GPS accuracy with altitude (green – good, amber – fair, red – poor; tap – GPS info). Commands stand on the map as <b>drops</b> (an icon in a circle with a pencil outline); two drops side by side merge into a capsule. A drop with small 2×2 icons is a <b>folder</b> (with more than four commands the fourth field is “+N”) – a tap opens a card with the commands and labels next to the drop. The Draw, Measure and Photo choices open the same way, as a card by the drop; if you prefer the panel at the bottom of the screen – Settings → Appearance → “Choices from drops”. By default there are two folders: <b>Menu</b> (Maps, Tracks with statistics, Photos, Workout, Settings, Games) and <b>Tools</b> (Base map, North up, Photo, Point, Draw, Measure), plus the My position drop. At the bottom the <b>Today panel</b> behind its tab (a chevron: distance, tracks, photos, the nearest place – the arrow below it shows more, weather, GPS, sun and Moon; close it with the down chevron above the panel, by tapping the map or by swiping it down). ⚙ in the Today panel sets which rows are shown and in what order, and how the stash looks (icons with labels, icons only or hidden). Press and hold the Today tab to move it along the bottom. Windows, questions, choice lists, Base map, Draw, Measure, ⋮ menus and messages slide up from the bottom with fog; the content fades out at the top together with the fog. While recording there is one slim line at the top (time, distance, speed, accuracy) and <b>Pause · Photo · Finish</b> at the bottom – drops the bar would cover move just above it for that time (together with the bottom tab) and return afterwards. Map in dark theme – normal, dimmed or dark: Settings → Appearance.</li><li><b>Command layout (Map and edges)</b> – <b>press and hold</b> a drop and drag it: elsewhere on the map, next to another drop (capsule), <b>onto another drop</b> (a folder is made – or it joins an existing one) or <b>onto the Today tab</b> – the command then goes to the <b>stash</b> (the bottom row of the Today panel); from there a tap runs it and press and hold pulls it back onto the map. You can also take a command out of an open folder by holding it in the list. Holding a drop without moving opens a menu: <b>Stash</b>, <b>Split folder</b>, <b>Rename folder</b>. The layout is saved separately for the Private mode and for Work; drops remember the nearest edge, so on another screen or after rotating the phone they stay in the same corner, and the layout and all settings go into the backup. Settings → Appearance → “Restore the factory layout”. A layout from earlier versions (Menu and Tools panels) turns into two folders where the old tabs were.</li><li><b>Weather, Moon, Search</b> – <b>weather</b> in the Today panel: now and the place name (district or village), tap for an hourly and daily forecast – tapping a day expands its details: hour by hour (later 4 parts of the day), precipitation with probability, wind with a direction arrow, cloud cover, sunrise and sunset (MET Norway / yr.no data). The place name in the forecast header lets you choose: my position, recent places, search or pick on the map. Without GPS – from the last known place, with a button to turn GPS on. <b>Moon</b>: rise, set and phase – in the pop-up after tapping the map and in the Today panel. <b>Search</b> also finds kinds of places in the visible map area (park, car park, shelter, spring, wayside shrine, viewpoint, shop, toilet, river…). In Maps photos go only onto the map (onto a track – from the track pop-up in Tracks). In Tracks a Point goes to the open track, and when none is open OMM asks: which track or the map. A layer's <b>Data fields</b> are your form – you fill the fields in later at each point. Icons are drawn “in ink”, with a spot of colour where it means something (red – recording, green – confirm, blue – you); in the weather the sun is amber, rain blue, snow light blue, and warm or freezing temperatures have their own tint.</li><li><b>Reports, photos on a track, GPS drift</b> – <b>Settings → Help and information → Report a problem or an idea</b>: a short form you send yourself by e-mail (the OMM mailbox address is filled in). For a track: track pop-up → More → <b>Report a problem with the track</b> – attaches the track as GPX with the original GPS readings (private data – OMM asks before preparing anything). Settings → GPS tracks → <b>Also save the original GPS readings</b> (on by default) – the GPX file then contains a second track with what the GPS reported. Photos without date and place (e.g. sent via a messenger) can be <b>placed on the track</b> with your finger when adding them to a track – one by one. When the phone “drifts” sideways while you walk and jumps back, after “Stop” OMM replaces that piece with a straight connection (with path snapping – along the path). When a new version computes tracks better, OMM offers to recalculate them – including tracks snapped to paths (recalculated from the raw readings and snapped again). On a walk with path snapping, stops up to about 10 m from a road also go onto the road. When the phone gives no position for a dozen or so seconds while you drive slowly (e.g. approaching traffic lights), OMM no longer “guesses” further driving – the track does not run ahead and come back in a zigzag. <b>Elevations</b> (profile, elevation difference, terrain height, route climbs) in Poland come from the GUGiK DTM, and abroad or when GUGiK does not answer – from the routing server's terrain model (about 30 m, less accurate); the source is shown with the result. <b>Games</b>: tap the name in “About” 7 times – they appear in Menu → Games (including Solitaire and the forest Pinball: log ramp, boletes, tree hollow, basket missions, multiball, TILT).</li><li><b>Point, object bubble, selection, reset</b> – <b>Point</b> (Tools) places a single point with one tap – no ✓ and no undo; a <b>bubble</b> opens right at the point with its name, layer, colour, size and “More”. In the “Map and edges” look, tapping a map object (point, line, area) or “show on map” in the list centres the map on the object and shows its bubble; the bubble closes when you tap the map or ✕. Track windows stay at the bottom of the screen. <b>Selection</b>: press and hold an object or a track in the list – selection mode starts; the <b>Show</b> button on the selection bar zooms the map to the selected ones and highlights them for a moment. <b>Reset</b>: Settings → Reset app – “Restore factory settings” (maps, tracks, photos and workouts stay) or “Delete everything and start over” (the confirmation becomes active after 5 s); before each OMM offers a backup. When restoring a backup OMM asks whether to load the app settings from it or keep the current ones.</li>
 <li><b>Modes</b> – in the Current look the mode button in the panel (top left), in “Map and edges” the mode name ▾ in the top-left corner of the screen: <b>Private</b> and <b>Work</b> (separate maps, tracks and sketch tools). Since v119 Sport is no longer a mode – the <b>Workout</b> command replaced it.</li>
 <li><b>Workout</b> – Menu → <b>Workout</b> (in the “Map and edges” look you can also pull it onto the map as a drop). <b>Tiles</b> of the discipline you trained last appear on the map – each on its own blurred background, with the map and you visible between them. At the top the discipline icon – tap it to change the sport (remembered for next time; during a workout the whole workout and its track move to the new discipline); the discipline tools are there too: intervals and pace target (running), daily step goal (walking), lap (inline skating). At the bottom <b>Start</b> and above it the choice: <b>with track recording</b> or <b>counter only</b> (like a bike computer – no track); the same in Settings → Workout. Either way the counter keeps counting with the screen off. During the workout the bar: <b>Pause</b>, <b>Photo</b> (when recording a track), <b>Hide</b> – the tiles disappear for a moment so you can look at the map (they come back with the same button or by themselves after 20 s), <b>Screen</b> – dimmed (a tap brightens it for a moment; press and hold – what brightens it), always bright or as usual on the phone – and <b>Finish</b>. <b>Stopping the recording ends the workout</b> – also “Finish” in the notification. Next to the discipline name ⚙ (workout settings: calorie data – weight, age, height, sex – tiles, track recording and the layer each discipline's tracks go to) and the chart (statistics). <b>Tiles</b>: press, hold and drag to move a tile on the grid; press and hold without moving – size (small, wide, large), another value in this place, remove, add a tile, factory layout. What is shown – also in Settings → Workout → Tiles on the map, separately for each discipline. Values: speed or pace, distance, moving and total time, average, max, ascent, descent, altitude, gradient, calories, today, total counter, clock, GPS signal and the discipline’s own values (running – last km, interval, pace target; walking – steps, daily goal; trekking – climbing rate, to sunset, time to arrival; horse riding – walk, trot, canter; inline skating – laps). After “Finish” a summary, and all workouts are in <b>Tracks → Summary → Workouts</b>: overall and for each discipline – week, month, year, all time, chart, list. Calories after entering your weight in Settings → Workout; a workout track goes to Tracks – by default <b>together with regular tracks</b> (activity layer in the open group: a bike ride is a bike ride); in Settings → Workout → “Save workout tracks” you can choose a separate “Sport” group or a chosen layer for each sport. Dimmed screen: the first tap only brightens it; it also brightens by itself when you stop (for the whole stop and 5 s after moving off), every kilometre and with a voice message – what and for how long: press and hold the <b>Screen</b> button or Settings → Workout → “Brighten the screen”. While recording you also see your other visible tracks – thinner and dimmed (the “Tracks” eye on the bar hides them).</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
@@ -38893,6 +39105,15 @@ const sumSave = (key, v) => {
     localStorage.setItem(key, JSON.stringify(v));
   } catch (e) {}
 };
+// v131 (pkt 423): kafelki wyboru – do 4 w jednym wierszu, więcej: wiersze rozłożone równo (3+2, 3+3…), bez samotnego
+function tfiltBalance(fr) {
+  const n = fr.children.length;
+  if (!n) return;
+  const rows = Math.ceil(n / 4),
+    cols = Math.ceil(n / rows);
+  fr.classList.add('tfbal');
+  fr.style.gridTemplateColumns = 'repeat(' + cols + ', minmax(0, 1fr))';
+}
 function sumSwitch(cur, close) {
   // przełącznik Wszystko / Treningi / Postęp na górze Podsumowania (trzy widoki to jedno okno);
   // close() zamyka bieżący widok, potem otwiera się wybrany
@@ -39216,11 +39437,12 @@ function trkSummaryDlg() {
     const fr = h('div', 'tfilt'),
       cnt = x => recAll.filter(r => (r.a || '-') === x).length,
       kinds = Object.keys(ACTS).filter(x => cnt(x));
-    fr.append(B((acts.size ? '' : '✓ ') + _t('Wszystkie'), () => (acts.clear(), sumSave('omm-sum-akt', []), draw()), acts.size ? '' : 'on'));
+    // v131 (pkt 423): bez „✓” – zaznaczenie tłem; emoji rodzaju na początku napisu → zawsze ta sama ikona tuszowa
+    fr.append(B(_t('Wszystkie'), () => (acts.clear(), sumSave('omm-sum-akt', []), draw()), acts.size ? '' : 'on'));
     kinds.concat(cnt('-') ? ['-'] : []).forEach(x => {
       const on = acts.has(x);
       fr.append(
-        B((on ? '✓ ' : '') + (x === '-' ? _t('bez rodzaju') : ACTS[x][0] + ' ' + ACTS[x][1]) + ' ' + cnt(x), () => {
+        B((x === '-' ? _t('bez rodzaju') : ACTS[x][0] + ' ' + ACTS[x][1]) + ' ' + cnt(x), () => {
           if (on) acts.delete(x);
           else acts.add(x);
           sumSave('omm-sum-akt', [...acts]);
@@ -39228,6 +39450,7 @@ function trkSummaryDlg() {
         }, on ? 'on' : '')
       );
     });
+    tfiltBalance(fr);
     body.append(fr);
     // zakres: wszystkie grupy trybu / tylko otwarta; treningi ze Sportu
     const opt = h('div', 'sumopt'),
@@ -39602,7 +39825,7 @@ const trkCatCount = c => {
 };
 function trkCatMenu() {
   // jak wybór mapy: kategorie śladów bieżącego trybu (oko = widoczność na mapie), nowa, zmiana nazwy, usuń
-  const m = $('xmenu'),
+  const m = xmenuAs(true),
     cur = trkCur();
   m.innerHTML = '';
   m.append(h('div', 'sec', isW() ? _t('KATEGORIE ŚLADÓW – TRYB PRACA') : _t('KATEGORIE ŚLADÓW – TRYB PRYWATNY')));
@@ -39670,7 +39893,7 @@ function trkCatMenu() {
   const r = ($('sheet').style.display === 'flex' ? $('mtitle') : $('trkb')).getBoundingClientRect(); // v105
   m.style.display = 'block';
   m.style.left = Math.max(4, Math.min(r.left, innerWidth - m.offsetWidth - 4)) + 'px';
-  m.style.top = r.bottom + 4 + 'px';
+  m.style.top = r.bottom + 4 + 'px'; xmenuVars(m);
 }
 $('trkb').onclick = () => {
   if (TAB !== 'slady') {
@@ -40013,7 +40236,7 @@ var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, 
 // paski zaznaczania: same ikony (te same co przy pojedynczym śladzie / obiekcie), nazwa w podpowiedzi
 [
   ['tsmv', 'layer', _t('Przenieś do innej warstwy'), _t('Przenieś')],
-  ['tsvis', 'eye', _t('Pokaż na mapie'), _t('Pokaż')],
+  ['tsvis', 'eye', _t('Pokaż zaznaczone na mapie'), _t('Pokaż')],
   ['tshid', 'eyeOff', _t('Ukryj na mapie'), _t('Ukryj')],
   ['tsact', 'tag', _t('Rodzaj aktywności'), _t('Rodzaj')],
   ['tsnm', 'edit', _t('Nadaj nazwy automatycznie'), _t('Nazwy')],
@@ -40021,6 +40244,7 @@ var TFILT = ''; // filtr listy śladów wg rodzaju aktywności ('' = wszystkie, 
   ['tsgpx', 'dl', _t('Zapisz jako GPX'), 'GPX'],
   ['tsdel', 'del', _t('Usuń'), _t('Usuń')],
   ['tsx', 'check', _t('Gotowe – zakończ zaznaczanie'), _t('Gotowe')],
+  ['selsh', 'eye', _t('Pokaż zaznaczone na mapie'), _t('Pokaż')],
   ['selmv', 'layer', _t('Przenieś do innej warstwy'), _t('Przenieś')],
   ['selic', 'pin', _t('Zmień ikonę'), _t('Ikona')],
   ['selnm', 'edit', _t('Ujednolić nazwy (nazwa = rodzaj ikony)'), _t('Nazwy')],
@@ -40075,7 +40299,14 @@ const tselVis = on => {
   l.forEach(t => (on ? delete t.vis : (t.vis = false)));
   trkChanged();
 };
-$('tsvis').onclick = () => tselVis(true);
+$('tsvis').onclick = () => {
+  // v131 (pkt 431): pokaż zaznaczone ślady – włączone, mapa przybliżona do nich, na chwilę podświetlone
+  const l = tselItems();
+  tselVis(true);
+  if (!l.length) return;
+  $('sheet').style.display = 'none';
+  selFlash(l.map(t => t.pts.map(q => [q[0], q[1]])));
+};
 $('tshid').onclick = () => tselVis(false);
 $('tsgpx').onclick = async () => {
   // wszystkie zaznaczone ślady w jednym pliku GPX
@@ -46049,27 +46280,15 @@ async function greenQuery(bb) {
     sel = ['leisure~"^(park|nature_reserve)$"', 'landuse=forest', 'natural=wood'], // v108: tylko duże obszary – lżej dla serwera
     q = '[out:json][timeout:25];(' + sel.map(t => 'way[' + t + '](' + box + ');').join('') + ');out skel geom qt;';
   // v119 (pkt 347): zieleń bierze się z kafli wektorowych (v108) – Overpass tylko zapasowo i tylko serwer główny (bez luster)
-  const OVP = ['https://overpass-api.de/api/interpreter'],
-    H = plug('CapacitorHttp');
+  const OVP = [OVP_URL];
   let err = null;
   for (let si = 0; si < OVP.length; si++) {
     const u = OVP[si],
-      lim = si === 0 ? 20000 : 12000,
-      url = u + '?data=' + encodeURIComponent(q);
+      lim = si === 0 ? 20000 : 12000;
     let tm = 0;
     try {
       const to = new Promise((_, rej) => (tm = setTimeout(() => rej(Object.assign(new Error('timeout'), {name: 'AbortError'})), lim)));
-      let j;
-      if (H) {
-        const r = await Promise.race([H.get({url, headers: {'User-Agent': 'OMM-OwnMapManager/' + APP_VER + ' (+https://github.com/OwnMapManager/omm)'}, connectTimeout: lim, readTimeout: lim}), to]);
-        if (r.status && r.status >= 400) throw new Error('HTTP ' + r.status);
-        j = typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
-      } else {
-        const ac = new AbortController();
-        const r = await Promise.race([fetch(url, {signal: ac.signal, referrerPolicy: 'no-referrer'}), to.catch(e => (ac.abort(), Promise.reject(e)))]);
-        if (!r.ok) throw new Error('HTTP ' + r.status);
-        j = await r.json();
-      }
+      const j = await Promise.race([ovpJson(q, lim), to]); // v131 (pkt 425): POST z podpisem aplikacji
       if (!j || !Array.isArray(j.elements)) throw new Error('zła odpowiedź');
       diag('trasy', 'Zieleń: ' + u.split('/')[2] + ' – ok, ' + j.elements.length + ' obszarów', box);
       return j.elements.filter(e => Array.isArray(e.geometry) && e.geometry.length > 3).map(e => [e.id, e.geometry.map(g => [+g.lat.toFixed(6), +g.lon.toFixed(6)])]);
@@ -46281,6 +46500,27 @@ async function vtTpl() {
     diag('trasy', 'Zieleń: kafle – brak opisu (' + ((e && e.message) || e) + ')', VT_TJ);
   }
   return c && c.u ? c.u : null;
+}
+// v131 (pkt 425): Overpass odrzucał zapytania natywne bez podpisu aplikacji (HTTP 406) – teraz POST z User-Agent
+// i Accept, najpierw przeglądarka, w razie błędu natywnie; ten sam sposób we wszystkich miejscach (wiaty, pomniki, zieleń)
+const OVP_URL = 'https://overpass-api.de/api/interpreter',
+  OVP_UA = () => 'OMM-OwnMapManager/' + APP_VER + ' (+https://github.com/OwnMapManager/omm)';
+async function ovpJson(q, lim = 25000) {
+  const body = 'data=' + encodeURIComponent(q);
+  try {
+    const ac = new AbortController(),
+      tm = setTimeout(() => ac.abort(), lim);
+    const r = await fetch(OVP_URL, {method: 'POST', body, headers: {'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json'}, signal: ac.signal, referrerPolicy: 'no-referrer'});
+    clearTimeout(tm);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return await r.json();
+  } catch (e) {
+    const H = plug('CapacitorHttp');
+    if (!H) throw e;
+    const r = await H.post({url: OVP_URL, data: body, headers: {'Content-Type': 'application/x-www-form-urlencoded', Accept: 'application/json', 'User-Agent': OVP_UA()}, connectTimeout: lim, readTimeout: lim});
+    if (r.status >= 400) throw new Error('HTTP ' + r.status);
+    return typeof r.data === 'string' ? JSON.parse(r.data) : r.data;
+  }
 }
 async function netJson(url, lim) {
   // JSON: najpierw przeglądarka (WebView), w razie błędu natywnie
@@ -47630,16 +47870,39 @@ async function navChange() {
     title: _t('Nawigacja do: ') + NAV.name,
     btns: [
       {t: _t('Zmień cel'), v: 'to', c: 'okb'},
-      {t: _t('Dodaj przystanek po drodze'), v: 'via'},
+      {t: NAV.az != null ? _t('Dodaj punkt pośredni (też na azymut)') : _t('Dodaj przystanek po drodze'), v: 'via'},
       {t: _t('Anuluj'), v: null}
     ]
   });
   if (!v || !NAV) return;
-  const w = await dlg({title: v === 'to' ? _t('Nowy cel') : _t('Przystanek'), btns: [{t: _t('Wyszukaj adres albo Twój punkt'), v: 'srch', c: 'okb'}, {t: _t('Wskaż na mapie'), v: 'map'}, {t: _t('Anuluj'), v: null}]});
+  const azm = NAV.az != null; // v131 (pkt 428): na azymucie – punkt pośredni też na azymut, nie trasa po drogach
+  const w = await dlg({title: v === 'to' ? _t('Nowy cel') : azm ? _t('Punkt pośredni') : _t('Przystanek'), btns: [{t: _t('Wyszukaj adres albo Twój punkt'), v: 'srch', c: 'okb'}, {t: _t('Wskaż na mapie'), v: 'map'}, {t: _t('Anuluj'), v: null}]});
   if (!w || !NAV) return;
   const go = async (ll, nm) => {
     if (!NAV) return;
     nm = nm || _t('Wskazane miejsce');
+    if (azm) {
+      // azymut: najpierw prosto do punktu pośredniego (albo do nowego celu), po dojściu – prosto do celu
+      const to0 = NAV.to.slice(),
+        nm0 = NAV.name,
+        free = NAV.free;
+      NAV.stopping = true;
+      navStop(true);
+      const me = myPosNow();
+      navStart(ll, v === 'to' ? nm : _t('Punkt pośredni'), null, {straight: true});
+      if (!NAV) return;
+      NAV.az = me ? brgDeg(me, ll) : 0;
+      if (v === 'via' && !free) {
+        NAV.arrive = _t('Punkt pośredni. Teraz azymut do celu: ') + (me ? Math.round(brgDeg(ll, to0)) : '') + '°.';
+        NAV.done = () => {
+          navStop(true);
+          navStart(to0, nm0, null, {straight: true});
+          if (NAV) (NAV.az = brgDeg(ll, to0)), navWake(15000);
+        };
+        NAV.viaLine = L.polyline([ll, to0], {color: '#1e88e5', weight: 3, dashArray: '6 6', opacity: 0.7, interactive: false}).addTo(NAV.g);
+      }
+      return;
+    }
     if (v === 'to') return navRe({to: ll, name: nm, from: null});
     // przystanek: trasa Ty → przystanek → cel tym samym sposobem jazdy
     const me = NAV,
@@ -47673,6 +47936,7 @@ function navPos(c) {
   if (NAV.trust || NAV.spd == null) NAV.spd = NAV.spd == null ? v : NAV.spd * 0.6 + v * 0.4; // prędkość wygładzona (m/s) – do zoomu kamery
   NAV.posT = now;
   NAV.pos = [c.latitude, c.longitude];
+  navAzWake(); // v131 (pkt 429)
   NAV.acc = c.accuracy;
   if (c.heading != null && isFinite(c.heading) && (c.speed || 0) > 0.7) (NAV.gpsHead = c.heading), (NAV.ghT = now);
   navFastCheck(now);
@@ -47753,6 +48017,29 @@ function navVehicle() {
   const pr = NAV.prof || (NAV.road ? rtProf() : null);
   if (pr && RT_PROF[pr]) return RT_PROF[pr].c !== 'pedestrian';
   return (NAV.band || 0) >= 2; // bez rodzaju: powyżej ok. 25 km/h
+}
+function navAzWake() {
+  // v131 (pkt 429): azymut – zejście > 25 m trwające 10 s i kolejny odcinek dystansu (ustawienie z treningu) budzą ekran
+  if (!NAV || NAV.az == null || !NAV.pos) return;
+  const now = Date.now();
+  // odchyłka od linii kursu: bez celu – z miejsca startu w kierunku azymutu; z celem – od pierwszej pozycji do celu
+  NAV.azS = NAV.azS || (NAV.free ? NAV.free.s : NAV.pos.slice());
+  const a0 = NAV.free ? NAV.free.az : brgDeg(NAV.azS, NAV.to),
+    d0 = hav(NAV.azS, NAV.pos),
+    off = Math.abs(d0 * Math.sin(((brgDeg(NAV.azS, NAV.pos) - a0) * Math.PI) / 180));
+  if (off > 25 && NAV.trust) NAV.azOffS = NAV.azOffS || now;
+  else NAV.azOffS = 0;
+  if (NAV.pos && NAV.azLast && NAV.trust) NAV.azWalk = (NAV.azWalk || 0) + hav(NAV.azLast, NAV.pos);
+  NAV.azLast = NAV.pos ? NAV.pos.slice() : NAV.azLast;
+  const st = trnWake('km');
+  if (st > 0) {
+    const n = Math.floor((NAV.azWalk || 0) / ((IMP ? MI : 1000) * st));
+    if (n > (NAV.azKm || 0)) {
+      NAV.azKm = n;
+      if (navDim.on) DIM_WHY = _t('kolejny kilometr');
+      navWake((trnWake('s') || 15) * 1000);
+    }
+  }
 }
 function navOff(off, msg, okMsg, dirB, hd) {
   // zejście z trasy / kursu (v65): tylko głos i wibracja, bez powiadomień; bez fałszywych alarmów:
@@ -48460,7 +48747,11 @@ function navDim() {
     !NAV.picking &&
     Date.now() > (NAV.wakeT || 0) &&
     Date.now() - NAV.t0 > 15000 &&
-    !(NAV.wn && NAV.wn.textContent) &&
+    // v131 (pkt 429): na azymucie ostrzeżenia nie trzymają ekranu jasnego (słaby GPS w lesie, małe odejścia
+    // przy omijaniu przeszkód) – budzi dopiero zejście > 25 m przez 10 s, zbliżanie do celu i co dystans (navAzWake)
+    !(NAV.az == null && NAV.wn && NAV.wn.textContent) &&
+    !(NAV.az != null && NAV.azOffS && Date.now() - NAV.azOffS > 10000) &&
+    !(NAV.az != null && NAV.pos && !NAV.free && hav(NAV.pos, NAV.to) < 60) &&
     !(NAV.dm != null && NAV.nx && NAV.dm < Math.max(80, (NAV.spd || 0) * 15)) &&
     !(NAV.rj && !NAV.nx));
   let el = $('navdim');
@@ -52364,7 +52655,6 @@ const VT_CATS = [
   {n: 'Natura 2000 – obszary siedliskowe', g: 'SpecjalneObszaryOchrony', st: ['natura', 'obszar siedl', 'obszary siedl', 'siedliskow']},
   {n: 'Użytki ekologiczne', g: 'UzytkiEkologiczne', st: ['uzytek eko', 'uzytki eko', 'uzytkow eko']},
   {n: 'Zespoły przyrodniczo-krajobrazowe', g: 'ZespolyPrzyrodniczoKrajobrazowe', st: ['zespol przyr', 'zespoly przyr', 'przyrodniczo']},
-  {n: 'Stanowiska dokumentacyjne', g: 'StanowiskaDokumentacyjne', st: ['stanowisk dok', 'stanowiska dok']}
 ];
 const VT_CAT_POP = ['Parki', 'Parkingi', 'Wiaty i schrony', 'Źródła', 'Kapliczki i krzyże', 'Punkty widokowe', 'Sklepy', 'Toalety'];
 function vtCatFind(q) {
@@ -52791,14 +53081,17 @@ $('srchb').onclick = searchDlg;
 // ---------- mapy offline: pobieranie obszaru i lista pobranych obszarów ----------
 const fmb = b => (b / 1048576).toFixed(1).replace('.', DEC) + ' MB';
 async function offLoad() {
-  try {
-    OFF.areas = (await IDB.get('offline-obszary')) || [];
-    OFF.idx = new Set(await IDB.keys('tile/'));
-  } catch (e) {
-    OFF.areas = [];
-  }
+  // v131 (pkt 419): „Mapy offline” usunięte – pobierały obszary z serwera OpenStreetMap, czego jego zasady zabraniają
+  // (wrócą jako pakiet mapy Polski). Pobrane wcześniej kafle są usuwane z telefonu, żeby zwolnić miejsce.
+  OFF.areas = [];
+  OFF.idx = new Set();
   OFF.ready = true;
-  if (OFF.idx.size && curBase && curBase._offId) curBase.redraw();
+  try {
+    const ks = await IDB.keys('tile/');
+    for (let i = 0; i < ks.length; i += 500) await IDB.delMany(ks.slice(i, i + 500));
+    if (await IDB.get('offline-obszary')) await IDB.delMany(['offline-obszary']);
+    if (ks.length) diag('mapa', _t('Mapy offline usunięte – zwolniono miejsce po kaflach: ') + ks.length);
+  } catch (e) {}
 }
 const lon2x = (lon, z) => Math.floor(((lon + 180) / 360) * 2 ** z),
   lat2y = (lat, z) => {
@@ -53322,7 +53615,7 @@ setTimeout(() => gpsStart({quiet: true, stay: (localStorage.getItem('omm-start')
  */
 const TUT_STEPS = [
   {sel: null, t: _t('Mapa'), x: _t('Przesuwaj mapę palcem, przybliżaj dwoma palcami. Dotknij punktu albo śladu, by zobaczyć jego okienko.')},
-  {sel: '#bbtn', t: _t('Podkład i mapy offline'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze – także archiwalne z wybranego roku, satelita), nakładki (działki, szlaki, siedliska leśne), a na górze „Mapy offline” – pobranie obszaru przed wyjściem w teren bez zasięgu.')},
+  {sel: '#bbtn', t: _t('Podkład'), x: _t('Wybór mapy (OSM, zdjęcia lotnicze, satelita) i nakładki (działki, szlaki, lasy, ochrona przyrody). Grupy nakładek zwijasz dotknięciem nagłówka.')},
   {sel: '#gps', t: _t('Moja pozycja'), x: _t('Pokazuje, gdzie jesteś; pod przyciskiem dokładność GPS (np. ±4 m – zielona dobra, czerwona słaba). Stożek przy kropce wskazuje, w którą stronę patrzysz. Przytrzymaj przycisk – Informacje GPS: dokładność, wiek pomiaru, wykres sygnału.')},
   {sel: '#recb', t: _t('Nagrywanie śladu'), x: _t('Nagrywa trasę także przy wygaszonym ekranie. W trakcie przycisk zmienia się w kapsułę z czasem i dystansem – dotknij czasu, by zobaczyć panel na żywo; okrągły czerwony przycisk to stop, a w pauzie wszystko robi się bursztynowe. Twoja pozycja to strzałka na końcu śladu. Postoje to auto-pauza (linia się nie urywa, statystyki „w ruchu” i całkowite). Po „Stop” OMM liczy ślad od nowa z surowych pomiarów GPS – wygładzony, bez zygzaków i kółek. W panelu nagrywania: „Do auta”, „Powiadom SMS” i 💡 – ekran nie gaśnie. Pod domem i przy pracy auto nie musi być zapamiętywane – strefy parkowania ustawisz w Ustawieniach → Auto i parkowanie.')},
   {sel: '[data-g="photo"]', t: _t('Zdjęcie'), x: _t('Zrób zdjęcie w miejscu, w którym stoisz – OMM zapyta, gdzie je zapisać: na mapę, do śladu albo „Dodaj szybko” na mapę „Zdjęcia”. Przytrzymaj: zdjęcie w wybranym miejscu albo z galerii.')},
@@ -54276,8 +54569,35 @@ function carOnStop() {
 }
 
 // --- P9: kompas na azymut ---
-async function azGoDlg() {
+var AZ_PICK = null, // v131 (pkt 428): cel wskazany na mapie / wyszukany – {ll, nm}
+  AZ_LINE = null;
+function azPickClear() {
+  AZ_PICK = null;
+  if (AZ_LINE) map.removeLayer(AZ_LINE), (AZ_LINE = null);
+}
+async function azPickTarget(how) {
+  // cel z mapy albo z wyszukiwania → azymut i odległość od Twojej pozycji, linia na mapie, okno wraca z wpisanymi polami
+  const done = async (ll, nm) => {
+    const me = myPosNow() || (await getMyPos());
+    if (!me) return tell(_t('Nie udało się ustalić pozycji GPS.'));
+    const az = brgDeg(me, ll),
+      U = IMP ? 1609.344 : 1000;
+    AZ_PICK = {ll: [+ll[0].toFixed(6), +ll[1].toFixed(6)], nm: nm || ''};
+    localStorage.setItem('omm-azgo', String(Math.round(az)));
+    localStorage.setItem('omm-azgo-km', nf(hav(me, ll) / U, 2));
+    localStorage.setItem('omm-azgo-wolny', '0');
+    if (AZ_LINE) map.removeLayer(AZ_LINE);
+    AZ_LINE = L.polyline([me, AZ_PICK.ll], {color: '#1e88e5', weight: 3, dashArray: '8 6', interactive: false}).addTo(map);
+    map.fitBounds(L.latLngBounds([me, AZ_PICK.ll]).pad(0.25), {maxZoom: 17});
+    azGoDlg(true);
+  };
+  if (how === 'srch') return searchDlg((ll, nm) => done(ll.slice(), nm));
+  toastMsg(_t('Dotknij mapy w miejscu celu'));
+  map.once('click', e => done([e.latlng.lat, e.latlng.lng], ''));
+}
+async function azGoDlg(keepPick) {
   // v59: odległość w km (mile przy jednostkach angielskich) albo „bez celu” – idziesz, dopóki sam nie zakończysz
+  if (!keepPick) azPickClear();
   const body = h('div', 'ffrm'),
     a = h('input'),
     d = h('input'),
@@ -54311,11 +54631,19 @@ async function azGoDlg() {
     d,
     h('div', 'muted', _t('OMM poprowadzi od miejsca, w którym stoisz. Możesz omijać przeszkody – strzałka sama poprawi kierunek. Bez celu: na mapie linia kursu, na pasku przebyty dystans i odchyłka od kursu; marsz kończysz ✕ na pasku.'))
   );
+  // v131 (pkt 428): cel można wskazać na mapie albo wyszukać – OMM sam wpisze azymut i odległość
+  const pk = h('div', 'azpick');
+  pk.append(
+    B('📍 ' + _t('Wskaż cel na mapie'), () => (body.closest('.dback') && body.closest('.dback').remove(), azPickTarget('map'))),
+    B('🔍 ' + _t('Wyszukaj cel'), () => (body.closest('.dback') && body.closest('.dback').remove(), azPickTarget('srch')))
+  );
+  body.prepend(pk);
+  if (AZ_PICK) body.prepend(h('div', 'muted azpk', _t('Cel: ') + (AZ_PICK.nm || _t('wskazane miejsce')) + ' – ' + _t('azymut i odległość wpisane od Twojej pozycji')));
   const v = await formDlg(_t('🧭 Idź na azymut'), body, [
     {t: _t('Anuluj'), v: null},
     {t: _t('Idź'), v: 'go', c: 'okb'}
   ]);
-  if (v !== 'go') return;
+  if (v !== 'go') return azPickClear();
   const az = +String(a.value).replace(',', '.');
   if (a.value === '' || !isFinite(az)) return tell(_t('Podaj azymut w stopniach (0–359).'));
   const azn = ((az % 360) + 360) % 360,
@@ -54331,9 +54659,11 @@ async function azGoDlg() {
   if (cb.checked) {
     navStart(destPt(p, azn, 100000), _t('Azymut ') + Math.round(azn) + '°', null, {free: {s: p, az: azn}});
   } else {
-    const dist = d.value.trim() && isFinite(kmv) && kmv > 0 ? Math.min(100000, kmv * U) : 2000;
-    navStart(destPt(p, azn, dist), _t('Azymut ') + Math.round(azn) + '°', null, {straight: true}); // azymut – zawsze prosto
+    const dist = d.value.trim() && isFinite(kmv) && kmv > 0 ? Math.min(100000, kmv * U) : 2000,
+      pick = AZ_PICK && Math.abs(((brgDeg(p, AZ_PICK.ll) - azn + 540) % 360) - 180) < 2 ? AZ_PICK : null; // cel wskazany, a azymut nie zmieniony ręcznie
+    navStart(pick ? pick.ll : destPt(p, azn, dist), (pick && pick.nm) || _t('Azymut ') + Math.round(azn) + '°', null, {straight: true}); // azymut – zawsze prosto
   }
+  azPickClear();
   if (NAV) NAV.az = azn;
 }
 
@@ -57312,7 +57642,7 @@ async function treeMore(el, pr, ll) {
     try {
       const a = ll.lat.toFixed(6) + ',' + ll.lng.toFixed(6),
         q = '[out:json][timeout:15];(node(around:35,' + a + ')[natural=tree];node(around:35,' + a + ')[denotation=natural_monument];);out tags 8;',
-        j = await netJson('https://overpass-api.de/api/interpreter?data=' + encodeURIComponent(q), 20000),
+        j = await ovpJson(q, 20000),
         t = ((j && j.elements) || []).map(x => x.tags || {}).find(x => x.circumference || x.height || x.start_date || x.age);
       if (t) {
         if (!obw && t.circumference) (obw = numCm(t.circumference, true)), (src = 'OSM');
@@ -59324,6 +59654,109 @@ async function sstatEntry(e) {
   }
 }
 
+// ---------- v131 (pkt 421): ustawienia fabryczne / usunięcie wszystkiego ----------
+// dane, które zostają przy „ustawieniach fabrycznych” (mapy, ślady, treningi, kosz, mapy-zdjęcia, gry, blokada,
+// szyfrowanie kopii, wybrane foldery i Dysk, dziennik diagnostyczny)
+const RESET_KEEP = /^(mapa-(v2|snap-|uszkodzone-|tpl)|omm-(slady|trk-nr|imgmaps|kosz|sport-(log|odo)|gra-|lock|szyfr|folder|dysk-|diag|pierwszy|tut|tip|autokopia-|kopia-(reczna|przyp)|zmiany|plan$|plan-szkic|rec$|maps-(ord|hid)))/;
+async function resetBackupAsk() {
+  // przed resetem: kopia? true = dalej, false = przerwij
+  const v = await dlg({
+    title: _t('Najpierw zrobić kopię zapasową?'),
+    msg: _t('Kopia ZIP z mapami, śladami, zdjęciami i ustawieniami – z niej przywrócisz wszystko.'),
+    btns: [
+      {t: _t('Zrób kopię'), v: 'kopia', c: 'okb'},
+      {t: _t('Pomiń'), v: 'pomin'},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (!v) return false;
+  if (v === 'pomin') return true;
+  progShow(_t('Kopia: pakuję mapy, ślady i zdjęcia…'));
+  try {
+    const z = await zipBackup(false),
+      fn = 'omm-kopia-' + dateStamp() + '.zip';
+    progHide();
+    await dl(fn, 'application/zip', z);
+    localStorage.setItem('omm-kopia-reczna', String(Date.now()));
+    toastMsg(_t('✓ Kopia gotowa: ') + fn);
+    return true;
+  } catch (e) {
+    progHide();
+    await tell(_t('Nie udało się zrobić kopii: ') + ((e && e.message) || e) + _t('\n\nNic nie zostało usunięte.'));
+    return false;
+  }
+}
+function resetCountdown(title, msg, okT) {
+  // potwierdzenie: „Usuń” staje się aktywne dopiero po 5 s
+  return dlg({
+    title,
+    msg,
+    btns: [],
+    body: fin => {
+      const r = h('div', 'db'),
+        no = B(_t('Anuluj'), () => fin(false)),
+        ok = B('', () => !ok.disabled && fin(true), 'danger');
+      let n = 5;
+      const tick = () => {
+        ok.textContent = n > 0 ? okT + ' (' + n + ')' : okT;
+        ok.disabled = n > 0;
+        ok.style.opacity = n > 0 ? '.5' : '';
+        if (n-- > 0) setTimeout(tick, 1000);
+      };
+      tick();
+      r.append(no, ok);
+      return r;
+    }
+  });
+}
+function resetFreeze() {
+  // po resecie nic już nie zapisuje (odłożone zapisy, nagrywanie) – zaraz przeładowanie
+  try {
+    Storage.prototype.setItem = function () {};
+    IDB.set = IDB.setMany = () => Promise.resolve();
+  } catch (e) {}
+}
+async function resetApp(all) {
+  if (REC) return tell(_t('Najpierw zakończ nagrywanie śladu.'));
+  if (!(await resetBackupAsk())) return;
+  if (!all) {
+    if (!(await askYes(_t('Przywrócić ustawienia fabryczne?\n\nWygląd, układ poleceń, podkład, nakładki i wszystkie opcje wrócą do stanu jak po instalacji. Mapy, ślady, zdjęcia i treningi zostają.'), _t('Przywróć'))))
+      return;
+    progShow(_t('Przywracam ustawienia fabryczne…'));
+    try {
+      Object.keys(localStorage)
+        .filter(k => /^(omm-|mapa-)/.test(k) && !RESET_KEEP.test(k))
+        .forEach(k => localStorage.removeItem(k));
+      diag('reset', _t('przywrócono ustawienia fabryczne'));
+    } catch (e) {}
+    resetFreeze();
+    return setTimeout(() => location.reload(), 300);
+  }
+  if (
+    !(await resetCountdown(
+      _t('Usunąć wszystko?'),
+      _t('Znikną wszystkie mapy, ślady, zdjęcia dodane w OMM, treningi, kosz i ustawienia. Tego nie da się cofnąć – chyba że masz kopię zapasową. Zdjęcia w galerii telefonu i pliki kopii w folderze zostają.'),
+      _t('Usuń wszystko')
+    ))
+  )
+    return;
+  progShow(_t('Usuwam wszystkie dane…'));
+  try {
+    const ks = await IDB.keys('');
+    if (ks && ks.length) await IDB.delMany(ks);
+  } catch (e) {}
+  try {
+    const FS = plug('Filesystem');
+    if (FS) for (const p of ['share', 'out', 'autokopia']) await FS.rmdir({path: p, directory: 'CACHE', recursive: true}).catch(() => {});
+  } catch (e) {}
+  try {
+    localStorage.clear();
+    sessionStorage.clear();
+  } catch (e) {}
+  resetFreeze();
+  setTimeout(() => location.reload(), 300);
+}
+
 // ---------- ustawienia aplikacji (folder zapisu, nagrywanie śladu) ----------
 function settingsDlg(keep, old) {
   // ustawienia w zwijanych kategoriach. v73: otwarcie z przycisku – zawsze wszystko zwinięte i od góry;
@@ -60335,7 +60768,7 @@ function settingsDlg(keep, old) {
     BI('save', _t('Zrób kopię / przywróć / eksport'), () => {
       back.remove();
       $('projb').onclick();
-      const m = $('xmenu');
+      const m = xmenuAs(false);
       m.style.left = Math.max(8, (innerWidth - m.offsetWidth) / 2) + 'px';
       m.style.top = Math.max(60, (innerHeight - m.offsetHeight) / 3) + 'px';
     }, 'okb')
@@ -60705,6 +61138,12 @@ function settingsDlg(keep, old) {
     ],
     _t('Przy jednostkach imperialnych zawsze akry i stopy kwadratowe.')
   );
+
+  // v131 (pkt 421): przywrócenie ustawień fabrycznych albo usunięcie wszystkiego – na samym dole
+  cat('reset', 'del', _t('Reset aplikacji'), _t('Ustawienia fabryczne, usunięcie wszystkich danych'));
+  sec.append(h('div', 'muted', _t('„Przywróć ustawienia fabryczne” zostawia mapy, ślady, zdjęcia i treningi – wraca tylko wygląd, układ poleceń i opcje. „Usuń wszystko” czyści całą aplikację; zdjęcia w galerii telefonu i kopie w folderze zostają.')));
+  btnRow([B(_t('Przywróć ustawienia fabryczne'), () => (fin(), resetApp(false)))]);
+  btnRow([B(_t('Usuń wszystko i zacznij od nowa'), () => (fin(), resetApp(true)), 'danger')]);
 
   // „O aplikacji”, „Jak zacząć” i samouczek – pod przyciskiem „i” w panelu warstw (bez dublowania tutaj)
   body.append(h('div', 'muted', APP_NAME + ' ' + APP_VER + ' – ' + APP_FULL));
