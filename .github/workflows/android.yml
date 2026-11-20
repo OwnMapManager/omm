@@ -73,6 +73,9 @@ jobs:
           npx cap sync android
           echo "ver=$(cat www/version.txt)" >> "$GITHUB_OUTPUT"
 
+      - name: Certyfikaty wystawców Geoportalu (v133, pkt 424)
+        run: bash scripts/geoportal-ca.sh
+
       - name: Sprawdź Gradle Wrapper (oficjalna suma pliku gradle-wrapper.jar)
         uses: gradle/actions/wrapper-validation@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
 
