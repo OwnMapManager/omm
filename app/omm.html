@@ -3606,8 +3606,6 @@ body.rec #recpill {
 }
 .gov {
   overflow-y: auto;
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
 }
 .gov .gp.gsm {
   font-size: 12px;
@@ -9310,7 +9308,7 @@ html.sk-krawedzie.dark { --kfog: 36, 42, 37; --kpt: #b9beb3; --kpts: #8f968a; --
 /* noc: tło paneli miękkie szarozielone, mniej prześwitu, mapa pod spodem lekko rozmyta */
 html.sk-krawedzie.dark .skfog.l { background: linear-gradient(90deg, rgba(var(--kfog), 0.96) 0, rgba(var(--kfog), 0.9) 150px, rgba(var(--kfog), 0) 240px); }
 html.sk-krawedzie.dark .skfog.r { background: linear-gradient(270deg, rgba(var(--kfog), 0.96) 0, rgba(var(--kfog), 0.9) 120px, rgba(var(--kfog), 0) 200px); }
-html.sk-krawedzie #sheet, html.sk-krawedzie #bmenu, html.sk-krawedzie #dmenu, html.sk-krawedzie .dback .dbox.setdlg, #skpanel { -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+html.sk-krawedzie #sheet, html.sk-krawedzie #bmenu, html.sk-krawedzie #dmenu, html.sk-krawedzie .dback .dbox.setdlg, #skpanel { }
 html.sk-krawedzie.dark #sheet, html.sk-krawedzie.dark #bmenu, html.sk-krawedzie.dark #dmenu, html.sk-krawedzie.dark .dback .dbox.setdlg { background: rgba(var(--kfog), 0.95) !important; color: var(--kpt) !important; }
 /* mgiełki krawędzi wysunięte poza ekran – przy samym brzegu zawsze pełne przyciemnienie (pkt 288) */
 #skside .skfog.l { left: -24px; }
@@ -9459,7 +9457,7 @@ html.sk-krawedzie #skbc { bottom: calc(26px + var(--sa)) !important; }
 .skwxr .skv { font-size: 22px; font-weight: 300; }
 /* panel ogólny z dołu z mgłą (pogoda – pkt 306) */
 #skpanelx { position: fixed; inset: 0; z-index: 1002; }
-#skpanel.b { left: 0; right: 0; top: auto; bottom: 0; width: auto; max-height: 86vh; box-shadow: none; background: var(--kfogb); padding: 64px 16px calc(14px + var(--sa)); animation: skInB 0.22s ease-out; -webkit-backdrop-filter: none; backdrop-filter: none; }
+#skpanel.b { left: 0; right: 0; top: auto; bottom: 0; width: auto; max-height: 86vh; box-shadow: none; background: var(--kfogb); padding: 64px 16px calc(14px + var(--sa)); animation: skInB 0.22s ease-out; }
 #skpanel.b .skph { justify-content: space-between; align-items: flex-start; }
 #skpanel .skpt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .wxwhere { font-size: 13px; color: var(--kpts); }
@@ -9468,7 +9466,7 @@ html.sk-krawedzie #skbc { bottom: calc(26px + var(--sa)) !important; }
 html.sk-krawedzie #dmenu, html.sk-krawedzie #bmenu, html.sk-krawedzie #xmenu {
   position: fixed !important; left: 0 !important; right: 0 !important; top: auto !important; bottom: 0 !important; width: auto !important; max-width: none !important; min-width: 0 !important;
   height: auto !important; max-height: 74vh !important; overflow-y: auto !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important;
-  background: var(--kfogb) !important; color: var(--kpt) !important; padding: 64px 16px calc(14px + var(--sa)) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  background: var(--kfogb) !important; color: var(--kpt) !important; padding: 64px 16px calc(14px + var(--sa)) !important;
   animation: skInB 0.22s ease-out !important; font-family: var(--ff), sans-serif; z-index: 1003 !important; }
 html.sk-krawedzie #xmenu { z-index: 3100 !important; }
 html.sk-krawedzie #dmenu[style*="block"] { display: grid !important; grid-template-columns: 1fr 1fr; column-gap: 16px; align-content: end; }
@@ -9582,7 +9580,7 @@ html.sk-krawedzie #dmenu.icm .ipk .ig button { min-height: 58px !important; }
 .game button.ibt { color: #2c312a; }
 .game button.ibt:active { background: rgba(44, 49, 42, 0.12); }
 .gcv { border-radius: 4px 6px 5px 7px / 6px 4px 7px 5px; box-shadow: 0 0 0 1.5px #2c312a, 3px 4px 0 rgba(44, 49, 42, 0.12); }
-.gov { background: rgba(243, 239, 228, 0.86); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.gov { background: rgba(243, 239, 228, 0.86); }
 .gh { text-shadow: none; font-weight: 600; letter-spacing: 0.2px; }
 .gov .gp.gbigsc { text-shadow: none; color: #c8553f; }
 .gov button { color: #2c312a; background: #fcfbf6; border: 1.6px solid #2c312a; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; box-shadow: 2px 3px 0 rgba(44, 49, 42, 0.18); }
@@ -9625,7 +9623,7 @@ html.sk-krawedzie.dark:not(.dimmap):not(.mnight) .trnbox, html.sk-krawedzie.dark
 .trnbox.hid { opacity: 0; }
 .trnbox.hid .trnt { pointer-events: none; }
 .trnt { position: absolute; pointer-events: auto; box-sizing: border-box; border-radius: 16px; padding: 6px 10px 7px; display: flex; flex-direction: column; justify-content: center; align-items: flex-start; overflow: hidden;
-  background: rgba(var(--kfog, 251, 251, 248), 0.5); -webkit-backdrop-filter: blur(9px) saturate(1.15); backdrop-filter: blur(9px) saturate(1.15);
+  background: rgba(var(--kfog, 251, 251, 248), 0.5);
   box-shadow: inset 0 0 0 1px rgba(var(--kfog, 251, 251, 248), 0.75), 0 1px 6px rgba(0, 0, 0, 0.14); user-select: none; -webkit-user-select: none; touch-action: none; transition: box-shadow 0.15s, transform 0.15s; }
 .trnt b { display: block; width: max-content; max-width: none; font-weight: 400; font-size: 25px; line-height: 1.05; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.01em; }
 .trnt i { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; max-width: 100%; margin-top: 3px; font-style: normal; font-size: 10.5px; line-height: 1.2; letter-spacing: 0.03em; color: var(--sub, #5d6259); overflow: hidden; }
@@ -10001,7 +9999,7 @@ body.boxed #fin, body.boxed #tools, body.boxed #tpal, body.boxed #sklchips, body
 .gdlab.dk span { text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 2px #000, 0 0 1px #000; }
 /* v134 (pkt 463): bez poświat i bez „mgły” (przejść do przezroczystości). Jedyny efekt: równe jasne (nocą ciemne) tło,
    minimalnie przezroczyste, z rozmyciem tego, co pod spodem; wyraźna krawędź – cienka linia */
-html.sk-krawedzie { --kblur: blur(10px) saturate(1.1); --kblurl: blur(5px) saturate(1.25); --ksh: none; --kshi: none;
+html.sk-krawedzie { --ksh: none; --kshi: none;
   --kfogb: rgba(var(--kfog), 0.9); --kfogt: rgba(var(--kfog), 0.9); }
 html.sk-krawedzie .skt, html.sk-krawedzie .navtop, html.sk-krawedzie .navbot, html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip, html.sk-krawedzie #trnchip,
 html.sk-krawedzie #skgb.stash::after { text-shadow: none !important; }
@@ -10010,7 +10008,7 @@ html.sk-krawedzie .skt .ic, html.sk-krawedzie .skt svg, .sklchip .ic, #trnchip .
 /* napisy na mapie – na szklanej pigułce zamiast poświaty */
 html.sk-krawedzie #sktl, html.sk-krawedzie #skbc:not(:empty), html.sk-krawedzie #skbl .skrt, html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip, html.sk-krawedzie #trnchip,
 html.sk-krawedzie .navtop, html.sk-krawedzie .navbot, html.sk-krawedzie #skrv, html.sk-krawedzie .skrzt, html.sk-krawedzie #skgb.stash::after {
-  background: rgba(var(--kfog), 0.6) !important; -webkit-backdrop-filter: var(--kblurl); backdrop-filter: var(--kblurl); box-shadow: none !important; border-radius: 14px !important; }
+  background: rgba(var(--kfog), 0.68) !important; box-shadow: none !important; border-radius: 14px !important; }
 html.sk-krawedzie #sktl { padding: 6px 12px 7px !important; }
 html.sk-krawedzie #skbc:not(:empty) { padding: 3px 10px !important; }
 html.sk-krawedzie #skbl .skrt { padding: 5px 11px 6px; }
@@ -10019,35 +10017,34 @@ html.sk-krawedzie .skrzt { padding: 2px 8px; }
 html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip { padding: 4px 10px !important; }
 html.sk-krawedzie .navtop, html.sk-krawedzie .navbot { padding-left: 12px !important; padding-right: 12px !important; }
 html.sk-krawedzie #skgb.stash::after { padding: 4px 10px; }
-html.sk-krawedzie .skring { background: rgba(var(--kfog), 0.6) !important; -webkit-backdrop-filter: var(--kblurl); backdrop-filter: var(--kblurl); box-shadow: 0 0 0 1px color-mix(in srgb, var(--txt) 35%, transparent) !important; border-color: transparent !important; }
+html.sk-krawedzie .skring { background: rgba(var(--kfog), 0.68) !important; box-shadow: 0 0 0 1px color-mix(in srgb, var(--txt) 35%, transparent) !important; border-color: transparent !important; }
 /* krople i kapsuły: szkło pod rysowaną obwódką (kształt w sklChips) */
-.sklglass { position: absolute; inset: 0; pointer-events: none; background: rgba(var(--kfog), 0.58); -webkit-backdrop-filter: var(--kblurl); backdrop-filter: var(--kblurl); }
+.sklglass { position: absolute; inset: 0; pointer-events: none; background: rgba(var(--kfog), 0.66); } /* v139 (pkt 471): bez rozmycia – zjadało pamięć grafiki */
 /* listwy i Panel Dziś: równe tło z wyraźną krawędzią (wysokość w skFogB) */
-html.sk-krawedzie .skfog.l, html.sk-krawedzie .skfog.r, html.sk-krawedzie .skfog.b { -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie .skfog.l, html.sk-krawedzie .skfog.r, html.sk-krawedzie .skfog.b { }
 html.sk-krawedzie .skfog.l { background: rgba(var(--kfog), 0.88) !important; box-shadow: 1px 0 0 var(--line); }
 html.sk-krawedzie .skfog.r { background: rgba(var(--kfog), 0.88) !important; box-shadow: -1px 0 0 var(--line); }
 html.sk-krawedzie .skfog.b { background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 -1px 0 var(--line); border-radius: 18px 18px 0 0; }
 #skledge.l, #skledge.r { width: 8px; background: var(--acc) !important; opacity: 0.55 !important; }
 /* nagrywanie: wąski pasek u góry i pasek przycisków na dole – równe tło */
-html.sk-krawedzie #skrec .skfog:not(.skfogd) { bottom: auto !important; height: calc(46px + env(safe-area-inset-top, 0px)); background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
-html.sk-krawedzie #skrec .skfog.skfogd { height: calc(72px + var(--sa)) !important; background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 -1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie #skrec .skfog:not(.skfogd) { bottom: auto !important; height: calc(46px + env(safe-area-inset-top, 0px)); background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 1px 0 var(--line); }
+html.sk-krawedzie #skrec .skfog.skfogd { height: calc(72px + var(--sa)) !important; background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 -1px 0 var(--line); }
 /* panele z dołu, okna, podpowiedzi: bez zanikania u góry, krawędź + zaokrąglenie */
 html.sk-krawedzie #dmenu, html.sk-krawedzie #bmenu, html.sk-krawedzie #xmenu, html.sk-krawedzie .stydlg, html.sk-krawedzie .dback:not(:has(.setdlg)):not(:has(.srchdlg)) > .dbox, #skpanel.b {
-  -webkit-mask-image: none !important; mask-image: none !important; padding-top: 10px !important; border-radius: 16px 16px 0 0 !important; box-shadow: 0 -1px 0 var(--line) !important;
-  -webkit-backdrop-filter: var(--kblur) !important; backdrop-filter: var(--kblur) !important; }
+  -webkit-mask-image: none !important; mask-image: none !important; padding-top: 10px !important; border-radius: 16px 16px 0 0 !important; box-shadow: 0 -1px 0 var(--line) !important; }
 html.sk-krawedzie .stydlg { padding-top: 10px !important; }
-html.sk-krawedzie .toast, html.sk-krawedzie body.rec .toast, html.sk-krawedzie body.trnon .toast { background: var(--kfogb) !important; padding-top: 14px !important; padding-bottom: calc(16px + var(--sa)) !important; border-radius: 18px 18px 0 0; box-shadow: 0 -1px 0 var(--line) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie .toast, html.sk-krawedzie body.rec .toast, html.sk-krawedzie body.trnon .toast { background: var(--kfogb) !important; padding-top: 14px !important; padding-bottom: calc(16px + var(--sa)) !important; border-radius: 18px 18px 0 0; box-shadow: 0 -1px 0 var(--line) !important; }
 html.sk-krawedzie body.rec .toast, html.sk-krawedzie body.trnon .toast { padding-bottom: 14px !important; }
-html.sk-krawedzie #info { padding-bottom: 12px !important; box-shadow: 0 1px 0 var(--line) !important; border-radius: 0 0 18px 18px !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie #info { padding-bottom: 12px !important; box-shadow: 0 1px 0 var(--line) !important; border-radius: 0 0 18px 18px !important; }
 html.sk-krawedzie .dback:not(:has(.setdlg)):not(:has(.srchdlg)), html.sk-krawedzie .dback:has(.srchdlg) { background: none !important; }
-html.sk-krawedzie body.skmode::after { height: calc(76px + var(--sa)); background: rgba(var(--kfog), 0.88); box-shadow: 0 -1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
-html.sk-krawedzie .rpick, html.sk-krawedzie #plnsh { background: var(--kfogb) !important; padding-top: 14px !important; border-radius: 18px 18px 0 0 !important; box-shadow: 0 -1px 0 var(--line) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
-html.sk-krawedzie #sheet, html.sk-krawedzie .dback .dbox.setdlg, #skpanel { -webkit-backdrop-filter: var(--kblur) !important; backdrop-filter: var(--kblur) !important; }
-html.sk-krawedzie .leaflet-popup.skpop { padding-top: 16px !important; background: var(--kfogb) !important; border-radius: 18px 18px 0 0; box-shadow: 0 -1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
-#trnbar .trnfog { height: calc(74px + var(--sa, 0px)); background: rgba(var(--kfog, 251, 251, 248), 0.88) !important; box-shadow: 0 -1px 0 var(--line, #e2e4dd); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); }
-html.sk-krawedzie .sklfl, html.sk-krawedzie .sklghost, html.sk-krawedzie .phpick { background: rgba(var(--kfog), 0.88) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie body.skmode::after { height: calc(76px + var(--sa)); background: rgba(var(--kfog), 0.88); box-shadow: 0 -1px 0 var(--line); }
+html.sk-krawedzie .rpick, html.sk-krawedzie #plnsh { background: var(--kfogb) !important; padding-top: 14px !important; border-radius: 18px 18px 0 0 !important; box-shadow: 0 -1px 0 var(--line) !important; }
+html.sk-krawedzie #sheet, html.sk-krawedzie .dback .dbox.setdlg, #skpanel { }
+html.sk-krawedzie .leaflet-popup.skpop { padding-top: 16px !important; background: var(--kfogb) !important; border-radius: 18px 18px 0 0; box-shadow: 0 -1px 0 var(--line); }
+#trnbar .trnfog { height: calc(74px + var(--sa, 0px)); background: rgba(var(--kfog, 251, 251, 248), 0.88) !important; box-shadow: 0 -1px 0 var(--line, #e2e4dd); }
+html.sk-krawedzie .sklfl, html.sk-krawedzie .sklghost, html.sk-krawedzie .phpick { background: rgba(var(--kfog), 0.88) !important; }
 /* kafelki treningu: to samo szkło co reszta */
-.trnt { background: rgba(var(--kfog, 251, 251, 248), 0.6); -webkit-backdrop-filter: blur(5px) saturate(1.25); backdrop-filter: blur(5px) saturate(1.25); box-shadow: inset 0 0 0 1px var(--line, #e2e4dd), 0 1px 4px rgba(0, 0, 0, 0.1); }
+.trnt { background: rgba(var(--kfog, 251, 251, 248), 0.68); box-shadow: inset 0 0 0 1px var(--line, #e2e4dd), 0 1px 4px rgba(0, 0, 0, 0.1); }
 /* v134 (pkt 462) menedżer „Moje”; v136 (pkt 465, wariant 7b Pawła): zakładki = przekładki obrysowane tuszem (ta sama
    rysowana linia co kapsuły, filtr #kinkf) – ikona, nazwa, liczba przy prawej krawędzi; aktywna otwarta od dołu.
    Pod nimi jeden wiersz: ‹ nazwa mapy ▾ ＋Mapa ✕ */
@@ -10319,6 +10316,29 @@ const EN = {
   "tylko licznik, bez śladu": "counter only, no track",
   "z zapisem śladu": "with track recording",
   "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  " kafli w pamięci": " tiles in memory",
+  " – zwolnione": " – released",
+  " – przycięte do widoku": " – trimmed to the view",
+  "Android: mało pamięci (poziom ": "Android: low memory (level ",
+  " – wolne ": " – free ",
+  "Android zamknął OMM: ": "Android closed OMM: ",
+  "OMM w tle": "OMM in background",
+  "zamknięcie przez OMM": "closed by OMM",
+  "sygnał systemu": "system signal",
+  "BRAK PAMIĘCI telefonu": "phone OUT OF MEMORY",
+  "awaria": "crash",
+  "awaria (kod natywny)": "crash (native code)",
+  "aplikacja nie odpowiadała (ANR)": "app not responding (ANR)",
+  "błąd uruchomienia": "startup error",
+  "zmiana uprawnień": "permission change",
+  "nadmierne zużycie zasobów": "excessive resource use",
+  "zamknięcie przez użytkownika": "closed by the user",
+  "zatrzymanie przez użytkownika": "stopped by the user",
+  "zależność": "dependency",
+  "inne (system)": "other (system)",
+  "zamrożenie": "frozen",
+  "zmiana pakietu": "package change",
+  "aktualizacja OMM": "OMM update",
   "\nBez nagranego śladu o tej godzinie: ": "\nNo recorded track at that time: ",
   "\nPominięte (zdjęcie jest częścią innego obiektu – przesuń obiekt): ": "\nSkipped (the photo belongs to another object – move the object): ",
   " (bez miejsca – czeka w Zdjęciach: ": " (no location – waiting in Photos: ",
@@ -14155,7 +14175,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v138';
+const APP_VER = 'v139';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeWant() {
   // v132: czy motyw z Ustawień chce teraz ciemnego wyglądu (bez nocnej nawigacji)
@@ -22035,7 +22055,7 @@ function settingsObj() {
 // telefonu albo chwili: ostatnie położenie i pogoda, blokada i szyfrowanie, wybrane foldery i Dysk, trwające nagrywanie
 // i plan, stan kopii, podpowiedzi, dziennik diagnostyczny, pamięci podręczne
 // v119 (pkt 347): bez ostatniego miejsca auta i pytań o nie (omm-auto-miejsce, omm-auto-pyt) – to położenie
-const PREFS_SKIP = /^omm-(autofoto|auto-miejsce|auto-pyt|poz|slonce-ll|pogoda|lock|szyfr|dysk-|folder|diag|autokopia-(blad|stan|zmiany)|alg-pytanie|set-open|tut|tip|pierwszy|start$|zmiany|kopia-(reczna|cz|pyt)|plan$|plan-szkic|rec$|sport-przejazd|sport-log|park|bdlcap-|v66-|orto-wariant|imp$|backup|kosz|vt-|zdj-hosty|anim-q|auto-hist|ovc-n|sport-grupa-mig)/;
+const PREFS_SKIP = /^omm-(exit-t|autofoto|auto-miejsce|auto-pyt|poz|slonce-ll|pogoda|lock|szyfr|dysk-|folder|diag|autokopia-(blad|stan|zmiany)|alg-pytanie|set-open|tut|tip|pierwszy|start$|zmiany|kopia-(reczna|cz|pyt)|plan$|plan-szkic|rec$|sport-przejazd|sport-log|park|bdlcap-|v66-|orto-wariant|imp$|backup|kosz|vt-|zdj-hosty|anim-q|auto-hist|ovc-n|sport-grupa-mig)/;
 function prefsExport() {
   const o = {};
   try {
@@ -30323,7 +30343,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Zdjęcie</b> – dotknij aparatu na pasku po prawej (albo „Zdjęcie” w okienku przytrzymanego miejsca na mapie) i zrób zdjęcie: wraca od razu, a OMM pokazuje okno <b>„Nowe zdjęcie”</b>. <b>Gdzie</b> – mapa (na start otwarta), grupa śladów (gdy jesteś w Śladach) albo <b>nagrywany ślad</b> (w czasie nagrywania – domyślnie); dotknięcie wiersza zmienia wybór. Pod spodem <b>Warstwa</b> (mapa) albo <b>Ślad</b> (grupa śladów – na start najbliższy), <b>Ikona</b> (nieobowiązkowa – bez ikony na mapie widać miniaturę zdjęcia), <b>Miejsce</b>: gdzie zrobiono (GPS) albo „Wskażę na mapie” (po „Zapisz” dotykasz miejsca), <b>Nazwa</b> (puste = data i godzina). Gdy stoisz bardzo blisko swojego punktu, na dole jest podpowiedź „📍 Obok: … · dodaj do niego”. Przyciski: <b>Usuń zdjęcie</b>, <b>Dodaj szybko</b> (na mapę „Zdjęcia” – OMM ją założy – bez ikony, z datą i godziną, w miejscu zrobienia) i <b>Zapisz</b>. Zdjęcie na mapie w czasie nagrywania ma też odnośnik w śladzie. „＋” dokłada kolejne zdjęcie. Przytrzymanie aparatu: zdjęcie w wybranym miejscu albo z galerii. Każdy obiekt ma „Dodaj zdjęcie” (aparat albo galeria – zdjęcia zrobione daleko od obiektu OMM pokazuje osobno: dodać tylko pasujące albo wszystkie); okienko śladu ma ikonę aparatu (zdjęcie w miejscu, w którym jesteś, albo z galerii – ustawiane na śladzie według godziny zrobienia), a w „Edytuj” – „Dobierz zdjęcia z galerii (wg godziny)”.</li>
 <li><b>Podsumowanie</b> (przycisk w Śladach; u góry przełącznik <b>Wszystko / Treningi / Postęp</b> – Treningi to statystyki dyscyplin, to samo co wykres w treningu; <b>Postęp</b> – trasy, które powtarzasz: ten sam start i meta, zbliżony dystans i przebieg, osobno w każdą stronę; porównuje prędkość w ruchu pierwszych i ostatnich przejazdów, pokazuje rekord, wykres i pewność wyniku; dni „tam i z powrotem” są uśredniane, bo wiatr w jedną stronę pomaga, a w drugą przeszkadza; przejazdy mocno odstające są szare i poza trendem; trend od 4 przejazdów; po zapisie śladu na takiej trasie krótka informacja, a raz w miesiącu podsumowanie) – rodzaje aktywności do zaznaczenia (kilka naraz), okres: tydzień, miesiąc, rok, wszystko albo własny (od–do); domyślnie ślady ze wszystkich grup trybu (albo „Tylko grupa …”), opcja „Dołącz treningi bez śladu (sam licznik)”, domyślnie włączona. Wynik: liczba, dystans, czas w ruchu, podejście, rozbicie na rodzaje, wykres i lista. W statystykach Sportu – „Dołącz ślady” (wycieczki z tym samym rodzajem). Trening nagrany ze śladem liczy się raz, a jego dystans i czas pochodzą z policzonego śladu.</li>
 <li><b>Sortowanie warstwy</b> – ⋮ przy warstwie → „Sortuj”: w Śladach od najnowszego / najstarszego, po dystansie, czasie trwania, rodzaju, nazwie albo ostatnio zmienione; w Mapach jak dodawane, od najnowszego / najstarszego, po nazwie, rodzaju albo ostatnio zmienione. Każda warstwa pamięta swój wybór; pod nazwą rozwiniętej warstwy widać, jak jest posortowana (dotknięcie zmienia). <b>Postoje po zapisie śladu</b>: gdy GPS na postoju „pływał”, OMM pyta, czy wyczyścić; od czwartego razu możesz wybrać „Zawsze czyść, nie pytaj” albo „Nigdy nie zmieniaj, nie pytaj” – zmienisz to w Ustawieniach → Ślady GPS → „Postoje po zapisie”. Przy automatycznym czyszczeniu krótki komunikat z „Cofnij”, a oryginał i tak trafia do kosza.</li>
-<li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów, w grupach: przy śladach – tytuł śladu i jego zdjęcia, przy mapach – mapa i warstwa, przy „Wszystkie” – dzień. Pod zdjęciem tylko godzina. Przy grupie <b>＋</b> dodaje zdjęcia do tego śladu albo warstwy, a ikona mapy pokazuje je na mapie. <b>Przytrzymaj zdjęcie</b> – tryb zaznaczania: dotykaj kolejnych albo kółka przy grupie (cała grupa); na dole <b>Udostępnij</b>, <b>Przenieś</b> (do innego śladu, mapy lub warstwy), <b>Na mapie</b>, <b>Usuń</b> i <b>Więcej</b> (podpis, opis). Filtr „Plany” jest tylko wtedy, gdy plany mają zdjęcia. Dotknij zdjęcia, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją.</li>
+<li><b>Zdjęcia</b> – zakładka z galerią wszystkich zdjęć z map, śladów i planów, w grupach: przy śladach – tytuł śladu i jego zdjęcia, przy mapach – mapa i warstwa, przy „Wszystkie” – dzień. Pod zdjęciem tylko godzina. Przy grupie <b>＋</b> dodaje zdjęcia do tego śladu albo warstwy, a ikona mapy pokazuje je na mapie. <b>Przytrzymaj zdjęcie</b> – tryb zaznaczania: dotykaj kolejnych albo kółka przy grupie (cała grupa); na dole <b>Udostępnij</b>, <b>Przenieś</b> (do innego śladu, mapy lub warstwy), <b>Na mapie</b>, <b>Usuń</b> i <b>Więcej</b> (podpis, opis). Filtr „Plany” jest tylko wtedy, gdy plany mają zdjęcia. Dotknij zdjęcia, by pokazać miejsce albo poprowadzić do niego. Zdjęcia zaimportowane z lokalizacją są na mapie punktami 📷; po zbliżeniu widać ich miniatury. Dotknięcie otwiera zdjęcie na pełnym ekranie, przytrzymanie (ok. 1,5 s) – okienko punktu z edycją. Zdjęcie zrobione przyciskiem <b>Zdjęcie</b> podczas nagrywania trafia od razu do nagrywanego śladu – bez pytania (krótka wibracja).</li>
 <li><b>Co widać na mapie</b> – u góry po lewej nazwa aktywnej mapy; dotknięcie: <b>Wszystko</b>, <b>Tylko ta mapa</b>, <b>Tylko ślady</b>, <b>Czysta mapa</b>, zmiana mapy i <b>własne widoki</b> („Zapisz obecny widok…” pamięta mapę i widoczność warstw). <b>Tryb skupienia</b>: gdy otworzysz okienko śladu, trasy albo punktu, reszta Twoich danych chowa się na ten czas („Pokaż wszystko” u góry; wyłączysz w Ustawieniach → Wygląd). Przy pierwszym użyciu funkcji pojawia się krótka podpowiedź 💡, a na start 5 kart (też w „i” → Jak zacząć → „Karty startowe”).</li>
 <li><b>Karta trasy i „Przez zieleń”</b> – po „Nawiguj” od razu karta: skąd i dokąd (A i B), czym jedziesz (Pieszo / Rower / Auto / Koń / Prosto) i rodzaj dróg (Trekking / Szosa / Górski, Szlaki i leśne / Tylko utwardzone). Zalecana trasa pokazuje się w kilka sekund, pozostałe warianty dochodzą na listę (nazwa, czas, km, o ile dłuższa); policzone trasy są zapamiętane przy przełączaniu. Pieszo i rowerem pole <b>„🌳 Szukaj przez zieleń”</b> (zawsze niezaznaczone na starcie) z limitem „maks. dłuższa o” (domyślnie 40%, − / +): po zaznaczeniu OMM szuka trasy przez parki i lasy (dane OpenStreetMap) i dokłada ją obok zalecanej albo pisze, czemu nic nie znalazł. Przy długiej trasie (kilkadziesiąt kilometrów) zieleń jest sprawdzana w pasie wzdłuż zwykłej trasy – pierwszy raz OMM pobiera mapę zieleni (widać postęp, potem ma ją w pamięci na 60 dni), szukanie działa do ok. 150 km. Strzałka prowadzenia pojawia się dopiero po wybraniu trasy. Lista wariantów jest zwinięta – warianty wybierasz dotknięciem linii na mapie (każda ma etykietę z różnicą czasu i długością) albo z listy pod „Warianty ▾”. „+” między punktami dodaje punkt pośredni – warianty i zieleń liczą się przez wszystkie punkty. „Trasa stąd” najpierw pyta „dokąd?”: do mojej pozycji, szukaj albo wskaż na mapie. Dopóki karta jest otwarta, mapa pokazuje wszystkie warianty od A do B nad kartą (także po przeliczeniu, np. przez zieleń) i nie jedzie za Tobą, a nocna mapa włącza się dopiero po „Nawiguj”. Wskazane miejsce dostaje nazwę ulicy i dzielnicy, a warianty serwera – nazwę ulicy, którą prowadzą („Przez …”). Lista wariantów pokazuje ok. trzech wierszy, resztę przewiniesz.</li>
 <li><b>Okienko śladu</b> – u góry nazwa (dotknięcie zmienia ją), obok <b>oko</b> (pokaż / ukryj ślad bez zamykania okienka) i aparat; pod nią rodzaj, wyruszenie → zakończenie i warstwa; pod spodem dystans, czas w ruchu, czas całkowity, średnia i podjazdy; pasek kolorów (dotknięcie zmienia prędkość / wysokość / jednolity). Jeden wiersz przycisków (ikona nad podpisem): <b>Nawiguj</b> (po śladzie), <b>Edytuj</b> (punkty śladu, dorysuj, podziel, dopasuj do ścieżek, rodzaj aktywności, opis, zdjęcia i punkty, „Przywróć oryginał”), <b>Statystyki</b>, <b>Udostępnij</b> (plik, obraz, zapis w telefonie, Animacja) i <b>Więcej</b> (dane śladu – zaznaczasz zdjęcia i punkty, by skopiować albo przenieść je na mapę, albo zapisać ślad jako trasę do nawigacji – oraz usuń). Edycja zmienia ślad naprawdę; ślad policzony przez OMM i surowe pomiary zostają do porównania.</li>
@@ -30395,7 +30415,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Photo</b> – tap the camera on the right-hand bar (or “Photo” in the popup of a held place on the map) and take a photo: it comes back at once and OMM shows the <b>“New photo”</b> window. <b>Where</b> – a map (the open one at first), a track group (when you are in Tracks) or the <b>track being recorded</b> (the default while recording); tap the row to change it. Below: <b>Layer</b> (map) or <b>Track</b> (track group – the nearest one at first), <b>Icon</b> (optional – without an icon the map shows the photo thumbnail), <b>Place</b>: where taken (GPS) or “I'll tap the map” (after “Save” you tap the place), <b>Name</b> (empty = date and time). When you stand very close to one of your points, a hint “📍 Nearby: … · add to it” appears at the bottom. Buttons: <b>Delete photo</b>, <b>Quick add</b> (to the “Photos” map – OMM creates it – no icon, named with date and time, where it was taken) and <b>Save</b>. A photo saved to a map while recording also gets a link in the track. “＋” adds another photo. Hold the camera: photo at a chosen place or from the gallery. Every object has “Add photo” (camera or gallery – photos taken far from the object are shown separately: add only the matching ones or all); the track popup has a camera icon (a photo where you are, or from the gallery – placed on the track by the time it was taken), and under “Edit” – “Match photos from the gallery (by time)”.</li>
 <li><b>Summary</b> (button in Tracks; at the top an <b>All / Workouts / Progress</b> switch – Workouts are the sport statistics, the same as the chart in a workout; <b>Progress</b> – routes you repeat: same start and finish, similar distance and course, each direction separately; it compares the moving speed of your first and latest rides and shows the record, a chart and how certain the result is; out-and-back days are averaged, because wind helps one way and hinders the other; rides far off the usual are grey and left out of the trend; a trend from 4 rides; after saving a track on such a route a short note, and once a month a summary) – activity types to tick (several at once), period: week, month, year, all or custom (from–to); by default tracks from all groups of the mode (or “Only group …”), option “Include workouts without a track (counter only)”, on by default. Result: count, distance, moving time, climb, breakdown by type, chart and list. In Sport statistics – “Include tracks” (trips of the same type). A workout recorded with a track counts once, and its distance and time come from the computed track.</li>
 <li><b>Sorting a layer</b> – ⋮ next to a layer → “Sort”: in Tracks newest / oldest first, by distance, duration, type, name or recently changed; in Maps as added, newest / oldest first, by name, type or recently changed. Each layer remembers its choice; under the name of an expanded layer you see how it is sorted (tap to change). <b>Stops after saving a track</b>: when the GPS “drifted” during a stop, OMM asks whether to clean it up; from the fourth time you can choose “Always clean up, don’t ask” or “Never change, don’t ask” – change it in Settings → GPS tracks → “Stops after saving”. With automatic clean-up you get a short note with “Undo”, and the original still goes to the bin.</li>
-<li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans, in groups: for tracks – the track title and its photos, for maps – the map and layer, for “All” – the day. Under a photo only the time. <b>＋</b> by a group adds photos to that track or layer, and the map icon shows them on the map. <b>Press and hold a photo</b> – selection mode: tap more photos or the circle by a group (the whole group); at the bottom <b>Share</b>, <b>Move</b> (to another track, map or layer), <b>On the map</b>, <b>Delete</b> and <b>More</b> (caption, description). The “Plans” filter appears only when plans have photos. Tap a photo to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing.</li>
+<li><b>Photos</b> – a tab with a gallery of all photos from maps, tracks and plans, in groups: for tracks – the track title and its photos, for maps – the map and layer, for “All” – the day. Under a photo only the time. <b>＋</b> by a group adds photos to that track or layer, and the map icon shows them on the map. <b>Press and hold a photo</b> – selection mode: tap more photos or the circle by a group (the whole group); at the bottom <b>Share</b>, <b>Move</b> (to another track, map or layer), <b>On the map</b>, <b>Delete</b> and <b>More</b> (caption, description). The “Plans” filter appears only when plans have photos. Tap a photo to show the place or navigate to it. Photos imported with a location are 📷 points on the map; zoomed in you see their thumbnails. A tap opens the photo full screen, a long press (about 1.5 s) opens the point window for editing. A photo taken with the <b>Photo</b> button while recording goes straight onto the recorded track – without a question (a short vibration).</li>
 <li><b>What the map shows</b> – top left, the name of the active map; tap it for <b>Everything</b>, <b>This map only</b>, <b>Tracks only</b>, <b>Clean map</b>, switching maps and <b>your own views</b> (“Save the current view…” remembers the map and layer visibility). <b>Focus mode</b>: when you open the popup of a track, route or point, the rest of your data is hidden for the time being (“Show everything” at the top; switch it off in Settings → Appearance). The first time you use a feature a short 💡 hint appears, and at the start 5 cards (also in “i” → Getting started → “Start cards”).</li>
 <li><b>Route card and “Through greenery”</b> – after “Navigate” the card appears at once: from and to (A and B), how you travel (Walk / Bike / Car / Horse / Straight) and the kind of roads (Trekking / Road / Mountain, Trails and forest / Paved only). The recommended route shows within seconds, other variants join the list (name, time, km, how much longer); computed routes are remembered when switching. On foot and by bike there is a <b>“🌳 Look for a route through greenery”</b> box (always unticked at start) with a “max. longer by” limit (40% by default, − / +): once ticked OMM looks for a route through parks and forests (OpenStreetMap data) and adds it next to the recommended one, or says why it found nothing. On a long route (tens of kilometres) greenery is checked in a strip along the regular route – the first time OMM downloads the greenery map (progress is shown; it is then kept for 60 days); the search works up to about 150 km. The guidance arrow appears only after you choose a route. The variants list is collapsed – pick a variant by tapping its line on the map (each has a label with the time difference and length) or from the list under “Variants ▾”. “+” between the points adds a via point – variants and greenery are computed through all the points. “Route from here” first asks “where to?”: to my position, search, or pick on the map. While the card is open the map shows all variants from A to B above the card (also after recalculating, e.g. through greenery) and does not follow you, and the night map turns on only after “Navigate”. A picked place gets the street and district name, and the server's variants are named after the street they use (“Via …”). The list shows about three rows, scroll for the rest.</li>
 <li><b>Track window</b> – at the top the name (tap to rename it), next to it the <b>eye</b> (show / hide the track without closing the window) and the camera; below it the activity, start → end and layer; below them distance, moving time, total time, average and climb; the colour bar (tap to switch speed / elevation / plain). One row of buttons (icon above the label): <b>Navigate</b> (along the track), <b>Edit</b> (track points, draw in, split, snap to paths, activity, description, photos and points, “Restore the original”), <b>Statistics</b>, <b>Share</b> (file, image, save on the phone, Animation) and <b>More</b> (track data – select photos and points to copy or move to a map, or save the track as a route for navigation – and delete). Editing really changes the track; the track calculated by OMM and the raw readings are kept for comparison.</li>
@@ -49526,6 +49546,63 @@ async function navResume() {
   if (v === 'tak' && !NAV) go();
   else if (!NAV) localStorage.removeItem(NAVST_K);
 }
+// v139 (pkt 471): pamięć – 25.11 przy starcie nagrywania zabrakło pamięci w całym telefonie (przeładował się pulpit).
+// OMM zwalnia kafle mapy, gdy idzie w tło, i gdy Android zgłasza „mało pamięci”; powody zamknięć procesu z Androida 11+
+// trafiają do dziennika (pewna diagnoza zamiast domysłów).
+let MEM_HARD = false;
+function memTrim(why, hard) {
+  let n = 0;
+  try {
+    map.eachLayer(l => {
+      if (!(l instanceof L.GridLayer)) return;
+      n += Object.keys(l._tiles || {}).length;
+      if (l._kb0 == null) l._kb0 = l.options.keepBuffer;
+      l.options.keepBuffer = 0;
+      if (hard && l._removeAllTiles) l._removeAllTiles();
+      else if (l._pruneTiles) l._pruneTiles();
+    });
+  } catch (e) {}
+  if (hard) MEM_HARD = true;
+  diag('pamiec', why, n + _t(' kafli w pamięci') + (hard ? _t(' – zwolnione') : _t(' – przycięte do widoku')));
+}
+function memBack() {
+  // powrót na ekran: kafle wracają (z pamięci przeglądarki), zapas kafli jak wcześniej
+  try {
+    map.eachLayer(l => {
+      if (!(l instanceof L.GridLayer)) return;
+      if (l._kb0 != null) (l.options.keepBuffer = l._kb0), (l._kb0 = null);
+      if (MEM_HARD && l.redraw) l.redraw();
+    });
+  } catch (e) {}
+  MEM_HARD = false;
+}
+window.addEventListener('ommtrim', async e => {
+  const lv = +(e && e.detail != null ? (typeof e.detail === 'object' ? e.detail.level : e.detail) : e.level) || 0;
+  let m = null;
+  try {
+    m = plug('OmmSys') && plug('OmmSys').memory ? await plug('OmmSys').memory() : null;
+  } catch (er) {}
+  // 5/10/15 – OMM na ekranie, a pamięci mało; 20+ – OMM w tle
+  memTrim(_t('Android: mało pamięci (poziom ') + lv + ')' + (m ? _t(' – wolne ') + m.availMb + ' / ' + m.totalMb + ' MB, OMM ' + m.pssMb + ' MB' : ''), lv >= 20);
+});
+const EXIT_R = {1: 'zamknięcie przez OMM', 2: 'sygnał systemu', 3: 'BRAK PAMIĘCI telefonu', 4: 'awaria', 5: 'awaria (kod natywny)', 6: 'aplikacja nie odpowiadała (ANR)', 7: 'błąd uruchomienia', 8: 'zmiana uprawnień', 9: 'nadmierne zużycie zasobów', 10: 'zamknięcie przez użytkownika', 11: 'zatrzymanie przez użytkownika', 12: 'zależność', 13: 'inne (system)', 14: 'zamrożenie', 15: 'zmiana pakietu', 16: 'aktualizacja OMM'};
+setTimeout(async () => {
+  try {
+    const S = plug('OmmSys');
+    if (!S || !S.exits) return;
+    const r = await S.exits(),
+      last = +localStorage.getItem('omm-exit-t') || 0,
+      nw = ((r && r.exits) || []).filter(x => x.t > last).sort((a, b) => a.t - b.t);
+    nw.forEach(x =>
+      diag(
+        'start',
+        _t('Android zamknął OMM: ') + _t(EXIT_R[x.reason] || 'powód ' + x.reason),
+        JSON.stringify({kiedy: new Date(x.t).toLocaleString(LOC), pamiec_omm_mb: x.pssMb || x.rssMb || null, w_tle: x.importance > 125, opis: x.desc && x.desc !== 'null' ? x.desc.slice(0, 120) : undefined})
+      )
+    );
+    if (nw.length) localStorage.setItem('omm-exit-t', String(nw[nw.length - 1].t));
+  } catch (e) {}
+}, 2500);
 // v132 (pkt 440): dziennik startu – czy OMM poprzednio zamknął się nagle (w trakcie nawigacji / nagrywania, na ekranie)
 const ALIVE_K = 'omm-zywy';
 (function aliveStart() {
@@ -50219,7 +50296,8 @@ function fotoHere(at) {
     } catch (e) {
       return tell(e.message);
     }
-    const what = await fotoDlg({
+    // v139 (pkt 470): w czasie nagrywania ✓ w aparacie wystarczy – zdjęcie od razu na nagrywany ślad, bez okna
+    const what = REC && !at ? (vibe(30), {tgt: {k: 'rec'}}) : await fotoDlg({
       refs,
       pos,
       posP: gp,
@@ -53937,6 +54015,8 @@ async function abPickDrive() {
 }
 // kopia przy zamykaniu / chowaniu aplikacji, a gdy nie zdążyła – po uruchomieniu
 if (plug('App')) {
+  plug('App').addListener('pause', () => memTrim(_t('OMM w tle'), true)); // v139 (pkt 471): w tle bez kafli w pamięci
+  plug('App').addListener('resume', () => memBack());
   plug('App').addListener('pause', () => {
     if (REC) recPersist(true); // v65: przed zejściem do tła – pełny zapis nagrania i plik awaryjny
     if (abDue()) autoBackup(false);
@@ -59960,7 +60040,7 @@ async function sstatEntry(e) {
 // ---------- v131 (pkt 421): ustawienia fabryczne / usunięcie wszystkiego ----------
 // dane, które zostają przy „ustawieniach fabrycznych” (mapy, ślady, treningi, kosz, mapy-zdjęcia, gry, blokada,
 // szyfrowanie kopii, wybrane foldery i Dysk, dziennik diagnostyczny)
-const RESET_KEEP = /^(mapa-(v2|snap-|uszkodzone-|tpl)|omm-(foto-bez|autofoto|moje-zakl|alg-pytanie|act-warstwy|trk-dop-pyt|v66-kopie-info|sport-mig|szukaj-ostatnie|nav-stan|zywy|prog-mies|slady|trk-nr|imgmaps|kosz|sport-(log|odo)|gra-|lock|szyfr|folder|dysk-|diag|pierwszy|tut|tip|autokopia-|kopia-(reczna|przyp)|zmiany|plan$|plan-szkic|rec$|maps-(ord|hid)))/;
+const RESET_KEEP = /^(mapa-(v2|snap-|uszkodzone-|tpl)|omm-(exit-t|foto-bez|autofoto|moje-zakl|alg-pytanie|act-warstwy|trk-dop-pyt|v66-kopie-info|sport-mig|szukaj-ostatnie|nav-stan|zywy|prog-mies|slady|trk-nr|imgmaps|kosz|sport-(log|odo)|gra-|lock|szyfr|folder|dysk-|diag|pierwszy|tut|tip|autokopia-|kopia-(reczna|przyp)|zmiany|plan$|plan-szkic|rec$|maps-(ord|hid)))/;
 async function resetBackupAsk() {
   // przed resetem: kopia? true = dalej, false = przerwij
   const v = await dlg({

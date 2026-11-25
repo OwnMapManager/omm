@@ -15,6 +15,15 @@ import com.getcapacitor.WebViewListener;
 
 public class MainActivity extends BridgeActivity {
 
+    // v139 (pkt 471): sygnał Androida „mało pamięci” → do strony (OMM zwalnia kafle i miniatury, wpis w dzienniku)
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        try {
+            if (getBridge() != null) getBridge().triggerWindowJSEvent("ommtrim", "{\"level\":" + level + "}");
+        } catch (Exception ignored) {}
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(OmmBackupPlugin.class); // kopia zapasowa w miejscu wybranym przez użytkownika (np. Dysk Google)

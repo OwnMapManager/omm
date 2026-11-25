@@ -59,6 +59,10 @@ OmmGnss, OmmSys). Serwery: `docs/serwery.md`. CSP: `scripts/prepare-www.mjs`.
 ## Odporność
 - Dziennik `diag()`; „Wyślij raport”. Zamknięcie silnika strony przez Androida: `MainActivity.onRenderProcessGone`
   odtwarza okno, wpis w dzienniku (`OmmSys.lastGone()`); nagrywanie i nawigacja wracają same (`omm-zywy`, `omm-nav-stan`).
+- Pamięć (v139): **bez `backdrop-filter`** (każda warstwa rozmycia to osobna tekstura GPU przeliczana co klatkę).
+  `MainActivity.onTrimMemory` → zdarzenie `ommtrim` → `memTrim()` (keepBuffer 0, przycięcie kafli; poziom ≥ 20 – wszystkie);
+  w tle (`App.pause`) też `memTrim`, po powrocie `memBack()`. Po starcie `OmmSys.exits()` (ApplicationExitInfo, Android 11+)
+  → wpis „Android zamknął OMM: powód” w Diagnostyce (`omm-exit-t` – ostatni zgłoszony).
 
 ## Testy (`tests/omm/`)
 - `node tests/omm/run.mjs` – wszystkie; CI uruchamia je przed budowaniem APK (zadanie `testy` w `.github/workflows/android.yml`).
