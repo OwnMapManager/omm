@@ -8,8 +8,10 @@ import android.database.Cursor;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.content.UriPermission;
 import androidx.activity.result.ActivityResult;
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -41,6 +43,14 @@ import java.util.List;
  *           do pamięci podręcznej OMM; zwraca ścieżki kopii + odczytane współrzędne.
  * camera  – (v95) otwiera zwykłą aplikację aparatu; po powrocie OMM proponuje pick.
  * cleanup – usuwa te kopie (OMM zapisuje u siebie własną, zmniejszoną kopię zdjęcia).
+ *
+ * v137 (pkt 467) – automatyczne zdjęcia z wybranego folderu:
+ * pickFolder   – systemowe okno wyboru FOLDERU (ACTION_OPEN_DOCUMENT_TREE); Android daje dostęp tylko do odczytu
+ *                tego jednego folderu, zapamiętany na stałe (takePersistableUriPermission). Bez READ_MEDIA_IMAGES –
+ *                OMM nie widzi reszty galerii.
+ * scanFolder   – lista zdjęć w folderze (bez kopiowania): id, nazwa, czas zmiany, rozmiar; tylko nowsze niż „since”.
+ * readFiles    – kopie wskazanych zdjęć z folderu (oryginał z lokalizacją, jak pick) do pamięci podręcznej.
+ * forgetFolder – oddaje dostęp do folderu (usunięcie źródła w Ustawieniach).
  *
  * Bezpieczeństwo: OMM nie dostaje dostępu do całej galerii – tylko do zdjęć wskazanych przez
  * użytkownika w oknie systemowym (jednorazowo). Uprawnienie dotyczy wyłącznie odczytu lokalizacji
@@ -218,6 +228,191 @@ public class OmmPhotosPlugin extends Plugin {
                 r.put("deleted", n);
                 call.resolve(r);
             });
+    }
+
+    // ---------- v137 (pkt 467): automatyczne zdjęcia z wybranego folderu ----------
+
+    @PluginMethod
+    public void pickFolder(PluginCall call) {
+        if (Build.VERSION.SDK_INT >= 29 && getPermissionState("mediaLocation") != PermissionState.GRANTED) {
+            requestPermissionForAlias("mediaLocation", call, "permFolder");
+            return;
+        }
+        launchTree(call);
+    }
+
+    @PermissionCallback
+    private void permFolder(PluginCall call) {
+        launchTree(call); // także po odmowie – wtedy zdjęcia bez lokalizacji
+    }
+
+    private void launchTree(PluginCall call) {
+        try {
+            Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+            if (Build.VERSION.SDK_INT >= 26)
+                try {
+                    // zaczynamy od folderu aparatu (DCIM/Camera) – najczęstszy wybór
+                    i.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.parse("content://com.android.externalstorage.documents/document/primary%3ADCIM%2FCamera"));
+                } catch (Exception e) {
+                    // bez podpowiedzi folderu
+                }
+            startActivityForResult(call, i, "folderPicked");
+        } catch (Exception e) {
+            call.reject("brak okna wyboru folderu");
+        }
+    }
+
+    @ActivityCallback
+    private void folderPicked(PluginCall call, ActivityResult result) {
+        if (call == null) return;
+        Intent data = result.getData();
+        JSObject r = new JSObject();
+        if (result.getResultCode() != Activity.RESULT_OK || data == null || data.getData() == null) {
+            call.resolve(r);
+            return;
+        }
+        Uri tree = data.getData();
+        try {
+            getContext().getContentResolver().takePersistableUriPermission(tree, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } catch (Exception e) {
+            call.reject("Android nie dał stałego dostępu do folderu");
+            return;
+        }
+        r.put("uri", tree.toString());
+        r.put("name", treeName(tree));
+        r.put("location", Build.VERSION.SDK_INT < 29 || getPermissionState("mediaLocation") == PermissionState.GRANTED);
+        call.resolve(r);
+    }
+
+    private String treeName(Uri tree) {
+        try {
+            String id = DocumentsContract.getTreeDocumentId(tree); // np. „primary:DCIM/Camera”
+            int k = id.indexOf(':');
+            String p = k >= 0 ? id.substring(k + 1) : id;
+            return p.isEmpty() ? "/" : p;
+        } catch (Exception e) {
+            return "folder";
+        }
+    }
+
+    private boolean granted(Uri tree) {
+        for (UriPermission up : getContext().getContentResolver().getPersistedUriPermissions())
+            if (up.isReadPermission() && up.getUri().equals(tree)) return true;
+        return false;
+    }
+
+    @PluginMethod
+    public void scanFolder(PluginCall call) {
+        final String u = call.getString("uri", "");
+        final long since = (long) (double) call.getDouble("since", 0.0);
+        final int max = call.getInt("max", 300);
+        getBridge()
+            .execute(() -> {
+                try {
+                    Uri tree = Uri.parse(u);
+                    if (!granted(tree)) {
+                        call.reject("brak dostępu do folderu");
+                        return;
+                    }
+                    Uri kids = DocumentsContract.buildChildDocumentsUriUsingTree(tree, DocumentsContract.getTreeDocumentId(tree));
+                    String[] cols = {
+                        DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+                        DocumentsContract.Document.COLUMN_DISPLAY_NAME,
+                        DocumentsContract.Document.COLUMN_MIME_TYPE,
+                        DocumentsContract.Document.COLUMN_LAST_MODIFIED,
+                        DocumentsContract.Document.COLUMN_SIZE
+                    };
+                    List<JSObject> all = new ArrayList<>();
+                    try (Cursor c = getContext().getContentResolver().query(kids, cols, null, null, null)) {
+                        while (c != null && c.moveToNext()) {
+                            String mime = c.getString(2);
+                            long t = c.isNull(3) ? 0 : c.getLong(3);
+                            if (mime == null || !mime.startsWith("image/") || t < since) continue;
+                            JSObject o = new JSObject();
+                            o.put("id", c.getString(0));
+                            o.put("name", c.getString(1));
+                            o.put("t", t);
+                            o.put("size", c.isNull(4) ? 0 : c.getLong(4));
+                            all.add(o);
+                        }
+                    }
+                    all.sort((a, b) -> Long.compare(b.optLong("t"), a.optLong("t"))); // najnowsze najpierw
+                    JSArray arr = new JSArray();
+                    for (int k = 0; k < all.size() && k < max; k++) arr.put(all.get(k));
+                    JSObject r = new JSObject();
+                    r.put("files", arr);
+                    r.put("total", all.size());
+                    call.resolve(r);
+                } catch (Exception e) {
+                    call.reject("nie można odczytać folderu: " + e.getMessage());
+                }
+            });
+    }
+
+    @PluginMethod
+    public void readFiles(PluginCall call) {
+        final String u = call.getString("uri", "");
+        final JSArray ids = call.getArray("ids", new JSArray());
+        final boolean loc = Build.VERSION.SDK_INT < 29 || getPermissionState("mediaLocation") == PermissionState.GRANTED;
+        getBridge()
+            .execute(() -> {
+                JSArray arr = new JSArray();
+                try {
+                    Uri tree = Uri.parse(u);
+                    if (!granted(tree)) {
+                        call.reject("brak dostępu do folderu");
+                        return;
+                    }
+                    File dir = new File(getContext().getCacheDir(), DIR);
+                    dir.mkdirs();
+                    for (int k = 0; k < ids.length() && k < 300; k++) {
+                        try {
+                            String id = ids.getString(k);
+                            Uri d = DocumentsContract.buildDocumentUriUsingTree(tree, id);
+                            String name = displayName(d);
+                            File out = new File(dir, System.currentTimeMillis() + "_" + k + "_" + safe(name));
+                            boolean orig = copy(original(d, loc), d, out);
+                            JSObject o = new JSObject();
+                            o.put("id", id);
+                            o.put("path", out.getAbsolutePath());
+                            o.put("name", name);
+                            o.put("mime", getContext().getContentResolver().getType(d));
+                            o.put("original", orig);
+                            try {
+                                ExifInterface ex = new ExifInterface(out.getAbsolutePath());
+                                float[] ll = new float[2];
+                                if (ex.getLatLong(ll) && !(ll[0] == 0f && ll[1] == 0f)) {
+                                    o.put("lat", (double) ll[0]);
+                                    o.put("lng", (double) ll[1]);
+                                }
+                            } catch (Exception e) {
+                                // brak EXIF – bez lokalizacji
+                            }
+                            arr.put(o);
+                        } catch (Exception e) {
+                            // pojedyncze zdjęcie się nie skopiowało – reszta idzie dalej
+                        }
+                    }
+                } catch (Exception e) {
+                    call.reject("nie można odczytać folderu: " + e.getMessage());
+                    return;
+                }
+                JSObject r = new JSObject();
+                r.put("files", arr);
+                r.put("location", loc);
+                call.resolve(r);
+            });
+    }
+
+    @PluginMethod
+    public void forgetFolder(PluginCall call) {
+        try {
+            getContext().getContentResolver().releasePersistableUriPermission(Uri.parse(call.getString("uri", "")), Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } catch (Exception e) {
+            // już nie było dostępu
+        }
+        call.resolve(new JSObject());
     }
 
     private String displayName(Uri uri) {

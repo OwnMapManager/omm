@@ -10088,6 +10088,25 @@ html.sk-krawedzie #sheet #sa button small, html.sk-krawedzie #sheet #tsa button 
 html.sk-krawedzie #sktl { display: flex !important; align-items: baseline; gap: 8px; max-width: 78% !important; padding: 5px 12px !important; }
 html.sk-krawedzie #sktl .sktmode { flex: none; font-size: 10.5px !important; letter-spacing: 0.09em !important; padding: 0 !important; margin: 0 !important; }
 html.sk-krawedzie #sktl b { display: inline !important; min-width: 0; font-size: 14px !important; font-weight: 500 !important; }
+/* v137 (pkt 467): automatyczne zdjęcia z folderów */
+.toast.afbar { display: flex !important; flex-direction: column; align-items: stretch !important; gap: 6px; pointer-events: auto !important; }
+.afbar .aft { font-size: 14px; line-height: 1.35; }
+.afbar .afb { display: flex; gap: 18px; flex-wrap: wrap; justify-content: flex-end; }
+.afbar .afb button { min-height: 40px; padding: 4px 2px !important; border: 0 !important; background: none !important; box-shadow: none !important; color: var(--acc) !important; font: 500 15.5px var(--ff), sans-serif !important; }
+.afbar .afb button.okb { font-weight: 700 !important; }
+.afck { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--sub); }
+.afck input { flex: none; width: 18px !important; height: 18px !important; margin: 0 !important; }
+.afgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; max-height: 52vh; overflow: auto; margin: 6px 0; }
+.afth { position: relative; padding: 0 !important; border: 0 !important; border-radius: 8px !important; overflow: hidden; aspect-ratio: 1; background: var(--b2) !important; opacity: 0.35; }
+.afth.on { opacity: 1; box-shadow: inset 0 0 0 2px var(--acc) !important; }
+.afth img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.afth.on::after { content: '✓'; position: absolute; right: 5px; top: 4px; width: 20px; height: 20px; border-radius: 10px; background: var(--acc); color: #fff; font: 600 12px/20px sans-serif; text-align: center; }
+.afset .afrow { display: flex; align-items: center; gap: 6px; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.afset .aftx { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.afset .aftx span { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.afed { display: flex; flex-direction: column; gap: 10px; margin: 6px 0; }
+.afedr { display: flex; flex-direction: column; gap: 3px; }
+.afedr select { width: 100%; min-height: 38px; }
 </style></head><body>
 <div id="map"></div>
 <div id="skhud"></div>
@@ -10286,6 +10305,48 @@ const EN = {
   "tylko licznik, bez śladu": "counter only, no track",
   "z zapisem śladu": "with track recording",
   "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  " (bez miejsca pominięto: ": " (skipped without location: ",
+  " (brak stref – Ustawienia → Auto i parkowanie)": " (no zones – Settings → Car and parking)",
+  "(mapa usunięta)": "(map deleted)",
+  "Automatyczne zdjęcia z folderów": "Automatic photos from folders",
+  "Automatycznie – tylko informacja": "Automatically – just a notice",
+  "Cofnięto – zdjęcia usunięte z mapy.": "Undone – photos removed from the map.",
+  "Dodaj folder ze zdjęciami…": "Add a photo folder…",
+  "Dotknij zdjęcia, żeby je odznaczyć. Odznaczone nie trafią na mapę i nie będą już proponowane.": "Tap a photo to deselect it. Deselected photos won't go on the map and won't be offered again.",
+  "Importuj zaznaczone": "Import selected",
+  "Które zdjęcia": "Which photos",
+  "Mapa docelowa dla zdjęć z „": "The target map for photos from “",
+  "Na mapę": "To map",
+  "Nowe zdjęcia": "New photos",
+  "Nowe zdjęcia z „": "New photos from “",
+  "Nowe zdjęcia – ": "New photos – ",
+  "Nowe zdjęcia: ": "New photos: ",
+  "Nowe źródło zdjęć: ": "New photo source: ",
+  "OK": "OK",
+  "Od ": "Since ",
+  "Od dziś": "From today",
+  "Po każdym otwarciu OMM sprawdza wybrane foldery telefonu (np. aparat) i dodaje nowe zdjęcia na wybraną mapę – po pytaniu albo automatycznie. Android daje dostęp tylko do wskazanego folderu. Zdjęcia z Google Photos, których nie ma w telefonie, nie są widoczne.": "Every time OMM opens, it checks the chosen phone folders (e.g. the camera) and adds new photos to the chosen map – after asking or automatically. Android gives access only to the folder you pick. Google Photos pictures that are not on the phone are not visible.",
+  "Pomijaj": "Skip",
+  "Pomijaj zdjęcia zrobione w strefach dom/praca": "Skip photos taken in home/work zones",
+  "Pytaj, czy importować": "Ask whether to import",
+  "Ten folder już jest na liście.": "This folder is already on the list.",
+  "Usunąć źródło zdjęć „": "Remove photo source “",
+  "Usuń źródło": "Remove source",
+  "Wczytuję nowe zdjęcia ": "Loading new photos ",
+  "Według nagranego śladu (po godzinie)": "From the recorded track (by time)",
+  "Wszystkie w folderze": "All in the folder",
+  "Wszystkie w folderze (także stare)": "All in the folder (including old ones)",
+  "Zawsze importuj automatycznie": "Always import automatically",
+  "Zdjęcia bez miejsca zrobienia": "Photos without location",
+  "automatycznie": "automatically",
+  "bez miejsca ": "without location ",
+  "w strefie dom/praca ": "in home/work zone ",
+  "z pytaniem": "with a question",
+  "Źródło zdjęć: ": "Photo source: ",
+  "” nie istnieje – wybierz inną w Ustawieniach → Foldery i pliki.": "” does not exist – choose another in Settings → Folders and files.",
+  "” pominięte: ": "” skipped: ",
+  "”? Zdjęcia już dodane zostają na mapie.": "”? Photos already added stay on the map.",
+  "＋ Nowa warstwa „Zdjęcia z telefonu”": "＋ New layer “Phone photos”",
   "Ta mapa jest jeszcze pusta": "This map is still empty",
   "Dodaj punkt, linię albo zdjęcie przyciskami na mapie – pojawią się tutaj, w aktywnej warstwie.": "Add a point, a line or a photo with the buttons on the map – they will appear here, in the active layer.",
   "Moje": "Mine",
@@ -14048,7 +14109,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v136';
+const APP_VER = 'v137';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeWant() {
   // v132: czy motyw z Ustawień chce teraz ciemnego wyglądu (bez nocnej nawigacji)
@@ -21928,7 +21989,7 @@ function settingsObj() {
 // telefonu albo chwili: ostatnie położenie i pogoda, blokada i szyfrowanie, wybrane foldery i Dysk, trwające nagrywanie
 // i plan, stan kopii, podpowiedzi, dziennik diagnostyczny, pamięci podręczne
 // v119 (pkt 347): bez ostatniego miejsca auta i pytań o nie (omm-auto-miejsce, omm-auto-pyt) – to położenie
-const PREFS_SKIP = /^omm-(auto-miejsce|auto-pyt|poz|slonce-ll|pogoda|lock|szyfr|dysk-|folder|diag|autokopia-(blad|stan|zmiany)|alg-pytanie|set-open|tut|tip|pierwszy|start$|zmiany|kopia-(reczna|cz|pyt)|plan$|plan-szkic|rec$|sport-przejazd|sport-log|park|bdlcap-|v66-|orto-wariant|imp$|backup|kosz|vt-|zdj-hosty|anim-q|auto-hist|ovc-n|sport-grupa-mig)/;
+const PREFS_SKIP = /^omm-(autofoto|auto-miejsce|auto-pyt|poz|slonce-ll|pogoda|lock|szyfr|dysk-|folder|diag|autokopia-(blad|stan|zmiany)|alg-pytanie|set-open|tut|tip|pierwszy|start$|zmiany|kopia-(reczna|cz|pyt)|plan$|plan-szkic|rec$|sport-przejazd|sport-log|park|bdlcap-|v66-|orto-wariant|imp$|backup|kosz|vt-|zdj-hosty|anim-q|auto-hist|ovc-n|sport-grupa-mig)/;
 function prefsExport() {
   const o = {};
   try {
@@ -30022,6 +30083,7 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Wygląd aplikacji</b> – „Mapa i krawędzie”: mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry po lewej <b>tryb ▾</b> (dotknięcie przełącza Prywatny / Praca), pod nim nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (zielona – dobra, bursztynowa – średnia, czerwona – słaba; dotknięcie – Informacje GPS). Polecenia stoją na mapie jako <b>krople</b> (ikona w kółku z ołówkowym obrysem); dwie krople obok siebie łączą się w kapsułkę. Kropla z małymi ikonami 2×2 to <b>folder</b> (przy więcej niż czterech poleceniach czwarte pole to „+N”) – dotknięcie otwiera obok kropli kartę z poleceniami i podpisami. Tak samo, kartą przy kropli, otwierają się wybory Rysuj, Zmierz i Zdjęcie; wolisz panel z dołu ekranu – Ustawienia → Wygląd → „Wybory z kropli”. Fabrycznie są dwa foldery: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Trening, Ustawienia, Gry) i <b>Narzędzia</b> (Podkład, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz), a do tego kropla Moja pozycja. Na dole <b>Panel Dziś</b> za języczkiem (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc; zamykasz go daszkiem w dół nad panelem, dotknięciem mapy albo zsuwając palcem w dół). ⚙ w Panelu Dziś ustawia, które wiersze widać i w jakiej kolejności, oraz wygląd schowka (ikony z podpisami, same ikony albo ukryty). Języczek Dziś przeciągniesz wzdłuż dołu, przytrzymując go. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b> – krople, które pasek by zasłonił, stają na ten czas tuż nad nim (razem z dolnym języczkiem) i wracają po zakończeniu. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – <b>przytrzymaj</b> kroplę i przeciągnij: w inne miejsce mapy, obok innej kropli (kapsułka), <b>na inną kroplę</b> (powstaje folder – albo trafia do istniejącego) albo <b>na języczek Dziś</b> – wtedy polecenie trafia do <b>schowka</b> (dolny wiersz Panelu Dziś); stamtąd dotknięcie je uruchamia, a przytrzymanie wyciąga z powrotem na mapę. Polecenie wyjmiesz też z rozwiniętego folderu, przytrzymując je na liście. Przytrzymanie kropli bez ruchu otwiera menu: <b>Schowaj</b>, <b>Rozdziel folder</b>, <b>Zmień nazwę folderu</b>. Układ zapisuje się osobno dla trybu Prywatny oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Układ z wcześniejszych wersji (panele Menu i Narzędzia) zamienia się w dwa foldery w miejscu dawnych języczków.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni – dotknięcie dnia rozwija jego szczegóły: godzina po godzinie (dalej 4 pory dnia), opad z prawdopodobieństwem, wiatr ze strzałką kierunku, zachmurzenie, wschód i zachód słońca (dane MET Norway / yr.no). Nazwa miejsca w nagłówku prognozy to wybór: moja pozycja, ostatnie miejsca, wyszukiwanie albo wskazanie na mapie. Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty); w pogodzie słońce jest bursztynowe, deszcz niebieski, śnieg jasnoniebieski, a temperatura ciepła lub mroźna ma swój odcień.</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). Przy przejściu pieszo z dociąganiem do ścieżek postoje do ok. 10 m od drogi też trafiają na drogę. Gdy przy wolnej jeździe (np. dojazd do świateł) telefon przez kilkanaście sekund nie poda pozycji, OMM nie „dopowiada” dalszej jazdy – ślad nie wysuwa się do przodu i nie wraca zygzakiem. <b>Wysokości</b> (profil, różnica wysokości, wysokość terenu, podjazdy tras) w Polsce są z NMT GUGiK, a za granicą albo gdy GUGiK nie odpowiada – z modelu terenu serwera tras (ok. 30 m, mniej dokładny); przy wyniku widać źródło. <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i leśne Flipery: pień-rampa, borowiki, dziupla, misje koszyka, multiball, TILT).</li><li><b>Punkt, dymek obiektu, zaznaczanie, reset</b> – <b>Punkt</b> (Narzędzia) stawia jeden punkt jednym dotknięciem – bez ✓ i cofania; od razu przy punkcie otwiera się <b>dymek</b> z nazwą, warstwą, kolorem, rozmiarem i „Więcej”. W wyglądzie „Mapa i krawędzie” dotknięcie obiektu mapy (punktu, linii, obszaru) albo „pokaż na mapie” z listy ustawia mapę na obiekcie i pokazuje jego dymek; dymek znika po dotknięciu mapy albo ✕. Okienka śladów zostają na dole ekranu. <b>Zaznaczanie</b>: przytrzymaj obiekt albo ślad na liście – włącza się zaznaczanie; przycisk <b>Pokaż</b> na pasku zaznaczania przybliża mapę do zaznaczonych i na chwilę je podświetla. <b>Reset</b>: Ustawienia → Reset aplikacji – „Przywróć ustawienia fabryczne” (zostają mapy, ślady, zdjęcia i treningi) albo „Usuń wszystko i zacznij od nowa” (potwierdzenie aktywne po 5 s); przed każdym OMM proponuje kopię zapasową. Przy przywracaniu kopii OMM pyta, czy wczytać z niej ustawienia aplikacji, czy zostawić obecne.</li><li><b>Nawigacja – ekran, cisza, powrót</b> – przy przygaszonym ekranie OMM rozjaśnia go przed manewrem (samochodem ok. 30 s wcześniej, pieszo i rowerem ok. 20 s) i zostawia jasny jeszcze kilka sekund po manewrze, żebyś zobaczył następny – oba czasy w Ustawienia → Nawigacja. Przycisk <b>głośnika</b> na pasku nawigacji i treningu wycisza głos i dźwięki (wibracje zostają) do końca nawigacji albo treningu; przytrzymanie – na 15 min albo 1 h. Gdy system zamknie OMM w trakcie nawigacji, po ponownym otwarciu nawigacja wraca do tego samego celu (przy nagrywaniu od razu, inaczej po pytaniu). Podczas nawigacji z nagrywaniem widać tylko przycisk ■ z czasem nagrania. Nocą, gdy mapa ciemnieje, ciemnieją też okna i panele. <b>Szukaj</b> pokazuje od razu <b>Ostatnie</b> – wyszukane miejsca i cele nawigacji (✕ usuwa, „Wyczyść” – wszystkie). Na azymucie możesz dodać kilka punktów pośrednich – każdy odcinek prowadzi prosto, cel zostaje ostatni; na pasku odległość i zejście z kursu w metrach.</li><li><b>Zdjęcia w punkcie, kosz, krople, Nagraj w nawigacji</b> – w okienku punktu (na mapie i na śladzie) każda miniatura ma <b>✕</b> – usuwa tylko to jedno zdjęcie („Cofnij” przez kilka sekund). Usunięty punkt śladu trafia do kosza na 30 dni. <b>Przytrzymanie</b> obiektu albo śladu na liście włącza zaznaczanie. Fabryczny układ kropli: z lewej Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Mapy, Ślady, Podkład i Trening; u góry Szukaj i Moja pozycja; Ustawienia, Zdjęcia, Gry i Północ w schowku Panelu Dziś. Fabrycznie podkład OpenStreetMap; gdy wybrany podkład nie odpowiada, OMM na teraz pokazuje OpenStreetMap. W nawigacji w prawym dolnym rogu jest pierścień <b>Nagraj</b>; na starcie nawigacji OMM ostrzega, gdy głośność multimediów w telefonie jest wyciszona.</li>
 <li><b>Miejsce auta</b> – OMM zapamiętuje je sam, gdy podczas nagrywania z jazdy przejdziesz w marsz. Pełznięcie w korku (kilka km/h z przystankami) nie jest parkowaniem: miejsce zapisuje się dopiero, gdy przez ok. 3 minuty nie ruszysz autem albo oddalisz się pieszo o ponad 100 m (albo zaraz po „Stop”). Miejsce znika, gdy odjedziesz spod auta, a także gdy OMM zobaczy, że jedziesz (ponad ok. 30 km/h, ponad 500 m) dalej niż 300 m od niego – także bez nagrywania; „Cofnij” w komunikacie przywraca je (autobus, taksówka, drugie auto). Co OMM zrobił z autem, widać w Diagnostyce.</li>
+<li><b>Automatyczne zdjęcia z folderów</b> – Ustawienia → Foldery i pliki → „Dodaj folder ze zdjęciami…”: wskazujesz folder telefonu (np. aparat – DCIM/Camera), mapę i warstwę. Po każdym otwarciu OMM sprawdza, czy są tam nowe zdjęcia: pasek u dołu pyta „Importuj / Pokaż / Nie teraz” (z opcją „Zawsze importuj automatycznie”), a w trybie automatycznym zdjęcia wchodzą same i jest tylko informacja z „Cofnij”. W czasie nagrywania, nawigacji i treningu OMM czeka do końca. Każde zdjęcie trafia na mapę raz; zdjęcia bez miejsca – według nagranego śladu albo pomijane; można pomijać strefy dom/praca. Android daje dostęp tylko do wskazanego folderu. Zdjęć z Google Photos, których nie ma w telefonie, OMM nie widzi (Google nie pozwala aplikacjom czytać całej biblioteki).</li>
 <li><b>Moje – mapy i ślady w jednym miejscu</b> – kropla z kartoteką otwiera menedżer z wyraźnymi zakładkami <b>Mapy | Ślady</b> u samej góry (obok nazwy liczba map / śladów). Przełączasz dotknięciem zakładki albo przesunięciem palcem w bok. Otwiera się ostatnio używana zakładka, a po nagrywaniu i nawigacji – Ślady. Po prawej od nazwy mapy przycisk <b>Mapa</b> z plusem zakłada nową mapę i od razu ją otwiera; w Śladach w tym miejscu <b>Kategoria</b> – nowa kategoria śladów.</li>
 <li><b>Wygląd przycisków i paneli</b> – krople, kapsuły, napisy na mapie i panele mają równe, jasne (nocą ciemne) tło, minimalnie prześwitujące, z rozmyciem tego, co pod spodem, i wyraźną krawędzią – bez poświat i bez zanikania w mapę.</li>
 <li><b>Ortofoto – Geoportal w wysokiej rozdzielczości</b> – przy dużym zbliżeniu (od poziomu 15) OMM pobiera zdjęcia lotnicze w wysokiej rozdzielczości (piksel do 10 cm, w miastach mniej), w podwójnej gęstości – ostre na ekranie telefonu; przy mniejszym zbliżeniu szybkie kafle zwykłej rozdzielczości. Gdy serwer nie odda zdjęcia, w tym miejscu zostaje zwykła rozdzielczość.</li>
@@ -30093,6 +30155,7 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Workout</b> – Menu → <b>Workout</b> (in the “Map and edges” look you can also pull it onto the map as a drop). <b>Tiles</b> of the discipline you trained last appear on the map – each on its own blurred background, with the map and you visible between them. At the top the discipline icon – tap it to change the sport (remembered for next time; during a workout the whole workout and its track move to the new discipline); the discipline tools are there too: intervals and pace target (running), daily step goal (walking), lap (inline skating). At the bottom <b>Start</b> and above it the choice: <b>with track recording</b> or <b>counter only</b> (like a bike computer – no track); the same in Settings → Workout. Either way the counter keeps counting with the screen off. During the workout the bar: <b>Pause</b>, <b>Photo</b> (when recording a track), <b>Hide</b> – the tiles disappear for a moment so you can look at the map (they come back with the same button or by themselves after 20 s), <b>Screen</b> – dimmed (a tap brightens it for a moment; press and hold – what brightens it), always bright or as usual on the phone – and <b>Finish</b>. <b>Stopping the recording ends the workout</b> – also “Finish” in the notification. Next to the discipline name ⚙ (workout settings: calorie data – weight, age, height, sex – tiles, track recording and the layer each discipline's tracks go to) and the chart (statistics). <b>Tiles</b>: press, hold and drag to move a tile on the grid; press and hold without moving – size (small, wide, large), another value in this place, remove, add a tile, factory layout. What is shown – also in Settings → Workout → Tiles on the map, separately for each discipline. Values: speed or pace, distance, moving and total time, average, max, ascent, descent, altitude, gradient, calories, today, total counter, clock, GPS signal and the discipline’s own values (running – last km, interval, pace target; walking – steps, daily goal; trekking – climbing rate, to sunset, time to arrival; horse riding – walk, trot, canter; inline skating – laps). After “Finish” a summary, and all workouts are in <b>Tracks → Summary → Workouts</b>: overall and for each discipline – week, month, year, all time, chart, list. Calories after entering your weight in Settings → Workout; a workout track goes to Tracks – by default <b>together with regular tracks</b> (activity layer in the open group: a bike ride is a bike ride); in Settings → Workout → “Save workout tracks” you can choose a separate “Sport” group or a chosen layer for each sport. Dimmed screen: the first tap only brightens it; it also brightens by itself when you stop (for the whole stop and 5 s after moving off), every kilometre and with a voice message – what and for how long: press and hold the <b>Screen</b> button or Settings → Workout → “Brighten the screen”. While recording you also see your other visible tracks – thinner and dimmed (the “Tracks” eye on the bar hides them).</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>Car location</b> – OMM saves it by itself when, while recording, you switch from driving to walking. Creeping in a traffic jam (a few km/h with stops) is not parking: the place is saved only when you don't drive off for about 3 minutes or walk more than 100 m away (or right after “Stop”). The place disappears when you drive away from the car, and also when OMM sees you driving (over about 30 km/h, more than 500 m) further than 300 m from it – also without recording; “Undo” in the message brings it back (bus, taxi, another car). What OMM did with the car is shown in Diagnostics.</li>
+<li><b>Automatic photos from folders</b> – Settings → Folders and files → “Add a photo folder…”: pick a phone folder (e.g. the camera – DCIM/Camera), a map and a layer. Each time OMM opens it checks for new photos there: a bar at the bottom asks “Import / Show / Not now” (with “Always import automatically”); in automatic mode photos go in by themselves and you only get a notice with “Undo”. During recording, navigation and workouts OMM waits until they end. Each photo goes on the map once; photos without location are placed by the recorded track or skipped; home/work zones can be skipped. Android gives access only to the chosen folder. OMM cannot see Google Photos pictures that are not on the phone (Google does not let apps read the whole library).</li>
 <li><b>Mine – maps and tracks in one place</b> – the drop with the card-file icon opens the manager with clear <b>Maps | Tracks</b> tabs at the very top (with the number of maps / tracks). Switch by tapping a tab or swiping sideways. The last used tab opens; after recording and navigation – Tracks. To the right of the map name the <b>Map</b> button with a plus creates a new map and opens it; in Tracks the same place holds <b>Category</b> – a new track category.</li>
 <li><b>Buttons and panels</b> – drops, capsules, labels on the map and panels have an even light (dark at night) background, slightly see-through with the map blurred underneath, and a clear edge – no glow and no fading into the map.</li>
 <li><b>Orthophoto – Geoportal in high resolution</b> – when zoomed in (level 15 and closer) OMM loads high-resolution aerial photos (pixel up to 10 cm, less in cities) at double density – sharp on a phone screen; when zoomed out, fast standard-resolution tiles. If the server does not return a photo, standard resolution stays in that spot.</li>
@@ -42760,6 +42823,423 @@ async function nativePhotos(multi) {
     toastMsg(_t('Bez zgody na „lokalizację w multimediach” zdjęcia nie mają miejsca zrobienia – zgodę włączysz w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia.'));
   return out;
 }
+// ---------- v137 (pkt 467): automatyczne zdjęcia z wybranych folderów telefonu ----------
+// Źródło = folder wybrany w oknie systemu (dostęp tylko do niego, bez całej galerii). Po każdym otwarciu OMM sprawdza,
+// czy są nowe zdjęcia: tryb „Pytaj” – pasek u dołu z pytaniem, „Automatycznie” – import i tylko informacja.
+// W czasie nagrywania, nawigacji i treningu czeka do końca. Sprawdzone pliki są zapamiętane (bez duplikatów).
+const AF_KEY = 'omm-autofoto';
+function afList() {
+  try {
+    const a = JSON.parse(localStorage.getItem(AF_KEY) || '[]');
+    return Array.isArray(a) ? a.filter(x => x && x.id && x.uri) : [];
+  } catch (e) {
+    return [];
+  }
+}
+function afSave(a) {
+  try {
+    localStorage.setItem(AF_KEY, JSON.stringify(a));
+  } catch (e) {}
+}
+async function afSeen(id) {
+  try {
+    return new Set((await IDB.get('autofoto:' + id)) || []);
+  } catch (e) {
+    return new Set();
+  }
+}
+async function afSeenAdd(id, ids) {
+  const S = await afSeen(id);
+  ids.forEach(x => S.add(x));
+  try {
+    await IDB.set('autofoto:' + id, [...S].slice(-20000));
+  } catch (e) {}
+}
+const afBusy = () => !!(REC || NAV || document.body.classList.contains('trnon'));
+const afMap = s => DB.maps.find(m => m.id === s.map);
+const afMapName = s => (afMap(s) ? afMap(s).name : _t('(mapa usunięta)'));
+let AF_RUN = false,
+  AF_WAIT = null;
+function afLater(ms) {
+  clearTimeout(AF_WAIT);
+  AF_WAIT = setTimeout(afCheck, ms);
+}
+async function afCheck() {
+  const OP = plug('OmmPhotos'),
+    L = afList();
+  if (!NATIVE || !OP || !OP.scanFolder || !L.length || AF_RUN) return;
+  // nie w czasie nagrywania / nawigacji / treningu i nie nad otwartym oknem – spróbujemy później
+  if (afBusy() || document.querySelector('.dback, .afbar')) return afLater(60000);
+  AF_RUN = true;
+  try {
+    const found = [];
+    for (const src of L) {
+      let r;
+      try {
+        r = await OP.scanFolder({uri: src.uri, since: src.od || 0, max: 300});
+        src.err = '';
+      } catch (e) {
+        src.err = String((e && e.message) || e).slice(0, 80);
+        diag('zdjęcia auto: ' + src.name + ' – ' + src.err);
+        continue;
+      }
+      const seen = await afSeen(src.id),
+        nw = ((r && r.files) || []).filter(f => !seen.has(f.id));
+      if (nw.length) found.push([src, nw]);
+    }
+    afSave(L);
+    for (const [src, nw] of found) {
+      if (afBusy()) return afLater(60000);
+      if (src.tryb === 'auto') await afImport(src, nw);
+      else if (!(await afAsk(src, nw))) break; // „Nie teraz” – resztę pokażemy przy następnym otwarciu
+    }
+  } finally {
+    AF_RUN = false;
+  }
+}
+// pasek z pytaniem u dołu ekranu (nie okno) – nie zasłania przycisków na mapie dłużej niż trzeba
+function afBar(txt, btns, extra) {
+  document.querySelectorAll('.afbar, .toast').forEach(x => x.remove());
+  const d = h('div', 'toast afbar'),
+    t = h('div', 'aft', txt),
+    row = h('div', 'afb');
+  d.append(t);
+  if (extra) d.append(extra);
+  btns.forEach(([l, fn, c]) => row.append(B(l, () => (d.remove(), fn()), c || '')));
+  d.append(row);
+  document.body.append(d);
+  return d;
+}
+function afAsk(src, nw) {
+  return new Promise(res => {
+    const ck = h('label', 'afck'),
+      cb = h('input');
+    cb.type = 'checkbox';
+    ck.append(cb, document.createTextNode(' ' + _t('Zawsze importuj automatycznie')));
+    const auto = () => {
+      if (!cb.checked) return;
+      const L = afList(),
+        x = L.find(y => y.id === src.id);
+      if (x) (x.tryb = 'auto'), afSave(L);
+    };
+    afBar(
+      _t('Nowe zdjęcia: ') + nw.length + ' (' + src.name + ') → ' + afMapName(src),
+      [
+        [_t('Importuj'), async () => (auto(), await afImport(src, nw), res(true)), 'okb'],
+        [_t('Pokaż'), async () => (auto(), await afPick(src, nw), res(true))],
+        [_t('Nie teraz'), () => res(false)]
+      ],
+      ck
+    );
+  });
+}
+async function afRead(src, nw) {
+  // kopie zdjęć z folderu (oryginał z miejscem zrobienia) → lista File jak przy zwykłym wyborze zdjęć
+  const OP = plug('OmmPhotos'),
+    out = [];
+  for (let i = 0; i < nw.length; i += 20) {
+    progShow(_t('Wczytuję nowe zdjęcia ') + Math.min(nw.length, i + 20) + ' / ' + nw.length + '…', false);
+    let r;
+    try {
+      r = await OP.readFiles({uri: src.uri, ids: nw.slice(i, i + 20).map(f => f.id)});
+    } catch (e) {
+      diag('zdjęcia auto: odczyt – ' + ((e && e.message) || e));
+      break;
+    }
+    for (const f of (r && r.files) || [])
+      try {
+        const b = await (await fetch(Capacitor.convertFileSrc('file://' + f.path))).blob(),
+          meta = nw.find(x => x.id === f.id) || {},
+          file = new File([b], String(f.name || 'zdjecie.jpg').slice(0, 120), {type: f.mime || b.type || 'image/jpeg', lastModified: meta.t || Date.now()});
+        const la = +f.lat,
+          lo = +f.lng;
+        if (f.lat != null && isFinite(la) && isFinite(lo) && Math.abs(la) <= 90 && Math.abs(lo) <= 180) file._ll = [+la.toFixed(6), +lo.toFixed(6)];
+        file._g = 1;
+        file._id = f.id;
+        out.push(file);
+      } catch (e) {}
+  }
+  progHide();
+  return out;
+}
+async function afPick(src, nw) {
+  // podgląd: miniatury nowych zdjęć, odznaczone nie trafią na mapę (i nie będą już proponowane)
+  const files = await afRead(src, nw);
+  if (!files.length) return;
+  const on = new Set(files.map(f => f._id)),
+    urls = files.map(f => URL.createObjectURL(f));
+  const v = await dlg({
+    title: _t('Nowe zdjęcia – ') + src.name,
+    msg: _t('Dotknij zdjęcia, żeby je odznaczyć. Odznaczone nie trafią na mapę i nie będą już proponowane.'),
+    body: () => {
+      const g = h('div', 'afgrid');
+      files.forEach((f, k) => {
+        const c = h('button', 'afth on'),
+          im = h('img');
+        im.src = urls[k];
+        im.loading = 'lazy';
+        c.append(im);
+        c.onclick = () => (on.has(f._id) ? on.delete(f._id) : on.add(f._id), c.classList.toggle('on', on.has(f._id)));
+        g.append(c);
+      });
+      return g;
+    },
+    btns: [
+      {t: _t('Importuj zaznaczone'), v: 'ok', c: 'okb'},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  urls.forEach(u => URL.revokeObjectURL(u));
+  if (v !== 'ok') return plug('OmmPhotos').cleanup().catch(() => {});
+  await afSeenAdd(
+    src.id,
+    files.filter(f => !on.has(f._id)).map(f => f._id)
+  );
+  await afImport(
+    src,
+    nw.filter(f => on.has(f.id)),
+    files.filter(f => on.has(f._id))
+  );
+}
+async function afImport(src, nw, pre) {
+  const m = afMap(src);
+  if (!m) {
+    afBar(_t('Mapa docelowa dla zdjęć z „') + src.name + _t('” nie istnieje – wybierz inną w Ustawieniach → Foldery i pliki.'), [[_t('OK'), () => 0]]);
+    return;
+  }
+  const files = pre || (await afRead(src, nw));
+  // warstwa: wybrana; gdy jej już nie ma – nowa „Zdjęcia z telefonu” w pierwszej grupie mapy
+  let lid = src.lid;
+  if (!m.groups.some(g => g.layers.some(l => l.id === lid))) {
+    const g = m.groups[0] || (m.groups[0] = {id: uid(), name: _t('Grupa 1'), open: true, vis: true, layers: []});
+    lid = uid();
+    g.layers.push({id: lid, name: _t('Zdjęcia z telefonu'), vis: true, op: 1, open: true});
+    const L = afList(),
+      x = L.find(y => y.id === src.id);
+    if (x) (x.lid = lid), afSave(L);
+  }
+  const added = [],
+    skipLoc = [],
+    skipZone = [];
+  for (let i = 0; i < files.length; i++) {
+    const f = files[i];
+    if (files.length > 3) progShow(_t('Dodaję zdjęcia ') + (i + 1) + ' / ' + files.length + '…', false);
+    try {
+      const ex = exifInfo(await f.slice(0, 256 * 1024).arrayBuffer());
+      let ll = ex.ll || f._ll;
+      if (!ll && ex.time && src.bez !== 'pomin') ll = trkAtTime(ex.time); // bez miejsca – według nagranego śladu
+      if (!ll) {
+        skipLoc.push(f._id);
+        continue;
+      }
+      if (src.strefy && czIn(ll)) {
+        skipZone.push(f._id);
+        continue;
+      }
+      if (ex.time && m.items.some(x => x.i === 'o:foto' && x.cr === ex.time && x.p && x.p[0] && hav(x.p[0], ll) < 2)) continue; // już jest
+      const ref = await fotoPut(await fotoResize(f), fotoName(ex.time || f.lastModified)),
+        it = {id: uid(), t: 'pin', i: 'o:foto', p: [ll], l: lid, c: curColor, o: curOp, ph: [ref], cr: ex.time || f.lastModified || Date.now(), up: Date.now()};
+      m.items.push(it);
+      added.push(it);
+    } catch (e) {
+      diag('zdjęcia auto: ' + f.name + ' – ' + e.message);
+    }
+  }
+  progHide();
+  plug('OmmPhotos')
+    .cleanup()
+    .catch(() => {});
+  await afSeenAdd(
+    src.id,
+    nw.map(f => f.id)
+  );
+  diag('zdjęcia auto: ' + src.name + ' → ' + m.name + ': +' + added.length + ', bez miejsca ' + skipLoc.length + ', w strefie ' + skipZone.length);
+  if (!added.length) {
+    if (skipLoc.length || skipZone.length)
+      afBar(
+        _t('Nowe zdjęcia z „') + src.name + _t('” pominięte: ') + (skipLoc.length ? _t('bez miejsca ') + skipLoc.length : '') + (skipLoc.length && skipZone.length ? ', ' : '') + (skipZone.length ? _t('w strefie dom/praca ') + skipZone.length : ''),
+        [[_t('OK'), () => 0]]
+      );
+    return;
+  }
+  save();
+  render();
+  sheetIfOpen();
+  const more = skipLoc.length ? _t(' (bez miejsca pominięto: ') + skipLoc.length + ')' : '';
+  const bar = afBar(
+    _t('Dodano ') + plN(added.length, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) + _t(' na mapę „') + m.name + '”' + more,
+    [
+      [
+        _t('Pokaż'),
+        () => {
+          if (P !== m) openMap(m.id);
+          setTimeout(() => fitSmart(added), 300);
+        },
+        'okb'
+      ],
+      [
+        _t('Cofnij'),
+        () => {
+          const ids = new Set(added.map(x => x.id));
+          m.items = m.items.filter(x => !ids.has(x.id));
+          save();
+          render();
+          sheetIfOpen();
+          added.forEach(x => (x.ph || []).forEach(fotoForget));
+          toastMsg(_t('Cofnięto – zdjęcia usunięte z mapy.'));
+        }
+      ]
+    ]
+  );
+  setTimeout(() => bar.remove(), 15000);
+}
+// Ustawienia → Foldery i pliki → Automatyczne zdjęcia
+function afSettings(sec, reopen) {
+  const g = h('div', 'sset afset');
+  g.append(h('b', null, _t('Automatyczne zdjęcia z folderów')));
+  g.append(
+    h(
+      'div',
+      'muted',
+      _t('Po każdym otwarciu OMM sprawdza wybrane foldery telefonu (np. aparat) i dodaje nowe zdjęcia na wybraną mapę – po pytaniu albo automatycznie. Android daje dostęp tylko do wskazanego folderu. Zdjęcia z Google Photos, których nie ma w telefonie, nie są widoczne.')
+    )
+  );
+  afList().forEach(src => {
+    const r = h('div', 'afrow'),
+      tx = h('div', 'aftx');
+    tx.append(h('b', '', src.name), h('span', 'muted', '→ ' + afMapName(src) + ' · ' + (src.tryb === 'auto' ? _t('automatycznie') : _t('z pytaniem')) + (src.err ? ' · ⚠ ' + src.err : '')));
+    r.append(tx, IB('edit', () => afEdit(src).then(reopen), '', _t('Zmień')), IB('del', () => afDel(src).then(reopen), '', _t('Usuń źródło')));
+    g.append(r);
+  });
+  g.append(BI('plus', _t('Dodaj folder ze zdjęciami…'), () => afAdd().then(ok => ok && reopen())));
+  sec.append(g);
+}
+async function afAdd() {
+  let r;
+  try {
+    r = await plug('OmmPhotos').pickFolder();
+  } catch (e) {
+    tell(_t('Nie udało się wybrać folderu: ') + ((e && e.message) || e));
+    return false;
+  }
+  if (!r || !r.uri) return false;
+  const L = afList();
+  if (L.some(x => x.uri === r.uri)) return tell(_t('Ten folder już jest na liście.')), false;
+  const src = {id: uid(), uri: r.uri, name: String(r.name || 'folder').slice(0, 60), map: P.plan ? (modeMaps()[0] || {}).id : P.id, lid: P.active, tryb: 'pytaj', bez: 'slad', strefy: true, od: Date.now()};
+  if (!(await afEdit(src, true))) {
+    plug('OmmPhotos')
+      .forgetFolder({uri: r.uri})
+      .catch(() => {});
+    return false;
+  }
+  if (r.location === false) tell(_t('Bez zgody na „lokalizację w multimediach” zdjęcia nie mają miejsca zrobienia – zgodę włączysz w Ustawieniach Androida → Aplikacje → OMM → Uprawnienia.'));
+  return true;
+}
+async function afEdit(src, isNew) {
+  const sel = (opts, v) => {
+    const s = h('select');
+    opts.forEach(([k, t]) => {
+      const o = h('option', '', t);
+      o.value = k;
+      if (k === v) o.selected = true;
+      s.append(o);
+    });
+    return s;
+  };
+  const row = (lbl, el) => {
+    const d = h('label', 'afedr');
+    d.append(h('span', 'muted', lbl), el);
+    return d;
+  };
+  const maps = modeMaps();
+  let sMap, sLay;
+  const lays = id => {
+    const m = DB.maps.find(x => x.id === id);
+    return [...(m ? m.groups.flatMap(g => g.layers.map(l => [l.id, l.name])) : []), ['+', _t('＋ Nowa warstwa „Zdjęcia z telefonu”')]];
+  };
+  const sTryb = sel(
+      [
+        ['pytaj', _t('Pytaj, czy importować')],
+        ['auto', _t('Automatycznie – tylko informacja')]
+      ],
+      src.tryb
+    ),
+    sBez = sel(
+      [
+        ['slad', _t('Według nagranego śladu (po godzinie)')],
+        ['pomin', _t('Pomijaj')]
+      ],
+      src.bez
+    ),
+    sOd = sel(
+      [
+        ['keep', src.od ? _t('Od ') + new Date(src.od).toLocaleDateString(LOC) : _t('Wszystkie w folderze')],
+        ['dzis', _t('Od dziś')],
+        ['all', _t('Wszystkie w folderze (także stare)')]
+      ],
+      'keep'
+    ),
+    zon = h('input');
+  zon.type = 'checkbox';
+  zon.checked = src.strefy !== false;
+  const v = await dlg({
+    title: (isNew ? _t('Nowe źródło zdjęć: ') : _t('Źródło zdjęć: ')) + src.name,
+    body: () => {
+      const b = h('div', 'afed');
+      sMap = sel(
+        maps.map(m => [m.id, m.name]),
+        src.map
+      );
+      sLay = sel(lays(sMap.value), src.lid);
+      sMap.onchange = () => {
+        const n = sel(lays(sMap.value), '');
+        sLay.replaceWith(n);
+        sLay = n;
+      };
+      const zl = h('label', 'afck');
+      zl.append(zon, document.createTextNode(' ' + _t('Pomijaj zdjęcia zrobione w strefach dom/praca') + (czList().length ? '' : _t(' (brak stref – Ustawienia → Auto i parkowanie)'))));
+      b.append(row(_t('Na mapę'), sMap), row(_t('Warstwa'), sLay), row(_t('Nowe zdjęcia'), sTryb), row(_t('Zdjęcia bez miejsca zrobienia'), sBez), row(_t('Które zdjęcia'), sOd), zl);
+      return b;
+    },
+    btns: [
+      {t: _t('Zapisz'), v: 'ok', c: 'okb'},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (v !== 'ok') return false;
+  const m = DB.maps.find(x => x.id === sMap.value);
+  if (!m) return false;
+  let lid = sLay.value;
+  if (lid === '+' || !m.groups.some(g => g.layers.some(l => l.id === lid))) {
+    const g = m.groups[0] || (m.groups[0] = {id: uid(), name: _t('Grupa 1'), open: true, vis: true, layers: []});
+    lid = uid();
+    g.layers.push({id: lid, name: _t('Zdjęcia z telefonu'), vis: true, op: 1, open: true});
+    save();
+  }
+  Object.assign(src, {map: m.id, lid, tryb: sTryb.value, bez: sBez.value, strefy: zon.checked, od: sOd.value === 'dzis' ? Date.now() : sOd.value === 'all' ? 0 : src.od});
+  const L = afList(),
+    k = L.findIndex(x => x.id === src.id);
+  if (k >= 0) L[k] = src;
+  else L.push(src);
+  afSave(L);
+  if (sOd.value !== 'keep') {
+    try {
+      await IDB.del('autofoto:' + src.id);
+    } catch (e) {}
+  }
+  setTimeout(afCheck, 600);
+  return true;
+}
+async function afDel(src) {
+  if (!(await askYes(_t('Usunąć źródło zdjęć „') + src.name + _t('”? Zdjęcia już dodane zostają na mapie.'), _t('Usuń')))) return;
+  afSave(afList().filter(x => x.id !== src.id));
+  plug('OmmPhotos')
+    .forgetFolder({uri: src.uri})
+    .catch(() => {});
+  try {
+    await IDB.del('autofoto:' + src.id);
+  } catch (e) {}
+}
 // wybór zdjęć: aparat (capture) albo galeria/pliki
 const camMode = () => localStorage.getItem('omm-aparat') || 'szybki'; // v95: pelny (aparat telefonu) / szybki; v105 (pkt 261): domyślnie szybki – zdjęcie wraca od razu, bez wybierania
 function pickPhotos(camera, multi) {
@@ -53199,6 +53679,8 @@ if (plug('App')) {
     else if (abChgOn() && abDirty()) autoBackup(false, true); // v72: doszły nowe dane od ostatniej kopii
   });
   plug('App').addListener('resume', () => setTimeout(() => autoBackup(false), 8000));
+  plug('App').addListener('resume', () => afLater(2500)); // v137 (pkt 467): nowe zdjęcia w wybranych folderach
+  setTimeout(() => afLater(0), 6000); // i raz po uruchomieniu
   plug('App').addListener('resume', () => {
     try {
       if (NAV) navWake(15000); // v106 (pkt 265): odblokowanie / powrót – ekran od razu jasny
@@ -60544,6 +61026,7 @@ function settingsDlg(keep, old) {
       ['pelny', _t('Pełny aparat telefonu – wszystkie tryby, zdjęcie w galerii; po powrocie wskazujesz zrobione zdjęcia')],
       ['szybki', _t('Szybki aparat w OMM – jedno zdjęcie od razu, bez wybierania')]
     ]);
+  if (NATIVE && plug('OmmPhotos') && plug('OmmPhotos').scanFolder) afSettings(sec, () => settingsDlg({top: body.scrollTop}, back)); // v137 (pkt 467)
   chk(
     _t('Zdjęcia z aparatu OMM także w galerii telefonu (Obrazy/OMM)'),
     'omm-foto-galeria',

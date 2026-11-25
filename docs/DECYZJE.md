@@ -4,6 +4,7 @@ Najnowsze na górze. Szczegóły i dyskusja – w historii zmian (git log) i w o
 
 | Data | Decyzja | Powód |
 |---|---|---|
+| 2026-11-25 | v137 (pkt 467): automatyczne zdjęcia z wybranych folderów telefonu – po otwarciu OMM pasek z pytaniem (Importuj / Pokaż / Nie teraz, „Zawsze automatycznie”), tryb automatyczny z informacją i „Cofnij”; dostęp tylko do wskazanego folderu (bez READ_MEDIA_IMAGES) | Google Photos od 03.2025 nie daje aplikacjom dostępu do całej biblioteki; pasek zamiast okna – zasada „bez okien przy starcie” |
 | 2026-11-25 | v136 (pkt 465, 466): menedżer „Moje” – zakładki jako przekładki obrysowane tuszem (wariant 7b: ikona, nazwa, liczba przy prawej krawędzi), pod nimi jeden wiersz ‹ nazwa ▾ ＋ ✕, pasek narzędzi bez zieleni, podpowiedź przy pustej mapie; napis u góry mapy w jednym wierszu (tryb 10,5 px + nazwa 14 px) | v134/v135 wyglądały biednie; wybór Pawła spośród 12 wariantów |
 | 2026-11-25 | v135 (pkt 464): przyciski wyraźnie prześwitują (tło ok. 60%, lekkie rozmycie), cieńszy i jaśniejszy obrys kapsuł, napisy bez ramek; zakładki niskie (32 px, 13,5 px), liczba zwykłą szarą cyfrą; nagłówek menedżera zwarty, nazwa mapy 16 px | v134 wyglądał na biały, gruby i napompowany |
 | 2026-11-25 | v134: jeden przycisk **„Moje”** (ikona kartoteki) zamiast osobnych Mapy i Ślady; u góry zakładki kartoteki Mapy \| Ślady z liczbą; otwiera ostatnią zakładkę, po nagrywaniu/nawigacji – Ślady; przesunięcie palcem przełącza | mniej przycisków na mapie, jedno miejsce na „moje rzeczy”, ten sam układ obu list |

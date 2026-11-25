@@ -41,6 +41,11 @@ OmmGnss, OmmSys). Serwery: `docs/serwery.md`. CSP: `scripts/prepare-www.mjs`.
 - Noc (`html.mnight`): filtr na każdym kaflu `.leaflet-tile`.
 - Nakładki WMS z pamięcią (`CachedWMS`, IndexedDB 30 dni); GDOŚ z własnym SLD.
 
+## Zdjęcia automatyczne (v137)
+- Źródła w `omm-autofoto` (`afList`): folder (`uri` z `OmmPhotos.pickFolder`), mapa, warstwa, tryb `pytaj`/`auto`, `bez` (`slad`/`pomin`), `strefy`, `od`.
+  Sprawdzone pliki: IndexedDB `autofoto:<id>` (`afSeen`). `afCheck` po starcie (6 s) i po powrocie do aplikacji; czeka, gdy `afBusy()`
+  (nagrywanie, nawigacja, trening) albo otwarte okno. `afAsk` – pasek `.afbar`, `afPick` – podgląd miniatur, `afImport` – pinezki `o:foto`.
+
 ## Nawigacja
 - `navStart` (bez trasy → ekran „Trasa” `routeScreen`), `navPos` (każdy pomiar), `navCam` (kadr i zoom: najwyżej ok.
   pół poziomu na sekundę, `navZoomSteps` – kroki zwykłej animacji Leafleta), `navRotLoop` (obrót), `navStop`.
