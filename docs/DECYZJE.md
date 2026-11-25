@@ -4,6 +4,7 @@ Najnowsze na górze. Szczegóły i dyskusja – w historii zmian (git log) i w o
 
 | Data | Decyzja | Powód |
 |---|---|---|
+| 2026-11-25 | v135 (pkt 464): przyciski wyraźnie prześwitują (tło ok. 60%, lekkie rozmycie), cieńszy i jaśniejszy obrys kapsuł, napisy bez ramek; zakładki niskie (32 px, 13,5 px), liczba zwykłą szarą cyfrą; nagłówek menedżera zwarty, nazwa mapy 16 px | v134 wyglądał na biały, gruby i napompowany |
 | 2026-11-25 | v134: jeden przycisk **„Moje”** (ikona kartoteki) zamiast osobnych Mapy i Ślady; u góry zakładki kartoteki Mapy \| Ślady z liczbą; otwiera ostatnią zakładkę, po nagrywaniu/nawigacji – Ślady; przesunięcie palcem przełącza | mniej przycisków na mapie, jedno miejsce na „moje rzeczy”, ten sam układ obu list |
 | 2026-11-25 | Przycisk „＋ Mapa” / „＋ Kategoria” w wierszu nazwy, dosunięty do prawej, w stylu przycisków paska (ikona z plusem + podpis), nie okrągły ＋ | spójność z paskiem „Warstwa” |
 | 2026-11-25 | Bez poświat i bez mgły; tło minimalnie przezroczyste z rozmyciem i wyraźną krawędzią | gradienty przezroczystości „jak z lat 90.” |
