@@ -1,0 +1,30 @@
+name: Geoportal capabilities
+on:
+  push:
+    branches: [geoportal-caps]
+permissions: {}
+jobs:
+  caps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: GetCapabilities
+        run: |
+          B=https://mapy.geoportal.gov.pl/wss/service/PZGIK/ORTO
+          for u in "WMTS/HighResolution?SERVICE=WMTS&REQUEST=GetCapabilities" "WMS/HighResolution?SERVICE=WMS&REQUEST=GetCapabilities" "WMTS/StandardResolution?SERVICE=WMTS&REQUEST=GetCapabilities"; do
+            echo "=== $u"; curl -s --max-time 60 "$B/$u" -o c.xml; ls -la c.xml
+            grep -o '<ows:Identifier>[^<]*</ows:Identifier>' c.xml | sort | uniq -c | head -80
+            grep -o '<Name>[^<]*</Name>' c.xml | head -40
+            grep -o '<TileMatrixSet>[^<]*</TileMatrixSet>' c.xml | sort | uniq -c
+            grep -o '<Format>[^<]*</Format>' c.xml | sort | uniq -c | head
+            grep -o 'ScaleDenominator>[^<]*<' c.xml | head -40
+            grep -o '<MaxScaleDenominator>[^<]*<\|<MinScaleDenominator>[^<]*<' c.xml | head
+          done
+          echo "=== probe tiles 3857"
+          for z in 15 16 17 18 19 20; do
+            x=$(python3 -c "import math;z=$z;lat=51.7593;lon=19.4560;n=2**z;print(int((lon+180)/360*n))"); y=$(python3 -c "import math;z=$z;lat=math.radians(51.7593);n=2**z;print(int((1-math.log(math.tan(lat)+1/math.cos(lat))/math.pi)/2*n))")
+            for s in HighResolution StandardResolution; do
+              curl -s --max-time 30 -o t.jpg -w "$s z$z %{http_code} %{content_type} %{size_download}\n" "$B/WMTS/$s?service=WMTS&request=GetTile&version=1.0.0&layer=ORTOFOTOMAPA&style=default&format=image/jpeg&tilematrixset=EPSG:3857&tilematrix=EPSG:3857:$z&tilerow=$y&tilecol=$x"
+            done
+          done
+          echo "=== WMS probe"
+          curl -s --max-time 60 -o w.jpg -w "WMS %{http_code} %{content_type} %{size_download}\n" "$B/WMS/HighResolution?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:3857&BBOX=2165900,6755300,2166200,6755600&WIDTH=512&HEIGHT=512"
