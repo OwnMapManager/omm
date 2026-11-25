@@ -10048,31 +10048,46 @@ html.sk-krawedzie .leaflet-popup.skpop { padding-top: 16px !important; backgroun
 html.sk-krawedzie .sklfl, html.sk-krawedzie .sklghost, html.sk-krawedzie .phpick { background: rgba(var(--kfog), 0.88) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
 /* kafelki treningu: to samo szkło co reszta */
 .trnt { background: rgba(var(--kfog, 251, 251, 248), 0.6); -webkit-backdrop-filter: blur(5px) saturate(1.25); backdrop-filter: blur(5px) saturate(1.25); box-shadow: inset 0 0 0 1px var(--line, #e2e4dd), 0 1px 4px rgba(0, 0, 0, 0.1); }
-/* v134 (pkt 462): zakładki kartoteki Mapy | Ślady u samej góry menedżera „Moje” */
-#ktabs { display: none; }
-html.sk-krawedzie #sheet #sh { border-bottom: 1px solid var(--line) !important; padding-bottom: 0 !important; align-items: flex-end !important; }
-html.sk-krawedzie #sheet #sh > .ibt { align-self: center; }
-html.sk-krawedzie #sheet #sh:has(#ktabs:not([style*="none"])) .shsp { display: none; }
-html.sk-krawedzie #ktabs { display: flex; flex: 1; min-width: 0; gap: 3px; align-self: flex-end; margin: 0 4px -1px; }
-html.sk-krawedzie #ktabs[style*="none"] { display: none !important; }
-/* v134b (pkt 464): zakładki niskie i zgrabne – zwykłe pismo, liczba małą szarą cyfrą */
-html.sk-krawedzie #ktabs button { flex: 1 1 0; min-width: 0; display: flex; align-items: baseline; justify-content: center; gap: 5px; height: 32px; padding: 0 8px !important; line-height: 31px;
-  border: 1px solid var(--line) !important; border-bottom: 0 !important; border-radius: 9px 9px 0 0 !important; background: color-mix(in srgb, var(--txt) 5%, transparent) !important;
-  color: var(--sub) !important; font: 400 13.5px var(--ff), sans-serif !important; box-shadow: none !important; transform: translateY(3px); transition: transform 0.12s; }
-html.sk-krawedzie #ktabs button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-html.sk-krawedzie #ktabs button i { font-style: normal; font-size: 11px; font-variant-numeric: tabular-nums; color: var(--sub); opacity: 0.8; }
-html.sk-krawedzie #ktabs button.on { transform: none; background: rgb(var(--kfog)) !important; color: var(--txt) !important; font-weight: 600 !important; border-bottom: 1px solid rgb(var(--kfog)) !important; position: relative; z-index: 1; }
-html.sk-krawedzie #ktabs button.on i { font-weight: 400; }
-html.sk-krawedzie #sheet #sh { padding-top: 6px !important; }
-html.sk-krawedzie #sheet #sh > .ibt { width: 36px !important; height: 36px !important; }
-html.sk-krawedzie #sheet #mname { position: relative; padding-top: 6px !important; padding-right: 64px !important; }
-html.sk-krawedzie #sheet #mtitle { font-weight: 500 !important; font-size: 16px !important; }
+/* v134 (pkt 462) menedżer „Moje”; v136 (pkt 465, wariant 7b Pawła): zakładki = przekładki obrysowane tuszem (ta sama
+   rysowana linia co kapsuły, filtr #kinkf) – ikona, nazwa, liczba przy prawej krawędzi; aktywna otwarta od dołu.
+   Pod nimi jeden wiersz: ‹ nazwa mapy ▾ ＋Mapa ✕ */
+#ktop { display: none; }
+html.sk-krawedzie #ktop { display: flex; position: relative; overflow: hidden; padding: 10px 10px 0; }
+html.sk-krawedzie #ktop[style*="none"] { display: none !important; }
+html.sk-krawedzie #ktop::after { content: ''; position: absolute; left: -4px; right: -4px; bottom: 0; height: 3px; background: #000; filter: url(#kinkf); }
+html.sk-krawedzie #ktabs { display: flex; flex: 1; min-width: 0; gap: 6px; align-self: flex-end; }
+html.sk-krawedzie #ktabs button { flex: 1 1 0; min-width: 0; position: relative; z-index: 1; display: flex; align-items: center; justify-content: flex-start; gap: 8px; height: 42px;
+  padding: 0 14px !important; border: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; color: var(--sub) !important;
+  font: 400 15px var(--ff), sans-serif !important; }
+html.sk-krawedzie #ktabs button::before { content: ''; position: absolute; inset: 0 0 -2px; z-index: -1; background: #000; border-radius: 14px 14px 0 0; filter: url(#kinkf); opacity: 0.45; }
+html.sk-krawedzie #ktabs button.on { color: var(--txt) !important; font-weight: 600 !important; }
+html.sk-krawedzie #ktabs button.on::before { opacity: 1; }
+html.sk-krawedzie #ktabs button.on::after { content: ''; position: absolute; left: 3px; right: 3px; bottom: -4px; height: 7px; background: rgb(var(--kfog)); }
+html.sk-krawedzie #ktabs button .ic { width: 19px; height: 19px; flex: none; }
+html.sk-krawedzie #ktabs button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: inherit; }
+html.sk-krawedzie #ktabs button i { margin-left: auto; font-style: normal; font-size: 14px; font-weight: 300; opacity: 0.7; color: inherit; font-variant-numeric: normal; }
+html.sk-krawedzie #sheet #sh { border-bottom: 0 !important; align-items: center !important; padding: 8px 4px 4px 0 !important; }
+html.sk-krawedzie #sheet #sh .shsp { display: none; }
+html.sk-krawedzie #sheet #sh > .ibt { width: 36px !important; height: 36px !important; flex: none; }
+html.sk-krawedzie #sheet #sh #mname { flex: 1; min-width: 0; position: static; margin: 0 !important; padding: 0 2px !important; }
+html.sk-krawedzie #sheet #mtitle { font-weight: 600 !important; font-size: 16.5px !important; }
+html.sk-krawedzie #sheet #msub { font-size: 11.5px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #mnew { display: none; }
-html.sk-krawedzie #mnew { display: flex; position: absolute; right: 10px; top: 4px; flex-direction: column; align-items: center; gap: 0; min-width: 48px; padding: 2px 0 !important; border: 0 !important;
-  background: none !important; box-shadow: none !important; color: var(--acc) !important; font: 400 10.5px var(--ff), sans-serif !important; }
+html.sk-krawedzie #mnew { display: flex; flex: none; flex-direction: column; align-items: center; gap: 0; min-width: 44px; padding: 2px 0 !important; border: 0 !important;
+  background: none !important; box-shadow: none !important; color: var(--txt) !important; font: 400 10.5px var(--ff), sans-serif !important; }
 html.sk-krawedzie #mnew .ic { width: 16px; height: 16px; }
 html.sk-krawedzie #mnew[style*="none"] { display: none !important; }
-html.sk-krawedzie #mnew small { font-size: 10px; white-space: nowrap; }
+html.sk-krawedzie #mnew small { font-size: 10px; white-space: nowrap; color: var(--sub); }
+/* pasek narzędzi: kolor tekstu (bez zieleni), cienkie linie nad i pod */
+html.sk-krawedzie #sheet #sa, html.sk-krawedzie #sheet #tsa { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 8px 0 0 !important; padding: 6px 0 !important; }
+html.sk-krawedzie #sheet #sa button, html.sk-krawedzie #sheet #tsa button { color: var(--txt) !important; }
+html.sk-krawedzie #sheet #sa button small, html.sk-krawedzie #sheet #tsa button small { color: var(--sub) !important; font-size: 10.5px !important; font-weight: 400 !important; }
+.mhint { margin: 18px 22px; color: var(--sub); font-size: 13px; line-height: 1.45; text-align: center; }
+.mhint b { display: block; margin-bottom: 4px; color: var(--txt); font-size: 14px; font-weight: 500; }
+/* napis u góry mapy w jednym wierszu (pkt 466): „PRYWATNY ▾  Moja mapa – Warstwa 1” */
+html.sk-krawedzie #sktl { display: flex !important; align-items: baseline; gap: 8px; max-width: 78% !important; padding: 5px 12px !important; }
+html.sk-krawedzie #sktl .sktmode { flex: none; font-size: 10.5px !important; letter-spacing: 0.09em !important; padding: 0 !important; margin: 0 !important; }
+html.sk-krawedzie #sktl b { display: inline !important; min-width: 0; font-size: 14px !important; font-weight: 500 !important; }
 </style></head><body>
 <div id="map"></div>
 <div id="skhud"></div>
@@ -10271,6 +10286,8 @@ const EN = {
   "tylko licznik, bez śladu": "counter only, no track",
   "z zapisem śladu": "with track recording",
   "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  "Ta mapa jest jeszcze pusta": "This map is still empty",
+  "Dodaj punkt, linię albo zdjęcie przyciskami na mapie – pojawią się tutaj, w aktywnej warstwie.": "Add a point, a line or a photo with the buttons on the map – they will appear here, in the active layer.",
   "Moje": "Mine",
   "Kategoria": "Category",
   "Nowa kategoria śladów": "New track category",
@@ -14031,7 +14048,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v135';
+const APP_VER = 'v136';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeWant() {
   // v132: czy motyw z Ustawień chce teraz ciemnego wyglądu (bez nocnej nawigacji)
@@ -23081,6 +23098,11 @@ function mojeTab(k) {
   }
 }
 // zakładki kartoteki u góry menedżera: Mapy | Ślady z liczbą (przesunięcie palcem w bok też przełącza)
+function mHint(t, x) {
+  const d = h('div', 'mhint');
+  d.append(h('b', '', t), h('span', '', x));
+  return d;
+}
 function mojeTabsUi() {
   let T = $('ktabs');
   if (!T) {
@@ -23091,14 +23113,27 @@ function mojeTabsUi() {
       const b = h('button');
       b.dataset.k = k;
       b.setAttribute('role', 'tab');
-      b.innerHTML = '<span></span><i></i>';
-      b.firstChild.textContent = t;
+      // v136 (pkt 465, wariant 7b): przekładka tuszem – ikona, nazwa, liczba przy prawej krawędzi
+      b.innerHTML = ico(k === 'mapy' ? 'map' : 'route', 19) + '<span></span><i></i>';
+      b.querySelector('span').textContent = t;
       b.onclick = () => {
         if ((TAB === 'plan' ? 'slady' : TAB) !== k) menuOpen(k);
       };
       T.append(b);
     });
-    $('sh').insertBefore(T, $('sh').querySelector('.shsp'));
+    // zakładki w osobnym pasku u samej góry; ‹ nazwa mapy ＋ ✕ w jednym wierszu pod nimi
+    const top = h('div');
+    top.id = 'ktop';
+    top.append(T);
+    $('sheet').insertBefore(top, $('sh'));
+    $('sh').insertBefore($('mname'), $('closes'));
+    if (!$('kinkdefs'))
+      document.body.insertAdjacentHTML(
+        'beforeend',
+        '<svg id="kinkdefs" width="0" height="0" aria-hidden="true" style="position: absolute"><defs><filter id="kinkf" x="-10%" y="-30%" width="120%" height="160%">' +
+          SKL_INK +
+          '</filter></defs></svg>'
+      );
     let x0 = null,
       y0 = 0;
     $('sheet').addEventListener('pointerdown', e => {
@@ -23122,7 +23157,7 @@ function mojeTabsUi() {
     });
   }
   const cur = TAB === 'plan' ? 'slady' : TAB;
-  T.style.display = TAB === 'foto' ? 'none' : '';
+  $('ktop').style.display = TAB === 'foto' ? 'none' : '';
   let nt = 0;
   try {
     nt = trkUsable() ? trkCats().reduce((a, c) => a + trkCatCount(c), 0) : 0;
@@ -23140,7 +23175,7 @@ function mojeTabsUi() {
     nb = h('button');
     nb.id = 'mnew';
     nb.onclick = e => (e.stopPropagation(), (TAB === 'slady' ? trkCatNew : mapNew)());
-    $('mname').append(nb);
+    $('sh').insertBefore(nb, $('closes'));
   }
   const t = TAB === 'slady';
   nb.style.display = TAB === 'mapy' || t ? '' : 'none';
@@ -25721,6 +25756,8 @@ function sheet() {
     el.append(box);
   });
   if (P.plan) planVisitedSec(el, AN);
+  // v136 (pkt 465): pusta mapa – krótka podpowiedź zamiast pustki
+  else if (!P.items.length) el.append(mHint(_t('Ta mapa jest jeszcze pusta'), _t('Dodaj punkt, linię albo zdjęcie przyciskami na mapie – pojawią się tutaj, w aktywnej warstwie.')));
   el.scrollTop = top;
 }
 // ---------- v89: odnośniki (ten sam obiekt na kilku mapach) i wycieczki ----------

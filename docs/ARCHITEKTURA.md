@@ -29,7 +29,7 @@ OmmGnss, OmmSys). Serwery: `docs/serwery.md`. CSP: `scripts/prepare-www.mjs`.
 - Tło elementów: `rgba(var(--kfog), 0.88)` + `backdrop-filter: var(--kblur)` + linia `var(--line)`. Kapsuły: rysowany
   obrys (filtr SVG `SKL_INK`) nad szklanym tłem przyciętym tym samym kształtem (`.sklglass`, `clip-path: path()`).
   Kolory HUD-u liczone na elemencie (nie przez zmienną z `html`) – noc bez przyciemnionej mapy ma dzienne krople.
-- Menedżer „Moje” (`menuOpen('moje')`, `mojeTabsUi`, `mojeTab`): zakładki `#ktabs`, przycisk `#mnew`.
+- Menedżer „Moje” (`menuOpen('moje')`, `mojeTabsUi`, `mojeTab`): pasek `#ktop` z zakładkami `#ktabs` (przekładki rysowane filtrem `#kinkf` = `SKL_INK`), wiersz `#sh`: ‹ `#mname` `#mnew` ✕; podpowiedź pustej mapy `mHint`.
 - Ikony „Tusz z plamką”: `scripts/ikony-zrodlo.mjs` → `scripts/ikony-tusz.mjs` generuje `IC`; rejestr `IC` w omm.html.
 
 ## Mapa i podkłady
