@@ -8,3 +8,4 @@ www/
 *.keystore
 keystore.properties
 *.p12
+tests/omm/wyniki/

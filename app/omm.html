@@ -5662,8 +5662,10 @@ body.navpick .navtop {
 .rpick .rpx {
   flex: none;
 }
-/* v95: ciemna mapa po zmroku – odwrócone kolory podkładu (bez zdjęć lotniczych) */
-html.mnight .leaflet-tile-pane {
+/* v95: ciemna mapa po zmroku – odwrócone kolory podkładu (bez zdjęć lotniczych)
+   v134 (pkt 458): filtr na każdym kaflu osobno, nie na całej warstwie – świeżo odsłonięty kafel jest ciemny od pierwszej
+   klatki (filtr dużej, obróconej warstwy WebView przeliczał po kawałkach i przez chwilę było widać mapę dzienną) */
+html.mnight .leaflet-tile-pane .leaflet-tile {
   filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.85) saturate(0.7);
 }
 html.mnight .leaflet-container {
@@ -9997,6 +9999,75 @@ body.boxed #fin, body.boxed #tools, body.boxed #tpal, body.boxed #sklchips, body
 .gdlab { background: none; border: 0; pointer-events: none; }
 .gdlab span { position: absolute; transform: translate(-50%, -50%); white-space: nowrap; font: 700 13px/1.1 system-ui, sans-serif; letter-spacing: 0.02em; text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 2px #fff, 0 0 1px #fff; max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
 .gdlab.dk span { text-shadow: 0 0 3px #000, 0 0 3px #000, 0 0 2px #000, 0 0 1px #000; }
+/* v134 (pkt 463): bez poświat i bez „mgły” (przejść do przezroczystości). Jedyny efekt: równe jasne (nocą ciemne) tło,
+   minimalnie przezroczyste, z rozmyciem tego, co pod spodem; wyraźna krawędź – cienka linia */
+html.sk-krawedzie { --kblur: blur(10px) saturate(1.1); --ksh: none; --kshi: none;
+  --kfogb: rgba(var(--kfog), 0.9); --kfogt: rgba(var(--kfog), 0.9); }
+html.sk-krawedzie .skt, html.sk-krawedzie .navtop, html.sk-krawedzie .navbot, html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip, html.sk-krawedzie #trnchip,
+html.sk-krawedzie #skgb.stash::after { text-shadow: none !important; }
+html.sk-krawedzie .skt .ic, html.sk-krawedzie .skt svg, .sklchip .ic, #trnchip .ic, .sktab2 .skti, .sktabb .skti { filter: none !important; }
+.sktab2 .skwave path, .sktabb > svg path { filter: url(#skinkt) !important; }
+/* napisy na mapie – na szklanej pigułce zamiast poświaty */
+html.sk-krawedzie #sktl, html.sk-krawedzie #skbc:not(:empty), html.sk-krawedzie #skbl .skrt, html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip, html.sk-krawedzie #trnchip,
+html.sk-krawedzie .navtop, html.sk-krawedzie .navbot, html.sk-krawedzie #skrv, html.sk-krawedzie .skrzt, html.sk-krawedzie #skgb.stash::after {
+  background: rgba(var(--kfog), 0.88) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); box-shadow: 0 0 0 1px var(--line) !important; border-radius: 14px !important; }
+html.sk-krawedzie #sktl { padding: 6px 12px 7px !important; }
+html.sk-krawedzie #skbc:not(:empty) { padding: 3px 10px !important; }
+html.sk-krawedzie #skbl .skrt { padding: 5px 11px 6px; }
+html.sk-krawedzie #skrv { padding: 3px 10px !important; }
+html.sk-krawedzie .skrzt { padding: 2px 8px; }
+html.sk-krawedzie #fcchip, html.sk-krawedzie #fchip { padding: 4px 10px !important; }
+html.sk-krawedzie .navtop, html.sk-krawedzie .navbot { padding-left: 12px !important; padding-right: 12px !important; }
+html.sk-krawedzie #skgb.stash::after { padding: 4px 10px; }
+html.sk-krawedzie .skring { background: rgba(var(--kfog), 0.88) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); box-shadow: 0 0 0 1px var(--line), 0 1px 4px rgba(0, 0, 0, 0.12) !important; border-color: transparent !important; }
+/* krople i kapsuły: szkło pod rysowaną obwódką (kształt w sklChips) */
+.sklglass { position: absolute; inset: 0; pointer-events: none; background: rgba(var(--kfog), 0.88); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+/* listwy i Panel Dziś: równe tło z wyraźną krawędzią (wysokość w skFogB) */
+html.sk-krawedzie .skfog.l, html.sk-krawedzie .skfog.r, html.sk-krawedzie .skfog.b { -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie .skfog.l { background: rgba(var(--kfog), 0.88) !important; box-shadow: 1px 0 0 var(--line); }
+html.sk-krawedzie .skfog.r { background: rgba(var(--kfog), 0.88) !important; box-shadow: -1px 0 0 var(--line); }
+html.sk-krawedzie .skfog.b { background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 -1px 0 var(--line); border-radius: 18px 18px 0 0; }
+#skledge.l, #skledge.r { width: 8px; background: var(--acc) !important; opacity: 0.55 !important; }
+/* nagrywanie: wąski pasek u góry i pasek przycisków na dole – równe tło */
+html.sk-krawedzie #skrec .skfog:not(.skfogd) { bottom: auto !important; height: calc(46px + env(safe-area-inset-top, 0px)); background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie #skrec .skfog.skfogd { height: calc(72px + var(--sa)) !important; background: rgba(var(--kfog), 0.88) !important; box-shadow: 0 -1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+/* panele z dołu, okna, podpowiedzi: bez zanikania u góry, krawędź + zaokrąglenie */
+html.sk-krawedzie #dmenu, html.sk-krawedzie #bmenu, html.sk-krawedzie #xmenu, html.sk-krawedzie .stydlg, html.sk-krawedzie .dback:not(:has(.setdlg)):not(:has(.srchdlg)) > .dbox, #skpanel.b {
+  -webkit-mask-image: none !important; mask-image: none !important; padding-top: 18px !important; border-radius: 18px 18px 0 0 !important; box-shadow: 0 -1px 0 var(--line) !important;
+  -webkit-backdrop-filter: var(--kblur) !important; backdrop-filter: var(--kblur) !important; }
+html.sk-krawedzie .stydlg { padding-top: 18px !important; }
+html.sk-krawedzie .toast, html.sk-krawedzie body.rec .toast, html.sk-krawedzie body.trnon .toast { background: var(--kfogb) !important; padding-top: 14px !important; padding-bottom: calc(16px + var(--sa)) !important; border-radius: 18px 18px 0 0; box-shadow: 0 -1px 0 var(--line) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie body.rec .toast, html.sk-krawedzie body.trnon .toast { padding-bottom: 14px !important; }
+html.sk-krawedzie #info { padding-bottom: 12px !important; box-shadow: 0 1px 0 var(--line) !important; border-radius: 0 0 18px 18px !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie .dback:not(:has(.setdlg)):not(:has(.srchdlg)), html.sk-krawedzie .dback:has(.srchdlg) { background: none !important; }
+html.sk-krawedzie body.skmode::after { height: calc(76px + var(--sa)); background: rgba(var(--kfog), 0.88); box-shadow: 0 -1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie .rpick, html.sk-krawedzie #plnsh { background: var(--kfogb) !important; padding-top: 14px !important; border-radius: 18px 18px 0 0 !important; box-shadow: 0 -1px 0 var(--line) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+html.sk-krawedzie #sheet, html.sk-krawedzie .dback .dbox.setdlg, #skpanel { -webkit-backdrop-filter: var(--kblur) !important; backdrop-filter: var(--kblur) !important; }
+html.sk-krawedzie .leaflet-popup.skpop { padding-top: 16px !important; background: var(--kfogb) !important; border-radius: 18px 18px 0 0; box-shadow: 0 -1px 0 var(--line); -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+#trnbar .trnfog { height: calc(74px + var(--sa, 0px)); background: rgba(var(--kfog, 251, 251, 248), 0.88) !important; box-shadow: 0 -1px 0 var(--line, #e2e4dd); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); }
+html.sk-krawedzie .sklfl, html.sk-krawedzie .sklghost, html.sk-krawedzie .phpick { background: rgba(var(--kfog), 0.88) !important; -webkit-backdrop-filter: var(--kblur); backdrop-filter: var(--kblur); }
+/* kafelki treningu: to samo szkło co reszta */
+.trnt { background: rgba(var(--kfog, 251, 251, 248), 0.88); -webkit-backdrop-filter: blur(10px) saturate(1.1); backdrop-filter: blur(10px) saturate(1.1); box-shadow: inset 0 0 0 1px var(--line, #e2e4dd), 0 1px 4px rgba(0, 0, 0, 0.1); }
+/* v134 (pkt 462): zakładki kartoteki Mapy | Ślady u samej góry menedżera „Moje” */
+#ktabs { display: none; }
+html.sk-krawedzie #sheet #sh { border-bottom: 1px solid var(--line) !important; padding-bottom: 0 !important; align-items: flex-end !important; }
+html.sk-krawedzie #sheet #sh > .ibt { align-self: center; }
+html.sk-krawedzie #sheet #sh:has(#ktabs:not([style*="none"])) .shsp { display: none; }
+html.sk-krawedzie #ktabs { display: flex; flex: 1; min-width: 0; gap: 4px; align-self: flex-end; margin: 0 4px -1px; }
+html.sk-krawedzie #ktabs[style*="none"] { display: none !important; }
+html.sk-krawedzie #ktabs button { flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 7px; height: 44px; padding: 0 8px !important;
+  border: 1px solid var(--line) !important; border-bottom: 0 !important; border-radius: 13px 13px 0 0 !important; background: color-mix(in srgb, var(--txt) 7%, transparent) !important;
+  color: var(--sub) !important; font: 400 16px var(--ff), sans-serif !important; box-shadow: none !important; transform: translateY(4px); transition: transform 0.12s; }
+html.sk-krawedzie #ktabs button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html.sk-krawedzie #ktabs button i { font-style: normal; font-size: 12px; font-variant-numeric: tabular-nums; min-width: 20px; padding: 1px 6px; border-radius: 9px; background: color-mix(in srgb, var(--txt) 9%, transparent); }
+html.sk-krawedzie #ktabs button.on { transform: none; background: rgb(var(--kfog)) !important; color: var(--txt) !important; font-weight: 600 !important; border-bottom: 1px solid rgb(var(--kfog)) !important; position: relative; z-index: 1; }
+html.sk-krawedzie #ktabs button.on i { background: var(--accbg); color: var(--acc); }
+html.sk-krawedzie #sheet #mname { position: relative; padding-top: 10px !important; padding-right: 76px !important; }
+#mnew { display: none; }
+html.sk-krawedzie #mnew { display: flex; position: absolute; right: 12px; top: 8px; flex-direction: column; align-items: center; gap: 1px; min-width: 54px; padding: 2px 0 !important; border: 0 !important;
+  background: none !important; box-shadow: none !important; color: var(--acc) !important; font: 400 11px var(--ff), sans-serif !important; }
+html.sk-krawedzie #mnew[style*="none"] { display: none !important; }
+html.sk-krawedzie #mnew small { font-size: 10.5px; white-space: nowrap; }
 </style></head><body>
 <div id="map"></div>
 <div id="skhud"></div>
@@ -10195,6 +10266,9 @@ const EN = {
   "tylko licznik, bez śladu": "counter only, no track",
   "z zapisem śladu": "with track recording",
   "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  "Moje": "Mine",
+  "Kategoria": "Category",
+  "Nowa kategoria śladów": "New track category",
   " (awaria)": " (crash)",
   " (brak pamięci)": " (out of memory)",
   "?\n\nJedno zdjęcie usuniesz ✕ na miniaturze. Zdjęcia z aparatu zostają w galerii telefonu; punkt będzie w koszu 30 dni.": "?\n\nTo remove a single photo, use ✕ on its thumbnail. Camera photos stay in the phone gallery; the point stays in the trash for 30 days.",
@@ -10213,9 +10287,9 @@ const EN = {
   "” nie odpowiada – na teraz OpenStreetMap": "” is not responding – OpenStreetMap for now",
   "🔇 Głośność multimediów w telefonie jest wyciszona – komunikaty nawigacji nie będą słyszalne": "🔇 The phone media volume is muted – navigation announcements will not be heard",
   "Krople poleceń": "Command drops",
-  "Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Mapy, Ślady, Podkład i nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.": "On the left a capsule with Point, Draw, Measure, Photo; on the right Maps, Tracks, Base map and Workout above them; at the top Search and My position. Settings, Photos, Games and North up are in the tray – the bottom row of the Today panel. A drop dropped on another makes a folder.",
+  "Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Moje (mapy i ślady) i Podkład, nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.": "On the left a capsule with Point, Draw, Measure, Photo; on the right Mine (maps and tracks) and Base map, Workout above them; at the top Search and My position. Settings, Photos, Games and North up are in the tray – the bottom row of the Today panel. A drop dropped on another makes a folder.",
   "Polecenia na mapie": "Commands on the map",
-  "Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Mapy, Ślady, Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś.": "Commands sit on the map as drops: on the left Point, Draw, Measure, Photo, on the right Maps, Tracks, Base map and Workout. Settings (backup, help), Photos, Games and North up are in the tray – the bottom row of the Today panel.",
+  "Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Moje (mapy i ślady w jednym miejscu – zakładki u góry), Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś.": "Commands sit on the map as drops: on the left Point, Draw, Measure, Photo, on the right Mine (maps and tracks in one place – tabs at the top), Base map and Workout. Settings (backup, help), Photos, Games and North up are in the tray – the bottom row of the Today panel.",
   " odcinek": " leg",
   " odcinki": " legs",
   " – poprzednio trwała: ": " – previously running: ",
@@ -10265,7 +10339,7 @@ const EN = {
   "Polecenia stoją na mapie jako krople. Folder Menu: Mapy, Ślady, Zdjęcia, Trening, Ustawienia (tam kopia zapasowa i pomoc); folder Narzędzia – rysowanie i pomiary.": "Commands sit on the map as drops. The Menu folder: Maps, Tracks, Photos, Workout, Settings (backup and help are there); the Tools folder – drawing and measuring.",
   "Przytrzymaj kroplę i przeciągnij – w inne miejsce, na inną kroplę (powstaje folder) albo na języczek Dziś (do schowka). Pogoda i Księżyc są w Panelu Dziś, a ⚙ w nim ustawia, co widać.": "Press and hold a drop and drag it – to another place, onto another drop (a folder is made) or onto the Today tab (to the tray). Weather and Moon are in the Today panel, and ⚙ in it sets what is shown.",
   "Okna z dołu": "Windows from the bottom",
-  "Narzędzia, wybory i komunikaty wysuwają się z dołu z mgłą, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić.": "Tools, choices and messages slide up from the bottom with a mist, the measurement result is at the top. Next to the map name you see the active layer – tap to change it.",
+  "Narzędzia, wybory i komunikaty wysuwają się z dołu na jasnym tle z wyraźną krawędzią, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić.": "Tools, choices and messages slide up from the bottom on a light panel with a clear edge, the measurement result is at the top. Next to the map name you see the active layer – tap to change it.",
   "Pogoda dla innego miejsca…": "Weather for another place…",
   "\n\nNic nie zostało usunięte.": "\n\nNothing was deleted.",
   ", tryb ": ", mode ",
@@ -13820,6 +13894,10 @@ const IC = {
   plus: '<path d="M12.1 4.2 C11.6 9.2, 12.6 14.3, 11.6 19.1 M4.3 11.8 C9.7 11.9, 16.4 12.8, 18.7 12.3"/>',
   home: '<path d="M3.8 11.6 C6.7 9.3, 8.7 7.4, 12.3 3.4 M11.5 3.4 C15.3 6.8, 18.6 8.9, 20.6 10.6 M6.3 9.6 C5.6 12.9, 6.3 16, 6 19.7 M5.5 19.8 C8.5 20.6, 11.7 20.5, 17.5 19.8 M18.1 20 C17.5 16.8, 17.7 15.2, 18.1 9.5 M9.8 19.8 C9.7 18.4, 10 16.9, 9.9 15.3 M9.9 14.9 C11.6 15, 13.1 15.2, 14.2 15.1 M14.3 15.1 C14 16.4, 14.2 17.3, 13.8 19.8"/>',
   work: '<path d="M4.9 7.2 C8.9 7.8, 12.6 7.7, 18.3 6.8 M18.5 7.5 C19.5 8.4, 19.9 9.4, 19.8 10.3 M20.8 9.3 C20.5 12.9, 20.7 15.7, 21 17.9 M20.5 17.5 C20.4 18, 18.8 19.8, 19.6 18.6 M18 19.6 C13.5 19.3, 8.7 19.5, 5.4 19.2 M5.5 19.5 C3.2 18.7, 2.7 19.4, 2.6 17.8 M3.1 18 C3.5 15, 3.1 11.5, 3.3 9.2 M3.5 9.5 C4.4 8.9, 3.4 6.6, 5.7 7.2 M5.5 7.5 C5.5 7.5, 5.5 7.5, 5.5 7.5"/><path d="M9.1 7.4 C9 6.9, 9 6.4, 9 5.5 M8.7 5.8 C10.7 5.8, 11.9 5.7, 15.4 5.3 M15 5.4 C15 6.2, 14.9 6.8, 14.9 7.5 M3.7 12.1 C9.6 12.4, 16.9 11.5, 19.8 11.7"/>',
+  // v134 (pkt 461, 462): mapa / ślad z małym plusem (jak „Dodaj warstwę”) i kartoteka „Moje”
+  addMap: '<g transform="translate(-0.4 -0.6) scale(0.78)" stroke-width="2.5"><path d="M3.2 6.2 C4.7 5.6, 5.6 5, 9 3.9 M8.7 3.8 C10.8 4.7, 12.2 5.3, 14.7 6.2 M15.1 5.8 C16 5.3, 17.9 5.4, 20.9 4.2 M21 3.9 C20.5 7.7, 21.8 11.1, 20.4 17.2 M14.7 19.7 C12.4 19.5, 10.1 18.4, 9.1 18.3 M8.7 18 C6.7 19, 4.3 19.9, 2.8 19.8 M2.9 20.6 C3.2 17.5, 3.7 14, 3 5.7 M8.5 4.6 C9 7.6, 9.3 9.6, 9.3 17.4 M15.3 5.4 C14.3 11.1, 14.4 16.2, 15.1 17.6"/></g><path d="M19.3 14.2 C19.4 15.7, 18.9 17.8, 19 19.9 M16.1 17.3 C18.3 17.1, 20.4 16.8, 22 17.2"/>',
+  addTrk: '<path d="M3.5 17.6 C7.4 18.4, 7 12.4, 9.6 11.7 M10.4 12.6 C13.4 12.5, 13.2 6.6, 16.8 5.6"/><circle cx="3.6" cy="17.6" r="1.4"/><circle cx="17" cy="5.4" r="1.4"/><path d="M19.3 14.2 C19.4 15.7, 18.9 17.8, 19 19.9 M16.1 17.3 C18.3 17.1, 20.4 16.8, 22 17.2"/>',
+  files: '<path d="M3.4 7.2 C3.2 11.5, 3.6 15.6, 3.3 19.8 M3.6 20.1 C9.2 19.8, 14.8 20.2, 20.6 19.7 M20.7 19.4 C20.4 15.2, 20.9 11.9, 20.5 9.6 M20.3 9.4 C16.6 9.6, 13.2 9.2, 11.6 9.5 M11.4 9.3 C10.6 8.4, 10.2 7.6, 9.6 7.1 M9.4 7 C7.2 7.2, 5.4 6.9, 3.5 7.1"/><path d="M5.7 5.4 C5.7 4.7, 5.6 4.3, 5.8 3.8 M6 3.9 C8.1 4, 9.6 3.7, 11.3 4 M11.4 4.1 C11.9 4.9, 12.4 5.4, 12.8 6.2 M13 6.2 C15.2 6.1, 17.4 6.3, 18.8 6.1 M18.9 6.2 C18.8 6.9, 19 7.4, 18.9 7.9"/>',
   addLayer: '<path d="M12 2.8 C14.2 4.4, 17.3 5.6, 20.4 7.2 M19.8 7.7 C16.8 9.5, 15 10.1, 11.6 11.5 M11.8 12.4 C9.4 10.1, 6.5 9.3, 3.7 7.8 M3.7 7.2 C7.1 5.8, 9.3 4.6, 12.4 3.1"/><path d="M3.6 12 C6.6 13.8, 8.6 15.2, 11.6 17.3 M12 16.9 C13.2 16.5, 14.2 15.8, 14.9 15.5"/><path d="M19.3 14.2 C19.4 15.7, 18.9 17.8, 19 19.9 M16.1 17.3 C18.3 17.1, 20.4 16.8, 22 17.2"/>',
   imp: '<path d="M12.3 14.4 C12 13.3, 12.1 10, 11.8 4.4 M7.3 8.8 C9.2 6.7, 10.5 5.2, 12.1 4.3 M12.2 4.2 C13 5.1, 14.4 6.2, 16.4 8.4"/><path d="M4 15.2 C4.3 16.2, 4.3 16.9, 4.1 19.9 M3.8 20.2 C9.7 19, 14.6 20.4, 20.5 20.4 M20.1 20.2 C20.3 18.4, 20 17, 19.9 15.1"/>',
   sel: '<path d="M5.7 3.4 C9 3.6, 11.5 3.9, 18.3 4.2 M18 4 C18.5 3.1, 18.8 3.7, 20.5 6.5 M19.3 5.7 C19.7 9.2, 20.6 13.3, 20.6 17.4 M20 18 C20.2 19.4, 19 18.9, 18.2 19.2 M17.5 20 C13.8 20.1, 9.3 20.1, 6.2 20.1 M6 20 C4.6 20, 4.5 18.2, 5.2 17.2 M4.6 17.4 C3.5 13.8, 4.1 8.7, 4.1 5.8 M4 6 C5.2 3.8, 5.5 3.4, 6.7 5.1 M6 4 C6 4, 6 4, 6 4"/><path d="M7.7 12.7 C8.9 13.5, 9.5 14, 11.3 15.4 M10.8 15.6 C13.1 13.1, 14.5 11.2, 15.7 9.2"/>',
@@ -13948,7 +14026,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v133';
+const APP_VER = 'v134';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeWant() {
   // v132: czy motyw z Ustawień chce teraz ciemnego wyglądu (bez nocnej nawigacji)
@@ -17892,6 +17970,7 @@ async function diagTest(out) {
     ty = Math.floor(((1 - Math.log(Math.tan((la * Math.PI) / 180) + 1 / Math.cos((la * Math.PI) / 180)) / Math.PI) / 2) * 2 ** z);
   const T = [
     ['OpenStreetMap', 'https://tile.openstreetmap.org/' + z + '/' + tx + '/' + ty + '.png'],
+    ['Ortofoto Geoportal – wysoka rozdzielczość (WMS)', geoHiUrl(17, Math.floor(tx * 4), Math.floor(ty * 4), 512)],
     ['Ortofoto Geoportal (WMTS)', GEO + '/wss/service/PZGIK/ORTO/WMTS/StandardResolution?service=WMTS&request=GetTile&version=1.0.0&layer=ORTOFOTOMAPA&style=default&format=image/jpeg&tilematrixset=EPSG:3857&tilematrix=EPSG:3857:' + z + '&tilerow=' + ty + '&tilecol=' + tx],
     ['NMT – cieniowanie (WMTS, gotowe kafle)', (() => {
       const [E, N] = puwg92(la, lo),
@@ -18087,6 +18166,42 @@ async function diagDlg() {
 // ---------- podkłady ----------
 const geo = l =>
   `${GEO}/wss/service/PZGIK/${l}/WMTS/StandardResolution?service=WMTS&request=GetTile&version=1.0.0&layer=ORTOFOTOMAPA&style=default&format=image/jpeg&tilematrixset=EPSG:3857&tilematrix=EPSG:3857:{z}&tilerow={y}&tilecol={x}`;
+// v134 (pkt 460): ortofotomapa Geoportalu w WYSOKIEJ rozdzielczości. Usługa HighResolution nie ma kafli w układzie mapy
+// (WMTS tylko EPSG:2180 i 4326 – sprawdzone GetCapabilities z GitHuba 25.11.2026), więc od przybliżenia 15 obraz z WMS
+// HighResolution (oryginalne zdjęcia, piksel ≤ 10 cm, w miastach mniej), w podwójnej gęstości – ostry na ekranie telefonu;
+// przy mniejszym przybliżeniu – lekkie gotowe kafle StandardResolution. Gdy serwer WMS nie odda kafla – kafel Standard.
+const GEO_HI_Z = 15;
+const geoHiUrl = (z, x, y, px) => {
+  const C = 20037508.342789244,
+    n = 2 ** z,
+    w = (2 * C) / n,
+    x0 = -C + x * w,
+    y1 = C - y * w;
+  return (
+    GEO +
+    '/wss/service/PZGIK/ORTO/WMS/HighResolution?SERVICE=WMS&REQUEST=GetMap&VERSION=1.3.0&LAYERS=Raster&STYLES=&FORMAT=image/jpeg&CRS=EPSG:3857&BBOX=' +
+    [x0, y1 - w, x0 + w, y1].map(v => v.toFixed(2)).join(',') +
+    '&WIDTH=' + px + '&HEIGHT=' + px
+  );
+};
+const GeoOrto = L.TileLayer.extend({
+  getTileUrl(c) {
+    const z = this._getZoomForUrl();
+    if (z < GEO_HI_Z) return L.TileLayer.prototype.getTileUrl.call(this, c);
+    return geoHiUrl(z, c.x, c.y, 512);
+  },
+  createTile(c, done) {
+    const t = L.TileLayer.prototype.createTile.call(this, c, done);
+    const z = this._getZoomForUrl();
+    if (z >= GEO_HI_Z)
+      t.addEventListener('error', function fb() {
+        if (t._r && t._r <= 3) return; // ponawianie (retry) jeszcze trwa – zapas dopiero po nim
+        t.removeEventListener('error', fb);
+        if (z <= 19) t.src = L.Util.template(geo('ORTO'), {x: c.x, y: c.y, z});
+      });
+    return t;
+  }
+});
 const esri = s =>
   L.tileLayer(`https://server.arcgisonline.com/ArcGIS/rest/services/${s}/MapServer/tile/{z}/{y}/{x}`, {
     maxZoom: 21,
@@ -18157,7 +18272,7 @@ const BASES = {
     'osm'
   ),
   'Ortofoto – Geoportal': offWrap(
-    retry(L.tileLayer(geo('ORTO'), {maxZoom: 21, maxNativeZoom: 19, attribution: '© GUGiK', ...NOREF})),
+    retry(new GeoOrto(geo('ORTO'), {maxZoom: 21, maxNativeZoom: 21, attribution: '© GUGiK', ...NOREF})),
     'orto'
   ),
   // kafel, który się nie wczytał, jest ponawiany (retry) – tak jak przy Geoportalu
@@ -22938,6 +23053,9 @@ function menuOpen(k) {
   closePops();
   if (k === 'ust') return settingsDlg();
   if (k === 'tryb') return;
+  // v134 (pkt 462): „Moje” otwiera ostatnio używaną zakładkę (po nagrywaniu / nawigacji – Ślady)
+  if (k === 'moje') k = mojeTab();
+  if (k === 'mapy' || k === 'slady') mojeTab(k);
   if (k === 'mapy') {
     TAB = 'mapy'; // v119 (pkt 344): z zaplanowanych tras (są w Śladach) – do zwykłych map
     viewSetKind('map');
@@ -22948,6 +23066,101 @@ function menuOpen(k) {
   ctxSync();
   sheet();
   $('sheet').style.display = 'flex';
+}
+function mojeTab(k) {
+  try {
+    if (k) localStorage.setItem('omm-moje-zakl', k);
+    return localStorage.getItem('omm-moje-zakl') === 'slady' ? 'slady' : 'mapy';
+  } catch (e) {
+    return k || 'mapy';
+  }
+}
+// zakładki kartoteki u góry menedżera: Mapy | Ślady z liczbą (przesunięcie palcem w bok też przełącza)
+function mojeTabsUi() {
+  let T = $('ktabs');
+  if (!T) {
+    T = h('div');
+    T.id = 'ktabs';
+    T.setAttribute('role', 'tablist');
+    [['mapy', _t('Mapy')], ['slady', _t('Ślady')]].forEach(([k, t]) => {
+      const b = h('button');
+      b.dataset.k = k;
+      b.setAttribute('role', 'tab');
+      b.innerHTML = '<span></span><i></i>';
+      b.firstChild.textContent = t;
+      b.onclick = () => {
+        if ((TAB === 'plan' ? 'slady' : TAB) !== k) menuOpen(k);
+      };
+      T.append(b);
+    });
+    $('sh').insertBefore(T, $('sh').querySelector('.shsp'));
+    let x0 = null,
+      y0 = 0;
+    $('sheet').addEventListener('pointerdown', e => {
+      x0 = e.target.closest('input, textarea, .lr.drag, #ktabs') ? null : e.clientX;
+      y0 = e.clientY;
+    });
+    $('sheet').addEventListener('pointerup', e => {
+      if (x0 == null || TAB === 'foto') return;
+      const dx = e.clientX - x0,
+        dy = e.clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) < 80 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
+      const cur = TAB === 'plan' ? 'slady' : TAB,
+        to = dx < 0 && cur === 'mapy' ? 'slady' : dx > 0 && cur === 'slady' ? 'mapy' : null;
+      if (!to) return;
+      // kliknięcie wysłane zaraz po przesunięciu nie może niczego otworzyć
+      const eat = ev => (ev.stopPropagation(), ev.preventDefault());
+      window.addEventListener('click', eat, true);
+      setTimeout(() => window.removeEventListener('click', eat, true), 350);
+      menuOpen(to);
+    });
+  }
+  const cur = TAB === 'plan' ? 'slady' : TAB;
+  T.style.display = TAB === 'foto' ? 'none' : '';
+  let nt = 0;
+  try {
+    nt = trkUsable() ? trkCats().reduce((a, c) => a + trkCatCount(c), 0) : 0;
+  } catch (e) {}
+  const n = {mapy: modeMaps().length, slady: nt};
+  [...T.children].forEach(b => {
+    const on = b.dataset.k === cur;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-selected', on);
+    b.lastChild.textContent = n[b.dataset.k];
+  });
+  // przycisk „＋ Mapa” / „＋ Kategoria” w wierszu nazwy, dosunięty do prawej (pkt 461)
+  let nb = $('mnew');
+  if (!nb) {
+    nb = h('button');
+    nb.id = 'mnew';
+    nb.onclick = e => (e.stopPropagation(), (TAB === 'slady' ? trkCatNew : mapNew)());
+    $('mname').append(nb);
+  }
+  const t = TAB === 'slady';
+  nb.style.display = TAB === 'mapy' || t ? '' : 'none';
+  nb.innerHTML = ico(t ? 'addTrk' : 'addMap', 18) + '<small>' + esc(t ? _t('Kategoria') : _t('Mapa')) + '</small>';
+  nb.title = t ? _t('Nowa kategoria śladów') : _t('Nowa mapa');
+}
+async function mapNew() {
+  let k = modeMaps().length + 1; // v97: „Mapa 3”, choć była jedna – liczone ze wszystkich trybów
+  while (modeMaps().some(x => x.name === _t('Mapa ') + k)) k++;
+  const n = await askText(_t('Nazwa nowej mapy:'), _t('Mapa ') + k);
+  if (!n || !n.trim()) return;
+  const mm = freshMap(n.trim().slice(0, 200));
+  if (isW()) mm.w = true;
+  DB.maps.push(mm);
+  if (TAB !== 'mapy') (TAB = 'mapy'), ctxSync();
+  openMap(mm.id);
+  sheetIfOpen();
+}
+async function trkCatNew() {
+  const n = await askText(_t('Nazwa nowej kategorii śladów (np. Wyprawy, Rower, Praca w terenie):'), _t('Kategoria ') + (trkCats().length + 1));
+  if (!n || !n.trim()) return;
+  const c = trkNewCat(n.trim().slice(0, 200));
+  TRK[isW() ? 'catW' : 'catP'] = c.id;
+  trkCur();
+  trkChanged();
 }
 function mapsPick() {
   // „Zmień ▾” przy „Mapy: …” – mapy bieżącego trybu (z „Zaplanowanymi trasami”), nowa, zmiana nazwy, usuń
@@ -23042,8 +23255,7 @@ const isFold = id => typeof id === 'string' && id[0] === 'F';
 function sklCmds() {
   const sh = key => () => menuOpen(key);
   const C = {
-    mapy: {ic: 'map', t: _t('Mapy'), fn: sh('mapy')},
-    slady: {ic: 'route', t: _t('Ślady'), fn: sh('slady')},
+    moje: {ic: 'files', t: _t('Moje'), fn: sh('moje')}, // v134 (pkt 462): jeden menedżer – zakładki Mapy | Ślady
     zdjecia: {ic: 'gallery', t: _t('Zdjęcia'), fn: sh('foto')},
     trening: {ic: 'sport', t: _t('Trening'), fn: () => trnOpen()}, // v119 (pkt 348)
     ustaw: {ic: 'gear', t: _t('Ustawienia'), fn: () => settingsDlg()},
@@ -23226,7 +23438,7 @@ function sklFactory(g, C) {
     lb = Math.max(4, R - 3),
     col = (side, ids, r0) => ids.filter(id => C[id]).map((id, i) => ({id, c: side === 'l' ? 0 : g.cols - 1, r: r0 + i}));
   const left = ['punkt', 'rysuj', 'zmierz', 'foto'],
-    right = ['mapy', 'slady', 'podklad'],
+    right = ['moje', 'podklad'],
     pos = [
       {h: 'l', v: 'b', it: col('l', left, lb - left.length + 1)},
       {h: 'r', v: 'b', it: col('r', right, lb - right.length + 1)},
@@ -23240,8 +23452,9 @@ function sklFactory(g, C) {
 function sklMigrate(a0, g, C) {
   const T = tabsGet(),
     gone = new Set(['tryb', 'gpsi', 'plan']), // v120: tryb w rogu (pkt 355), Informacje GPS w Ustawieniach (pkt 353), bez „Zaplanuj trasę” (pkt 358)
-    m = (a0.m || []).sort((a, b) => a.r - b.r).map(i => i.id).filter(id => C[id] && !gone.has(id)),
-    t = (a0.t || []).sort((a, b) => a.r - b.r).map(i => i.id).filter(id => C[id] && !gone.has(id)),
+    mj = id => (id === 'mapy' || id === 'slady' ? 'moje' : id),
+    m = [...new Set((a0.m || []).sort((a, b) => a.r - b.r).map(i => mj(i.id)))].filter(id => C[id] && !gone.has(id)),
+    t = [...new Set((a0.t || []).sort((a, b) => a.r - b.r).map(i => mj(i.id)))].filter(id => C[id] && !gone.has(id)),
     S = sklFromStore((a0.s || []).filter(i => C[i.id] && !gone.has(i.id)), a0, g),
     f = {},
     pos = [];
@@ -23265,6 +23478,21 @@ function sklGet() {
   if (a0 && a0.v === 2) L = {s: sklFromStore(a0.s || [], a0, g), f: a0.f || {}, x: a0.x || []};
   else if (a0 && Array.isArray(a0.m)) L = sklMigrate(a0, g, C);
   else L = sklFactory(g, C);
+  // v134 (pkt 462): Mapy i Ślady to jedno polecenie „Moje” – zostaje w miejscu pierwszego z nich, drugie znika
+  // (pierwszeństwo: na ekranie, potem w folderze, na końcu schowek)
+  const mj = id => (id === 'mapy' || id === 'slady' ? 'moje' : id),
+    onScr = (L.s || []).some(i => mj(i.id) === 'moje'),
+    inF = Object.values(L.f || {}).some(F => (F.ids || []).some(id => mj(id) === 'moje'));
+  (L.s || []).forEach(i => (i.id = mj(i.id)));
+  // druga kropla (np. Ślady pod Mapami) znika, a reszta kapsuły pod nią podjeżdża – bez dziury
+  const dup = (L.s || []).filter(i => i.id === 'moje').slice(1);
+  dup.forEach(d => {
+    L.s = L.s.filter(i => i !== d);
+    let r = d.r + 1;
+    for (let it; (it = L.s.find(i => i.c === d.c && i.r === r)); r++) it.r--;
+  });
+  Object.values(L.f || {}).forEach(F => F.ids && (F.ids = F.ids.map(mj).filter(id => id !== 'moje' || !onScr)));
+  L.x = (L.x || []).map(mj).filter(id => id !== 'moje' || !(onScr || inF));
   // porządek: każde polecenie dokładnie raz (na mapie, w folderze albo w schowku); folder z jednym poleceniem = zwykła kropla
   const seen = new Set(),
     once = id => C[id] && !seen.has(id) && (seen.add(id), true),
@@ -23293,7 +23521,7 @@ function sklGet() {
   Object.keys(C).forEach(id => {
     if (seen.has(id)) return;
     seen.add(id);
-    const fm = id === 'gry' && Object.keys(F).find(k => F[k].ids.includes('mapy'));
+    const fm = id === 'gry' && Object.keys(F).find(k => F[k].ids.includes('moje'));
     if (fm) F[fm].ids.push(id);
     else if (id === 'szuk') S.push(...sklPlace([{h: 'r', v: 't', it: [{id, c: g.cols - 1, r: 0}]}], g, S.map(i => i.c + ',' + i.r)));
     else X.push(id);
@@ -23324,9 +23552,6 @@ const SKL_INK =
   '<feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="5" result="n"/>' +
   '<feDisplacementMap in="SourceGraphic" in2="n" scale="3" xChannelSelector="R" yChannelSelector="G" result="g"/>' +
   '<feMorphology in="g" operator="erode" radius="1.45" result="in"/><feComposite in="g" in2="in" operator="out" result="edge"/>' +
-  '<feMorphology in="g" operator="dilate" radius="2.4" result="out"/><feComposite in="out" in2="g" operator="out" result="ring"/>' +
-  '<feGaussianBlur in="ring" stdDeviation="1.3" result="ringb"/>' +
-  '<feFlood style="flood-color: var(--kh)" flood-opacity="0.95"/><feComposite in2="ringb" operator="in" result="halo"/>' +
   '<feFlood style="flood-color: var(--txt)" flood-opacity="0.85"/><feComposite in2="edge" operator="in" result="line"/>';
 function sklChips() {
   let box = $('sklchips');
@@ -23342,20 +23567,24 @@ function sklChips() {
     S = sklLift(L.s),
     gq = sklGrid();
   S.forEach(i => (at[i.c + ',' + i.r] = i));
-  let sh = '';
+  let sh = '',
+    cp = '';
   S.forEach(i => {
     const [x, y] = sklXY(i.c, i.r, gq);
     sh += '<circle cx="' + x + '" cy="' + y + '" r="' + R + '"/>';
+    // v134 (pkt 463): ten sam kształt jako obrys tła ze szkła (wszystkie części w jednym kierunku – suma kształtów)
+    const r1 = R - 1;
+    cp += 'M' + (x - r1) + ' ' + y + 'a' + r1 + ' ' + r1 + ' 0 1 0 ' + 2 * r1 + ' 0a' + r1 + ' ' + r1 + ' 0 1 0 ' + -2 * r1 + ' 0Z';
     const rt = at[i.c + 1 + ',' + i.r],
       dn = at[i.c + ',' + (i.r + 1)];
-    if (rt) sh += '<rect x="' + x + '" y="' + (y - R) + '" width="' + gq.cw + '" height="' + 2 * R + '"/>';
-    if (dn) sh += '<rect x="' + (x - R) + '" y="' + y + '" width="' + 2 * R + '" height="' + gq.ch + '"/>';
+    if (rt) (sh += '<rect x="' + x + '" y="' + (y - R) + '" width="' + gq.cw + '" height="' + 2 * R + '"/>'), (cp += 'M' + x + ' ' + (y - r1) + 'v' + 2 * r1 + 'h' + gq.cw + 'v' + -2 * r1 + 'Z');
+    if (dn) (sh += '<rect x="' + (x - R) + '" y="' + y + '" width="' + 2 * R + '" height="' + gq.ch + '"/>'), (cp += 'M' + (x - r1) + ' ' + y + 'v' + gq.ch + 'h' + 2 * r1 + 'v' + -gq.ch + 'Z');
   });
   box.innerHTML =
+    (cp ? '<div class="sklglass" style="clip-path: path(\'' + cp + '\')"></div>' : '') +
     '<svg class="sklsvg" aria-hidden="true"><defs><filter id="sklink" x="-10%" y="-10%" width="120%" height="120%">' +
     SKL_INK +
-    '<feFlood style="flood-color: rgb(var(--kfog))" flood-opacity="0.62"/><feComposite in2="g" operator="in" result="fill"/>' +
-    '<feMerge><feMergeNode in="halo"/><feMergeNode in="fill"/><feMergeNode in="line"/></feMerge></filter></defs>' +
+    '<feMerge><feMergeNode in="line"/></feMerge></filter></defs>' +
     '<g filter="url(#sklink)" fill="#000">' +
     sh +
     '</g></svg>';
@@ -23882,21 +24111,7 @@ function skFogB() {
   if (!inf || !fog) return;
   const H = Math.round(inf.offsetHeight + 46);
   fog.style.top = 'auto';
-  fog.style.height = H + 80 + 'px';
-  fog.style.background = 'linear-gradient(0deg, rgba(var(--kfog), 0.97) 0, rgba(var(--kfog), 0.94) ' + H + 'px, rgba(var(--kfog), 0) ' + (H + 70) + 'px)';
-}
-// v115 (pkt 307): mgła listwy tak szeroka jak najdłuższy napis + zapas, potem płynnie znika (po obu stronach tak samo;
-// sama się dopasuje po zmianie nazw albo języka)
-function skFogFit(box, fog, side) {
-  if (!box || !fog) return;
-  let ext = 0;
-  [...box.children].forEach(c => {
-    if (!c.offsetWidth) return;
-    const w = Math.max(c.offsetWidth, c.scrollWidth);
-    ext = side === 'l' ? Math.max(ext, box.offsetLeft + c.offsetLeft + w) : Math.max(ext, innerWidth - (box.offsetLeft + c.offsetLeft + c.offsetWidth - w));
-  });
-  const W = Math.round(Math.min(innerWidth * 0.86, ext + 20) + 24); // +24: mgła zaczyna się za krawędzią ekranu
-  fog.style.background = 'linear-gradient(' + (side === 'l' ? 90 : 270) + 'deg, rgba(var(--kfog), 0.96) 0, rgba(var(--kfog), 0.9) ' + W + 'px, rgba(var(--kfog), 0) ' + (W + 64) + 'px)';
+  fog.style.height = H + 24 + 'px'; // v134 (pkt 463): równe tło pod treścią, wyraźna krawędź – bez zanikania
 }
 // v115 (pkt 300, 302): dolny języczek – ten sam kształt i wielkość co boczne; przytrzymanie i przeciągnięcie wzdłuż dołu
 function skTabB() {
@@ -26431,16 +26646,9 @@ $('mapb').onclick = () => {
     })
   );
   m.append(
-    BI('plus', _t('Nowa mapa'), async () => {
+    BI('plus', _t('Nowa mapa'), () => {
       m.style.display = 'none';
-      let k = modeMaps().length + 1; // v97: „Mapa 3”, choć była jedna – liczone ze wszystkich trybów
-      while (modeMaps().some(x => x.name === _t('Mapa ') + k)) k++;
-      const n = await askText(_t('Nazwa nowej mapy:'), _t('Mapa ') + k);
-      if (!n || !n.trim()) return;
-      const mm = freshMap(n.trim().slice(0, 200));
-      if (isW()) mm.w = true;
-      DB.maps.push(mm);
-      openMap(mm.id);
+      mapNew();
     })
   );
   if (modeMaps().length > 1)
@@ -29772,6 +29980,9 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Wygląd aplikacji</b> – „Mapa i krawędzie”: mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry po lewej <b>tryb ▾</b> (dotknięcie przełącza Prywatny / Praca), pod nim nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (zielona – dobra, bursztynowa – średnia, czerwona – słaba; dotknięcie – Informacje GPS). Polecenia stoją na mapie jako <b>krople</b> (ikona w kółku z ołówkowym obrysem); dwie krople obok siebie łączą się w kapsułkę. Kropla z małymi ikonami 2×2 to <b>folder</b> (przy więcej niż czterech poleceniach czwarte pole to „+N”) – dotknięcie otwiera obok kropli kartę z poleceniami i podpisami. Tak samo, kartą przy kropli, otwierają się wybory Rysuj, Zmierz i Zdjęcie; wolisz panel z dołu ekranu – Ustawienia → Wygląd → „Wybory z kropli”. Fabrycznie są dwa foldery: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Trening, Ustawienia, Gry) i <b>Narzędzia</b> (Podkład, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz), a do tego kropla Moja pozycja. Na dole <b>Panel Dziś</b> za języczkiem (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc; zamykasz go daszkiem w dół nad panelem, dotknięciem mapy albo zsuwając palcem w dół). ⚙ w Panelu Dziś ustawia, które wiersze widać i w jakiej kolejności, oraz wygląd schowka (ikony z podpisami, same ikony albo ukryty). Języczek Dziś przeciągniesz wzdłuż dołu, przytrzymując go. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b> – krople, które pasek by zasłonił, stają na ten czas tuż nad nim (razem z dolnym języczkiem) i wracają po zakończeniu. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – <b>przytrzymaj</b> kroplę i przeciągnij: w inne miejsce mapy, obok innej kropli (kapsułka), <b>na inną kroplę</b> (powstaje folder – albo trafia do istniejącego) albo <b>na języczek Dziś</b> – wtedy polecenie trafia do <b>schowka</b> (dolny wiersz Panelu Dziś); stamtąd dotknięcie je uruchamia, a przytrzymanie wyciąga z powrotem na mapę. Polecenie wyjmiesz też z rozwiniętego folderu, przytrzymując je na liście. Przytrzymanie kropli bez ruchu otwiera menu: <b>Schowaj</b>, <b>Rozdziel folder</b>, <b>Zmień nazwę folderu</b>. Układ zapisuje się osobno dla trybu Prywatny oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Układ z wcześniejszych wersji (panele Menu i Narzędzia) zamienia się w dwa foldery w miejscu dawnych języczków.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni – dotknięcie dnia rozwija jego szczegóły: godzina po godzinie (dalej 4 pory dnia), opad z prawdopodobieństwem, wiatr ze strzałką kierunku, zachmurzenie, wschód i zachód słońca (dane MET Norway / yr.no). Nazwa miejsca w nagłówku prognozy to wybór: moja pozycja, ostatnie miejsca, wyszukiwanie albo wskazanie na mapie. Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty); w pogodzie słońce jest bursztynowe, deszcz niebieski, śnieg jasnoniebieski, a temperatura ciepła lub mroźna ma swój odcień.</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). Przy przejściu pieszo z dociąganiem do ścieżek postoje do ok. 10 m od drogi też trafiają na drogę. Gdy przy wolnej jeździe (np. dojazd do świateł) telefon przez kilkanaście sekund nie poda pozycji, OMM nie „dopowiada” dalszej jazdy – ślad nie wysuwa się do przodu i nie wraca zygzakiem. <b>Wysokości</b> (profil, różnica wysokości, wysokość terenu, podjazdy tras) w Polsce są z NMT GUGiK, a za granicą albo gdy GUGiK nie odpowiada – z modelu terenu serwera tras (ok. 30 m, mniej dokładny); przy wyniku widać źródło. <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i leśne Flipery: pień-rampa, borowiki, dziupla, misje koszyka, multiball, TILT).</li><li><b>Punkt, dymek obiektu, zaznaczanie, reset</b> – <b>Punkt</b> (Narzędzia) stawia jeden punkt jednym dotknięciem – bez ✓ i cofania; od razu przy punkcie otwiera się <b>dymek</b> z nazwą, warstwą, kolorem, rozmiarem i „Więcej”. W wyglądzie „Mapa i krawędzie” dotknięcie obiektu mapy (punktu, linii, obszaru) albo „pokaż na mapie” z listy ustawia mapę na obiekcie i pokazuje jego dymek; dymek znika po dotknięciu mapy albo ✕. Okienka śladów zostają na dole ekranu. <b>Zaznaczanie</b>: przytrzymaj obiekt albo ślad na liście – włącza się zaznaczanie; przycisk <b>Pokaż</b> na pasku zaznaczania przybliża mapę do zaznaczonych i na chwilę je podświetla. <b>Reset</b>: Ustawienia → Reset aplikacji – „Przywróć ustawienia fabryczne” (zostają mapy, ślady, zdjęcia i treningi) albo „Usuń wszystko i zacznij od nowa” (potwierdzenie aktywne po 5 s); przed każdym OMM proponuje kopię zapasową. Przy przywracaniu kopii OMM pyta, czy wczytać z niej ustawienia aplikacji, czy zostawić obecne.</li><li><b>Nawigacja – ekran, cisza, powrót</b> – przy przygaszonym ekranie OMM rozjaśnia go przed manewrem (samochodem ok. 30 s wcześniej, pieszo i rowerem ok. 20 s) i zostawia jasny jeszcze kilka sekund po manewrze, żebyś zobaczył następny – oba czasy w Ustawienia → Nawigacja. Przycisk <b>głośnika</b> na pasku nawigacji i treningu wycisza głos i dźwięki (wibracje zostają) do końca nawigacji albo treningu; przytrzymanie – na 15 min albo 1 h. Gdy system zamknie OMM w trakcie nawigacji, po ponownym otwarciu nawigacja wraca do tego samego celu (przy nagrywaniu od razu, inaczej po pytaniu). Podczas nawigacji z nagrywaniem widać tylko przycisk ■ z czasem nagrania. Nocą, gdy mapa ciemnieje, ciemnieją też okna i panele. <b>Szukaj</b> pokazuje od razu <b>Ostatnie</b> – wyszukane miejsca i cele nawigacji (✕ usuwa, „Wyczyść” – wszystkie). Na azymucie możesz dodać kilka punktów pośrednich – każdy odcinek prowadzi prosto, cel zostaje ostatni; na pasku odległość i zejście z kursu w metrach.</li><li><b>Zdjęcia w punkcie, kosz, krople, Nagraj w nawigacji</b> – w okienku punktu (na mapie i na śladzie) każda miniatura ma <b>✕</b> – usuwa tylko to jedno zdjęcie („Cofnij” przez kilka sekund). Usunięty punkt śladu trafia do kosza na 30 dni. <b>Przytrzymanie</b> obiektu albo śladu na liście włącza zaznaczanie. Fabryczny układ kropli: z lewej Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Mapy, Ślady, Podkład i Trening; u góry Szukaj i Moja pozycja; Ustawienia, Zdjęcia, Gry i Północ w schowku Panelu Dziś. Fabrycznie podkład OpenStreetMap; gdy wybrany podkład nie odpowiada, OMM na teraz pokazuje OpenStreetMap. W nawigacji w prawym dolnym rogu jest pierścień <b>Nagraj</b>; na starcie nawigacji OMM ostrzega, gdy głośność multimediów w telefonie jest wyciszona.</li>
 <li><b>Miejsce auta</b> – OMM zapamiętuje je sam, gdy podczas nagrywania z jazdy przejdziesz w marsz. Pełznięcie w korku (kilka km/h z przystankami) nie jest parkowaniem: miejsce zapisuje się dopiero, gdy przez ok. 3 minuty nie ruszysz autem albo oddalisz się pieszo o ponad 100 m (albo zaraz po „Stop”). Miejsce znika, gdy odjedziesz spod auta, a także gdy OMM zobaczy, że jedziesz (ponad ok. 30 km/h, ponad 500 m) dalej niż 300 m od niego – także bez nagrywania; „Cofnij” w komunikacie przywraca je (autobus, taksówka, drugie auto). Co OMM zrobił z autem, widać w Diagnostyce.</li>
+<li><b>Moje – mapy i ślady w jednym miejscu</b> – kropla z kartoteką otwiera menedżer z wyraźnymi zakładkami <b>Mapy | Ślady</b> u samej góry (obok nazwy liczba map / śladów). Przełączasz dotknięciem zakładki albo przesunięciem palcem w bok. Otwiera się ostatnio używana zakładka, a po nagrywaniu i nawigacji – Ślady. Po prawej od nazwy mapy przycisk <b>Mapa</b> z plusem zakłada nową mapę i od razu ją otwiera; w Śladach w tym miejscu <b>Kategoria</b> – nowa kategoria śladów.</li>
+<li><b>Wygląd przycisków i paneli</b> – krople, kapsuły, napisy na mapie i panele mają równe, jasne (nocą ciemne) tło, minimalnie prześwitujące, z rozmyciem tego, co pod spodem, i wyraźną krawędzią – bez poświat i bez zanikania w mapę.</li>
+<li><b>Ortofoto – Geoportal w wysokiej rozdzielczości</b> – przy dużym zbliżeniu (od poziomu 15) OMM pobiera zdjęcia lotnicze w wysokiej rozdzielczości (piksel do 10 cm, w miastach mniej), w podwójnej gęstości – ostre na ekranie telefonu; przy mniejszym zbliżeniu szybkie kafle zwykłej rozdzielczości. Gdy serwer nie odda zdjęcia, w tym miejscu zostaje zwykła rozdzielczość.</li>
 <li><b>Listy map, warstw i śladów</b> – rozwinięta warstwa (i grupa ikon w wyborze ikony) ma lekko przyciemnione tło, a wiersze są na przemian minimalnie inne i oddzielone kreską. Obok oka <b>ikona mapy</b> – jednym dotknięciem pokazuje na mapie obiekt, ślad, całą warstwę albo grupę.</li>
 <li><b>Polecenia w schowku i folderze</b> – przytrzymaj ikonę w schowku (Panel Dziś) albo na karcie folderu i przesuwaj: kolejność zmienia się na miejscu, panel zostaje otwarty. Wyciągnięcie poza panel / kartę zamyka go i dalej przeciągasz kroplę po mapie. Gdy otwarta jest klawiatura, krople się chowają i nie przestawiają.</li>
 <li><b>Wypełnienie, obrys, oko obiektu, wydruk</b> – w okienku wielokąta i okręgu → Kolor: <b>Wypełnienie</b> i <b>Obrys</b> (Tak / Nie; jedno musi zostać), przy rysowaniu to samo w ustawieniu „Krycie” (Bez, 25–100%, z obrysem / bez obrysu). <b>Oko</b> w nagłówku okienka obiektu chowa sam ten obiekt – pokażesz go okiem przy obiekcie na liście warstwy (ukrycie jest też w kopii zapasowej). Wydruk kadru: „Linie i obrysy: Cienkie” (domyślnie – cienkie niezależnie od rozdzielczości) albo „Jak na ekranie”.</li><li><b>Zgłoś problem ze śladem</b> – opis zgłoszenia trafia też do środka pliku GPX, a domyślnie wszystko (ślad, oryginalne odczyty, uwagi z edycji, dziennik) jest w jednym pliku – nic się nie zgubi, nawet gdy aplikacja, do której wysyłasz, przyjmie tylko plik.</li>
@@ -29840,6 +30051,9 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Workout</b> – Menu → <b>Workout</b> (in the “Map and edges” look you can also pull it onto the map as a drop). <b>Tiles</b> of the discipline you trained last appear on the map – each on its own blurred background, with the map and you visible between them. At the top the discipline icon – tap it to change the sport (remembered for next time; during a workout the whole workout and its track move to the new discipline); the discipline tools are there too: intervals and pace target (running), daily step goal (walking), lap (inline skating). At the bottom <b>Start</b> and above it the choice: <b>with track recording</b> or <b>counter only</b> (like a bike computer – no track); the same in Settings → Workout. Either way the counter keeps counting with the screen off. During the workout the bar: <b>Pause</b>, <b>Photo</b> (when recording a track), <b>Hide</b> – the tiles disappear for a moment so you can look at the map (they come back with the same button or by themselves after 20 s), <b>Screen</b> – dimmed (a tap brightens it for a moment; press and hold – what brightens it), always bright or as usual on the phone – and <b>Finish</b>. <b>Stopping the recording ends the workout</b> – also “Finish” in the notification. Next to the discipline name ⚙ (workout settings: calorie data – weight, age, height, sex – tiles, track recording and the layer each discipline's tracks go to) and the chart (statistics). <b>Tiles</b>: press, hold and drag to move a tile on the grid; press and hold without moving – size (small, wide, large), another value in this place, remove, add a tile, factory layout. What is shown – also in Settings → Workout → Tiles on the map, separately for each discipline. Values: speed or pace, distance, moving and total time, average, max, ascent, descent, altitude, gradient, calories, today, total counter, clock, GPS signal and the discipline’s own values (running – last km, interval, pace target; walking – steps, daily goal; trekking – climbing rate, to sunset, time to arrival; horse riding – walk, trot, canter; inline skating – laps). After “Finish” a summary, and all workouts are in <b>Tracks → Summary → Workouts</b>: overall and for each discipline – week, month, year, all time, chart, list. Calories after entering your weight in Settings → Workout; a workout track goes to Tracks – by default <b>together with regular tracks</b> (activity layer in the open group: a bike ride is a bike ride); in Settings → Workout → “Save workout tracks” you can choose a separate “Sport” group or a chosen layer for each sport. Dimmed screen: the first tap only brightens it; it also brightens by itself when you stop (for the whole stop and 5 s after moving off), every kilometre and with a voice message – what and for how long: press and hold the <b>Screen</b> button or Settings → Workout → “Brighten the screen”. While recording you also see your other visible tracks – thinner and dimmed (the “Tracks” eye on the bar hides them).</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>Car location</b> – OMM saves it by itself when, while recording, you switch from driving to walking. Creeping in a traffic jam (a few km/h with stops) is not parking: the place is saved only when you don't drive off for about 3 minutes or walk more than 100 m away (or right after “Stop”). The place disappears when you drive away from the car, and also when OMM sees you driving (over about 30 km/h, more than 500 m) further than 300 m from it – also without recording; “Undo” in the message brings it back (bus, taxi, another car). What OMM did with the car is shown in Diagnostics.</li>
+<li><b>Mine – maps and tracks in one place</b> – the drop with the card-file icon opens the manager with clear <b>Maps | Tracks</b> tabs at the very top (with the number of maps / tracks). Switch by tapping a tab or swiping sideways. The last used tab opens; after recording and navigation – Tracks. To the right of the map name the <b>Map</b> button with a plus creates a new map and opens it; in Tracks the same place holds <b>Category</b> – a new track category.</li>
+<li><b>Buttons and panels</b> – drops, capsules, labels on the map and panels have an even light (dark at night) background, slightly see-through with the map blurred underneath, and a clear edge – no glow and no fading into the map.</li>
+<li><b>Orthophoto – Geoportal in high resolution</b> – when zoomed in (level 15 and closer) OMM loads high-resolution aerial photos (pixel up to 10 cm, less in cities) at double density – sharp on a phone screen; when zoomed out, fast standard-resolution tiles. If the server does not return a photo, standard resolution stays in that spot.</li>
 <li><b>Lists of maps, layers and tracks</b> – an expanded layer (and an icon group in the icon picker) has a slightly darker background, and rows alternate slightly and are separated by a line. Next to the eye there is a <b>map icon</b> – one tap shows the object, track, whole layer or group on the map.</li>
 <li><b>Commands in the stash and in a folder</b> – press and hold an icon in the stash (Today panel) or on a folder card and move it: the order changes in place and the panel stays open. Dragging it out of the panel / card closes it and you keep dragging the drop over the map. While the keyboard is open, drops hide and do not rearrange.</li>
 <li><b>Fill, outline, object eye, print</b> – in the popup of a polygon or circle → Colour: <b>Fill</b> and <b>Outline</b> (Yes / No; one of them must stay), when drawing the same in the “Opacity” setting (None, 25–100%, with / without outline). The <b>eye</b> in the object popup header hides just that object – show it again with the eye next to the object in the layer list (hiding is also in the backup). Print area: “Lines and outlines: Thin” (default – thin whatever the resolution) or “As on screen”.</li><li><b>Report a problem with a track</b> – the report text also goes inside the GPX file, and by default everything (track, raw readings, edit notes, log) is in one file – nothing gets lost even if the app you send it to accepts only the file.</li>
@@ -39188,6 +39402,7 @@ function tabsUi() {
   if (t) $('selbar').style.display = 'none';
   $('tselbar').style.display = t && TSEL ? 'flex' : 'none';
   document.body.classList.toggle('shdrw', TAB === 'slady' || TAB === 'mapy'); // v126 (pkt 398): szuflada z lewej
+  mojeTabsUi();
 }
 // zakładka: dotknięcie nazwy otwiera ją, strzałka ▾ obok – dodatkowo lista do wyboru (mapy / warstwy śladów)
 [...$('stabs').children].forEach(d => {
@@ -39234,14 +39449,9 @@ function trkCatMenu() {
         trkChanged();
       }
     }),
-    BI('plus', _t('Nowa kategoria'), async () => {
+    BI('plus', _t('Nowa kategoria'), () => {
       m.style.display = 'none';
-      const n = await askText(_t('Nazwa nowej kategorii śladów (np. Wyprawy, Rower, Praca w terenie):'), _t('Kategoria ') + (trkCats().length + 1));
-      if (!n || !n.trim()) return;
-      const c = trkNewCat(n.trim().slice(0, 200));
-      TRK[isW() ? 'catW' : 'catP'] = c.id;
-      trkCur();
-      trkChanged();
+      trkCatNew();
     })
   );
   if (trkCats().length > 1)
@@ -41082,6 +41292,7 @@ async function recNoPerm(err) {
 }
 async function recStart() {
   if (REC) return;
+  mojeTab('slady'); // v134 (pkt 462): po nagraniu „Moje” otwiera się na Śladach
   if (NATIVE && !localStorage.getItem('omm-rec-rada')) {
     // telefony z agresywnym oszczędzaniem baterii potrafią zatrzymać nagrywanie w tle
     const v = await dlg({
@@ -45395,6 +45606,7 @@ function navStart(to, name, path, opt = {}) {
   // path (opcjonalnie): prowadzenie po trasie – lista punktów [szer, dł] od startu do celu
   // v124 (pkt 377): nawigacja do punktu bez gotowej trasy – najpierw ekran „Trasa” (jeden ekran zamiast karty i planera)
   if (!path && !opt.free && !opt.road && !opt.straight && navigator.onLine !== false && to && okLL(to)) return routeScreen(to, name, opt);
+  mojeTab('slady'); // v134 (pkt 462): po trasie „Moje” otwiera się na Śladach
   navStop(true);
   if (mode) setMode(null); // v65: otwarte narzędzie (planer, pomiar, rysowanie…) zamykamy – bez ✓ ✕ ↶ w trakcie prowadzenia
   map.closePopup();
@@ -48287,15 +48499,30 @@ function navCam(force) {
     mpp = (156543.03392 * Math.cos((NAV.pos[0] * Math.PI) / 180)) / Math.pow(2, z),
     c = offPx ? destPt(NAV.pos, crs, offPx * mpp) : NAV.pos;
   NAV.bTarget = head && crs != null ? -crs : 0;
-  // v132 (pkt 447): zmiana zoomu jako płynny przelot (klatka po klatce przez ok. 1 s), nie jeden skok co sekundę
-  if (Math.abs(z - map.getZoom()) >= 0.03) {
-    try {
-      map.flyTo(c, z, {duration: 0.95, easeLinearity: 1, noMoveStart: true});
-    } catch (e) {
-      map.setView(c, z, {animate: true});
-    }
-  } else map.panTo(c, {animate: true, duration: 0.9, easeLinearity: 0.6, noMoveStart: true});
+  // v132 (pkt 447): płynna zmiana zoomu; v134 (pkt 459): małymi krokami zwykłej animacji Leafleta (kafle i linie
+  // przesuwają się razem) zamiast przelotu flyTo, przy którym linia trasy i śladu rozjeżdżała się z podkładem
+  if (Math.abs(z - map.getZoom()) >= 0.03) navZoomSteps(c, z);
+  else map.panTo(c, {animate: true, duration: 0.9, easeLinearity: 0.6, noMoveStart: true});
   navRotLoop();
+}
+let NAV_ZT = [];
+function navZoomSteps(c, z) {
+  // do 3 kroków co ok. 0,3 s; każdy krok to zwykła animacja zoomu (0,25 s), więc wszystkie warstwy idą razem
+  NAV_ZT.forEach(clearTimeout);
+  NAV_ZT = [];
+  const z0 = map.getZoom(),
+    c0 = map.getCenter(),
+    dz = z - z0,
+    n = Math.max(1, Math.min(3, Math.ceil(Math.abs(dz) / 0.15)));
+  for (let k = 1; k <= n; k++)
+    NAV_ZT.push(
+      setTimeout(() => {
+        const f = k / n;
+        try {
+          map.setView(L.latLng(c0.lat + (c.lat - c0.lat) * f, c0.lng + (c.lng - c0.lng) * f), z0 + dz * f, {animate: true, noMoveStart: true});
+        } catch (e) {}
+      }, (k - 1) * 310)
+    );
 }
 function navRotLoop() {
   // płynny obrót mapy do kierunku jazdy (ok. 15 kroków na sekundę, bez drgań przy małych zmianach)
@@ -52952,7 +53179,7 @@ setTimeout(() => gpsStart({quiet: true, stay: (localStorage.getItem('omm-start')
 const TUT_SK = [
   {sel: null, t: _t('Mapa i krawędzie'), x: _t('Mapa zajmuje cały ekran, a zamiast przycisków są napisy i krople prosto na mapie. Na dole języczek Panelu Dziś.')},
   {sel: '#sktlm', t: _t('Tryb pracy'), x: _t('Lewy górny róg: nazwa trybu ▾ – dotknij, by przełączyć Prywatny / Praca. Niżej nazwa mapy albo grupy śladów – dotknięcie otwiera Mapy lub Ślady.')},
-  {sel: '#sklchips .sklchip', t: _t('Krople poleceń'), x: _t('Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Mapy, Ślady, Podkład i nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.')},
+  {sel: '#sklchips .sklchip', t: _t('Krople poleceń'), x: _t('Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Moje (mapy i ślady) i Podkład, nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.')},
   {sel: '#sklchips .sklchip', t: _t('Układ poleceń'), x: _t('Przytrzymaj kroplę i przeciągnij: w inne miejsce, obok innej (łączą się w kapsułkę), na inną kroplę (powstaje folder) albo na języczek Dziś (do schowka). Przytrzymanie bez ruchu – menu: Schowaj, Rozdziel folder, Zmień nazwę. Układ fabryczny: Ustawienia → Wygląd.')},
   {sel: '#skgb', t: _t('Dół – dziś i w pobliżu'), x: _t('Ile dziś przejechałeś lub przeszedłeś, pogoda (dotknij – prognoza), najbliższe Twoje punkty, słońce, Księżyc z fazą i GPS. Na dole schowek z poleceniami, a ⚙ ustawia, co i w jakiej kolejności widać. Przytrzymaj języczek, żeby przesunąć go wzdłuż dołu.')},
   {sel: '#skbl', t: _t('Nagraj'), x: _t('Czerwona kropka w pierścieniu w prawym dolnym rogu. W trakcie nagrywania u góry jeden wąski wiersz: czas, dystans, prędkość i dokładność, a na dole Pauza · Zdjęcie · Zakończ.')},
@@ -53064,10 +53291,10 @@ const START_CARDS = [
   ['rec', 'Nagraj spacer albo jazdę', 'Nagraj (czerwona kropka w pierścieniu w prawym dolnym rogu) nagrywa trasę, także przy zgaszonym ekranie. Zakończ zapisuje ślad ze statystykami.'],
   ['nav', 'Nawiguj', 'Dotknij punktu i wybierz „Nawiguj”. Na karcie zmienisz skąd i dokąd, wybierzesz, czym jedziesz (także konno), i trasę na mapie.'],
   ['map', 'Co widać na mapie', 'Napis u góry mówi, co oglądasz: mapę albo ślady i tryb pracy. Które warstwy widać – decyduje oko przy warstwie.'],
-  ['menu', 'Polecenia na mapie', 'Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Mapy, Ślady, Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś.'],
+  ['menu', 'Polecenia na mapie', 'Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Moje (mapy i ślady w jednym miejscu – zakładki u góry), Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś.'],
   ['sliders', 'Twój układ poleceń', 'Przytrzymaj kroplę i przeciągnij – w inne miejsce, na inną kroplę (powstaje folder) albo na języczek Dziś (do schowka). Pogoda i Księżyc są w Panelu Dziś, a ⚙ w nim ustawia, co widać.'],
   ['sport', 'Trening', 'Menu → Trening: prędkość, dystans i czas na kafelkach prosto na mapie, pod nimi widzisz siebie na mapie. Kafelki przestawisz przytrzymaniem, a ikona dyscypliny u góry zmienia sport.'],
-  ['tdDraw', 'Okna z dołu', 'Narzędzia, wybory i komunikaty wysuwają się z dołu z mgłą, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić.']
+  ['tdDraw', 'Okna z dołu', 'Narzędzia, wybory i komunikaty wysuwają się z dołu na jasnym tle z wyraźną krawędzią, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić.']
 ];
 function startCards() {
   return new Promise(res => {

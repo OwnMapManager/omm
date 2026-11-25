@@ -34,8 +34,44 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # v134 (pkt 457): testy przed wydaniem – start aplikacji, tłumaczenia EN, układ kropli, nawigacja, liczenie śladów
+  # i zatwierdzone przez Pawła widoki (zrzuty ekranu). Nieudany test = brak budowania i wydania.
+  testy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Pobierz kod
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+
+      - name: Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Zależności (bez skryptów instalacyjnych paczek)
+        run: npm ci --ignore-scripts
+
+      - name: Testy OMM (przeglądarka Chrome z obrazu GitHuba, bez sieci)
+        run: |
+          export CHROME_PATH="$(command -v google-chrome || command -v chromium || command -v chromium-browser || true)"
+          node tests/omm/run.mjs
+
+      - name: Wyniki testów (zrzuty przy błędzie)
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: wyniki-testow
+          path: tests/omm/wyniki/
+          retention-days: 14
+
   apk:
     if: github.ref == 'refs/heads/main'
+    needs: testy
     runs-on: ubuntu-latest
     permissions:
       contents: read

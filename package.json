@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^8.5.3",
+    "playwright-core": "1.63.0",
     "roughjs": "4.6.6"
   },
   "overrides": {

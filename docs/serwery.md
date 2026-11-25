@@ -10,7 +10,7 @@ idzie natywnie (CapacitorHttp) i CSP ich nie widzi – dlatego pełny spis jest 
 | tile.openstreetmap.org | podkład OSM | numery kafli (obszar oglądanej mapy) |
 | mt0–3.google.com | satelita i hybryda Google | numery kafli |
 | tile.openmaps.fr (OpenTopoMap), *.tile-cyclosm.openstreetmap.fr | podkłady turystyczne | numery kafli |
-| mapy.geoportal.gov.pl, integracja.gugik.gov.pl, services.gugik.gov.pl | ortofotomapy, mapy topograficzne, NMT, działki (Geoportal) | prostokąt oglądanej mapy |
+| mapy.geoportal.gov.pl, integracja.gugik.gov.pl, services.gugik.gov.pl | ortofotomapy (od v134 przy zbliżeniu ≥ 15: WMS ORTO/HighResolution), mapy topograficzne, NMT, działki (Geoportal) | prostokąt oglądanej mapy |
 | server.arcgisonline.com | Esri – satelita | numery kafli |
 | tiles.maps.eox.at | Sentinel-2 bez chmur | prostokąt oglądanej mapy |
 | basemap.nationalmap.gov | USGS (USA) | numery kafli |
