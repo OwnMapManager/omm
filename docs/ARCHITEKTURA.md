@@ -29,7 +29,7 @@ OmmGnss, OmmSys). Serwery: `docs/serwery.md`. CSP: `scripts/prepare-www.mjs`.
 - Tło elementów: `rgba(var(--kfog), 0.88)` + `backdrop-filter: var(--kblur)` + linia `var(--line)`. Kapsuły: rysowany
   obrys (filtr SVG `SKL_INK`) nad szklanym tłem przyciętym tym samym kształtem (`.sklglass`, `clip-path: path()`).
   Kolory HUD-u liczone na elemencie (nie przez zmienną z `html`) – noc bez przyciemnionej mapy ma dzienne krople.
-- Menedżer „Moje” (`menuOpen('moje')`, `mojeTabsUi`, `mojeTab`): pasek `#ktop` z zakładkami `#ktabs` (przekładki rysowane filtrem `#kinkf` = `SKL_INK`), wiersz `#sh`: ‹ `#mname` `#mnew` ✕; podpowiedź pustej mapy `mHint`.
+- Menedżer „Moje” (`menuOpen('moje')`, `mojeTabsUi`, `mojeTab`): pasek `#ktop` z zakładkami `#ktabs` (Mapy | Ślady | Zdjęcia) (przekładki rysowane filtrem `#kinkf` = `SKL_INK`), wiersz `#sh`: ‹ `#mname` `#mnew` ✕; podpowiedź pustej mapy `mHint`.
 - Ikony „Tusz z plamką”: `scripts/ikony-zrodlo.mjs` → `scripts/ikony-tusz.mjs` generuje `IC`; rejestr `IC` w omm.html.
 
 ## Mapa i podkłady
@@ -45,6 +45,8 @@ OmmGnss, OmmSys). Serwery: `docs/serwery.md`. CSP: `scripts/prepare-www.mjs`.
 - Źródła w `omm-autofoto` (`afList`): folder (`uri` z `OmmPhotos.pickFolder`), mapa, warstwa, tryb `pytaj`/`auto`, `bez` (`slad`/`pomin`), `strefy`, `od`.
   Sprawdzone pliki: IndexedDB `autofoto:<id>` (`afSeen`). `afCheck` po starcie (6 s) i po powrocie do aplikacji; czeka, gdy `afBusy()`
   (nagrywanie, nawigacja, trening) albo otwarte okno. `afAsk` – pasek `.afbar`, `afPick` – podgląd miniatur, `afImport` – pinezki `o:foto`.
+- v138: zakładka Zdjęcia (`fotoSheet`): pasek `.fsa`, foldery `afSettings` w `.ffold`, skrzynka „Bez miejsca” (`omm-foto-bez`, `fotoBez*`,
+  liczona w `fotoUsed` – pliki nie są sprzątane), `fotoLocPick` / `fotoRelocate` / `fotoSaveMany` (Pictures/OMM).
 
 ## Nawigacja
 - `navStart` (bez trasy → ekran „Trasa” `routeScreen`), `navPos` (każdy pomiar), `navCam` (kadr i zoom: najwyżej ok.

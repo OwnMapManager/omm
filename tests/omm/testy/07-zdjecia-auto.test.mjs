@@ -19,7 +19,7 @@ export const testy = {
       };
       const OP = {
         scanFolder: async o => ({files: window.__files.filter(f => f.t >= o.since)}),
-        readFiles: async o => ({files: await Promise.all(o.ids.map(async id => ({id, path: await img(), name: id + '.jpg', mime: 'image/jpeg', lat: 50.06 + +id.slice(1) * 0.001, lng: 19.93})))}),
+        readFiles: async o => ({files: await Promise.all(o.ids.map(async id => ({id, path: await img(), name: id + '.jpg', mime: 'image/jpeg', ...(window.__nogps ? {} : {lat: 50.06 + +id.slice(1) * 0.001, lng: 19.93})})))}),
         cleanup: async () => ({}),
         forgetFolder: async () => ({})
       };
@@ -58,6 +58,13 @@ export const testy = {
       if (c) c.click();
       await w(400);
       o.cofnij = foto();
+      // zdjęcie bez miejsca i bez śladu → skrzynka „Bez miejsca”
+      window.__nogps = true;
+      window.__files.push({id: 'a5', name: 'IMG_5.jpg', t: Date.now(), size: 1});
+      document.querySelectorAll('.afbar,.toast').forEach(x => x.remove());
+      afCheck();
+      await w(1500);
+      o.bez = fotoBez().length;
       return o;
     });
     sprawdz(r.pasek, 'brak paska z pytaniem o 3 nowe zdjęcia');
@@ -66,5 +73,6 @@ export const testy = {
     sprawdz(r.trening === 3, 'import w czasie treningu');
     sprawdz(r.auto === 4, 'tryb automatyczny nie dodał nowego zdjęcia');
     sprawdz(r.cofnij === 3, '„Cofnij” nie usunął dodanego zdjęcia');
+    sprawdz(r.bez === 1, 'zdjęcie bez miejsca nie trafiło do „Bez miejsca” (' + r.bez + ')');
   }
 };

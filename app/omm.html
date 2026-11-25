@@ -10107,6 +10107,20 @@ html.sk-krawedzie #sktl b { display: inline !important; min-width: 0; font-size:
 .afed { display: flex; flex-direction: column; gap: 10px; margin: 6px 0; }
 .afedr { display: flex; flex-direction: column; gap: 3px; }
 .afedr select { width: 100%; min-height: 38px; }
+/* v138 (pkt 468): zakładka Zdjęcia – pasek narzędzi, foldery, skrzynka „Bez miejsca” */
+.fact .factb { min-width: 0; flex: 1; }
+.fsa { display: flex; justify-content: space-around; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin: 2px 0 8px; padding: 6px 0; }
+.fsa button { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 60px; padding: 2px 4px !important; border: 0 !important; background: none !important; box-shadow: none !important; color: var(--txt) !important; }
+.fsa button small { font-size: 10.5px; color: var(--sub); }
+.fsa button.on { color: var(--acc) !important; }
+.ffold { margin: 0 12px 10px; padding: 4px 12px 8px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); }
+.fbez { margin: 0 12px 10px; padding: 8px 10px; border-radius: 12px; background: color-mix(in srgb, var(--acc) 8%, transparent); }
+.fbezh { display: flex; flex-direction: column; margin-bottom: 6px; }
+.fbezh span { font-size: 12px; }
+.fbezr { display: flex; gap: 6px; overflow-x: auto; }
+.fbezc { flex: none; width: 64px; height: 64px; padding: 0 !important; border: 0 !important; border-radius: 8px !important; overflow: hidden; }
+.fbezc img { width: 100%; height: 100%; object-fit: cover; }
+html.sk-krawedzie #ktabs button { padding: 0 10px !important; gap: 6px; font-size: 14px !important; }
 </style></head><body>
 <div id="map"></div>
 <div id="skhud"></div>
@@ -10305,6 +10319,39 @@ const EN = {
   "tylko licznik, bez śladu": "counter only, no track",
   "z zapisem śladu": "with track recording",
   "Ślady · Zaplanowane trasy": "Tracks · Planned routes",
+  "\nBez nagranego śladu o tej godzinie: ": "\nNo recorded track at that time: ",
+  "\nPominięte (zdjęcie jest częścią innego obiektu – przesuń obiekt): ": "\nSkipped (the photo belongs to another object – move the object): ",
+  " (bez miejsca – czeka w Zdjęciach: ": " (no location – waiting in Photos: ",
+  " · bez miejsca: ": " · no location: ",
+  " – gdzie?": " – where?",
+  "Automatyczne zdjęcia z folderów – Moje → Zdjęcia → Foldery": "Automatic photos from folders – Mine → Photos → Folders",
+  "Bez miejsca – ": "No location – ",
+  "Dotknij zdjęcia, którego miejsce wziąć": "Tap the photo whose location to use",
+  "Foldery": "Folders",
+  "Gdzie było zrobione zdjęcie?": "Where was the photo taken?",
+  "Nie ma jeszcze zdjęć": "No photos yet",
+  "Nie ma jeszcze zdjęć z miejscem.": "There are no photos with a location yet.",
+  "O tej godzinie nie ma nagranego śladu – wskaż miejsce na mapie.": "There is no recorded track at that time – tap the place on the map.",
+  "Pobrano: ": "Downloaded: ",
+  "Usunąć to zdjęcie z OMM?": "Delete this photo from OMM?",
+  "Wczytaj": "Load",
+  "Wczytaj zdjęcia z telefonu": "Load photos from the phone",
+  "Według nagranego śladu, a bez śladu – do „Bez miejsca”": "By the recorded track, otherwise to “No location”",
+  "Zapisano w galerii telefonu (Obrazy/OMM): ": "Saved to the phone gallery (Pictures/OMM): ",
+  "Zapisuję w telefonie ": "Saving to the phone ",
+  "Zaznacz zdjęcia i dotknij „Zapisz” na dole.": "Select photos and tap “Save” at the bottom.",
+  "Zdjęcie bez miejsca": "Photo without location",
+  "Zdjęcie dodane na mapę „": "Photo added to the map “",
+  "Zmieniono miejsce: ": "Location changed: ",
+  "Zrób zdjęcie przyciskiem Zdjęcie na mapie, wczytaj je z telefonu („Wczytaj”) albo ustaw foldery, z których OMM sam je pobierze („Foldery”).": "Take a photo with the Photo button on the map, load it from the phone (“Load”) or set folders OMM loads from by itself (“Folders”).",
+  "dotknij, żeby ustawić miejsce na mapie": "tap to place it on the map",
+  "zapis w telefonie: ": "saving to the phone: ",
+  "” nie mają miejsca – czekają w Moje → Zdjęcia → „Bez miejsca”.": "” have no location – they wait in Mine → Photos → “No location”.",
+  "〰 Według nagranego śladu (po godzinie)": "〰 By the recorded track (by time)",
+  "📍 Ustaw miejsce": "📍 Set location",
+  "📍 Wskaż na mapie": "📍 Tap on the map",
+  "🖼 W miejscu innego zdjęcia": "🖼 At another photo's spot",
+  "🗺 Pokaż na mapie": "🗺 Show on map",
   " (bez miejsca pominięto: ": " (skipped without location: ",
   " (brak stref – Ustawienia → Auto i parkowanie)": " (no zones – Settings → Car and parking)",
   "(mapa usunięta)": "(map deleted)",
@@ -10370,9 +10417,9 @@ const EN = {
   "” nie odpowiada – na teraz OpenStreetMap": "” is not responding – OpenStreetMap for now",
   "🔇 Głośność multimediów w telefonie jest wyciszona – komunikaty nawigacji nie będą słyszalne": "🔇 The phone media volume is muted – navigation announcements will not be heard",
   "Krople poleceń": "Command drops",
-  "Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Moje (mapy i ślady) i Podkład, nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.": "On the left a capsule with Point, Draw, Measure, Photo; on the right Mine (maps and tracks) and Base map, Workout above them; at the top Search and My position. Settings, Photos, Games and North up are in the tray – the bottom row of the Today panel. A drop dropped on another makes a folder.",
+  "Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Moje (mapy, ślady i zdjęcia) i Podkład, nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.": "On the left a capsule with Point, Draw, Measure, Photo; on the right Mine (maps, tracks and photos) and Base map, Workout above them; at the top Search and My position. Settings, Games and North up are in the tray – the bottom row of the Today panel. A drop dropped on another makes a folder.",
   "Polecenia na mapie": "Commands on the map",
-  "Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Moje (mapy i ślady w jednym miejscu – zakładki u góry), Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś.": "Commands sit on the map as drops: on the left Point, Draw, Measure, Photo, on the right Mine (maps and tracks in one place – tabs at the top), Base map and Workout. Settings (backup, help), Photos, Games and North up are in the tray – the bottom row of the Today panel.",
+  "Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Moje (mapy, ślady i zdjęcia w jednym miejscu – zakładki u góry), Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Gry i Północ są w schowku – dolny wiersz Panelu Dziś.": "Commands sit on the map as drops: on the left Point, Draw, Measure, Photo, on the right Mine (maps, tracks and photos in one place – tabs at the top), Base map and Workout. Settings (backup, help), Games and North up are in the tray – the bottom row of the Today panel.",
   " odcinek": " leg",
   " odcinki": " legs",
   " – poprzednio trwała: ": " – previously running: ",
@@ -13917,6 +13964,10 @@ const B = (x, fn, c, t) => {
 // Zanim dodasz nową ikonę, sprawdź, czy taka funkcja nie ma już ikony tutaj – i użyj tej.
 // <ikony-tusz:IC> – wygenerowane przez scripts/ikony-tusz.mjs ze scripts/ikony-zrodlo.mjs (nie edytuj ręcznie)
 const IC = {
+  spk: '<path d="M3.9 9.3 C4.8 9.3, 5.8 9.4, 7.4 9.7 M7.8 9.9 C8.6 8.9, 9.3 7.8, 11.9 5.3 M12 5 C12 7.6, 11.8 10.2, 12.5 18.6 M11.8 18.4 C11 17.3, 9.8 16.7, 7.7 14.5 M7.7 14.4 C6.6 14.6, 5.9 14.3, 4.2 14.5 M3.8 14.6 C4 13.2, 3.7 12.3, 4.1 9.3"/><path d="M15.5 9 C16.9 11.5, 17.9 13.9, 14.9 14.5 M18 6.5 C21 9.6, 21.4 13.6, 18.9 18.5"/>',
+  addMap: '<path d="M2.3 4.6 C3.2 4.2, 4.5 4, 6.6 3.1 M6.6 3 C7.9 3.2, 9.9 4.2, 11.1 4.5 M11.5 4.3 C12.4 4.3, 12.9 4.1, 15.7 3.1 M16.2 3.3 C15.6 5.2, 15.3 7.2, 15.1 13.2 M15.8 13.1 C14.6 13.4, 14 13.7, 11.3 14.7 M11.5 14.7 C9.9 14.2, 8.9 13.7, 6.8 12.9 M6.6 13.1 C5 13.7, 3.5 14.1, 2 14.8 M2.2 14.9 C1.9 11.8, 2.7 8, 1.8 4.6"/><path d="M6.2 2.8 C7 5.3, 6.2 8.2, 6.9 12.9 M11.6 4.3 C11.6 7.5, 11.1 11.7, 11.2 14.4"/><path d="M19.3 13.8 C18.8 15.3, 19 16.5, 18.7 19.7 M16.3 17.3 C18.2 17.3, 20.8 16.8, 22.1 16.8"/>',
+  addTrk: '<path d="M3.5 17.5 C7.3 18.6, 8.2 12.2, 9.1 11.2 M9.5 12 C12.9 12, 12.6 5.7, 15.7 4.3"/><circle cx="3.6" cy="17.6" r="1.4"/><circle cx="16.8" cy="5" r="1.4"/><path d="M18.8 14.2 C19.2 16, 19 17.6, 18.7 20.3 M15.7 17.3 C17.7 17.2, 20.4 17, 21.9 17"/>',
+  files: '<path d="M3.3 10.2 C9.8 10.3, 16.2 9.2, 20.6 8.9 M20.3 10.1 C19.7 12.8, 20.6 17.3, 19.7 20.3 M19.4 20.7 C14.5 21.4, 7.9 20.2, 4 21.2 M3.8 20.9 C4.2 16, 3.4 12.3, 3.8 9.2"/><path d="M4.6 15.2 C10.6 15.4, 14.9 14.9, 19.3 15.6"/><path d="M10 12.2 C11.4 12.3, 12.9 12.3, 14 12.2 M9.8 17.7 C11.6 17.6, 12.8 17.6, 14.1 17.6"/><path d="M5.9 9.3 C6.5 7.8, 7 6.3, 7.1 5.3 M6.8 5.3 C9.3 5.9, 11.9 6.3, 13.3 6.8 M13.2 6.7 C13.8 5.9, 14.9 5.5, 17.7 4.2 M17.9 3.8 C18.2 6.1, 18.3 8, 18.5 9.4"/><path d="M7.3 5.2 C7.4 6.4, 8 8.3, 8.2 9.5 M13 6.5 C12.8 7.3, 12.9 7.8, 12.9 9.6"/>',
   must: '<path d="M6.2 21.4 C6.1 15.4, 6.4 8.3, 5.8 3.7 M6.4 3.9 C8.4 4.5, 12.6 4.6, 17.7 3.9 M17.2 4.3 C16.9 5.1, 16.4 6.4, 14.9 8.8 M15.1 8.9 C15.6 9.7, 16.2 10.8, 17.4 13 M17 13.5 C13.9 13.6, 11.9 13.5, 6 13.5"/>',
   car: '<path d="M4.1 16 C3.8 14.6, 4.1 12.8, 4.1 12.2 M3.9 11.8 C4.7 10.5, 5.3 8.8, 5.8 6.8 M5.9 6.8 C9.2 6.5, 13.1 6.5, 17.7 7.6 M18 6.8 C18.5 8.6, 18.9 10, 20 12.2 M19.9 11.9 C19.9 13.3, 19.8 14.4, 19.9 16.2 M19.6 16.3 C16 16.1, 13.2 15.4, 4.9 16.7"/><path d="M3.8 11.5 C10 11.8, 15.5 11.5, 20.9 12.1"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
   bell: '<path d="M6 16.2 C6 14.6, 6.1 13.9, 5.7 11.3 M6 11 C4.9 7.3, 10.9 3.6, 15.3 6.5 M15 5.8 C15.9 6.7, 17.9 8, 17.3 10.8 M17.8 10.9 C18.1 12.4, 18 13.4, 18 15.9 M18.1 15.9 C18.5 16.9, 19.1 17.6, 19.5 18 M19.4 17.2 C15.5 17.3, 11.4 18.4, 4.4 17.9 M4.4 18.1 C4.7 17.5, 5.2 17.2, 6 15.9"/><path d="M10 20.5 C9.1 21.4, 11.8 21.8, 12.3 23.2 M13 22.2 C14.8 21.6, 14.2 21.8, 15.1 21.6"/>',
@@ -13927,7 +13978,6 @@ const IC = {
   cluster: '<path d="M5 9 C4.1 11.9, 6.3 12.3, 9 11.5 M9.5 11.6 C10 10.8, 10.3 9.9, 12.1 9 M11 9 C10.5 6.9, 7.3 5.9, 7 5.3 M6.5 6.4 C5.4 6.3, 4.7 7.6, 6.1 8.8"/><path d="M13.6 8 C14.1 9.8, 16.2 11.6, 16.7 10.2 M17.2 10.1 C17.7 10.1, 19.1 8.9, 19 8.9 M18.4 8 C18.3 5.5, 17 5.4, 13.8 6.6 M14.8 5.9 C14.4 5.4, 13.5 7.5, 13.6 6.9"/><path d="M10.6 16 C10.2 17.9, 13.4 19.4, 15.2 19.3 M15.7 18.9 C16.6 17.2, 17.1 17.5, 17.5 15.4 M17.4 16 C17.7 14.3, 14.4 12, 12.2 13 M12.3 13.1 C12.1 14.8, 10.7 15.8, 9.5 16.4"/>',
   moon: '<path d="M20 14.5 C17.6 21.9, 11.3 23.7, 6.4 17.6 M5.7 18.1 C2.2 12.7, 2.2 6.7, 9.3 3.6 M9.5 4 C4.4 6.9, 7.3 15.5, 12.5 17.1 M12.8 16.4 C15.5 17.7, 17 15.9, 19 13.7 M20 14.5 C20 14.5, 20 14.5, 20 14.5"/>',
   snd: '<path d="M4.2 9.7 C4.8 9.5, 5.8 9.6, 7.5 9.6 M7.7 9.4 C8.7 8, 10.8 6.9, 12.3 5.7 M12 6.1 C11.2 10.6, 12.7 16.4, 11.7 17.8 M11.9 18.4 C10.7 17.1, 8.9 15.8, 7.3 14.8 M7.4 14.5 C6 14.5, 4.9 14.4, 4.1 14.3 M3.8 14.3 C3.8 13.1, 3.8 11.5, 4.1 9.3"/><path d="M15.5 9 C18.1 10.8, 17.6 14, 14.9 14.8 M18 6.5 C21.8 10, 20.8 15.2, 17.5 16.5"/>',
-  spk: '<path d="M3.8 9.5 C5.2 9.5, 6.7 9.6, 7.4 9.7 M7.6 9.3 C8.5 8.3, 9.4 7.8, 12.3 5.2 M11.6 4.9 C12.3 8.5, 12.1 12.5, 12.3 18 M12.3 18.4 C10.2 17, 8.8 15.8, 7.5 14.4 M7.4 14.7 C6.3 14.4, 5.1 14.7, 4.1 14.4 M4.2 14.4 C4.1 13, 4.2 12.4, 4.2 9.6"/><path d="M15.6 9.2 C16.6 10.4, 16.7 12.9, 15.7 14.6 M18.2 7 C20.2 9.3, 20.3 14.2, 18.3 16.9"/>',
   mute: '<path d="M3.8 9.5 C5.2 9.5, 6.7 9.6, 7.4 9.7 M7.6 9.3 C8.5 8.3, 9.4 7.8, 12.3 5.2 M11.6 4.9 C12.3 8.5, 12.1 12.5, 12.3 18 M12.3 18.4 C10.2 17, 8.8 15.8, 7.5 14.4 M7.4 14.7 C6.3 14.4, 5.1 14.7, 4.1 14.4 M4.2 14.4 C4.1 13, 4.2 12.4, 4.2 9.6"/><path d="M16.2 9.3 C18.1 11.3, 20.1 13.5, 21 14.5 M21.2 9.8 C19.6 11.1, 19.1 11.6, 15.7 14.9"/>',
   share: '<path d="M15.4 5 C14.6 7.9, 18.5 9.4, 19.9 6.7 M19.3 7.3 C19.8 5.8, 19.9 4.8, 20.9 5.9 M20.6 5 C20.8 4.2, 19.3 2.2, 16.2 3.9 M16.7 2.7 C17 3, 14.9 3.5, 15.7 3.9 M3.4 12 C4.6 13.4, 6 16.1, 7.6 13.3 M7.3 14.3 C7 13.8, 9.6 12.1, 9.7 12.1 M8.6 12 C8.7 11, 6 8.1, 4.3 8.7 M4.7 9.7 C3.9 11.2, 4.3 11, 4.2 11.4 M15.4 19 C14.3 20.6, 18.2 22, 19.4 21.7 M19.3 21.3 C20.5 20.7, 21.1 19.3, 21.1 19.1 M20.6 19 C21.1 17, 18.5 15, 16.6 17 M16.7 16.7 C16.9 17.9, 15 18.9, 16.3 19.9 M8.1 10.5 C10.8 9.7, 13.4 7.3, 16.1 6.4 M8.6 13.1 C10.5 15.1, 13.5 16.6, 15.7 17.5"/>',
   del: '<path d="M3.9 7.9 C9.7 7.9, 15.7 8, 19.3 6.6 M9.1 7 C8.9 5.8, 9 4.9, 9 4.1 M9 4.3 C11.1 4, 13.2 3.7, 15.3 4.3 M15 4 C15 4.8, 15 5.8, 15 7 M6.5 6.5 C6.8 11.7, 6.9 17.3, 6.5 20.2 M7.4 20.1 C9.3 19.9, 12 20.1, 16.4 20.5 M16.4 19.4 C17.9 14.4, 18.1 10.1, 18.7 6.8 M10 11 C9.9 12.4, 10.1 14.1, 10 16.9 M13.8 10.9 C13.9 13.5, 14 15.4, 14.3 16.8"/>',
@@ -13977,10 +14027,6 @@ const IC = {
   plus: '<path d="M12.1 4.2 C11.6 9.2, 12.6 14.3, 11.6 19.1 M4.3 11.8 C9.7 11.9, 16.4 12.8, 18.7 12.3"/>',
   home: '<path d="M3.8 11.6 C6.7 9.3, 8.7 7.4, 12.3 3.4 M11.5 3.4 C15.3 6.8, 18.6 8.9, 20.6 10.6 M6.3 9.6 C5.6 12.9, 6.3 16, 6 19.7 M5.5 19.8 C8.5 20.6, 11.7 20.5, 17.5 19.8 M18.1 20 C17.5 16.8, 17.7 15.2, 18.1 9.5 M9.8 19.8 C9.7 18.4, 10 16.9, 9.9 15.3 M9.9 14.9 C11.6 15, 13.1 15.2, 14.2 15.1 M14.3 15.1 C14 16.4, 14.2 17.3, 13.8 19.8"/>',
   work: '<path d="M4.9 7.2 C8.9 7.8, 12.6 7.7, 18.3 6.8 M18.5 7.5 C19.5 8.4, 19.9 9.4, 19.8 10.3 M20.8 9.3 C20.5 12.9, 20.7 15.7, 21 17.9 M20.5 17.5 C20.4 18, 18.8 19.8, 19.6 18.6 M18 19.6 C13.5 19.3, 8.7 19.5, 5.4 19.2 M5.5 19.5 C3.2 18.7, 2.7 19.4, 2.6 17.8 M3.1 18 C3.5 15, 3.1 11.5, 3.3 9.2 M3.5 9.5 C4.4 8.9, 3.4 6.6, 5.7 7.2 M5.5 7.5 C5.5 7.5, 5.5 7.5, 5.5 7.5"/><path d="M9.1 7.4 C9 6.9, 9 6.4, 9 5.5 M8.7 5.8 C10.7 5.8, 11.9 5.7, 15.4 5.3 M15 5.4 C15 6.2, 14.9 6.8, 14.9 7.5 M3.7 12.1 C9.6 12.4, 16.9 11.5, 19.8 11.7"/>',
-  // v134 (pkt 461, 462): mapa / ślad z małym plusem (jak „Dodaj warstwę”) i kartoteka „Moje”
-  addMap: '<g transform="translate(-0.4 -0.6) scale(0.78)" stroke-width="2.5"><path d="M3.2 6.2 C4.7 5.6, 5.6 5, 9 3.9 M8.7 3.8 C10.8 4.7, 12.2 5.3, 14.7 6.2 M15.1 5.8 C16 5.3, 17.9 5.4, 20.9 4.2 M21 3.9 C20.5 7.7, 21.8 11.1, 20.4 17.2 M14.7 19.7 C12.4 19.5, 10.1 18.4, 9.1 18.3 M8.7 18 C6.7 19, 4.3 19.9, 2.8 19.8 M2.9 20.6 C3.2 17.5, 3.7 14, 3 5.7 M8.5 4.6 C9 7.6, 9.3 9.6, 9.3 17.4 M15.3 5.4 C14.3 11.1, 14.4 16.2, 15.1 17.6"/></g><path d="M19.3 14.2 C19.4 15.7, 18.9 17.8, 19 19.9 M16.1 17.3 C18.3 17.1, 20.4 16.8, 22 17.2"/>',
-  addTrk: '<path d="M3.5 17.6 C7.4 18.4, 7 12.4, 9.6 11.7 M10.4 12.6 C13.4 12.5, 13.2 6.6, 16.8 5.6"/><circle cx="3.6" cy="17.6" r="1.4"/><circle cx="17" cy="5.4" r="1.4"/><path d="M19.3 14.2 C19.4 15.7, 18.9 17.8, 19 19.9 M16.1 17.3 C18.3 17.1, 20.4 16.8, 22 17.2"/>',
-  files: '<path d="M3.4 7.2 C3.2 11.5, 3.6 15.6, 3.3 19.8 M3.6 20.1 C9.2 19.8, 14.8 20.2, 20.6 19.7 M20.7 19.4 C20.4 15.2, 20.9 11.9, 20.5 9.6 M20.3 9.4 C16.6 9.6, 13.2 9.2, 11.6 9.5 M11.4 9.3 C10.6 8.4, 10.2 7.6, 9.6 7.1 M9.4 7 C7.2 7.2, 5.4 6.9, 3.5 7.1"/><path d="M5.7 5.4 C5.7 4.7, 5.6 4.3, 5.8 3.8 M6 3.9 C8.1 4, 9.6 3.7, 11.3 4 M11.4 4.1 C11.9 4.9, 12.4 5.4, 12.8 6.2 M13 6.2 C15.2 6.1, 17.4 6.3, 18.8 6.1 M18.9 6.2 C18.8 6.9, 19 7.4, 18.9 7.9"/>',
   addLayer: '<path d="M12 2.8 C14.2 4.4, 17.3 5.6, 20.4 7.2 M19.8 7.7 C16.8 9.5, 15 10.1, 11.6 11.5 M11.8 12.4 C9.4 10.1, 6.5 9.3, 3.7 7.8 M3.7 7.2 C7.1 5.8, 9.3 4.6, 12.4 3.1"/><path d="M3.6 12 C6.6 13.8, 8.6 15.2, 11.6 17.3 M12 16.9 C13.2 16.5, 14.2 15.8, 14.9 15.5"/><path d="M19.3 14.2 C19.4 15.7, 18.9 17.8, 19 19.9 M16.1 17.3 C18.3 17.1, 20.4 16.8, 22 17.2"/>',
   imp: '<path d="M12.3 14.4 C12 13.3, 12.1 10, 11.8 4.4 M7.3 8.8 C9.2 6.7, 10.5 5.2, 12.1 4.3 M12.2 4.2 C13 5.1, 14.4 6.2, 16.4 8.4"/><path d="M4 15.2 C4.3 16.2, 4.3 16.9, 4.1 19.9 M3.8 20.2 C9.7 19, 14.6 20.4, 20.5 20.4 M20.1 20.2 C20.3 18.4, 20 17, 19.9 15.1"/>',
   sel: '<path d="M5.7 3.4 C9 3.6, 11.5 3.9, 18.3 4.2 M18 4 C18.5 3.1, 18.8 3.7, 20.5 6.5 M19.3 5.7 C19.7 9.2, 20.6 13.3, 20.6 17.4 M20 18 C20.2 19.4, 19 18.9, 18.2 19.2 M17.5 20 C13.8 20.1, 9.3 20.1, 6.2 20.1 M6 20 C4.6 20, 4.5 18.2, 5.2 17.2 M4.6 17.4 C3.5 13.8, 4.1 8.7, 4.1 5.8 M4 6 C5.2 3.8, 5.5 3.4, 6.7 5.1 M6 4 C6 4, 6 4, 6 4"/><path d="M7.7 12.7 C8.9 13.5, 9.5 14, 11.3 15.4 M10.8 15.6 C13.1 13.1, 14.5 11.2, 15.7 9.2"/>',
@@ -14109,7 +14155,7 @@ let curColor = localStorage.getItem('mapa-col') || '#e53935',
   // v124 (pkt 378): wypełnienie i obrys kształtów (wielokąt, okrąg) – włączone / wyłączone, nie oba naraz wyłączone
   curNf = localStorage.getItem('mapa-nf') === '1',
   curNs = localStorage.getItem('mapa-ns') === '1';
-const APP_VER = 'v137';
+const APP_VER = 'v138';
 // tryb ciemny (v58): Ustawienia → Wygląd; „auto” – jak telefon
 function themeWant() {
   // v132: czy motyw z Ustawień chce teraz ciemnego wyglądu (bez nocnej nawigacji)
@@ -23138,7 +23184,7 @@ function menuOpen(k) {
   if (k === 'tryb') return;
   // v134 (pkt 462): „Moje” otwiera ostatnio używaną zakładkę (po nagrywaniu / nawigacji – Ślady)
   if (k === 'moje') k = mojeTab();
-  if (k === 'mapy' || k === 'slady') mojeTab(k);
+  if (k === 'mapy' || k === 'slady' || k === 'foto') mojeTab(k);
   if (k === 'mapy') {
     TAB = 'mapy'; // v119 (pkt 344): z zaplanowanych tras (są w Śladach) – do zwykłych map
     viewSetKind('map');
@@ -23153,7 +23199,8 @@ function menuOpen(k) {
 function mojeTab(k) {
   try {
     if (k) localStorage.setItem('omm-moje-zakl', k);
-    return localStorage.getItem('omm-moje-zakl') === 'slady' ? 'slady' : 'mapy';
+    const v = localStorage.getItem('omm-moje-zakl');
+    return v === 'slady' || v === 'foto' ? v : 'mapy';
   } catch (e) {
     return k || 'mapy';
   }
@@ -23170,12 +23217,12 @@ function mojeTabsUi() {
     T = h('div');
     T.id = 'ktabs';
     T.setAttribute('role', 'tablist');
-    [['mapy', _t('Mapy')], ['slady', _t('Ślady')]].forEach(([k, t]) => {
+    [['mapy', _t('Mapy')], ['slady', _t('Ślady')], ['foto', _t('Zdjęcia')]].forEach(([k, t]) => {
       const b = h('button');
       b.dataset.k = k;
       b.setAttribute('role', 'tab');
       // v136 (pkt 465, wariant 7b): przekładka tuszem – ikona, nazwa, liczba przy prawej krawędzi
-      b.innerHTML = ico(k === 'mapy' ? 'map' : 'route', 19) + '<span></span><i></i>';
+      b.innerHTML = ico(k === 'mapy' ? 'map' : k === 'slady' ? 'route' : 'gallery', 19) + '<span></span><i></i>';
       b.querySelector('span').textContent = t;
       b.onclick = () => {
         if ((TAB === 'plan' ? 'slady' : TAB) !== k) menuOpen(k);
@@ -23202,13 +23249,14 @@ function mojeTabsUi() {
       y0 = e.clientY;
     });
     $('sheet').addEventListener('pointerup', e => {
-      if (x0 == null || TAB === 'foto') return;
+      if (x0 == null) return;
       const dx = e.clientX - x0,
         dy = e.clientY - y0;
       x0 = null;
       if (Math.abs(dx) < 80 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
-      const cur = TAB === 'plan' ? 'slady' : TAB,
-        to = dx < 0 && cur === 'mapy' ? 'slady' : dx > 0 && cur === 'slady' ? 'mapy' : null;
+      const ord = ['mapy', 'slady', 'foto'],
+        k = ord.indexOf(TAB === 'plan' ? 'slady' : TAB),
+        to = k < 0 ? null : ord[k + (dx < 0 ? 1 : -1)];
       if (!to) return;
       // kliknięcie wysłane zaraz po przesunięciu nie może niczego otworzyć
       const eat = ev => (ev.stopPropagation(), ev.preventDefault());
@@ -23218,12 +23266,16 @@ function mojeTabsUi() {
     });
   }
   const cur = TAB === 'plan' ? 'slady' : TAB;
-  $('ktop').style.display = TAB === 'foto' ? 'none' : '';
+  $('ktop').style.display = '';
   let nt = 0;
   try {
     nt = trkUsable() ? trkCats().reduce((a, c) => a + trkCatCount(c), 0) : 0;
   } catch (e) {}
-  const n = {mapy: modeMaps().length, slady: nt};
+  let nf = 0;
+  try {
+    nf = fotoAll().filter(x => isLocalPh(x.u)).length + fotoBez().length;
+  } catch (e) {}
+  const n = {mapy: modeMaps().length, slady: nt, foto: nf};
   [...T.children].forEach(b => {
     const on = b.dataset.k === cur;
     b.classList.toggle('on', on);
@@ -23235,13 +23287,14 @@ function mojeTabsUi() {
   if (!nb) {
     nb = h('button');
     nb.id = 'mnew';
-    nb.onclick = e => (e.stopPropagation(), (TAB === 'slady' ? trkCatNew : mapNew)());
+    nb.onclick = e => (e.stopPropagation(), (TAB === 'slady' ? trkCatNew : TAB === 'foto' ? fotoImportPick : mapNew)());
     $('sh').insertBefore(nb, $('closes'));
   }
-  const t = TAB === 'slady';
+  const t = TAB === 'slady',
+    f = TAB === 'foto';
   nb.style.display = TAB === 'mapy' || t ? '' : 'none';
-  nb.innerHTML = ico(t ? 'addTrk' : 'addMap', 16) + '<small>' + esc(t ? _t('Kategoria') : _t('Mapa')) + '</small>';
-  nb.title = t ? _t('Nowa kategoria śladów') : _t('Nowa mapa');
+  nb.innerHTML = ico(t ? 'addTrk' : f ? 'imp' : 'addMap', 16) + '<small>' + esc(t ? _t('Kategoria') : f ? _t('Wczytaj') : _t('Mapa')) + '</small>';
+  nb.title = t ? _t('Nowa kategoria śladów') : f ? _t('Wczytaj zdjęcia z telefonu') : _t('Nowa mapa');
 }
 async function mapNew() {
   let k = modeMaps().length + 1; // v97: „Mapa 3”, choć była jedna – liczone ze wszystkich trybów
@@ -23357,10 +23410,9 @@ function sklCmds() {
   const sh = key => () => menuOpen(key);
   const C = {
     moje: {ic: 'files', t: _t('Moje'), fn: sh('moje')}, // v134 (pkt 462): jeden menedżer – zakładki Mapy | Ślady
-    zdjecia: {ic: 'gallery', t: _t('Zdjęcia'), fn: sh('foto')},
     trening: {ic: 'sport', t: _t('Trening'), fn: () => trnOpen()}, // v119 (pkt 348)
     ustaw: {ic: 'gear', t: _t('Ustawienia'), fn: () => settingsDlg()},
-    podklad: {ic: 'layer', t: _t('Podkład'), fn: () => $('bbtn').onclick()},
+    podklad: {ic: 'map', t: _t('Podkład'), fn: () => $('bbtn').onclick()},
     poz: {ic: 'gps', t: _t('Moja pozycja'), fn: () => $('gps').onclick()},
     szuk: {ic: 'search', t: _t('Szukaj'), fn: () => searchDlg()}, // v127 (pkt 405): zwykła kropla, nie stały przycisk w rogu
     polnoc: {ic: 'compn', t: _t('Północ u góry'), fn: () => map.setBearing && map.setBearing(0)},
@@ -23547,7 +23599,7 @@ function sklFactory(g, C) {
       {h: 'r', v: 't', it: col('r', ['szuk'], 0)},
       {h: 'r', v: 't', it: col('r', ['poz'], 2)}
     ].filter(p => p.it.length);
-  return {s: sklPlace(pos, g), f: {}, x: ['ustaw', 'zdjecia', 'gry', 'polnoc'].filter(id => C[id])};
+  return {s: sklPlace(pos, g), f: {}, x: ['ustaw', 'gry', 'polnoc'].filter(id => C[id])};
 }
 // z układu z panelami (v116–v119): Menu i Narzędzia stają się folderami w miejscu swoich języczków
 function sklMigrate(a0, g, C) {
@@ -23594,6 +23646,10 @@ function sklGet() {
   });
   Object.values(L.f || {}).forEach(F => F.ids && (F.ids = F.ids.map(mj).filter(id => id !== 'moje' || !onScr)));
   L.x = (L.x || []).map(mj).filter(id => id !== 'moje' || !(onScr || inF));
+  // v138 (pkt 468): Zdjęcia to zakładka w „Moje” – osobnej kropli już nie ma
+  L.s = (L.s || []).filter(i => i.id !== 'zdjecia');
+  Object.values(L.f || {}).forEach(F => F.ids && (F.ids = F.ids.filter(id => id !== 'zdjecia')));
+  L.x = L.x.filter(id => id !== 'zdjecia');
   // porządek: każde polecenie dokładnie raz (na mapie, w folderze albo w schowku); folder z jednym poleceniem = zwykła kropla
   const seen = new Set(),
     once = id => C[id] && !seen.has(id) && (seen.add(id), true),
@@ -26378,8 +26434,168 @@ function fotoGroups(its) {
   });
   return [...G.values()];
 }
+// ---------- v138 (pkt 468): skrzynka „Bez miejsca” – zdjęcia bez lokalizacji czekają, aż ustawisz im miejsce ----------
+const FBZ_KEY = 'omm-foto-bez';
+function fotoBezAll() {
+  try {
+    const a = JSON.parse(localStorage.getItem(FBZ_KEY) || '[]');
+    return Array.isArray(a) ? a.filter(b => b && b.u) : [];
+  } catch (e) {
+    return [];
+  }
+}
+const fotoBez = () => fotoBezAll().filter(b => !!b.w === isW());
+function fotoBezSave(a) {
+  try {
+    localStorage.setItem(FBZ_KEY, JSON.stringify(a));
+  } catch (e) {}
+}
+function fotoBezAdd(b) {
+  fotoBezSave([...fotoBezAll(), {id: uid(), w: isW(), ...b}]);
+}
+function fotoBezDel(id) {
+  fotoBezSave(fotoBezAll().filter(b => b.id !== id));
+}
+// wybór miejsca dla zdjęcia: wskaż na mapie / według nagranego śladu / w miejscu innego zdjęcia
+async function fotoLocPick(at, n) {
+  const tr = at ? trkAtTime(at) : null;
+  const v = await dlg({
+    title: n > 1 ? plN(n, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) + _t(' – gdzie?') : _t('Gdzie było zrobione zdjęcie?'),
+    btns: [
+      {t: _t('📍 Wskaż na mapie'), v: 'map', c: 'okb'},
+      ...(tr || n > 1 ? [{t: _t('〰 Według nagranego śladu (po godzinie)'), v: 'trk'}] : []),
+      {t: _t('🖼 W miejscu innego zdjęcia'), v: 'foto'},
+      {t: _t('Anuluj'), v: null}
+    ]
+  });
+  if (v === 'map') {
+    const ll = await mapPickPoint(_t('Dotknij miejsca zdjęcia na mapie'));
+    return ll ? {ll} : null;
+  }
+  if (v === 'trk') return {trk: true};
+  if (v === 'foto') {
+    const all = fotoAll()
+      .filter(x => isLocalPh(x.u))
+      .slice(0, 90);
+    if (!all.length) return tell(_t('Nie ma jeszcze zdjęć z miejscem.')), null;
+    const pick = await dlg({
+      title: _t('Dotknij zdjęcia, którego miejsce wziąć'),
+      body: fin => {
+        const g = h('div', 'afgrid');
+        all.forEach(x => {
+          const c = h('button', 'afth');
+          c.append(fotoImg(x.u, 'fimg'));
+          c.style.opacity = 1;
+          c.onclick = () => fin(x);
+          g.append(c);
+        });
+        return g;
+      },
+      btns: [{t: _t('Anuluj'), v: null}]
+    });
+    return pick ? {ll: Array.isArray(pick.ll) ? pick.ll : [pick.ll.lat, pick.ll.lng]} : null;
+  }
+  return null;
+}
+async function fotoBezPlace(b) {
+  const r = await fotoLocPick(b.at, 1);
+  if (!r) return;
+  const ll = r.ll || trkAtTime(b.at);
+  if (!ll) return tell(_t('O tej godzinie nie ma nagranego śladu – wskaż miejsce na mapie.'));
+  let m = DB.maps.find(x => x.id === b.map && !!x.w === isW());
+  if (!m || m.plan) m = P.plan ? modeMaps()[0] || P : P;
+  let lid = b.lid;
+  if (!m.groups.some(g => g.layers.some(l => l.id === lid))) lid = m.active || m.groups[0].layers[0].id;
+  m.items.push({id: uid(), t: 'pin', i: 'o:foto', p: [ll], l: lid, c: curColor, o: curOp, ph: [b.u], cr: b.at || Date.now(), up: Date.now()});
+  fotoBezDel(b.id);
+  save();
+  render();
+  toastMsg(_t('Zdjęcie dodane na mapę „') + m.name + '”');
+  if (TAB === 'foto') fotoSheet();
+}
+async function fotoBezAct(b) {
+  const im = fotoImg(b.u, 'fbig');
+  const v = await dlg({
+    title: b.nm || _t('Zdjęcie bez miejsca'),
+    msg: (b.at ? new Date(b.at).toLocaleString(LOC) : '') + (b.src ? ' · ' + b.src : ''),
+    body: () => im,
+    btns: [
+      {t: _t('📍 Ustaw miejsce'), v: 'loc', c: 'okb'},
+      {t: _t('Usuń'), v: 'del'},
+      {t: _t('Zamknij'), v: null}
+    ]
+  });
+  if (v === 'loc') return fotoBezPlace(b);
+  if (v === 'del' && (await askYes(_t('Usunąć to zdjęcie z OMM?'), _t('Usuń')))) {
+    fotoBezDel(b.id);
+    fotoForget(b.u);
+    fotoSheet();
+  }
+}
+// zmiana miejsca zaznaczonych zdjęć (zdjęcie w punkcie „zdjęcie” albo w punkcie śladu)
+async function fotoRelocate(sel) {
+  const r = await fotoLocPick(sel.length === 1 ? sel[0].at : 0, sel.length);
+  if (!r) return;
+  let ok = 0,
+    skip = 0,
+    noT = 0;
+  sel.forEach(x => {
+    const ll = r.ll || trkAtTime(x.at);
+    if (!ll) return noT++;
+    if (x.t) (x.w.p = ll), (x.t.up = Date.now()), ok++;
+    else if (x.it.i === 'o:foto' && x.it.t === 'pin') (x.it.p = [ll]), touch(x.it), ok++;
+    else skip++;
+  });
+  if (sel.some(x => x.t)) trkChanged();
+  save();
+  render();
+  FSEL = null;
+  fotoSheet();
+  tell(
+    _t('Zmieniono miejsce: ') +
+      ok +
+      (skip ? _t('\nPominięte (zdjęcie jest częścią innego obiektu – przesuń obiekt): ') + skip : '') +
+      (noT ? _t('\nBez nagranego śladu o tej godzinie: ') + noT : '')
+  );
+}
+// zapis zaznaczonych zdjęć w telefonie (galeria: Obrazy/OMM)
+async function fotoSaveMany(sel) {
+  const FS = plug('Filesystem');
+  let ok = 0;
+  for (let i = 0; i < sel.length; i++) {
+    progShow(_t('Zapisuję w telefonie ') + (i + 1) + ' / ' + sel.length + '…', false);
+    try {
+      const nm = sel[i].u.slice(4),
+        b = await fotoBlob(nm);
+      if (!b) continue;
+      const fn = (String(sel[i].nm || 'OMM').replace(/[^\wąćęłńóśźżĄĆĘŁŃÓŚŹŻ .-]+/g, '_').slice(0, 40) + '_' + nm).replace(/\.(jpe?g|png|webp)?$/i, '') + '.jpg';
+      if (FS) await FS.writeFile({path: 'Pictures/OMM/' + fn, directory: 'EXTERNAL_STORAGE', recursive: true, data: await blob64(b)});
+      else {
+        const a = h('a');
+        a.href = URL.createObjectURL(b);
+        a.download = fn;
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      }
+      ok++;
+    } catch (e) {
+      diag('zdjecia', _t('zapis w telefonie: ') + e.message, '');
+    }
+  }
+  progHide();
+  tell(FS ? _t('Zapisano w galerii telefonu (Obrazy/OMM): ') + ok + ' / ' + sel.length : _t('Pobrano: ') + ok);
+}
+let FOLD_OPEN = false;
 function fotoSheet() {
   tabsUi();
+  {
+    const all0 = fotoAll().filter(x => isLocalPh(x.u)).length,
+      bz = fotoBez().length;
+    $('mtitle').innerHTML = '<span class="mtn"></span>';
+    $('mtitle').firstChild.textContent = _t('Zdjęcia');
+    $('mtitle').onclick = null;
+    $('msub').textContent = plN(all0, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) + (bz ? _t(' · bez miejsca: ') + bz : '');
+  }
   const el = $('list');
   el.innerHTML = '';
   const net = localStorage.getItem('omm-foto-net') === '1', // zdjęcia-linki z internetu (v60, domyślnie nie)
@@ -26411,6 +26627,43 @@ function fotoSheet() {
     );
     el.append(sb);
   }
+  // v138 (pkt 468): pasek narzędzi zakładki Zdjęcia – jak w Mapach i Śladach
+  if (!FSEL) {
+    const tb = h('div', 'fsa'),
+      bez = fotoBez();
+    [
+      ['imp', _t('Wczytaj'), () => fotoImportPick()],
+      ...(NATIVE && plug('OmmPhotos') && plug('OmmPhotos').scanFolder ? [['folder', _t('Foldery'), () => ((FOLD_OPEN = !FOLD_OPEN), fotoSheet())]] : []),
+      ['check', _t('Zaznacz'), () => ((FSEL = new Set()), fotoSheet())],
+      ['dl', _t('Zapisz'), () => ((FSEL = new Set()), fotoSheet(), toastMsg(_t('Zaznacz zdjęcia i dotknij „Zapisz” na dole.')))]
+    ].forEach(([ic, t, fn]) => {
+      const b = h('button');
+      b.innerHTML = ico(ic, 20) + '<small>' + esc(t) + '</small>';
+      b.onclick = fn;
+      if (ic === 'folder' && FOLD_OPEN) b.classList.add('on');
+      tb.append(b);
+    });
+    el.append(tb);
+    if (FOLD_OPEN) {
+      const sec = h('div', 'ffold');
+      afSettings(sec, () => fotoSheet());
+      el.append(sec);
+    }
+    if (bez.length) {
+      const bx = h('div', 'fbez'),
+        hd = h('div', 'fbezh'),
+        row = h('div', 'fbezr');
+      hd.append(h('b', null, _t('Bez miejsca – ') + bez.length), h('span', 'muted', _t('dotknij, żeby ustawić miejsce na mapie')));
+      bez.forEach(b => {
+        const c = h('button', 'fbezc');
+        c.append(fotoImg(b.u, 'fimg'));
+        c.onclick = () => fotoBezAct(b);
+        row.append(c);
+      });
+      bx.append(hd, row);
+      el.append(bx);
+    }
+  }
   el.append(fr);
   const nl = h('label', 'chk fnet'),
     nc = h('input');
@@ -26422,7 +26675,7 @@ function fotoSheet() {
   };
   nl.append(nc, h('span', null, _t(' Pokazuj zdjęcia z internetu (linki)')));
   el.append(nl);
-  if (!its.length) return el.append(h('div', 'empty', _t('Brak zdjęć. Zdjęcia dodasz przyciskiem 📷 na mapie, w okienku punktu albo podczas nagrywania śladu.')));
+  if (!its.length) return el.append(mHint(_t('Nie ma jeszcze zdjęć'), _t('Zrób zdjęcie przyciskiem Zdjęcie na mapie, wczytaj je z telefonu („Wczytaj”) albo ustaw foldery, z których OMM sam je pobierze („Foldery”).')));
   if (!FSEL) el.append(h('div', 'muted fhint', _t('Przytrzymaj zdjęcie, aby zaznaczyć kilka – usuniesz je, przeniesiesz albo udostępnisz.')));
   fotoGroups(its).forEach(G => {
     const hd = h('div', 'fgh'),
@@ -26484,8 +26737,9 @@ function fotoSheet() {
       ab = h('div', 'fact');
     [
       ['share', _t('Udostępnij'), () => fotoShareMany(sel)],
+      ['dl', _t('Zapisz'), () => fotoSaveMany(sel)],
       ['move', _t('Przenieś'), () => fotoMoveMany(sel)],
-      ['pin', _t('Na mapie'), () => fotoOnMap(sel)],
+      ['pin', _t('Miejsce'), () => fotoRelocate(sel)],
       ['del', _t('Usuń'), () => fotoDelMany(sel), 'danger'],
       ['more', _t('Więcej'), () => fotoMore(sel)]
     ].forEach(([ic, t, fn, c]) => {
@@ -26635,12 +26889,14 @@ async function fotoMore(sel) {
     v = await dlg({
       title: plN(sel.length, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')),
       btns: [
+        {t: _t('🗺 Pokaż na mapie'), v: 'map'},
         ...(one ? [{t: _t('Zmień nazwę i opis'), v: 'ren'}] : []),
         ...(sel.length > 1 ? [{t: _t('Zmień nazwę wszystkich zaznaczonych'), v: 'renall'}] : []),
         {t: _t('Anuluj'), v: null}
       ]
     });
   if (!v) return;
+  if (v === 'map') return fotoOnMap(sel);
   const x = one;
   if (v === 'ren') {
     const o = x.t ? x.w : x.it,
@@ -30083,8 +30339,8 @@ const ABOUT_START = () => `<p><b>OMM to Twój prywatny notes na mapie.</b> Zazna
 <li><b>Widok po uruchomieniu</b> – Ustawienia → Wygląd: ostatni widok, widok domyślny albo Twoja pozycja.</li>
 <li><b>Wygląd aplikacji</b> – „Mapa i krawędzie”: mapa zajmuje cały ekran, a zamiast przycisków są napisy prosto na mapie: u góry po lewej <b>tryb ▾</b> (dotknięcie przełącza Prywatny / Praca), pod nim nazwa mapy i aktywna warstwa, obok lupa (Szukaj) i podziałka; na dole <b>Nagraj</b> (czerwona kropka w pierścieniu) i dokładność GPS z wysokością (zielona – dobra, bursztynowa – średnia, czerwona – słaba; dotknięcie – Informacje GPS). Polecenia stoją na mapie jako <b>krople</b> (ikona w kółku z ołówkowym obrysem); dwie krople obok siebie łączą się w kapsułkę. Kropla z małymi ikonami 2×2 to <b>folder</b> (przy więcej niż czterech poleceniach czwarte pole to „+N”) – dotknięcie otwiera obok kropli kartę z poleceniami i podpisami. Tak samo, kartą przy kropli, otwierają się wybory Rysuj, Zmierz i Zdjęcie; wolisz panel z dołu ekranu – Ustawienia → Wygląd → „Wybory z kropli”. Fabrycznie są dwa foldery: <b>Menu</b> (Mapy, Ślady ze statystykami, Zdjęcia, Trening, Ustawienia, Gry) i <b>Narzędzia</b> (Podkład, Północ u góry, Zdjęcie, Punkt, Rysuj, Zmierz), a do tego kropla Moja pozycja. Na dole <b>Panel Dziś</b> za języczkiem (strzałka-daszek: dystans, ślady, zdjęcia, najbliższe miejsce – strzałka pod nim rozwija kolejne, pogoda, GPS, słońce i Księżyc; zamykasz go daszkiem w dół nad panelem, dotknięciem mapy albo zsuwając palcem w dół). ⚙ w Panelu Dziś ustawia, które wiersze widać i w jakiej kolejności, oraz wygląd schowka (ikony z podpisami, same ikony albo ukryty). Języczek Dziś przeciągniesz wzdłuż dołu, przytrzymując go. Okna, pytania, listy wyboru, Podkład, Rysuj, Zmierz, menu ⋮ i komunikaty wysuwają się z dołu z mgłą; treść zanika u góry razem z mgłą. Podczas nagrywania u góry jest jeden wąski wiersz (czas, dystans, prędkość, dokładność), a na dole <b>Pauza · Zdjęcie · Zakończ</b> – krople, które pasek by zasłonił, stają na ten czas tuż nad nim (razem z dolnym języczkiem) i wracają po zakończeniu. Mapa w motywie ciemnym – zwykła, przyciemniona albo ciemna: Ustawienia → Wygląd.</li><li><b>Układ poleceń (Mapa i krawędzie)</b> – <b>przytrzymaj</b> kroplę i przeciągnij: w inne miejsce mapy, obok innej kropli (kapsułka), <b>na inną kroplę</b> (powstaje folder – albo trafia do istniejącego) albo <b>na języczek Dziś</b> – wtedy polecenie trafia do <b>schowka</b> (dolny wiersz Panelu Dziś); stamtąd dotknięcie je uruchamia, a przytrzymanie wyciąga z powrotem na mapę. Polecenie wyjmiesz też z rozwiniętego folderu, przytrzymując je na liście. Przytrzymanie kropli bez ruchu otwiera menu: <b>Schowaj</b>, <b>Rozdziel folder</b>, <b>Zmień nazwę folderu</b>. Układ zapisuje się osobno dla trybu Prywatny oraz Praca; krople pamiętają najbliższą krawędź, więc na innym ekranie albo po obróceniu telefonu zostają w tym samym rogu, a układ i wszystkie ustawienia trafiają do kopii zapasowej. Ustawienia → Wygląd → „Przywróć układ fabryczny”. Układ z wcześniejszych wersji (panele Menu i Narzędzia) zamienia się w dwa foldery w miejscu dawnych języczków.</li><li><b>Pogoda, Księżyc, Szukaj</b> – <b>pogoda</b> w Panelu Dziś: teraz i nazwa miejsca (dzielnica albo wieś), po dotknięciu prognoza godzinowa i na kolejne dni – dotknięcie dnia rozwija jego szczegóły: godzina po godzinie (dalej 4 pory dnia), opad z prawdopodobieństwem, wiatr ze strzałką kierunku, zachmurzenie, wschód i zachód słońca (dane MET Norway / yr.no). Nazwa miejsca w nagłówku prognozy to wybór: moja pozycja, ostatnie miejsca, wyszukiwanie albo wskazanie na mapie. Bez GPS – z ostatniego znanego miejsca, z przyciskiem włączenia GPS. <b>Księżyc</b>: wschód, zachód i faza – w okienku po dotknięciu mapy i w Panelu Dziś. <b>Szukaj</b> znajduje też rodzaje miejsc w widocznym obszarze mapy (park, parking, wiata, źródło, kapliczka, punkt widokowy, sklep, toaleta, rzeka…). W Mapach zdjęcia trafiają tylko na mapę (do śladu – z okienka śladu w Śladach). W Śladach Punkt trafia do otwartego śladu, a gdy żaden nie jest otwarty, OMM pyta: do którego śladu albo do mapy. <b>Pola danych</b> warstwy to Twój formularz – nazwy pól wypełniasz potem przy każdym punkcie. Ikony są rysowane „jak tuszem”, z plamką koloru tam, gdzie coś znaczy (czerwień – nagrywanie, zieleń – zatwierdzanie, niebieski – Ty); w pogodzie słońce jest bursztynowe, deszcz niebieski, śnieg jasnoniebieski, a temperatura ciepła lub mroźna ma swój odcień.</li><li><b>Zgłoszenia, zdjęcia do śladu, dryf GPS</b> – <b>Ustawienia → Pomoc i informacje → Zgłoś problem albo pomysł</b>: krótki formularz, wysyłasz go sam pocztą (adres skrzynki OMM jest wpisany). Przy śladzie: okienko śladu → Więcej → <b>Zgłoś problem ze śladem</b> – dołącza ślad jako GPX z oryginalnymi odczytami GPS (to prywatne dane – OMM pyta, zanim cokolwiek przygotuje). Ustawienia → Ślady GPS → <b>Zapisuj też oryginalne odczyty GPS</b> (domyślnie włączone) – w pliku GPX jest wtedy drugi ślad z tym, co pokazał GPS. Zdjęcia bez daty i miejsca (np. przysłane komunikatorem) możesz przy dodawaniu do śladu <b>wskazać na śladzie</b> palcem – zdjęcie po zdjęciu. Gdy telefon przy marszu „odpłynie” w bok i wróci skokiem, OMM po „Stop” zastępuje ten kawałek prostym połączeniem (z dociąganiem do ścieżek – po ścieżce). Gdy nowa wersja lepiej liczy ślady, OMM pyta o przeliczenie – także śladów dociągniętych do ścieżek (liczone od nowa z surowych pomiarów i dociągane ponownie). Przy przejściu pieszo z dociąganiem do ścieżek postoje do ok. 10 m od drogi też trafiają na drogę. Gdy przy wolnej jeździe (np. dojazd do świateł) telefon przez kilkanaście sekund nie poda pozycji, OMM nie „dopowiada” dalszej jazdy – ślad nie wysuwa się do przodu i nie wraca zygzakiem. <b>Wysokości</b> (profil, różnica wysokości, wysokość terenu, podjazdy tras) w Polsce są z NMT GUGiK, a za granicą albo gdy GUGiK nie odpowiada – z modelu terenu serwera tras (ok. 30 m, mniej dokładny); przy wyniku widać źródło. <b>Gry</b>: 7 × dotknij nazwy w „O aplikacji” – pojawią się w Menu → Gry (m.in. Pasjans i leśne Flipery: pień-rampa, borowiki, dziupla, misje koszyka, multiball, TILT).</li><li><b>Punkt, dymek obiektu, zaznaczanie, reset</b> – <b>Punkt</b> (Narzędzia) stawia jeden punkt jednym dotknięciem – bez ✓ i cofania; od razu przy punkcie otwiera się <b>dymek</b> z nazwą, warstwą, kolorem, rozmiarem i „Więcej”. W wyglądzie „Mapa i krawędzie” dotknięcie obiektu mapy (punktu, linii, obszaru) albo „pokaż na mapie” z listy ustawia mapę na obiekcie i pokazuje jego dymek; dymek znika po dotknięciu mapy albo ✕. Okienka śladów zostają na dole ekranu. <b>Zaznaczanie</b>: przytrzymaj obiekt albo ślad na liście – włącza się zaznaczanie; przycisk <b>Pokaż</b> na pasku zaznaczania przybliża mapę do zaznaczonych i na chwilę je podświetla. <b>Reset</b>: Ustawienia → Reset aplikacji – „Przywróć ustawienia fabryczne” (zostają mapy, ślady, zdjęcia i treningi) albo „Usuń wszystko i zacznij od nowa” (potwierdzenie aktywne po 5 s); przed każdym OMM proponuje kopię zapasową. Przy przywracaniu kopii OMM pyta, czy wczytać z niej ustawienia aplikacji, czy zostawić obecne.</li><li><b>Nawigacja – ekran, cisza, powrót</b> – przy przygaszonym ekranie OMM rozjaśnia go przed manewrem (samochodem ok. 30 s wcześniej, pieszo i rowerem ok. 20 s) i zostawia jasny jeszcze kilka sekund po manewrze, żebyś zobaczył następny – oba czasy w Ustawienia → Nawigacja. Przycisk <b>głośnika</b> na pasku nawigacji i treningu wycisza głos i dźwięki (wibracje zostają) do końca nawigacji albo treningu; przytrzymanie – na 15 min albo 1 h. Gdy system zamknie OMM w trakcie nawigacji, po ponownym otwarciu nawigacja wraca do tego samego celu (przy nagrywaniu od razu, inaczej po pytaniu). Podczas nawigacji z nagrywaniem widać tylko przycisk ■ z czasem nagrania. Nocą, gdy mapa ciemnieje, ciemnieją też okna i panele. <b>Szukaj</b> pokazuje od razu <b>Ostatnie</b> – wyszukane miejsca i cele nawigacji (✕ usuwa, „Wyczyść” – wszystkie). Na azymucie możesz dodać kilka punktów pośrednich – każdy odcinek prowadzi prosto, cel zostaje ostatni; na pasku odległość i zejście z kursu w metrach.</li><li><b>Zdjęcia w punkcie, kosz, krople, Nagraj w nawigacji</b> – w okienku punktu (na mapie i na śladzie) każda miniatura ma <b>✕</b> – usuwa tylko to jedno zdjęcie („Cofnij” przez kilka sekund). Usunięty punkt śladu trafia do kosza na 30 dni. <b>Przytrzymanie</b> obiektu albo śladu na liście włącza zaznaczanie. Fabryczny układ kropli: z lewej Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Mapy, Ślady, Podkład i Trening; u góry Szukaj i Moja pozycja; Ustawienia, Zdjęcia, Gry i Północ w schowku Panelu Dziś. Fabrycznie podkład OpenStreetMap; gdy wybrany podkład nie odpowiada, OMM na teraz pokazuje OpenStreetMap. W nawigacji w prawym dolnym rogu jest pierścień <b>Nagraj</b>; na starcie nawigacji OMM ostrzega, gdy głośność multimediów w telefonie jest wyciszona.</li>
 <li><b>Miejsce auta</b> – OMM zapamiętuje je sam, gdy podczas nagrywania z jazdy przejdziesz w marsz. Pełznięcie w korku (kilka km/h z przystankami) nie jest parkowaniem: miejsce zapisuje się dopiero, gdy przez ok. 3 minuty nie ruszysz autem albo oddalisz się pieszo o ponad 100 m (albo zaraz po „Stop”). Miejsce znika, gdy odjedziesz spod auta, a także gdy OMM zobaczy, że jedziesz (ponad ok. 30 km/h, ponad 500 m) dalej niż 300 m od niego – także bez nagrywania; „Cofnij” w komunikacie przywraca je (autobus, taksówka, drugie auto). Co OMM zrobił z autem, widać w Diagnostyce.</li>
-<li><b>Automatyczne zdjęcia z folderów</b> – Ustawienia → Foldery i pliki → „Dodaj folder ze zdjęciami…”: wskazujesz folder telefonu (np. aparat – DCIM/Camera), mapę i warstwę. Po każdym otwarciu OMM sprawdza, czy są tam nowe zdjęcia: pasek u dołu pyta „Importuj / Pokaż / Nie teraz” (z opcją „Zawsze importuj automatycznie”), a w trybie automatycznym zdjęcia wchodzą same i jest tylko informacja z „Cofnij”. W czasie nagrywania, nawigacji i treningu OMM czeka do końca. Każde zdjęcie trafia na mapę raz; zdjęcia bez miejsca – według nagranego śladu albo pomijane; można pomijać strefy dom/praca. Android daje dostęp tylko do wskazanego folderu. Zdjęć z Google Photos, których nie ma w telefonie, OMM nie widzi (Google nie pozwala aplikacjom czytać całej biblioteki).</li>
-<li><b>Moje – mapy i ślady w jednym miejscu</b> – kropla z kartoteką otwiera menedżer z wyraźnymi zakładkami <b>Mapy | Ślady</b> u samej góry (obok nazwy liczba map / śladów). Przełączasz dotknięciem zakładki albo przesunięciem palcem w bok. Otwiera się ostatnio używana zakładka, a po nagrywaniu i nawigacji – Ślady. Po prawej od nazwy mapy przycisk <b>Mapa</b> z plusem zakłada nową mapę i od razu ją otwiera; w Śladach w tym miejscu <b>Kategoria</b> – nowa kategoria śladów.</li>
+<li><b>Automatyczne zdjęcia z folderów</b> – Moje → Zdjęcia → <b>Foldery</b> → „Dodaj folder ze zdjęciami…”: wskazujesz folder telefonu (np. aparat – DCIM/Camera), mapę i warstwę. Po każdym otwarciu OMM sprawdza, czy są tam nowe zdjęcia: pasek u dołu pyta „Importuj / Pokaż / Nie teraz” (z opcją „Zawsze importuj automatycznie”), a w trybie automatycznym zdjęcia wchodzą same i jest tylko informacja z „Cofnij”. W czasie nagrywania, nawigacji i treningu OMM czeka do końca. Każde zdjęcie trafia na mapę raz; zdjęcia bez miejsca – według nagranego śladu, a gdy śladu nie ma – czekają w „Bez miejsca” (albo są pomijane); można pomijać strefy dom/praca. Android daje dostęp tylko do wskazanego folderu. Zdjęć z Google Photos, których nie ma w telefonie, OMM nie widzi (Google nie pozwala aplikacjom czytać całej biblioteki).</li>
+<li><b>Moje – mapy, ślady i zdjęcia w jednym miejscu</b> – kropla z komodą otwiera menedżer z zakładkami <b>Mapy | Ślady | Zdjęcia</b> u samej góry (obok nazwy liczba). W <b>Zdjęciach</b>: Wczytaj (z telefonu), Foldery (automatyczne wczytywanie), Zaznacz, Zapisz (do galerii telefonu, Obrazy/OMM); skrzynka <b>Bez miejsca</b> – zdjęcia bez lokalizacji czekają, aż ustawisz im miejsce (wskaż na mapie, według nagranego śladu albo w miejscu innego zdjęcia); na zaznaczonych: Udostępnij, Zapisz, Przenieś, Miejsce, Usuń. Podkład ma teraz ikonę mapy. Przełączasz dotknięciem zakładki albo przesunięciem palcem w bok. Otwiera się ostatnio używana zakładka, a po nagrywaniu i nawigacji – Ślady. Po prawej od nazwy mapy przycisk <b>Mapa</b> z plusem zakłada nową mapę i od razu ją otwiera; w Śladach w tym miejscu <b>Kategoria</b> – nowa kategoria śladów.</li>
 <li><b>Wygląd przycisków i paneli</b> – krople, kapsuły, napisy na mapie i panele mają równe, jasne (nocą ciemne) tło, minimalnie prześwitujące, z rozmyciem tego, co pod spodem, i wyraźną krawędzią – bez poświat i bez zanikania w mapę.</li>
 <li><b>Ortofoto – Geoportal w wysokiej rozdzielczości</b> – przy dużym zbliżeniu (od poziomu 15) OMM pobiera zdjęcia lotnicze w wysokiej rozdzielczości (piksel do 10 cm, w miastach mniej), w podwójnej gęstości – ostre na ekranie telefonu; przy mniejszym zbliżeniu szybkie kafle zwykłej rozdzielczości. Gdy serwer nie odda zdjęcia, w tym miejscu zostaje zwykła rozdzielczość.</li>
 <li><b>Listy map, warstw i śladów</b> – rozwinięta warstwa (i grupa ikon w wyborze ikony) ma lekko przyciemnione tło, a wiersze są na przemian minimalnie inne i oddzielone kreską. Obok oka <b>ikona mapy</b> – jednym dotknięciem pokazuje na mapie obiekt, ślad, całą warstwę albo grupę.</li>
@@ -30155,8 +30411,8 @@ const ABOUT_START_EN = () => `<p><b>OMM is your private notebook on a map.</b> Y
 <li><b>Workout</b> – Menu → <b>Workout</b> (in the “Map and edges” look you can also pull it onto the map as a drop). <b>Tiles</b> of the discipline you trained last appear on the map – each on its own blurred background, with the map and you visible between them. At the top the discipline icon – tap it to change the sport (remembered for next time; during a workout the whole workout and its track move to the new discipline); the discipline tools are there too: intervals and pace target (running), daily step goal (walking), lap (inline skating). At the bottom <b>Start</b> and above it the choice: <b>with track recording</b> or <b>counter only</b> (like a bike computer – no track); the same in Settings → Workout. Either way the counter keeps counting with the screen off. During the workout the bar: <b>Pause</b>, <b>Photo</b> (when recording a track), <b>Hide</b> – the tiles disappear for a moment so you can look at the map (they come back with the same button or by themselves after 20 s), <b>Screen</b> – dimmed (a tap brightens it for a moment; press and hold – what brightens it), always bright or as usual on the phone – and <b>Finish</b>. <b>Stopping the recording ends the workout</b> – also “Finish” in the notification. Next to the discipline name ⚙ (workout settings: calorie data – weight, age, height, sex – tiles, track recording and the layer each discipline's tracks go to) and the chart (statistics). <b>Tiles</b>: press, hold and drag to move a tile on the grid; press and hold without moving – size (small, wide, large), another value in this place, remove, add a tile, factory layout. What is shown – also in Settings → Workout → Tiles on the map, separately for each discipline. Values: speed or pace, distance, moving and total time, average, max, ascent, descent, altitude, gradient, calories, today, total counter, clock, GPS signal and the discipline’s own values (running – last km, interval, pace target; walking – steps, daily goal; trekking – climbing rate, to sunset, time to arrival; horse riding – walk, trot, canter; inline skating – laps). After “Finish” a summary, and all workouts are in <b>Tracks → Summary → Workouts</b>: overall and for each discipline – week, month, year, all time, chart, list. Calories after entering your weight in Settings → Workout; a workout track goes to Tracks – by default <b>together with regular tracks</b> (activity layer in the open group: a bike ride is a bike ride); in Settings → Workout → “Save workout tracks” you can choose a separate “Sport” group or a chosen layer for each sport. Dimmed screen: the first tap only brightens it; it also brightens by itself when you stop (for the whole stop and 5 s after moving off), every kilometre and with a voice message – what and for how long: press and hold the <b>Screen</b> button or Settings → Workout → “Brighten the screen”. While recording you also see your other visible tracks – thinner and dimmed (the “Tracks” eye on the bar hides them).</li>
 <li><b>View at start-up</b> – Settings → Appearance: last view, default view or your position.</li>
 <li><b>Car location</b> – OMM saves it by itself when, while recording, you switch from driving to walking. Creeping in a traffic jam (a few km/h with stops) is not parking: the place is saved only when you don't drive off for about 3 minutes or walk more than 100 m away (or right after “Stop”). The place disappears when you drive away from the car, and also when OMM sees you driving (over about 30 km/h, more than 500 m) further than 300 m from it – also without recording; “Undo” in the message brings it back (bus, taxi, another car). What OMM did with the car is shown in Diagnostics.</li>
-<li><b>Automatic photos from folders</b> – Settings → Folders and files → “Add a photo folder…”: pick a phone folder (e.g. the camera – DCIM/Camera), a map and a layer. Each time OMM opens it checks for new photos there: a bar at the bottom asks “Import / Show / Not now” (with “Always import automatically”); in automatic mode photos go in by themselves and you only get a notice with “Undo”. During recording, navigation and workouts OMM waits until they end. Each photo goes on the map once; photos without location are placed by the recorded track or skipped; home/work zones can be skipped. Android gives access only to the chosen folder. OMM cannot see Google Photos pictures that are not on the phone (Google does not let apps read the whole library).</li>
-<li><b>Mine – maps and tracks in one place</b> – the drop with the card-file icon opens the manager with clear <b>Maps | Tracks</b> tabs at the very top (with the number of maps / tracks). Switch by tapping a tab or swiping sideways. The last used tab opens; after recording and navigation – Tracks. To the right of the map name the <b>Map</b> button with a plus creates a new map and opens it; in Tracks the same place holds <b>Category</b> – a new track category.</li>
+<li><b>Automatic photos from folders</b> – Mine → Photos → <b>Folders</b> → “Add a photo folder…”: pick a phone folder (e.g. the camera – DCIM/Camera), a map and a layer. Each time OMM opens it checks for new photos there: a bar at the bottom asks “Import / Show / Not now” (with “Always import automatically”); in automatic mode photos go in by themselves and you only get a notice with “Undo”. During recording, navigation and workouts OMM waits until they end. Each photo goes on the map once; photos without location are placed by the recorded track, otherwise they wait in “No location” (or are skipped); home/work zones can be skipped. Android gives access only to the chosen folder. OMM cannot see Google Photos pictures that are not on the phone (Google does not let apps read the whole library).</li>
+<li><b>Mine – maps, tracks and photos in one place</b> – the drop with the chest of drawers opens the manager with <b>Maps | Tracks | Photos</b> tabs at the very top (with counts). In <b>Photos</b>: Load (from the phone), Folders (automatic loading), Select, Save (to the phone gallery, Pictures/OMM); the <b>No location</b> box – photos without location wait until you place them (tap on the map, by the recorded track or at another photo's spot); on selected photos: Share, Save, Move, Location, Delete. Base map now has the map icon. Switch by tapping a tab or swiping sideways. The last used tab opens; after recording and navigation – Tracks. To the right of the map name the <b>Map</b> button with a plus creates a new map and opens it; in Tracks the same place holds <b>Category</b> – a new track category.</li>
 <li><b>Buttons and panels</b> – drops, capsules, labels on the map and panels have an even light (dark at night) background, slightly see-through with the map blurred underneath, and a clear edge – no glow and no fading into the map.</li>
 <li><b>Orthophoto – Geoportal in high resolution</b> – when zoomed in (level 15 and closer) OMM loads high-resolution aerial photos (pixel up to 10 cm, less in cities) at double density – sharp on a phone screen; when zoomed out, fast standard-resolution tiles. If the server does not return a photo, standard resolution stays in that spot.</li>
 <li><b>Lists of maps, layers and tracks</b> – an expanded layer (and an icon group in the icon picker) has a slightly darker background, and rows alternate slightly and are separated by a line. Next to the eye there is a <b>map icon</b> – one tap shows the object, track, whole layer or group on the map.</li>
@@ -39501,7 +39757,7 @@ function tabsUi() {
     f = TAB === 'foto';
   $('sa').style.display = t || f ? 'none' : '';
   $('tsa').style.display = t ? 'flex' : 'none';
-  $('mname').style.display = f ? 'none' : '';
+  $('mname').style.display = ''; // v138: w Zdjęciach też wiersz nazwy (‹ Zdjęcia ✕)
   if (f) $('selbar').style.display = 'none';
 
   if (t) $('selbar').style.display = 'none';
@@ -42758,6 +43014,7 @@ function fotoUsed() {
   DB.maps.forEach(m => m.items.forEach(i => add(i.ph)));
   TRK.items.forEach(t => (t.wp || []).forEach(w => add(w.ph)));
   if (REC) (REC.wp || []).forEach(w => add(w.ph));
+  fotoBezAll().forEach(b => add([b.u])); // v138: zdjęcia czekające na miejsce
   if (typeof TRASH !== 'undefined') TRASH.forEach(e => trashPhotos(e).forEach(x => u.add(x.slice(4)))); // kosz
   return u;
 }
@@ -43029,7 +43286,12 @@ async function afImport(src, nw, pre) {
       let ll = ex.ll || f._ll;
       if (!ll && ex.time && src.bez !== 'pomin') ll = trkAtTime(ex.time); // bez miejsca – według nagranego śladu
       if (!ll) {
+        // v138 (pkt 468): bez miejsca – do skrzynki „Bez miejsca” w Moje → Zdjęcia (chyba że źródło każe pomijać)
         skipLoc.push(f._id);
+        if (src.bez !== 'pomin') {
+          const ref = await fotoPut(await fotoResize(f), fotoName(ex.time || f.lastModified));
+          fotoBezAdd({u: ref, at: ex.time || f.lastModified || Date.now(), nm: f.name, src: src.name, map: m.id, lid});
+        }
         continue;
       }
       if (src.strefy && czIn(ll)) {
@@ -43055,6 +43317,8 @@ async function afImport(src, nw, pre) {
   );
   diag('zdjęcia auto: ' + src.name + ' → ' + m.name + ': +' + added.length + ', bez miejsca ' + skipLoc.length + ', w strefie ' + skipZone.length);
   if (!added.length) {
+    if (skipLoc.length && src.bez !== 'pomin' && !skipZone.length)
+      return afBar(_t('Nowe zdjęcia z „') + src.name + _t('” nie mają miejsca – czekają w Moje → Zdjęcia → „Bez miejsca”.'), [[_t('Pokaż'), () => menuOpen('foto'), 'okb'], [_t('OK'), () => 0]]);
     if (skipLoc.length || skipZone.length)
       afBar(
         _t('Nowe zdjęcia z „') + src.name + _t('” pominięte: ') + (skipLoc.length ? _t('bez miejsca ') + skipLoc.length : '') + (skipLoc.length && skipZone.length ? ', ' : '') + (skipZone.length ? _t('w strefie dom/praca ') + skipZone.length : ''),
@@ -43065,7 +43329,7 @@ async function afImport(src, nw, pre) {
   save();
   render();
   sheetIfOpen();
-  const more = skipLoc.length ? _t(' (bez miejsca pominięto: ') + skipLoc.length + ')' : '';
+  const more = skipLoc.length ? (src.bez !== 'pomin' ? _t(' (bez miejsca – czeka w Zdjęciach: ') : _t(' (bez miejsca pominięto: ')) + skipLoc.length + ')' : '';
   const bar = afBar(
     _t('Dodano ') + plN(added.length, _t('zdjęcie'), _t('zdjęcia'), _t('zdjęć')) + _t(' na mapę „') + m.name + '”' + more,
     [
@@ -43166,7 +43430,7 @@ async function afEdit(src, isNew) {
     ),
     sBez = sel(
       [
-        ['slad', _t('Według nagranego śladu (po godzinie)')],
+        ['slad', _t('Według nagranego śladu, a bez śladu – do „Bez miejsca”')],
         ['pomin', _t('Pomijaj')]
       ],
       src.bez
@@ -53703,7 +53967,7 @@ setTimeout(() => gpsStart({quiet: true, stay: (localStorage.getItem('omm-start')
 const TUT_SK = [
   {sel: null, t: _t('Mapa i krawędzie'), x: _t('Mapa zajmuje cały ekran, a zamiast przycisków są napisy i krople prosto na mapie. Na dole języczek Panelu Dziś.')},
   {sel: '#sktlm', t: _t('Tryb pracy'), x: _t('Lewy górny róg: nazwa trybu ▾ – dotknij, by przełączyć Prywatny / Praca. Niżej nazwa mapy albo grupy śladów – dotknięcie otwiera Mapy lub Ślady.')},
-  {sel: '#sklchips .sklchip', t: _t('Krople poleceń'), x: _t('Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Moje (mapy i ślady) i Podkład, nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.')},
+  {sel: '#sklchips .sklchip', t: _t('Krople poleceń'), x: _t('Z lewej kapsuła Punkt, Rysuj, Zmierz, Zdjęcie; z prawej Moje (mapy, ślady i zdjęcia) i Podkład, nad nimi Trening; u góry Szukaj i Moja pozycja. Ustawienia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś. Kropla upuszczona na inną tworzy folder.')},
   {sel: '#sklchips .sklchip', t: _t('Układ poleceń'), x: _t('Przytrzymaj kroplę i przeciągnij: w inne miejsce, obok innej (łączą się w kapsułkę), na inną kroplę (powstaje folder) albo na języczek Dziś (do schowka). Przytrzymanie bez ruchu – menu: Schowaj, Rozdziel folder, Zmień nazwę. Układ fabryczny: Ustawienia → Wygląd.')},
   {sel: '#skgb', t: _t('Dół – dziś i w pobliżu'), x: _t('Ile dziś przejechałeś lub przeszedłeś, pogoda (dotknij – prognoza), najbliższe Twoje punkty, słońce, Księżyc z fazą i GPS. Na dole schowek z poleceniami, a ⚙ ustawia, co i w jakiej kolejności widać. Przytrzymaj języczek, żeby przesunąć go wzdłuż dołu.')},
   {sel: '#skbl', t: _t('Nagraj'), x: _t('Czerwona kropka w pierścieniu w prawym dolnym rogu. W trakcie nagrywania u góry jeden wąski wiersz: czas, dystans, prędkość i dokładność, a na dole Pauza · Zdjęcie · Zakończ.')},
@@ -53815,7 +54079,7 @@ const START_CARDS = [
   ['rec', 'Nagraj spacer albo jazdę', 'Nagraj (czerwona kropka w pierścieniu w prawym dolnym rogu) nagrywa trasę, także przy zgaszonym ekranie. Zakończ zapisuje ślad ze statystykami.'],
   ['nav', 'Nawiguj', 'Dotknij punktu i wybierz „Nawiguj”. Na karcie zmienisz skąd i dokąd, wybierzesz, czym jedziesz (także konno), i trasę na mapie.'],
   ['map', 'Co widać na mapie', 'Napis u góry mówi, co oglądasz: mapę albo ślady i tryb pracy. Które warstwy widać – decyduje oko przy warstwie.'],
-  ['menu', 'Polecenia na mapie', 'Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Moje (mapy i ślady w jednym miejscu – zakładki u góry), Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Zdjęcia, Gry i Północ są w schowku – dolny wiersz Panelu Dziś.'],
+  ['menu', 'Polecenia na mapie', 'Polecenia stoją na mapie jako krople: z lewej Punkt, Rysuj, Zmierz, Zdjęcie, z prawej Moje (mapy, ślady i zdjęcia w jednym miejscu – zakładki u góry), Podkład i Trening. Ustawienia (kopia zapasowa, pomoc), Gry i Północ są w schowku – dolny wiersz Panelu Dziś.'],
   ['sliders', 'Twój układ poleceń', 'Przytrzymaj kroplę i przeciągnij – w inne miejsce, na inną kroplę (powstaje folder) albo na języczek Dziś (do schowka). Pogoda i Księżyc są w Panelu Dziś, a ⚙ w nim ustawia, co widać.'],
   ['sport', 'Trening', 'Menu → Trening: prędkość, dystans i czas na kafelkach prosto na mapie, pod nimi widzisz siebie na mapie. Kafelki przestawisz przytrzymaniem, a ikona dyscypliny u góry zmienia sport.'],
   ['tdDraw', 'Okna z dołu', 'Narzędzia, wybory i komunikaty wysuwają się z dołu na jasnym tle z wyraźną krawędzią, wynik pomiaru jest u góry. Obok nazwy mapy widać aktywną warstwę – dotknij, żeby ją zmienić.']
@@ -59696,7 +59960,7 @@ async function sstatEntry(e) {
 // ---------- v131 (pkt 421): ustawienia fabryczne / usunięcie wszystkiego ----------
 // dane, które zostają przy „ustawieniach fabrycznych” (mapy, ślady, treningi, kosz, mapy-zdjęcia, gry, blokada,
 // szyfrowanie kopii, wybrane foldery i Dysk, dziennik diagnostyczny)
-const RESET_KEEP = /^(mapa-(v2|snap-|uszkodzone-|tpl)|omm-(alg-pytanie|act-warstwy|trk-dop-pyt|v66-kopie-info|sport-mig|szukaj-ostatnie|nav-stan|zywy|prog-mies|slady|trk-nr|imgmaps|kosz|sport-(log|odo)|gra-|lock|szyfr|folder|dysk-|diag|pierwszy|tut|tip|autokopia-|kopia-(reczna|przyp)|zmiany|plan$|plan-szkic|rec$|maps-(ord|hid)))/;
+const RESET_KEEP = /^(mapa-(v2|snap-|uszkodzone-|tpl)|omm-(foto-bez|autofoto|moje-zakl|alg-pytanie|act-warstwy|trk-dop-pyt|v66-kopie-info|sport-mig|szukaj-ostatnie|nav-stan|zywy|prog-mies|slady|trk-nr|imgmaps|kosz|sport-(log|odo)|gra-|lock|szyfr|folder|dysk-|diag|pierwszy|tut|tip|autokopia-|kopia-(reczna|przyp)|zmiany|plan$|plan-szkic|rec$|maps-(ord|hid)))/;
 async function resetBackupAsk() {
   // przed resetem: kopia? true = dalej, false = przerwij
   const v = await dlg({
@@ -61026,7 +61290,15 @@ function settingsDlg(keep, old) {
       ['pelny', _t('Pełny aparat telefonu – wszystkie tryby, zdjęcie w galerii; po powrocie wskazujesz zrobione zdjęcia')],
       ['szybki', _t('Szybki aparat w OMM – jedno zdjęcie od razu, bez wybierania')]
     ]);
-  if (NATIVE && plug('OmmPhotos') && plug('OmmPhotos').scanFolder) afSettings(sec, () => settingsDlg({top: body.scrollTop}, back)); // v137 (pkt 467)
+  // v138 (pkt 468): foldery automatycznych zdjęć są w Moje → Zdjęcia → Foldery (tu tylko skrót)
+  if (NATIVE && plug('OmmPhotos') && plug('OmmPhotos').scanFolder)
+    sec.append(
+      BI('folder', _t('Automatyczne zdjęcia z folderów – Moje → Zdjęcia → Foldery'), () => {
+        document.querySelectorAll('.dback').forEach(d => d.remove());
+        FOLD_OPEN = true;
+        menuOpen('foto');
+      })
+    );
   chk(
     _t('Zdjęcia z aparatu OMM także w galerii telefonu (Obrazy/OMM)'),
     'omm-foto-galeria',

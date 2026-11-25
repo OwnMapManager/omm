@@ -5,6 +5,11 @@
 const svgi = d => d;
 const RULER = '<path d="M3 15L15 3l6 6L9 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/>';
 export const IC = {
+  // v138: ikony dopisane wcześniej ręcznie w omm.html – teraz w źródle (inaczej ponowne generowanie by je skasowało)
+  spk: '<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>', // v132 (pkt 439): dźwięk włączony (przycisk wyciszenia)
+  addMap: '<path d="M2.3 4.5l4.3-1.6 4.7 1.6 4.3-1.6v10.2l-4.3 1.6-4.7-1.6-4.3 1.6z"/><path d="M6.6 2.9v10.1M11.3 4.5v10.1"/><path d="M19 14v6M16 17h6"/>', // v134 (pkt 461): nowa mapa
+  addTrk: '<path d="M3.5 17.5c4 1 3.5-5 6-5.5s3.5-6.5 7-7"/><circle cx="3.6" cy="17.6" r="1.4"/><circle cx="16.8" cy="5" r="1.4"/><path d="M19 14v6M16 17h6"/>', // v134 (pkt 461): nowa kategoria śladów
+  files: '<path d="M4 9.5h16v11H4z"/><path d="M4 15h16"/><path d="M10 12.3h4M10 17.8h4"/><path d="M6 9.5l1-4.5 6 1.5 5-2.5 .5 5.5"/><path d="M7 5l1.5 4.5M13 6.5v3"/>', // v138 (pkt 469): „Moje” – komoda z mapą (wybór Pawła)
   must: '<path d="M6 21V4"/><path d="M6 4.5h11.5l-2.4 4.2 2.4 4.3H6"/>', // v93: punkt obowiązkowy (flaga)
   car: '<path d="M4 16v-4l2-5h12l2 5v4z"/><path d="M4 12h16"/><circle cx="7.5" cy="16.5" r="1.8"/><circle cx="16.5" cy="16.5" r="1.8"/>',
   bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',

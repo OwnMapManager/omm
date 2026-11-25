@@ -22,15 +22,16 @@ export const testy = {
       const a = sklAll(),
         g = sklGrid(),
         c = g.cols - 1;
-      a[sklKey()] = {v: 2, s: [{id: 'mapy', c, r: 5}, {id: 'slady', c, r: 6}, {id: 'podklad', c, r: 7}], f: {}, x: ['gry']};
+      a[sklKey()] = {v: 2, s: [{id: 'mapy', c, r: 5}, {id: 'slady', c, r: 6}, {id: 'podklad', c, r: 7}], f: {}, x: ['gry', 'zdjecia']};
       localStorage.setItem('omm-uklad', JSON.stringify(a));
       const L = sklGet(),
         m = L.s.find(i => i.id === 'moje'),
         p = L.s.find(i => i.id === 'podklad');
-      return {ile: L.s.filter(i => i.id === 'moje').length, x: L.x.includes('moje'), sas: m && p && m.c === p.c && p.r - m.r === 1};
+      return {ile: L.s.filter(i => i.id === 'moje').length, x: L.x.includes('moje'), sas: m && p && m.c === p.c && p.r - m.r === 1, zd: L.x.includes('zdjecia')};
     });
     sprawdz(r.ile === 1 && !r.x, '„Moje” nie jest dokładnie raz na ekranie');
     sprawdz(r.sas, 'Podkład nie przylega do „Moje” (dziura w kapsule)');
+    sprawdz(!r.zd, 'stara kropla „Zdjęcia” została w schowku (Zdjęcia są zakładką w „Moje”)');
   },
   async 'menedżer Moje: zakładki Mapy | Ślady i ostatnia zakładka'({page, url}) {
     await page.addInitScript(() => localStorage.setItem('omm-tut', 'karty'));
@@ -51,7 +52,7 @@ export const testy = {
       o.nowy = $('mnew') && $('mnew').offsetParent !== null;
       return o;
     });
-    sprawdz(r.t1 === 'mapy' && r.zak === 'mapy*,slady', 'zakładki: ' + r.zak);
+    sprawdz(r.t1 === 'mapy' && r.zak === 'mapy*,slady,foto', 'zakładki: ' + r.zak);
     sprawdz(r.t2 === 'slady', '„Moje” nie otwiera ostatniej zakładki');
     sprawdz(r.nowy, 'brak przycisku nowej kategorii / mapy w wierszu nazwy');
   }
