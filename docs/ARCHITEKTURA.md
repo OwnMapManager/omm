@@ -55,6 +55,11 @@ OmmGnss, OmmSys). Serwery: `docs/serwery.md`. CSP: `scripts/prepare-www.mjs`.
 - Głos: kolejka `SAYQ` (12 s limit, zapas speechSynthesis), wyciszenie `MUTE`; ostrzeżenie o wyciszonej głośności
   multimediów (`OmmSys.audio()`).
 - Ekran: przygaszanie `#navdim`, rozjaśnienie przed manewrem (`omm-nav-przed`) i po nim (`omm-nav-po`).
+- `navZoomSteps(c, z)` przyjmuje `[szer, dł]` albo `LatLng` (v140: bez zamiany na `LatLng` kamera stała od v134 – błąd
+  połykał `try/catch`; teraz wpis „nawigacja: kamera…” w Diagnostyce). Test: 04-nawigacja „kamera nawigacji podąża…”.
+- Wybór trasy: `body.rtpick` (ekran „Trasa”) i `body.navpick` (karta wariantów) chowają `trkP`, `trkW`, `.lyrP`, `cluP`.
+- Kompas `#compb` (v140): w krawędziach widoczny tylko przy obróconej mapie (`.on`) i w nawigacji; miejsce liczy
+  `compPos()` (pod kroplą „poz”/„szuk”), stary `btnLayout` go pomija.
 
 ## Odporność
 - Dziennik `diag()`; „Wyślij raport”. Zamknięcie silnika strony przez Androida: `MainActivity.onRenderProcessGone`
